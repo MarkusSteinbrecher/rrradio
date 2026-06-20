@@ -270,8 +270,6 @@ const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
-const $npProgramName = document.getElementById('np-program-name') as HTMLElement;
-const $npProgramPre = document.getElementById('np-program-pre') as HTMLElement;
 const $npTags = document.getElementById('np-tags') as HTMLElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
@@ -281,16 +279,30 @@ const $npPaneNow = document.getElementById('np-pane-now') as HTMLButtonElement;
 const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonElement;
 const $npPaneLyrics = document.getElementById('np-pane-lyrics') as HTMLButtonElement;
 const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
+const $npProgramHead = document.getElementById('np-program-head') as HTMLElement;
+const $npProgramHeadName = document.getElementById('np-program-head-name') as HTMLElement;
+const $npProgramHeadSub = document.getElementById('np-program-head-sub') as HTMLElement;
+const $npProgramMeta = document.getElementById('np-program-meta') as HTMLElement;
+const $npProgramCount = document.getElementById('np-program-count') as HTMLElement;
 const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
 const $npProgramEmpty = document.getElementById('np-program-empty') as HTMLElement;
 const $npLyricsPane = document.getElementById('np-lyrics-pane') as HTMLElement;
+const $npLyricsHead = document.getElementById('np-lyrics-head') as HTMLElement;
+const $npLyricsTitle = document.getElementById('np-lyrics-title') as HTMLElement;
+const $npLyricsArtist = document.getElementById('np-lyrics-artist') as HTMLElement;
 const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
+const $npLyricsSource = document.getElementById('np-lyrics-source') as HTMLAnchorElement;
+const $npLyricsSourceText = document.getElementById('np-lyrics-source-text') as HTMLElement;
 const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
 const $npSecondaryEmpty = document.getElementById('np-secondary-empty') as HTMLElement;
 const $npCollapseBrowse = document.getElementById('np-collapse-browse') as HTMLButtonElement;
 const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
+const $npTrackArtist = document.getElementById('np-track-artist') as HTMLElement;
+const $npTrackProgram = document.getElementById('np-track-program') as HTMLElement;
+const $npTrackStatus = document.getElementById('np-track-status') as HTMLElement;
+const $npTrackStatusText = document.getElementById('np-track-status-text') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
@@ -318,6 +330,9 @@ const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
 const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
 const $npFormat = document.getElementById('np-format') as HTMLElement;
 const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
+const $npVolume = document.getElementById('np-volume') as HTMLElement;
+const $npVolumeSlider = document.getElementById('np-volume-slider') as HTMLInputElement;
+const $npVolumeValue = document.getElementById('np-volume-value') as HTMLElement;
 const $npDetails = document.getElementById('np-details') as HTMLElement;
 const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
@@ -745,9 +760,6 @@ const NP_REFS: NowPlayingRefs = {
   body: $body,
   npName: $npName,
   npStationLogo: $npStationLogo,
-  npProgramName: $npProgramName,
-  npProgramPre: $npProgramPre,
-  npPaneProgram: $npPaneProgram,
   npTags: $npTags,
   npBitrate: $npBitrate,
   npOrigin: $npOrigin,
@@ -756,6 +768,10 @@ const NP_REFS: NowPlayingRefs = {
   npFormat: $npFormat,
   npTrackRow: $npTrackRow,
   npTrackTitle: $npTrackTitle,
+  npTrackArtist: $npTrackArtist,
+  npTrackProgram: $npTrackProgram,
+  npTrackStatus: $npTrackStatus,
+  npTrackStatusText: $npTrackStatusText,
   npTrackCover: $npTrackCover,
   npTrackCoverFallback: document.getElementById(
     'np-track-cover-fallback',
@@ -1194,6 +1210,45 @@ function renderLyricsPane(): void {
   // the narrow docked view the whole pane is hidden when there's no
   // lyrics (the tab doesn't appear).
   $npLyricsEmpty.hidden = text !== '';
+
+  // iOS-parity header: track title + artist, pinned above the body and
+  // shown only when there are lyrics to head. Track info comes from the
+  // live now-playing metadata (the same split the album pane uses).
+  const hasText = text !== '';
+  const title = currentNP.trackName?.trim() || currentNP.trackTitle?.trim() || '';
+  const artist = currentNP.trackArtist?.trim() ?? '';
+  $npLyricsTitle.textContent = title;
+  $npLyricsArtist.textContent = artist;
+  $npLyricsArtist.hidden = artist.length === 0;
+  $npLyricsHead.hidden = !hasText || title.length === 0;
+
+  // Source credit link (LRCLIB / Lyrics.ovh) — only when present.
+  const source = npLyrics?.source;
+  if (hasText && source) {
+    $npLyricsSource.href = source.url;
+    $npLyricsSourceText.textContent = `Lyrics via ${source.name}`;
+    $npLyricsSource.hidden = false;
+  } else {
+    $npLyricsSource.hidden = true;
+    $npLyricsSource.removeAttribute('href');
+  }
+}
+
+/** Populate the iOS-parity schedule header: the current show name +
+ *  subtitle (from the live now-playing metadata, not the schedule rows)
+ *  and a "N broadcasts" count caption. The header collapses entirely
+ *  when there's no current-show name, so the column doesn't carry a
+ *  redundant label (the tab / column header already says "Schedule"). */
+function renderProgramHead(broadcastCount: number): void {
+  const programName = currentNP.programName?.trim() ?? '';
+  const programSub = currentNP.programSubtitle?.trim() ?? '';
+  $npProgramHeadName.textContent = programName;
+  $npProgramHeadSub.textContent = programSub;
+  $npProgramHeadSub.hidden = programSub.length === 0;
+  $npProgramHead.hidden = programName.length === 0;
+  $npProgramCount.textContent =
+    broadcastCount === 1 ? '1 broadcast' : `${broadcastCount} broadcasts`;
+  $npProgramMeta.hidden = broadcastCount === 0;
 }
 
 function renderProgramPane(): void {
@@ -1203,6 +1258,8 @@ function renderProgramPane(): void {
     // here used to fight the tab-state and cause the same cover-bleed
     // bug we hit on the lyrics pane (gh #84).
     $npProgramList.replaceChildren();
+    renderProgramHead(0);
+    $npProgramHead.hidden = true;
     // Empty-state line — only ever visible in the wide 4-column layout
     // (the narrow docked view hides the whole pane when there's no
     // schedule, since the program tab doesn't appear).
@@ -1214,6 +1271,7 @@ function renderProgramPane(): void {
   // today + past, so a multi-day picker is dead weight.
   $npProgramList.replaceChildren();
   const day = npSchedule[npSelectedDayIdx];
+  renderProgramHead(day.broadcasts.length);
   const now = Date.now();
   let liveRow: HTMLDivElement | null = null;
   let nextRow: HTMLDivElement | null = null;
@@ -1244,6 +1302,13 @@ function renderProgramPane(): void {
       text.append(sub);
     }
     row.append(time, text);
+    // iOS parity: a LIVE capsule pinned to the right of the on-air row.
+    if (isLive) {
+      const badge = document.createElement('span');
+      badge.className = 'np-program-row__live';
+      badge.textContent = 'Live';
+      row.append(badge);
+    }
     $npProgramList.append(row);
     if (isLive && !liveRow) liveRow = row;
     else if (!isLive && !isPast && !nextRow) nextRow = row;
@@ -3658,10 +3723,17 @@ function toggleWakePane(): void {
   setWakePane(!$body.classList.contains('is-wake-edit'));
 }
 
+/** Reflect the muted flag across the mute button + the volume slider's
+ *  speaker icon, without re-toggling the audio element. */
+function reflectMuteUi(muted: boolean): void {
+  $body.classList.toggle('is-muted', muted);
+  $npVolume.classList.toggle('is-muted', muted);
+  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+}
+
 function setMuted(muted: boolean): void {
   if (player.isMuted() !== muted) player.toggleMute();
-  $body.classList.toggle('is-muted', muted);
-  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+  reflectMuteUi(muted);
 }
 
 // Stub "station" for the silent audio bed. /silence.m4a is a tiny
@@ -4663,9 +4735,48 @@ $npTrackYoutubeMusic.addEventListener('click', () => {
   closeOpenInPopup();
 });
 $npMute.addEventListener('click', () => {
-  const muted = player.toggleMute();
-  $body.classList.toggle('is-muted', muted);
-  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+  reflectMuteUi(player.toggleMute());
+});
+
+// ── Volume slider ─────────────────────────────────────────────────
+// Desktop has no hardware volume rocker, so the Now Playing surface
+// carries its own slider. Level (0–1) persists across sessions; the
+// accent-filled portion is drawn by the `--vol` custom property.
+const VOLUME_KEY = 'rrradio.volume.v1';
+
+function applyVolumeUi(v: number): void {
+  const pct = Math.round(v * 100);
+  $npVolumeSlider.value = String(pct);
+  $npVolume.style.setProperty('--vol', `${pct}%`);
+  $npVolumeValue.textContent = `${pct}%`;
+}
+
+function setVolume(v: number, persist = true): void {
+  const clamped = Math.max(0, Math.min(1, v));
+  player.setVolume(clamped);
+  applyVolumeUi(clamped);
+  if (persist) setString(VOLUME_KEY, clamped.toFixed(2));
+}
+
+// Restore the stored level at boot (default full). audio.volume is
+// read-only on iOS Safari, so setVolume is a no-op there — the slider
+// still reflects the stored value but won't change playback (expected;
+// the slider is a desktop affordance).
+{
+  const stored = Number(getString(VOLUME_KEY));
+  const initial = Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : 1;
+  setVolume(initial, false);
+}
+
+$npVolumeSlider.addEventListener('input', () => {
+  const v = Number($npVolumeSlider.value) / 100;
+  // Dragging up from a muted state unmutes — the slider becoming the
+  // primary control would otherwise feel broken.
+  if (v > 0 && player.isMuted()) {
+    player.toggleMute();
+    reflectMuteUi(false);
+  }
+  setVolume(v);
 });
 
 $npDetailsToggle.addEventListener('click', () => {

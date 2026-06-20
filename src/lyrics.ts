@@ -26,10 +26,23 @@ export interface SyncedLine {
   text: string;
 }
 
+/** Credit for whichever source supplied the lyrics — drives the
+ *  "Lyrics source: <name>" link under the Now Playing lyrics pane
+ *  (iOS parity). `url` points at the provider's site, not a per-track
+ *  deep link (neither API exposes a stable one). */
+export interface LyricsSource {
+  name: string;
+  url: string;
+}
+
 export interface LyricsResult {
   plain?: string;
   synced?: SyncedLine[];
+  source?: LyricsSource;
 }
+
+const LRCLIB_SOURCE: LyricsSource = { name: 'LRCLIB', url: 'https://lrclib.net' };
+const LYRICS_OVH_SOURCE: LyricsSource = { name: 'Lyrics.ovh', url: 'https://lyrics.ovh' };
 
 const LRCLIB_URL = 'https://lrclib.net/api/get';
 const LYRICS_OVH_URL = 'https://api.lyrics.ovh/v1';
@@ -99,7 +112,9 @@ async function tryLrclib(
     const synced = parseLrc(data.syncedLyrics);
     if (synced.length > 0) result.synced = synced;
   }
-  return result.plain || result.synced ? result : undefined;
+  if (!(result.plain || result.synced)) return undefined;
+  result.source = LRCLIB_SOURCE;
+  return result;
 }
 
 /** Lyrics.ovh fallback. Plain text only. */
@@ -124,7 +139,7 @@ async function tryLyricsOvh(
     return undefined;
   }
   const plain = data.lyrics?.trim();
-  return plain ? { plain } : undefined;
+  return plain ? { plain, source: LYRICS_OVH_SOURCE } : undefined;
 }
 
 /** Look up lyrics for an artist + track. Cached in-memory so changing

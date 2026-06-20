@@ -120,8 +120,22 @@ export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
 export interface NowPlaying {
   station: Station;
   state: PlayerState;
-  /** Best-effort current track title. Often unavailable on web. */
+  /** Best-effort current track title — the combined "Artist — Track"
+   *  display string used by the mini-player + Media Session metadata
+   *  + the open-in-music-app search query. The Now Playing album/lyrics
+   *  panes prefer the split `trackName` / `trackArtist` below so the
+   *  song and artist read as a two-line hierarchy (iOS parity). Often
+   *  unavailable on web. */
   trackTitle?: string;
+  /** Best-effort current song title without the artist (iOS parity:
+   *  the Album-pane + Lyrics-header primary line). Set from the
+   *  metadata fetcher's parsed `track`; absent for station IDs / talk. */
+  trackName?: string;
+  /** Best-effort current track artist (iOS parity: the Album-pane
+   *  subtitle + Lyrics-header artist line). Set from the metadata
+   *  fetcher's parsed `artist`; absent when the title carries no
+   *  "Artist - Track" split (news, station IDs, jingles). */
+  trackArtist?: string;
   /** Result of iTunes Search verification for the current track:
    *  `true` if iTunes returned a match (so it's plausibly a real
    *  song), `false` if iTunes returned 0 results (typical for news

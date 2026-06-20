@@ -10,7 +10,7 @@
 
 import { countryName } from './country';
 import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
-import { npFormatText, npLiveText } from './np-labels';
+import { npFormatText, npLiveText, npStatusText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
 import type { NowPlaying, WakeTo } from './types';
@@ -19,9 +19,6 @@ export interface NowPlayingRefs {
   body: HTMLElement;
   npName: HTMLElement;
   npStationLogo: HTMLImageElement;
-  npProgramName: HTMLElement;
-  npProgramPre: HTMLElement;
-  npPaneProgram: HTMLElement;
   npTags: HTMLElement;
   npBitrate: HTMLElement;
   npOrigin: HTMLElement;
@@ -30,6 +27,14 @@ export interface NowPlayingRefs {
   npFormat: HTMLElement;
   npTrackRow: HTMLElement;
   npTrackTitle: HTMLElement;
+  /** Album-pane artist line (iOS parity) — hidden when no artist. */
+  npTrackArtist: HTMLElement;
+  /** Album-pane program/show line — hidden when no program. */
+  npTrackProgram: HTMLElement;
+  /** Album-pane status badge wrapper (carries the `data-state` that
+   *  colours the dot) + its label span. */
+  npTrackStatus: HTMLElement;
+  npTrackStatusText: HTMLElement;
   npTrackCover: HTMLImageElement;
   /** Container the cover-fallback initials live in. */
   npTrackCoverFallback: HTMLElement;
@@ -71,16 +76,6 @@ export function renderNowPlaying(
   // it's visually obvious the audio is silent right now.
   refs.body.classList.toggle('is-wake-bed', wakeBed);
 
-  if (np.programName) {
-    refs.npProgramName.textContent = np.programName;
-    refs.npProgramPre.hidden = false;
-    refs.npPaneProgram.title = np.programSubtitle || 'Program';
-  } else {
-    refs.npProgramName.textContent = 'Program';
-    refs.npProgramPre.hidden = true;
-    refs.npPaneProgram.title = 'Program';
-  }
-
   if (s.favicon) {
     if (refs.npStationLogo.getAttribute('src') !== s.favicon) {
       refs.npStationLogo.src = s.favicon;
@@ -110,7 +105,32 @@ export function renderNowPlaying(
   // here used to fight syncNpTabs and let the cover bleed through
   // the lyrics pane on pause (gh #84).
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
-  refs.npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
+  // iOS-parity split: the album title shows just the song (`trackName`)
+  // with the artist on its own line below. Fall back to the combined
+  // `trackTitle` when the metadata source didn't split them (e.g. the
+  // wake-bed masquerade passes a single display string).
+  const songTitle = (np.trackName ?? '').trim() || (np.trackTitle ?? '').trim();
+  refs.npTrackTitle.textContent = hasTrack ? songTitle || '—' : '—';
+
+  // Artist line — only shown when the metadata carried a real artist
+  // (an "Artist - Track" split). News/talk/IDs leave it absent, so the
+  // line collapses rather than echoing the station name (already the
+  // big header above).
+  const artist = (np.trackArtist ?? '').trim();
+  refs.npTrackArtist.textContent = artist;
+  refs.npTrackArtist.hidden = artist.length === 0;
+
+  // Program/show line — the parent broadcast (e.g. "Morning Show").
+  const program = (np.programName ?? '').trim();
+  refs.npTrackProgram.textContent = program;
+  refs.npTrackProgram.hidden = program.length === 0;
+
+  // Status badge — "● LIVE / TUNING / PAUSED / ERROR"; the dot colour is
+  // driven by data-state. Hidden (empty label) while idle.
+  const status = npStatusText(np);
+  refs.npTrackStatusText.textContent = status;
+  refs.npTrackStatus.dataset.state = np.state;
+  refs.npTrackStatus.hidden = status.length === 0;
 
   // Music-service search links only render once iTunes has confirmed
   // the title resolves to a real song (np.trackVerified === true).

@@ -46,6 +46,26 @@ export function npLiveText(np: NowPlaying): string {
   }
 }
 
+/** Compact status word for the Album-pane status badge (iOS parity:
+ *  the "● LIVE / PAUSED / …" line under the track title). Empty string
+ *  when idle — the badge hides itself rather than showing "Standby"
+ *  inside the album art block. The dot colour is driven separately off
+ *  `np.state` (a `data-state` attribute in render-np). */
+export function npStatusText(np: NowPlaying): string {
+  switch (np.state) {
+    case 'loading':
+      return 'Tuning';
+    case 'playing':
+      return 'Live';
+    case 'paused':
+      return 'Paused';
+    case 'error':
+      return np.errorMessage ?? 'Error';
+    default:
+      return '';
+  }
+}
+
 /** Combined bitrate + codec descriptor, or `—` when neither is known.
  *  e.g. `192 kbps · AAC`, `128 kbps`, `MP3`, `—`. */
 export function npFormatText(s: Station): string {

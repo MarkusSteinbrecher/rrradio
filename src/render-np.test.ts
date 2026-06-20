@@ -16,9 +16,6 @@ function mountNp(): NowPlayingRefs {
     body: document.body,
     npName: byId('np-name'),
     npStationLogo: byId('np-station-logo') as HTMLImageElement,
-    npProgramName: byId('np-program-name'),
-    npProgramPre: byId('np-program-pre'),
-    npPaneProgram: byId('np-pane-program'),
     npTags: byId('np-tags'),
     npBitrate: byId('np-bitrate'),
     npOrigin: byId('np-origin'),
@@ -27,6 +24,10 @@ function mountNp(): NowPlayingRefs {
     npFormat: byId('np-format'),
     npTrackRow: byId('np-track-row'),
     npTrackTitle: byId('np-track-title'),
+    npTrackArtist: byId('np-track-artist'),
+    npTrackProgram: byId('np-track-program'),
+    npTrackStatus: byId('np-track-status'),
+    npTrackStatusText: byId('np-track-status-text'),
     npTrackCover: byId('np-track-cover') as HTMLImageElement,
     npTrackCoverFallback: byId('np-track-cover-fallback'),
     npTrackSpotify: byId('np-track-spotify') as HTMLAnchorElement,
@@ -92,39 +93,60 @@ describe('renderNowPlaying — header + meta', () => {
   });
 });
 
-describe('renderNowPlaying — program block', () => {
-  it('shows program name when available', () => {
-    const refs = mountNp();
-    renderNowPlaying(
-      refs,
-      { station: fm4, state: 'playing', programName: 'Morning Show' },
-      ctx(),
-    );
-    expect(refs.npProgramName.textContent).toBe('Morning Show');
-    expect(refs.npProgramPre.hidden).toBe(false);
-  });
-
-  it('uses subtitle as the pane title when available', () => {
+describe('renderNowPlaying — album pane (artist / program / status)', () => {
+  it('splits the song title + artist onto separate lines (prefers trackName)', () => {
     const refs = mountNp();
     renderNowPlaying(
       refs,
       {
         station: fm4,
         state: 'playing',
-        programName: 'Morning Show',
-        programSubtitle: 'with Stuart Freeman',
+        trackTitle: 'Radiohead — Pyramid Song',
+        trackName: 'Pyramid Song',
+        trackArtist: 'Radiohead',
       },
       ctx(),
     );
-    expect(refs.npPaneProgram.title).toBe('with Stuart Freeman');
+    expect(refs.npTrackTitle.textContent).toBe('Pyramid Song');
+    expect(refs.npTrackArtist.textContent).toBe('Radiohead');
+    expect(refs.npTrackArtist.hidden).toBe(false);
   });
 
-  it('falls back to "Program" placeholder when no program', () => {
+  it('hides the artist line when the metadata carries no artist split', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      { station: fm4, state: 'playing', trackTitle: 'BR24 Aktuell', trackName: 'BR24 Aktuell' },
+      ctx(),
+    );
+    expect(refs.npTrackArtist.hidden).toBe(true);
+    expect(refs.npTrackArtist.textContent).toBe('');
+  });
+
+  it('shows the program/show line when available, hides it otherwise', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      { station: fm4, state: 'playing', programName: 'Morning Show' },
+      ctx(),
+    );
+    expect(refs.npTrackProgram.textContent).toBe('Morning Show');
+    expect(refs.npTrackProgram.hidden).toBe(false);
+
+    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
+    expect(refs.npTrackProgram.hidden).toBe(true);
+  });
+
+  it('shows a status badge while active and hides it when idle', () => {
     const refs = mountNp();
     renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
-    expect(refs.npProgramName.textContent).toBe('Program');
-    expect(refs.npProgramPre.hidden).toBe(true);
-    expect(refs.npPaneProgram.title).toBe('Program');
+    expect(refs.npTrackStatus.hidden).toBe(false);
+    expect(refs.npTrackStatusText.textContent).toBe('Live');
+    expect(refs.npTrackStatus.dataset.state).toBe('playing');
+
+    renderNowPlaying(refs, { station: fm4, state: 'idle' }, ctx());
+    expect(refs.npTrackStatus.hidden).toBe(true);
+    expect(refs.npTrackStatusText.textContent).toBe('');
   });
 });
 

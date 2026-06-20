@@ -43,10 +43,6 @@ export const NP_FRAGMENT = `
   <div id="np-name">—</div>
   <img id="np-station-logo" hidden alt="" />
   <div id="np-tags"></div>
-  <button id="np-pane-program">
-    <span id="np-program-pre" hidden>Now on</span>
-    <span id="np-program-name">Program</span>
-  </button>
   <div id="np-track-row" hidden>
     <img id="np-track-cover" alt="" />
     <span id="np-track-cover-fallback">··</span>
@@ -55,6 +51,11 @@ export const NP_FRAGMENT = `
       <a id="np-track-spotify" href="#"></a>
       <a id="np-track-apple-music" href="#"></a>
       <a id="np-track-youtube-music" href="#"></a>
+    </div>
+    <div id="np-track-artist" hidden></div>
+    <div id="np-track-program" hidden></div>
+    <div id="np-track-status" data-state="idle" hidden>
+      <span id="np-track-status-text"></span>
     </div>
   </div>
   <div id="np-bitrate">—</div>

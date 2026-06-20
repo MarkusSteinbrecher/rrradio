@@ -1654,83 +1654,52 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 }
 .np-track[hidden] { display: none; }
 
-/* Pane tabs above the cover area — only visible when the station has
-   a schedule API. Two pill buttons:
-     · np-pane-tab--icon  — small circle, holds the cover/track icon
-     · np-pane-tab--label — wide pill, calendar icon + "Now on <program>" */
+/* Mode tabs (iOS parity): Album / Schedule / Lyrics — uppercase mono
+   labels that hug their content and centre as a group. The active tab
+   is inked with a short accent underline that sits on the full-width
+   hairline beneath the strip. Empty modes never render (JS hides their
+   buttons), so a station with no schedule / no lyrics simply shows
+   fewer tabs. */
 .np-pane-tabs {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 0 16px 12px;
+  align-items: flex-end;
+  gap: 26px;
+  padding: 0 16px;
+  margin-bottom: 16px;
   max-width: 100%;
   min-width: 0;
+  border-bottom: 1px solid var(--line);
 }
 .np-pane-tabs[hidden] { display: none; }
 .np-pane-tab[hidden] { display: none; }
 .np-pane-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  position: relative;
+  border: 0;
   background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.np-pane-tab svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-  flex-shrink: 0;
-}
-.np-pane-tab:hover { border-color: var(--line-2); color: var(--ink-2); }
-.np-pane-tab.is-active {
-  color: var(--bg);
-  border-color: var(--ink);
-  background: var(--ink);
-}
-.np-pane-tab--icon {
-  width: 32px;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.np-pane-tab--label {
-  padding: 0 14px 0 12px;
-  /* allow the program name to truncate instead of pushing siblings out */
-  min-width: 0;
-  flex-shrink: 1;
-}
-.np-pane-tab__text {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  min-width: 0;
-}
-.np-pane-tab__pre {
+  padding: 6px 2px 12px;
   font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-3);
-  flex-shrink: 0;
-}
-.np-pane-tab__pre[hidden] { display: none; }
-.np-pane-tab__name {
-  font-family: var(--sans);
-  font-size: 12.5px;
-  font-style: italic;
-  color: var(--ink-2);
+  color: var(--ink-4);
+  cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+  transition: color 0.15s;
 }
-.np-pane-tab.is-active .np-pane-tab__pre,
-.np-pane-tab.is-active .np-pane-tab__name { color: var(--bg); }
+.np-pane-tab:hover { color: var(--ink-2); }
+.np-pane-tab.is-active { color: var(--ink); }
+.np-pane-tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--accent);
+}
 
 /* Program pane — replaces the cover area when the program tab is on. */
 .np-program-pane {
@@ -1769,6 +1738,28 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   touch-action: pan-y;
 }
 .np-lyrics-pane[hidden] { display: none; }
+/* iOS parity: track title + artist header above the lyrics body,
+   separated by a hairline; a source credit link sits below the body. */
+.np-lyrics-head {
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.np-lyrics-head[hidden] { display: none; }
+.np-lyrics-head__title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.np-lyrics-head__artist {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 3px;
+  line-height: 1.3;
+}
+.np-lyrics-head__artist[hidden] { display: none; }
 .np-lyrics-text {
   margin: 0;
   font-family: var(--sans);
@@ -1778,6 +1769,22 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+.np-lyrics-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.np-lyrics-source[hidden] { display: none; }
+.np-lyrics-source:hover { color: var(--ink); }
+.np-lyrics-source svg { width: 12px; height: 12px; flex-shrink: 0; }
 
 /* Column header + empty-state — both only surface in the wide 4-column
    Now Playing layout. The header is display:none until the wide @media
@@ -1804,6 +1811,40 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   text-align: center;
 }
 .np-pane-empty[hidden] { display: none; }
+/* iOS parity: current-show header + "Today · N broadcasts" caption
+   above the schedule rows. */
+.np-program-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  padding-bottom: 2px;
+}
+.np-program-head[hidden] { display: none; }
+.np-program-head__name {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.np-program-head__sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.3;
+}
+.np-program-head__sub[hidden] { display: none; }
+.np-program-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.np-program-meta[hidden] { display: none; }
 .np-program-list {
   display: flex;
   flex-direction: column;
@@ -1847,6 +1888,21 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-program-row.is-past { opacity: 0.5; }
 .np-program-row.is-live .np-program-row__title { color: var(--accent); }
 .np-program-row.is-live .np-program-row__time { color: var(--accent); }
+/* iOS parity: a LIVE capsule pinned to the right of the on-air row. */
+.np-program-row__live {
+  flex-shrink: 0;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 2px 7px 1px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
 
 .np-track__cover-wrap {
   position: relative;
@@ -1936,6 +1992,47 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   line-height: 1.3;
   text-wrap: balance;
 }
+/* iOS parity: artist → program → status, stacked beneath the song
+   title. Each line removes itself from flow when its data is absent. */
+.np-track__artist {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.np-track__artist[hidden] { display: none; }
+.np-track__program {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+  line-height: 1.3;
+}
+.np-track__program[hidden] { display: none; }
+.np-track__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-track__status[hidden] { display: none; }
+.np-track__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-track__status[data-state="playing"] .np-track__status-dot { background: var(--accent); }
+.np-track__status[data-state="loading"] .np-track__status-dot { background: var(--ink-2); }
+.np-track__status[data-state="error"] .np-track__status-dot { background: #ff8b6b; }
+.np-track__status[data-state="error"] { color: #ff8b6b; }
 /* On-air title row: centred title with a small "open-in" arrow
    pinned to the right edge. Tapping reveals text links to music
    services. Symmetric padding on the title reserves the trigger
@@ -2302,6 +2399,90 @@ body.is-playing .np-play .icon-pause { display: block; }
 .np-play.is-loading .icon-pause     { display: none; }
 .np-play.is-loading .np-play__loader { display: flex; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Desktop volume slider — phones have a hardware rocker, the web NP
+   doesn't, so it carries its own. The accent-filled portion is driven
+   by a `--vol` custom property (0–100%) set by main.ts on input. */
+.np-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 0;
+}
+.np-volume__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-volume.is-muted .np-volume__icon { color: var(--ink-4); }
+.np-volume__slider {
+  flex: 1;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0,
+    var(--accent) var(--vol, 100%),
+    var(--line) var(--vol, 100%),
+    var(--line) 100%
+  );
+}
+.np-volume.is-muted .np-volume__slider {
+  background: linear-gradient(
+    to right,
+    var(--ink-4) 0,
+    var(--ink-4) var(--vol, 100%),
+    var(--line) var(--vol, 100%),
+    var(--line) 100%
+  );
+}
+.np-volume__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.np-volume__slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+}
+.np-volume__slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.np-volume__slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.np-volume.is-muted .np-volume__slider::-moz-range-progress { background: var(--ink-4); }
+.np-volume__slider:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.np-volume__value {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
    cycle (24px) every 3.6s while playing. Dim and static otherwise. */

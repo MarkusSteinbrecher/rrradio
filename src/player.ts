@@ -289,6 +289,8 @@ export class AudioPlayer {
       station,
       state: 'loading',
       trackTitle: opts.sameStation ? this.current.trackTitle : undefined,
+      trackName: opts.sameStation ? this.current.trackName : undefined,
+      trackArtist: opts.sameStation ? this.current.trackArtist : undefined,
       trackVerified: opts.sameStation ? this.current.trackVerified : undefined,
       coverUrl: opts.sameStation ? this.current.coverUrl : undefined,
       errorMessage: undefined,
@@ -498,6 +500,8 @@ export class AudioPlayer {
   ): void {
     this.update({
       trackTitle,
+      trackName: parts?.track,
+      trackArtist: parts?.artist,
       coverUrl: parts?.coverUrl,
       trackVerified: parts?.trackVerified,
       programName: parts?.programName,

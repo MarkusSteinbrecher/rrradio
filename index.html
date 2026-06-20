@@ -365,20 +365,17 @@
               <div class="np-tags" id="np-tags"></div>
             </div>
 
+            <!-- Mode tabs (iOS parity): Album / Schedule / Lyrics. Album is
+                 always present; Schedule + Lyrics auto-hide when their data
+                 isn't available. The active tab is inked with a short accent
+                 underline that sits on the full-width hairline below the
+                 strip. In the wide 2-column layout the strip doubles as the
+                 Schedule/Lyrics switcher (the Album tab drops out — album is
+                 its own permanent column there); in 3-column it's hidden. -->
             <div class="np-pane-tabs" id="np-pane-tabs" hidden>
-              <button type="button" class="np-pane-tab np-pane-tab--icon is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none"/><path d="m4 17 4.5-4.5L13 17l3-3 4 4"/></svg>
-              </button>
-              <button type="button" class="np-pane-tab np-pane-tab--label" id="np-pane-program" aria-label="Program" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
-                <span class="np-pane-tab__text">
-                  <span class="np-pane-tab__pre" id="np-program-pre">Now on</span>
-                  <span class="np-pane-tab__name" id="np-program-name">Program</span>
-                </span>
-              </button>
-              <button type="button" class="np-pane-tab np-pane-tab--icon" id="np-pane-lyrics" aria-label="Lyrics" title="Lyrics" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h11"/><path d="M4 10h16"/><path d="M4 14h11"/><path d="M4 18h16"/></svg>
-              </button>
+              <button type="button" class="np-pane-tab is-active" id="np-pane-now" aria-pressed="true">Album</button>
+              <button type="button" class="np-pane-tab" id="np-pane-program" aria-pressed="false" hidden>Schedule</button>
+              <button type="button" class="np-pane-tab" id="np-pane-lyrics" aria-pressed="false" hidden>Lyrics</button>
             </div>
 
             <div class="np-track" id="np-track-row">
@@ -407,18 +404,46 @@
                     </div>
                   </div>
                 </div>
+                <!-- iOS parity: artist → program → status, beneath the song
+                     title. Each line hides itself when its data is absent. -->
+                <div class="np-track__artist" id="np-track-artist" hidden></div>
+                <div class="np-track__program" id="np-track-program" hidden></div>
+                <div class="np-track__status" id="np-track-status" data-state="idle" hidden>
+                  <span class="np-track__status-dot" aria-hidden="true"></span>
+                  <span class="np-track__status-text" id="np-track-status-text"></span>
+                </div>
               </div>
             </div>
 
             <div class="np-program-pane" id="np-program-pane" hidden>
               <div class="np-col-head" aria-hidden="true">Schedule</div>
+              <!-- iOS parity: current show name + subtitle, then a
+                   "Today · N broadcasts" caption above the rows. -->
+              <div class="np-program-head" id="np-program-head" hidden>
+                <div class="np-program-head__name" id="np-program-head-name"></div>
+                <div class="np-program-head__sub" id="np-program-head-sub" hidden></div>
+              </div>
+              <div class="np-program-meta" id="np-program-meta" hidden>
+                <span>Today</span>
+                <span id="np-program-count"></span>
+              </div>
               <div class="np-program-list" id="np-program-list"></div>
               <div class="np-pane-empty" id="np-program-empty" hidden>No on-air schedule for this station.</div>
             </div>
 
             <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
               <div class="np-col-head" aria-hidden="true">Lyrics</div>
+              <!-- iOS parity: track title + artist header pinned above the
+                   scrolling lyrics body, with a source credit link below. -->
+              <div class="np-lyrics-head" id="np-lyrics-head" hidden>
+                <div class="np-lyrics-head__title" id="np-lyrics-title"></div>
+                <div class="np-lyrics-head__artist" id="np-lyrics-artist" hidden></div>
+              </div>
               <pre class="np-lyrics-text" id="np-lyrics-text"></pre>
+              <a class="np-lyrics-source" id="np-lyrics-source" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <span class="np-lyrics-source__text" id="np-lyrics-source-text"></span>
+              </a>
               <div class="np-pane-empty" id="np-lyrics-empty" hidden>No lyrics for the current track.</div>
             </div>
 
@@ -475,6 +500,16 @@
                   <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
                 </button>
               </div>
+            </div>
+
+            <!-- Desktop volume — phones have a hardware rocker, desktop
+                 doesn't, so the Now Playing surface carries its own slider.
+                 The leading speaker icon mirrors the mute state; dragging to
+                 0 mutes, dragging up from 0 unmutes. Level persists. -->
+            <div class="np-volume" id="np-volume">
+              <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
+              <span class="np-volume__value" id="np-volume-value" aria-hidden="true">100%</span>
             </div>
 
             <div class="np-details" id="np-details" data-open="false">
