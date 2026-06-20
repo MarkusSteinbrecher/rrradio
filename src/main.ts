@@ -4303,6 +4303,30 @@ function relocateInto(srcId: string, tab: SettingsTab): void {
 relocateInto('about-src', 'about');
 relocateInto('add-src', 'add');
 
+// About hero (mirrors the iOS AboutContentView header): stamp the build
+// version, and reveal the share button only where Web Share is supported.
+declare const __BUILD_VERSION__: string;
+const $aboutVersion = document.getElementById('about-version');
+if ($aboutVersion) {
+  const v = typeof __BUILD_VERSION__ !== 'undefined' ? __BUILD_VERSION__ : 'dev';
+  $aboutVersion.textContent = `Version ${v}`;
+}
+const $aboutShare = document.getElementById('about-share');
+if ($aboutShare && typeof navigator.share === 'function') {
+  $aboutShare.hidden = false;
+  $aboutShare.addEventListener('click', () => {
+    void navigator
+      .share({
+        title: 'rrradio.org',
+        text: 'Free internet radio without ads.',
+        url: 'https://rrradio.org',
+      })
+      .catch(() => {
+        /* user dismissed the share sheet — nothing to do */
+      });
+  });
+}
+
 function selectSettingsTab(tab: SettingsTab): void {
   for (const btn of $settingsTabs.querySelectorAll<HTMLButtonElement>('.sheet-tab')) {
     const on = btn.dataset.settingsTab === tab;
