@@ -454,6 +454,19 @@ let browseOffset = 0;
 let browseHasMore = false;
 let browseLoadingMore = false;
 
+// Infinite scroll: the active result list's "load more" action, or null
+// when nothing more is available. renderContent() recomputes it each render;
+// the $content scroll listener (wired in init) fires it as the user nears the
+// bottom — iOS parity, so stations load on scroll, not via a button tap. The
+// manual "Load more" / "Show more" buttons stay as a keyboard/fallback path.
+let pendingLoadMore: (() => void) | null = null;
+// A short first page (RB dedupes a 60-page down to ~25) may not fill a tall
+// viewport, leaving nothing to scroll to engage infinite scroll. Auto-pull the
+// next batch(es) until the list overflows — capped per view so a degenerate
+// run of all-duplicate RB pages can't loop forever (the manual button remains).
+let autoFillTries = 0;
+const AUTO_FILL_MAX = 6;
+
 // Local-catalog pagination — once the curated YAML grew past ~2k
 // stations, rendering the whole list on every renderContent() call
 // (tab switch, filter change) added ~1s of DOM-build time. Cap the
@@ -1809,8 +1822,9 @@ function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
   card.type = 'button';
   card.className = 'feat-card';
   card.dataset.id = item.station.id;
-  // Per-highlight editorial accent (iOS HighlightCard stripe + play
-  // button); falls back to the app accent.
+  // Per-highlight editorial accent. Mirrors the current iOS HighlightCard,
+  // where the accent survives only as a soft tint on the badge dot (no left
+  // stripe, no play button); falls back to the app accent.
   if (item.badge?.accent) card.style.setProperty('--feat-accent', item.badge.accent);
   const art = buildFavicon(item.station, 72);
   art.classList.add('feat-card__art');
@@ -1832,13 +1846,9 @@ function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
     blurb.textContent = item.blurb;
     body.append(blurb);
   }
-  // Visual play affordance (the whole card is the button, so this is a
-  // non-interactive span — mirrors the iOS 34pt play circle).
-  const play = document.createElement('span');
-  play.className = 'feat-card__play';
-  play.setAttribute('aria-hidden', 'true');
-  play.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-  card.append(art, body, play);
+  // The whole card is the play affordance (tapping anywhere plays), matching
+  // iOS — no separate play button.
+  card.append(art, body);
   card.addEventListener('click', () => onRowPlay(item.station));
   return card;
 }
@@ -1956,7 +1966,14 @@ function browseAllSection(featured: ResolvedHighlight[]): DocumentFragment {
       item.type = 'button';
       item.tabIndex = -1;
       item.className = 'disc-browse-all-logo';
-      item.append(buildFavicon(s, 38));
+      const fav = buildFavicon(s, 38);
+      // The rail can carry ~100 logos; defer off-screen fetches.
+      const img = fav.querySelector('img');
+      if (img) {
+        img.loading = 'lazy';
+        img.decoding = 'async';
+      }
+      item.append(fav);
       item.addEventListener('click', enterBrowseAll);
       rail.append(item);
     }
@@ -2031,12 +2048,15 @@ function backToDiscoveryBar(): HTMLButtonElement {
 
 function renderContent(): void {
   $content.replaceChildren();
+  // Recomputed below per view; a full re-render invalidates the prior loader.
+  pendingLoadMore = null;
 
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
   const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}|${browseAll}|${activeSort}|${[...activeQuality].sort().join(',')}`;
   if (sig !== lastViewSig) {
     homeViewLimit = HOME_VIEW_PAGE_SIZE;
+    autoFillTries = 0;
     lastViewSig = sig;
   }
 
@@ -2130,6 +2150,16 @@ function renderContent(): void {
           if ((browseMode === null || browseMode === 'news') && browseHasMore) {
             $content.append(loadMoreButton());
           }
+          // Infinite scroll: reveal already-fetched rows first, then page
+          // the network. (Played mode's "Worldwide" stays a manual opt-in.)
+          if (remainingHome > 0) {
+            pendingLoadMore = (): void => {
+              homeViewLimit += HOME_VIEW_PAGE_SIZE;
+              renderContent();
+            };
+          } else if ((browseMode === null || browseMode === 'news') && browseHasMore) {
+            pendingLoadMore = (): void => void loadMore();
+          }
         }
         if (showWorldwide) {
           if (worldwide.length > 0) {
@@ -2149,6 +2179,7 @@ function renderContent(): void {
 
       const counter = siteCounter();
       if (counter) $content.append(counter);
+      maybeAutoFill();
       return;
     }
 
@@ -2176,12 +2207,16 @@ function renderContent(): void {
       const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
       $content.append(sectionLabel(label, results.length));
       $content.append(rowsGrid(results));
-      if (browseHasMore) $content.append(loadMoreButton());
+      if (browseHasMore) {
+        $content.append(loadMoreButton());
+        pendingLoadMore = (): void => void loadMore();
+      }
     } else if (myFiltered.length === 0) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
     const counter = siteCounter();
     if (counter) $content.append(counter);
+    maybeAutoFill();
     return;
   }
 
@@ -2736,6 +2771,7 @@ async function runQuery(): Promise<void> {
   browseOffset = 0;
   browseHasMore = false;
   browseLoadingMore = false;
+  pendingLoadMore = null;
   const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), { offset: 0 });
   // Skip Radio Browser fetch when:
   //  · curated-only is on (we never render RB results in that mode)
@@ -4575,6 +4611,33 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('resize', () => {
   if (!$npTrackOpenInPopup.hidden) positionOpenInPopup();
 });
+
+// Infinite scroll — load the next batch as the result list nears the bottom
+// (iOS parity). pendingLoadMore is set by renderContent() to the current
+// view's loader (reveal-more / fetch-next) and cleared when nothing remains.
+// The async loaders self-guard against re-entry, so firing on every scroll
+// tick near the bottom is safe.
+$content.addEventListener(
+  'scroll',
+  () => {
+    if (!pendingLoadMore) return;
+    if ($content.scrollTop + $content.clientHeight >= $content.scrollHeight - 600) {
+      pendingLoadMore();
+    }
+  },
+  { passive: true },
+);
+
+/** If the freshly rendered list is too short to scroll, pull more so the
+ *  user can actually reach the bottom (and infinite scroll can take over).
+ *  Capped per view via autoFillTries. Call at the end of a browse render. */
+function maybeAutoFill(): void {
+  if (!pendingLoadMore || autoFillTries >= AUTO_FILL_MAX) return;
+  if (browseLoadingMore) return; // a fetch is already in flight — wait for it
+  if ($content.scrollHeight > $content.clientHeight + 8) return; // already scrollable
+  autoFillTries++;
+  pendingLoadMore();
+}
 
 // Streaming-service deep links — count taps so we can see if anyone
 // uses them. Track strings stay out of telemetry.

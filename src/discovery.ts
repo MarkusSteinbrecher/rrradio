@@ -5,7 +5,10 @@ import { GENRES, stationMatchesGenre } from './genre-taxonomy';
 // `BrowseDiscoveryView` / `BrowseDiscoveryFormat` caps and counts.
 export const DISCOVERY_COUNTRY_CHIP_LIMIT = 20;
 export const DISCOVERY_HIGHLIGHT_LIMIT = 8;
-export const DISCOVERY_BROWSE_ALL_LOGO_LIMIT = 30;
+// Higher than the iOS phone rail (which caps lower): wide desktop screens
+// have far more horizontal room, so a longer rail fills the width instead of
+// trailing off into empty space. Logos lazy-load, so off-screen ones are free.
+export const DISCOVERY_BROWSE_ALL_LOGO_LIMIT = 100;
 
 export interface DiscoveryCounts {
   /** genre id → number of catalog stations matching that genre */

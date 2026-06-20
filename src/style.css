@@ -3583,13 +3583,15 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 }
 
 /* ─── Browse discovery landing ─── */
+/* Section headers ("Browse by genre", "Browse by country", "Featured") use
+   the same bold-sans heading as the "Browse all stations" row
+   (.disc-browse-all__label) — every iOS section header is the same 19pt-heavy
+   style, so the small mono-caps label was the odd one out. */
 .disc-section-label {
   padding: 18px 20px 8px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 /* Genre / country chips: a single horizontally-scrolling row (one line,
@@ -3603,12 +3605,13 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  scroll-snap-type: x proximity;
+  /* No scroll-snap: snap-align:start auto-scrolls the first chip past the
+     20px left padding on load, jamming it against the rail edge (the same
+     bug the featured rail hit). Free-scroll keeps the leading gap. */
 }
 .disc-chips::-webkit-scrollbar { height: 0; }
 .disc-chip {
   flex: 0 0 auto;
-  scroll-snap-align: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -3642,30 +3645,18 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   position: relative;
   flex: 0 0 312px;
   /* Honour the 312px basis: without this a flex item's default
-     min-width:auto lets the nowrap name balloon the card past its basis
-     (and the snap-to-start was eating the rail's left padding). */
+     min-width:auto lets the nowrap name balloon the card past its basis. */
   min-width: 0;
   display: flex;
   gap: 13px;
   align-items: center;
-  padding: 13px 13px 13px 18px;
+  padding: 13px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--bg-2);
   text-align: left;
   color: var(--ink);
   transition: border-color 0.14s, background 0.14s;
-}
-/* 5px editorial accent stripe at the left edge (iOS HighlightCard). */
-.feat-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 11px;
-  bottom: 11px;
-  width: 5px;
-  border-radius: 0 3px 3px 0;
-  background: var(--feat-accent, var(--accent));
 }
 .feat-card:hover { border-color: var(--line-2); background: var(--bg-3); }
 /* Featured artwork is a rounded square (not the circular logo used
@@ -3680,13 +3671,26 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   min-width: 0;
   flex: 1;
 }
+/* iOS HighlightCard badge pill: a 5px accent dot + a muted mono-caps label
+   (the accent's only remaining tint — no left stripe). */
 .feat-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--feat-accent, var(--accent));
+  color: var(--ink-2);
   margin-bottom: 2px;
+}
+.feat-card__badge::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--feat-accent, var(--accent));
 }
 .feat-card__name {
   font-size: 17px;
@@ -3704,23 +3708,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.feat-card__play {
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--feat-accent, var(--accent));
-  color: var(--bg);
-}
-.feat-card__play svg {
-  width: 16px;
-  height: 16px;
-  margin-left: 1px;
-}
-
 /* Browse all — full-width tappable header row + a horizontal logo rail
    (iOS BrowseDiscoveryView.browseAllSection). Replaces the old stacked-
    avatar cluster footer. */
@@ -3757,14 +3744,15 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   display: flex;
   gap: 9px;
   overflow-x: auto;
-  padding: 0 20px 8px;
+  /* Top padding gives the :hover lift (translateY(-2px)) room — overflow-x:auto
+     forces overflow-y to clip, which would otherwise crop the raised logo. */
+  padding: 4px 20px 8px;
   scrollbar-width: none;
-  scroll-snap-type: x proximity;
+  /* No scroll-snap (see .disc-chips): it would eat the 20px left padding. */
 }
 .disc-browse-all-rail::-webkit-scrollbar { height: 0; }
 .disc-browse-all-logo {
   flex: 0 0 auto;
-  scroll-snap-align: start;
   padding: 0;
   border: 0;
   background: transparent;
