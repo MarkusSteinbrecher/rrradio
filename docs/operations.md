@@ -607,9 +607,20 @@ Tokens are semantic rather than platform-specific: `surface`, `surfaceRaised`, `
 
 Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`. They do not alter `src/style.css`, the bundled catalog, or any native app repository. Use **Reset defaults** to clear local edits.
 
+## App Store web pages (`/support`, `/ios`)
+
+Two static pages back the iOS App Store listing (issues #582 / #583; iOS tracker rrradio-ios #108). Both are self-contained single files copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves them at clean extensionless URLs:
+
+- `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
+- `public/ios.html` → `https://rrradio.org/ios` — **App Store Marketing URL**. A lean, tracker-free landing with value prop, the three app screenshots (`public/ios-media/screen-*.webp`), an App Store badge placeholder (swap to the real `apps.apple.com` link at launch), and links to privacy + support.
+
+`src/static-pages.test.ts` locks the contact/report channels, cross-links, screenshots, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/ios` and `/support` to their `.html` files in dev so local serving matches GitHub Pages.
+
+This is intentionally separate from the richer `/rrradio-ios/` landing below — they can be consolidated later (e.g. promote one to canonical and redirect the other) if a single iOS page is wanted.
+
 ## iOS app landing page
 
-The iOS app webpage is a standalone static Vite entry at `/rrradio-ios/`, with `/ios` as a local-dev alias. It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
+The iOS app webpage is a standalone static Vite entry at `/rrradio-ios/` (the richer "vintage tuner" landing; the App Store Marketing URL is the leaner `/ios` page above). It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
 
 ```
 rrradio-ios/index.html       — route HTML and page copy
