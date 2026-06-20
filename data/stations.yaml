@@ -15146,6 +15146,11 @@
   country: JP
   status: stream-only
 - id: jp-free-fm-80
+  favicon: "https://freefmradio.net/assets/img/freefmworld-icon-512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://freefmradio.net/site.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 54732c01-db87-4aa2-b313-22fd5fa7eee9
   changeuuid: 44f8ae2f-9e31-4b65-90e8-45521f0124a4
   reviewedAt: 2026-04-30
@@ -15267,8 +15272,11 @@
   country: JP
   status: stream-only
 - id: jp-gensokyo
-  favicon: "https://gensokyoradio.net/images/gr8_logo.png"
+  favicon: "https://app.gensokyoradio.net/assets/icons/icon-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://app.gensokyoradio.net/manifest.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 248a7684-7e28-4912-9812-efefc2bba2e1
   changeuuid: c060b95e-3f15-462d-8f6d-89e663b5cc76
   reviewedAt: 2026-04-30
@@ -189861,8 +189869,11 @@
   streamUrl: https://listen.moe/fallback
   bitrate: 256
   codec: MP3
-  favicon: https://listen.moe/favicon.ico
+  favicon: "https://listen.moe/images/android-chrome-512x512.png"
   faviconSource: broadcaster-site
+  faviconSourceUrl: "https://listen.moe/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: https://listen.moe/
   country: JP
   status: stream-only
@@ -189873,8 +189884,10 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-j-rock-powerplay-asia-dream-radio
   tags: [music, pop]
-  favicon: "https://cdn.onlineradiobox.com/img/l/3/64373.v11.png"
-  faviconSource: radio-browser
+  favicon: "https://asiadreamradio.torontocast.stream/stations/en/images/en/DEE67138953B4DBC86037E1AF6DEBBB6/jrockpowerplay-2.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: J-Rock Powerplay(Asia DREAM Radio)
   streamUrl: https://kathy.torontocast.com:3340/;?shoutcast
@@ -189983,6 +189996,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp--2
+  favicon: "https://radiocafe.jp/apple-touch-icon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiocafe.jp/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: ["79.7", 京都市]
   broadcaster: independent
   name: 京都三条ラジオカフェ
@@ -190063,6 +190081,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-fm-3
+  favicon: "https://www.chofu-fm.com/wpsys/wp-content/themes/chofu_fm/img/logo.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.chofu-fm.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: ["83.8", 調布]
   broadcaster: independent
   name: 調布FM
@@ -190079,8 +190102,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-775-fm
   tags: ["77.5", 朝霞]
-  favicon: "https://775fm.co.jp/wp/wp-content/themes/775fm/images/logo.png?20220406"
-  faviconSource: radio-browser
+  favicon: "https://775fm.co.jp/android-chrome-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://775fm.co.jp/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "775ライブリーFM"
   streamUrl: https://mtist.as.smartstream.ne.jp/30026/livestream/playlist.m3u8
@@ -190111,8 +190137,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-j-club-powerplay-hiphop-asia-dream-radio
   tags: [pop]
-  favicon: "https://cdn.onlineradiobox.com/img/l/1/13121.v6.png"
-  faviconSource: radio-browser
+  favicon: "https://asiadreamradio.torontocast.stream/stations/en/images/en/DEE67138953B4DBC86037E1AF6DEBBB6/jclubhiphop.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://asiadreamradio.torontocast.stream/stations/en/index.html"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: J-Club Powerplay HipHop(Asia DREAM Radio)
   streamUrl: https://kathy.torontocast.com:3350/;?shoutcast
@@ -190171,8 +190200,11 @@
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-fm78-1
   tags: [コミュニティfm]
-  favicon: "https://radiokaros.com/wp/wp-content/themes/radiokaros/assets/images/logo.png"
-  faviconSource: radio-browser
+  favicon: "https://radiokaros.com/wp/wp-content/themes/radiokaros/assets/images/footer_logo.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiokaros.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: ラジオカロスサッポロ FM78.1
   streamUrl: https://mtist.as.smartstream.ne.jp/30034/livestream/playlist.m3u8
@@ -190202,6 +190234,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: jp-radio-mix-kyoto-fm87-0
+  favicon: "https://radiomix.kyoto/wp-content/themes/main/images/rmk/sp_logo_mark.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radiomix.kyoto/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   tags: ["87.0", 京都府]
   broadcaster: independent
   name: Radio Mix Kyoto FM87.0
