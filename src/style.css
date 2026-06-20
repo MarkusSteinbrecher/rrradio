@@ -963,6 +963,20 @@ a.settings-row { text-decoration: none; }
   min-width: 0;
 }
 
+/* Library-feed now-playing subtitle (Favorites / Lists / Recents): the
+   current track ("artist — title") shown under the station name once the
+   cover poll resolves it. Sans + normal case, unlike the lowercase mono
+   genre tags it replaces. */
+.row-now {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.row-now[hidden] { display: none; }
+
 /* Geo-restriction badge — shown on rows whose curated `availableIn`
    excludes the visitor's country. Sits inside .row-tags between the
    capability stars and the tag list, in the warm-amber accent so it

@@ -8,7 +8,7 @@ import {
 } from './builtins';
 import type { ScheduleDay } from './metadata';
 import { searchITunes, isLowResCoverUrl } from './coverArt';
-import { FavoritesCoverStore } from './favoritesMetadata';
+import { FavoritesCoverStore, type FavCoverEntry } from './favoritesMetadata';
 import { lookupLyrics } from './lyrics';
 import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
@@ -681,31 +681,42 @@ function buildRow(
   tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
   tags.append(tagsText);
   info.append(name, tags);
+  // Library feeds carry a now-playing subtitle (artist — track) that
+  // replaces the genre tags once the cover poll resolves a track (iOS
+  // favorites layout). Hidden until then; tags show in the meantime.
+  if (opts.cover) {
+    const now = document.createElement('div');
+    now.className = 'row-now';
+    now.hidden = true;
+    info.append(now);
+  }
 
-  const right = document.createElement('div');
-  right.className = 'row-right';
-  const eq = buildEq(isPaused);
-  const addList = buildAddListBtn();
-  addList.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openListSheet(station);
-  });
-  const heart = buildHeart(isFav);
-  heart.addEventListener('click', (e) => {
-    e.stopPropagation();
-    onToggleFav(station);
-  });
-  right.append(eq, addList, heart);
-
-  // Library feeds get a trailing track-cover slot, painted now if the poll
-  // already has art for this station and refreshed in place as cycles land.
+  // Library feeds (Favorites / Lists / Recents) render as iOS-style cards:
+  // no inline add/heart/equalizer — the trailing slot is the station's
+  // now-playing cover art, and the subtitle carries the current track.
+  // Browse rows keep the equalizer + add-to-list + favorite controls.
   if (opts.cover) {
     const cover = document.createElement('span');
     cover.className = 'row-cover';
     const entry = favCovers.get(station.id);
     if (entry) setRowCover(cover, entry.coverUrl);
-    row.append(fav, info, cover, right);
+    row.append(fav, info, cover);
+    applyRowNowPlaying(row, entry);
   } else {
+    const right = document.createElement('div');
+    right.className = 'row-right';
+    const eq = buildEq(isPaused);
+    const addList = buildAddListBtn();
+    addList.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openListSheet(station);
+    });
+    const heart = buildHeart(isFav);
+    heart.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onToggleFav(station);
+    });
+    right.append(eq, addList, heart);
     row.append(fav, info, right);
   }
 
@@ -742,14 +753,43 @@ function setRowCover(slot: HTMLElement, url: string): void {
   slot.classList.add('has-cover');
 }
 
-/** Repaint every visible cover slot from the store. Called when a poll cycle
- *  lands new art — patches the DOM in place (no re-render, no scroll loss). */
+/** Build the now-playing subtitle line ("artist — track", or just the
+ *  track) from a cover-store entry. Empty when there's no resolved track. */
+function nowPlayingLine(entry: FavCoverEntry | undefined): string {
+  if (!entry?.title) return '';
+  return entry.artist ? `${entry.artist} — ${entry.title}` : entry.title;
+}
+
+/** Swap a library row's subtitle between the genre tags and the live
+ *  now-playing line. When a track is known it wins (matching iOS, which
+ *  shows the current track under the station name); otherwise the genre
+ *  tags stay visible. */
+function applyRowNowPlaying(row: HTMLElement, entry: FavCoverEntry | undefined): void {
+  const now = row.querySelector<HTMLElement>('.row-now');
+  if (!now) return;
+  const tags = row.querySelector<HTMLElement>('.row-tags');
+  const line = nowPlayingLine(entry);
+  if (line) {
+    now.textContent = line;
+    now.hidden = false;
+    if (tags) tags.hidden = true;
+  } else {
+    now.hidden = true;
+    if (tags) tags.hidden = false;
+  }
+}
+
+/** Repaint every visible cover slot + now-playing line from the store.
+ *  Called when a poll cycle lands new art — patches the DOM in place (no
+ *  re-render, no scroll loss). */
 function paintFavCovers(): void {
   for (const slot of document.querySelectorAll<HTMLElement>('.row-cover')) {
-    const id = slot.closest<HTMLElement>('.row')?.dataset.id;
-    if (!id) continue;
+    const row = slot.closest<HTMLElement>('.row');
+    const id = row?.dataset.id;
+    if (!id || !row) continue;
     const entry = favCovers.get(id);
     if (entry) setRowCover(slot, entry.coverUrl);
+    applyRowNowPlaying(row, entry);
   }
 }
 
@@ -2352,7 +2392,9 @@ function renderContent(): void {
         emptyState(ICON_EMPTY, 'No matches', 'Nothing in your history matches that search'),
       );
     } else {
-      $content.append(renderRows(list, { cover: true }));
+      // Recents matches the Favorites layout: iOS-style cards on desktop
+      // (single-column stack on mobile) with now-playing cover + track.
+      $content.append(rowsGrid(list, { cover: true }));
       armFavCovers(list);
     }
   }
@@ -2728,7 +2770,9 @@ function renderListDetail(list: StationList, query: string): void {
     $content.append(emptyState(ICON_EMPTY, 'No matches', 'Nothing in this list matches that search'));
     return;
   }
-  $content.append(renderRows(stations, { cover: true }));
+  // List detail matches the Favorites layout: iOS-style cards on desktop,
+  // single-column stack on mobile, with now-playing cover + track.
+  $content.append(rowsGrid(stations, { cover: true }));
   armFavCovers(stations);
 }
 
