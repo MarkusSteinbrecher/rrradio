@@ -3592,13 +3592,23 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   color: var(--ink-3);
 }
 
+/* Genre / country chips: a single horizontally-scrolling row (one line,
+   scrollable) matching the iOS BrowseDiscoveryView chip carousels —
+   not a wrapping grid. */
 .disc-chips {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 20px 4px;
+  flex-wrap: nowrap;
+  gap: 9px;
+  padding: 0 20px 6px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
 }
+.disc-chips::-webkit-scrollbar { height: 0; }
 .disc-chip {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -3608,8 +3618,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   background: var(--bg-2);
   color: var(--ink);
   font-size: 13px;
+  white-space: nowrap;
   transition: background 0.14s, border-color 0.14s;
 }
+.disc-chip__name { white-space: nowrap; }
 .disc-chip:hover { background: var(--bg-3); }
 .disc-chip__count {
   font-family: var(--mono);
@@ -3624,101 +3636,143 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   overflow-x: auto;
   padding: 0 20px 6px;
   scrollbar-width: none;
-  scroll-snap-type: x proximity;
 }
 .feat-rail::-webkit-scrollbar { height: 0; }
 .feat-card {
-  flex: 0 0 248px;
-  scroll-snap-align: start;
+  position: relative;
+  flex: 0 0 312px;
+  /* Honour the 312px basis: without this a flex item's default
+     min-width:auto lets the nowrap name balloon the card past its basis
+     (and the snap-to-start was eating the rail's left padding). */
+  min-width: 0;
   display: flex;
-  gap: 12px;
+  gap: 13px;
   align-items: center;
-  padding: 12px;
+  padding: 13px 13px 13px 18px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 18px;
   background: var(--bg-2);
   text-align: left;
   color: var(--ink);
   transition: border-color 0.14s, background 0.14s;
 }
+/* 5px editorial accent stripe at the left edge (iOS HighlightCard). */
+.feat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+  width: 5px;
+  border-radius: 0 3px 3px 0;
+  background: var(--feat-accent, var(--accent));
+}
 .feat-card:hover { border-color: var(--line-2); background: var(--bg-3); }
+/* Featured artwork is a rounded square (not the circular logo used
+   elsewhere), matching the iOS 74pt card art. */
 .feat-card__art {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
   flex-shrink: 0;
 }
-.feat-card__body { min-width: 0; }
+.feat-card__body {
+  min-width: 0;
+  flex: 1;
+}
 .feat-card__badge {
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--feat-accent, var(--accent));
   margin-bottom: 2px;
 }
 .feat-card__name {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .feat-card__blurb {
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--ink-2);
-  margin-top: 2px;
+  margin-top: 3px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.feat-card__play {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--feat-accent, var(--accent));
+  color: var(--bg);
+}
+.feat-card__play svg {
+  width: 16px;
+  height: 16px;
+  margin-left: 1px;
+}
 
-/* Browse all */
+/* Browse all — full-width tappable header row + a horizontal logo rail
+   (iOS BrowseDiscoveryView.browseAllSection). Replaces the old stacked-
+   avatar cluster footer. */
 .disc-browse-all {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  width: calc(100% - 40px);
-  margin: 14px 20px 20px;
-  padding: 14px 16px;
-  border: 1px solid var(--line-2);
-  border-radius: 12px;
-  background: var(--bg-2);
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.14s;
-}
-.disc-browse-all:hover { background: var(--bg-3); }
-.disc-browse-all__trailing {
-  display: inline-flex;
-  align-items: center;
   gap: 10px;
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 14px 20px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition: color 0.14s;
 }
+.disc-browse-all__label {
+  font-size: 17px;
+  font-weight: 700;
+}
+.disc-browse-all:hover .disc-browse-all__label { color: var(--accent); }
 .disc-browse-all__count {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-3);
-}
-/* iOS "Browse all" peek: up to four overlapping circular station logos.
-   Each logo carries a 2px ring in the card surface colour so the overlap
-   reads cleanly (like stacked avatars); the first logo sits on top. */
-.disc-browse-all__cluster {
-  display: inline-flex;
-  align-items: center;
-}
-.disc-browse-all__logo {
-  position: relative;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  overflow: hidden;
   flex-shrink: 0;
-  background: var(--bg-2);
-  box-shadow: 0 0 0 2px var(--bg-2);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
 }
-.disc-browse-all__logo + .disc-browse-all__logo { margin-left: -9px; }
+.disc-browse-all__count::after { content: ' \203a'; }
+
+.disc-browse-all-rail {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 0 20px 8px;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+.disc-browse-all-rail::-webkit-scrollbar { height: 0; }
+.disc-browse-all-logo {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  line-height: 0;
+  transition: transform 0.12s;
+}
+.disc-browse-all-logo:hover { transform: translateY(-2px); }
 
 /* Back to discovery */
 .disc-back {

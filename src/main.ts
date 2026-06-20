@@ -24,6 +24,7 @@ import {
   countryChips,
   abbreviateCount,
   DISCOVERY_HIGHLIGHT_LIMIT,
+  DISCOVERY_BROWSE_ALL_LOGO_LIMIT,
   type DiscoveryCounts,
 } from './discovery';
 import {
@@ -1808,7 +1809,10 @@ function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
   card.type = 'button';
   card.className = 'feat-card';
   card.dataset.id = item.station.id;
-  const art = buildFavicon(item.station, 56);
+  // Per-highlight editorial accent (iOS HighlightCard stripe + play
+  // button); falls back to the app accent.
+  if (item.badge?.accent) card.style.setProperty('--feat-accent', item.badge.accent);
+  const art = buildFavicon(item.station, 72);
   art.classList.add('feat-card__art');
   const body = document.createElement('div');
   body.className = 'feat-card__body';
@@ -1828,7 +1832,13 @@ function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
     blurb.textContent = item.blurb;
     body.append(blurb);
   }
-  card.append(art, body);
+  // Visual play affordance (the whole card is the button, so this is a
+  // non-interactive span — mirrors the iOS 34pt play circle).
+  const play = document.createElement('span');
+  play.className = 'feat-card__play';
+  play.setAttribute('aria-hidden', 'true');
+  play.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  card.append(art, body, play);
   card.addEventListener('click', () => onRowPlay(item.station));
   return card;
 }
@@ -1860,8 +1870,10 @@ function renderDiscovery(): void {
     DISCOVERY_HIGHLIGHT_LIMIT,
   );
 
-  // Section order mirrors the iOS BrowseDiscoveryContent: genre chips,
-  // country chips, then the Featured rail, then the "Browse all" footer.
+  // Section order mirrors the iOS BrowseDiscoveryView: genre chips,
+  // country chips, the "Browse all" header + logo rail, then the
+  // Featured carousel at the bottom. Each chip row is a single
+  // horizontally-scrolling line (not a wrapping grid) to match iOS.
   const counts = getDiscoveryCounts();
   const gChips = genreChips(counts);
   if (gChips.length > 0) {
@@ -1869,6 +1881,7 @@ function renderDiscovery(): void {
     const row = document.createElement('div');
     row.className = 'disc-chips';
     for (const c of gChips) row.append(discoveryChip(c.label, c.count, () => selectGenreChip(c.id)));
+    enableWheelScroll(row);
     $content.append(row);
   }
   const cChips = countryChips(counts, countryName);
@@ -1877,8 +1890,11 @@ function renderDiscovery(): void {
     const row = document.createElement('div');
     row.className = 'disc-chips';
     for (const c of cChips) row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id)));
+    enableWheelScroll(row);
     $content.append(row);
   }
+
+  $content.append(browseAllSection(featured));
 
   if (featured.length > 0) {
     $content.append(discoverySection('Featured'));
@@ -1888,41 +1904,66 @@ function renderDiscovery(): void {
     enableWheelScroll(rail);
     $content.append(rail);
   }
+}
 
-  // "Browse all" footer with the iOS logo peek: up to four featured
-  // stations carrying real artwork, overlapping like stacked avatars.
-  // Per the iOS rule, show nothing rather than a lonely one or two — the
-  // cluster only appears once at least three highlights have a favicon.
-  const all = document.createElement('button');
-  all.type = 'button';
-  all.className = 'disc-browse-all';
-  all.setAttribute('aria-label', 'Browse all stations');
+/** "Browse all" — a full-width tappable header row plus a horizontal
+ *  logo rail (iOS BrowseDiscoveryView.browseAllSection). Tapping the
+ *  header or any logo drops into the full catalog list. The rail shows
+ *  up to DISCOVERY_BROWSE_ALL_LOGO_LIMIT featured-first stations that
+ *  carry real artwork. */
+function browseAllSection(featured: ResolvedHighlight[]): DocumentFragment {
+  const frag = document.createDocumentFragment();
+
+  const header = document.createElement('button');
+  header.type = 'button';
+  header.className = 'disc-browse-all';
+  header.setAttribute('aria-label', 'Browse all stations');
   const lbl = document.createElement('span');
+  lbl.className = 'disc-browse-all__label';
   lbl.textContent = 'Browse all stations';
-  const trailing = document.createElement('span');
-  trailing.className = 'disc-browse-all__trailing';
-  const clusterStations = featured.map((f) => f.station).filter((s) => Boolean(s.favicon));
-  if (clusterStations.length >= 3) {
-    const cluster = document.createElement('span');
-    cluster.className = 'disc-browse-all__cluster';
-    cluster.setAttribute('aria-hidden', 'true');
-    const logos = clusterStations.slice(0, 4);
-    logos.forEach((s, i) => {
-      const logo = buildFavicon(s, 26);
-      logo.classList.add('disc-browse-all__logo');
-      // First logo on top, each tucking behind the one before it.
-      logo.style.zIndex = String(logos.length - i);
-      cluster.append(logo);
-    });
-    trailing.append(cluster);
-  }
   const cnt = document.createElement('span');
   cnt.className = 'disc-browse-all__count';
   cnt.textContent = abbreviateCount(BUILTIN_STATIONS.length);
-  trailing.append(cnt);
-  all.append(lbl, trailing);
-  all.addEventListener('click', enterBrowseAll);
-  $content.append(all);
+  header.append(lbl, cnt);
+  header.addEventListener('click', enterBrowseAll);
+  frag.append(header);
+
+  // Prefer the featured stations (recognisable artwork) up front, then
+  // fill from the featured-first catalog ordering. Dedupe by id and keep
+  // only stations that carry a favicon.
+  const seen = new Set<string>();
+  const pool: Station[] = [];
+  for (const f of featured) {
+    if (f.station.favicon && !seen.has(f.station.id)) {
+      seen.add(f.station.id);
+      pool.push(f.station);
+    }
+  }
+  for (const s of orderFeaturedFirst(BUILTIN_STATIONS)) {
+    if (pool.length >= DISCOVERY_BROWSE_ALL_LOGO_LIMIT) break;
+    if (s.favicon && !seen.has(s.id)) {
+      seen.add(s.id);
+      pool.push(s);
+    }
+  }
+
+  if (pool.length > 0) {
+    const rail = document.createElement('div');
+    rail.className = 'disc-browse-all-rail';
+    rail.setAttribute('aria-hidden', 'true');
+    for (const s of pool.slice(0, DISCOVERY_BROWSE_ALL_LOGO_LIMIT)) {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.tabIndex = -1;
+      item.className = 'disc-browse-all-logo';
+      item.append(buildFavicon(s, 38));
+      item.addEventListener('click', enterBrowseAll);
+      rail.append(item);
+    }
+    enableWheelScroll(rail);
+    frag.append(rail);
+  }
+  return frag;
 }
 
 function selectGenreChip(id: string): void {
