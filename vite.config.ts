@@ -133,12 +133,12 @@ function localRouteAliasPlugin(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (req.url === '/style') req.url = '/style/';
-        if (req.url === '/ios') {
-          res.statusCode = 302;
-          res.setHeader('location', '/rrradio-ios/');
-          res.end();
-          return;
-        }
+        // Mirror GitHub Pages' extensionless serving for the static App
+        // Store pages (public/ios.html → /ios, public/support.html →
+        // /support) so local dev matches production. The richer landing
+        // keeps its own route at /rrradio-ios/.
+        if (req.url === '/ios') req.url = '/ios.html';
+        if (req.url === '/support') req.url = '/support.html';
         next();
       });
     },
