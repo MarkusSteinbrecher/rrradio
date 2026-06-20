@@ -7,7 +7,8 @@ import {
   loadBuiltinStations,
 } from './builtins';
 import type { ScheduleDay } from './metadata';
-import { searchITunes } from './coverArt';
+import { searchITunes, isLowResCoverUrl } from './coverArt';
+import { FavoritesCoverStore } from './favoritesMetadata';
 import { lookupLyrics } from './lyrics';
 import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
@@ -155,14 +156,10 @@ const player = new AudioPlayer();
 let coverEnrichToken = 0;
 let coverEnrichController: AbortController | undefined;
 
-/** Patterns of station-supplied cover URLs known to publish only small
- *  thumbnails. When one of these is the only cover available, we still
- *  run iTunes as an upgrade and prefer the higher-res result. */
-function isLowResCoverUrl(url: string): boolean {
-  // Grrif: /Medias/Covers/m/...  → 246×246 JPEGs only
-  if (/\/Medias\/Covers\/m\//.test(url)) return true;
-  return false;
-}
+// Per-station "now playing" cover art for library feeds (Favorites, Lists,
+// Recents) — iOS FavoriteNowPlayingStore parity. Polls the visible rows and
+// paints each station's current-track cover into its card in place.
+const favCovers = new FavoritesCoverStore(() => paintFavCovers());
 
 const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
@@ -261,7 +258,6 @@ const $tabbar = document.getElementById('tabbar') as HTMLElement;
 const $topnavNav = document.querySelector('.topnav-nav') as HTMLElement;
 
 const $mini = document.getElementById('mini') as HTMLElement;
-const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
 const $miniArt = document.getElementById('mini-art') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
@@ -649,7 +645,20 @@ function buildCapabilityStars(station: Station): HTMLSpanElement | null {
   return wrap;
 }
 
-function buildRow(station: Station, currentId: string, state: NowPlaying['state'], favs: Set<string>): HTMLDivElement {
+interface RowOptions {
+  /** Library feeds (Favorites / Lists / Recents) carry a trailing cover-art
+   *  slot showing the station's current-track art (iOS parity). Browse rows
+   *  don't. */
+  cover?: boolean;
+}
+
+function buildRow(
+  station: Station,
+  currentId: string,
+  state: NowPlaying['state'],
+  favs: Set<string>,
+  opts: RowOptions = {},
+): HTMLDivElement {
   const isCurrent = !!currentId && station.id === currentId;
   const isPaused = isCurrent && state !== 'playing';
   const isFav = favs.has(station.id);
@@ -717,7 +726,17 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   });
   right.append(eq, addList, heart);
 
-  row.append(fav, info, right);
+  // Library feeds get a trailing track-cover slot, painted now if the poll
+  // already has art for this station and refreshed in place as cycles land.
+  if (opts.cover) {
+    const cover = document.createElement('span');
+    cover.className = 'row-cover';
+    const entry = favCovers.get(station.id);
+    if (entry) setRowCover(cover, entry.coverUrl);
+    row.append(fav, info, cover, right);
+  } else {
+    row.append(fav, info, right);
+  }
 
   row.addEventListener('click', () => onRowPlay(station));
   row.addEventListener('keydown', (e) => {
@@ -728,6 +747,45 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   });
 
   return row;
+}
+
+/** Fill a row's cover slot with a track-art image. Idempotent (no-op when the
+ *  URL is unchanged). A broken/blocked cover removes itself so the slot
+ *  collapses back to the station-logo-only layout. */
+function setRowCover(slot: HTMLElement, url: string): void {
+  let img = slot.querySelector('img');
+  if (img && img.getAttribute('src') === url) return;
+  if (!img) {
+    img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    img.addEventListener('error', () => {
+      slot.classList.remove('has-cover');
+      img?.remove();
+    });
+    slot.appendChild(img);
+  }
+  img.src = url;
+  slot.classList.add('has-cover');
+}
+
+/** Repaint every visible cover slot from the store. Called when a poll cycle
+ *  lands new art — patches the DOM in place (no re-render, no scroll loss). */
+function paintFavCovers(): void {
+  for (const slot of document.querySelectorAll<HTMLElement>('.row-cover')) {
+    const id = slot.closest<HTMLElement>('.row')?.dataset.id;
+    if (!id) continue;
+    const entry = favCovers.get(id);
+    if (entry) setRowCover(slot, entry.coverUrl);
+  }
+}
+
+/** Point the cover poll at the rows a library feed just rendered. */
+function armFavCovers(stations: Station[]): void {
+  favCovers.setVisibleStations(stations);
+  favCovers.start();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -816,10 +874,10 @@ function renderTopBar(): void {
   // Search is available on the list tabs. Genre filter is Browse-only.
   // The Playing tab keeps the topbar quiet (no search/genre input —
   // they don't apply to a single-station view).
-  const isPlaying = activeTab === 'playing';
-  // Filters apply to Browse only; the funnel hides elsewhere. Settings
-  // gear stays. (The filter controls live in #filter-sheet.)
-  $filterBtn.hidden = isPlaying || activeTab !== 'browse';
+  // Filters apply to Browse only, but the top nav is stable chrome: rather
+  // than removing the funnel off-Browse (which would reflow the centred
+  // nav+search group), keep its slot and just hide it visually.
+  $filterBtn.classList.toggle('slot-hidden', activeTab !== 'browse');
   $search.placeholder =
     activeTab === 'fav'
       ? 'Search your favorites…'
@@ -1579,44 +1637,11 @@ function renderGlobe(stations: Station[]): HTMLElement {
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
 // fetch once per page load and remember the value for re-renders.
-let siteVisitCount: string | undefined;
-let siteVisitFetched = false;
-async function loadSiteVisits(): Promise<void> {
-  if (siteVisitFetched) return;
-  siteVisitFetched = true;
-  try {
-    const res = await fetch('https://markussteinbrecher.goatcounter.com/counter/TOTAL.json');
-    if (!res.ok) return;
-    const data = (await res.json()) as { count?: string };
-    if (typeof data.count === 'string') {
-      siteVisitCount = data.count;
-      // Re-render Browse so any visible counter picks up the count.
-      if (activeTab === 'browse') renderContent();
-    }
-  } catch {
-    /* silent: optional decoration */
-  }
-}
-
-function siteCounter(): HTMLDivElement | null {
-  if (!siteVisitCount) return null;
-  const wrap = document.createElement('div');
-  wrap.className = 'site-counter';
-  const num = document.createElement('span');
-  num.className = 'site-counter__num';
-  num.textContent = siteVisitCount;
-  const label = document.createElement('span');
-  label.className = 'site-counter__label';
-  label.textContent = 'visits served';
-  wrap.append(num, label);
-  return wrap;
-}
-
-
-function renderRows(stations: Station[]): DocumentFragment {
+function renderRows(stations: Station[], opts: RowOptions = {}): DocumentFragment {
   const frag = document.createDocumentFragment();
   const favs = favIdSet();
-  for (const s of stations) frag.append(buildRow(s, currentNP.station.id, currentNP.state, favs));
+  for (const s of stations)
+    frag.append(buildRow(s, currentNP.station.id, currentNP.state, favs, opts));
   return frag;
 }
 
@@ -1625,10 +1650,10 @@ function renderRows(stations: Station[]): DocumentFragment {
  *  `<div>` on mobile (rows stack exactly as before). Favorites/Recents
  *  intentionally do NOT use this — their drag-reorder assumes a single
  *  vertical column of direct `.row` children. */
-function rowsGrid(stations: Station[]): HTMLDivElement {
+function rowsGrid(stations: Station[], opts: RowOptions = {}): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'rows';
-  wrap.append(renderRows(stations));
+  wrap.append(renderRows(stations, opts));
   return wrap;
 }
 
@@ -1863,10 +1888,25 @@ function discoverySection(title: string): HTMLDivElement {
   return h;
 }
 
-function discoveryChip(label: string, count: number, onPick: () => void): HTMLButtonElement {
+function discoveryChip(
+  label: string,
+  count: number,
+  onPick: () => void,
+  flag?: string,
+): HTMLButtonElement {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'disc-chip';
+  // Country chips lead with a flag glyph (iOS DiscoveryChip parity); genre
+  // chips pass none. Decorative — the country name carries the label, so
+  // the flag is aria-hidden and the aria-label stays "{name}, N stations".
+  if (flag) {
+    const f = document.createElement('span');
+    f.className = 'disc-chip__flag';
+    f.textContent = flag;
+    f.setAttribute('aria-hidden', 'true');
+    btn.append(f);
+  }
   const name = document.createElement('span');
   name.className = 'disc-chip__name';
   name.textContent = label;
@@ -1961,7 +2001,8 @@ function renderDiscovery(): void {
     $content.append(discoverySection('Browse by country'));
     const row = document.createElement('div');
     row.className = 'disc-chips';
-    for (const c of cChips) row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id)));
+    for (const c of cChips)
+      row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id), flagEmoji(c.id)));
     enableWheelScroll(row);
     $content.append(row);
   }
@@ -2112,6 +2153,9 @@ function renderContent(): void {
   $content.replaceChildren();
   // Recomputed below per view; a full re-render invalidates the prior loader.
   pendingLoadMore = null;
+  // Stop the cover poll by default; the library feeds (Favorites / Lists /
+  // Recents) re-arm it with their visible rows via armFavCovers() below.
+  favCovers.stop();
 
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
@@ -2148,8 +2192,6 @@ function renderContent(): void {
     // search) drops into the result list with a back-to-discovery row.
     if (onDiscovery) {
       renderDiscovery();
-      const counter = siteCounter();
-      if (counter) $content.append(counter);
       return;
     }
     if (!mapView) $content.append(backToDiscoveryBar());
@@ -2239,8 +2281,6 @@ function renderContent(): void {
         }
       }
 
-      const counter = siteCounter();
-      if (counter) $content.append(counter);
       maybeAutoFill();
       return;
     }
@@ -2276,8 +2316,6 @@ function renderContent(): void {
     } else if (myFiltered.length === 0) {
       $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
-    const counter = siteCounter();
-    if (counter) $content.append(counter);
     maybeAutoFill();
     return;
   }
@@ -2310,8 +2348,9 @@ function renderContent(): void {
       // Desktop lays favorites out as a card grid (iOS landscape tile view);
       // mobile keeps the single-column list. rowsGrid wraps in `.rows`, which
       // is a plain vertical stack on mobile and a card grid at ≥1024px.
-      const grid = rowsGrid(list);
+      const grid = rowsGrid(list, { cover: true });
       $content.append(grid);
+      armFavCovers(list);
       // Reorder is a mobile, single-column affair — the desktop card grid is
       // 2D, so the vertical drag math doesn't apply there. Unfiltered list
       // only (a search result's order doesn't map back to the stored order).
@@ -2342,7 +2381,8 @@ function renderContent(): void {
         emptyState(ICON_EMPTY, 'No matches', 'Nothing in your history matches that search'),
       );
     } else {
-      $content.append(renderRows(list));
+      $content.append(renderRows(list, { cover: true }));
+      armFavCovers(list);
     }
   }
 }
@@ -2717,7 +2757,8 @@ function renderListDetail(list: StationList, query: string): void {
     $content.append(emptyState(ICON_EMPTY, 'No matches', 'Nothing in this list matches that search'));
     return;
   }
-  $content.append(renderRows(stations));
+  $content.append(renderRows(stations, { cover: true }));
+  armFavCovers(stations);
 }
 
 // ── Add-to-list sheet ────────────────────────────────────────────────
@@ -3147,6 +3188,9 @@ function setTab(tab: Tab): void {
   renderTopBar();
   if (tab === 'browse') void runQuery();
   else if (tab !== 'playing') renderContent();
+  // The player destination skips renderContent, so stop the library cover
+  // poll here when leaving a feed for Now Playing.
+  else favCovers.stop();
 
   track(`tab/${tab}`);
 }
@@ -4076,6 +4120,11 @@ function applyNpClosed(closed: boolean): void {
 $npClose.addEventListener('click', () => applyNpClosed(true));
 
 $search.addEventListener('input', () => {
+  // Typing while the Now Playing destination is open jumps back to Browse:
+  // the results belong on a list, so we leave NP (which reveals the
+  // mini-player) and let Browse run the query. setTab('browse') re-runs
+  // runQuery itself, so the debounced handler below just refreshes it.
+  if (activeTab === 'playing' && $search.value.trim()) setTab('browse');
   syncSearchClear();
   // A live query suppresses the alphabet sort (relevance order wins).
   syncSort();
@@ -4599,10 +4648,15 @@ $wakeArmBtn.addEventListener('click', () => {
   syncWakeArmButton();
 });
 
-$miniOpen.addEventListener('click', () => {
-  // The mini's logo/text/album block is the bridge to the Now Playing
-  // destination on every breakpoint (tap to expand — iOS parity). The
-  // transport + volume controls are siblings, so they don't trigger this.
+// Tapping anywhere on the mini-player bar opens the Now Playing destination
+// (iOS parity) — except the transport + volume controls, which keep their own
+// behavior. prev/toggle/skip already stop propagation; the closest() guard
+// also covers the volume slider. The #mini-open button bubbles here too, so a
+// keyboard Enter on it still expands to Now Playing.
+$mini.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('.mini-prev, .mini-toggle, .mini-skip, .mini-volume')) {
+    return;
+  }
   openNp(true);
 });
 
@@ -4975,7 +5029,6 @@ void fetchUserRegion().then(() => {
   }
 }
 void runQuery();
-void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
 restoreWakeOnBoot();

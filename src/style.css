@@ -373,6 +373,7 @@ html.theme-switching *::after {
   }
   .topnav > .wordmark { order: 1; }
   .topnav > .toolbar { order: 2; margin-left: auto; }
+  .topnav > .topnav-gear { order: 2; }
   .topnav > .search-wrap { order: 3; flex-basis: 100%; }
 }
 .toolbar-btn {
@@ -997,6 +998,29 @@ a.settings-row { text-decoration: none; }
   flex-shrink: 0;
 }
 
+/* Library-feed track cover (Favorites / Lists / Recents): the station's
+   current-track art, painted in place by the cover poll. Empty until art
+   lands — and stream-only stations never get any — so it collapses to
+   nothing and the row keeps its station-logo-only layout. */
+.row-cover {
+  display: none;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.row-cover.has-cover {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.row-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .row .eq { display: none; }
 .row.is-playing .eq { display: inline-flex; }
 
@@ -1510,11 +1534,12 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   height: 1px;
   background: var(--ink);
 }
-/* Topbar is quiet on Now Playing — search doesn't apply to a
-   single-station view. Wordmark + signal-meta + add-btn stay.
-   The Now Playing pane is reached via the mini-player; there is no
-   dedicated tab for it any more. */
-body.tab-playing .search-wrap { display: none; }
+/* The top nav is stable chrome — it stays identical on every destination,
+   including Now Playing. The search field is always present (typing on the
+   NP destination jumps back to Browse with results); only the funnel
+   reserves-but-hides its slot off the Browse tab (.slot-hidden) so the
+   centred group never reflows between tabs. */
+.toolbar-btn.slot-hidden { visibility: hidden; pointer-events: none; }
 
 /* ─── Now Playing screen ───
    Lives inside .stage as an overlay layer over .content. Its
@@ -2802,31 +2827,6 @@ body.is-playing .np-bottom .live-dot  {
   color: var(--ink-3);
 }
 
-/* ─── Site visit counter (Browse footer) ─── */
-.site-counter {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-  padding: 32px 24px 24px;
-  color: var(--ink-4);
-  user-select: none;
-}
-.site-counter__num {
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-4);
-}
-.site-counter__label {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-}
-
 /* ─── Add Station sheet ─── */
 .sheet {
   position: absolute;
@@ -3637,7 +3637,20 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     display: flex;
     flex: 0 0 auto;
     gap: 2px;
+    /* Centre the nav + search + actions as one group between the
+       left-pinned wordmark and the right edge. Auto margins on the outer
+       edges of the group (nav's left, toolbar's right) split the free
+       space evenly, so the group sits in the middle of the bar. */
+    margin-left: auto;
+    /* Decent gap between the nav and the search (on top of the 16px row gap). */
+    margin-right: 16px;
   }
+  /* Search is capped (no longer fills the row); it sits between the nav and
+     the funnel/gear toolbar. */
+  .topnav > .search-wrap { flex: 0 1 360px; }
+  /* The funnel sits right next to the search field; the toolbar's right
+     auto-margin balances the wordmark's left slack to keep the group centred. */
+  .topnav > .toolbar { margin-right: auto; }
   .topnav-nav .tab-btn {
     flex: none;
     flex-direction: row;
@@ -3727,11 +3740,11 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      heart top-right, name + tags below, on a bordered bg-2 card. */
   .rows .row {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     grid-template-rows: auto 1fr;
     grid-template-areas:
-      'logo .    aside'
-      'info info info';
+      'logo .    cover aside'
+      'info info info  info';
     align-content: start;
     gap: 10px 8px;
     padding: 12px;
@@ -3743,6 +3756,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .rows .row > .fav { grid-area: logo; }
   .rows .row > .row-info { grid-area: info; align-self: start; }
   .rows .row > .row-right { grid-area: aside; align-self: start; }
+  /* On the desktop card the track cover is a larger, prominent tile next to
+     the trailing controls (it stays collapsed until art lands). */
+  .rows .row > .row-cover { grid-area: cover; align-self: start; }
+  .rows .row > .row-cover.has-cover { width: 48px; height: 48px; border-radius: 6px; }
   .rows .row:hover { border-color: var(--line-2); background: var(--bg-3); }
   /* The card uses an accent border for the playing state, not the
      list's left edge-bar (which would poke out of the rounded corner). */
@@ -3794,6 +3811,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   transition: background 0.14s, border-color 0.14s;
 }
 .disc-chip__name { white-space: nowrap; }
+/* Country-chip flag glyph — a touch larger than the label, like the iOS
+   18pt flag against the 15pt chip label. The chip's own 8px gap spaces it
+   from the name. */
+.disc-chip__flag { font-size: 15px; line-height: 1; }
 .disc-chip:hover { background: var(--bg-3); }
 .disc-chip__count {
   font-family: var(--mono);
