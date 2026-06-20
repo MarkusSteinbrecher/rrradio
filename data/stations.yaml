@@ -15724,8 +15724,11 @@
   country: IL
   status: stream-only
 - id: il-glglz
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/GLGLZ.svg/250px-GLGLZ.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e2/GLGLZ.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:GLGLZ.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   stationuuid: 29cd4b62-14e2-11e9-a80b-52543be04c81
   changeuuid: 955193c2-bed7-47ee-9c9d-de9e0dafdf47
   reviewedAt: 2026-04-30
@@ -15744,8 +15747,11 @@
   country: IL
   status: stream-only
 - id: il-galei-zahal
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/GaltzLogo.svg/120px-GaltzLogo.svg.png"
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/3/30/GaltzLogo.svg"
   faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:GaltzLogo.svg"
+  faviconSourceType: cdn
+  faviconLicense: cc-by-sa-3.0
   stationuuid: 962326cb-0601-11e8-ae97-52543be04c81
   changeuuid: a5ef4549-ed99-4fde-8219-7110a12642e7
   reviewedAt: 2026-04-30
@@ -15829,8 +15835,11 @@
   country: IL
   status: stream-only
 - id: il-a-shams
-  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ashams_radio.png/250px-Ashams_radio.png"
-  faviconSource: wiki
+  favicon: "https://ashams.com/assets/images/Ashams.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ashams.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   stationuuid: 3b20727f-de34-40b3-84ba-f7ba1ed9821b
   changeuuid: 8474ecc8-9800-4e6f-a74f-e40a56a8d0c2
   reviewedAt: 2026-04-30
@@ -273493,8 +273502,11 @@
   bitrate: 128
   codec: MP3
   tags: [pop]
-  favicon: "https://dyjvnjd6yl5jx.cloudfront.net/wp-content/uploads/2020/11/d0bbd0bed0b3d0be-d0bdd0bed0b2d18bd0b9-d0bcd0b0d0bbd18bd0b9.png"
-  faviconSource: radio-browser
+  favicon: "https://dyjvnjd6yl5jx.cloudfront.net/wp-content/uploads/2020/06/cropped-logo_89_1-copy-270x270.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.891fm.co.il/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.891fm.co.il/"
   country: IL
   geo: [0, 0]
@@ -277366,6 +277378,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-galgalatz-91-8-fm
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e2/GLGLZ.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:GLGLZ.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: Galgalatz 91.8 FM
@@ -290702,8 +290719,11 @@
   bitrate: 128
   codec: AAC
   tags: [israel, orthodox, דתי]
-  favicon: "https://kcm.fm/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://kcm.fm/static/images/favicon.svg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kcm.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://kcm.fm/"
   country: IL
   geo: [0, 0]
@@ -291060,6 +291080,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-israeli-voice-radio
+  favicon: "https://israelivoiceradio.co.il/wp-content/uploads/2025/01/ivr-logo-2025.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://israelivoiceradio.co.il/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Israeli voice radio
@@ -297841,8 +297866,11 @@
   streamUrl: "https://cdn.cybercdn.live/Radios_100FM/Audio/icecast.audio"
   bitrate: 128
   codec: MP3
-  favicon: "https://d20x387xvo6jlt.cloudfront.net/wp-content/uploads/2020/12/SmallLogo.png"
-  faviconSource: radio-browser
+  favicon: "https://d20x387xvo6jlt.cloudfront.net/wp-content/uploads/2021/04/30Logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.100fm.co.il/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.100fm.co.il/"
   country: IL
   geo: [32.107, 34.9711]
@@ -298224,6 +298252,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-radio-100-90s
+  favicon: "https://digital.100fm.co.il/app/thumbnails/t-90s.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://digital.100fm.co.il/app/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Radio 100% 90s"
@@ -310487,8 +310520,11 @@
   bitrate: 48
   codec: AAC
   tags: [indy, metal, post punk, punk, rock]
-  favicon: "https://zerockradio.com/favicon.ico"
-  faviconSource: radio-browser
+  favicon: "https://zerockradio.com/wp-content/uploads/2020/11/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://zerockradio.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://zerockradio.com/"
   country: IL
   geo: [32.9656, 35.1215]
@@ -313022,8 +313058,11 @@
   bitrate: 128
   codec: AAC
   tags: [international]
-  favicon: "https://www.radionahariya.com/assets/icons/apple-touch-icon.png"
-  faviconSource: radio-browser
+  favicon: "https://www.radionahariya.com/assets/icons/icon-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radionahariya.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radionahariya.com/"
   country: IL
   geo: [0, 0]
@@ -314876,8 +314915,11 @@
   bitrate: 64
   codec: AAC+
   tags: [music, news]
-  favicon: "https://static.rlive.co.il/storage/uploads/stations/zdB75EspkE93lzmOQQDmaI8tmOGtVzW2xzsuaqdU.jpg"
-  faviconSource: radio-browser
+  favicon: "https://cdn.rlive.co.il/K27CMC95ASXHDGYHYVV4PTZGH.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.rlive.co.il/station/101fm"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.rlive.co.il/station/101fm"
   country: IL
   geo: [0, 0]
@@ -318412,6 +318454,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-radio-haifa
+  favicon: "https://1075.fm/wp-content/uploads/2025/03/2025-03-09_00-45-15_252276.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://1075.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Haifa רדיו חיפה
@@ -326938,6 +326985,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-kzradio
+  favicon: "https://kzradio.net/wp-content/uploads/2018/11/kzlogo.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://kzradio.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: kzradio
@@ -328193,6 +328245,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-88-fm
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Kan88.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Kan88.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: 88 FM
@@ -329889,6 +329946,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-kan-tarbut
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/ed/KanTarbutNewLogo.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:KanTarbutNewLogo.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: Kan Tarbut
@@ -337061,8 +337123,11 @@
   bitrate: 128
   codec: MP3
   tags: [music, news]
-  favicon: "https://static.rlive.co.il/storage/uploads/stations/idOPKeykio01mD3JccdAJwveMAqfDOGsKgiJ43SN.jpeg"
-  faviconSource: radio-browser
+  favicon: "https://1045fm.maariv.co.il/images/favicon.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://1045fm.maariv.co.il/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://1045fm.maariv.co.il/"
   country: IL
   geo: [0, 0]
@@ -340083,6 +340148,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-galgalatz
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e2/GLGLZ.svg"
+  faviconSource: wiki
+  faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:GLGLZ.svg"
+  faviconSourceType: cdn
+  faviconLicense: public-domain
   source: radio-browser
   broadcaster: independent
   name: Galgalatz
@@ -340349,8 +340419,11 @@
   bitrate: 64
   codec: AAC+
   tags: [music, news]
-  favicon: "https://odsv.org/wp-content/uploads/2020/03/%D7%A8%D7%93%D7%99%D7%95-%D7%93%D7%A8%D7%95%D7%9D-1.png"
-  faviconSource: radio-browser
+  favicon: "https://www.radiodarom.co.il/static/images/webclip.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiodarom.co.il/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.radiodarom.co.il/"
   country: IL
   geo: [0, 0]
@@ -340434,8 +340507,11 @@
   streamUrl: "https://www.radioking.com/play/radio-qualita"
   bitrate: 128
   codec: MP3
-  favicon: "https://static.wixstatic.com/media/9faaae_a396c0df8aa54320bd31c04ddaab6b3c~mv2.png/v1/fill/w_426,h_160,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9faaae_a396c0df8aa54320bd31c04ddaab6b3c~mv2.png"
-  faviconSource: radio-browser
+  favicon: "https://studioj.media-j.com/web-app-manifest-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://studioj.media-j.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.studioqualita.com/"
   country: IL
   geo: [0, 0]
@@ -341054,6 +341130,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: il-ivri-6
+  favicon: "https://ivri6.net/img/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://ivri6.net/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Ivri 6
@@ -342501,8 +342582,11 @@
   bitrate: 128
   codec: MP3
   tags: [music]
-  favicon: "https://static.rlive.co.il/storage/uploads/stations/Dr2O6e5OlDz4uDa6ZjR8iZs3ss4AMnivNBOz5Suw.png"
-  faviconSource: radio-browser
+  favicon: "https://mizrahit.fm/wp-content/uploads/2019/04/logo.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://mizrahit.fm/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://mizrahit.fm/"
   country: IL
   geo: [0, 0]
@@ -348448,6 +348532,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: il-audioversity
+  favicon: "https://1062fm.co.il/wp-content/uploads/cropped-Favicon-PNG-512x512-1.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://1062fm.co.il/en/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: AudioVersity
@@ -355921,8 +356010,11 @@
   streamUrl: "https://online.star33radio.com:1115/stream"
   bitrate: 320
   codec: MP3
-  favicon: "https://drive.google.com/file/d/1jrJxOLRQU3ffbWUt0NNNi9LRlpKYUBF2/view?usp=drive_link"
-  faviconSource: radio-browser
+  favicon: "https://online.star33radio.com:1030/media/servers/Star_33_Round_transp.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://online.star33radio.com:1030/api/servers/1/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://online.star33radio.com/"
   country: IL
   geo: [0, 0]
