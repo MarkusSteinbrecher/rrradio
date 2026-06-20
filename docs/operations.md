@@ -620,6 +620,19 @@ rrradio-ios/*.svg            — local logo assets
 
 The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The phone mockups currently use static placeholders; replace those with real app screenshots once the App Store page assets are ready.
 
+## Universal Links handoff (`apple-app-site-association`)
+
+`public/.well-known/apple-app-site-association` makes iOS hand off `https://rrradio.org/?play=<id>` / `?list=<id>` links to the installed app (issue #563; iOS entitlement in rrradio-ios #25). Vite copies the file verbatim into `dist/`, so GitHub Pages serves it at the apex. `src/aasa.test.ts` locks its shape (app ID, the `play`/`list` query constraints) so an edit that would break the handoff fails CI.
+
+The `?` query constraints are deliberate: only links carrying `play` or `list` hand off; a plain `https://rrradio.org/` stays in the browser, so the homepage / web player isn't hijacked.
+
+Serving gotchas (Apple is strict, and a future change could silently break this):
+
+- **Content-Type:** GitHub Pages serves the extensionless file as `application/octet-stream`, **not** `application/json`. That's fine — since iOS 14 the device fetches the file via Apple's CDN (`https://app-site-association.cdn-apple.com/a/v1/rrradio.org`), which ingests the octet-stream origin and re-serves it as `application/json`. GitHub Pages can't set custom headers (no `_headers` support), so don't chase the content-type — verify via Apple's CDN copy instead.
+- **No redirects, no rewrites** on `/.well-known/*`. The site is multi-page (real 404s, no SPA catch-all), so unknown paths aren't rewritten to `index.html` today. If you ever add a catch-all/SPA fallback or move hosting, exempt `/.well-known/` or the handoff dies silently.
+- **No `.json` extension, no signing** — modern AASA is raw JSON.
+- Universal Links only fire from a *tapped* link (Messages, Mail, Safari long-press → Open), never from typing the URL into Safari's address bar.
+
 ## Admin dashboard
 
 Private page that surfaces GoatCounter stats in our visual style. Lives at `https://<host>/rrradio/dashboard.html`. Source files:
