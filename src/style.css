@@ -3481,36 +3481,31 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      segmented control supplies its own spacing when it's visible. */
   .topbar { padding: 0 24px; }
 
-  /* Centre list + docked Now Playing, side by side. */
-  .stage {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
-    grid-template-rows: minmax(0, 1fr);
-  }
-  .content {
-    position: static;
-    inset: auto;
-    min-height: 0;
-    grid-column: 1;
-  }
-  .np {
-    /* relative (not static) so the absolutely-positioned corner toggles
-       — collapse-browse (top-left) and close (top-right) — anchor to the
-       docked pane at every desktop width. */
-    position: relative;
-    inset: auto;
-    grid-column: 2;
-    transform: none !important;
-    border-left: 1px solid var(--line);
-    z-index: auto;
-  }
-  .np-back { display: none; }
-
-  /* Mini-player + bottom tab bar are redundant when NP is always docked
-     and the nav lives in the sidebar — except when the player is closed,
-     where the mini becomes the transport + tap-to-reopen affordance. */
-  body:not(.np-closed) .mini { display: none !important; }
+  /* Now Playing is a full-area destination (the 'playing' tab), not a
+     docked column. .stage / .content / .np keep their base overlay rules:
+     .content fills the stage; .np slides over it when .np.open. Browse and
+     NP never share the width — the mini-player bridges them, and the
+     sidebar (outside .stage) stays visible on both. The back chevron
+     (.np-back) is the "leave NP" affordance on desktop too. */
   .tabbar { display: none; }
+  /* The mini bridges to the NP destination; it shows whenever a station is
+     playing and you're not already on NP (base rule hides it on
+     .tab-playing). No desktop dock means no desktop-specific hiding. */
+
+  /* Single-column NP (album only, or album + tabbed pane below 1400px) on a
+     wide screen: cap and centre the body so it doesn't hug the left with a
+     sea of empty space, and centre its content under the centred station
+     header. The ≥1400px 2-/3-column grids fill the width on their own, so
+     this only applies when neither is active. */
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body {
+    max-width: 760px;
+    margin-inline: auto;
+    width: 100%;
+    align-items: center;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-pane-tabs {
+    justify-content: center;
+  }
 
   /* Browse/Discovery results as a responsive card grid. */
   .rows {
@@ -3544,19 +3539,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      list's left edge-bar (which would poke out of the rounded corner). */
   .rows .row.is-playing { border-color: var(--accent); background: var(--bg-2); }
   .rows .row.is-playing::before { display: none; }
-
-  /* Now Playing docks only while something is playing; otherwise the
-     centre list takes the full width (no idle placeholder column). */
-  body:not(.has-station) .np { display: none; }
-  body:not(.has-station) .stage { grid-template-columns: minmax(0, 1fr); }
-
-  /* Closing the player hands the full width to browse; audio keeps
-     playing via the mini-player (un-hidden above). The close affordance
-     lives in the docked pane's top-right corner, so it's only shown while
-     the pane is still open. */
-  body.has-station:not(.np-closed) .np-close { display: grid; }
-  body.has-station.np-closed .np { display: none; }
-  body.has-station.np-closed .stage { grid-template-columns: minmax(0, 1fr); }
 
   /* ── Collapsible sidebar ── */
   .sidebar-collapse {
@@ -3787,43 +3769,31 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 /* ─────────────────────────────────────────────────────────────
    Wide desktop: in-window multi-column Now Playing (#521)
    ─────────────────────────────────────────────────────────────
-   At ≥1400px while a station is docked the Now Playing pane widens and
-   lays its content panes side by side instead of tab-switching. Two
-   modes, chosen by the browse-collapsed state:
+   At ≥1400px the full-area Now Playing destination lays its panes side by
+   side instead of tab-switching. The column count tracks available
+   content (npLayoutMode):
 
-   · Browse visible (default) — 2 player columns: Album + one of
-     Schedule / Lyrics (the pane-tab strip switches between them).
-     Window reads:  Browse │ Album │ Schedule-or-Lyrics.
-   · Browse collapsed (the chevron in the NP corner) — the browse list
-     hides and the player expands to 3 columns, all visible.
-     Window reads:  Album │ Schedule │ Lyrics.
+   · Album + one of Schedule / Lyrics  → 2 columns.
+   · Album + Schedule + Lyrics         → 3 columns.
 
    The station header spans the top of the NP pane; the transport bar
-   spans the bottom (it's a sibling of .np-body). Below 1400px we fall
-   back to the docked tabbed NP (mobile unchanged). Gated on
+   spans the bottom (it's a sibling of .np-body). Below 1400px NP falls
+   back to the tabbed single-pane layout (mobile unchanged). Gated on
    body.has-station and :not(.is-wake-edit) (the wake editor keeps its
    single-pane layout). The .np-twocol / .np-threecol body classes are
-   set by syncNpTabs() from the viewport + browse-collapsed state. */
+   set by syncNpTabs() from the viewport + available panes. */
 @media (min-width: 1400px) {
-  /* Corner toggle to collapse/expand the browse list (hidden until a
-     station docks; np-back is its mobile-only counterpart). */
-  body.has-station .np-collapse-browse { display: grid; }
-
-  /* ── Browse visible: 2 player columns (Album + Schedule/Lyrics) ── */
-  /* :not(.np-closed) so a closed player drops back to full-width browse
-     (otherwise this would leave an empty second column where .np was). */
-  body.has-station:not(.browse-collapsed):not(.np-closed) .stage {
-    grid-template-columns: minmax(0, 1fr) minmax(520px, 1.3fr);
-  }
+  /* ── Album + switchable Schedule/Lyrics: the golden split ──
+     Album left, secondary pane right, ~38.2% / 61.8% (1 : 1.618). */
   body.np-twocol:not(.is-wake-edit) .np-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(240px, 0.618fr) minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
       'station station'
       'album   sectabs'
       'album   secpane';
-    column-gap: 22px;
+    column-gap: 30px;
   }
   /* The strip is the Schedule/Lyrics switcher here; left-align it. */
   body.np-twocol .np-pane-tabs {
@@ -3838,12 +3808,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-twocol #np-secondary-empty { grid-area: secpane; }
   body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
 
-  /* ── Browse collapsed: 3 player columns, list hidden, NP full width ── */
-  /* :not(.np-closed) so closing the player while browse is collapsed still
-     reveals browse (else both .np and .content would be hidden → blank). */
-  body.has-station.browse-collapsed:not(.np-closed) .content { display: none; }
-  body.has-station.browse-collapsed .stage { grid-template-columns: minmax(0, 1fr); }
-  body.has-station.browse-collapsed .np { grid-column: 1; }
+  /* ── Album + Schedule + Lyrics: 3 columns ── */
   body.np-threecol:not(.is-wake-edit) .np-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3864,8 +3829,6 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-threecol .np-col-head { display: block; }
 
   /* ── Shared (both wide modes) ── */
-  /* (.np is position:relative from the ≥1024px block — its corner
-     toggles anchor there.) */
   body.has-station .np-station { grid-area: station; }
   body.has-station .np-track { grid-area: album; align-self: start; }
   body.has-station .np-track .np-track__cover-wrap { max-width: 200px; }

@@ -1108,7 +1108,15 @@ const wideNpMq = matchMedia('(min-width: 1400px)');
 type NpLayout = 'narrow' | 'twocol' | 'threecol';
 function npLayoutMode(): NpLayout {
   if (!wideNpMq.matches || !currentNP.station.id) return 'narrow';
-  return $body.classList.contains('browse-collapsed') ? 'threecol' : 'twocol';
+  // The wide NP is the golden split — album on the left, a switchable
+  // Schedule/Lyrics column on the right (the pane-tab strip toggles which) —
+  // whenever there's at least one secondary pane to show. Album-only
+  // stations stay single-column (centred). 3-column (all panes at once) is
+  // no longer auto-selected; the switchable 2-column split is the default.
+  const hasProgram = !!(npSchedule && npSchedule.length > 0);
+  const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
+  if (hasProgram || hasLyrics) return 'twocol';
+  return 'narrow';
 }
 
 /** Synchronise the Now Playing tab pills + pane visibility with the
@@ -2953,8 +2961,10 @@ function onRowPlay(station: Station): void {
   track(`play: ${station.name}`);
   // Keep the Recents sub-view and the Library home's Recents count fresh.
   if (activeTab === 'recent' || activeTab === 'library') renderContent();
-  // Open Now Playing on first play of this station
-  openNp(true);
+  // On desktop, playing keeps you on the list and pops the mini-player —
+  // Now Playing opens on demand (tap the mini). On mobile the small screen
+  // makes NP the focus, so jump straight there.
+  if (!isDesktop()) openNp(true);
   // Reflect the active station in the URL so the user can copy it /
   // refresh / share. Only built-in stations get a pre-rendered
   // /station/<id>/ page; for custom + RB rows we leave the URL alone.
@@ -3065,9 +3075,12 @@ function setTab(tab: Tab): void {
   activeTab = tab;
   $body.classList.toggle('tab-playing', tab === 'playing');
   $np.classList.toggle('open', tab === 'playing');
-  // On desktop the NP pane is permanently docked and visible, so it must
-  // stay in the a11y tree regardless of which list tab is active.
-  $np.setAttribute('aria-hidden', String(!isDesktop() && tab !== 'playing'));
+  // NP is only present (and in the a11y tree) when it's the active
+  // destination, on every breakpoint.
+  $np.setAttribute('aria-hidden', String(tab !== 'playing'));
+  // The wide album/schedule/lyrics column count depends on the breakpoint
+  // and available panes; re-sync when entering/leaving the destination.
+  syncNpTabs();
 
   renderTabBar();
   renderTopBar();
@@ -3088,24 +3101,21 @@ function isDesktop(): boolean {
 }
 
 function openNp(open: boolean): void {
-  if (isDesktop()) return;
+  // Now Playing is a full-area destination on every breakpoint (the
+  // 'playing' tab), bridged by the persistent mini-player. The desktop
+  // dock is gone — playing keeps you on the list, NP opens on demand.
   if (open) setTab('playing');
   else if (activeTab === 'playing') setTab(lastListTab);
 }
 
-/** Keep layout-mode-dependent state in sync with the breakpoint. On
- *  desktop the docked NP pane is always part of the page (aria-hidden
- *  false); on mobile its visibility follows the 'playing' tab. If the
- *  viewport grows while the 'playing' overlay is up, drop back to the
- *  underlying list so the centre pane shows the catalog and NP docks on
- *  the right. Called at boot and whenever the breakpoint is crossed. */
+/** Keep breakpoint-dependent state in sync. NP is a full-area destination
+ *  on every breakpoint now (the 'playing' tab), so its a11y visibility
+ *  just follows that tab. Crossing the wide breakpoint re-evaluates the
+ *  album/schedule/lyrics column count. Called at boot + on breakpoint
+ *  changes. */
 function syncLayoutMode(): void {
-  if (isDesktop()) {
-    $np.setAttribute('aria-hidden', 'false');
-    if (activeTab === 'playing') setTab(lastListTab);
-  } else {
-    $np.setAttribute('aria-hidden', String(activeTab !== 'playing'));
-  }
+  $np.setAttribute('aria-hidden', String(activeTab !== 'playing'));
+  syncNpTabs();
 }
 desktopMq.addEventListener('change', syncLayoutMode);
 
@@ -4541,10 +4551,9 @@ $wakeArmBtn.addEventListener('click', () => {
 });
 
 $mini.addEventListener('click', () => {
-  // On desktop the mini only surfaces when the player was closed; clicking
-  // it re-docks the full pane. On mobile it opens the Now Playing overlay.
-  if (isDesktop()) applyNpClosed(false);
-  else openNp(true);
+  // The mini is the bridge to the Now Playing destination on every
+  // breakpoint (tap anywhere to expand — iOS parity).
+  openNp(true);
 });
 
 const $npBack = document.getElementById('np-back') as HTMLButtonElement;
