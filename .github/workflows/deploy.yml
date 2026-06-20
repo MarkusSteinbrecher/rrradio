@@ -57,6 +57,12 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           path: dist
+          # upload-pages-artifact@v5 excludes dot-directories by default
+          # (`--exclude=.[^/]*`), which silently dropped
+          # dist/.well-known/apple-app-site-association from the deployed
+          # tarball — the file passed CI but 404'd live (issue #563).
+          # The only dotfile we build is .well-known, so include them.
+          include-hidden-files: true
       # Persist dist for the e2e job so we don't rebuild.
       - uses: actions/upload-artifact@v7
         with:
