@@ -69,6 +69,17 @@ export const NP_FRAGMENT = `
   <a id="np-home" href="#" hidden>
     <span id="np-home-host">—</span>
   </a>
+  <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
+    <div class="np-lyrics-head" id="np-lyrics-head" hidden>
+      <div id="np-lyrics-title"></div>
+      <div id="np-lyrics-artist" hidden></div>
+    </div>
+    <pre id="np-lyrics-text"></pre>
+    <a id="np-lyrics-source" href="#" hidden>
+      <span id="np-lyrics-source-text"></span>
+    </a>
+    <div id="np-lyrics-empty" hidden>No lyrics for the current track.</div>
+  </div>
   <button id="np-report-broken" hidden></button>
   <button id="np-fav"></button>
   <button id="np-play"></button>

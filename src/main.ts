@@ -104,7 +104,9 @@ import {
   renderMiniPlayer as renderMiniPlayerImpl,
 } from './render-mini';
 import {
+  type LyricsPaneRefs,
   type NowPlayingRefs,
+  renderLyricsPane as renderLyricsPaneImpl,
   renderNowPlaying as renderNowPlayingImpl,
 } from './render-np';
 import { faviconClass, stationInitials } from './station-display';
@@ -1199,39 +1201,21 @@ function syncNpTabs(): void {
 // Recompute the wide layout when the 1400px boundary is crossed.
 wideNpMq.addEventListener('change', syncNpTabs);
 
+// renderLyricsPane lives in ./render-np (refs-based). The local wrapper
+// closes over the production refs + the current lyrics/track state so the
+// rest of main.ts can call it with no args.
+const NP_LYRICS_REFS: LyricsPaneRefs = {
+  npLyricsText: $npLyricsText,
+  npLyricsEmpty: $npLyricsEmpty,
+  npLyricsHead: $npLyricsHead,
+  npLyricsTitle: $npLyricsTitle,
+  npLyricsArtist: $npLyricsArtist,
+  npLyricsSource: $npLyricsSource,
+  npLyricsSourceText: $npLyricsSourceText,
+};
+
 function renderLyricsPane(): void {
-  // Plain text wins if both are present — synced is a UX nice-to-have
-  // we can layer later (current-line highlight needs an estimate of
-  // elapsed-since-track-started, which live radio doesn't give us).
-  const text = npLyrics?.plain || npLyrics?.synced?.map((l) => l.text).join('\n') || '';
-  $npLyricsText.textContent = text;
-  // Empty-state line — only ever visible in the wide 4-column layout,
-  // where the lyrics column is shown even with nothing to display; in
-  // the narrow docked view the whole pane is hidden when there's no
-  // lyrics (the tab doesn't appear).
-  $npLyricsEmpty.hidden = text !== '';
-
-  // iOS-parity header: track title + artist, pinned above the body and
-  // shown only when there are lyrics to head. Track info comes from the
-  // live now-playing metadata (the same split the album pane uses).
-  const hasText = text !== '';
-  const title = currentNP.trackName?.trim() || currentNP.trackTitle?.trim() || '';
-  const artist = currentNP.trackArtist?.trim() ?? '';
-  $npLyricsTitle.textContent = title;
-  $npLyricsArtist.textContent = artist;
-  $npLyricsArtist.hidden = artist.length === 0;
-  $npLyricsHead.hidden = !hasText || title.length === 0;
-
-  // Source credit link (LRCLIB / Lyrics.ovh) — only when present.
-  const source = npLyrics?.source;
-  if (hasText && source) {
-    $npLyricsSource.href = source.url;
-    $npLyricsSourceText.textContent = `Lyrics via ${source.name}`;
-    $npLyricsSource.hidden = false;
-  } else {
-    $npLyricsSource.hidden = true;
-    $npLyricsSource.removeAttribute('href');
-  }
+  renderLyricsPaneImpl(NP_LYRICS_REFS, npLyrics, currentNP);
 }
 
 /** Populate the iOS-parity schedule header: the current show name +

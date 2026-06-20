@@ -13,6 +13,7 @@ import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
 import { npFormatText, npLiveText, npStatusText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
+import type { LyricsResult } from './lyrics';
 import type { NowPlaying, WakeTo } from './types';
 
 export interface NowPlayingRefs {
@@ -201,4 +202,58 @@ export function renderNowPlaying(
 
   refs.npReportBroken.hidden = !s.id || s.id === SILENT_BED_ID;
   refs.npReportBroken.disabled = !s.id || s.id === SILENT_BED_ID;
+}
+
+/** Elements the lyrics pane writes to. The pane's *visibility* (and the
+ *  Lyrics tab pill) is owned by main.ts's syncNpTabs — this render only
+ *  fills content, so it never touches `np-lyrics-pane`'s own `hidden`. */
+export interface LyricsPaneRefs {
+  npLyricsText: HTMLElement;
+  /** "No lyrics" line — only ever visible in the wide layout where the
+   *  lyrics column shows even with nothing to display. */
+  npLyricsEmpty: HTMLElement;
+  /** iOS-parity header wrapper (title + artist), pinned above the body. */
+  npLyricsHead: HTMLElement;
+  npLyricsTitle: HTMLElement;
+  npLyricsArtist: HTMLElement;
+  npLyricsSource: HTMLAnchorElement;
+  npLyricsSourceText: HTMLElement;
+}
+
+/** Render the Now Playing lyrics pane (iOS parity). Plain text wins over
+ *  synced — current-line highlighting needs an elapsed-since-track-start
+ *  estimate live radio can't give us, so synced lines are flattened. The
+ *  header + source-credit link only surface when there's actual text;
+ *  with no lyrics the pane collapses to the empty-state line (the Lyrics
+ *  tab itself is hidden upstream, so that line only shows in the wide
+ *  layout's always-on lyrics column). */
+export function renderLyricsPane(
+  refs: LyricsPaneRefs,
+  lyrics: LyricsResult | null | undefined,
+  track: Pick<NowPlaying, 'trackName' | 'trackTitle' | 'trackArtist'>,
+): void {
+  const text = lyrics?.plain || lyrics?.synced?.map((l) => l.text).join('\n') || '';
+  refs.npLyricsText.textContent = text;
+  const hasText = text !== '';
+  refs.npLyricsEmpty.hidden = hasText;
+
+  // Header track info comes from the live now-playing metadata — the same
+  // song/artist split the album pane uses.
+  const title = track.trackName?.trim() || track.trackTitle?.trim() || '';
+  const artist = track.trackArtist?.trim() ?? '';
+  refs.npLyricsTitle.textContent = title;
+  refs.npLyricsArtist.textContent = artist;
+  refs.npLyricsArtist.hidden = artist.length === 0;
+  refs.npLyricsHead.hidden = !hasText || title.length === 0;
+
+  // Source credit (LRCLIB / Lyrics.ovh) — only when we actually rendered text.
+  const source = lyrics?.source;
+  if (hasText && source) {
+    refs.npLyricsSource.href = source.url;
+    refs.npLyricsSourceText.textContent = `Lyrics via ${source.name}`;
+    refs.npLyricsSource.hidden = false;
+  } else {
+    refs.npLyricsSource.hidden = true;
+    refs.npLyricsSource.removeAttribute('href');
+  }
 }
