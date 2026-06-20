@@ -298634,8 +298634,11 @@
   bitrate: 304
   codec: AAC
   tags: [news, public radio, sveriges radio]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/4540/688b8291-4a77-489a-8223-0d496cbd0ff5.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/programs/4540?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/"
   country: SE
   geo: [0, 0]
@@ -333057,8 +333060,11 @@
   streamUrl: "https://live1.sr.se/p4vast-mp3-96"
   bitrate: 114
   codec: MP3
-  favicon: "https://www.sverigesradio.se/default.aspx?programid=125"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/219/fa5d5715-6a75-48f9-82ac-19a2d1617685.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels/219?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://www.sverigesradio.se/vast"
   country: SE
   geo: [0, 0]
@@ -333693,6 +333699,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-radio-88-partille-golden-hits
+  favicon: "https://radio88.se/wp-content/uploads/2021/02/Radio88-GoldenHits-1200x630-1-3840x3840.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio88.se/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Radio 88 Partille - Golden Hits"
@@ -335757,8 +335768,11 @@
   name: "Sveriges Radio - P4 Halland"
   streamUrl: "https://sverigesradio.se/topsy/ljudfil/srse/8266576.mp3"
   codec: MP3
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/220/27c774d8-2cc9-483e-ae4c-d0a3ca245fab.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/halland"
   country: SE
   geo: [56.6728, 12.8561]
@@ -338322,6 +338336,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-oldies-fm
+  favicon: "https://oldiesfm.se/pwa-512x512.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://oldiesfm.se/manifest.webmanifest"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Oldies FM
@@ -345114,8 +345133,11 @@
   bitrate: 140
   codec: MP3
   tags: [news talk music]
-  favicon: "https://sverigesradio.se/dist/images/apple-touch-icon-default.png"
-  faviconSource: radio-browser
+  favicon: "https://static-cdn.sr.se/images/201/4adcd9f5-0181-4020-93cf-3e9f86d13a27.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels/201"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://sverigesradio.se/kalmar"
   country: SE
   geo: [0, 0]
@@ -348420,6 +348442,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-best-of-ericade-radio
+  favicon: "https://ericade.radio/images/ericade.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radio.ericade.net/best/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Best of ericade.radio
@@ -350637,6 +350664,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-radio-hope
+  favicon: "https://static.wixstatic.com/media/7b840f_7df1599843d84a7f91e31d984a460108~mv2.png"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://www.radiohopesweden.com/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio Hope
@@ -353925,8 +353957,11 @@
   streamUrl: "https://live-bauerse-fm.sharp-stream.com/nostalgi_mp3"
   bitrate: 128
   codec: MP3
-  favicon: "https://radioplay.se/tesla/static/favicons/radioplay-se/apple-touch-icon.png"
-  faviconSource: radio-browser
+  favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1737034118/brand_manager/stations/op6ypjaehhe7gbxelsha.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://radioplay.se/radio-nostalgi/play/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   homepage: "https://radioplay.se/radio-nostalgi/play/"
   country: SE
   geo: [0, 0]
@@ -354081,6 +354116,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-sveriges-radio-p4-malmohus
+  favicon: "https://static-cdn.sr.se/images/207/838a4fc7-2265-4d69-b840-3adc591ebac2.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels/207?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Sveriges Radio P4 Malmöhus
@@ -357589,6 +357629,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-redback-radio
+  favicon: "https://redback.mywire.org/Radio/Redback_Radio.jpg"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://redback.mywire.org/Radio/"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Redback Radio
@@ -365514,6 +365559,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-p4-jamtland
+  favicon: "https://static-cdn.sr.se/images/200/b2c962ca-902c-46d2-8a06-50b09af888a8.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: P4 Jämtland
@@ -374255,6 +374305,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-p4-varmland
+  favicon: "https://static-cdn.sr.se/images/204/23a7f201-551d-4dc8-a6b5-a0036f99007f.jpg?preset=api-default-square"
+  faviconSource: broadcaster-site
+  faviconSourceUrl: "https://api.sr.se/api/v2/channels/204?format=json"
+  faviconSourceType: cdn
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: P4 Värmland
