@@ -75,8 +75,9 @@ index.html            — single-page shell with PWA meta tags +
                         meta-CSP + meta Permissions-Policy +
                         the .np-wake-pane (inline wake editor).
 style/index.html      — local design-token editor at /style/.
-rrradio-ios/          — static iOS app landing page at /rrradio-ios/
-                        (also aliased to /ios in local dev).
+ios/                  — static iOS app landing page at /ios (the
+                        "vintage tuner" App Store Marketing page;
+                        old /rrradio-ios/ redirects here).
 public/               — static assets (icons, OG image, world map,
                         privacy.html, dashboard.html, stations.json,
                         analytics.js, silence.m4a). Third-party asset

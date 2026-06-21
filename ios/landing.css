@@ -73,6 +73,7 @@
     border: 1px solid var(--line-2);
     border-radius: 999px;
     text-decoration: none;
+    white-space: nowrap;
     transition: color 0.15s, border-color 0.15s;
   }
   .nav__store:hover { color: var(--ink); border-color: var(--ink); }
@@ -1024,7 +1025,7 @@
     height: 14.0%;
     min-width: 0;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 10px;
     padding: 0;
     align-items: center;
@@ -1194,6 +1195,7 @@
     gap: 6px 18px;
   }
   .meta__dot { color: var(--ink-4); }
+  .meta span { white-space: nowrap; }
 
   h1.title {
     font-size: clamp(34px, 5vw, 52px);
@@ -1228,8 +1230,8 @@
   .btn-app:active { transform: scale(0.97); }
   .btn-app svg { width: 24px; height: 24px; flex-shrink: 0; }
   .btn-app__text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.05; }
-  .btn-app__pre { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
-  .btn-app__main { font-family: var(--sans); font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+  .btn-app__pre { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; white-space: nowrap; }
+  .btn-app__main { font-family: var(--sans); font-weight: 600; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; }
 
   /* ── Pre-launch "coming soon" CTA state ──────────────
      The app isn't on the App Store yet (v0.1 beta), so the store CTAs are
@@ -1472,7 +1474,7 @@
 
   /* ── Footer ───────────────────────────────────────── */
   .footer {
-    margin-top: 120px;
+    margin-top: 84px;
     padding: 36px 28px 48px;
     border-top: 1px solid var(--line);
   }
@@ -1498,4 +1500,94 @@
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
     color: var(--ink-4);
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ════════════════════════════════════════════════════
+     SHARED ADDITIONS — hero, secondary CTA, switcher
+     ════════════════════════════════════════════════════ */
+
+  /* ── Hero: full-width, product alongside title ──────── */
+  .hero {
+    max-width: 1040px;
+    margin: 44px auto 0;
+    padding: 0 28px;
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .hero__lead { min-width: 0; }
+  .hero__device { display: flex; justify-content: center; }
+
+  /* Caption under the dial — signals the tuner is the page navigator. */
+  .tuner-hint {
+    max-width: 1040px;
+    margin: 16px auto 0;
+    padding: 0 28px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  @media (max-width: 720px) { .tuner-hint { font-size: 9px; letter-spacing: 0.12em; margin-top: 12px; } }
+
+  /* Draggable dial affordances. */
+  .tuner__strip { touch-action: none; }
+  body.dir-c .tuner__strip { cursor: ew-resize; }
+  .device--hero { max-width: 268px; width: 100%; }
+  @media (max-width: 899px) {
+    .hero { margin-top: 30px; }
+    .device--hero { max-width: 232px; }
+  }
+
+  /* ── Secondary "ghost" CTA ──────────────────────────── */
+  .btn-ghost {
+    display: inline-flex; flex-direction: column; align-items: flex-start;
+    gap: 1px; line-height: 1.05;
+    padding: 11px 18px;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); background: rgba(244,244,242,0.03); }
+  .btn-ghost__pre { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.62; white-space: nowrap; }
+  .btn-ghost__main { font-family: var(--sans); font-weight: 600; font-size: 15px; letter-spacing: -0.01em; white-space: nowrap; }
+
+  /* ── Direction switcher (review chrome) ─────────────── */
+  .switcher {
+    position: fixed; z-index: 200;
+    left: 50%; bottom: 18px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 3px;
+    padding: 5px 7px 5px 13px;
+    background: rgba(18,19,16,0.84);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(244,244,242,0.15);
+    border-radius: 999px;
+    box-shadow: 0 10px 34px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  .switcher__label {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+    color: rgba(244,244,242,0.38); padding-right: 3px;
+  }
+  .switcher__btn {
+    appearance: none; border: 0; background: transparent; cursor: pointer;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.01em;
+    color: rgba(244,244,242,0.58);
+    padding: 7px 13px; border-radius: 999px;
+    white-space: nowrap; transition: color 0.15s, background 0.15s;
+  }
+  .switcher__btn:hover { color: #fff; }
+  .switcher__btn.is-active { color: #15130f; background: var(--accent); }
+  @media (max-width: 560px) {
+    .switcher { gap: 2px; padding: 4px 5px 4px 9px; }
+    .switcher__label { display: none; }
+    .switcher__btn { font-size: 10px; padding: 6px 9px; }
+    .switcher__btn .switcher__full { display: none; }
   }

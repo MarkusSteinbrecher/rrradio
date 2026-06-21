@@ -133,11 +133,11 @@ function localRouteAliasPlugin(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (req.url === '/style') req.url = '/style/';
-        // Mirror GitHub Pages' extensionless serving for the static App
-        // Store pages (public/ios.html → /ios, public/support.html →
-        // /support) so local dev matches production. The richer landing
-        // keeps its own route at /rrradio-ios/.
-        if (req.url === '/ios') req.url = '/ios.html';
+        // Mirror GitHub Pages' directory/extensionless serving so local dev
+        // matches production. The iOS landing is a Vite multi-page entry built
+        // to ios/index.html (served at /ios); /support is the static
+        // public/support.html App Store support page.
+        if (req.url === '/ios') req.url = '/ios/';
         if (req.url === '/support') req.url = '/support.html';
         next();
       });
@@ -246,7 +246,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         stationTracker: resolve(__dirname, 'station-tracker.html'),
         style: resolve(__dirname, 'style/index.html'),
-        rrradioIos: resolve(__dirname, 'rrradio-ios/index.html'),
+        ios: resolve(__dirname, 'ios/index.html'),
       },
     },
   },

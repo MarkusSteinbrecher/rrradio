@@ -1,0 +1,757 @@
+/* =========================================================
+   TUNE IN — a fixed radio receiver. The page does not scroll
+   its content; tuning the dial dissolves one "station" into
+   static and locks the next into focus.
+   Layered on top of landing.css (tokens, tuner, buttons, device).
+   ========================================================= */
+
+/* Paint the root dark, matching the body gradient's base. body.tunein is
+   height:100% over a tall invisible scroll track, so wherever body resolves to
+   a single viewport (mobile dynamic toolbars, DevTools device mode) the area
+   below the first screen falls through to the default white. This guarantees
+   it never does. */
+html { scroll-behavior: auto; background: #2a2a25; }
+body.tunein {
+  height: 100%;
+  /* Slightly warmer, deeper graphite than the doc page — this is a device. */
+  background:
+    radial-gradient(120% 90% at 50% 0%, #45453f 0%, #36362f 55%, #2a2a25 100%);
+  overflow-x: hidden;
+}
+
+/* The invisible scroll track. Height is set by JS (one "throw" per gap). */
+.tune-track { width: 1px; opacity: 0; pointer-events: none; }
+
+/* Everything you see is pinned to the viewport. Height is the *stable* small
+   viewport (svh), not the dynamic one — so when a mobile browser's toolbar
+   retracts on scroll, the receiver and its centered stage stay put instead of
+   re-flowing. The extra strip that appears below is the dark root background. */
+.receiver {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+/* ── Nav (transparent, no blur panel needed over a fixed bg) ── */
+.nav--tunein {
+  position: static;
+  background: transparent;
+  border-bottom: 0;
+  flex: 0 0 auto;
+}
+
+/* ── Tuner: pulled out of sticky flow, sits just under the nav.
+   Must stay a *positioned* element so its absolutely-placed dial
+   internals keep using it as their containing block. ── */
+.tuner--fixed {
+  position: relative !important;
+  top: auto !important;
+  /* No nav above any more — give the dial breathing room from the top edge. */
+  margin: clamp(10px, 2svh, 26px) auto 0 !important;
+  flex: 0 0 auto;
+}
+
+/* Drop the little knob/dot that sits on top of the needle line. */
+.tunein .tuner--photo-clean .tuner__needle::after { display: none !important; }
+
+/* Preset caps (01, 02 …): white by default, yellow only when tuned-in. */
+.tunein .tuner--photo-clean .tuner__preset-cap {
+  color: #ffffff;
+  text-shadow:
+    0 -1px 0 rgba(0,0,0,0.96),
+    0 0 2px rgba(255,255,255,0.45),
+    0 0 6px rgba(255,255,255,0.25);
+}
+.tunein .tuner--photo-clean .tuner__preset:hover .tuner__preset-cap,
+.tunein .tuner--photo-clean .tuner__preset:focus-visible .tuner__preset-cap {
+  color: #ffffff;
+}
+.tunein .tuner--photo-clean .tuner__preset.is-current .tuner__preset-cap {
+  color: var(--accent);
+  text-shadow:
+    0 -1px 0 rgba(0,0,0,0.96),
+    0 0 2px rgba(255,255,0,0.92),
+    0 0 7px rgba(255,255,0,0.55);
+}
+
+/* ════════════════════════════════════════════════════════
+   RECEIVER MAIN — one CRT surface from the nav to the readout.
+   The static + scanlines fill this whole area; the dial floats
+   on top of it, so only the radio stays clear while tuning.
+   ════════════════════════════════════════════════════════ */
+.receiver__main {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.receiver__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.receiver__scan {
+  z-index: 2;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    rgba(255, 255, 255, 0.012) 2px,
+    rgba(255, 255, 255, 0.012) 3px
+  );
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+}
+.receiver__static {
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  opacity: 0;            /* JS drives this to 1 - clarity */
+  mix-blend-mode: screen;
+  image-rendering: pixelated;
+}
+/* Keep the dial above the static, and the stage content below it. */
+.tunein .tuner--fixed { z-index: 4; }
+
+/* Drop the dial's soft halo/vignette — against the static it reads as a
+   blurred graphite smear to the left and right of the radio. */
+.tunein .tuner--photo-clean::before { display: none !important; }
+
+/* ════════════════════════════════════════════════════════
+   THE STAGE — the broadcast window
+   ════════════════════════════════════════════════════════ */
+.stage {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(8px, 1.6svh, 22px) 28px;
+  overflow: hidden;
+}
+
+/* Clarity is the master signal: 1 = locked & sharp, 0 = pure static.
+   JS writes it to --clarity; everything else derives from it. */
+.stage__content {
+  --clarity: 1;
+  --noise: 0;
+  position: relative;
+  z-index: 2;
+  width: min(960px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: clamp(20px, 3.5svh, 40px);
+  /* De-focus the whole stage (text + media) as you tune away. */
+  filter: blur(calc(var(--noise) * 6px)) brightness(calc(1 - var(--noise) * 0.28));
+  opacity: calc(0.16 + 0.84 * var(--clarity));
+  will-change: filter, opacity;
+}
+.stage__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px, 2svh, 22px);
+  min-width: 0;
+}
+
+/* Single-product stations: text and phone share a row on wide screens. */
+@media (min-width: 880px) {
+  .stage__content.has-media:not(.is-trio) {
+    flex-direction: row;
+    width: min(1000px, 100%);
+    gap: clamp(36px, 5vw, 72px);
+    text-align: left;
+  }
+  .stage__content.has-media:not(.is-trio) .stage__text { align-items: flex-start; text-align: left; }
+  .stage__content.has-media:not(.is-trio) .stage__title { text-wrap: balance; }
+
+  /* The carousel is much taller than its text column, so centring the text
+     against it (the default) parked the headline at mid-stage — ~80px lower
+     than the stacked-column stations. Top-align it and add a fixed lead so the
+     headline sits the same, slightly tighter, distance under the dial as the
+     rest. */
+  .stage__content.has-carousel { align-items: flex-start; }
+  /* Let the text column fill the row's free space so its (per-slide varying)
+     content width never shifts the carousel — the screenshots stay put as you
+     step through. */
+  .stage__content.has-carousel .stage__text { flex: 1 1 0; padding-top: clamp(64px, 12svh, 112px); }
+}
+
+/* Signal / station line. Lives between the dial and the stage and floats
+   clear above the static (z-index 4, like the dial) so the live frequency
+   stays legible while tuning — only the broadcast below it dissolves. */
+.stage__signal {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  /* Same box as the dial, so the two share a left edge. */
+  width: min(calc(100% - 28px), 1040px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  gap: 9px;
+  margin: clamp(8px, 1.6svh, 16px) auto clamp(4px, 1svh, 10px);
+  font-family: var(--mono);
+  font-size: clamp(11px, 1.5vw, 13px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+/* Start the "FM" at the rrradio logo on the dial face: the logo mark sits
+   at left:17.7% with a 3.3% width, so its left edge ≈ 16% of the dial. */
+.stage__signal .stage__band { margin-left: 16%; }
+.stage__band { color: var(--accent); letter-spacing: 0.18em; }
+.stage__freq { color: var(--ink); font-weight: 500; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.stage__mhz { font-size: 0.78em; color: var(--ink-4); }
+.stage__sep { color: var(--ink-4); }
+.stage__tag { color: var(--ink-2); }
+/* Per-slide feature name appended after the tag (e.g. "- Favorites & Lists"). */
+.stage__subtag { color: var(--accent); }
+
+/* App icon on the sign-off page — a rounded squircle so it reads as the
+   App Store icon, centred above the headline. */
+/* :not([hidden]) so the `hidden` attribute (set on every non-CTA station)
+   still wins — a bare `display: flex` would override [hidden]{display:none}
+   and leak the (src-less) icons as broken-image alt text. */
+.stage__appicons:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 22px);
+}
+.stage__appicon {
+  width: clamp(68px, 7.5vw, 96px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 22.5%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 0 0.5px rgba(255,255,255,0.1);
+}
+
+/* Title — the headline that resolves out of the noise. */
+.stage__title {
+  margin: 0;
+  font-weight: 300;
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+  /* Chromatic ghosting that widens with noise. */
+  text-shadow:
+    calc(var(--noise) * -2.4px) 0 rgba(255, 40, 90, calc(0.55 * var(--noise))),
+    calc(var(--noise) *  2.4px) 0 rgba(40, 210, 255, calc(0.55 * var(--noise)));
+}
+
+/* Body — the supporting broadcast copy. */
+.stage__body {
+  margin: 0;
+  max-width: 600px;
+  font-size: clamp(17px, 2.3vw, 21px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  text-wrap: pretty;
+  text-shadow:
+    calc(var(--noise) * -1.4px) 0 rgba(255, 40, 90, calc(0.4 * var(--noise))),
+    calc(var(--noise) *  1.4px) 0 rgba(40, 210, 255, calc(0.4 * var(--noise)));
+}
+.stage__body a.link { color: var(--ink); text-decoration-color: var(--ink-3); }
+/* Highlighted word (e.g. "Absolutely") — picks up the signal accent. */
+.stage__body .hl { color: var(--accent); }
+/* Inline link in body copy (e.g. rrradio.org). */
+.stage__body a.bodylink {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 2px;
+}
+.stage__body a.bodylink:hover { text-decoration-color: var(--accent); }
+
+/* Media (phone screens) for stations that show the product. */
+.stage__media {
+  display: flex;
+  gap: clamp(12px, 2vw, 26px);
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.stage__media:empty { display: none; }
+.stage__media .device {
+  width: auto;
+  max-width: none;
+  height: clamp(190px, 36svh, 340px);
+  margin: 0;
+}
+.stage__media .device__screen { height: 100%; }
+.stage__media .device__shot { height: 100%; width: 100%; object-fit: cover; }
+/* Trio: three smaller phones, the centre one a touch taller. */
+.stage__content.is-trio { gap: clamp(12px, 2svh, 24px); }
+.stage__media--trio .device { height: clamp(132px, 23svh, 230px); }
+.stage__media--trio .device:nth-child(2),
+.stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(148px, 26svh, 258px); }
+.stage__media__cap {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  text-align: center;
+}
+.stage__phone { display: flex; flex-direction: column; align-items: center; }
+
+/* ── "Pick two" venn diagram (idea station) ─────────────── */
+.venn {
+  position: relative;
+  width: clamp(248px, 31vw, 344px);
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+.venn__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.venn__circle {
+  fill: rgba(244, 244, 242, 0.022);
+  stroke: rgba(244, 244, 242, 0.42);
+  stroke-width: 1.3;
+}
+.venn__name {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.venn__pair {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  fill: rgba(244, 244, 242, 0.5);
+  text-anchor: middle;
+}
+/* The dot-matrix "rrr" mark. Its 1024² canvas centres the artwork in a
+   short horizontal band (y ≈ 383–731), so we translate up past 50% to put
+   the glyph's optical centre on the triple overlap. */
+.venn__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18%;
+  transform: translate(-50%, -43%);
+  filter: drop-shadow(0 0 7px rgba(255, 255, 0, 0.5));
+  pointer-events: none;
+}
+
+/* ── Wireframe globe (catalog station) ──────────────────── */
+.globe {
+  position: relative;
+  width: clamp(264px, 34vw, 384px);
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+.globe__cv { display: block; width: 100%; height: 100%; }
+/* Callout naming the station whose blip currently faces the viewer. JS sets
+   left/top (following the blip) and opacity (cross-fade synced to the canvas
+   leader line). */
+.globe__chip {
+  position: absolute;
+  left: 0; top: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  font-family: var(--mono);
+  will-change: left, top, opacity;
+}
+.globe__chip-name {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(255, 255, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.globe__chip-city {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.globe__chip-city::before {
+  content: '·';
+  margin-right: 7px;
+  color: var(--ink-4);
+}
+
+/* ── Feature list (left column on the features station): each is a headline
+   with a one-line description, marked by a small accent tick. ── */
+.featurelist {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2.1svh, 22px);
+}
+.featurelist:empty { display: none; }
+.featurelist__item { position: relative; padding-left: 17px; }
+.featurelist__item::before {
+  content: '';
+  position: absolute; left: 0; top: 0.42em;
+  width: 6px; height: 6px; border-radius: 1.5px;
+  background: var(--accent);
+  box-shadow: 0 0 7px rgba(255, 255, 0, 0.5);
+}
+.featurelist__t {
+  display: block;
+  font-size: clamp(16px, 1.55vw, 19px);
+  font-weight: 600; line-height: 1.22;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+.featurelist__d {
+  display: block; margin-top: 3px;
+  font-size: clamp(13px, 1.1vw, 14.5px);
+  line-height: 1.45; color: var(--ink-3);
+  max-width: 42ch;
+}
+.has-features .stage__title { font-size: clamp(28px, 4.4vw, 46px); }
+/* The "and more" overview: features laid out as a centred, left-aligned grid. */
+.has-features .featurelist {
+  text-align: left;
+  align-self: center;
+  width: min(720px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(28px, 4vw, 56px);
+}
+/* Per-slide headlines on the carousel station: punchy but not oversized, so
+   they swap cleanly as you scroll the screenshots. */
+.has-carousel .stage__title { font-size: clamp(27px, 3.5vw, 44px); }
+.has-carousel .stage__body { max-width: 34ch; }
+
+/* Below the 880px row breakpoint the carousel is a tall stacked column, and
+   centring it parks the headline ~50px *higher* than the other stations (the
+   inverse of the desktop case). Nudge the whole column down into its spare
+   bottom slack so the dial→headline gap matches — phone stays full-size, dots
+   stay clear. */
+@media (max-width: 879px) and (min-height: 720px) {
+  /* Only nudge where there's spare slack below the column. On short phones the
+     carousel (330px floor) already fills the stage, so its gap is naturally
+     tight and matches — pushing there would clip the dots. */
+  .stage__content.has-carousel { transform: translateY(clamp(16px, 5svh, 44px)); }
+}
+
+/* ── Device-screenshot carousel ── */
+.carousel {
+  position: relative;
+  width: clamp(320px, 42vw, 468px);
+  /* Track the available stage height: as large as fits on tall screens,
+     still clear of the stage's overflow clip on short ones. Carousel =
+     phone + ~42px of label/dots/gaps. */
+  height: clamp(372px, calc(90.4svh - 223px), 742px);
+  display: flex; flex-direction: column; gap: 10px;
+  flex: 0 0 auto;
+}
+.carousel__stage { position: relative; flex: 1 1 auto; width: 100%; min-height: 0; }
+.cslide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 9px; opacity: 0; pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+.cslide.is-active { opacity: 1; pointer-events: auto; }
+/* Two overlapping phones (Schedule + Lyrics): the front one is laid out exactly
+   like a single-phone slide (in-flow, centred, upright) so the primary shot sits
+   in the same spot on every slide; only the back one is the tilted, dimmed peek. */
+.cstack { position: relative; display: flex; align-items: center; justify-content: center; }
+/* Front phone fans left so the back (Lyrics) phone shows more of itself. The
+   centre stays put, so the primary shot still sits where every other slide's does. */
+.cstack .cdev--front { position: relative; z-index: 2; transform: translateX(-15%) rotate(-7deg); }
+.cstack .cdev--back {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) translate(38%, -6%) rotate(5deg);
+  filter: none;   /* same brightness as the front phone */
+  box-shadow: none;   /* no halo around the back phone; the front casts the stack's shadow */
+  z-index: 1;
+}
+
+/* Device family (iPad + CarPlay + Watch) on the Devices slide: the iPad is the
+   hero; CarPlay and the Watch overlap its lower corners. */
+.cfamily { position: relative; width: 100%; height: 100%; }
+.cfamily .cdev { position: absolute; top: 50%; left: 50%; }
+.cfamily .cdev--pad {
+  width: min(82%, 408px); height: auto; aspect-ratio: 2360 / 1640;
+  transform: translate(-50%, -66%);
+  border: 7px solid #15140f; border-radius: 15px;
+  box-shadow: 0 26px 50px rgba(0,0,0,0.55), 0 3px 10px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+.cfamily .cdev--car {
+  width: min(56%, 280px); height: auto; aspect-ratio: 822 / 501;
+  transform: translate(-72%, 30%) rotate(-3deg);
+  border: 6px solid #15140f; border-radius: 14px;
+  box-shadow: 0 18px 38px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+.cfamily .cdev--watch {
+  height: clamp(128px, 23svh, 188px);
+  transform: translate(46%, 26%) rotate(4deg);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+  z-index: 3;
+}
+
+/* ── Device frame. No CSS notch/island — the real screenshots carry their
+   own status bar. The iPhone gets a brushed-titanium rail + hairline bezel. ── */
+.cdev {
+  position: relative;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  background: #0a0a0b;
+}
+.cdev__screen {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #000;
+}
+.cdev__shot { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cdev__soon {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(244,244,242,0.03);
+}
+.cdev__soon-text {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(244,244,242,0.42); text-align: center; padding: 0 10px;
+}
+
+/* iPhone: titanium rail (padding + metallic gradient), thin even black bezel,
+   concentric corners, side buttons. Height leaves ~54px of the carousel for
+   the label + dots + gaps, so the frame never clips against the stage. */
+.cdev--phone {
+  height: clamp(330px, calc(90.4svh - 265px), 700px);
+  aspect-ratio: 9 / 19.5;
+  padding: 5px;                          /* the metal rail thickness */
+  border-radius: 15.5% / 7.1%;
+  background: linear-gradient(108deg,
+    #54545a 0%, #202022 15%, #313133 33%, #161618 55%, #2b2b2d 73%, #161618 89%, #47474c 100%);
+  box-shadow:
+    0 3px 10px rgba(0,0,0,0.5),
+    0 30px 56px rgba(0,0,0,0.55),
+    inset 0 0 0 0.6px rgba(255,255,255,0.28);   /* bright edge catching light */
+}
+.cdev--phone .cdev__screen {
+  border: 2.5px solid #060607;                  /* thin even bezel */
+  border-radius: 12.4% / 5.8%;
+}
+.cdev--phone .cdev__screen::after {             /* faint glass glint */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(122deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0) 22%);
+}
+.cdev--phone::before,    /* side / power button — right */
+.cdev--phone::after {    /* volume + action cluster — left */
+  content: ''; position: absolute; width: 2.5px; border-radius: 2px;
+  background: linear-gradient(180deg, #56565c, #262628);
+}
+.cdev--phone::before { right: -2px; top: 31%; height: 12%; }
+.cdev--phone::after  { left: -2px; top: 22%; height: 22%; }
+
+.cdev--pad   { height: clamp(228px, 40svh, 332px); aspect-ratio: 3 / 4; border: 9px solid #15140f; border-radius: 20px; }
+/* Apple Watch: titanium cushion case, big continuous corners, hairline bezel,
+   Digital Crown + side button on the right edge. */
+.cdev--watch {
+  height: clamp(216px, 38svh, 320px);
+  aspect-ratio: 410 / 502;   /* matches the watch capture, so nothing crops */
+  padding: 6px;                          /* the case rail */
+  /* Circular corners: horizontal % ≈ vertical % × (height/width), so the
+     radius is the same in px on both axes rather than elliptical. */
+  border-radius: 27% / 22%;
+  background: linear-gradient(124deg,
+    #5c5c62 0%, #232325 17%, #343437 35%, #161618 56%, #2c2c2e 74%, #161618 89%, #4c4c52 100%);
+  box-shadow:
+    0 3px 10px rgba(0,0,0,0.5),
+    0 24px 46px rgba(0,0,0,0.5),
+    inset 0 0 0 0.6px rgba(255,255,255,0.3);
+}
+.cdev--watch .cdev__screen {
+  border: 2px solid #000;                /* hairline bezel */
+  /* Concentric with the case: screen radius ≈ case radius − the 6px rail,
+     so the titanium rail stays a uniform width around the curve. */
+  border-radius: 25.6% / 20.9%;
+}
+.cdev--watch::before {                   /* Digital Crown */
+  content: ''; position: absolute; right: -3px; top: 33%;
+  width: 4px; height: 13%; border-radius: 3px;
+  background: linear-gradient(180deg, #6c6c72, #2a2a2c);
+  box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.22);
+}
+.cdev--watch::after {                    /* side button */
+  content: ''; position: absolute; right: -2px; top: 52%;
+  width: 3px; height: 9%; border-radius: 2px;
+  background: linear-gradient(180deg, #54545a, #262628);
+}
+
+.cnav {
+  position: absolute; top: 44%; transform: translateY(-50%);
+  width: 34px; height: 34px; border-radius: 999px;
+  border: 1px solid var(--line-2); background: rgba(20,19,16,0.55);
+  color: var(--ink-2); font-size: 18px; line-height: 1;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: color 0.15s, border-color 0.15s, background 0.15s; z-index: 4;
+}
+.cnav:hover { color: var(--ink); border-color: var(--ink-3); background: rgba(20,19,16,0.78); }
+.cnav--prev { left: -8px; }
+.cnav--next { right: -8px; }
+/* Hide the nav arrow at the ends (no slide to step to). Needed because the
+   base .cnav rule sets display:flex, which would otherwise beat [hidden]. */
+.cnav[hidden] { display: none; }
+.cdots { display: flex; gap: 7px; justify-content: center; flex: 0 0 auto; }
+.cdot {
+  width: 7px; height: 7px; border-radius: 999px; border: 0; padding: 0;
+  background: var(--ink-4); cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.cdot.is-active { background: var(--accent); transform: scale(1.25); }
+
+/* Sign-off CTAs. */
+.stage__cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+.has-media:not(.is-trio) .stage__cta { justify-content: flex-start; }
+.stage__cta[hidden] { display: none; }
+
+/* ════════════════════════════════════════════════════════
+   READOUT BAR
+   ════════════════════════════════════════════════════════ */
+.readout {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1040px;
+  width: calc(100% - 56px);
+  margin: 0 auto;
+  padding: 16px 0 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  border-top: 1px solid var(--line);
+}
+.readout__freq { color: var(--ink-2); letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.readout__hint { color: var(--ink-4); letter-spacing: 0.14em; }
+.readout__idx { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* Station rail — desktop hides it (the dial presets do the job). */
+.rail { display: none; }
+.rail__dot {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  padding: 16px 11px; margin: 0;            /* generous tap target */
+  display: flex; align-items: center; justify-content: center;
+}
+.rail__dot::before {
+  content: '';
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--ink-4);
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.rail__dot.is-current::before {
+  background: var(--accent);
+  transform: scale(1.25);
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+@media (max-width: 680px) {
+  .readout { width: calc(100% - 32px); padding-bottom: 14px; gap: 10px; }
+  .readout__hint { display: none; }
+  .rail { display: flex; align-items: center; justify-content: center; gap: 2px; flex: 1 1 auto; }
+}
+@media (max-width: 380px) {
+  .readout__freq, .readout__idx { font-size: 10px; }
+}
+
+/* ── Embedded in the iPhone frame: drop our own nav, inset for safe areas ── */
+.tunein.is-embed .nav { display: none; }
+.tunein.is-embed .receiver { padding-top: 52px; }
+.tunein.is-embed .readout { padding-bottom: 30px; }
+
+/* ── A few tunein tweaks to the ghost CTA from landing.css ── */
+.tunein .btn-ghost { border-color: var(--line-2); }
+
+/* ── Screen-reader-only transcript ── */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ── Reduced motion: no scramble shimmer, just a clean cross-fade ── */
+@media (prefers-reduced-motion: reduce) {
+  .stage__title, .stage__body { text-shadow: none; }
+  .receiver__static { display: none; }
+}
+
+/* ── Short viewports: trim the dial + spacing so the stage breathes ── */
+@media (max-height: 720px) {
+  .stage { padding-top: 8px; padding-bottom: 8px; }
+  .stage__media .device { height: clamp(180px, 30svh, 300px); }
+}
+
+/* ════════════════════════════════════════════════════════
+   PHONE — portrait, thumb-driven
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 680px) {
+  .nav__inner { padding-top: 14px; }
+  .stage { padding: 12px 20px; }
+  .stage__content { width: 100%; gap: clamp(14px, 2.6svh, 24px); }
+  /* Tighter on mobile so the longest "FEATURES - …" line clears the viewport. */
+  .stage__signal { font-size: 11px; letter-spacing: 0.1em; gap: 6px; }
+  .stage__signal .stage__band { margin-left: 4%; }
+  .stage__title { font-size: clamp(30px, 8.4vw, 46px); }
+  .stage__body { font-size: 16px; max-width: 36ch; }
+  .stage__media { gap: 10px; }
+  .stage__media .device { height: clamp(210px, 36svh, 330px); }
+  .stage__media--trio .device { height: clamp(116px, 19svh, 190px); }
+  .stage__media--trio .device:nth-child(2),
+  .stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(130px, 21svh, 210px); }
+  .stage__media--trio .stage__media__cap { font-size: 9px; letter-spacing: 0.1em; }
+  .venn { width: clamp(228px, 62vw, 290px); }
+  .globe { width: clamp(228px, 64vw, 300px); }
+  .carousel { width: min(92vw, 400px); height: clamp(330px, 52svh, 470px); }
+  .cdev--phone { height: clamp(286px, calc(52svh - 48px), 430px); }
+  .featurelist { gap: 12px; }
+  .has-features .featurelist { grid-template-columns: 1fr; width: 100%; }
+  /* Tighten the device family so it clears the narrower mobile carousel. */
+  .cfamily .cdev--pad { width: 90%; transform: translate(-50%, -62%); }
+  .cfamily .cdev--car { width: 62%; transform: translate(-60%, 32%) rotate(-3deg); }
+  .cfamily .cdev--watch { height: clamp(96px, 16svh, 138px); transform: translate(30%, 30%) rotate(4deg); }
+  .featurelist__t { font-size: 16px; }
+  .stage__cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+}
+
