@@ -5,7 +5,12 @@
    Layered on top of landing.css (tokens, tuner, buttons, device).
    ========================================================= */
 
-html { scroll-behavior: auto; }
+/* Paint the root dark, matching the body gradient's base. body.tunein is
+   height:100% over a tall invisible scroll track, so wherever body resolves to
+   a single viewport (mobile dynamic toolbars, DevTools device mode) the area
+   below the first screen falls through to the default white. This guarantees
+   it never does. */
+html { scroll-behavior: auto; background: #2a2a25; }
 body.tunein {
   height: 100%;
   /* Slightly warmer, deeper graphite than the doc page — this is a device. */
@@ -17,10 +22,14 @@ body.tunein {
 /* The invisible scroll track. Height is set by JS (one "throw" per gap). */
 .tune-track { width: 1px; opacity: 0; pointer-events: none; }
 
-/* Everything you see is pinned to the viewport. */
+/* Everything you see is pinned to the viewport. Height is the *stable* small
+   viewport (svh), not the dynamic one — so when a mobile browser's toolbar
+   retracts on scroll, the receiver and its centered stage stay put instead of
+   re-flowing. The extra strip that appears below is the dark root background. */
 .receiver {
   position: fixed;
-  inset: 0;
+  inset: 0 0 auto 0;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -41,7 +50,7 @@ body.tunein {
   position: relative !important;
   top: auto !important;
   /* No nav above any more — give the dial breathing room from the top edge. */
-  margin: clamp(10px, 2vh, 26px) auto 0 !important;
+  margin: clamp(10px, 2svh, 26px) auto 0 !important;
   flex: 0 0 auto;
 }
 
@@ -124,7 +133,7 @@ body.tunein {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(8px, 1.6vh, 22px) 28px;
+  padding: clamp(8px, 1.6svh, 22px) 28px;
   overflow: hidden;
 }
 
@@ -142,7 +151,7 @@ body.tunein {
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: clamp(20px, 3.5vh, 40px);
+  gap: clamp(20px, 3.5svh, 40px);
   /* De-focus the whole stage (text + media) as you tune away. */
   filter: blur(calc(var(--noise) * 6px)) brightness(calc(1 - var(--noise) * 0.28));
   opacity: calc(0.16 + 0.84 * var(--clarity));
@@ -152,7 +161,7 @@ body.tunein {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 2vh, 22px);
+  gap: clamp(12px, 2svh, 22px);
   min-width: 0;
 }
 
@@ -166,6 +175,17 @@ body.tunein {
   }
   .stage__content.has-media:not(.is-trio) .stage__text { align-items: flex-start; text-align: left; }
   .stage__content.has-media:not(.is-trio) .stage__title { text-wrap: balance; }
+
+  /* The carousel is much taller than its text column, so centring the text
+     against it (the default) parked the headline at mid-stage — ~80px lower
+     than the stacked-column stations. Top-align it and add a fixed lead so the
+     headline sits the same, slightly tighter, distance under the dial as the
+     rest. */
+  .stage__content.has-carousel { align-items: flex-start; }
+  /* Let the text column fill the row's free space so its (per-slide varying)
+     content width never shifts the carousel — the screenshots stay put as you
+     step through. */
+  .stage__content.has-carousel .stage__text { flex: 1 1 0; padding-top: clamp(64px, 12svh, 112px); }
 }
 
 /* Signal / station line. Lives between the dial and the stage and floats
@@ -183,7 +203,7 @@ body.tunein {
   align-items: baseline;
   flex-wrap: nowrap;
   gap: 9px;
-  margin: clamp(8px, 1.6vh, 16px) auto clamp(4px, 1vh, 10px);
+  margin: clamp(8px, 1.6svh, 16px) auto clamp(4px, 1svh, 10px);
   font-family: var(--mono);
   font-size: clamp(11px, 1.5vw, 13px);
   letter-spacing: 0.26em;
@@ -199,6 +219,18 @@ body.tunein {
 .stage__mhz { font-size: 0.78em; color: var(--ink-4); }
 .stage__sep { color: var(--ink-4); }
 .stage__tag { color: var(--ink-2); }
+/* Per-slide feature name appended after the tag (e.g. "- Favorites & Lists"). */
+.stage__subtag { color: var(--accent); }
+
+/* App icon on the sign-off page — a rounded squircle so it reads as the
+   App Store icon, centred above the headline. */
+.stage__appicon {
+  width: clamp(82px, 9vw, 112px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 22.5%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 0 0.5px rgba(255,255,255,0.1);
+}
 
 /* Title — the headline that resolves out of the noise. */
 .stage__title {
@@ -228,6 +260,16 @@ body.tunein {
     calc(var(--noise) *  1.4px) 0 rgba(40, 210, 255, calc(0.4 * var(--noise)));
 }
 .stage__body a.link { color: var(--ink); text-decoration-color: var(--ink-3); }
+/* Highlighted word (e.g. "Absolutely") — picks up the signal accent. */
+.stage__body .hl { color: var(--accent); }
+/* Inline link in body copy (e.g. rrradio.org). */
+.stage__body a.bodylink {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 2px;
+}
+.stage__body a.bodylink:hover { text-decoration-color: var(--accent); }
 
 /* Media (phone screens) for stations that show the product. */
 .stage__media {
@@ -241,16 +283,16 @@ body.tunein {
 .stage__media .device {
   width: auto;
   max-width: none;
-  height: clamp(190px, 36vh, 340px);
+  height: clamp(190px, 36svh, 340px);
   margin: 0;
 }
 .stage__media .device__screen { height: 100%; }
 .stage__media .device__shot { height: 100%; width: 100%; object-fit: cover; }
 /* Trio: three smaller phones, the centre one a touch taller. */
-.stage__content.is-trio { gap: clamp(12px, 2vh, 24px); }
-.stage__media--trio .device { height: clamp(132px, 23vh, 230px); }
+.stage__content.is-trio { gap: clamp(12px, 2svh, 24px); }
+.stage__media--trio .device { height: clamp(132px, 23svh, 230px); }
 .stage__media--trio .device:nth-child(2),
-.stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(148px, 26vh, 258px); }
+.stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(148px, 26svh, 258px); }
 .stage__media__cap {
   margin-top: 10px;
   font-family: var(--mono);
@@ -353,7 +395,7 @@ body.tunein {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(14px, 2.1vh, 22px);
+  gap: clamp(14px, 2.1svh, 22px);
 }
 .featurelist:empty { display: none; }
 .featurelist__item { position: relative; padding-left: 17px; }
@@ -377,10 +419,31 @@ body.tunein {
   max-width: 42ch;
 }
 .has-features .stage__title { font-size: clamp(28px, 4.4vw, 46px); }
+/* The "and more" overview: features laid out as a centred, left-aligned grid. */
+.has-features .featurelist {
+  text-align: left;
+  align-self: center;
+  width: min(720px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(28px, 4vw, 56px);
+}
 /* Per-slide headlines on the carousel station: punchy but not oversized, so
    they swap cleanly as you scroll the screenshots. */
 .has-carousel .stage__title { font-size: clamp(27px, 3.5vw, 44px); }
 .has-carousel .stage__body { max-width: 34ch; }
+
+/* Below the 880px row breakpoint the carousel is a tall stacked column, and
+   centring it parks the headline ~50px *higher* than the other stations (the
+   inverse of the desktop case). Nudge the whole column down into its spare
+   bottom slack so the dial→headline gap matches — phone stays full-size, dots
+   stay clear. */
+@media (max-width: 879px) and (min-height: 720px) {
+  /* Only nudge where there's spare slack below the column. On short phones the
+     carousel (330px floor) already fills the stage, so its gap is naturally
+     tight and matches — pushing there would clip the dots. */
+  .stage__content.has-carousel { transform: translateY(clamp(16px, 5svh, 44px)); }
+}
 
 /* ── Device-screenshot carousel ── */
 .carousel {
@@ -389,7 +452,7 @@ body.tunein {
   /* Track the available stage height: as large as fits on tall screens,
      still clear of the stage's overflow clip on short ones. Carousel =
      phone + ~42px of label/dots/gaps. */
-  height: clamp(372px, calc(90.4vh - 223px), 742px);
+  height: clamp(372px, calc(90.4svh - 223px), 742px);
   display: flex; flex-direction: column; gap: 10px;
   flex: 0 0 auto;
 }
@@ -401,10 +464,46 @@ body.tunein {
   transition: opacity 0.55s ease;
 }
 .cslide.is-active { opacity: 1; pointer-events: auto; }
-.cslide__label {
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3);
+/* Two overlapping phones (Schedule + Lyrics): the front one is laid out exactly
+   like a single-phone slide (in-flow, centred, upright) so the primary shot sits
+   in the same spot on every slide; only the back one is the tilted, dimmed peek. */
+.cstack { position: relative; display: flex; align-items: center; justify-content: center; }
+/* Front phone fans left so the back (Lyrics) phone shows more of itself. The
+   centre stays put, so the primary shot still sits where every other slide's does. */
+.cstack .cdev--front { position: relative; z-index: 2; transform: translateX(-15%) rotate(-7deg); }
+.cstack .cdev--back {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) translate(38%, -6%) rotate(5deg) scale(0.82);
+  filter: brightness(0.55) saturate(0.9);
+  box-shadow: none;   /* no halo around the dimmed back phone; the front casts the stack's shadow */
+  z-index: 1;
 }
+
+/* Device family (iPad + CarPlay + Watch) on the Devices slide: the iPad is the
+   hero; CarPlay and the Watch overlap its lower corners. */
+.cfamily { position: relative; width: 100%; height: 100%; }
+.cfamily .cdev { position: absolute; top: 50%; left: 50%; }
+.cfamily .cdev--pad {
+  width: min(82%, 408px); height: auto; aspect-ratio: 2360 / 1640;
+  transform: translate(-50%, -66%);
+  border: 7px solid #15140f; border-radius: 15px;
+  box-shadow: 0 26px 50px rgba(0,0,0,0.55), 0 3px 10px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+.cfamily .cdev--car {
+  width: min(56%, 280px); height: auto; aspect-ratio: 822 / 501;
+  transform: translate(-72%, 30%) rotate(-3deg);
+  border: 6px solid #15140f; border-radius: 14px;
+  box-shadow: 0 18px 38px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+.cfamily .cdev--watch {
+  height: clamp(128px, 23svh, 188px);
+  transform: translate(46%, 26%) rotate(4deg);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+  z-index: 3;
+}
+
 /* ── Device frame. No CSS notch/island — the real screenshots carry their
    own status bar. The iPhone gets a brushed-titanium rail + hairline bezel. ── */
 .cdev {
@@ -437,7 +536,7 @@ body.tunein {
    concentric corners, side buttons. Height leaves ~54px of the carousel for
    the label + dots + gaps, so the frame never clips against the stage. */
 .cdev--phone {
-  height: clamp(330px, calc(90.4vh - 265px), 700px);
+  height: clamp(330px, calc(90.4svh - 265px), 700px);
   aspect-ratio: 9 / 19.5;
   padding: 5px;                          /* the metal rail thickness */
   border-radius: 15.5% / 7.1%;
@@ -465,11 +564,11 @@ body.tunein {
 .cdev--phone::before { right: -2px; top: 31%; height: 12%; }
 .cdev--phone::after  { left: -2px; top: 22%; height: 22%; }
 
-.cdev--pad   { height: clamp(228px, 40vh, 332px); aspect-ratio: 3 / 4; border: 9px solid #15140f; border-radius: 20px; }
+.cdev--pad   { height: clamp(228px, 40svh, 332px); aspect-ratio: 3 / 4; border: 9px solid #15140f; border-radius: 20px; }
 /* Apple Watch: titanium cushion case, big continuous corners, hairline bezel,
    Digital Crown + side button on the right edge. */
 .cdev--watch {
-  height: clamp(216px, 38vh, 320px);
+  height: clamp(216px, 38svh, 320px);
   aspect-ratio: 410 / 502;   /* matches the watch capture, so nothing crops */
   padding: 6px;                          /* the case rail */
   /* Circular corners: horizontal % ≈ vertical % × (height/width), so the
@@ -512,6 +611,9 @@ body.tunein {
 .cnav:hover { color: var(--ink); border-color: var(--ink-3); background: rgba(20,19,16,0.78); }
 .cnav--prev { left: -8px; }
 .cnav--next { right: -8px; }
+/* Hide the nav arrow at the ends (no slide to step to). Needed because the
+   base .cnav rule sets display:flex, which would otherwise beat [hidden]. */
+.cnav[hidden] { display: none; }
 .cdots { display: flex; gap: 7px; justify-content: center; flex: 0 0 auto; }
 .cdot {
   width: 7px; height: 7px; border-radius: 999px; border: 0; padding: 0;
@@ -609,7 +711,7 @@ body.tunein {
 /* ── Short viewports: trim the dial + spacing so the stage breathes ── */
 @media (max-height: 720px) {
   .stage { padding-top: 8px; padding-bottom: 8px; }
-  .stage__media .device { height: clamp(180px, 30vh, 300px); }
+  .stage__media .device { height: clamp(180px, 30svh, 300px); }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -618,21 +720,28 @@ body.tunein {
 @media (max-width: 680px) {
   .nav__inner { padding-top: 14px; }
   .stage { padding: 12px 20px; }
-  .stage__content { width: 100%; gap: clamp(14px, 2.6vh, 24px); }
-  .stage__signal { font-size: 11px; letter-spacing: 0.2em; gap: 7px; }
+  .stage__content { width: 100%; gap: clamp(14px, 2.6svh, 24px); }
+  /* Tighter on mobile so the longest "FEATURES - …" line clears the viewport. */
+  .stage__signal { font-size: 11px; letter-spacing: 0.1em; gap: 6px; }
+  .stage__signal .stage__band { margin-left: 4%; }
   .stage__title { font-size: clamp(30px, 8.4vw, 46px); }
   .stage__body { font-size: 16px; max-width: 36ch; }
   .stage__media { gap: 10px; }
-  .stage__media .device { height: clamp(210px, 36vh, 330px); }
-  .stage__media--trio .device { height: clamp(116px, 19vh, 190px); }
+  .stage__media .device { height: clamp(210px, 36svh, 330px); }
+  .stage__media--trio .device { height: clamp(116px, 19svh, 190px); }
   .stage__media--trio .device:nth-child(2),
-  .stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(130px, 21vh, 210px); }
+  .stage__media--trio .stage__phone:nth-child(2) .device { height: clamp(130px, 21svh, 210px); }
   .stage__media--trio .stage__media__cap { font-size: 9px; letter-spacing: 0.1em; }
   .venn { width: clamp(228px, 62vw, 290px); }
   .globe { width: clamp(228px, 64vw, 300px); }
-  .carousel { width: min(92vw, 400px); height: clamp(330px, 52vh, 470px); }
-  .cdev--phone { height: clamp(286px, calc(52vh - 48px), 430px); }
+  .carousel { width: min(92vw, 400px); height: clamp(330px, 52svh, 470px); }
+  .cdev--phone { height: clamp(286px, calc(52svh - 48px), 430px); }
   .featurelist { gap: 12px; }
+  .has-features .featurelist { grid-template-columns: 1fr; width: 100%; }
+  /* Tighten the device family so it clears the narrower mobile carousel. */
+  .cfamily .cdev--pad { width: 90%; transform: translate(-50%, -62%); }
+  .cfamily .cdev--car { width: 62%; transform: translate(-60%, 32%) rotate(-3deg); }
+  .cfamily .cdev--watch { height: clamp(96px, 16svh, 138px); transform: translate(30%, 30%) rotate(4deg); }
   .featurelist__t { font-size: 16px; }
   .stage__cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
 }

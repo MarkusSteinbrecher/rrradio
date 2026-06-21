@@ -24,12 +24,14 @@ import './landdots.js';
       tag: 'WHY',
       title: 'Does the world need another radio app?',
       body: 'Absolutely. One that is free, without ads, and with a great experience \u2014 every other app makes you pick two. This one doesn\u2019t.',
+      bodyHtml: '<span class="hl">Absolutely</span>. One that is free, without ads, and with a great experience \u2014 every other app makes you pick two. This one doesn\u2019t.',
       diagram: 'venn',
     },
     {
       tag: 'WORLDWIDE',
       title: 'Every station, everywhere.',
-      body: 'Tens of thousands of live streams from every corner of the world, constantly updated. Open source, maintained at rrradio.org \u2014 and if one\u2019s missing, tell us and we\u2019ll add it.',
+      body: 'Tens of thousands of live streams from every corner of the world, constantly updated and maintained at rrradio.org \u2014 and if one\u2019s missing, tell us and we\u2019ll add it.',
+      bodyHtml: 'Tens of thousands of live streams from every corner of the world, constantly updated and maintained at <a class="bodylink" href="https://rrradio.org" target="_blank" rel="noopener">rrradio.org</a> \u2014 and if one\u2019s missing, tell us and we\u2019ll add it.',
       diagram: 'globe',
     },
     {
@@ -38,19 +40,36 @@ import './landdots.js';
       body: '',
       carousel: [
         { dev: 'phone', src: new URL('./screen-browse-dark.webp', import.meta.url).href, label: 'iPhone',
-          head: 'Browse the whole catalog', copy: 'Filter by genre or country, or jump straight to a station by name.' },
-        { dev: 'phone', src: new URL('./screen-browse-light.webp', import.meta.url).href, label: 'iPhone',
-          head: 'Yours, light or dark', copy: 'Every screen adapts to the theme and accent color you choose.' },
-        { dev: 'phone', src: new URL('./screen-now-playing-light.webp', import.meta.url).href, label: 'iPhone',
-          head: 'See what\u2019s on', copy: 'Title, artist, and artwork \u2014 plus the station\u2019s live schedule.' },
-        { dev: 'phone', src: new URL('./screen-list-dark.webp', import.meta.url).href, label: 'iPhone',
-          head: 'Build your own lists', copy: 'Group stations into custom lists you can play in a tap.' },
-        { dev: 'phone', src: new URL('./screen-favorites-light.webp', import.meta.url).href, label: 'iPhone',
-          head: 'Keep favorites close', copy: 'Star the stations you love for one-tap access.' },
+          name: 'Browse', head: 'Browse the catalog', copy: 'Filter by genre or country, or jump straight to a station by name.' },
+        { dev: 'phone', src: new URL('./screen-favorites-dark.webp', import.meta.url).href, label: 'iPhone',
+          name: 'Favorites & Lists', head: 'Favorites & lists', copy: 'Save the stations you love, and group them into custom lists you can play in a tap.' },
+        { dev: 'phone', src: new URL('./screen-now-playing-dark.webp', import.meta.url).href, label: 'iPhone',
+          name: 'Now Playing', head: 'See what\u2019s on', copy: 'See title, artist, and artwork \u2014 and open a song in Apple Music, Spotify or YouTube Music.' },
+        { dev: 'phone', src: new URL('./screen-schedule-dark.webp', import.meta.url).href,
+          srcBack: new URL('./screen-lyrics-dark.webp', import.meta.url).href, label: 'iPhone',
+          name: 'Schedule & Lyrics', head: 'Schedule & lyrics', copy: 'See what\u2019s on later, and follow along with the words.' },
+        { dev: 'phone', src: new URL('./screen-wake-alarm-dark.webp', import.meta.url).href, label: 'iPhone',
+          name: 'Wake Alarm', head: 'Wake up to radio', copy: 'Set an alarm for any station and it starts playing at the time you choose. Save alarms for easy access.' },
         { dev: 'phone', src: new URL('./screen-history-dark.webp', import.meta.url).href, label: 'iPhone',
-          head: 'Pick up where you left off', copy: 'Your recent stations and listening stats, always a tap away.' },
-        { dev: 'watch', src: new URL('./screen-watch-nowplaying.webp', import.meta.url).href, label: 'Apple Watch',
-          head: 'On your wrist', copy: 'Browse, see what\u2019s playing, and control it from Apple Watch.' },
+          name: 'History', head: 'Take a look back', copy: 'Watch your history, recent stations and listening stats.' },
+        { devices: [
+            { dev: 'pad', src: new URL('./screen-ipad-now-playing-dark.webp', import.meta.url).href },
+            { dev: 'car', src: new URL('./screen-carplay-dark.webp', import.meta.url).href },
+            { dev: 'watch', src: new URL('./screen-watch-dark.webp', import.meta.url).href },
+          ], label: 'iPad',
+          name: 'Devices', head: 'On your iPad, your wrist and in your car', copy: 'Browse, see what\u2019s playing, and control it from all your devices.' },
+      ],
+    },
+    {
+      tag: 'AND MORE',
+      title: 'And a whole lot more.',
+      features: [
+        { t: 'Light or dark, your color', d: 'Every screen adapts to the theme and accent you choose.' },
+        { t: 'Custom stations', d: 'Add your own by pasting a stream URL.' },
+        { t: 'Sleep timer', d: 'Stops playback automatically after a time you set.' },
+        { t: 'Siri & Shortcuts', d: 'Start a station by voice or from a Shortcut.' },
+        { t: 'Instant search', d: 'Find any station by name in a tap.' },
+        { t: 'Built-in catalog', d: 'Tens of thousands of stations, bundled so it opens fast.' },
       ],
     },
     {
@@ -61,9 +80,9 @@ import './landdots.js';
     },
     {
       tag: 'TUNE IN',
+      icon: new URL('./rrradio-logo-app-dark.svg', import.meta.url).href,
       title: 'Coming soon to the App\u00a0Store.',
       body: 'Until then, the web app plays in any browser at rrradio.org.',
-      media: [{ src: new URL('./screen-now-playing.webp', import.meta.url).href, cap: '' }],
       cta: true,
     },
   ];
@@ -103,6 +122,8 @@ import './landdots.js';
   const sigFreq = document.getElementById('sigFreq');
   const sigTag = document.getElementById('sigTag');
   const titleEl = document.getElementById('stageTitle');
+  const iconEl = document.getElementById('stageIcon');
+  const sigSubEl = document.getElementById('sigSub');
   const bodyEl = document.getElementById('stageBody');
   const featuresEl = document.getElementById('stageFeatures');
   const mediaEl = document.getElementById('stageMedia');
@@ -365,6 +386,31 @@ import './landdots.js';
   ];
 
   // ── Device-screenshot carousel (iPhone / iPad / Apple Watch). ──
+  // One device frame (rail + bezel) wrapping a screenshot, or a "coming soon"
+  // panel when there's no shot yet.
+  function makeDevice(devType, src, extraClass) {
+    const dev = document.createElement('div');
+    dev.className = 'cdev cdev--' + devType + (extraClass ? ' ' + extraClass : '');
+    const scr = document.createElement('div');
+    scr.className = 'cdev__screen';
+    if (src) {
+      const img = document.createElement('img');
+      img.className = 'cdev__shot';
+      img.src = src; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
+      scr.appendChild(img);
+    } else {
+      const soon = document.createElement('div');
+      soon.className = 'cdev__soon';
+      const t = document.createElement('span');
+      t.className = 'cdev__soon-text';
+      t.textContent = 'Coming soon';
+      soon.appendChild(t);
+      scr.appendChild(soon);
+    }
+    dev.appendChild(scr);
+    return dev;
+  }
+
   function buildCarousel(items) {
     const car = document.createElement('div');
     car.className = 'carousel';
@@ -373,32 +419,23 @@ import './landdots.js';
     items.forEach((c, i) => {
       const slide = document.createElement('div');
       slide.className = 'cslide' + (i === 0 ? ' is-active' : '');
-      const dev = document.createElement('div');
-      dev.className = 'cdev cdev--' + c.dev;
-      const scr = document.createElement('div');
-      scr.className = 'cdev__screen';
-      if (c.src) {
-        const img = document.createElement('img');
-        img.className = 'cdev__shot';
-        img.src = c.src; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
-        scr.appendChild(img);
+      if (c.devices) {
+        // A family of different device types (iPad / CarPlay / Watch) arranged
+        // as one composition.
+        const fam = document.createElement('div');
+        fam.className = 'cfamily';
+        c.devices.forEach((d) => fam.appendChild(makeDevice(d.dev, d.src)));
+        slide.appendChild(fam);
+      } else if (c.srcBack) {
+        // Two overlapping phones: srcBack sits behind, src (the headline shot) in front.
+        const stack = document.createElement('div');
+        stack.className = 'cstack';
+        stack.appendChild(makeDevice(c.dev, c.srcBack, 'cdev--back'));
+        stack.appendChild(makeDevice(c.dev, c.src, 'cdev--front'));
+        slide.appendChild(stack);
       } else {
-        // No screenshot yet (iPad / Apple Watch) \u2014 show an honest static
-        // "coming soon" panel rather than the design-tool placeholder.
-        const soon = document.createElement('div');
-        soon.className = 'cdev__soon';
-        const t = document.createElement('span');
-        t.className = 'cdev__soon-text';
-        t.textContent = 'Coming soon';
-        soon.appendChild(t);
-        scr.appendChild(soon);
+        slide.appendChild(makeDevice(c.dev, c.src));
       }
-      dev.appendChild(scr);
-      slide.appendChild(dev);
-      const lab = document.createElement('div');
-      lab.className = 'cslide__label';
-      lab.textContent = c.label;
-      slide.appendChild(lab);
       stage.appendChild(slide);
     });
     car.appendChild(stage);
@@ -426,6 +463,8 @@ import './landdots.js';
     if (!root) return { stop: noop, show: noop };
     const slides = [...root.querySelectorAll('.cslide')];
     const dots = [...root.querySelectorAll('.cdot')];
+    const prev = root.querySelector('.cnav--prev');
+    const next = root.querySelector('.cnav--next');
     let idx = -1;
     function show(n) {
       n = Math.max(0, Math.min(slides.length - 1, n));
@@ -433,10 +472,11 @@ import './landdots.js';
       idx = n;
       slides.forEach((s, i) => s.classList.toggle('is-active', i === idx));
       dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+      // No arrow to a slide that doesn't exist: hide prev at the start, next at the end.
+      if (prev) prev.hidden = idx <= 0;
+      if (next) next.hidden = idx >= slides.length - 1;
     }
     dots.forEach((d, i) => d.addEventListener('click', () => onSeek && onSeek(i)));
-    const prev = root.querySelector('.cnav--prev');
-    const next = root.querySelector('.cnav--next');
     if (prev) prev.addEventListener('click', () => onSeek && onSeek(idx - 1));
     if (next) next.addEventListener('click', () => onSeek && onSeek(idx + 1));
     show(0);
@@ -462,13 +502,39 @@ import './landdots.js';
     if (st.carousel) {
       titleEl.dataset.text = st.carousel[0].head;
       bodyEl.dataset.text = st.carousel[0].copy;
+      bodyEl.dataset.html = '';
       bodyEl.style.display = '';
+      sigSubEl.textContent = '- ' + st.carousel[0].name;
+      sigSubEl.hidden = false;
     } else {
       titleEl.dataset.text = st.title;
       bodyEl.dataset.text = st.body;
+      bodyEl.dataset.html = st.bodyHtml || '';
       bodyEl.style.display = st.body ? '' : 'none';
+      sigSubEl.textContent = '';
+      sigSubEl.hidden = true;
     }
+    if (st.icon) { iconEl.src = st.icon; iconEl.hidden = false; }
+    else { iconEl.hidden = true; iconEl.removeAttribute('src'); }
+
     featuresEl.innerHTML = '';
+    if (st.features) {
+      st.features.forEach((f) => {
+        const li = document.createElement('li');
+        li.className = 'featurelist__item';
+        const t = document.createElement('span');
+        t.className = 'featurelist__t';
+        t.textContent = f.t;
+        li.appendChild(t);
+        if (f.d) {
+          const d = document.createElement('span');
+          d.className = 'featurelist__d';
+          d.textContent = f.d;
+          li.appendChild(d);
+        }
+        featuresEl.appendChild(li);
+      });
+    }
 
     // Media
     mediaEl.className = 'stage__media' + (st.trio ? ' stage__media--trio' : '');
@@ -569,6 +635,7 @@ import './landdots.js';
         if (sl) {
           titleEl.dataset.text = sl.head;
           bodyEl.dataset.text = sl.copy;
+          sigSubEl.textContent = '- ' + sl.name;
           if (!reduceMotion.matches) slidePulse = 12;
         }
       }
@@ -629,6 +696,20 @@ import './landdots.js';
   }
   sizeStatic();
 
+  // Body can carry a rich variant (a highlighted word, a link) shown only when
+  // fully locked — the scramble effect operates on plain text, so we swap in the
+  // HTML at amt 0 and fall back to scrambled text the moment it starts tuning.
+  let bodyHtmlShown = null;
+  function paintBody(amt) {
+    const html = bodyEl.dataset.html;
+    if (amt < 0.001 && html) {
+      if (bodyHtmlShown !== html) { bodyEl.innerHTML = html; bodyHtmlShown = html; }
+    } else {
+      bodyEl.textContent = scramble(bodyEl.dataset.text || '', amt);
+      bodyHtmlShown = null;
+    }
+  }
+
   let frame = 0;
   function paint() {
     const noise = 1 - clarity;
@@ -642,7 +723,7 @@ import './landdots.js';
       if (slidePulse > 0) slidePulse--;
       const amt = Math.max(0, Math.min(1, Math.max(noise * 1.25 - 0.05, pulse)));
       titleEl.textContent = scramble(titleEl.dataset.text || '', amt);
-      bodyEl.textContent = scramble(bodyEl.dataset.text || '', amt);
+      paintBody(amt);
 
       // Static overlay
       staticCanvas.style.opacity = (noise * 0.6).toFixed(3);
@@ -661,7 +742,7 @@ import './landdots.js';
     } else {
       // Reduced motion: show clean text, cross-fade only via opacity (CSS).
       titleEl.textContent = titleEl.dataset.text || '';
-      bodyEl.textContent = bodyEl.dataset.text || '';
+      paintBody(0);
     }
 
     frame++;
@@ -695,8 +776,19 @@ import './landdots.js';
     if (!dragging) scheduleSnap();
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+  // Mobile browsers fire 'resize' every time the address bar slides in/out,
+  // nudging innerHeight by a few dozen px. Rebuilding the scroll runway for
+  // that re-lays-out the page mid-scroll, so only do it on a *real* resize
+  // (width change, or a height jump big enough to be a rotation). The static
+  // canvas + dial reposition cheaply and can run every time.
+  let baseW = window.innerWidth, baseH = window.innerHeight;
   window.addEventListener('resize', () => {
-    sizeTrack(); sizeStatic(); update();
+    const w = window.innerWidth, h = window.innerHeight;
+    if (w !== baseW || Math.abs(h - baseH) > 120) {
+      baseW = w; baseH = h;
+      sizeTrack();
+    }
+    sizeStatic(); update();
   });
 
   // ── Dial drag = scrub the page horizontally. ──
