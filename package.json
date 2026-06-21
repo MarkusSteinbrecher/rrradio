@@ -27,6 +27,7 @@
     "favicon-variants": "node tools/build-favicon-variants.mjs",
     "catalog:ios-local": "node tools/build-ios-local-catalog.mjs",
     "station-capabilities": "node tools/build-station-capabilities.mjs",
+    "station-profiles": "node tools/build-station-profiles.mjs",
     "catalog:fts": "node tools/build-catalog-fts.mjs",
     "probe": "node tools/probe-station.mjs",
     "probe:bytes": "python3 tools/audio-byte-probe.py",

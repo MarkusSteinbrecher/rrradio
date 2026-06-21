@@ -1,0 +1,105 @@
+id: radio-24
+
+identity:
+  name: Radio 24
+  shortName: Radio 24
+  tagline: Die beste Musik.
+  positioning: "Din Sound. Dis Läbe. — Zürich's #1 private radio"
+  logo:
+    url: https://assets.radioplayer.org/756/756129/600/600/l458pixl.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Media (CH Regionalmedien AG)
+  group: CH Media
+  foundedYear: 1979
+  headquarters: { city: Zürich, address: "Thurgauerstrasse 80, 8050 Zürich", canton: ZH }
+
+profile:
+  description: >-
+    Zürich's leading private radio and Switzerland's original pirate station —
+    founded 1979 by Roger Schawinski, broadcast from Italy to break the SRG
+    monopoly. Today a mainstream German-language hot-AC hit station plus 30+
+    themed web channels.
+  format: Hot AC / CHR
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: broad adult mainstream in the Zürich region
+  distinctive: >-
+    45-year heritage as Switzerland's first private/pirate radio (Pizzo
+    Groppera, 1979). Listener "Musik-Jury" voting shapes the playlist.
+
+music:
+  genres: [pop, dance-pop, hits, gold]
+  languageShare: { de: low, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: "radio24.ch GraphQL LastPlayed (streamName radio24.main)"
+    tracks:
+      - { artist: Miley Cyrus, title: End Of The World }
+      - { artist: "Robin Schulz feat. J.U.D.G.E.", title: Show Me Love }
+      - { artist: Remo Forrer, title: Falling }
+      - { artist: Lady Gaga, title: Abracadabra }
+      - { artist: Gracie Abrams, title: "That's So True" }
+      - { artist: Teddy Swims, title: Lose Control }
+      - { artist: Take That, title: Patience }
+      - { artist: Pat Benatar, title: Love Is A Battlefield }
+      - { artist: "Jennifer Lopez feat. David Guetta", title: Save Me Tonight }
+      - { artist: Nickless, title: As I Am }
+
+programming:
+  flagshipShows:
+    - { name: Ufsteller, when: "Mon–Fri ~05:00–10:00", presenters: [Nina Roost, Dominik Widmer], note: "morning show" }
+    - { name: Sonntigmorge mit Gäscht, when: "Sun morning" }
+  presenters: [Nina Roost, Dominik Widmer, Maximilian Baumann, Rilana Schätti, Luca Carecci, Sven Stadelmann, Anja Leibacher]
+  scheduleUrl: https://www.radio24.ch/sendungen
+
+reach:
+  languages: [de]
+  region: Canton Zürich + Glarus, Winterthur, Zürcher Oberland, Schaffhausen edge
+  geo: [47.4186, 8.5552]
+  fm: [102.8, 90.0, 92.3, 95.8, 96.1, 98.1, 92.1, 96.9]
+  dab: { present: true, since: 2011-08, region: Deutschschweiz }
+  audienceDaily: 240000   # 234k–249k, 2025
+
+streams:
+  - { url: "https://stream.streambase.ch/radio24/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://stream.streambase.ch/radio24/aac-64", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.radio24.ch/api/pub/gql/radio24/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72"
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: ch-media
+
+presence:
+  homepage: https://www.radio24.ch
+  socials:
+    facebook: https://www.facebook.com/Radio24/
+    instagram: https://www.instagram.com/radio_24/
+    soundcloud: https://soundcloud.com/radio-24
+  apps: { android: com.azmedien.radio24 }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_24
+
+identifiers:
+  catalogId: ch-radio24
+  stationuuid: be9fa6d2-aace-46ea-bdbf-68092402066f
+  rpuId: NzU2fjEyOQ
+  wikidata: Q2125902
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia
+    history: "CH Media Werbung; de.wikipedia"
+    playlist: "radio24.ch GraphQL"
+    fm: radio24.ch/ueber-uns/empfang
+  updatedAt: 2026-06-21
+  notes: >-
+    Also runs 30+ themed web channels via the same GraphQL (streamName
+    radio24.Hot / radio24.Charts / 80er / 90er / artist channels). A duplicate
+    catalog row ch-radio-24 exists — to be merged in a dedup pass.

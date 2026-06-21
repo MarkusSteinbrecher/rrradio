@@ -1,0 +1,101 @@
+id: rhone-fm
+
+identity:
+  name: Rhône FM
+  shortName: Rhône FM
+  tagline: Rythme la vie
+  positioning: la radio des Valaisans — la radio de l'info en Valais
+  logo:
+    url: https://assets.radioplayer.org/756/7565016/600/600/ln01cs36.jpeg
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Radio-Rhône SA (ESH Médias)
+  group: ESH Médias
+  foundedYear: 1984   # as Radio Martigny
+  headquarters: { city: Sion, canton: VS }
+
+profile:
+  description: >-
+    Valais's leading regional radio — French-language hot-AC chart hits wrapped
+    around heavy local Valais news, sport (FC Sion) and service content.
+  format: Hot AC / Top-40
+  contentMix: { music: 0.7, talk: 0.3 }
+  targetAudience: adult mainstream across the canton of Valais
+  distinctive: >-
+    A news-and-music station, not a jukebox — full editorial newsrooms (Valais,
+    Sport, Société) and a dedicated FC Sion dossier alongside the music blocks.
+
+music:
+  genres: [hot ac, pop, dance, chanson française]
+  languageShare: { fr: 0.2, intl: 0.8 }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://onlineradiobox.com/ch/rhonefm/playlist/
+    tracks:
+      - { artist: Jessie J, title: Domino }
+      - { artist: Lewis Capaldi, title: Someone You Loved }
+      - { artist: "Kygo & Selena Gomez", title: It Ain't Me }
+      - { artist: Beyoncé, title: Cuff It }
+      - { artist: Bryan Adams, title: Summer of '69 }
+      - { artist: "Purple Disco Machine & Sophie and the Giants", title: In the Dark }
+      - { artist: Gracie Abrams, title: "That's So True" }
+      - { artist: Johnny Hallyday, title: Quelque chose de Tennessee }
+      - { artist: Christophe Maé, title: La Lune }
+
+programming:
+  flagshipShows:
+    - { name: Good Morning Valais, when: "Mon–Fri 06:00–09:00", note: "flagship morning show" }
+    - { name: Le Jeu, when: "09:00–12:00", note: "interactive game" }
+    - { name: Au rythme de la musique, when: "midday–evening music blocks" }
+    - { name: Zone mixte, when: "18:15–19:00", note: "sports desk (FC Sion)" }
+  presenters: [Eric Fauchère, Flavie Tapparel, Simon Dumoulin]
+  scheduleUrl: https://www.rhonefm.ch/grille-des-programmes/
+
+reach:
+  languages: [fr]
+  region: Canton Valais (Rhône valley Sierre→St-Maurice + side valleys)
+  geo: [46.23, 7.36]   # Sion
+  fm: [104.3, 90.1, 102.8, 99.0, 100.0, 103.6, 96.7, 103.3, 94.0, 91.6]
+  dab: { present: true, region: Suisse Romande }
+  audienceDaily: 83000
+
+streams:
+  - { url: "https://rhonefm.ice.infomaniak.ch/rhonefm-high.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://rhonefm.ice.infomaniak.ch/rhonefm-high.aac", codec: aac, bitrate: 128, type: icecast }
+  - { url: "https://rhonefm.ice.infomaniak.ch/rhonefm-low.aac", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://rhonefm.ice.infomaniak.ch/rhonefm-high.mp3.xspf
+  type: icecast-xspf
+  cors: false   # access-control-allow-origin: null → needs worker proxy
+  coverArt: false
+
+presence:
+  homepage: https://www.rhonefm.ch
+  socials:
+    instagram: "@rhonefminfo"
+    facebook: https://www.facebook.com/rhonefminfo
+    twitter: "@rhonefm"
+  podcasts: https://www.monpodcast.ch/
+  wikipedia: https://fr.wikipedia.org/wiki/Rh%C3%B4ne_FM
+
+identifiers:
+  catalogId: ch-rhone-fm
+  rpuId: NzU2fjUwMTY
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia
+    fm: rhonefm.ch/comment-nous-ecouter
+    playlist: onlineradiobox
+  updatedAt: 2026-06-21
+  notes: >-
+    Upgradeable to icy-only / fetcher-todo: the .xspf endpoint is a clean title
+    source via the worker proxy (no CORS). Catalog row ch-rhone-fm has
+    geo [0,0] and an http:// homepage (RB legacy) worth fixing.
