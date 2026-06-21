@@ -1563,7 +1563,17 @@ function attachGripDrag(
     allRows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
     originalIndex = allRows.indexOf(row);
     targetIndex = originalIndex;
+    // Slot pitch = top-to-top distance to an adjacent row, which folds in
+    // the inter-card gap now that feed rows are spaced cards (not the old
+    // contiguous list). Falls back to the row's own height for a lone row.
     rowHeight = row.getBoundingClientRect().height;
+    const below = allRows[originalIndex + 1];
+    const above = allRows[originalIndex - 1];
+    if (below) {
+      rowHeight = below.getBoundingClientRect().top - row.getBoundingClientRect().top;
+    } else if (above) {
+      rowHeight = row.getBoundingClientRect().top - above.getBoundingClientRect().top;
+    }
     // Siblings need the row height to know how far to shift. Set on
     // each non-dragged row so the .is-shifting-up/down rules resolve.
     for (const r of allRows) {
@@ -2368,6 +2378,100 @@ function renderLibraryIndex(query: string): void {
   // (matching iOS); shown only on the unfiltered home.
   if (!q) wrap.append(buildRecentsRow());
   $content.append(wrap);
+  // Settle each favicon strip now that the rows have a measured width,
+  // and keep them in sync as the column width changes.
+  bindStripResize();
+  wrap.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+}
+
+// Favicon-strip sizing for the Library-home rows — mirrors iOS, whose
+// cards show a row of station favicons under the title. 36px icons, 6px
+// gaps; the trailing "+N more" badge gets ~72px reserved. The visible
+// count is recomputed from the row's measured width, so a wide desktop
+// column shows every station while a narrow phone column sheds icons
+// into "+N more".
+const STRIP_ICON = 36;
+const STRIP_GAP = 6;
+const STRIP_MORE_RESERVE = 72;
+// Hard cap on favicon DOM nodes built per row: a 500-station list never
+// shows 500 icons, so building past this is wasted work. fitStrip trims
+// the visible set well below it on any real viewport.
+const STRIP_BUILD_CAP = 48;
+
+/** Build the horizontal favicon strip shown under a Library-home row's
+ *  title. Empty lists show a faint hint instead. The visible-icon count
+ *  is settled later by fitStrip, once the row has a measured width. */
+function buildIconStrip(stations: Station[], emptyHint: string): HTMLElement {
+  const strip = document.createElement('div');
+  strip.className = 'list-item__strip';
+  if (stations.length === 0) {
+    const hint = document.createElement('div');
+    hint.className = 'list-item__empty';
+    hint.textContent = emptyHint;
+    strip.append(hint);
+    return strip;
+  }
+  strip.dataset.total = String(stations.length);
+  for (const st of stations.slice(0, STRIP_BUILD_CAP)) {
+    const ico = buildFavicon(st, STRIP_ICON);
+    ico.classList.add('strip-ico');
+    strip.append(ico);
+  }
+  return strip;
+}
+
+/** Settle how many favicons a strip shows from its measured width: show
+ *  every station when they all fit (and were all built), otherwise fill
+ *  the row and collapse the rest into a trailing "+N more" badge. Reading
+ *  clientWidth forces layout, so callers run this synchronously right
+ *  after the row lands in the DOM. */
+function fitStrip(strip: HTMLElement): void {
+  const total = Number(strip.dataset.total ?? '0');
+  if (!total) return;
+  const avail = strip.clientWidth;
+  if (!avail) return;
+  const icons = Array.from(strip.querySelectorAll<HTMLElement>('.strip-ico'));
+  const built = icons.length;
+  const per = STRIP_ICON + STRIP_GAP;
+  const fitPlain = Math.floor((avail + STRIP_GAP) / per);
+
+  let show: number;
+  let more: number;
+  if (built >= total && fitPlain >= total) {
+    show = total;
+    more = 0;
+  } else {
+    const fitBadged = Math.max(1, Math.floor((avail - STRIP_MORE_RESERVE + STRIP_GAP) / per));
+    show = Math.min(built, fitBadged);
+    more = total - show;
+  }
+
+  icons.forEach((el, i) => {
+    el.style.display = i < show ? '' : 'none';
+  });
+  strip.querySelector('.list-item__more')?.remove();
+  if (more > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'list-item__more';
+    badge.textContent = `+${more} more`;
+    strip.append(badge);
+  }
+}
+
+// Re-fit every visible Library-home strip when the viewport changes
+// width. Bound once, lazily, the first time the index renders.
+let stripResizeBound = false;
+function bindStripResize(): void {
+  if (stripResizeBound) return;
+  stripResizeBound = true;
+  let pending = 0;
+  window.addEventListener('resize', () => {
+    if (pending) return;
+    pending = requestAnimationFrame(() => {
+      pending = 0;
+      document.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+    });
+  });
 }
 
 /** The pinned Recents entry on the Library home — a non-removable system
@@ -2375,29 +2479,22 @@ function renderLibraryIndex(query: string): void {
 function buildRecentsRow(): HTMLElement {
   const recents = getRecents();
   const row = document.createElement('div');
-  row.className = 'list-item list-item--system';
+  row.className = 'list-item list-item--lib list-item--system';
   row.setAttribute('role', 'button');
   row.tabIndex = 0;
-
-  const icon = document.createElement('div');
-  icon.className = 'list-item__icon';
-  icon.innerHTML = ICON_RECENT;
 
   const info = document.createElement('div');
   info.className = 'list-item__info';
   const name = document.createElement('div');
   name.className = 'list-item__name';
   name.textContent = 'Recents';
-  const sub = document.createElement('div');
-  sub.className = 'list-item__sub';
-  sub.textContent = `${recents.length} station${recents.length === 1 ? '' : 's'}`;
-  info.append(name, sub);
+  info.append(name, buildIconStrip(recents, 'Stations appear here after you play them.'));
 
   const chev = document.createElement('div');
   chev.className = 'list-item__chev';
   chev.innerHTML = ICON_CHEVRON_RIGHT;
 
-  row.append(icon, info, chev);
+  row.append(info, chev);
   const open = () => setTab('recent');
   row.addEventListener('click', open);
   row.addEventListener('keydown', (e) => {
@@ -2411,26 +2508,19 @@ function buildRecentsRow(): HTMLElement {
 
 function buildListIndexRow(list: StationList): HTMLElement {
   const row = document.createElement('div');
-  row.className = 'list-item';
+  row.className = 'list-item list-item--lib';
   row.setAttribute('role', 'button');
   row.tabIndex = 0;
   row.dataset.listId = list.id;
-
-  const icon = document.createElement('div');
-  icon.className = 'list-item__icon';
-  icon.innerHTML = ICON_LIST;
 
   const info = document.createElement('div');
   info.className = 'list-item__info';
   const name = document.createElement('div');
   name.className = 'list-item__name';
   name.textContent = list.name;
-  const sub = document.createElement('div');
-  sub.className = 'list-item__sub';
-  sub.textContent = `${list.stations.length} station${list.stations.length === 1 ? '' : 's'}`;
-  info.append(name, sub);
+  info.append(name, buildIconStrip(list.stations, 'Empty list'));
 
-  row.append(icon, info);
+  row.append(info);
 
   // Delete-confirm mode: the row swaps its chevron + trash for an inline
   // "Delete list?" confirm and is no longer clickable.

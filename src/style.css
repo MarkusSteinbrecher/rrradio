@@ -25,6 +25,10 @@
   --row-glow:        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 60%);
   --dial-overlay:    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.28));
   --live-on: #ffff00;
+  /* iOS RrradioTheme.cardFill — warm top→bottom gradient + card elevation
+     (RrradioCardShadowModifier: black @ 0.40 dark / 0.10 light, r5 y2). */
+  --card-fill:   linear-gradient(180deg, #292822, #25241e);
+  --card-shadow: 0 2px 5px rgba(0,0,0,0.40);
 }
 
 [data-theme="light"] {
@@ -41,6 +45,8 @@
   --row-glow:        linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
   --dial-overlay:    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
   --live-on: #00a040;
+  --card-fill:   linear-gradient(180deg, #fffefb, #fbfaf6);
+  --card-shadow: 0 2px 5px rgba(0,0,0,0.10);
 }
 
 @media (prefers-color-scheme: light) {
@@ -58,6 +64,8 @@
     --row-glow:     linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
     --dial-overlay: linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
     --live-on: #00a040;
+    --card-fill:   linear-gradient(180deg, #fffefb, #fbfaf6);
+    --card-shadow: 0 2px 5px rgba(0,0,0,0.10);
   }
 }
 
@@ -839,6 +847,37 @@ a.settings-row { text-decoration: none; }
   background: var(--accent);
 }
 
+/* Mobile: station rows are real cards (iOS StationRow card parity, the
+   .standard / .favoritesListCard treatment) — a warm gradient fill +
+   elevation lifting each off the page, matching the Library-home cards,
+   across Browse, Favorites, Lists and Recents. Desktop (≥1024px) keeps
+   its own card-grid further below. */
+@media (max-width: 1023.98px) {
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 12px;
+  }
+  .rows .row {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--card-fill);
+    box-shadow: var(--card-shadow);
+    padding: 12px 14px;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  /* The card fill replaces the flat tap/playing backgrounds; the playing
+     state uses an accent border, not the list's left edge-bar (which would
+     poke out of the rounded corner). */
+  .rows .row:active { background: var(--card-fill); }
+  .rows .row.is-playing {
+    background: var(--card-fill);
+    border-color: var(--accent);
+  }
+  .rows .row.is-playing::before { display: none; }
+}
+
 /* ─── Favicon (drawn letter-mark, 4 deterministic variants) ─── */
 .fav {
   width: 38px;
@@ -1036,7 +1075,8 @@ a.settings-row { text-decoration: none; }
 .lists-index {
   display: flex;
   flex-direction: column;
-  padding: 0 20px 12px;
+  gap: 10px;
+  padding: 6px 20px 16px;
 }
 .list-item {
   display: flex;
@@ -1082,6 +1122,55 @@ a.settings-row { text-decoration: none; }
   color: var(--ink-3);
 }
 .list-item__chev svg { width: 18px; height: 18px; }
+
+/* Library-home rows: real cards (iOS LibraryHomeCardContent parity) — a
+   warm top→bottom gradient fill + elevation shadow, lifting them off the
+   page rather than the flat border-separated rows. Title over a strip of
+   station favicons; fitStrip() in main.ts collapses overflow into a
+   trailing "+N more" badge. */
+.list-item--lib {
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card-fill);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+/* The card fill replaces the flat row separators + bg-2 hover. */
+.list-item--lib:hover {
+  background: var(--card-fill);
+  box-shadow: var(--card-shadow), var(--card-shadow);
+  transform: translateY(-1px);
+}
+.list-item--lib .list-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.list-item__strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  overflow: hidden;
+}
+.list-item__strip .strip-ico { flex: 0 0 auto; }
+.list-item__more {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.list-item__empty {
+  font-size: 12px;
+  line-height: 36px;
+  color: var(--ink-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 .section-label__back { margin-right: 2px; }
 
 /* Add-to-list sheet picker. */
