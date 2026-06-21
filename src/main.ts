@@ -15,7 +15,7 @@ import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
-import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
+import { PAGE_SIZE, fetchStations, searchStations } from './stations';
 import { GENRES, findGenre, stationMatchesGenre } from './genre-taxonomy';
 import { stationQualityBucket, type QualityBucket } from './quality';
 import { type BrowseSort, cycleSort, sortStations, orderFeaturedFirst } from './sort';
@@ -235,28 +235,12 @@ const $body = document.body;
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
-const $genre = document.getElementById('genre') as HTMLSelectElement;
-// Populate genre dropdown from the taxonomy. Boot-time so it's
-// available before the first render. The "All genres" option is
-// already in the static markup as the default; we just append the
-// canonical chip list after it.
-for (const g of GENRES) {
-  const opt = document.createElement('option');
-  opt.value = g.id;
-  opt.textContent = g.label;
-  $genre.appendChild(opt);
-}
-const $country = document.getElementById('country') as HTMLSelectElement;
-const $quality = document.getElementById('quality') as HTMLSelectElement;
-const $sortBtn = document.getElementById('sort-btn') as HTMLButtonElement;
-// The filter cells wrapping the sort + quality controls — hidden on the
-// discovery landing (they only apply to a result list, matching iOS).
-const $sortCell = $sortBtn.closest('.filter-cell') as HTMLElement;
-const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
-const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
-const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
-const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
-const $filterRow = document.getElementById('filter-row') as HTMLElement;
+// Filter sheet (iOS BrowseFiltersSheet port) — collapsible multi-select
+// sections built into #bf-sections, with a draft-model footer.
+const $bfSections = document.getElementById('bf-sections') as HTMLElement;
+const $bfCancel = document.getElementById('bf-cancel') as HTMLButtonElement;
+const $bfClear = document.getElementById('bf-clear') as HTMLButtonElement;
+const $bfApply = document.getElementById('bf-apply') as HTMLButtonElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
@@ -361,7 +345,6 @@ const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElemen
 const $filterBtn = document.getElementById('filter-btn') as HTMLButtonElement;
 const $filterDot = document.getElementById('filter-dot') as HTMLElement;
 const $filterSheet = document.getElementById('filter-sheet') as HTMLElement;
-const $filterSheetBody = document.getElementById('filter-sheet-body') as HTMLElement;
 const $filterClose = document.getElementById('filter-close') as HTMLButtonElement;
 const $settingsBtn = document.getElementById('settings-btn') as HTMLButtonElement;
 const $settingsSheet = document.getElementById('settings-sheet') as HTMLElement;
@@ -403,37 +386,20 @@ let listCreateOpen = false; // inline "name your list" row in the lists index
 let listRenameOpen = false; // inline rename input in the list-detail header
 let listDeleteConfirmId: string | null = null; // inline "Delete list?" confirm
 let sheetCreateOpen = false; // inline create row inside the add-to-list sheet
-let activeTag = 'all';
-// ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
-// curated matches and Radio Browser results (the API takes the same
-// 2-letter code via its `countrycode` param).
-let activeCountry = 'all';
-// Browse home view's source mode. Mutually-exclusive across the
-// played + news icon buttons. Tapping the active button deselects to
-// null, which falls back to RB top 50.
-//   'played'  → top 20 played (default)
-//   'news'    → RB top 50 with tag=news
-//   null      → RB top 50, no filter
-type BrowseMode = 'played' | 'news' | null;
-// Default null → the Browse tab opens on its discovery landing (genre /
-// country chips + Featured rail). 'played' / 'news' are reached by the
-// filter-row toggles and drop into the flat result list.
-let browseMode: BrowseMode = null;
-// Scope filter: when true, the home + filtered views drop everything
-// that isn't in BUILTIN_STATIONS — no RB long-tail, no GoatCounter
-// played-* backlog rows, no Worldwide Load more button. Orthogonal
-// to browseMode (works alongside Played; News auto-deselects since
-// news-tag is RB-only).
-let curatedOnly = false;
-// When true, the unfiltered home view replaces the list section
-// with a Leaflet map. Default false (list view); orthogonal to
-// curatedOnly — the map can show either station set.
-let mapView = false;
-// Alphabet sort for the un-queried catalog (off → A–Z → Z–A). Suppressed
-// while a text query is active (relevance order wins).
+// Browse filter — multi-select, mirroring the iOS BrowseFilter model.
+// Genre ids (from GENRES) and uppercase ISO country codes; News is the
+// in-filter toggle iOS keeps in the Genre section. When ANY of these (or
+// activeQuality) is set, the Browse list is matched locally against the
+// catalog — no Radio Browser fetch — so the live "Show N" count is real.
+const filterGenres = new Set<string>();
+const filterCountries = new Set<string>();
+let filterNews = false;
+// Alphabet sort for the result list (off → A–Z → Z–A). Lives on the page
+// (the results row), not in the filter. Suppressed while a text query is
+// active (relevance order wins).
 let activeSort: BrowseSort = null;
-// Stream-quality buckets to keep (empty = no quality filter). Applied
-// locally to every Browse result list; never forwarded to Radio Browser.
+// Stream-quality buckets to keep (empty = no quality filter). Part of the
+// filter; matched locally, never forwarded to Radio Browser.
 const activeQuality = new Set<QualityBucket>();
 // True once the user taps "Browse all" on the discovery landing — drops
 // into the flat catalog list. Cleared by back-to-discovery / goHome.
@@ -447,22 +413,22 @@ let discoveryCountsForLen = -1;
 
 // countryName lives in ./country.
 
-/** Populate the country dropdown from distinct codes in the curated
- *  catalog. Run after stations.json loads (BUILTIN_STATIONS is empty
- *  before that). Idempotent — skips if already populated. */
-function syncCountryOptions(): void {
-  if ($country.options.length > 1) return; // already done
+/** Distinct uppercase country codes present in the catalog, ordered by
+ *  display name. Memoised against catalog size; feeds the filter sheet's
+ *  Country section. Empty before stations.json loads. */
+let catalogCountriesCache: string[] | null = null;
+let catalogCountriesForLen = -1;
+function catalogCountries(): string[] {
+  if (catalogCountriesCache && catalogCountriesForLen === BUILTIN_STATIONS.length) {
+    return catalogCountriesCache;
+  }
   const codes = new Set<string>();
   for (const s of BUILTIN_STATIONS) {
     if (s.country && s.country.length >= 2) codes.add(s.country.toUpperCase());
   }
-  const sorted = [...codes].sort((a, b) => countryName(a).localeCompare(countryName(b)));
-  for (const code of sorted) {
-    const opt = document.createElement('option');
-    opt.value = code;
-    opt.textContent = countryName(code);
-    $country.append(opt);
-  }
+  catalogCountriesCache = [...codes].sort((a, b) => countryName(a).localeCompare(countryName(b)));
+  catalogCountriesForLen = BUILTIN_STATIONS.length;
+  return catalogCountriesCache;
 }
 let queryToken = 0;
 let sleepIndex = 0;
@@ -910,17 +876,6 @@ function renderTopBar(): void {
   $tabStatus.hidden = true;
 }
 
-function syncGenre(): void {
-  if ($genre.value !== activeTag) $genre.value = activeTag;
-  // Collapse the wrap to icon-only when no filter is active.
-  $genre.parentElement?.classList.toggle('is-default', activeTag === 'all');
-}
-
-function syncCountry(): void {
-  if ($country.value !== activeCountry) $country.value = activeCountry;
-  $country.parentElement?.classList.toggle('is-default', activeCountry === 'all');
-}
-
 function renderTabBar(): void {
   // Active-state spans both the bottom tab bar (mobile) and the top-nav
   // section links (desktop) so they never disagree.
@@ -1079,9 +1034,6 @@ function playedStations(): Station[] {
       seen.add(lc);
       continue;
     }
-    // Curated-only filter strips the GoatCounter-popular-but-not-curated
-    // backlog rows ('played-<slug>' entries that come from station-backlog.json).
-    if (curatedOnly) continue;
     const backlog = backlogByName.get(lc);
     if (backlog?.streamUrl && backlog.verdict !== 'stream-broken' && backlog.verdict !== 'no-rb-match') {
       ordered.push({
@@ -1462,195 +1414,6 @@ $npBody.addEventListener('pointercancel', () => {
   swipeActivePointer = null;
 });
 
-let selectedClusterKey: string | null = null;
-
-// Persists across re-renders (cluster selection, mode switches) so the
-// user keeps their pan/zoom while interacting. Cleared in toggleMapView.
-let mapPosition: { center: L.LatLngExpression; zoom: number } | null = null;
-let currentMap: L.Map | null = null;
-
-/**
- * Default frame: skip Antarctica, leave a little margin. Used on first
- * paint and when the map is reset.
- */
-const DEFAULT_BOUNDS: L.LatLngBoundsLiteral = [
-  [-55, -170],
-  [75, 175],
-];
-
-/**
- * Tear down the live Leaflet map. Called when the map view is toggled
- * off (so renderGlobe won't run to do it itself) and at the start of
- * each renderGlobe call (since the prior container has been detached).
- */
-function teardownMap(): void {
-  currentMap?.remove();
-  currentMap = null;
-}
-
-/**
- * Memoized favicon preflight. SVG <image> with a broken href shows a
- * broken-image glyph in some browsers; cheaper to probe via a regular
- * Image() and only attach the SVG <image> on success. Every favicon is
- * validated once per session, then the result is cached so re-renders
- * (mode switches, cluster selection) don't repeat the work.
- */
-const validatedFavicons = new Map<string, boolean | Promise<boolean>>();
-function preflightFavicon(url: string): Promise<boolean> {
-  const cached = validatedFavicons.get(url);
-  if (cached === true || cached === false) return Promise.resolve(cached);
-  if (cached) return cached;
-  const p = new Promise<boolean>((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      validatedFavicons.set(url, true);
-      resolve(true);
-    };
-    img.onerror = () => {
-      validatedFavicons.set(url, false);
-      resolve(false);
-    };
-    img.src = url;
-  });
-  validatedFavicons.set(url, p);
-  return p;
-}
-
-function renderGlobe(stations: Station[]): HTMLElement {
-  const wrap = document.createElement('section');
-  wrap.className = 'globe-wrap';
-
-  const mapEl = document.createElement('div');
-  mapEl.className = 'globe-map';
-  wrap.append(mapEl);
-
-  // Cluster stations by 0.1° (~11 km) so multiple regional channels at
-  // the same broadcaster don't pile a tower of identical pins.
-  const clusters = new Map<string, Station[]>();
-  for (const s of stations) {
-    if (!s.geo) continue;
-    const key = `${Math.round(s.geo[0] * 10)},${Math.round(s.geo[1] * 10)}`;
-    const arr = clusters.get(key) ?? [];
-    arr.push(s);
-    clusters.set(key, arr);
-  }
-
-  // Replace any prior Leaflet instance — its container has been
-  // detached by the previous renderContent() call.
-  teardownMap();
-
-  // Leaflet measures its container size at init time, so the wrap has
-  // to be in the DOM first. renderContent appends synchronously, so
-  // by the next microtask the container is laid out and sized.
-  queueMicrotask(() => {
-    const map = L.map(mapEl, {
-      worldCopyJump: true,
-      zoomControl: true,
-      attributionControl: true,
-      // Hold Cmd/Ctrl to zoom; plain scroll-wheel passes through to
-      // page scroll. Without this, the map captures every wheel event
-      // when the cursor is over it and listing-scroll appears to break.
-      scrollWheelZoom: false,
-      // Trackpad pinch (gesture-based zoom on touchpads) stays active.
-      wheelPxPerZoomLevel: 80,
-    });
-    // Re-enable scroll-wheel zoom only while a modifier is held.
-    mapEl.addEventListener('wheel', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
-      } else if (map.scrollWheelZoom.enabled()) {
-        map.scrollWheelZoom.disable();
-      }
-    });
-    currentMap = map;
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      subdomains: 'abcd',
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> ' +
-        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-    }).addTo(map);
-
-    if (mapPosition) {
-      map.setView(mapPosition.center, mapPosition.zoom);
-    } else {
-      map.fitBounds(DEFAULT_BOUNDS);
-    }
-    map.on('moveend zoomend', () => {
-      mapPosition = { center: map.getCenter(), zoom: map.getZoom() };
-    });
-
-    for (const [key, group] of clusters) {
-      const first = group[0];
-      if (!first.geo) continue;
-      const isCluster = group.length > 1;
-
-      // divIcon lets us render markers as plain HTML — much easier to
-      // style and to swap in a station favicon than Leaflet's image
-      // markers. anchor=center so the lat/lon sits dead-center on the
-      // pin.
-      const html = isCluster
-        ? `<div class="map-pin map-pin--cluster">${group.length}</div>`
-        : `<div class="map-pin map-pin--single"><div class="map-pin__dot"></div></div>`;
-      const icon = L.divIcon({
-        html,
-        className: 'map-pin-wrap',
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-      });
-
-      const marker = L.marker(first.geo, { icon, riseOnHover: true }).addTo(map);
-      marker.bindTooltip(isCluster ? `${group.length} stations` : first.name, {
-        direction: 'top',
-        offset: [0, -10],
-        opacity: 0.95,
-      });
-
-      marker.on('click', () => {
-        if (isCluster) {
-          selectedClusterKey = selectedClusterKey === key ? null : key;
-          renderContent();
-        } else {
-          onRowPlay(first);
-        }
-      });
-
-      // Single-station: try to swap the dot for the station favicon.
-      if (!isCluster && first.favicon) {
-        const favicon = first.favicon;
-        preflightFavicon(favicon).then((ok) => {
-          if (!ok) return;
-          const el = marker.getElement();
-          if (!el) return;
-          const dot = el.querySelector('.map-pin__dot') as HTMLDivElement | null;
-          if (!dot) return;
-          dot.classList.add('is-image');
-          dot.style.backgroundImage = `url(${JSON.stringify(favicon)})`;
-        });
-      }
-    }
-
-    // Belt-and-suspenders: re-measure once the surrounding layout has
-    // had its first paint, in case the wrap animated in.
-    setTimeout(() => map.invalidateSize(), 0);
-  });
-
-  // Below-map panel: shown when a multi-station cluster is selected.
-  const selected = selectedClusterKey ? clusters.get(selectedClusterKey) : undefined;
-  if (selected && selected.length > 1) {
-    const panel = document.createElement('div');
-    panel.className = 'globe-cluster-panel';
-    const label = document.createElement('div');
-    label.className = 'globe-cluster-panel__label';
-    label.textContent = `${selected.length} stations here`;
-    panel.append(label);
-    panel.append(renderRows(selected));
-    wrap.append(panel);
-  }
-
-  return wrap;
-}
 
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
@@ -1825,15 +1588,19 @@ function attachGripDrag(
 /** Is the Browse tab showing its discovery landing? True only when
  *  nothing narrows the catalog: no query, genre, country, mode,
  *  curated-only, map, or Browse-all. */
+/** True when any filter narrows the catalog (genres / countries / news /
+ *  quality). Drives the local-catalog match path + the funnel dot. */
+function hasActiveFilter(): boolean {
+  return (
+    filterGenres.size > 0 || filterCountries.size > 0 || filterNews || activeQuality.size > 0
+  );
+}
+
 function inDiscovery(): boolean {
   return (
     activeTab === 'browse' &&
     !$search.value.trim() &&
-    activeTag === 'all' &&
-    activeCountry === 'all' &&
-    browseMode === null &&
-    !curatedOnly &&
-    !mapView &&
+    !hasActiveFilter() &&
     !browseAll
   );
 }
@@ -1871,30 +1638,69 @@ function refine(
   return out;
 }
 
-function syncBrowseModeButtons(): void {
-  $modePlayed.classList.toggle('is-active', browseMode === 'played');
-  $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
-  $newsToggle.classList.toggle('is-active', browseMode === 'news');
-  $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
+/** Does a station pass the active filter? Mirrors iOS
+ *  `CatalogStationSearch.matchesBrowseFilters`: countries OR within the
+ *  set, genres OR within the set, news + quality as extra ANDed gates.
+ *  An empty category doesn't constrain. */
+function matchesBrowseFilter(
+  s: Station,
+  genres: Set<string>,
+  countries: Set<string>,
+  news: boolean,
+  quality: Set<QualityBucket>,
+): boolean {
+  if (countries.size > 0) {
+    const code = (s.country ?? '').toUpperCase();
+    if (!code || !countries.has(code)) return false;
+  }
+  if (genres.size > 0) {
+    let ok = false;
+    for (const id of genres) {
+      const g = findGenre(id);
+      if (g && stationMatchesGenre(s, g)) {
+        ok = true;
+        break;
+      }
+    }
+    if (!ok) return false;
+  }
+  if (news) {
+    const ng = findGenre('news');
+    if (!ng || !stationMatchesGenre(s, ng)) return false;
+  }
+  if (quality.size > 0 && !quality.has(stationQualityBucket(s))) return false;
+  return true;
 }
 
-function syncSort(): void {
-  const queryActive = $search.value.trim().length > 0;
-  $sortBtn.disabled = queryActive;
-  $sortBtn.classList.toggle('is-active', activeSort !== null && !queryActive);
-  $sortBtn.setAttribute(
-    'aria-label',
-    activeSort === 'az' ? 'Sort Z to A' : activeSort === 'za' ? 'Clear sort' : 'Sort A to Z',
-  );
-  $sortBtn.dataset.sort = activeSort ?? 'off';
+/** Count of catalog stations the given filter selection matches — the
+ *  live "Show N stations" figure on the filter sheet. */
+function filterMatchCount(
+  genres: Set<string>,
+  countries: Set<string>,
+  news: boolean,
+  quality: Set<QualityBucket>,
+): number {
+  // An empty selection constrains nothing, so it matches the whole
+  // catalog — mirrors iOS, where the accept button shows the full count
+  // ("Show 17k stations") rather than zero on an untouched draft.
+  let n = 0;
+  for (const s of BUILTIN_STATIONS) {
+    if (matchesBrowseFilter(s, genres, countries, news, quality)) n += 1;
+  }
+  return n;
 }
 
-function syncQuality(): void {
-  let v = 'all';
-  if (activeQuality.size === 1 && activeQuality.has('high')) v = 'high';
-  else if (activeQuality.size > 0) v = 'med';
-  if ($quality.value !== v) $quality.value = v;
-  $quality.parentElement?.classList.toggle('is-default', activeQuality.size === 0);
+/** Short human label for the active filter, used as the result section
+ *  header (e.g. "Rock · News · Germany"). Falls back to "Results". */
+function filterSummaryLabel(): string {
+  const parts: string[] = [];
+  for (const id of filterGenres) {
+    const g = findGenre(id);
+    if (g) parts.push(g.label);
+  }
+  if (filterNews) parts.push('News');
+  for (const code of filterCountries) parts.push(countryName(code));
+  return parts.length > 0 ? parts.join(' · ') : 'Results';
 }
 
 // ─── Discovery render ───
@@ -2104,26 +1910,27 @@ function browseAllSection(featured: ResolvedHighlight[]): DocumentFragment {
   return frag;
 }
 
+/** Tapping a discovery genre chip is a one-tap shortcut for the Genre
+ *  filter: it replaces the selection with just this genre (mirrors iOS,
+ *  where the chip pre-selects that section). */
 function selectGenreChip(id: string): void {
-  browseMode = null;
-  syncBrowseModeButtons();
-  activeCountry = 'all';
-  syncCountry();
-  activeTag = id;
-  syncGenre();
+  filterGenres.clear();
+  filterGenres.add(id);
+  filterCountries.clear();
+  filterNews = false;
   browseAll = false;
+  syncFilterDot();
   track(`discovery/genre/${id}`);
   void runQuery();
 }
 
 function selectCountryChip(code: string): void {
-  browseMode = null;
-  syncBrowseModeButtons();
-  activeTag = 'all';
-  syncGenre();
-  activeCountry = code;
-  syncCountry();
+  filterCountries.clear();
+  filterCountries.add(code.toUpperCase());
+  filterGenres.clear();
+  filterNews = false;
   browseAll = false;
+  syncFilterDot();
   track(`discovery/country/${code}`);
   void runQuery();
 }
@@ -2137,34 +1944,62 @@ function enterBrowseAll(): void {
 /** Clear every Browse narrowing and return to the discovery landing. */
 function resetToDiscovery(): void {
   clearSearch(false);
-  activeTag = 'all';
-  syncGenre();
-  activeCountry = 'all';
-  syncCountry();
-  browseMode = null;
-  syncBrowseModeButtons();
-  browseAll = false;
-  curatedOnly = false;
-  syncCuratedToggle();
+  filterGenres.clear();
+  filterCountries.clear();
+  filterNews = false;
   activeQuality.clear();
-  syncQuality();
+  browseAll = false;
   activeSort = null;
-  syncSort();
+  syncFilterDot();
   void runQuery();
 }
 
-function backToDiscoveryBar(): HTMLButtonElement {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'disc-back';
-  btn.setAttribute('aria-label', 'Back to Browse');
-  btn.innerHTML =
+/** Results header row above the list (mirrors iOS BrowseSortRow): a
+ *  back-to-discovery chevron, the alphabet sort toggle (off → A–Z → Z–A),
+ *  and the match count centered. Sort is suppressed while a text query is
+ *  active (relevance order wins). */
+function resultsRow(count: number): HTMLElement {
+  const row = document.createElement('div');
+  row.className = 'results-row';
+
+  const back = document.createElement('button');
+  back.type = 'button';
+  back.className = 'results-row__back';
+  back.setAttribute('aria-label', 'Back to Browse');
+  back.innerHTML =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
-  const span = document.createElement('span');
-  span.textContent = 'Browse';
-  btn.append(span);
-  btn.addEventListener('click', resetToDiscovery);
-  return btn;
+  back.addEventListener('click', resetToDiscovery);
+
+  const queryActive = $search.value.trim().length > 0;
+  const sort = document.createElement('button');
+  sort.type = 'button';
+  sort.className = 'results-row__sort';
+  sort.classList.toggle('is-active', activeSort !== null && !queryActive);
+  sort.disabled = queryActive;
+  sort.dataset.sort = activeSort ?? 'off';
+  sort.setAttribute(
+    'aria-label',
+    activeSort === 'az' ? 'Sort Z to A' : activeSort === 'za' ? 'Clear sort' : 'Sort A to Z',
+  );
+  sort.innerHTML =
+    activeSort === 'az'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 11 6 6 6-6"/></svg>'
+      : activeSort === 'za'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18"/><path d="m4 7 4-4 4 4"/><path d="M16 21V3"/><path d="m12 17 4 4 4-4"/></svg>';
+  sort.addEventListener('click', () => {
+    if (sort.disabled) return;
+    activeSort = cycleSort(activeSort);
+    track(`sort/${activeSort ?? 'off'}`);
+    void runQuery();
+  });
+
+  const countEl = document.createElement('span');
+  countEl.className = 'results-row__count';
+  countEl.textContent = String(count);
+
+  row.append(back, sort, countEl);
+  return row;
 }
 
 function renderContent(): void {
@@ -2177,7 +2012,7 @@ function renderContent(): void {
 
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
-  const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}|${browseAll}|${activeSort}|${[...activeQuality].sort().join(',')}`;
+  const sig = `${activeTab}|${[...filterGenres].sort().join('+')}|${[...filterCountries].sort().join('+')}|${filterNews}|${$search.value.trim()}|${browseAll}|${activeSort}|${[...activeQuality].sort().join(',')}`;
   if (sig !== lastViewSig) {
     homeViewLimit = HOME_VIEW_PAGE_SIZE;
     autoFillTries = 0;
@@ -2186,154 +2021,106 @@ function renderContent(): void {
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
-    const activeGenre = findGenre(activeTag);
-    const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
-    const noFilter = !query && !activeGenre && !countryFilter;
-    // News mode is a special case that pretends the "news" chip is
-    // active even when the dropdown says "all". Resolve it through the
-    // taxonomy so synonyms (noticias / local news) fold in.
-    const newsGenre = browseMode === 'news' ? findGenre('news') : undefined;
-    const effectiveGenre = newsGenre ?? activeGenre;
-    // Map view only renders inside the home view (no genre/country/search);
-    // disable the toggle visually when it'd be a no-op.
-    $mapToggle.disabled = !noFilter;
-
-    // Sort refines a result list, so it's hidden (in the filter popup) on
-    // the discovery landing — there's no list to act on. Quality stays,
-    // since picking it enters results. Keep the funnel dot in sync.
-    const onDiscovery = inDiscovery();
-    $sortCell.hidden = onDiscovery;
+    const filtered = hasActiveFilter();
     syncFilterDot();
 
     // Discovery landing is the default unfiltered Browse view; anything
-    // that narrows the catalog (a mode, Browse-all, a filter, or a
-    // search) drops into the result list with a back-to-discovery row.
+    // that narrows the catalog (a filter, Browse-all, or a search) drops
+    // into a result list with the results row (back + sort + count).
+    const onDiscovery = inDiscovery();
     if (onDiscovery) {
       renderDiscovery();
       return;
     }
-    if (!mapView) $content.append(backToDiscoveryBar());
 
-    // Unfiltered home view. The list is sourced based on browseMode.
-    if (noFilter) {
-      // Source set per mode:
-      //   played   → playedStations() — local, no RB
-      //   news     → lastBrowseStations (RB top news, fetched in runQuery)
-      //   null     → lastBrowseStations (RB top 50, fetched in runQuery)
-      let stations: Station[];
-      let restLabel: string;
-      if (curatedOnly) {
-        // RB is off-limits — source locally and let News (and any
-        // future tag-mode toggles) act as a sub-filter on the catalog.
-        stations = playedStations();
-        if (browseMode === 'news') {
-          stations = stations.filter((s) =>
-            (s.tags ?? []).some((t) => /news|talk/i.test(t)),
-          );
-          restLabel = 'News';
-        } else {
-          restLabel = 'Most played';
-        }
-      } else if (browseMode === 'played') {
-        stations = playedStations();
-        restLabel = 'Most played';
-      } else if (browseMode === 'news') {
-        stations = lastBrowseStations;
-        restLabel = 'News';
-      } else {
-        stations = lastBrowseStations;
-        restLabel = 'Top stations';
+    // ── Local-catalog filter (genre / country / news / quality) ──
+    // Matched directly against the catalog — no Radio Browser — so this
+    // count equals the sheet's "Show N stations" (iOS parity).
+    if (filtered && !query) {
+      const matched = BUILTIN_STATIONS.filter((s) =>
+        matchesBrowseFilter(s, filterGenres, filterCountries, filterNews, activeQuality),
+      );
+      const ordered = activeSort
+        ? sortStations(matched, activeSort)
+        : orderFeaturedFirst(matched);
+      $content.append(resultsRow(ordered.length));
+      if (ordered.length === 0) {
+        $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try removing a filter'));
+        return;
       }
-
-      if (mapView) {
-        $content.append(renderGlobe(stations));
-      } else {
-        // Quality filter + ordering (featured-first for the Top / Browse-all
-        // list; the alphabet sort when set). Played / News keep their order.
-        const refined = refine(stations, { textQuery: '', featuredFirst: browseMode === null });
-        // Worldwide expansion only when we're not constrained to the
-        // curated catalog (curatedOnly hides the section + button).
-        const showWorldwide = browseMode === 'played' && !curatedOnly;
-        const worldwide = showWorldwide
-          ? refine(homeRbStations, { textQuery: '', featuredFirst: false })
-          : [];
-        if (refined.length > 0) {
-          $content.append(sectionLabel(restLabel, refined.length));
-          // Cap the initial render — bigger catalogs (2k+ rows) made
-          // tab-switch DOM build cost ~1s. "Show more" reveals the
-          // next page in place.
-          const visibleHome = refined.slice(0, homeViewLimit);
-          $content.append(rowsGrid(visibleHome));
-          const remainingHome = refined.length - visibleHome.length;
-          if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
-          // Pagination — RB-sourced modes (null/news) paginate the
-          // primary list; played mode appends a separate "Worldwide"
-          // section on demand below the curated catalog.
-          if ((browseMode === null || browseMode === 'news') && browseHasMore) {
-            $content.append(loadMoreButton());
-          }
-          // Infinite scroll: reveal already-fetched rows first, then page
-          // the network. (Played mode's "Worldwide" stays a manual opt-in.)
-          if (remainingHome > 0) {
-            pendingLoadMore = (): void => {
-              homeViewLimit += HOME_VIEW_PAGE_SIZE;
-              renderContent();
-            };
-          } else if ((browseMode === null || browseMode === 'news') && browseHasMore) {
-            pendingLoadMore = (): void => void loadMore();
-          }
-        }
-        if (showWorldwide) {
-          if (worldwide.length > 0) {
-            $content.append(sectionLabel('Worldwide', worldwide.length));
-            $content.append(rowsGrid(worldwide));
-          }
-          if (homeRbHasMore) $content.append(loadMoreHomeButton());
-        }
-        // Quality filter emptied everything → one empty-state, only when
-        // there's truly nothing to show (not above a populated Worldwide).
-        if (refined.length === 0 && worldwide.length === 0 && activeQuality.size > 0) {
-          $content.append(
-            emptyState(ICON_EMPTY, 'No stations match', 'Try a lower quality filter'),
-          );
-        }
+      $content.append(sectionLabel(filterSummaryLabel(), ordered.length));
+      const visible = ordered.slice(0, homeViewLimit);
+      $content.append(rowsGrid(visible));
+      const remaining = ordered.length - visible.length;
+      if (remaining > 0) {
+        $content.append(homeShowMoreButton(remaining));
+        pendingLoadMore = (): void => {
+          homeViewLimit += HOME_VIEW_PAGE_SIZE;
+          renderContent();
+        };
       }
+      return;
+    }
 
+    // ── Text search (Radio-Browser-backed) ──
+    // Built-ins + custom matches first ("My stations"), then the RB
+    // long-tail ("Results"). Sort is suppressed (relevance wins).
+    if (query) {
+      const mySource = [...BUILTIN_STATIONS, ...getCustom()];
+      const myFiltered = refine(filterStations(mySource, query), {
+        textQuery: query,
+        featuredFirst: true,
+      });
+      const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
+      $content.append(resultsRow(myFiltered.length + results.length));
+      if (myFiltered.length > 0) {
+        $content.append(sectionLabel('My stations', myFiltered.length));
+        const visibleMy = myFiltered.slice(0, homeViewLimit);
+        $content.append(rowsGrid(visibleMy));
+        const remainingMy = myFiltered.length - visibleMy.length;
+        if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
+      }
+      if (results.length > 0) {
+        $content.append(sectionLabel('Results', results.length));
+        $content.append(rowsGrid(results));
+        if (browseHasMore) {
+          $content.append(loadMoreButton());
+          pendingLoadMore = (): void => void loadMore();
+        }
+      } else if (myFiltered.length === 0) {
+        $content.append(
+          emptyState(ICON_EMPTY, 'No stations match', 'Try a different search'),
+        );
+      }
       maybeAutoFill();
       return;
     }
 
-    // Filtered view (search / genre / country): built-ins + custom
-    // matches first ("My stations"), then Radio Browser long-tail.
-    const tagMatch = (s: Station): boolean =>
-      !effectiveGenre || stationMatchesGenre(s, effectiveGenre);
-    const countryMatch = (s: Station): boolean =>
-      !countryFilter || (s.country ?? '').toUpperCase() === countryFilter;
-    const mySource = [...BUILTIN_STATIONS, ...getCustom()];
-    const myFiltered = refine(
-      filterStations(mySource, query).filter(tagMatch).filter(countryMatch),
-      { textQuery: query, featuredFirst: true },
-    );
-    const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
-
-    if (myFiltered.length > 0) {
-      $content.append(sectionLabel('My stations', myFiltered.length));
-      const visibleMy = myFiltered.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visibleMy));
-      const remainingMy = myFiltered.length - visibleMy.length;
-      if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
-    }
-    if (results.length > 0) {
-      const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
-      $content.append(sectionLabel(label, results.length));
-      $content.append(rowsGrid(results));
-      if (browseHasMore) {
-        $content.append(loadMoreButton());
+    // ── Browse all (unfiltered, no query) — RB top + Worldwide ──
+    const refined = refine(lastBrowseStations, { textQuery: '', featuredFirst: true });
+    const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
+    $content.append(resultsRow(refined.length));
+    if (refined.length > 0) {
+      $content.append(sectionLabel('Top stations', refined.length));
+      const visibleHome = refined.slice(0, homeViewLimit);
+      $content.append(rowsGrid(visibleHome));
+      const remainingHome = refined.length - visibleHome.length;
+      if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
+      if (browseHasMore) $content.append(loadMoreButton());
+      if (remainingHome > 0) {
+        pendingLoadMore = (): void => {
+          homeViewLimit += HOME_VIEW_PAGE_SIZE;
+          renderContent();
+        };
+      } else if (browseHasMore) {
         pendingLoadMore = (): void => void loadMore();
       }
-    } else if (myFiltered.length === 0) {
-      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
     }
+    if (worldwide.length > 0) {
+      $content.append(sectionLabel('Worldwide', worldwide.length));
+      $content.append(rowsGrid(worldwide));
+    }
+    if (homeRbHasMore) $content.append(loadMoreHomeButton());
     maybeAutoFill();
     return;
   }
@@ -2879,20 +2666,6 @@ function renderListPicker(): void {
 /** Snapshot the current Browse-tab inputs into a shape composeBrowseFilter
  *  can operate on. One read site, used by runQuery + loadMore so they
  *  cannot drift out of sync (the audit-#70 bug). */
-function browseInputs(): {
-  query: string;
-  activeTag: string;
-  activeCountry: string;
-  browseMode: 'played' | 'news' | null;
-} {
-  return {
-    query: $search.value,
-    activeTag,
-    activeCountry,
-    browseMode,
-  };
-}
-
 async function runQuery(): Promise<void> {
   if (activeTab !== 'browse') {
     renderContent();
@@ -2904,18 +2677,12 @@ async function runQuery(): Promise<void> {
   browseHasMore = false;
   browseLoadingMore = false;
   pendingLoadMore = null;
-  const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), { offset: 0 });
-  // Skip Radio Browser fetch when:
-  //  · curated-only is on (we never render RB results in that mode)
-  //  · OR mode is 'played' AND no filter is set (local data only)
-  //  · OR we're on the discovery landing (no list to fill yet — the RB
-  //    Top feed loads when the user taps "Browse all")
-  // Mode='news' and mode=null both need an RB fetch (unless curated-only
-  // is on, in which case we'd never use the result).
-  const needsRb =
-    !curatedOnly &&
-    !inDiscovery() &&
-    (hasAnyFilter || browseMode === null || browseMode === 'news');
+  const query = $search.value.trim();
+  // Radio Browser is fetched only for a text search or the unfiltered
+  // "Browse all" view. Local filters (genre / country / news / quality)
+  // match the catalog directly — no network — so the discovery landing
+  // and every filtered view skip RB entirely.
+  const needsRb = !inDiscovery() && (query.length > 0 || (browseAll && !hasActiveFilter()));
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -2924,7 +2691,7 @@ async function runQuery(): Promise<void> {
   }
   $content.replaceChildren(statusLine('Tuning in…'));
   try {
-    const stations = await searchStations(filter);
+    const stations = await searchStations({ query: query || undefined, offset: 0 });
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
     // RB's searchStations dedupes by streamUrl, so a 60-result page
@@ -2949,15 +2716,12 @@ async function loadMore(): Promise<void> {
   renderContent(); // flips the button into a "Loading…" state
   const myToken = queryToken;
   const nextOffset = browseOffset + PAGE_SIZE;
+  const query = $search.value.trim();
   try {
-    const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), {
-      offset: nextOffset,
-    });
-    // Filtered pagination uses searchStations (carries query + tag +
-    // country); unfiltered home-view uses fetchStations which returns
-    // the worldwide top-by-votes feed.
-    const more = hasAnyFilter
-      ? await searchStations(filter)
+    // Text search paginates via searchStations (carries the query);
+    // the unfiltered Browse-all view uses fetchStations (top-by-votes).
+    const more = query
+      ? await searchStations({ query, offset: nextOffset })
       : await fetchStations(nextOffset);
     if (myToken !== queryToken) return;
     // Radio Browser sometimes returns duplicates across page boundaries
@@ -3156,20 +2920,14 @@ function goHome(): void {
   if ($np.classList.contains('open')) openNp(false);
   const wasDiscovery = activeTab === 'browse' && inDiscovery();
   clearSearch(false);
-  activeTag = 'all';
-  activeCountry = 'all';
   // Reset every Browse narrowing back to the discovery landing.
-  browseMode = null;
-  browseAll = false;
-  curatedOnly = false;
-  syncCuratedToggle();
-  syncBrowseModeButtons();
+  filterGenres.clear();
+  filterCountries.clear();
+  filterNews = false;
   activeQuality.clear();
-  syncQuality();
+  browseAll = false;
   activeSort = null;
-  syncSort();
-  syncGenre();
-  syncCountry();
+  syncFilterDot();
   if (activeTab !== 'browse') {
     setTab('browse'); // setTab also runs the query
   } else if (!wasDiscovery) {
@@ -4149,8 +3907,6 @@ $search.addEventListener('input', () => {
   // runQuery itself, so the debounced handler below just refreshes it.
   if (activeTab === 'playing' && $search.value.trim()) setTab('browse');
   syncSearchClear();
-  // A live query suppresses the alphabet sort (relevance order wins).
-  syncSort();
 });
 $search.addEventListener(
   'input',
@@ -4160,101 +3916,304 @@ $search.addEventListener(
   }, 300),
 );
 
-$genre.addEventListener('change', () => {
-  activeTag = $genre.value || 'all';
-  syncGenre();
-  // Picking a genre clears news mode (single tag in effect at a time).
-  if (activeTag !== 'all' && browseMode === 'news') {
-    setBrowseMode(null);
-    return; // setBrowseMode triggers runQuery
-  }
-  selectedClusterKey = null;
-  void runQuery();
-  track(`genre/${activeTag}`);
-});
+// ─── Filter sheet (port of the iOS BrowseFiltersSheet) ───
+// Selections pile up in a draft while the sheet is open; they apply to
+// the live filter only when the user taps "Show N stations" (iOS parity).
+type BfSection = 'genre' | 'country' | 'quality';
+const draftGenres = new Set<string>();
+const draftCountries = new Set<string>();
+let draftNews = false;
+const draftQuality = new Set<QualityBucket>();
+const bfExpanded = new Set<BfSection>();
+let bfCountrySearch = '';
 
-$country.addEventListener('change', () => {
-  activeCountry = $country.value || 'all';
-  syncCountry();
-  selectedClusterKey = null;
-  void runQuery();
-  track(`country/${activeCountry}`);
-});
+function copySet<T>(dst: Set<T>, src: Iterable<T>): void {
+  dst.clear();
+  for (const v of src) dst.add(v);
+}
 
-function setBrowseMode(target: BrowseMode): void {
-  // Toggle off when the user taps the active button. Tapping a mode also
-  // leaves the discovery landing (Browse-all) so the chosen list shows.
-  const next = browseMode === target ? null : target;
-  if (next === browseMode) return;
-  browseMode = next;
-  browseAll = false;
-  syncBrowseModeButtons();
-  // News mode and the genre dropdown both encode a single tag filter,
-  // so they're mutually exclusive — picking news clears the genre.
-  if (browseMode === 'news' && activeTag !== 'all') {
-    activeTag = 'all';
-    syncGenre();
+function draftIsEmpty(): boolean {
+  return (
+    draftGenres.size === 0 && draftCountries.size === 0 && !draftNews && draftQuality.size === 0
+  );
+}
+
+/** Abbreviate large match counts ("1.4k") so the apply pill stays narrow,
+ *  matching the discovery chips. */
+function bfCount(n: number): string {
+  return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
+}
+
+const QUALITY_BUCKETS: { id: QualityBucket; label: string; level: number }[] = [
+  { id: 'low', label: 'Low', level: 2 },
+  { id: 'medium', label: 'Medium', level: 3 },
+  { id: 'high', label: 'High', level: 4 },
+];
+
+const BF_SECTION_ICON: Record<BfSection, string> = {
+  genre:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+  country:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>',
+  quality:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-4"/><path d="M12 20V9"/><path d="M19 20V4"/></svg>',
+};
+const CHECK_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+/** A multi-select pick row (label + optional leading glyph + checkmark),
+ *  mirroring iOS `pickerRow`. */
+function bfPickRow(
+  label: string,
+  selected: boolean,
+  onToggle: () => void,
+  lead?: HTMLElement,
+): HTMLButtonElement {
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'bf-row';
+  row.setAttribute('aria-pressed', String(selected));
+  const leadEl = document.createElement('span');
+  leadEl.className = 'bf-row__lead';
+  if (lead) leadEl.append(lead);
+  const name = document.createElement('span');
+  name.className = 'bf-row__label';
+  name.textContent = label;
+  const check = document.createElement('span');
+  check.className = 'bf-row__check';
+  check.innerHTML = CHECK_SVG;
+  row.append(leadEl, name, check);
+  row.addEventListener('click', onToggle);
+  return row;
+}
+
+/** The 4-bar ascending quality meter, sized for a pick row (iOS
+ *  qualityMeterGraphic). */
+function bfQualityMeter(level: number): HTMLElement {
+  const meter = document.createElement('span');
+  meter.className = 'bf-meter';
+  for (let i = 0; i < 4; i += 1) {
+    const bar = document.createElement('span');
+    bar.className = 'bf-meter__bar' + (i < level ? ' is-on' : '');
+    meter.append(bar);
   }
-  selectedClusterKey = null;
-  track(`mode/${browseMode ?? 'none'}`);
+  return meter;
+}
+
+/** Repaint the footer: live "Show N stations" count + Clear visibility. */
+function bfUpdateFooter(): void {
+  const count = filterMatchCount(draftGenres, draftCountries, draftNews, draftQuality);
+  $bfApply.textContent = count === 1 ? 'Show 1 station' : `Show ${bfCount(count)} stations`;
+  $bfApply.disabled = count === 0;
+  $bfApply.classList.toggle('is-active', count > 0);
+  $bfClear.hidden = draftIsEmpty();
+}
+
+/** Build one collapsible section (header + body) into the sheet. */
+function bfSection(
+  section: BfSection,
+  title: string,
+  badgeCount: number,
+  fillBody: (body: HTMLElement) => void,
+): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'bf-section';
+
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'bf-section__head';
+  const expanded = bfExpanded.has(section);
+  head.setAttribute('aria-expanded', String(expanded));
+  head.innerHTML =
+    `<span class="bf-section__icon${badgeCount > 0 ? ' is-on' : ''}">${BF_SECTION_ICON[section]}</span>` +
+    `<span class="bf-section__title">${title}</span>` +
+    (badgeCount > 0 ? `<span class="bf-section__badge">${badgeCount}</span>` : '') +
+    `<span class="bf-section__chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${expanded ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'}"/></svg></span>`;
+  head.addEventListener('click', () => {
+    if (bfExpanded.has(section)) bfExpanded.delete(section);
+    else bfExpanded.add(section);
+    renderFilterSheet();
+  });
+  wrap.append(head);
+
+  if (expanded) {
+    const body = document.createElement('div');
+    body.className = 'bf-section__body';
+    fillBody(body);
+    wrap.append(body);
+  }
+  return wrap;
+}
+
+/** Rebuild the filter sheet sections from the current draft. */
+function renderFilterSheet(): void {
+  $bfSections.replaceChildren();
+
+  // Genre — News toggle first, then the taxonomy.
+  $bfSections.append(
+    bfSection('genre', 'Genre', draftGenres.size + (draftNews ? 1 : 0), (body) => {
+      body.append(
+        bfPickRow('News', draftNews, () => {
+          draftNews = !draftNews;
+          renderFilterSheet();
+        }),
+      );
+      for (const g of GENRES) {
+        // News has its own dedicated toggle above (iOS parity), so skip
+        // the 'news' genre here to avoid showing it twice.
+        if (g.id === 'news') continue;
+        body.append(
+          bfPickRow(g.label, draftGenres.has(g.id), () => {
+            if (draftGenres.has(g.id)) draftGenres.delete(g.id);
+            else draftGenres.add(g.id);
+            renderFilterSheet();
+          }),
+        );
+      }
+    }),
+  );
+
+  // Country — search box, selected pinned to the top.
+  $bfSections.append(
+    bfSection('country', 'Country', draftCountries.size, (body) => {
+      const search = document.createElement('div');
+      search.className = 'bf-search';
+      search.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+      const input = document.createElement('input');
+      input.type = 'search';
+      input.className = 'bf-search__input';
+      input.placeholder = 'Search countries…';
+      input.value = bfCountrySearch;
+      input.setAttribute('aria-label', 'Search countries');
+      const list = document.createElement('div');
+      list.className = 'bf-country-list';
+      const paint = (): void => {
+        list.replaceChildren();
+        for (const code of orderedDraftCountries()) {
+          const flag = document.createElement('span');
+          flag.className = 'bf-row__flag';
+          flag.textContent = flagEmoji(code) ?? '';
+          list.append(
+            bfPickRow(
+              `${countryName(code)} (${code})`,
+              draftCountries.has(code),
+              () => {
+                if (draftCountries.has(code)) draftCountries.delete(code);
+                else draftCountries.add(code);
+                // Targeted repaint keeps the search input focused.
+                paint();
+                bfUpdateBadges();
+                bfUpdateFooter();
+              },
+              flag,
+            ),
+          );
+        }
+      };
+      input.addEventListener('input', () => {
+        bfCountrySearch = input.value;
+        paint();
+      });
+      search.append(input);
+      body.append(search, list);
+      paint();
+    }),
+  );
+
+  // Quality — Low / Medium / High buckets with the ascending meter.
+  $bfSections.append(
+    bfSection('quality', 'Quality', draftQuality.size, (body) => {
+      for (const q of QUALITY_BUCKETS) {
+        body.append(
+          bfPickRow(
+            q.label,
+            draftQuality.has(q.id),
+            () => {
+              if (draftQuality.has(q.id)) draftQuality.delete(q.id);
+              else draftQuality.add(q.id);
+              renderFilterSheet();
+            },
+            bfQualityMeter(q.level),
+          ),
+        );
+      }
+    }),
+  );
+
+  bfUpdateFooter();
+}
+
+/** Update only the section header badges in place (used by the country
+ *  list's targeted repaint so the search input keeps focus). */
+function bfUpdateBadges(): void {
+  const counts: Record<BfSection, number> = {
+    genre: draftGenres.size + (draftNews ? 1 : 0),
+    country: draftCountries.size,
+    quality: draftQuality.size,
+  };
+  const heads = $bfSections.querySelectorAll<HTMLElement>('.bf-section');
+  const order: BfSection[] = ['genre', 'country', 'quality'];
+  heads.forEach((wrap, i) => {
+    const section = order[i];
+    const icon = wrap.querySelector('.bf-section__icon');
+    icon?.classList.toggle('is-on', counts[section] > 0);
+    let badge = wrap.querySelector<HTMLElement>('.bf-section__badge');
+    const chev = wrap.querySelector('.bf-section__chev');
+    if (counts[section] > 0) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'bf-section__badge';
+        chev?.before(badge);
+      }
+      badge.textContent = String(counts[section]);
+    } else {
+      badge?.remove();
+    }
+  });
+}
+
+/** Draft countries ordered for display: selected pinned to the top, the
+ *  rest filtered by the search box. Mirrors iOS `orderedCountries`. */
+function orderedDraftCountries(): string[] {
+  const all = catalogCountries();
+  const q = bfCountrySearch.trim().toLowerCase();
+  const matches = (code: string): boolean => {
+    if (!q) return true;
+    return `${countryName(code)} ${code}`.toLowerCase().includes(q);
+  };
+  if (draftCountries.size === 0) return all.filter(matches);
+  const selected = all.filter((c) => draftCountries.has(c));
+  const rest = all.filter((c) => !draftCountries.has(c) && matches(c));
+  return [...selected, ...rest];
+}
+
+function applyDraftFilter(): void {
+  copySet(filterGenres, draftGenres);
+  copySet(filterCountries, draftCountries);
+  filterNews = draftNews;
+  copySet(activeQuality, draftQuality);
+  // An empty filter narrows nothing — applying it means "show everything",
+  // so drop into the flat browse-all list (matching the footer's "Show N
+  // stations" count) instead of bouncing back to the discovery landing.
+  browseAll = draftIsEmpty();
+  syncFilterDot();
+  openFilterSheet(false);
+  track('filter/apply');
   void runQuery();
 }
 
-function syncCuratedToggle(): void {
-  $curatedToggle.classList.toggle('is-active', curatedOnly);
-  $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
-}
-
-function setCuratedOnly(target: boolean): void {
-  if (curatedOnly === target) return;
-  curatedOnly = target;
-  syncCuratedToggle();
-  selectedClusterKey = null;
-  track(`curated/${curatedOnly ? 'on' : 'off'}`);
-  void runQuery();
-}
-
-$modePlayed.addEventListener('click', () => setBrowseMode('played'));
-$newsToggle.addEventListener('click', () => setBrowseMode('news'));
-$curatedToggle.addEventListener('click', () => setCuratedOnly(!curatedOnly));
-
-// Alphabet sort cycle (off → A–Z → Z–A). Disabled while a query is active.
-$sortBtn.addEventListener('click', () => {
-  if ($sortBtn.disabled) return;
-  activeSort = cycleSort(activeSort);
-  syncSort();
-  track(`sort/${activeSort ?? 'off'}`);
-  void runQuery();
+$bfCancel.addEventListener('click', () => openFilterSheet(false));
+$bfClear.addEventListener('click', () => {
+  draftGenres.clear();
+  draftCountries.clear();
+  draftNews = false;
+  draftQuality.clear();
+  renderFilterSheet();
 });
-
-// Minimum stream-quality filter. 'all' clears it; 'med' keeps Medium+High;
-// 'high' keeps High only. Local-only (never forwarded to Radio Browser).
-$quality.addEventListener('change', () => {
-  activeQuality.clear();
-  if ($quality.value === 'high') {
-    activeQuality.add('high');
-  } else if ($quality.value === 'med') {
-    activeQuality.add('medium');
-    activeQuality.add('high');
-  }
-  syncQuality();
-  track(`quality/${$quality.value}`);
-  void runQuery();
-});
-
-$mapToggle.addEventListener('click', () => {
-  if ($mapToggle.disabled) return;
-  mapView = !mapView;
-  $mapToggle.classList.toggle('is-active', mapView);
-  $mapToggle.setAttribute('aria-pressed', String(mapView));
-  if (!mapView) {
-    selectedClusterKey = null;
-    // renderContent() won't run renderGlobe(), so nothing else will
-    // dispose the live Leaflet instance — do it here.
-    teardownMap();
-  }
-  track(`map-view/${mapView ? 'on' : 'off'}`);
-  renderContent();
+$bfApply.addEventListener('click', () => {
+  if ($bfApply.disabled) return;
+  applyDraftFilter();
 });
 
 $searchClear.addEventListener('click', () => {
@@ -4275,15 +4234,27 @@ $listNewBtn.addEventListener('click', () => {
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeListSheet();
+  if (e.key === 'Escape' && $filterSheet.classList.contains('open')) openFilterSheet(false);
 });
 
 // ─── Top-toolbar sheets: filters (funnel) + settings (gear) ───
-// The inline filter-row lives inside #filter-sheet (relocated at boot),
-// so opening the funnel reveals every existing filter control unchanged.
-$filterSheetBody.appendChild($filterRow);
-$filterRow.hidden = false;
 
+/** Open/close the filter sheet. On open, seed the draft from the live
+ *  filter, auto-expand any section that already carries a selection, and
+ *  build the sheet (mirrors how the iOS sheet starts from `initial`). */
 function openFilterSheet(open: boolean): void {
+  if (open) {
+    copySet(draftGenres, filterGenres);
+    copySet(draftCountries, filterCountries);
+    draftNews = filterNews;
+    copySet(draftQuality, activeQuality);
+    bfCountrySearch = '';
+    bfExpanded.clear();
+    if (draftGenres.size > 0 || draftNews) bfExpanded.add('genre');
+    if (draftCountries.size > 0) bfExpanded.add('country');
+    if (draftQuality.size > 0) bfExpanded.add('quality');
+    renderFilterSheet();
+  }
   $filterSheet.classList.toggle('open', open);
   $filterSheet.setAttribute('aria-hidden', String(!open));
 }
@@ -4379,15 +4350,9 @@ $settingsHistoryList.addEventListener('click', (e) => {
   if ((e.target as HTMLElement).closest('.row')) openSettingsSheet(false);
 });
 
-/** Lights the funnel's accent dot when any filter / mode narrows Browse. */
+/** Lights the funnel's accent dot when any filter narrows Browse. */
 function syncFilterDot(): void {
-  const active =
-    activeTag !== 'all' ||
-    activeCountry !== 'all' ||
-    activeQuality.size > 0 ||
-    browseMode !== null ||
-    curatedOnly;
-  $filterDot.hidden = !active;
+  $filterDot.hidden = !hasActiveFilter();
 }
 
 $filterBtn.addEventListener('click', () => openFilterSheet(true));
@@ -5063,12 +5028,8 @@ player.subscribe((np) => {
 renderTabBar();
 renderTopBar();
 syncLayoutMode();
-syncGenre();
-syncCountry();
 syncSearchClear();
-syncBrowseModeButtons();
-syncSort();
-syncQuality();
+syncFilterDot();
 syncMusicServiceLinks();
 // Landing-page preference: open Favorites / Recents on launch when the
 // user picked one (and there's no inbound ?q search / station deep-link
@@ -5082,7 +5043,6 @@ syncMusicServiceLinks();
 // metadata fetcher overrides). Render once it lands so the first paint
 // already has the Featured tiles.
 void loadBuiltinStations().then(() => {
-  syncCountryOptions();
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
 });

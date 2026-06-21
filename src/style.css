@@ -173,8 +173,8 @@ html.theme-switching *::after {
   border-bottom: 1px solid var(--line);
 }
 /* Search flexes to fill the row; the action buttons take their natural
-   width. (On mobile the search drops to its own row — see the ≤1023px
-   block below.) */
+   width. This holds on mobile too — logo + search + filter + settings
+   share one row (see the ≤1023px block below). */
 .topnav > .search-wrap { flex: 1; min-width: 0; }
 .topnav > .toolbar { flex: 0 0 auto; }
 
@@ -367,14 +367,11 @@ html.theme-switching *::after {
    full-width row beneath them — wordmark left, actions right, search below.
    Desktop (≥1024px) keeps the single-row layout (plenty of width). */
 @media (max-width: 1023.98px) {
-  .topnav {
-    flex-wrap: wrap;
-    row-gap: 10px;
-  }
-  .topnav > .wordmark { order: 1; }
-  .topnav > .toolbar { order: 2; margin-left: auto; }
-  .topnav > .topnav-gear { order: 2; }
-  .topnav > .search-wrap { order: 3; flex-basis: 100%; }
+  /* Single row: logo + search + filter + settings. The search flexes to
+     fill the space between the wordmark and the action buttons (DOM order
+     already places it there), so the row stays one line and never wraps. */
+  .topnav { flex-wrap: nowrap; }
+  .topnav > .search-wrap { flex: 1; min-width: 0; }
 }
 .toolbar-btn {
   flex-shrink: 0;
@@ -663,44 +660,6 @@ a.settings-row { text-decoration: none; }
 }
 .curated-toggle.is-active:hover { color: var(--bg); }
 
-/* Map-view toggle — same geometry + active style as curated. When
-   on, the unfiltered home view replaces its list section with the
-   Leaflet map. */
-.map-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.map-toggle svg { width: 16px; height: 16px; display: block; }
-.map-toggle:hover {
-  border-color: var(--line-2);
-  color: var(--ink-2);
-}
-.map-toggle.is-active {
-  color: var(--bg);
-  border-color: var(--ink);
-  background: var(--ink);
-}
-.map-toggle.is-active:hover { color: var(--bg); }
-.map-toggle:disabled {
-  cursor: default;
-  color: var(--ink-4);
-  border-color: var(--line);
-  background: transparent;
-  opacity: 0.5;
-}
-.map-toggle:disabled:hover {
-  border-color: var(--line);
-  color: var(--ink-4);
-}
 
 /* Genre + country filters. Always rendered as a 36×36 circle to
    match the other toggles in the row. The selected value lives in
@@ -2701,21 +2660,6 @@ body.is-playing .np-bottom .live-dot  {
 }
 
 /* ─── Map (Browse home map view, Leaflet + CartoDB Dark Matter) ─── */
-.globe-wrap {
-  position: relative;
-  padding: 8px 12px 4px;
-  user-select: none;
-}
-.globe-map {
-  width: 100%;
-  height: 60vh;
-  min-height: 320px;
-  max-height: 720px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-}
 /* Leaflet container background fallback (matches our theme). */
 .leaflet-container {
   background: var(--bg-2) !important;
@@ -2755,68 +2699,6 @@ body.is-playing .np-bottom .live-dot  {
 }
 .leaflet-tooltip-top:before {
   border-top-color: var(--line) !important;
-}
-
-/* Markers (rendered via L.divIcon — class on the wrapper is
-   `map-pin-wrap`; we strip Leaflet's default white box and let our
-   inner .map-pin handle the visual.) */
-.map-pin-wrap {
-  background: transparent !important;
-  border: 0 !important;
-}
-.map-pin {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-.map-pin:hover {
-  transform: scale(1.1);
-}
-.map-pin--single .map-pin__dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
-  background-size: cover;
-  background-position: center;
-}
-.map-pin--single .map-pin__dot.is-image {
-  /* When the favicon swaps in, the dot becomes a thumbnail. Slightly
-     larger so the image is recognisable. */
-  width: 28px;
-  height: 28px;
-  background-color: var(--bg-2);
-}
-.map-pin--cluster {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--bg);
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 600;
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.globe-cluster-panel {
-  margin-top: 8px;
-  border-top: 1px solid var(--line);
-  padding-top: 8px;
-}
-.globe-cluster-panel__label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  padding: 8px 16px 4px;
 }
 
 /* "Load more" button — paginates Radio Browser results in
@@ -2897,6 +2779,225 @@ body.is-playing .np-bottom .live-dot  {
   scrollbar-width: none; /* Firefox */
 }
 .sheet-body::-webkit-scrollbar { width: 0; }
+
+/* ─── Browse filter sheet (iOS BrowseFiltersSheet port) ─── */
+.sheet--filter .sheet-body { padding: 8px 6px 4px; }
+.bf-sections { display: flex; flex-direction: column; }
+
+.bf-section__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+}
+.bf-section__icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  color: var(--ink-3);
+}
+.bf-section__icon.is-on { color: var(--accent); }
+.bf-section__icon svg { width: 18px; height: 18px; }
+.bf-section__title { font-size: 15px; font-weight: 600; }
+.bf-section__badge {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+.bf-section__chev { margin-left: auto; color: var(--ink-3); display: grid; place-items: center; }
+.bf-section__chev svg { width: 16px; height: 16px; }
+.bf-section__body { padding-bottom: 6px; }
+
+.bf-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 20px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+}
+.bf-row__lead {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  flex-shrink: 0;
+  color: var(--ink-3);
+}
+.bf-row__flag { font-size: 17px; }
+.bf-row__label { font-size: 15px; flex: 1; min-width: 0; }
+.bf-row__check { width: 18px; color: var(--accent); opacity: 0; flex-shrink: 0; }
+.bf-row__check svg { width: 18px; height: 18px; display: block; }
+.bf-row[aria-pressed='true'] .bf-row__check { opacity: 1; }
+
+.bf-meter { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+.bf-meter__bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--ink-3);
+  opacity: 0.28;
+}
+.bf-meter__bar:nth-child(1) { height: 5px; }
+.bf-meter__bar:nth-child(2) { height: 8px; }
+.bf-meter__bar:nth-child(3) { height: 11px; }
+.bf-meter__bar:nth-child(4) { height: 14px; }
+.bf-meter__bar.is-on { opacity: 1; background: var(--ink-2); }
+.bf-row[aria-pressed='true'] .bf-meter__bar.is-on { background: var(--accent); }
+
+.bf-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 20px 8px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-3);
+}
+.bf-search svg { width: 18px; height: 18px; flex-shrink: 0; }
+.bf-search__input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+}
+.bf-country-list { max-height: 240px; overflow-y: auto; scrollbar-width: none; }
+.bf-country-list::-webkit-scrollbar { width: 0; }
+
+/* Pinned "Map view" toggle (kept from the old filter row). */
+
+/* Pinned footer: Cancel · Clear · Show N stations. */
+.sheet-foot {
+  flex-shrink: 0;
+  border-top: 1px solid var(--line);
+}
+.bf-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px calc(12px + var(--safe-bottom));
+}
+.bf-cancel {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.bf-cancel svg { width: 15px; height: 15px; }
+.bf-clear {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.bf-clear[hidden] { display: none; }
+.bf-apply {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bf-apply.is-active {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--bg);
+}
+.bf-apply:disabled { cursor: default; }
+
+/* Results header row above a filtered/searched list (iOS BrowseSortRow):
+   back chevron · sort toggle · centered count. */
+.results-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  margin-bottom: 4px;
+}
+.results-row__back,
+.results-row__sort {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.results-row__back svg,
+.results-row__sort svg { width: 18px; height: 18px; }
+.results-row__sort.is-active { color: var(--accent); }
+.results-row__sort:disabled { opacity: 0.35; cursor: default; }
+.results-row__count {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+
+/* Desktop: float the filter as an anchored popover card near the funnel,
+   instead of the full-screen slide-up sheet used on mobile (iOS popover). */
+@media (min-width: 1024px) {
+  .sheet--filter {
+    inset: auto;
+    top: calc(var(--safe-top) + 64px);
+    right: 16px;
+    width: 340px;
+    max-height: min(440px, calc(100vh - 120px));
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease, transform 0.16s ease;
+  }
+  .sheet--filter.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .sheet--filter .sheet-head { padding: 14px 16px; }
+}
 
 .add-form { display: flex; flex-direction: column; gap: 16px; }
 
