@@ -609,27 +609,26 @@ Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`.
 
 ## App Store web pages (`/support`, `/ios`)
 
-Two static pages back the iOS App Store listing (issues #582 / #583; iOS tracker rrradio-ios #108). Both are self-contained single files copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves them at clean extensionless URLs:
+The iOS App Store listing is backed by two web URLs (issues #582 / #583; iOS tracker rrradio-ios #108):
 
-- `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
-- `public/ios.html` → `https://rrradio.org/ios` — **App Store Marketing URL**. A lean, tracker-free landing with value prop, the three app screenshots (`public/ios-media/screen-*.webp`), an App Store badge placeholder (swap to the real `apps.apple.com` link at launch), and links to privacy + support.
+- `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). A self-contained single file copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves it at a clean extensionless URL. Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
+- `https://rrradio.org/ios` — **App Store Marketing URL**, now served by the richer "vintage tuner" landing (see below). It replaced the earlier lean `public/ios.html`, which was retired so `/ios` has a single canonical page; the old `/rrradio-ios/` route redirects there via `public/rrradio-ios/index.html`.
 
-`src/static-pages.test.ts` locks the contact/report channels, cross-links, screenshots, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/ios` and `/support` to their `.html` files in dev so local serving matches GitHub Pages.
-
-This is intentionally separate from the richer `/rrradio-ios/` landing below — they can be consolidated later (e.g. promote one to canonical and redirect the other) if a single iOS page is wanted.
+`src/static-pages.test.ts` locks support.html's contact/report channels, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
 
 ## iOS app landing page
 
-The iOS app webpage is a standalone static Vite entry at `/rrradio-ios/` (the richer "vintage tuner" landing; the App Store Marketing URL is the leaner `/ios` page above). It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
+The iOS app webpage is a standalone static Vite entry at `/ios` (the richer "vintage tuner" landing — also the App Store Marketing URL). It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
 
 ```
-rrradio-ios/index.html       — route HTML and page copy
-rrradio-ios/landing.css      — extracted handoff styling
-rrradio-ios/landing.js       — vintage tuner scroll/navigation wiring
-rrradio-ios/*.svg            — local logo assets
+ios/index.html       — route HTML and page copy
+ios/landing.css      — base/layout styling
+ios/tunein.css       — vintage tuner styling
+ios/tunein.js        — vintage tuner scroll/tuning + carousel wiring
+ios/*.svg, *.webp    — local logos + app screenshots
 ```
 
-The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The phone mockups currently use static placeholders; replace those with real app screenshots once the App Store page assets are ready.
+The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The old `/rrradio-ios/` URL redirects here via `public/rrradio-ios/index.html`.
 
 ## Universal Links handoff (`apple-app-site-association`)
 

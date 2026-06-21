@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>rrradio — tune in</title>
+<meta name="description" content="rrradio is a minimal, free, ad-free internet radio app for iPhone and Apple Watch. Tune the dial to read it." />
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  img-src 'self' data:;
+  connect-src 'self';
+  font-src 'self' https://fonts.gstatic.com;
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), midi=()" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="rrradio-logo-app-dark.svg" />
+<link rel="stylesheet" href="./landing.css" />
+<link rel="stylesheet" href="./tunein.css" />
+</head>
+<body class="tunein">
+
+  <!-- The only thing that actually scrolls: an invisible tall track that
+       gives the dial somewhere to travel. Everything visible is fixed. -->
+  <div class="tune-track" id="tuneTrack" aria-hidden="true"></div>
+
+  <div class="receiver">
+
+    <!-- The whole receiver is one CRT surface: the static + scanlines span
+         this area, with the dial on top. -->
+    <div class="receiver__main">
+      <div class="receiver__overlay receiver__scan" aria-hidden="true"></div>
+      <canvas class="receiver__overlay receiver__static" id="stageStatic" aria-hidden="true"></canvas>
+
+    <!-- ═══════════ VINTAGE RADIO PANEL ═══════════ -->
+    <div class="tuner tuner--photo-clean tuner--fixed" role="navigation" aria-label="Station dial">
+      <img class="tuner__photo" src="radio-photo-reference-clean.png" alt="" />
+      <span class="tuner__screw tuner__screw--tl" aria-hidden="true"></span>
+      <span class="tuner__screw tuner__screw--tr" aria-hidden="true"></span>
+      <span class="tuner__screw tuner__screw--bl" aria-hidden="true"></span>
+      <span class="tuner__screw tuner__screw--br" aria-hidden="true"></span>
+      <div class="tuner__panel tuner__panel--left">
+        <span class="tuner__power" aria-hidden="true"></span>
+        <div class="tuner__mark" aria-hidden="true">
+          <img class="tuner__logo" src="rrradio-logo-radio-dark.svg" alt="" />
+        </div>
+        <div class="tuner__lead">
+          <div class="tuner__scope" aria-hidden="true">
+            <canvas></canvas>
+            <div class="tuner__scope-grid" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tuner__dial">
+        <div class="tuner__bands" aria-hidden="true">
+          <span>FM</span>
+          <span>AM</span>
+        </div>
+        <div class="tuner__strip">
+          <div class="tuner__track" aria-hidden="true"></div>
+          <div class="tuner__edges"></div>
+          <div class="tuner__needle" aria-hidden="true"></div>
+        </div>
+        <div class="tuner__units" aria-hidden="true">
+          <span>MHz</span>
+          <span>KHz</span>
+        </div>
+      </div>
+      <div class="tuner__presets" aria-label="Station presets"></div>
+      <div class="tuner__panel tuner__panel--right">
+        <div class="tuner__knob tuner__knob--control" role="slider" aria-label="Tune through the stations" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <span class="tuner__knob-indicator" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Station readout — floats clear above the static, just under the
+         dial; identical position on every station, freq updates live. -->
+    <div class="stage__signal" aria-hidden="true">
+      <span class="stage__band">FM</span>
+      <span class="stage__freq" id="sigFreq">98.6</span>
+      <span class="stage__mhz">MHz</span>
+      <span class="stage__sep">·</span>
+      <span class="stage__tag" id="sigTag">ON AIR</span>
+      <span class="stage__subtag" id="sigSub" hidden></span>
+    </div>
+
+    <!-- ═══════════ THE BROADCAST STAGE ═══════════ -->
+    <main class="stage" id="stage">
+      <div class="stage__content" id="stageContent" aria-hidden="true">
+        <div class="stage__text">
+          <div class="stage__appicons" id="stageIcons" hidden>
+            <img class="stage__appicon" id="stageIcon" alt="rrradio app icon (dark)" />
+            <img class="stage__appicon" id="stageIconLight" alt="rrradio app icon (light)" />
+          </div>
+          <h1 class="stage__title" id="stageTitle">&nbsp;</h1>
+          <p class="stage__body" id="stageBody">&nbsp;</p>
+          <ul class="featurelist" id="stageFeatures" aria-hidden="true"></ul>
+          <div class="stage__cta" id="stageCta" hidden>
+            <span class="btn-app is-soon" role="img" aria-label="Coming soon to the App Store">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12.5c0-2.6 2.1-3.9 2.2-4-1.2-1.7-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.4 1-4.3 2.6-1.9 3.2-.5 8 1.3 10.7.9 1.3 1.9 2.7 3.3 2.7 1.3-.1 1.8-.9 3.4-.9 1.6 0 2 .9 3.4.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-3 1.4-3.1-.1 0-2.7-1-2.7-4.1zM14.9 4.6c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z"/></svg>
+              <span class="btn-app__text" aria-hidden="true">
+                <span class="btn-app__pre">Coming soon to the</span>
+                <span class="btn-app__main">App Store</span>
+              </span>
+            </span>
+            <a class="btn-ghost" href="https://rrradio.org" target="_blank" rel="noopener">
+              <span class="btn-ghost__pre">Try the web app</span>
+              <span class="btn-ghost__main">rrradio.org ↗</span>
+            </a>
+          </div>
+        </div>
+        <div class="stage__media" id="stageMedia"></div>
+      </div>
+    </main>
+    </div>
+    <!-- /.receiver__main -->
+
+  </div>
+
+  <!-- Plain-text transcript for assistive tech & no-JS. -->
+  <div class="sr-only" id="transcript">
+    <h1>rrradio — an internet radio app for iPhone</h1>
+    <p>rrradio plays live radio from around the world on iPhone and Apple Watch. Free, no ads, no account, no data collected. Coming soon to the App Store; available now as a web app at rrradio.org.</p>
+  </div>
+
+  <!-- ═══════════ DIAGRAM TEMPLATES ═══════════ -->
+  <template id="tpl-venn">
+    <div class="venn" role="img" aria-label="Venn diagram of free, ad-free, and good. Where only two overlap you get ads, paid, or bad; rrradio sits where all three meet.">
+      <svg class="venn__svg" viewBox="0 0 300 300" aria-hidden="true">
+        <circle class="venn__circle" cx="150" cy="108" r="86" />
+        <circle class="venn__circle" cx="108" cy="182" r="86" />
+        <circle class="venn__circle" cx="192" cy="182" r="86" />
+        <text class="venn__name" x="150" y="73">FREE</text>
+        <text class="venn__name" x="73" y="207">AD-FREE</text>
+        <text class="venn__name" x="227" y="207">GOOD</text>
+        <text class="venn__pair" x="102" y="133">bad</text>
+        <text class="venn__pair" x="198" y="133">ads</text>
+        <text class="venn__pair" x="150" y="217">paid</text>
+      </svg>
+      <!-- The rrradio dot-matrix mark — the same asset shown on the radio dial — sits where all three circles meet. -->
+      <img class="venn__logo" src="rrradio-logo-radio-dark.svg" alt="" />
+    </div>
+  </template>
+
+  <template id="tpl-globe">
+    <div class="globe" role="img" aria-label="A spinning globe showing live radio stations across the continents.">
+      <canvas class="globe__cv"></canvas>
+    </div>
+  </template>
+
+  <script type="module" src="./tunein.js"></script>
+</body>
+</html>
