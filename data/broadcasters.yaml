@@ -329,6 +329,37 @@ rtr:
     via different BU prefixes — SRF/RSI/RTS still on their per-BU
     fetchers for now; consolidating would simplify (see follow-up issue).
 
+# ─────────────── Swiss commercial ───────────────
+ch-media:
+  name: CH Media
+  fullName: CH Media Entertainment AG
+  country: CH
+  homepage: https://www.chmedia.ch
+  metadata: ch-media
+  notes: |
+    Swiss-German commercial radio group: Radio 24, Radio 32, Radio
+    Argovia, Radio Pilatus, Radio FM1, Radio Central, Sunshine Radio,
+    Radio Melody, Radio Eviva, Virgin Radio Switzerland, Radio Bern1,
+    Flashback FM. Now-playing via an Apollo persisted-query GraphQL
+    "AudioLiveData" on each station's own host (CORS-open). metadataUrl
+    holds the channel slug; streamName defaults to "<slug>.main" (works
+    for Radio 24 / 32 / Argovia / Pilatus). FM1, Central, Sunshine,
+    Melody, Eviva, Virgin and Bern1 use opaque numeric streamNames —
+    capture the live streamName from the player and wire it as
+    "<slug>#<streamName>" to flip them to working.
+bnj:
+  name: BNJ
+  fullName: Groupe BNJ FM SA
+  country: CH
+  homepage: https://www.bnj.ch
+  metadata: bnj
+  notes: |
+    French-speaking Jura/Neuchâtel/Bernese-Jura group: RTN, RFJ, RJB.
+    (GRRIF is also BNJ but stays on the grrif fetcher.) Now-playing via
+    Azure blob bnj.blob.core.windows.net/mobile/ws/Live/Live<CODE>.json
+    (CORS=*). metadataUrl holds the station code (RTN/RFJ/RJB). Streams
+    are Infomaniak Icecast. Cover is usually empty; Programm = show name.
+
 # ─────────────── UK ───────────────
 
 bbc:

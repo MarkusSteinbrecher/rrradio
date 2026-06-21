@@ -81,6 +81,22 @@
       "selfContained": false,
       "notes": "Radio Swiss Pop / Jazz / Classic; worker-proxied"
     },
+    "ch-media": {
+      "broadcaster": "ch-media",
+      "schedule": false,
+      "program": true,
+      "providerCover": true,
+      "selfContained": false,
+      "notes": "CH Media Apollo persisted-query GraphQL AudioLiveData per station host (CORS-open); metadataUrl carries the channel slug, streamName <slug>.main or <slug>#<streamName>"
+    },
+    "bnj": {
+      "broadcaster": "bnj",
+      "schedule": false,
+      "program": true,
+      "providerCover": false,
+      "selfContained": false,
+      "notes": "Groupe BNJ FM (RTN/RFJ/RJB) Azure blob now-playing JSON, CORS=*; metadataUrl carries the station code; Cover usually empty"
+    },
     "azuracast": {
       "broadcaster": null,
       "schedule": false,

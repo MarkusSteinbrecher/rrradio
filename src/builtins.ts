@@ -834,6 +834,122 @@ const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Swiss commercial broadcaster fetchers
+// CH Media (Radio 24 / 32 / Argovia / Pilatus / …) — Apollo persisted-
+//   query GraphQL "AudioLiveData" on each station's own host, CORS-open.
+// BNJ (RTN / RFJ / RJB) — Azure blob now-playing JSON, CORS=*.
+// ============================================================
+
+/** CH Media web players call an Apollo persisted query "AudioLiveData" on
+ *  the station's own host. The query hash is stable per deployed query; if
+ *  CH Media rotates it, update this one constant. CORS is open for our
+ *  origin (the response reflects the request Origin header). */
+const CH_MEDIA_HASH = 'f17ccec05a8805563325a43a632e960a37892c72';
+
+interface ChMediaLive {
+  title?: string;
+  interpret?: string;
+  image?: { imageUrl?: string };
+}
+interface ChMediaShow {
+  title?: string;
+  moderator?: { name?: string };
+}
+interface ChMediaResponse {
+  data?: {
+    audioPlayer?: {
+      stream?: { live?: ChMediaLive | null } | null;
+      shows?: { current?: ChMediaShow | null } | null;
+    };
+  };
+}
+
+/** CH Media — metadataUrl carries the channel slug (e.g. "radio24"). The
+ *  GraphQL host is the station's homepage origin; the streamName defaults
+ *  to "<slug>.main" (Radio 24 / 32 / Argovia / Pilatus). Channels that use
+ *  an opaque numeric streamName override it as "<slug>#<streamName>". Track
+ *  text arrives ALL CAPS → titleCase; image.imageUrl is the cover;
+ *  shows.current.title is the show (moderator name as subtitle). */
+const fetchChMediaMetadata: MetadataFetcher = async (station, signal) => {
+  const raw = station.metadataUrl?.trim();
+  if (!raw) return null;
+  const [slug, streamOverride] = raw.split('#');
+  if (!slug) return null;
+  const streamName = streamOverride || `${slug}.main`;
+  let origin = `https://www.${slug}.ch`;
+  if (station.homepage) {
+    try {
+      origin = new URL(station.homepage).origin;
+    } catch {
+      /* keep the slug-derived default */
+    }
+  }
+  const vars = encodeURIComponent(JSON.stringify({ streamName }));
+  const url = `${origin}/api/pub/gql/${slug}/AudioLiveData/${CH_MEDIA_HASH}?ttl=10&variables=${vars}`;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as ChMediaResponse;
+    const live = data.data?.audioPlayer?.stream?.live;
+    const show = data.data?.audioPlayer?.shows?.current;
+    const program = show?.title
+      ? { name: show.title.trim(), subtitle: show.moderator?.name?.trim() || undefined }
+      : undefined;
+    const track = live?.title?.trim();
+    if (!track) return program ? { track: undefined, raw: '', program } : null;
+    const artist = live?.interpret?.trim();
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl: live?.image?.imageUrl || undefined,
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
+interface BnjLive {
+  Title?: string;
+  Artist?: string;
+  Album?: string;
+  Cover?: string;
+  Programm?: string;
+}
+
+/** BNJ (Groupe BNJ FM) — RTN / RFJ / RJB. One Azure blob per station at
+ *  bnj.blob.core.windows.net/mobile/ws/Live/Live<CODE>.json (CORS=*).
+ *  metadataUrl carries the station code (RTN/RFJ/RJB) or a full URL.
+ *  Title/Artist are mixed-case → titleCase; Cover is usually empty;
+ *  Programm is the current show. */
+const fetchBnjMetadata: MetadataFetcher = async (station, signal) => {
+  const v = station.metadataUrl?.trim();
+  if (!v) return null;
+  const url = /^https?:\/\//i.test(v)
+    ? v
+    : `https://bnj.blob.core.windows.net/mobile/ws/Live/Live${v.toUpperCase()}.json`;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    const d = (await res.json()) as BnjLive;
+    const track = d.Title?.trim();
+    if (!track) return null;
+    const artist = d.Artist?.trim();
+    const program = d.Programm?.trim() ? { name: d.Programm.trim() } : undefined;
+    return {
+      artist: artist ? titleCase(artist) : undefined,
+      track: titleCase(track),
+      raw: `${artist ?? ''} - ${track}`.trim(),
+      coverUrl: d.Cover && /^https?:\/\//i.test(d.Cover) ? d.Cover : undefined,
+      program,
+    };
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -1651,6 +1767,8 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   srr: fetchSrrMetadata,
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,
+  'ch-media': fetchChMediaMetadata,
+  bnj: fetchBnjMetadata,
   azuracast: fetchAzuracastMetadata,
   swr: fetchSwrMetadata,
   streamabc: fetchStreamabcMetadata,
