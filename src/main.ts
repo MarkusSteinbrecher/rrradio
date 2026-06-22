@@ -5318,6 +5318,75 @@ $miniClose.addEventListener('click', (e) => {
   miniClose();
 });
 
+// ── Swipe between the main destinations (iOS root-swipe parity) ──────
+// A horizontal TOUCH swipe on the content area cycles Browse ⇄ Favorites ⇄
+// Library. Threshold-based (commit on release) so it doesn't fight vertical
+// scroll; guarded against the horizontal chip carousels, card reorder grips,
+// open sheets, multi-select, and list-detail sub-views. Touch-only — desktop
+// keeps mouse selection/drag.
+const PAGE_SWIPE_TABS: Tab[] = ['browse', 'fav', 'library'];
+const PAGE_SWIPE_THRESHOLD = 60;
+let pageSwipePointer: number | null = null;
+let pageSwipeStartX = 0;
+let pageSwipeStartY = 0;
+let pageSwipeArmed = false;
+
+/** True when the start point sits inside a horizontally scrollable element
+ *  (a chip carousel / featured rail) — those own the horizontal gesture. */
+function hasHorizontalScrollAncestor(start: HTMLElement | null): boolean {
+  let el: HTMLElement | null = start;
+  while (el && el !== $content) {
+    if (el.scrollWidth > el.clientWidth + 4) {
+      const ox = getComputedStyle(el).overflowX;
+      if (ox === 'auto' || ox === 'scroll') return true;
+    }
+    el = el.parentElement;
+  }
+  return false;
+}
+
+function pageSwipeEligible(target: HTMLElement | null): boolean {
+  if (!PAGE_SWIPE_TABS.includes(activeTab)) return false;
+  if (openListId || listCreateOpen || selectMode) return false;
+  if (!$npInfo.hidden) return false;
+  if (document.querySelector('.sheet.open')) return false;
+  if (hasHorizontalScrollAncestor(target)) return false;
+  if (target?.closest('.row-grip, input, .np-volume')) return false;
+  return true;
+}
+
+$content.addEventListener('pointerdown', (e) => {
+  if (e.pointerType !== 'touch') return;
+  if (!pageSwipeEligible(e.target as HTMLElement)) {
+    pageSwipeArmed = false;
+    return;
+  }
+  pageSwipePointer = e.pointerId;
+  pageSwipeStartX = e.clientX;
+  pageSwipeStartY = e.clientY;
+  pageSwipeArmed = true;
+});
+$content.addEventListener('pointerup', (e) => {
+  if (!pageSwipeArmed || pageSwipePointer !== e.pointerId) return;
+  pageSwipeArmed = false;
+  pageSwipePointer = null;
+  const dx = e.clientX - pageSwipeStartX;
+  const dy = e.clientY - pageSwipeStartY;
+  // Mostly-horizontal and past the threshold (so vertical scroll + small
+  // taps never switch pages).
+  if (Math.abs(dx) < PAGE_SWIPE_THRESHOLD || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+  const idx = PAGE_SWIPE_TABS.indexOf(activeTab);
+  if (idx < 0) return;
+  const next = dx < 0 ? idx + 1 : idx - 1; // swipe left → next destination
+  if (next < 0 || next >= PAGE_SWIPE_TABS.length) return;
+  setTab(PAGE_SWIPE_TABS[next]);
+  track(`page-swipe/${PAGE_SWIPE_TABS[next]}`);
+});
+$content.addEventListener('pointercancel', () => {
+  pageSwipeArmed = false;
+  pageSwipePointer = null;
+});
+
 const $npBack = document.getElementById('np-back') as HTMLButtonElement;
 $npBack.addEventListener('click', () => openNp(false));
 $miniToggle.addEventListener('click', (e) => {
