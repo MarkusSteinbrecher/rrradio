@@ -28,6 +28,7 @@ import {
   DISCOVERY_BROWSE_ALL_LOGO_LIMIT,
   type DiscoveryCounts,
 } from './discovery';
+import { loadDiscoverySummary, getDiscoverySummary } from './discovery-summary';
 import {
   loadHighlights,
   resolveHighlights,
@@ -1676,6 +1677,14 @@ function inDiscovery(): boolean {
 /** Per-genre / per-country counts over the curated catalog, memoised
  *  until the catalog size changes. */
 function getDiscoveryCounts(): DiscoveryCounts {
+  // Before the full catalog lands, paint the chips from the precomputed
+  // discovery summary (a few KB) so the landing is instant; once
+  // BUILTIN_STATIONS has hydrated, compute from it (identical counts) and
+  // memoise against its size.
+  if (BUILTIN_STATIONS.length === 0) {
+    const summary = getDiscoverySummary();
+    if (summary) return summary.counts;
+  }
   if (!discoveryCountsCache || discoveryCountsForLen !== BUILTIN_STATIONS.length) {
     discoveryCountsCache = discoveryCounts(BUILTIN_STATIONS);
     discoveryCountsForLen = BUILTIN_STATIONS.length;
@@ -1928,7 +1937,8 @@ function browseAllSection(featured: ResolvedHighlight[]): DocumentFragment {
   lbl.textContent = 'Browse all stations';
   const cnt = document.createElement('span');
   cnt.className = 'disc-browse-all__count';
-  cnt.textContent = abbreviateCount(BUILTIN_STATIONS.length);
+  // Falls back to the summary's total until the full catalog hydrates.
+  cnt.textContent = abbreviateCount(BUILTIN_STATIONS.length || getDiscoverySummary()?.total || 0);
   header.append(lbl, cnt);
   header.addEventListener('click', enterBrowseAll);
   frag.append(header);
@@ -5413,9 +5423,15 @@ syncMusicServiceLinks();
   const hasQuery = !!new URLSearchParams(window.location.search).get('q');
   if (!hasQuery && (landing === 'fav' || landing === 'recent')) setTab(landing);
 }
+// Paint the discovery landing from the few-KB summary first (genre/country
+// chips + the "Browse all N" count) so Browse is usable immediately instead
+// of waiting on the 21 MB catalog below. Cheap re-render; no-op off-Browse.
+void loadDiscoverySummary().then(() => {
+  if (inDiscovery()) renderContent();
+});
 // Stations.json defines the built-in catalog (Featured strip + per-station
-// metadata fetcher overrides). Render once it lands so the first paint
-// already has the Featured tiles.
+// metadata fetcher overrides). It loads in the background; re-render once it
+// lands so the Featured tiles + exact counts replace the summary view.
 void loadBuiltinStations().then(() => {
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();

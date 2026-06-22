@@ -1795,7 +1795,11 @@ export function loadBuiltinStations(): Promise<Station[]> {
   if (loadPromise) return loadPromise;
   loadPromise = (async () => {
     try {
-      const res = await fetch(`${BASE}stations.json`, { cache: 'no-store' });
+      // No `no-store`: the catalog is a build artifact that only changes on
+      // deploy, so let the browser/HTTP cache serve repeat loads instead of
+      // re-downloading ~3.3 MB (gzip) every time. GitHub Pages' ETag +
+      // max-age revalidates cheaply when it does change.
+      const res = await fetch(`${BASE}stations.json`);
       if (!res.ok) {
         reportCatalogError(new Error(`stations.json HTTP ${res.status}`));
         return [];
