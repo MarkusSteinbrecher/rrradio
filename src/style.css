@@ -199,21 +199,20 @@ html.theme-switching *::after {
 /* ─── PSA banner (vintage-tuner announcement) ───
    A "public service announcement" featuring the vintage tuner from the /ios
    landing (captured to /radio-tuner.png — its FM/AM dial, needle, presets and
-   buttons intact, corners pre-rounded to transparency). The radio sits on a
-   dark "shelf" at both themes (radios read at night) with the announcement
-   captioned beneath. A flex-shrink:0 block at the top of every page, so the
-   body scrolls below it. Hidden by default; main.ts reveals it unless
-   dismissed. */
+   buttons intact, corners pre-rounded to transparency). The radio sits straight
+   on the page background (no shelf) with the announcement captioned beneath. A
+   flex-shrink:0 block at the top of the Browse page; main.ts's syncPromo()
+   shows it whenever Browse is active (see that fn). */
 .psa {
   flex-shrink: 0;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   padding: 14px 16px 16px;
-  background: #14130f;
-  border-bottom: 1px solid var(--line);
+  /* No shelf — the tuner sits straight on the page background so the banner
+     blends in rather than reading as a dark box. Text colours are theme-aware
+     so the caption stays legible on the light theme too. */
 }
 .psa[hidden] { display: none; }
 
@@ -264,9 +263,9 @@ html.theme-switching *::after {
   font-family: var(--sans);
   font-size: 13px;
   line-height: 1.4;
-  color: rgba(244, 244, 242, 0.82);
+  color: var(--ink-2);
 }
-.psa__msg strong { color: #fff; font-weight: 600; }
+.psa__msg strong { color: var(--ink); font-weight: 600; }
 .psa__cta {
   white-space: nowrap;
   font-family: var(--mono);
