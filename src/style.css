@@ -1634,7 +1634,8 @@ a.settings-row { text-decoration: none; }
    set --drag-y custom property. Siblings shift +/- one row height
    to make room for the drop slot — the gap visibly slides to where
    the row will land. */
-.row.is-dragging {
+.row.is-dragging,
+.list-item.is-dragging {
   z-index: 2;
   transform: translateY(var(--drag-y, 0));
   background: var(--bg-2);
@@ -1647,14 +1648,24 @@ a.settings-row { text-decoration: none; }
   user-select: none;
   -webkit-user-select: none;
 }
-.row.is-shifting-up {
+.row.is-shifting-up,
+.list-item.is-shifting-up {
   transform: translateY(calc(-1 * var(--row-h, 68px)));
   transition: transform 0.18s ease;
 }
-.row.is-shifting-down {
+.row.is-shifting-down,
+.list-item.is-shifting-down {
   transform: translateY(var(--row-h, 68px));
   transition: transform 0.18s ease;
 }
+
+/* Desktop grid reorder via native drag-and-drop (enableGridReorder): the
+   whole card is the handle, so show the grab cursor and fade the card being
+   dragged. Inner images aren't separately draggable (set in JS too). */
+.is-draggable { cursor: grab; }
+.is-draggable:active { cursor: grabbing; }
+.is-draggable img { -webkit-user-drag: none; user-drag: none; }
+.is-drag-source { opacity: 0.4; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
 .eq {

@@ -176,3 +176,21 @@ export function reorderListStations(listId: string, orderedIds: string[]): void 
   l.stations = next;
   setLists(all);
 }
+
+/** Persist a manually re-ordered set of lists (ids in the new order).
+ *  Same drop-missing / append-unnamed safety as reorderListStations, so a
+ *  stale reorder never loses a list. */
+export function reorderLists(orderedIds: string[]): void {
+  const all = getLists();
+  const byId = new Map(all.map((l) => [l.id, l]));
+  const next: StationList[] = [];
+  for (const id of orderedIds) {
+    const l = byId.get(id);
+    if (l) {
+      next.push(l);
+      byId.delete(id);
+    }
+  }
+  for (const l of byId.values()) next.push(l);
+  setLists(next);
+}

@@ -74,6 +74,8 @@ import {
   getLists,
   listContains,
   renameList,
+  reorderLists,
+  reorderListStations,
   setLists,
   toggleInList,
 } from './lists';
@@ -1500,12 +1502,38 @@ function rowsGrid(stations: Station[], opts: RowOptions = {}): HTMLDivElement {
   return wrap;
 }
 
-/** Append a grip handle to each direct-child .row of `container` and
- *  wire pointer-event drag-to-reorder. On drop, persist via
- *  reorderFavorites and don't re-render — the DOM order already
- *  matches the new order. Designed for the favorites tab; the caller
- *  is responsible for only invoking it where reordering makes sense
- *  (no active search query, etc).
+/** Options shared by the column (grip) and grid (native DnD) reorderers:
+ *  which direct children are reorderable, how to read each one's stable id,
+ *  and where to persist the resulting order. */
+interface ReorderOpts {
+  itemSelector: string;
+  idOf: (el: HTMLElement) => string;
+  onCommit: (orderedIds: string[]) => void;
+  /** Grip side for the column path; defaults to trailing (favorites idiom). */
+  gripPosition?: 'append' | 'prepend';
+}
+
+/** Read the container's current child order and persist it. */
+function commitReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const ids = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector))
+    .map(opts.idOf)
+    .filter(Boolean);
+  opts.onCommit(ids);
+}
+
+/** Pick the reorder mechanism by layout: a single-column (mobile) stack uses
+ *  the grip + pointer drag; a wide grid uses native HTML5 drag-and-drop on
+ *  the whole card (touch doesn't fire native DnD, so the two are exclusive).
+ *  Used for Favorites, Library-home lists, and list-detail stations. */
+function enableReorder(container: HTMLElement, opts: ReorderOpts): void {
+  if (matchMedia('(min-width: 1024px)').matches) enableGridReorder(container, opts);
+  else enableColumnReorder(container, opts);
+}
+
+/** Append a grip handle to each reorderable child of `container` and wire
+ *  pointer-event drag-to-reorder. On drop, persist via opts.onCommit and
+ *  don't re-render — the DOM order already matches. The caller only invokes
+ *  this where reordering makes sense (no active search query, etc).
  *
  *  Drag mechanics:
  *    1. pointerdown snapshots all rows + their indices and the row
@@ -1518,8 +1546,8 @@ function rowsGrid(stations: Station[], opts: RowOptions = {}): HTMLDivElement {
  *       the pointer math after each swap.
  *    3. pointerup does a single atomic insertBefore to commit the
  *       new index, clears all transforms, and persists the order. */
-function enableFavoriteReorder(container: HTMLElement): void {
-  const rows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+function enableColumnReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const rows = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
   if (rows.length < 2) return;
 
   for (const row of rows) {
@@ -1529,15 +1557,65 @@ function enableFavoriteReorder(container: HTMLElement): void {
     grip.className = 'row-grip';
     grip.setAttribute('aria-label', 'Drag to reorder');
     grip.innerHTML = ICON_GRIP;
-    row.append(grip);
-    attachGripDrag(grip, row, container);
+    if (opts.gripPosition === 'prepend') row.prepend(grip);
+    else row.append(grip);
+    attachGripDrag(grip, row, container, opts);
   }
+}
+
+/** Reorder a wide card grid via native HTML5 drag-and-drop on the whole
+ *  card (desktop / mouse). The card reflows live on dragover; dragend reads
+ *  the settled order and persists it. Clicks still fire normally (the
+ *  browser distinguishes a click from a drag), so play / open keep working. */
+function enableGridReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const items = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
+  if (items.length < 2) return;
+  let dragged: HTMLElement | null = null;
+
+  for (const item of items) {
+    item.draggable = true;
+    item.classList.add('is-draggable');
+    // Stop the browser grabbing an inner favicon/cover instead of the card.
+    item.querySelectorAll('img').forEach((img) => (img.draggable = false));
+
+    item.addEventListener('dragstart', (e) => {
+      dragged = item;
+      item.classList.add('is-drag-source');
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        // Some browsers won't start a drag without payload.
+        try { e.dataTransfer.setData('text/plain', opts.idOf(item)); } catch { /* ignore */ }
+      }
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('is-drag-source');
+      if (dragged) {
+        dragged = null;
+        commitReorder(container, opts);
+      }
+    });
+    item.addEventListener('dragover', (e) => {
+      if (!dragged || dragged === item) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      // Insert before the hovered card when the pointer is in its leading
+      // half (reading order: x within a row), else after.
+      const r = item.getBoundingClientRect();
+      const after = e.clientX > r.left + r.width / 2;
+      container.insertBefore(dragged, after ? item.nextSibling : item);
+    });
+  }
+  // Keep the drop allowed while crossing the gaps between cards.
+  container.addEventListener('dragover', (e) => {
+    if (dragged) e.preventDefault();
+  });
 }
 
 function attachGripDrag(
   grip: HTMLElement,
   row: HTMLElement,
   container: HTMLElement,
+  opts: ReorderOpts,
 ): void {
   let pointerId: number | null = null;
   let startY = 0;
@@ -1608,10 +1686,7 @@ function attachGripDrag(
     row.classList.remove('is-dragging');
     row.style.removeProperty('--drag-y');
 
-    const ids = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'))
-      .map((r) => r.dataset.id ?? '')
-      .filter(Boolean);
-    reorderFavorites(ids);
+    commitReorder(container, opts);
   };
 
   grip.addEventListener('pointerdown', (ev) => {
@@ -1622,7 +1697,7 @@ function attachGripDrag(
     ev.stopPropagation();
     pointerId = ev.pointerId;
     startY = ev.clientY;
-    allRows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+    allRows = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
     originalIndex = allRows.indexOf(row);
     targetIndex = originalIndex;
     // Slot pitch = top-to-top distance to an adjacent row, which folds in
@@ -2249,11 +2324,17 @@ function renderContent(): void {
       $content.append(grid);
       armFavCovers(list);
       // Unfiltered list: edit mode reveals a per-row remove affordance (iOS
-      // delete mode) on both layouts — a red minus badge on each card.
-      // Grip-drag reorder is vertical-only, so it stays on the mobile list.
+      // delete mode) on both layouts. Otherwise the cards are reorderable —
+      // grip drag on the mobile column, native drag-and-drop on the desktop
+      // grid (enableReorder picks per layout).
       if (!query) {
         if (favEditing) decorateFavoriteRemoval(grid, list);
-        else if (!wide) enableFavoriteReorder(grid);
+        else
+          enableReorder(grid, {
+            itemSelector: ':scope > .row',
+            idOf: (el) => el.dataset.id ?? '',
+            onCommit: reorderFavorites,
+          });
       }
     }
     return;
@@ -2475,6 +2556,18 @@ function renderLibraryIndex(query: string): void {
   // and keep them in sync as the column width changes.
   bindStripResize();
   wrap.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+  // Reorder the user's lists — the pinned Recents row (.list-item--system) is
+  // excluded, so it stays at the tail. Only on the unfiltered home with no
+  // create / delete-confirm row in the way. Grip drag on mobile, DnD on
+  // desktop; a leading grip keeps clear of the trailing trash/chevron.
+  if (!q && !listCreateOpen && listDeleteConfirmId === null) {
+    enableReorder(wrap, {
+      itemSelector: ':scope > .list-item--lib:not(.list-item--system)',
+      idOf: (el) => el.dataset.listId ?? '',
+      onCommit: reorderLists,
+      gripPosition: 'prepend',
+    });
+  }
 }
 
 // Favicon-strip sizing for the Library-home rows — mirrors iOS, whose
@@ -2771,8 +2864,18 @@ function renderListDetail(list: StationList, query: string): void {
   }
   // List detail matches the Favorites layout: iOS-style cards on desktop,
   // single-column stack on mobile, with now-playing cover + track.
-  $content.append(rowsGrid(stations, { cover: true }));
+  const grid = rowsGrid(stations, { cover: true });
+  $content.append(grid);
   armFavCovers(stations);
+  // Reorder the list's stations (full, unfiltered list only — a search
+  // subset isn't the stored order). Grip drag on mobile, DnD on desktop.
+  if (!query) {
+    enableReorder(grid, {
+      itemSelector: ':scope > .row',
+      idOf: (el) => el.dataset.id ?? '',
+      onCommit: (ids) => reorderListStations(list.id, ids),
+    });
+  }
 }
 
 // ── Add-to-list sheet ────────────────────────────────────────────────
