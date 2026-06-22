@@ -821,9 +821,22 @@ a.settings-row { text-decoration: none; }
   padding-left: 10px;
   padding-right: 10px;
 }
-.section-label--header .section-label__lead { justify-self: start; }
+.section-label--header .section-label__lead {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
 .section-label--header .section-label__title { justify-self: center; }
 .section-label--header .section-label__actions { justify-self: end; }
+/* The list-detail / recents header drives the same 3-column grid; its older
+   centred-flex rules must not fight it. */
+.section-label--list-detail.section-label--header { justify-content: initial; }
+.section-label--header .section-label__title span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .section-label .count {
   font-variant-numeric: tabular-nums;
@@ -1025,13 +1038,16 @@ a.settings-row { text-decoration: none; }
      row). */
   .topnav { border-bottom: 0; }
 
-  /* On Favorites, search is an icon in the page header (the iOS search
-     accessory), not an always-on field in the brand row. Hide the field;
-     the header search icon expands it (body.fav-search-open). With it
-     hidden, push the funnel + gear to the right edge. */
-  body.tab-fav .topnav > .search-wrap { display: none; }
-  body.tab-fav:not(.fav-search-open) .topnav > .toolbar { margin-left: auto; }
-  body.tab-fav.fav-search-open .topnav > .search-wrap { display: flex; }
+  /* On Favorites + Library (home / list detail / recents), search is an
+     icon in the page header (the iOS search accessory), not an always-on
+     field in the brand row. Hide the field; the header search icon expands
+     it (body.search-open). With it hidden, push the funnel + gear right. */
+  body.tab-fav .topnav > .search-wrap,
+  body.tab-library .topnav > .search-wrap { display: none; }
+  body.tab-fav:not(.search-open) .topnav > .toolbar,
+  body.tab-library:not(.search-open) .topnav > .toolbar { margin-left: auto; }
+  body.tab-fav.search-open .topnav > .search-wrap,
+  body.tab-library.search-open .topnav > .search-wrap { display: flex; }
 }
 
 /* ─── Favicon (drawn letter-mark, 4 deterministic variants) ─── */

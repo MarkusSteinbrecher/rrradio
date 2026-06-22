@@ -383,12 +383,17 @@ let activeTab: Tab = 'browse';
 // triggers; resets when leaving the tab or emptying the list.
 let favEditing = false;
 
-// Browse multi-select "add to Favorites" mode — the + on the favorites
-// header switches to Browse and lets the user tick stations, then "Add N"
-// adds them all to Favorites and returns there (iOS issue #57). `picked`
-// holds the chosen Station objects; `existing` is the snapshot of stations
-// already favorited (shown ticked + disabled, not re-pickable).
-let selectMode: { picked: Map<string, Station>; existing: Set<string> } | null = null;
+// Browse multi-select "add to <target>" mode — the + on a Favorites or
+// list-detail header switches to Browse and lets the user tick stations,
+// then "Add N" adds them all to the target and returns there (iOS #57).
+// `picked` holds the chosen Station objects; `existing` is the snapshot of
+// stations already in the target (shown ticked + disabled, not re-pickable).
+type SelectTarget = { kind: 'favorites' } | { kind: 'list'; id: string; name: string };
+let selectMode: {
+  target: SelectTarget;
+  picked: Map<string, Station>;
+  existing: Set<string>;
+} | null = null;
 let $selectDock: HTMLElement | null = null;
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
@@ -937,17 +942,24 @@ function sectionLabel(
   label: string,
   count: number,
   actions?: HTMLElement[],
-  lead?: HTMLElement,
+  lead?: HTMLElement | HTMLElement[],
 ): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'section-label';
-  // A `lead` (e.g. the favorites search icon) promotes the label to the
-  // iOS LibraryPageStatusBar layout: a 3-column grid (lead · centred title ·
-  // actions). Without one, the existing centred / space-between flex applies.
-  if (lead) wrap.classList.add('section-label--header');
+  // A `lead` (e.g. the search icon, optionally preceded by a back arrow)
+  // promotes the label to the iOS LibraryPageStatusBar layout: a 3-column
+  // grid (lead · centred title · actions). Without one, the existing centred
+  // / space-between flex applies.
+  const leads = lead ? (Array.isArray(lead) ? lead : [lead]) : [];
+  if (leads.length) wrap.classList.add('section-label--header');
   else if (actions?.length) wrap.classList.add('section-label--with-actions');
 
-  if (lead) wrap.append(lead);
+  if (leads.length) {
+    const zone = document.createElement('div');
+    zone.className = 'section-label__lead';
+    zone.append(...leads);
+    wrap.append(zone);
+  }
 
   const title = document.createElement('div');
   title.className = 'section-label__title';
@@ -2203,7 +2215,7 @@ function renderContent(): void {
       $content.append(sectionLabel(label, list.length, favoriteBackupActions()));
     } else {
       $content.append(
-        sectionLabel(label, list.length, favoriteHeaderActions(), favoriteSearchLead()),
+        sectionLabel(label, list.length, favoriteHeaderActions(), headerSearchLead('Search favorites')),
       );
     }
     if (all.length === 0) {
@@ -2241,9 +2253,14 @@ function renderContent(): void {
     // Recents is a Library sub-view — offer a back affordance to the home.
     const back = listActionBtn(ICON_BACK, 'Back to library', () => setTab('library'));
     back.classList.add('section-label__back');
-    const recLabel = sectionLabel(label, list.length);
+    // Mobile gets the [back · search] lead (the brand-row field is hidden on
+    // the Library tab); desktop keeps the back-prepended header.
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    const recLabel = wide
+      ? sectionLabel(label, list.length)
+      : sectionLabel(label, list.length, undefined, [back, headerSearchLead('Search recently played')]);
     recLabel.classList.add('section-label--list-detail');
-    recLabel.prepend(back);
+    if (wide) recLabel.prepend(back);
     $content.append(recLabel);
     if (all.length === 0) {
       $content.append(
@@ -2397,7 +2414,12 @@ function renderLibraryIndex(query: string): void {
     listCreateOpen = true;
     renderContent();
   });
-  $content.append(sectionLabel('Library', lists.length, [newBtn]));
+  // Mobile mirrors the iOS LibraryPageStatusBar: search icon (left) ·
+  // "Library" · + new-list (right). Desktop keeps the existing header (its
+  // brand-row search field stays, so no header search icon).
+  const wide = matchMedia('(min-width: 1024px)').matches;
+  const lead = wide ? undefined : headerSearchLead('Search lists');
+  $content.append(sectionLabel('Library', lists.length, [newBtn], lead));
 
   // Inline create row (in-app replacement for window.prompt). Focused
   // after it lands in the DOM so the user can type immediately.
@@ -2692,10 +2714,28 @@ function renderListDetail(list: StationList, query: string): void {
               renderContent();
             }),
           ];
-    const label = sectionLabel(list.name, stations.length, actions);
-    label.classList.add('section-label--list-detail');
-    label.prepend(back);
-    $content.append(label);
+    // Mobile mirrors the iOS list-detail status bar: [back · search] · name ·
+    // [+ add-stations, rename, delete]. The "+" enters Browse multi-select
+    // targeting this list. Desktop (and the inline delete-confirm) keep the
+    // existing back-prepended layout. The delete-confirm path skips "+" so its
+    // inline buttons aren't crowded.
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    if (!wide && listDeleteConfirmId !== list.id) {
+      const addBtn = headerActionBtn(ICON_PLUS, 'Add stations to this list', () =>
+        enterListSelect(list),
+      );
+      const label = sectionLabel(list.name, stations.length, [addBtn, ...actions], [
+        back,
+        headerSearchLead('Search this list'),
+      ]);
+      label.classList.add('section-label--list-detail');
+      $content.append(label);
+    } else {
+      const label = sectionLabel(list.name, stations.length, actions);
+      label.classList.add('section-label--list-detail');
+      label.prepend(back);
+      $content.append(label);
+    }
   }
 
   if (list.stations.length === 0) {
@@ -3060,8 +3100,8 @@ function clearSearch(refocus: boolean): void {
     $search.value = '';
     syncSearchClear();
   }
-  // Clearing also collapses the favorites search field back to its icon.
-  $body.classList.remove('fav-search-open');
+  // Clearing also collapses the expandable feed-page search back to its icon.
+  $body.classList.remove('search-open');
   if (refocus) $search.focus();
 }
 
@@ -3109,11 +3149,13 @@ function setTab(tab: Tab): void {
   // Favorites carries its own mobile chrome (search-icon-expands-the-field,
   // edit mode). Tag the body so the CSS can hide the brand-row search field,
   // and drop any half-open edit/search state when leaving the tab.
+  // Favorites + Library (home / list detail / recents) carry the expandable
+  // search-icon chrome on mobile; tag the body so the CSS hides the brand-row
+  // field there. Any tab change collapses an open search and drops edit mode.
   $body.classList.toggle('tab-fav', tab === 'fav');
-  if (tab !== 'fav') {
-    favEditing = false;
-    $body.classList.remove('fav-search-open');
-  }
+  $body.classList.toggle('tab-library', tab === 'library');
+  $body.classList.remove('search-open');
+  if (tab !== 'fav') favEditing = false;
   // The select dock belongs to Browse; navigating elsewhere abandons the
   // pick (saveSelect clears selectMode itself before its setTab, so this
   // only fires on a genuine bail-out).
@@ -4834,11 +4876,13 @@ function favoriteBackupActions(): HTMLElement[] {
 
 // Mobile favorites header — iOS LibraryPageStatusBar accessories.
 // Left: search; right: add-to-favorites (+) and edit/remove mode (trash).
-function favoriteSearchLead(): HTMLElement {
-  const open = $body.classList.contains('fav-search-open');
-  const btn = headerActionBtn(ICON_SEARCH, 'Search favorites', toggleFavSearch);
-  btn.classList.add('section-label__lead');
-  if (open) btn.classList.add('is-active');
+// The iOS LibraryPageStatusBar search accessory — shared by every feed
+// page (Favorites, Library home, list detail, Recents). On mobile the
+// brand-row search field is hidden (body.tab-fav / .tab-library); tapping
+// this expands it (body.search-open).
+function headerSearchLead(label = 'Search'): HTMLElement {
+  const btn = headerActionBtn(ICON_SEARCH, label, toggleHeaderSearch);
+  if ($body.classList.contains('search-open')) btn.classList.add('is-active');
   return btn;
 }
 
@@ -4851,11 +4895,21 @@ function favoriteHeaderActions(): HTMLElement[] {
   return [addBtn, trashBtn];
 }
 
-// ── Browse multi-select "add to Favorites" (iOS #57) ──────────────────
+// ── Browse multi-select "add to <target>" (iOS #57) ───────────────────
 function enterFavoriteSelect(): void {
   if (favEditing) favEditing = false;
-  selectMode = { picked: new Map(), existing: favIdSet() };
+  selectMode = { target: { kind: 'favorites' }, picked: new Map(), existing: favIdSet() };
   setTab('browse'); // setTab won't clear selectMode when going to browse
+  syncSelectDock();
+}
+
+function enterListSelect(list: StationList): void {
+  selectMode = {
+    target: { kind: 'list', id: list.id, name: list.name },
+    picked: new Map(),
+    existing: new Set(list.stations.map((s) => s.id)),
+  };
+  setTab('browse');
   syncSelectDock();
 }
 
@@ -4867,19 +4921,28 @@ function exitSelectMode(): void {
 
 function saveSelect(): void {
   if (!selectMode || selectMode.picked.size === 0) return;
-  const count = selectMode.picked.size;
-  for (const station of selectMode.picked.values()) {
-    if (!isFavorite(station.id)) toggleFavorite(station);
+  const { target, picked } = selectMode;
+  const count = picked.size;
+  if (target.kind === 'favorites') {
+    for (const station of picked.values()) {
+      if (!isFavorite(station.id)) toggleFavorite(station);
+    }
+  } else {
+    for (const station of picked.values()) addToList(target.id, station);
   }
   selectMode = null;
   syncSelectDock();
-  track(`favorites/add-multi: ${count}`);
+  track(`${target.kind === 'list' ? 'list' : 'favorites'}/add-multi: ${count}`);
   renderTopBar();
-  // The Browse search is the shared global field — clear it so Favorites
-  // opens on the full list, not filtered by whatever was typed to find
-  // these stations.
+  // The Browse search is the shared global field — clear it so the target
+  // opens on its full list, not filtered by what was typed to find these.
   clearSearch(false);
-  setTab('fav');
+  if (target.kind === 'list') {
+    openListId = target.id;
+    setTab('library');
+  } else {
+    setTab('fav');
+  }
 }
 
 /** Toggle a station's pick in select mode and refresh its tick + the dock. */
@@ -4928,7 +4991,8 @@ function syncSelectDock(): void {
   const lead = document.createElement('span');
   lead.textContent = 'Adding to ';
   const target = document.createElement('b');
-  target.textContent = 'Favorites';
+  target.textContent =
+    selectMode.target.kind === 'list' ? selectMode.target.name : 'Favorites';
   label.append(lead, target);
   if (n > 0) {
     const badge = document.createElement('span');
@@ -4952,15 +5016,15 @@ function toggleFavEditing(): void {
   if (activeTab === 'fav') renderContent();
 }
 
-function toggleFavSearch(): void {
-  const opening = !$body.classList.contains('fav-search-open');
-  $body.classList.toggle('fav-search-open', opening);
+function toggleHeaderSearch(): void {
+  const opening = !$body.classList.contains('search-open');
+  $body.classList.toggle('search-open', opening);
   if (opening) {
     $search.focus();
   } else {
     clearSearch(false);
   }
-  if (activeTab === 'fav') renderContent();
+  renderContent();
 }
 
 /** Prepend a remove (−) button to each favorite card in edit mode. */
