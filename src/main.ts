@@ -2206,13 +2206,14 @@ function renderContent(): void {
     const label = query ? 'Results' : 'Favorites';
     const wide = matchMedia('(min-width: 1024px)').matches;
     // Header chrome only on the unfiltered list (it acts on the full stored
-    // set, not a search subset). Mobile mirrors the iOS LibraryPageStatusBar
-    // — search icon (left), centred title, +/trash (right); desktop keeps
-    // the existing backup (export/import) actions above its tile grid.
+    // set, not a search subset). Both breakpoints mirror the iOS
+    // LibraryPageStatusBar +/trash actions; mobile adds the search-icon
+    // accessory (left), while desktop keeps search in the top bar (and
+    // backup/restore in Settings).
     if (query) {
       $content.append(sectionLabel(label, list.length));
     } else if (wide) {
-      $content.append(sectionLabel(label, list.length, favoriteBackupActions()));
+      $content.append(sectionLabel(label, list.length, favoriteHeaderActions()));
     } else {
       $content.append(
         sectionLabel(label, list.length, favoriteHeaderActions(), headerSearchLead('Search favorites')),
@@ -2234,13 +2235,12 @@ function renderContent(): void {
       const grid = rowsGrid(list, { cover: true });
       $content.append(grid);
       armFavCovers(list);
-      // Mobile, unfiltered list only: edit mode reveals a per-row remove
-      // affordance (iOS delete mode); otherwise grip-drag reorder is live.
-      // The desktop card grid is 2D, so neither vertical-drag math nor the
-      // single-column edit chrome applies there.
-      if (!query && !wide) {
+      // Unfiltered list: edit mode reveals a per-row remove affordance (iOS
+      // delete mode) on both layouts — a red minus badge on each card.
+      // Grip-drag reorder is vertical-only, so it stays on the mobile list.
+      if (!query) {
         if (favEditing) decorateFavoriteRemoval(grid, list);
-        else enableFavoriteReorder(grid);
+        else if (!wide) enableFavoriteReorder(grid);
       }
     }
     return;
@@ -2410,7 +2410,7 @@ function renderLibraryIndex(query: string): void {
   const all = getLists();
   const q = query.toLowerCase();
   const lists = q ? all.filter((l) => l.name.toLowerCase().includes(q)) : all;
-  const newBtn = listActionBtn(ICON_LIST_ADD, 'New list', () => {
+  const newBtn = listActionBtn(ICON_PLUS, 'New list', () => {
     listCreateOpen = true;
     renderContent();
   });
@@ -4861,21 +4861,6 @@ function headerActionBtn(icon: string, label: string, onClick: () => void): HTML
   btn.innerHTML = icon;
   btn.addEventListener('click', onClick);
   return btn;
-}
-
-// Desktop favorites keeps the data backup affordances above its tile grid.
-function favoriteBackupActions(): HTMLElement[] {
-  const exportBtn = headerActionBtn(
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>',
-    'Export everything to a file',
-    exportBackupNow,
-  );
-  const importBtn = headerActionBtn(
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>',
-    'Import from a backup file',
-    pickImportFile,
-  );
-  return [exportBtn, importBtn];
 }
 
 // Mobile favorites header — iOS LibraryPageStatusBar accessories.

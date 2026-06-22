@@ -178,7 +178,9 @@ html.theme-switching *::after {
   gap: 12px;
   padding: calc(var(--safe-top) + 12px) 16px 10px;
   background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  /* No rule beneath the brand/nav row (iOS parity): the only header
+     hairline sits under the page sub-header (.section-label), where iOS
+     draws its TopNavRule. Holds at every width — mobile and desktop. */
 }
 /* Search flexes to fill the row; the action buttons take their natural
    width. This holds on mobile too — logo + search + filter + settings
@@ -1031,12 +1033,6 @@ a.settings-row { text-decoration: none; }
     border-color: var(--accent);
   }
   .rows .row.is-playing::before { display: none; }
-
-  /* iOS parity: the brand row carries no rule beneath it — the only
-     header hairline sits under the page sub-header (.section-label),
-     where iOS draws its TopNavRule (under the status bar, not the brand
-     row). */
-  .topnav { border-bottom: 0; }
 
   /* On Favorites + Library (home / list detail / recents), search is an
      icon in the page header (the iOS search accessory), not an always-on
@@ -4149,7 +4145,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     padding: 10px 12px;
   }
   /* iOS-style station card (FavoriteStationTile): round logo top-left,
-     heart top-right, name + tags below, on a bordered bg-2 card. */
+     heart top-right, name + tags below. Same warm-gradient fill +
+     elevation as the mobile cards (--card-fill / --card-shadow), just
+     laid out in a grid instead of a single column. */
   .rows .row {
     display: grid;
     grid-template-columns: auto 1fr auto auto;
@@ -4161,9 +4159,11 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     gap: 10px 8px;
     padding: 12px;
     min-height: 124px;
-    background: var(--bg-2);
+    background: var(--card-fill);
     border: 1px solid var(--line);
-    border-radius: 6px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
   }
   .rows .row > .fav { grid-area: logo; }
   .rows .row > .row-info { grid-area: info; align-self: start; }
@@ -4174,11 +4174,39 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      the trailing controls (it stays collapsed until art lands). */
   .rows .row > .row-cover { grid-area: cover; align-self: start; }
   .rows .row > .row-cover.has-cover { width: 48px; height: 48px; border-radius: 6px; }
-  .rows .row:hover { border-color: var(--line-2); background: var(--bg-3); }
+  /* Pointer affordance — a subtle lift, since the mobile cards only have a
+     tap (:active) state. */
+  .rows .row:hover {
+    border-color: var(--line-2);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.34);
+    transform: translateY(-1px);
+  }
   /* The card uses an accent border for the playing state, not the
      list's left edge-bar (which would poke out of the rounded corner). */
-  .rows .row.is-playing { border-color: var(--accent); background: var(--bg-2); }
+  .rows .row.is-playing { border-color: var(--accent); background: var(--card-fill); }
   .rows .row.is-playing::before { display: none; }
+  /* Edit mode: the per-row remove sits as a red minus badge in the card's
+     top-left corner (the iOS jiggle-mode delete idiom) — the grid has no
+     inline slot for it the way the single-column mobile list does. */
+  .rows.rows--editing .row > .row-remove {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    z-index: 2;
+  }
+
+  /* Library home: the list-cards lay out in a multi-column grid like the
+     station feeds (Favorites / Lists / Recents) rather than one full-width
+     column. A wider min than the 240px station tiles — each card carries a
+     horizontal favicon strip that wants room to preview stations; fitStrip()
+     re-fits it to the column on render + resize, collapsing overflow into
+     the trailing "+N more" badge. */
+  .lists-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    padding: 10px 12px 16px;
+  }
 
 }
 
