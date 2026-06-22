@@ -3309,6 +3309,8 @@ function setTab(tab: Tab): void {
   $body.classList.remove('search-open');
   if (tab !== 'fav') favEditing = false;
   if (tab !== 'library') libEditing = false;
+  // The /ios promo banner is Browse-only — reveal/hide it as the tab changes.
+  syncPromo();
   // The select dock belongs to Browse; navigating elsewhere abandons the
   // pick (saveSelect clears selectMode itself before its setTab, so this
   // only fires on a genuine bail-out).
@@ -4584,20 +4586,17 @@ $searchClear.addEventListener('click', () => {
 $wordmark.addEventListener('click', goHome);
 
 // ─── PSA banner: redesign + iPhone-app announcement ───
-// Vintage-tuner banner under the top nav linking to the /ios landing. Shown
-// once until the user dismisses it; the dismissal persists under a versioned
-// key so a future announcement can re-show by bumping the version. The CTA
-// opens in a new tab (target="_blank" in the markup) so playback keeps going.
-const PROMO_DISMISSED_KEY = 'rrradio.promo.v2';
+// Vintage-tuner banner under the top nav linking to the /ios landing. It's a
+// Browse-only banner that returns on every load — no persisted dismissal and
+// no close button — so syncPromo() simply tracks the active tab. The CTA opens
+// in a new tab (target="_blank" in the markup) so playback keeps going.
 const $promo = document.getElementById('promo') as HTMLElement;
-const $promoClose = document.getElementById('promo-close') as HTMLButtonElement;
 const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
-if (getString(PROMO_DISMISSED_KEY) !== '1') $promo.hidden = false;
-$promoClose.addEventListener('click', () => {
-  $promo.hidden = true;
-  setString(PROMO_DISMISSED_KEY, '1');
-  track('promo/dismiss');
-});
+/** Reveal the promo only while Browse is the active destination. */
+function syncPromo(): void {
+  $promo.hidden = activeTab !== 'browse';
+}
+syncPromo();
 $promoLink.addEventListener('click', () => track('promo/ios'));
 // Permanent /ios entry on the About page (the banner above is dismissable).
 document.getElementById('about-ios')?.addEventListener('click', () => track('about/ios'));

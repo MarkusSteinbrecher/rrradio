@@ -281,24 +281,6 @@ html.theme-switching *::after {
 @keyframes psa-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 @media (prefers-reduced-motion: reduce) { .psa__on { animation: none; } }
 
-.psa__close {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.psa__close:hover { background: rgba(0, 0, 0, 0.65); color: #fff; }
-.psa__close svg { width: 16px; height: 16px; }
-
 @media (max-width: 560px) {
   .psa { padding: 12px 12px 14px; }
 }
