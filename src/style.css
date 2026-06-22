@@ -4168,6 +4168,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .rows .row > .fav { grid-area: logo; }
   .rows .row > .row-info { grid-area: info; align-self: start; }
   .rows .row > .row-right { grid-area: aside; align-self: start; }
+  /* Multi-select pick tick sits where the trailing controls would, top-right. */
+  .rows .row > .row-tick { grid-area: aside; align-self: start; justify-self: end; }
   /* On the desktop card the track cover is a larger, prominent tile next to
      the trailing controls (it stays collapsed until art lands). */
   .rows .row > .row-cover { grid-area: cover; align-self: start; }

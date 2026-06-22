@@ -2714,24 +2714,28 @@ function renderListDetail(list: StationList, query: string): void {
               renderContent();
             }),
           ];
-    // Mobile mirrors the iOS list-detail status bar: [back · search] · name ·
-    // [+ add-stations, rename, delete]. The "+" enters Browse multi-select
-    // targeting this list. Desktop (and the inline delete-confirm) keep the
-    // existing back-prepended layout. The delete-confirm path skips "+" so its
-    // inline buttons aren't crowded.
+    // The "+" enters Browse multi-select targeting this list — on both
+    // breakpoints. Mobile additionally adopts the iOS status-bar layout
+    // ([back · search] · name · actions); desktop keeps its back-prepended
+    // header and only gains the "+". The inline delete-confirm skips "+" so
+    // its buttons aren't crowded.
     const wide = matchMedia('(min-width: 1024px)').matches;
-    if (!wide && listDeleteConfirmId !== list.id) {
-      const addBtn = headerActionBtn(ICON_PLUS, 'Add stations to this list', () =>
-        enterListSelect(list),
-      );
-      const label = sectionLabel(list.name, stations.length, [addBtn, ...actions], [
+    const confirming = listDeleteConfirmId === list.id;
+    const fullActions = confirming
+      ? actions
+      : [
+          headerActionBtn(ICON_PLUS, 'Add stations to this list', () => enterListSelect(list)),
+          ...actions,
+        ];
+    if (!wide && !confirming) {
+      const label = sectionLabel(list.name, stations.length, fullActions, [
         back,
         headerSearchLead('Search this list'),
       ]);
       label.classList.add('section-label--list-detail');
       $content.append(label);
     } else {
-      const label = sectionLabel(list.name, stations.length, actions);
+      const label = sectionLabel(list.name, stations.length, fullActions);
       label.classList.add('section-label--list-detail');
       label.prepend(back);
       $content.append(label);
