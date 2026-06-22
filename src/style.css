@@ -921,14 +921,16 @@ a.settings-row { text-decoration: none; }
 
 /* iOS LibraryPageStatusBar header (mobile Favorites): search (left) ·
    centred title · +/trash (right). A 3-column grid keeps the title
-   optically centred no matter the side controls' widths; the side padding
-   lines the icons up with the cards' 10px outer margin. */
+   optically centred no matter the side controls' widths. The left padding
+   lines the search accessory up with the cards' 10px outer margin; the
+   right padding pulls the trailing actions onto the same vertical rail as
+   the topnav gear (its 32px buttons sit 4px in from the gear's 40px one). */
 .section-label--header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 0;
   padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 20px;
 }
 .section-label--header .section-label__lead {
   justify-self: start;
@@ -1419,6 +1421,14 @@ a.settings-row { text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+/* The trailing controls (reorder grip, delete) stay vertically centred in the
+   card (inheriting .list-item--lib's align-items: center). The negative margin
+   nudges them onto the same vertical rail as the topnav gear + header actions —
+   the card's 14px padding would otherwise inset them past it. */
+.list-item--lib > .row-grip,
+.list-item--lib > .list-item__del {
+  margin-right: -5px;
 }
 .list-item__strip {
   display: flex;
@@ -2123,16 +2133,16 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   flex-shrink: 0;
 }
 
-/* Below the desktop breakpoint the station head is full-width and
-   left-aligned, so its leading logo button lands under the absolute
-   "back to browse" button (.np-back, top-left). The logo is now a tap
-   target (opens the station-info popup), so drop the whole head below
-   the back button's footprint. Mirrors .np-back's safe-area top inset
-   so it clears the control on notched phones too. (≥1024px centres the
-   head — logo at mid-width — so no clearance is needed there.) */
+/* Below the desktop breakpoint the collapse chevron sits inline as the
+   leading item of the station head row (chevron · logo · name · actions)
+   instead of floating in the top-left corner. Sharing the row means a long
+   station name can never collide with it. (≥1024px keeps .np-back as the
+   absolute corner affordance — see its base rule.) */
 @media (max-width: 1023.98px) {
-  .np-station {
-    margin-top: calc(max(env(safe-area-inset-top, 0px), 8px) + 34px);
+  .np-back {
+    position: static;
+    flex-shrink: 0;
+    margin-left: -6px;
   }
 }
 
@@ -2165,7 +2175,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   margin-bottom: 16px;
   max-width: 100%;
   min-width: 0;
-  border-bottom: 1px solid var(--line);
 }
 .np-pane-tabs[hidden] { display: none; }
 .np-pane-tab[hidden] { display: none; }
@@ -2846,10 +2855,6 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 /* ─── Now Playing controls ─── */
 .np-controls {
   flex-shrink: 0;
-  /* Hairline above the transport/volume controls (separates them from the
-     scrolling content above). Spans the full width — the box is the full
-     pane width and the border sits outside the padding. */
-  border-top: 1px solid var(--line);
   padding: 18px 24px 14px;
   display: flex;
   flex-direction: column;
@@ -3059,6 +3064,13 @@ body.is-playing .np-play .icon-pause { display: block; }
 .np-controls .np-volume { width: 100%; align-self: center; }
 @media (min-width: 1024px) {
   .np-controls .np-volume { max-width: 40%; }
+}
+/* Phones use the hardware volume rocker — and iOS Safari ignores
+   audio.volume entirely (it's read-only there), so the on-screen slider does
+   nothing on iPhone. Hide the whole volume row below desktop (the mute button
+   lives inside it); pause + the hardware buttons cover muting on mobile. */
+@media (max-width: 1023.98px) {
+  .np-controls .np-volume { display: none; }
 }
 
 /* ─── Station-info popup (iOS StationInfoPreviewOverlay) ───

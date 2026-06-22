@@ -389,6 +389,10 @@ let activeTab: Tab = 'browse';
 // red minus iOS delete mode shows). Survives the re-render the toggle
 // triggers; resets when leaving the tab or emptying the list.
 let favEditing = false;
+// Library edit mode: the header trash toggles a per-row delete affordance
+// on the lists index (mirrors favEditing). The delete control lives at the
+// top, not on every card. Resets when leaving Library or emptying the lists.
+let libEditing = false;
 
 // Browse multi-select "add to <target>" mode — the + on a Favorites or
 // list-detail header switches to Browse and lets the user tick stations,
@@ -2520,16 +2524,31 @@ function renderLibraryIndex(query: string): void {
   const all = getLists();
   const q = query.toLowerCase();
   const lists = q ? all.filter((l) => l.name.toLowerCase().includes(q)) : all;
+  // No lists left to manage → drop out of edit mode.
+  if (all.length === 0) libEditing = false;
   const newBtn = listActionBtn(ICON_PLUS, 'New list', () => {
     listCreateOpen = true;
     renderContent();
   });
+  // Trash toggles a per-row delete affordance (iOS edit mode), mirroring the
+  // Favorites header — the delete control lives at the top, not on every
+  // card. Only shown once there's a list to remove.
+  const actions: HTMLElement[] = [newBtn];
+  if (all.length > 0) {
+    const editBtn = listActionBtn(
+      ICON_TRASH,
+      libEditing ? 'Done editing lists' : 'Edit lists',
+      toggleLibEditing,
+    );
+    if (libEditing) editBtn.classList.add('is-active');
+    actions.push(editBtn);
+  }
   // Mobile mirrors the iOS LibraryPageStatusBar: search icon (left) ·
   // "Library" · + new-list (right). Desktop keeps the existing header (its
   // brand-row search field stays, so no header search icon).
   const wide = matchMedia('(min-width: 1024px)').matches;
   const lead = wide ? undefined : headerSearchLead('Search lists');
-  $content.append(sectionLabel('Library', lists.length, [newBtn], lead));
+  $content.append(sectionLabel('Library', lists.length, actions, lead));
 
   // Inline create row (in-app replacement for window.prompt). Focused
   // after it lands in the DOM so the user can type immediately.
@@ -2588,16 +2607,16 @@ function renderLibraryIndex(query: string): void {
 // Favicon-strip sizing for the Library-home rows — mirrors iOS, whose
 // cards show a row of station favicons under the title. 36px icons, 6px
 // gaps; the trailing "+N more" badge gets ~72px reserved. The visible
-// count is recomputed from the row's measured width, so a wide desktop
-// column shows every station while a narrow phone column sheds icons
-// into "+N more".
+// count is recomputed from the row's measured width, so a narrow phone
+// column sheds icons into "+N more" — but never shows more than the cap.
 const STRIP_ICON = 36;
 const STRIP_GAP = 6;
 const STRIP_MORE_RESERVE = 72;
-// Hard cap on favicon DOM nodes built per row: a 500-station list never
-// shows 500 icons, so building past this is wasted work. fitStrip trims
-// the visible set well below it on any real viewport.
-const STRIP_BUILD_CAP = 48;
+// iOS parity (StationListIconStrip.maxIcons): show at most 5 favicons, then
+// collapse the rest into "+N more". This is a hard cap on every width — even
+// a wide card stops at 5. It doubles as the DOM-build cap (no point building
+// icons fitStrip will never reveal).
+const MAX_STRIP_ICONS = 5;
 
 /** Build the horizontal favicon strip shown under a Library-home row's
  *  title. Empty lists show a faint hint instead. The visible-icon count
@@ -2613,7 +2632,7 @@ function buildIconStrip(stations: Station[], emptyHint: string): HTMLElement {
     return strip;
   }
   strip.dataset.total = String(stations.length);
-  for (const st of stations.slice(0, STRIP_BUILD_CAP)) {
+  for (const st of stations.slice(0, MAX_STRIP_ICONS)) {
     const ico = buildFavicon(st, STRIP_ICON);
     ico.classList.add('strip-ico');
     strip.append(ico);
@@ -2638,12 +2657,14 @@ function fitStrip(strip: HTMLElement): void {
 
   let show: number;
   let more: number;
-  if (built >= total && fitPlain >= total) {
+  // iOS caps at MAX_STRIP_ICONS on every width, so the "show them all" path
+  // only applies to lists at or under the cap (built is already capped too).
+  if (built >= total && fitPlain >= total && total <= MAX_STRIP_ICONS) {
     show = total;
     more = 0;
   } else {
     const fitBadged = Math.max(1, Math.floor((avail - STRIP_MORE_RESERVE + STRIP_GAP) / per));
-    show = Math.min(built, fitBadged);
+    show = Math.min(built, fitBadged, MAX_STRIP_ICONS);
     more = total - show;
   }
 
@@ -2740,13 +2761,17 @@ function buildListIndexRow(list: StationList): HTMLElement {
     return row;
   }
 
-  const del = listActionBtn(ICON_TRASH, `Delete ${list.name}`, () => {
-    listDeleteConfirmId = list.id;
-    renderContent();
-  });
-  del.classList.add('list-item__del');
-
-  row.append(del);
+  // The trailing trash only appears in edit mode (toggled from the Library
+  // header); outside it the card is tap-to-open only. Tapping it opens the
+  // inline "Delete list?" confirm handled above.
+  if (libEditing) {
+    const del = listActionBtn(ICON_TRASH, `Delete ${list.name}`, () => {
+      listDeleteConfirmId = list.id;
+      renderContent();
+    });
+    del.classList.add('list-item__del');
+    row.append(del);
+  }
   const open = () => {
     openListId = list.id;
     resetListUiState();
@@ -3283,6 +3308,7 @@ function setTab(tab: Tab): void {
   $body.classList.toggle('tab-library', tab === 'library');
   $body.classList.remove('search-open');
   if (tab !== 'fav') favEditing = false;
+  if (tab !== 'library') libEditing = false;
   // The select dock belongs to Browse; navigating elsewhere abandons the
   // pick (saveSelect clears selectMode itself before its setTab, so this
   // only fires on a genuine bail-out).
@@ -5124,6 +5150,11 @@ function syncSelectDock(): void {
 function toggleFavEditing(): void {
   favEditing = !favEditing;
   if (activeTab === 'fav') renderContent();
+}
+
+function toggleLibEditing(): void {
+  libEditing = !libEditing;
+  if (activeTab === 'library') renderContent();
 }
 
 function toggleHeaderSearch(): void {

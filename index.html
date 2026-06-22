@@ -295,9 +295,6 @@
         <main class="content" id="content"></main>
 
         <section class="np" id="np" aria-label="Now playing">
-          <button type="button" class="np-back" id="np-back" aria-label="Back to browse">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
           <!-- Wide-desktop only: collapse the browse list to expand the
                player from 2 to 3 columns. Diagonal "expand" arrows read
                as a layout/size toggle (distinct from the left-nav chevron);
@@ -318,6 +315,13 @@
                  Tapping the logo opens the station-info popup. -->
             <div class="np-station">
               <div class="np-station__head">
+                <!-- Collapse chevron sits inline at the head of the row (below
+                     desktop) so it shares the logo's row and can't collide
+                     with a long station name. Absolute corner affordance on
+                     desktop (see .np-back CSS). -->
+                <button type="button" class="np-back" id="np-back" aria-label="Back to browse">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
                 <button type="button" class="np-station__logo-btn" id="np-station-logo-btn" aria-label="Station info" hidden>
                   <img class="np-station__logo" id="np-station-logo" alt="" hidden />
                 </button>
