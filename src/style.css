@@ -1692,26 +1692,56 @@ a.settings-row { text-decoration: none; }
 /* ─── Mini player ─── */
 .mini {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  /* Left padding + gap match the row above (.row uses padding 14px 20px,
-   * gap 14px) so the album art lines up vertically with the row favicons.
-   * Right padding stays tighter — the skip + play buttons need less margin
-   * than a row's heart-only right edge. min-height pins the mini to the
-   * same height as a row so it doesn't flicker between heights as the
-   * track line shows / hides while skipping stations. */
-  padding: 10px 14px 10px 20px;
+  /* The bar surface is pinned; only .mini-slide (its content) moves on the
+   * swipe-to-close gesture, so the close zone behind it is revealed without
+   * the whole bar shifting. overflow:hidden clips the slid-away content. */
+  position: relative;
+  width: 100%;
   min-height: 66px;
   box-sizing: border-box;
   background: var(--bg-2);
   border-top: 1px solid var(--line);
-  cursor: pointer;
-  position: relative;
-  width: 100%;
+  overflow: hidden;
   text-align: left;
 }
 .mini[hidden] { display: none; }
+/* Sliding content layer. Left padding + gap match the row above (.row uses
+ * padding 14px 20px, gap 14px) so the album art lines up vertically with the
+ * row favicons. min-height pins it to a row's height so it doesn't flicker as
+ * the track line shows / hides while skipping. The transform follows the
+ * finger via --mini-dx; .is-animating adds the spring transition on release
+ * so the drag itself stays 1:1. */
+.mini-slide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 20px;
+  min-height: 66px;
+  box-sizing: border-box;
+  background: var(--bg-2);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  transform: translateX(var(--mini-dx, 0px));
+}
+.mini-slide.is-animating { transition: transform 0.2s ease; }
+/* Red close zone revealed behind the sliding content on the right edge. */
+.mini-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 76px;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: rgba(214, 69, 69, 0.55);
+  color: #fff;
+  cursor: pointer;
+}
+.mini-close[hidden] { display: none; }
+.mini-close svg { width: 22px; height: 22px; display: block; }
 /* Hide the mini-player while the Playing tab is active — Now Playing
    is its expanded counterpart, no need to show both. */
 body.tab-playing .mini { display: none; }
@@ -1738,6 +1768,9 @@ body.is-playing .mini-progress { opacity: 0.7; }
 .mini-open {
   flex: 1;
   min-width: 0;
+  /* The swipe-to-close gesture is captured here; keep vertical scroll for
+     the browser and claim horizontal for the drag. */
+  touch-action: pan-y;
   display: flex;
   align-items: center;
   gap: 14px;

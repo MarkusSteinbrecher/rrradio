@@ -531,9 +531,17 @@
       <!-- ============== MINI PLAYER ============== -->
       <div class="mini" id="mini" hidden>
         <span class="mini-progress" aria-hidden="true"></span>
-        <!-- Logo / text / album block — tap anywhere here to open the Now
-             Playing destination (iOS parity). The transport + volume controls
-             sit outside this button so a real range input isn't nested in it. -->
+        <!-- Swipe-to-close reveal (iOS parity): the sliding content moves left
+             to expose this red zone; tap the X (or fling past the threshold)
+             to stop playback and dismiss the bar. -->
+        <button class="mini-close" id="mini-close" type="button" aria-label="Close player" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <!-- Sliding content. Logo / text / album block — tap anywhere here to
+             open the Now Playing destination (iOS parity). The transport +
+             volume controls sit outside the open-button so a real range input
+             isn't nested in it. -->
+        <div class="mini-slide" id="mini-slide">
         <button class="mini-open" id="mini-open" type="button" aria-label="Open now playing">
           <span class="fav" id="mini-fav" aria-hidden="true"></span>
           <span class="mini-info">
@@ -565,6 +573,7 @@
           <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
           <input type="range" class="np-volume__slider" id="mini-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
         </span>
+        </div>
       </div>
 
       <!-- ============== TAB BAR ============== -->

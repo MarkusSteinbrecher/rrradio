@@ -264,6 +264,9 @@ const $miniPrev = document.getElementById('mini-prev') as HTMLElement;
 const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
 const $miniVolume = document.getElementById('mini-volume') as HTMLElement;
 const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLInputElement;
+const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
+const $miniSlide = document.getElementById('mini-slide') as HTMLElement;
+const $miniClose = document.getElementById('mini-close') as HTMLButtonElement;
 
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
@@ -5207,10 +5210,112 @@ $wakeArmBtn.addEventListener('click', () => {
 // also covers the volume slider. The #mini-open button bubbles here too, so a
 // keyboard Enter on it still expands to Now Playing.
 $mini.addEventListener('click', (e) => {
-  if ((e.target as HTMLElement).closest('.mini-prev, .mini-toggle, .mini-skip, .mini-volume')) {
+  if ((e.target as HTMLElement).closest('.mini-prev, .mini-toggle, .mini-skip, .mini-volume, .mini-close')) {
+    return;
+  }
+  // A swipe just ended — swallow the click it would otherwise fire.
+  if (miniSuppressClick) {
+    miniSuppressClick = false;
+    return;
+  }
+  // Tapping while the close zone is revealed cancels it (iOS parity), rather
+  // than opening Now Playing.
+  if (miniRested) {
+    miniSpringBack();
     return;
   }
   openNp(true);
+});
+
+// ── Mini-player swipe-to-close (iOS MiniPlayerView parity) ───────────
+// Drag the bar's content left to reveal a red close zone; release past a
+// small threshold rests there (tap the X to confirm), a fling / far swipe
+// auto-closes. Close = player.stop(), which clears the station so the bar
+// hides and the Playing tab bounces back to the list.
+const MINI_REVEAL_WIDTH = 76;
+const MINI_REVEAL_THRESHOLD = 40;
+let miniDx = 0;
+let miniRested = false;
+let miniSwipePointer: number | null = null;
+let miniSwipeStartX = 0;
+let miniSwipeStartY = 0;
+let miniSwiping = false;
+let miniSuppressClick = false;
+
+function miniBarWidth(): number {
+  const w = $mini.getBoundingClientRect().width;
+  return w > 0 ? w : 360;
+}
+function miniCloseThreshold(): number {
+  return Math.max(miniBarWidth() * 0.5, 160);
+}
+function setMiniDx(dx: number, animate: boolean): void {
+  miniDx = dx;
+  $miniSlide.classList.toggle('is-animating', animate);
+  $miniSlide.style.setProperty('--mini-dx', `${dx}px`);
+  $miniClose.hidden = dx >= 0;
+}
+function miniSpringBack(): void {
+  miniRested = false;
+  setMiniDx(0, true);
+}
+function miniRest(): void {
+  miniRested = true;
+  setMiniDx(-MINI_REVEAL_WIDTH, true);
+}
+function miniReset(): void {
+  miniRested = false;
+  miniSwiping = false;
+  setMiniDx(0, false);
+}
+function miniClose(): void {
+  player.stop();
+  miniReset();
+  track('mini/close');
+}
+
+$miniOpen.addEventListener('pointerdown', (e) => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  miniSwipePointer = e.pointerId;
+  miniSwipeStartX = e.clientX;
+  miniSwipeStartY = e.clientY;
+  miniSwiping = false;
+  miniSuppressClick = false;
+});
+$miniOpen.addEventListener('pointermove', (e) => {
+  if (miniSwipePointer !== e.pointerId) return;
+  const dx = e.clientX - miniSwipeStartX;
+  const dy = e.clientY - miniSwipeStartY;
+  if (!miniSwiping) {
+    // Only claim the gesture once it's clearly a horizontal drag, so taps
+    // (open NP) and vertical scrolls still pass through.
+    if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+    miniSwiping = true;
+    miniSuppressClick = true;
+    try { $miniOpen.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+  }
+  e.preventDefault();
+  const base = miniRested ? -MINI_REVEAL_WIDTH : 0;
+  const lower = -miniBarWidth();
+  setMiniDx(Math.min(0, Math.max(lower, base + dx)), false);
+});
+function endMiniSwipe(e: PointerEvent): void {
+  if (miniSwipePointer !== e.pointerId) return;
+  miniSwipePointer = null;
+  if (!miniSwiping) return;
+  miniSwiping = false;
+  try { $miniOpen.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
+  const distance = -miniDx;
+  if (distance >= miniCloseThreshold()) miniClose();
+  else if (distance >= MINI_REVEAL_THRESHOLD) miniRest();
+  else miniSpringBack();
+}
+$miniOpen.addEventListener('pointerup', endMiniSwipe);
+$miniOpen.addEventListener('pointercancel', endMiniSwipe);
+
+$miniClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  miniClose();
 });
 
 const $npBack = document.getElementById('np-back') as HTMLButtonElement;
@@ -5434,6 +5539,8 @@ player.subscribe((np) => {
     void loadSchedule(np.station);
     resetLyrics();
     setReportBrokenState('idle');
+    // A new station starts the mini bar at rest (cancel any open close-swipe).
+    miniReset();
   }
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);
