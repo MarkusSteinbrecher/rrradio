@@ -1,0 +1,106 @@
+id: goldies
+
+identity:
+  name: Goldies
+  shortName: Goldies
+  tagline: Radio 32 Goldies
+  positioning: Das Oldies-Programm von Radio 32 — Klassiker von den 50ern bis in die 90er
+  logo:
+    url: "https://ch.az-cdn.ch/static/4.22.1/radio32/device-icons/192x192.png"
+    source: broadcaster
+
+organization:
+  type: commercial
+  owner: CH Regionalmedien AG
+  group: CH Media
+  foundedYear: 2001
+  headquarters: { city: Solothurn, address: "Zuchwilerstrasse 21, 4500 Solothurn", canton: SO }
+
+profile:
+  description: >-
+    Online-only sub-channel of Radio 32 spinning classic hits from the 1950s through
+    the 1990s — a golden-oldies stream for listeners who want the original Radio 32
+    format without the talk, news or contemporary pop.
+  format: Golden Oldies
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: 35–65 listeners in the Mittelland region who grew up with 60s–90s pop and rock
+  distinctive: >-
+    Launched in 2001 as Radio 32's second programme, distributed by cable and internet
+    only (no FM transmitters of its own). Spans an unusually wide era window — from
+    50s rock'n'roll through 90s pop — making it broader than a typical decade-locked
+    oldies channel.
+
+music:
+  genres: [oldies, classic pop, rock, soul, disco, 60s, 70s, 80s, 90s]
+  languageShare: { de: low, intl: high }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://onlineradiobox.com/ch/radio32goldies/playlist/
+    tracks:
+      - { artist: Abba, title: Money Money Money }
+      - { artist: Tommy Edwards, title: "It's All In The Game" }
+      - { artist: Duran Duran, title: A View To A Kill }
+      - { artist: John Lee Hooker, title: Boom Boom }
+      - { artist: Merseybeats, title: "Wishin' And Hopin'" }
+      - { artist: Doctor & The Medics, title: Spirit In The Sky }
+      - { artist: The Beatles, title: Ob-La-Di Ob-La-Da }
+      - { artist: Lionel Richie, title: Endless Love }
+      - { artist: Barrett Strong, title: "Money (That's What I Want)" }
+  topArtists: [The Beatles, ABBA, Rolling Stones, Elvis Presley, Queen]
+
+reach:
+  languages: [de]
+  region: >-
+    Solothurn, Grenchen, Langenthal, Burgdorf, Olten, Aarau, Zofingen —
+    the Mittelland (Wirtschaftsgebiet 32); internet-only, worldwide access
+  geo: [47.207, 7.536]
+  fm: []
+  dab: { present: false }
+  audienceDaily: null   # no published figure for sub-channel; parent Radio 32 ≈ 105,000 (H2 2025)
+
+streams:
+  - { url: "https://stream.streambase.ch/r32goldies/aac-64", codec: aac, bitrate: 64, type: icecast }
+  - { url: "https://stream.streambase.ch/r32goldies/mp3-192/direct/", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.streamabc.net/metadata/channel/79-goldies.json
+  type: json
+  cors: true
+  coverArt: false
+  fetcher: null   # streamabc endpoint returns 204 (no metadata); needs investigation
+
+presence:
+  homepage: https://www.radio32.ch
+  socials:
+    facebook: https://www.facebook.com/radio32so/
+    instagram: https://www.instagram.com/radio_32/
+    tiktok: https://www.tiktok.com/@radio32_ch
+  apps: { ios: true, android: true }
+  contact: { email: info@radio32.ch }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_32
+
+identifiers:
+  catalogId: ch-radio-32-goldies
+  stationuuid: 3a88b9a3-0e12-4b0c-a1c3-f6ed2301d789
+  rpuId: NzU2fjE0NQ
+
+meta:
+  status: stream-only
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_32
+    organization: de.wikipedia.org/wiki/Radio_32 + radio32.ch/ueber-uns
+    fm: radio32.ch/ueber-uns/services/empfang-139742180 (parent station; Goldies is cable/internet-only)
+    audienceDaily: de.wikipedia.org (parent Radio 32 figure)
+    playlist: onlineradiobox.com/ch/radio32goldies/playlist/
+    streams: curl stream redirect headers (streambase.ch → chmedia.streamabc.net/79-goldies)
+    nowPlayingEndpoint: api.streamabc.net/metadata/channel/79-goldies.json (204 — valid key, no metadata pushed)
+  updatedAt: 2026-06-21
+  notes: >-
+    The streamabc channel key 79-goldies is confirmed valid (HTTP 204, CORS open) but
+    CH Media does not appear to push track metadata for this sub-channel via the API
+    as of 2026-06-21. Parent console at srp.radio32.ch/goldies/console returned
+    ECONNREFUSED. Upgrading from stream-only to working would require either CH Media
+    enabling the streamabc metadata feed, or a playwright scrape of the console player.

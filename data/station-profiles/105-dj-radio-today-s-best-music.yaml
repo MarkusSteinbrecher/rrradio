@@ -1,0 +1,105 @@
+id: 105-dj-radio-today-s-best-music
+
+identity:
+  name: "105 DJ Radio - Today's Best Music"
+  shortName: my105
+  tagline: "Today's Best Music!"
+  positioning: >-
+    Swiss multi-channel internet radio platform built on the heritage of the former FM Radio 105
+    (Zurich 93.0 MHz); the flagship "Today's Best Music" stream plays an eclectic pop/dance/urban
+    rotation across eras.
+  logo:
+    url: https://www.my105.ch/fileadmin/templates/img/webapp/icon192.png
+    source: broadcaster
+
+organization:
+  type: commercial
+  owner: my105 GmbH
+  foundedYear: 1998   # as Radio 105 by Giuseppe Scaglione; relaunched as streaming platform May 2015
+  headquarters: { city: Zürich, address: "Vulkanplatz 7, 8048 Zürich", canton: ZH }
+
+profile:
+  description: >-
+    my105 is Switzerland's largest multi-channel internet radio platform, grown from the former
+    Zurich FM station Radio 105 (93.0 MHz). The flagship "Today's Best Music" channel blends pop
+    hits, dance classics, urban, and 90s/00s tracks in a 24/7 automated rotation.
+  format: Pop / Hot AC / Dance
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: 18–40, German-speaking Switzerland, digital-first listeners
+  distinctive: >-
+    A fully automated, music-only platform with 25+ themed sub-channels (DJ Radio, Charts, Dance,
+    Deep, Mashup, Chill, Oldschool, Ritmo Latino, artist-dedicated DJ channels, etc.) — no live
+    presenters, no news, pure music 24/7.
+
+music:
+  genres: [pop, hot-ac, dance, house, hip-hop, urban, 90s-hits, 00s-hits, electro]
+  languageShare: { en: high, de: low }
+  rotationStyle: mixed   # current hits + gold/classic tracks across eras
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://www.my105.ch/xmlparser.php?allchannels=22  # live now-playing XML; channel 9 = Today's Best Music
+    tracks:
+      - { artist: "White Town", title: "Your Woman" }
+      - { artist: "Marius Bear", title: "I Wanna Dance with Somebody (Who Loves Me)" }
+      - { artist: "Kygo & Imagine Dragons", title: "Stars Will Align" }
+      - { artist: "Harry Styles", title: "American Girls" }
+      - { artist: "Shindy", title: "40 Tage" }
+      - { artist: "Orelsan & Yamê", title: "Encore Une Fois" }
+      - { artist: "Snoop Dogg", title: "Who Am I (What's My Name)?" }
+      - { artist: "Martin Solveig", title: "Hello (feat. Dragonette)" }
+
+programming:
+  scheduleUrl: https://www.my105.ch/playlist
+
+reach:
+  languages: [de]
+  region: German-speaking Switzerland; DAB+ across 12 cities
+  geo: [47.411, 8.532]   # Zürich Oerlikon
+  fm: [93.0]   # historical only — 93.0 MHz Zurich now operated as GOAT Radio since 2014
+  dab: { present: true, since: "2019-11", region: "12 German-speaking Swiss cities (Zurich, Basel, Bern, Lucerne, Zug, Aarau, Olten, St. Gallen, Winterthur, Schaffhausen, Biel, Solothurn) via Digris" }
+  audienceDaily: 170000   # 2019, station claim
+
+streams:
+  - { url: "https://stream01.my105.ch/my105original-rp.mp3", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://play.my105.ch/my105todaysbestmusic.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://play.my105.ch/my105todaysbestmusic-aac.mp3", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.my105.ch/xmlparser.php?allchannels=22
+  type: json   # actually XML — ilr_trackinfo elements per channel; channel 9 = Today's Best Music
+  cors: true
+  coverArt: true   # <image src="https://www.my105.ch/fileadmin/coverbilder/…"> per track
+  fetcher: null
+
+presence:
+  homepage: https://www.my105.ch
+  contact: { email: info@my105.ch }
+  wikipedia: https://de.wikipedia.org/wiki/My105
+
+identifiers:
+  catalogId: ch-my105-x-mas   # note: seed catalogId; the profile covers the TBM / original flagship stream
+  stationuuid: 989e9111-51fb-48ea-985b-1d5110dacde1
+  rpuId: NzU2fjE1Ng
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/My105
+    owner: my105.ch/impressum
+    headquarters: my105.ch/impressum
+    dab: de.wikipedia.org/wiki/My105
+    audienceDaily: de.wikipedia.org/wiki/My105
+    streams: my105.ch/streams
+    nowPlaying: xmlparser.php endpoint discovered in my105.main.js
+    streamRedirect: "curl -I stream01.my105.ch/my105original-rp.mp3 → my105-todaysbestmusic_mp3-192"
+  updatedAt: 2026-06-21
+  notes: >-
+    The seed stream (my105original-rp.mp3) 302-redirects to
+    my105-todaysbestmusic_mp3-192 on radiohost.de, confirming this profile
+    covers the main "Today's Best Music" (channel 9) feed.
+    The xmlparser.php XML endpoint returns artist/title/coverArt for all 22+
+    active channels simultaneously; a fetcher would need to target channel=9.
+    Wiring nowPlaying requires a custom fetcher (XML parse, channel filtering) —
+    not yet in builtins.

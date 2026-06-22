@@ -1,0 +1,157 @@
+id: radio-1-nur-fur-erwachsene
+
+identity:
+  name: Radio 1 – Nur für Erwachsene
+  shortName: Radio 1
+  tagline: Nur für Erwachsene
+  positioning: Premium-Radio im Grossraum Zürich — vier Jahrzehnte Musik, Journalismus und Expertenkommentar
+  logo:
+    url: https://radio1.ch/templates/web/img/logo.svg
+    source: broadcaster-site
+
+organization:
+  type: commercial
+  owner: Radio 1 AG
+  group: independent / community
+  foundedYear: 2008
+  headquarters:
+    city: Zürich
+    address: Hottingerstrasse 10, CH-8032 Zürich
+    canton: ZH
+
+profile:
+  description: >-
+    Zürich's premium adult radio — classic hits from four decades alongside
+    sharp daily journalism and expert talk on health, finance, law, wine,
+    film and lifestyle. Founded in 2008 by media entrepreneur Roger Schawinski
+    out of the predecessor Radio Tropic; deliberately positioned against
+    mainstream pop and youth radio.
+  format: Adult Contemporary / Talk
+  contentMix: { music: 0.65, talk: 0.35 }
+  targetAudience: Adults 30–60 in greater Zürich
+  distinctive: >-
+    Unusually high talk-to-music ratio for a Swiss private radio; columnists
+    rotate every morning, and the evening block features founder Roger
+    Schawinski's own interview and debate formats. Music rotation stays firmly
+    in the 1970s–2000s classic-hits lane ("Nur für Erwachsene").
+
+music:
+  genres: [classic hits, pop, rock, soft rock, adult contemporary]
+  languageShare: { intl: high, de: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://onlineradiobox.com/ch/radio1/playlist/
+    tracks:
+      - { artist: Robbie Williams, title: "Angels (Live at Knebworth)" }
+      - { artist: Billy Joel, title: The River of Dreams }
+      - { artist: Michael Jackson feat. Janet Jackson, title: Scream }
+      - { artist: The Byrds, title: Mr. Tambourine Man }
+      - { artist: Aerosmith, title: "Cryin'" }
+      - { artist: "Bryan Adams / Sting / Rod Stewart", title: All For Love }
+      - { artist: Gotye feat. Kimbra, title: Somebody That I Used to Know }
+      - { artist: George Benson, title: Give Me The Night }
+      - { artist: Boston, title: Amanda }
+      - { artist: Alphaville, title: Big In Japan }
+      - { artist: Johnny Cash, title: Ring of Fire }
+      - { artist: "Youssou N'Dour & Neneh Cherry", title: 7 Seconds }
+      - { artist: Tracy Chapman, title: Give Me One Reason }
+      - { artist: Bob Seger, title: Night Moves }
+      - { artist: The Pretenders, title: Brass in Pocket }
+  topArtists:
+    - Robbie Williams
+    - Billy Joel
+    - Aerosmith
+    - Michael Jackson
+    - Bob Seger
+
+programming:
+  flagshipShows:
+    - { name: Doppelpunkt, when: "Sun 11:00–12:00 (rpt 18:00)", presenters: [Roger Schawinski, Bruno Hug], note: "long-form guest interview" }
+    - { name: Roger gegen Markus, when: "Mon 18:05–18:30 (rpt 22:05)", presenters: [Roger Schawinski, Markus Somm], note: "weekly debate on current affairs" }
+    - { name: "Pea Weber's Friday Night", when: "Fri 18:00–02:00", presenters: [Pea Weber], note: "late-night entertainment" }
+    - { name: Morgenshow, when: "Mon–Fri 05:00–10:00", note: "rotating columnists + Popsplits music breaks" }
+    - { name: Jukebox, when: "Sun 19:00", note: "music and sports retrospective" }
+    - { name: Style, when: "Sat 13:00–15:00", note: "lifestyle magazine" }
+  presenters:
+    - Roger Schawinski
+    - Markus Somm
+    - Pea Weber
+    - Bruno Hug
+    - Markus Diem Meier
+    - Elmar Ledergerber
+    - Matthias Ackeret
+    - Michèle Binswanger
+  podcasts:
+    - Doppelpunkt
+    - Roger gegen Markus
+    - Tageskolumne
+    - Jukebox
+    - Best of Morgenshow
+    - Finanzratgeber
+    - Finanztalk mit Maerki Baumann
+    - Gesundheit und Wissenschaft
+    - In Vino Veritas
+    - Kryptotalk
+    - Filmkritik
+    - Literaturkritiker
+  scheduleUrl: https://www.radio1.ch/de/programm
+
+reach:
+  languages: [de]
+  region: Greater Zürich — Zürichsee, Winterthur, Zürich Oberland; DAB+ in northern, eastern, and central Switzerland
+  geo: [47.3656, 8.5396]
+  fm: [93.6, 94.2, 101.8, 102.0]
+  dab: { present: true, since: "2012-11-30", region: "Regionalnetz Nordschweiz (ch. 7A 188.928 MHz); also Ostschweiz, Innerschweiz" }
+  audienceDaily: 86100   # 1st half 2021, Mon–Sun, D-CH 15+
+
+streams:
+  - { url: "https://stream.radio1.ch/128k", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.radio1.ch/64k", codec: mp3, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: null
+  type: icy
+  cors: false
+  coverArt: false
+  fetcher: null
+
+presence:
+  homepage: https://www.radio1.ch
+  socials:
+    facebook: https://www.facebook.com/Radio1Zurich
+    instagram: https://www.instagram.com/radio1_
+  apps: { ios: true, android: true }
+  podcasts: https://www.radio1.ch/de/podcast
+  contact: { email: studio@radio1.ch, tel: "+41 44 208 11 11" }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_1_(Schweiz)
+  affiliations: [Radioplayer Schweiz, TuneIn]
+
+identifiers:
+  catalogId: ch-radio1-ch
+  stationuuid: b614ffcb-684a-4fac-8395-17420f6ee27c
+  rpuId: NzU2fjE1OA
+  wikidata: Q2125892
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_1_(Schweiz)
+    owner: de.wikipedia.org/wiki/Radio_1_(Schweiz)
+    fm: radio1.ch/de/wir/empfang
+    dab: radio1.ch/de/wir/empfang + wikipedia
+    audienceDaily: de.wikipedia.org/wiki/Radio_1_(Schweiz)
+    playlist: onlineradiobox.com/ch/radio1/playlist/ (2026-06-21)
+    nowPlaying: ICY StreamTitle confirmed via curl on stream.radio1.ch/64k (no JSON API found)
+    programming: radio1.ch/de/programm
+    podcasts: radio1.ch/de/podcast
+    headquarters: radio1.ch/de/impressum
+    wikidata: Q2125892 (de.wikipedia disambiguation page)
+  updatedAt: 2026-06-21
+  notes: >-
+    No dedicated JSON now-playing endpoint found; ICY StreamTitle is the only
+    machine-readable now-playing source (icy-metaint=0 on 64k stream, but
+    StreamTitle is present in 128k stream ICY headers). Cover art unavailable
+    without a broadcaster API.

@@ -1,0 +1,148 @@
+id: radio-3fach
+
+identity:
+  name: Radio 3FACH
+  shortName: 3FACH
+  tagline: ""
+  positioning: Das erste Jugendradio der Schweiz — Independent, Alternative, Community
+  logo:
+    url: https://3fach.ch/themes/3fach/assets/favicon-512.png
+    source: broadcaster-site
+  brandColor: "#404855"
+
+organization:
+  type: community
+  owner: Verein Radio 3FACH
+  group: independent / community
+  foundedYear: 1998
+  headquarters: { city: Luzern, address: "Zürichstrasse 49, 6004 Luzern", canton: LU }
+
+profile:
+  description: >-
+    Switzerland's first licensed youth radio, now a non-commercial community station
+    in Lucerne broadcasting alternative, indie, electronic, and underground music
+    alongside local journalism and youth culture programming.
+  format: Alternative / community freeform
+  contentMix: { music: 0.75, talk: 0.25 }
+  targetAudience: ages 13–30, German-speaking Central Switzerland
+  distinctive: >-
+    Show-grid driven programming by and for Lucerne youth culture: weekday morning
+    news-entertainment, specialist genre shows (hip-hop, indie/experimental, electronic
+    residencies), and a Kick Ass Award celebrating the best Central Swiss songs of the
+    year. Playlist skews heavily Swiss and European independent releases.
+
+music:
+  genres: [alternative, indie, experimental, hip-hop, rap, electronic, R&B, left-field-pop]
+  languageShare: { de: low, intl: high }
+  rotationStyle: freeform
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://3fach.ch/api/playlist
+    tracks:
+      - { artist: ETO, title: Widerstand }
+      - { artist: Milla, title: Courbes }
+      - { artist: Bleu Roi, title: Crysanthemum }
+      - { artist: Belia Winnewisser, title: We All Fall }
+      - { artist: Sid Spada, title: "Johngalli A" }
+      - { artist: All XS, title: Millennials }
+      - { artist: Noah Ferrari, title: Space Unknown }
+      - { artist: Alwa Alibi, title: Garage }
+      - { artist: Strange Modes, title: Train Rush }
+      - { artist: Camilla Sparksss, title: My Way My Love }
+
+programming:
+  flagshipShows:
+    - { name: 3WACH, when: "Mo–Fr 07:00–10:00", note: "morning show with news, interviews, Swiss music releases; nine rotating presenters" }
+    - { name: Mittaxinfo, when: "Mo–Fr 12:00–13:30", note: "midday news and culture" }
+    - { name: Stooszyt, when: "Mo–Fr 17:00–19:00", note: "afternoon show: local politics, culture, events" }
+    - { name: Krass Politic, when: "Mon 19:00–20:00", note: "political commentary" }
+    - { name: Sphaíra, when: "Tue 19:00–20:00", note: "specialist music" }
+    - { name: Triibsand, when: "Tue 20:00–22:00", note: "specialist music" }
+    - { name: Reimstunde, when: "Wed 20:00–22:00", note: "hip-hop/rap/R&B; Swiss underground rap talent-scouting" }
+    - { name: Sprechstunde, when: "Wed 19:00–20:00", note: "talk/culture" }
+    - { name: Monde Sonore, when: "Thu 20:00–22:00", note: "alternative/indie/experimental pop; emerging artists" }
+    - { name: VeKal, when: "Thu 19:00–20:00", note: "specialist show" }
+    - { name: Stromstoss Residency, when: "Fri 20:00–22:00", note: "rotating DJ resident sets (CYKE, lini, lobu, 2ndtschoisss, siqsoy.yosi, ANTI ANTI, cielito yuquito)" }
+    - { name: Intravinyl, when: "Sat 11:00–13:00", note: "vinyl specialist show" }
+    - { name: Queertopia, when: "Sat 19:00–20:00", note: "LGBTQ+ culture and music" }
+    - { name: Kater, when: "Sun 11:00–13:00", note: "weekend music" }
+    - { name: AUX, when: "Sun 13:00–15:00", note: "weekend music" }
+    - { name: Gaffa, when: "Sun 18:00–20:00", note: "weekend music" }
+  presenters:
+    - Amelia Oertli
+    - Milou Achermann
+    - Carina Meyer
+    - Laura Burkart
+    - Lea Stadler
+    - Lena Heinzer
+    - Jil-Vivien Harta
+    - Alex Scherer
+    - Victoria Duque Sütterle
+    - Luna Vock
+    - Matteo Hug
+    - Milla Sonanini
+    - Celine Furrer
+    - Marvin Oberli
+    - Enola Born
+    - Nina Kandera
+    - Clara Scherer
+  podcasts: [Guillotine]
+  scheduleUrl: https://3fach.ch/programm
+
+reach:
+  languages: [de]
+  region: "Luzern city and agglomeration; cable distribution across Luzern, Schwyz, Zug, Nidwalden, Obwalden cantons; DAB+ across most of German-speaking Switzerland"
+  geo: [47.0502, 8.3093]
+  fm: [97.7, 96.2]
+  dab: { present: true, since: null, region: Deutschschweiz }
+  audienceDaily: 11420   # H2 2019, 15+, German-speaking Switzerland (WEMF/MA Strategy)
+
+streams:
+  - { url: "https://stream01.3fach.ch/live", codec: mp3, bitrate: null, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://3fach.ch/api/playlist
+  type: json
+  cors: false
+  coverArt: false
+  fetcher: null
+
+presence:
+  homepage: https://3fach.ch
+  socials:
+    facebook: https://www.facebook.com/pages/Radio-3fach/100890199978839
+    instagram: http://instagram.com/radio3fach
+    youtube: https://www.youtube.com/user/Radio3FACH
+    tiktok: https://www.tiktok.com/@radio3fach
+    soundcloud: http://soundcloud.com/radio3fach
+    spotify: https://open.spotify.com/user/1144671402
+  contact: { email: info@3fach.ch, tel: "+41 41 417 00 71" }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_3fach
+  affiliations: [Corall]
+
+identifiers:
+  catalogId: ch-radio-3fach
+  stationuuid: 8d36363c-f60f-45d8-afe1-659c9fc4071c
+  rpuId: NzU2fjE1MA
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_3fach
+    fm: de.wikipedia.org/wiki/Radio_3fach
+    dab: 3fach.ch/frequenzen
+    audienceDaily: de.wikipedia.org/wiki/Radio_3fach (WEMF MA Strategy H2 2019)
+    headquarters: 3fach.ch homepage
+    nowPlayingEndpoint: 3fach.ch/api/playlist (discovered 2026-06-22)
+    playlist: 3fach.ch/api/playlist
+    affiliations: de.wikipedia.org/wiki/Radio_3fach
+    owner: de.wikipedia.org/wiki/Radio_3fach
+  updatedAt: 2026-06-21
+  notes: >-
+    /api/playlist returns JSON array [{artist, title, timestamp}] with ~660 entries
+    (rolling window of approximately one day). No CORS header — needs worker proxy
+    for live now-playing. The endpoint returns the most recent track first.
+    Icecast status-json.xsl at stream01.3fach.ch has CORS (*) but carries no track
+    title metadata. fetcher-todo: wire /api/playlist[0] as a json-type now-playing source.
