@@ -196,6 +196,113 @@ html.theme-switching *::after {
   flex-direction: column;
 }
 
+/* ─── PSA banner (vintage-tuner announcement) ───
+   A "public service announcement" featuring the vintage tuner from the /ios
+   landing (captured to /radio-tuner.png — its FM/AM dial, needle, presets and
+   buttons intact, corners pre-rounded to transparency). The radio sits on a
+   dark "shelf" at both themes (radios read at night) with the announcement
+   captioned beneath. A flex-shrink:0 block at the top of every page, so the
+   body scrolls below it. Hidden by default; main.ts reveals it unless
+   dismissed. */
+.psa {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  background: #14130f;
+  border-bottom: 1px solid var(--line);
+}
+.psa[hidden] { display: none; }
+
+.psa__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  max-width: 560px;
+  text-decoration: none;
+}
+.psa__radio {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
+}
+
+.psa__caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+.psa__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffb347;
+  text-shadow: 0 0 8px rgba(255, 150, 40, 0.4);
+}
+.psa__on {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff5a3c;
+  box-shadow: 0 0 6px #ff5a3c;
+  animation: psa-blink 1.8s ease-in-out infinite;
+}
+.psa__msg {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(244, 244, 242, 0.82);
+}
+.psa__msg strong { color: #fff; font-weight: 600; }
+.psa__cta {
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffd27a;
+}
+.psa__link:hover .psa__cta { text-decoration: underline; }
+
+@keyframes psa-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .psa__on { animation: none; } }
+
+.psa__close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.psa__close:hover { background: rgba(0, 0, 0, 0.65); color: #fff; }
+.psa__close svg { width: 16px; height: 16px; }
+
+@media (max-width: 560px) {
+  .psa { padding: 12px 12px 14px; }
+}
+
 /* Section nav (Browse / Favorites / Library). On desktop it lives in the
    top bar; on phones the bottom tab bar carries it, so it hides here. */
 .topnav-nav { display: none; }

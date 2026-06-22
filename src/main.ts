@@ -4444,6 +4444,23 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
+// ─── PSA banner: redesign + iPhone-app announcement ───
+// Vintage-tuner banner under the top nav linking to the /ios landing. Shown
+// once until the user dismisses it; the dismissal persists under a versioned
+// key so a future announcement can re-show by bumping the version. The CTA
+// opens in a new tab (target="_blank" in the markup) so playback keeps going.
+const PROMO_DISMISSED_KEY = 'rrradio.promo.v2';
+const $promo = document.getElementById('promo') as HTMLElement;
+const $promoClose = document.getElementById('promo-close') as HTMLButtonElement;
+const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
+if (getString(PROMO_DISMISSED_KEY) !== '1') $promo.hidden = false;
+$promoClose.addEventListener('click', () => {
+  $promo.hidden = true;
+  setString(PROMO_DISMISSED_KEY, '1');
+  track('promo/dismiss');
+});
+$promoLink.addEventListener('click', () => track('promo/ios'));
+
 $addForm.addEventListener('submit', handleAddSubmit);
 
 $listCancel.addEventListener('click', () => closeListSheet());

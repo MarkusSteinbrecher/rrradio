@@ -257,6 +257,27 @@
         </button>
       </header>
 
+      <!-- ====== PSA BANNER — a "public service announcement" staged on the
+           vintage tuner from the /ios landing: the message glows on the
+           radio's dial. Links to /ios (new tab → playback keeps going).
+           Dismissible; main.ts hides it by default and reveals it unless the
+           user closed it before (rrradio.promo.v2 in localStorage). The
+           readout is real text (sized in container-query units so it tracks
+           the dial at any width); the radio photo is decorative. ====== -->
+      <aside class="psa" id="promo" hidden>
+        <a class="psa__link" id="promo-link" href="/ios" target="_blank" rel="noopener noreferrer"
+           aria-label="Public service announcement — we interrupt your regularly scheduled radio: rrradio has a fresh new look, and an iPhone app is on the way. Tune in.">
+          <img class="psa__radio" src="/radio-tuner.png" alt="" />
+          <span class="psa__caption">
+            <span class="psa__label"><span class="psa__on" aria-hidden="true"></span>Public Service Announcement</span>
+            <span class="psa__msg"><strong>We interrupt your regularly scheduled radio</strong> — a fresh new look, and an iPhone app on the way. <span class="psa__cta">Tune in →</span></span>
+          </span>
+        </a>
+        <button type="button" class="psa__close" id="promo-close" aria-label="Dismiss this message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </aside>
+
       <div class="app-body">
       <div class="main">
       <header class="topbar">
