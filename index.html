@@ -313,13 +313,25 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
           <div class="np-body">
+            <!-- Station head (iOS stationBlock parity): logo · centered name ·
+                 add-to-list (+) · favorite (♥), then a full-width hairline.
+                 Tapping the logo opens the station-info popup. -->
             <div class="np-station">
               <div class="np-station__head">
-                <img class="np-station__logo" id="np-station-logo" alt="" hidden />
+                <button type="button" class="np-station__logo-btn" id="np-station-logo-btn" aria-label="Station info" hidden>
+                  <img class="np-station__logo" id="np-station-logo" alt="" hidden />
+                </button>
                 <div class="np-name" id="np-name">—</div>
+                <button type="button" class="np-head-btn" id="np-add" aria-label="Add to list">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                </button>
+                <button type="button" class="np-head-btn" id="np-fav" aria-label="Favorite">
+                  <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+                  <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+                </button>
               </div>
-              <div class="np-tags" id="np-tags"></div>
             </div>
+            <div class="np-station-divider" aria-hidden="true"></div>
 
             <!-- Mode tabs (iOS parity): Album / Schedule / Lyrics. Album is
                  always present; Schedule + Lyrics auto-hide when their data
@@ -335,31 +347,14 @@
             </div>
 
             <div class="np-track" id="np-track-row">
-              <div class="np-track__cover-wrap">
+              <!-- Tapping the artwork opens the station-info popup (iOS parity). -->
+              <div class="np-track__cover-wrap" id="np-track-cover-wrap" role="button" tabindex="0" aria-label="Station info">
                 <img class="np-track__cover" id="np-track-cover" alt="" />
                 <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
               </div>
               <div class="np-track__text">
                 <div class="np-track__label">On air</div>
-                <div class="np-track__title-row">
-                  <div class="np-track__title" id="np-track-title">—</div>
-                  <div class="np-track__open-in" id="np-track-open-in-wrap" hidden>
-                    <button type="button" class="np-track__open-in-btn" id="np-track-open-in" aria-label="Open in music app" aria-haspopup="true" aria-expanded="false">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/></svg>
-                    </button>
-                    <div class="np-track__open-in-popup" id="np-track-open-in-popup" role="menu" hidden>
-                      <a class="open-in-icon" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in Apple Music">
-                        <span>Apple Music</span>
-                      </a>
-                      <a class="open-in-icon" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in Spotify">
-                        <span>Spotify</span>
-                      </a>
-                      <a class="open-in-icon" id="np-track-youtube-music" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in YouTube Music">
-                        <span>YouTube Music</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <div class="np-track__title" id="np-track-title">—</div>
                 <!-- iOS parity: artist → program → status, beneath the song
                      title. Each line hides itself when its data is absent. -->
                 <div class="np-track__artist" id="np-track-artist" hidden></div>
@@ -367,6 +362,23 @@
                 <div class="np-track__status" id="np-track-status" data-state="idle" hidden>
                   <span class="np-track__status-dot" aria-hidden="true"></span>
                   <span class="np-track__status-text" id="np-track-status-text"></span>
+                </div>
+              </div>
+              <!-- Open in (iOS musicServiceSection parity): a visible row of
+                   brand marks, shown only once iTunes verifies the track
+                   resolves to a real song. -->
+              <div class="np-openin" id="np-track-open-in-wrap" hidden>
+                <span class="np-openin__label">Open in</span>
+                <div class="np-openin__row">
+                  <a class="np-openin__btn" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in Apple Music">
+                    <img src="/brand/apple-music.svg" alt="" />
+                  </a>
+                  <a class="np-openin__btn" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in Spotify">
+                    <img src="/brand/spotify.svg" alt="" />
+                  </a>
+                  <a class="np-openin__btn" id="np-track-youtube-music" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in YouTube Music">
+                    <img src="/brand/youtube-music.svg" alt="" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -407,112 +419,109 @@
                  neither a schedule nor lyrics to offer (see syncNpTabs). -->
             <div class="np-pane-empty" id="np-secondary-empty" hidden>No schedule or lyrics for this station.</div>
 
-            <!-- Wake-edit pane — replaces the track row when the user
-                 taps the alarm icon at the bottom. Big clock above,
-                 arm/disarm button below. While armed, the button also
-                 shows the countdown so it does double duty as the
-                 "alarm armed" pill. Tapping the alarm icon again exits
-                 this pane; the wake (if armed) persists. -->
-            <div class="np-wake-pane" id="np-wake-pane" hidden>
-              <label class="np-wake-pane__clock-wrap" aria-label="Alarm time">
-                <input type="time" id="wake-time" class="np-wake-pane__clock" required aria-label="Wake time" />
-              </label>
-              <button type="button" class="np-wake-pane__arm" id="wake-arm-btn" aria-live="polite">
-                <span class="np-wake-pane__arm-label" id="wake-arm-label">Set</span>
-                <span class="np-wake-pane__arm-meta" id="wake-arm-meta" hidden></span>
-              </button>
-              <p class="np-wake-pane__caveat">
-                !!!Experimental!!! This feature unfortunately does not work reliably on all setups, since this is just a website. When you set an alarm, you should not close this page or stop the stream.
-              </p>
-            </div>
           </div>
 
           <div class="np-controls">
-            <div class="np-row">
-              <div class="np-row__group">
-                <button type="button" class="np-btn" id="np-fav" aria-label="Favorite">
-                  <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-                  <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-                </button>
-                <button type="button" class="np-btn" id="np-mute" aria-label="Mute">
-                  <svg class="icon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                  <svg class="icon-vol-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
-                </button>
-              </div>
-              <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
-                <span class="np-play__loader" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                </span>
-              </button>
-              <div class="np-row__group">
-                <button type="button" class="np-btn" id="np-wake" aria-label="Wake to radio">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7 7 3.5"/><path d="M20.5 7 17 3.5"/><circle cx="12" cy="13.5" r="7"/><path d="M12 10v3.5l2.5 1.5"/><path d="m7 21.5 1.5-2"/><path d="m17 21.5-1.5-2"/></svg>
-                  <span class="np-btn__chip" id="np-wake-chip" hidden></span>
-                </button>
-                <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
-                  <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Desktop volume — phones have a hardware rocker, desktop
-                 doesn't, so the Now Playing surface carries its own slider.
-                 The leading speaker icon mirrors the mute state; dragging to
-                 0 mutes, dragging up from 0 unmutes. Level persists. -->
+            <!-- Desktop volume — above the transport (iOS AudioOutputRow
+                 order), capped to ~40% width so the slider lines up over the
+                 buttons instead of stretching. Phones have a hardware rocker;
+                 this is a desktop affordance. Tapping the speaker mutes;
+                 dragging to 0 mutes, dragging up from 0 unmutes. Level persists. -->
             <div class="np-volume" id="np-volume">
-              <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <button type="button" class="np-volume__mute" id="np-mute" aria-label="Mute">
+                <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              </button>
               <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
               <span class="np-volume__value" id="np-volume-value" aria-hidden="true">100%</span>
             </div>
 
-            <div class="np-details" id="np-details" data-open="false">
-              <div class="np-details__inner">
-                <div class="np-meta">
-                  <div class="cell">
-                    <div class="k">Format</div>
-                    <div class="v" id="np-bitrate">—</div>
-                  </div>
-                  <div class="cell">
-                    <div class="k">Country</div>
-                    <div class="v" id="np-origin">—</div>
-                  </div>
-                  <div class="cell">
-                    <div class="k">Listeners</div>
-                    <div class="v" id="np-listeners">—</div>
-                  </div>
-                </div>
-
-                <div class="np-source">
-                  <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                    <span class="np-source__k">Stream</span>
-                    <span class="np-source__v" id="np-stream-host">—</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-                  </a>
-                  <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                    <span class="np-source__k">Site</span>
-                    <span class="np-source__v" id="np-home-host">—</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-                  </a>
-                  <button type="button" class="np-source__row np-source__report" id="np-report-broken" hidden>
-                    <span class="np-source__k">Report</span>
-                    <span class="np-source__v" id="np-report-broken-label">Broken station</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                  </button>
-                </div>
+            <!-- Transport (iOS controlsBlock parity, minus the iOS/Android-only
+                 wake alarm): prev · play · next centered, sleep timer trailing.
+                 The leading spacer balances the trailing sleep button so the
+                 prev/play/next cluster stays optically centered. -->
+            <div class="np-row">
+              <span class="np-row__spacer" aria-hidden="true"></span>
+              <div class="np-row__group np-row__group--transport">
+                <button type="button" class="np-btn" id="np-prev" aria-label="Previous station">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4.75" y="4.5" width="2" height="15" rx="0.5"/><path d="M19 4.5v15a.75.75 0 0 1-1.16.63l-10-7.5a.75.75 0 0 1 0-1.27l10-7.5A.75.75 0 0 1 19 4.5z"/></svg>
+                </button>
+                <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
+                  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
+                  <span class="np-play__loader" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </span>
+                </button>
+                <button type="button" class="np-btn" id="np-next" aria-label="Next station">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
+                </button>
               </div>
+              <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/><path d="M15.5 3.2h3.4l-3.4 3.4h3.4"/><path d="M19.6 8.2h2.4l-2.4 2.4h2.4"/></svg>
+                <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
+              </button>
             </div>
 
-            <button type="button" class="np-bottom" id="np-details-toggle" aria-expanded="false" aria-controls="np-details">
-              <div class="live">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span id="np-live-text">Standby</span>
+            <!-- Wake-to-radio is iOS/Android-only; its UI is removed from the
+                 web player. These elements stay (hidden, unreachable) because
+                 the wake scheduler + iOS silent-bed audio-session machinery
+                 still references them. Full teardown is tracked as follow-up. -->
+            <div class="np-wake-legacy" hidden aria-hidden="true">
+              <button type="button" id="np-wake" tabindex="-1">
+                <span id="np-wake-chip" hidden></span>
+              </button>
+              <div id="np-wake-pane" hidden>
+                <input type="time" id="wake-time" tabindex="-1" />
+                <button type="button" id="wake-arm-btn" tabindex="-1">
+                  <span id="wake-arm-label">Set</span>
+                  <span id="wake-arm-meta" hidden></span>
+                </button>
               </div>
-              <div id="np-format">— · —</div>
-              <svg class="np-bottom__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
+            </div>
+          </div>
+
+          <!-- Station-info popup (iOS StationInfoPreviewOverlay parity) —
+               opened by tapping the station logo or the album art. Carries the
+               stream details the removed bottom strip used to expand: format /
+               country / listeners + stream & site links + report broken. -->
+          <div class="np-info" id="np-info" hidden>
+            <div class="np-info__scrim" id="np-info-scrim"></div>
+            <div class="np-info__card" role="dialog" aria-modal="true" aria-label="Station info">
+              <button type="button" class="np-info__close" id="np-info-close" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+              <div class="np-meta">
+                <div class="cell">
+                  <div class="k">Format</div>
+                  <div class="v" id="np-bitrate">—</div>
+                </div>
+                <div class="cell">
+                  <div class="k">Country</div>
+                  <div class="v" id="np-origin">—</div>
+                </div>
+                <div class="cell">
+                  <div class="k">Listeners</div>
+                  <div class="v" id="np-listeners">—</div>
+                </div>
+              </div>
+              <div class="np-source">
+                <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                  <span class="np-source__k">Stream</span>
+                  <span class="np-source__v" id="np-stream-host">—</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                </a>
+                <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                  <span class="np-source__k">Site</span>
+                  <span class="np-source__v" id="np-home-host">—</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                </a>
+                <button type="button" class="np-source__row np-source__report" id="np-report-broken" hidden>
+                  <span class="np-source__k">Report</span>
+                  <span class="np-source__v" id="np-report-broken-label">Broken station</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -723,6 +732,15 @@
             <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </a>
 
+          <!-- Permanent entry to the /ios landing (new look + iPhone app). The
+               PSA banner links here too, but it's dismissable — this keeps the
+               page always reachable. -->
+          <a class="about-btn" id="about-ios" href="/ios" target="_blank" rel="noopener noreferrer">
+            <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+            <span class="about-btn__label">iPhone app &amp; new look</span>
+            <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </a>
+
           <section class="about-group">
             <h3 class="about-group__title">Features</h3>
             <div class="about-feature">
@@ -737,13 +755,6 @@
               <div class="about-feature__text">
                 <div class="about-feature__title">Favorites &amp; library</div>
                 <p class="about-feature__detail">Save favorites and build lists for quick access and skipping between stations.</p>
-              </div>
-            </div>
-            <div class="about-feature">
-              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4 2 7"/><path d="M22 7l-3-3"/><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/></svg>
-              <div class="about-feature__text">
-                <div class="about-feature__title">Wake to radio</div>
-                <p class="about-feature__detail">Schedule a station to start playing — or just notify you — at a set time. Autoplay needs uninterrupted playback to work. <a href="https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/wake-to-radio.md" target="_blank" rel="noopener noreferrer">Wake-to-radio reliability guide</a></p>
               </div>
             </div>
             <div class="about-feature">
@@ -846,7 +857,6 @@
             <button type="button" class="sheet-tab is-active" role="tab" aria-selected="true" data-settings-tab="settings">Preferences</button>
             <button type="button" class="sheet-tab" role="tab" aria-selected="false" data-settings-tab="about">About</button>
             <button type="button" class="sheet-tab" role="tab" aria-selected="false" data-settings-tab="add">Add Station</button>
-            <button type="button" class="sheet-tab" role="tab" aria-selected="false" data-settings-tab="history">History</button>
           </div>
           <button type="button" class="icon-btn" id="settings-close" aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -933,13 +943,6 @@
 
           <!-- ── Add tab (filled from #add-src at boot) ── -->
           <div class="settings-panel" role="tabpanel" data-settings-panel="add" hidden></div>
-
-          <!-- ── History tab → recently played (web's listening-history equivalent) ── -->
-          <div class="settings-panel" role="tabpanel" data-settings-panel="history" hidden>
-            <h2 class="sheet-title">Recently played</h2>
-            <p class="sheet-lede">Stations you've played on this device.</p>
-            <div id="settings-history-list"></div>
-          </div>
         </div>
       </section>
     </div>

@@ -2011,14 +2011,30 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   align-items: center;
   text-align: center;
   gap: 10px;
-  padding-bottom: 22px;
+  padding-bottom: 0;
 }
+/* Station head (iOS stationBlock): logo · centered name · add-to-list (+) ·
+   favorite (♥). Full width so the name optically centers between them. */
 .np-station__head {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  width: 100%;
   min-width: 0;
 }
+.np-station__logo-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.np-station__logo-btn[hidden] { display: none; }
 .np-station__logo {
   width: 38px;
   height: 38px;
@@ -2031,18 +2047,57 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 }
 .np-station__logo[hidden] { display: none; }
 .np-name {
-  font-size: 32px;
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(20px, 4.4vw, 28px);
   font-weight: 500;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 1.1;
+  text-align: center;
   text-wrap: balance;
 }
-.np-tags {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  text-transform: lowercase;
+/* + (add to list) and ♥ (favorite) round buttons on the name row. */
+.np-head-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.np-head-btn:hover { color: var(--ink); border-color: var(--line-2); }
+.np-head-btn:active { transform: scale(0.92); }
+.np-head-btn svg { width: 18px; height: 18px; }
+.np-head-btn .heart--fill { display: none; }
+.np-head-btn.is-fav { color: var(--ink); border-color: var(--ink); }
+.np-head-btn.is-fav .heart--line { display: none; }
+.np-head-btn.is-fav .heart--fill { display: block; }
+/* Edge-to-edge hairline under the station head (iOS stationDivider).
+   Breaks out of .np-body's 24px side padding so it spans the full width. */
+.np-station-divider {
+  height: 1px;
+  width: calc(100% + 48px);
+  margin: 12px -24px 6px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+/* Below the desktop breakpoint the station head is full-width and
+   left-aligned, so its leading logo button lands under the absolute
+   "back to browse" button (.np-back, top-left). The logo is now a tap
+   target (opens the station-info popup), so drop the whole head below
+   the back button's footprint. Mirrors .np-back's safe-area top inset
+   so it clears the control on notched phones too. (≥1024px centres the
+   head — logo at mid-width — so no clearance is needed there.) */
+@media (max-width: 1023.98px) {
+  .np-station {
+    margin-top: calc(max(env(safe-area-inset-top, 0px), 8px) + 34px);
+  }
 }
 
 /* Optional "Now on · <Show>" pill — sits under .np-tags inside
@@ -2342,6 +2397,64 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   position: absolute;
 }
 .np-track__cover:not([hidden]) + .np-track__cover-fallback { display: none; }
+/* Tapping the artwork opens the station-info popup (iOS parity). */
+.np-track__cover-wrap { cursor: pointer; }
+.np-track__cover-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* Desktop: a large album, but sized by the vertical room the flex column
+   leaves so the on-air text + Open-in row below it stay visible instead of
+   being clipped by .np-body's overflow. The square is driven off its HEIGHT
+   (width follows via aspect-ratio), and flex-shrink lets it scale down on
+   shorter viewports while the text/links keep their space. The cover source
+   is 600×600 (coverArt.ts) and object-fit:contain never upscales, so it
+   stays crisp at any size. */
+@media (min-width: 1024px) {
+  .np-track { min-height: 0; }
+  .np-track__text,
+  .np-openin { flex-shrink: 0; }
+  .np-track__cover-wrap {
+    width: auto;
+    height: min(400px, 34vw);
+    flex-shrink: 1;
+    min-height: 0;
+  }
+  /* Extra breathing room between the station name and the action icons. */
+  #np-add { margin-left: 12px; }
+}
+
+/* ─── Open in (iOS musicServiceSection): "Open in" + a row of brand marks ─── */
+.np-openin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding-top: 6px;
+}
+.np-openin[hidden] { display: none; }
+.np-openin__label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-openin__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.np-openin__btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  transition: transform 0.15s;
+}
+.np-openin__btn[hidden] { display: none; }
+.np-openin__btn:hover { transform: scale(1.08); }
+.np-openin__btn:active { transform: scale(0.94); }
+.np-openin__btn svg,
+.np-openin__btn img { width: 28px; height: 28px; display: block; object-fit: contain; }
 
 /* Wake-bed visual cue — silent bed is the active source, but the
    displayed station is the armed wake target. Dim the cover, the
@@ -2697,6 +2810,10 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 /* ─── Now Playing controls ─── */
 .np-controls {
   flex-shrink: 0;
+  /* Hairline above the transport/volume controls (separates them from the
+     scrolling content above). Spans the full width — the box is the full
+     pane width and the border sits outside the padding. */
+  border-top: 1px solid var(--line);
   padding: 18px 24px 14px;
   display: flex;
   flex-direction: column;
@@ -2888,6 +3005,73 @@ body.is-playing .np-play .icon-pause { display: block; }
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
+/* Speaker icon doubles as the mute toggle (iOS folds mute into the slider). */
+.np-volume__mute {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+/* The NP volume row sits above the transport; centre it and cap its width on
+   desktop so the slider lines up over the buttons instead of stretching. */
+.np-controls .np-volume { width: 100%; align-self: center; }
+@media (min-width: 1024px) {
+  .np-controls .np-volume { max-width: 40%; }
+}
+
+/* ─── Station-info popup (iOS StationInfoPreviewOverlay) ───
+   Opened by tapping the station logo or album art. A centered card over a
+   dim scrim, carrying the stream details the old bottom strip expanded. */
+.np-info {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.np-info[hidden] { display: none; }
+.np-info__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.np-info__card {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 38px 18px 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+.np-info__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.np-info__close:hover { color: var(--ink); background: var(--bg-3); }
+.np-info__close svg { width: 18px; height: 18px; }
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
    cycle (24px) every 3.6s while playing. Dim and static otherwise. */
@@ -3336,6 +3520,11 @@ body.is-playing .np-bottom .live-dot  {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  /* Clear the back + sort buttons on either side when the label is long. */
+  max-width: calc(100% - 120px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.04em;

@@ -21,12 +21,10 @@ function mountNp(): NowPlayingRefs {
     body: document.body,
     npName: byId('np-name'),
     npStationLogo: byId('np-station-logo') as HTMLImageElement,
-    npTags: byId('np-tags'),
+    npStationLogoBtn: byId('np-station-logo-btn'),
     npBitrate: byId('np-bitrate'),
     npOrigin: byId('np-origin'),
     npListeners: byId('np-listeners'),
-    npLiveText: byId('np-live-text'),
-    npFormat: byId('np-format'),
     npTrackRow: byId('np-track-row'),
     npTrackTitle: byId('np-track-title'),
     npTrackArtist: byId('np-track-artist'),
@@ -73,16 +71,13 @@ afterEach(() => {
 });
 
 describe('renderNowPlaying — header + meta', () => {
-  it('writes name, tags, format, country, listeners, live text', () => {
+  it('writes name, format, country, listeners', () => {
     const refs = mountNp();
     renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
     expect(refs.npName.textContent).toBe('FM4');
-    expect(refs.npTags.textContent).toBe('alternative · indie');
     expect(refs.npBitrate.textContent).toBe('AAC · 192 kbps');
     expect(refs.npOrigin.textContent).toBe('Austria');
     expect(refs.npListeners.textContent).toBe('1,234');
-    expect(refs.npLiveText.textContent).toBe('Live · Streaming');
-    expect(refs.npFormat.textContent).toBe('192 kbps · AAC');
   });
 
   it('em-dashes when station has no name', () => {

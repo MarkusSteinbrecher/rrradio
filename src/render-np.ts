@@ -10,7 +10,7 @@
 
 import { countryName } from './country';
 import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
-import { npFormatText, npLiveText, npStatusText } from './np-labels';
+import { npStatusText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
 import type { LyricsResult } from './lyrics';
@@ -20,12 +20,12 @@ export interface NowPlayingRefs {
   body: HTMLElement;
   npName: HTMLElement;
   npStationLogo: HTMLImageElement;
-  npTags: HTMLElement;
+  /** The logo's tap-target wrapper button (opens the station-info popup).
+   *  Toggled hidden together with the logo image. */
+  npStationLogoBtn: HTMLElement;
   npBitrate: HTMLElement;
   npOrigin: HTMLElement;
   npListeners: HTMLElement;
-  npLiveText: HTMLElement;
-  npFormat: HTMLElement;
   npTrackRow: HTMLElement;
   npTrackTitle: HTMLElement;
   /** Album-pane artist line (iOS parity) — hidden when no artist. */
@@ -72,7 +72,6 @@ export function renderNowPlaying(
   const s = displayStation(np, ctx.armedWake);
   const wakeBed = isWakeBedActive(np, ctx.armedWake);
   refs.npName.textContent = s.name || '—';
-  refs.npTags.textContent = (s.tags ?? []).join(' · ');
   // is-wake-bed dims the cover/logo + overlays a small mute icon so
   // it's visually obvious the audio is silent right now.
   refs.body.classList.toggle('is-wake-bed', wakeBed);
@@ -82,12 +81,15 @@ export function renderNowPlaying(
       refs.npStationLogo.src = s.favicon;
     }
     refs.npStationLogo.hidden = false;
+    refs.npStationLogoBtn.hidden = false;
     refs.npStationLogo.onerror = () => {
       refs.npStationLogo.hidden = true;
+      refs.npStationLogoBtn.hidden = true;
       refs.npStationLogo.removeAttribute('src');
     };
   } else {
     refs.npStationLogo.hidden = true;
+    refs.npStationLogoBtn.hidden = true;
     refs.npStationLogo.removeAttribute('src');
   }
 
@@ -97,8 +99,6 @@ export function renderNowPlaying(
   refs.npBitrate.textContent = fmtParts.length > 0 ? fmtParts.join(' · ') : '—';
   refs.npOrigin.textContent = s.country ? countryName(s.country) : '—';
   refs.npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
-  refs.npLiveText.textContent = npLiveText(np);
-  refs.npFormat.textContent = npFormatText(s);
 
   // On-air block — content is always written (em-dashes when empty);
   // visibility is owned by main.ts's syncNpTabs (which gates on the

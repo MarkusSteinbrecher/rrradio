@@ -42,8 +42,7 @@ export const MINI_FRAGMENT = `
 export const NP_FRAGMENT = `
 <section id="np">
   <div id="np-name">—</div>
-  <img id="np-station-logo" hidden alt="" />
-  <div id="np-tags"></div>
+  <button id="np-station-logo-btn" hidden><img id="np-station-logo" hidden alt="" /></button>
   <div id="np-track-row" hidden>
     <img id="np-track-cover" alt="" />
     <span id="np-track-cover-fallback">··</span>
@@ -62,8 +61,6 @@ export const NP_FRAGMENT = `
   <div id="np-bitrate">—</div>
   <div id="np-origin">—</div>
   <div id="np-listeners">—</div>
-  <div id="np-live-text">Standby</div>
-  <div id="np-format">— · —</div>
   <a id="np-stream" href="#" hidden>
     <span id="np-stream-host">—</span>
   </a>

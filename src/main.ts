@@ -266,7 +266,7 @@ const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLI
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
-const $npTags = document.getElementById('np-tags') as HTMLElement;
+const $npStationLogoBtn = document.getElementById('np-station-logo-btn') as HTMLButtonElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
@@ -300,12 +300,11 @@ const $npTrackProgram = document.getElementById('np-track-program') as HTMLEleme
 const $npTrackStatus = document.getElementById('np-track-status') as HTMLElement;
 const $npTrackStatusText = document.getElementById('np-track-status-text') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
+const $npTrackCoverWrap = document.getElementById('np-track-cover-wrap') as HTMLElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
 const $npTrackYoutubeMusic = document.getElementById('np-track-youtube-music') as HTMLAnchorElement;
 const $npTrackOpenInWrap = document.getElementById('np-track-open-in-wrap') as HTMLElement;
-const $npTrackOpenIn = document.getElementById('np-track-open-in') as HTMLButtonElement;
-const $npTrackOpenInPopup = document.getElementById('np-track-open-in-popup') as HTMLElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -313,8 +312,21 @@ const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npReportBroken = document.getElementById('np-report-broken') as HTMLButtonElement;
 const $npReportBrokenLabel = document.getElementById('np-report-broken-label') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
+const $npAdd = document.getElementById('np-add') as HTMLButtonElement;
+const $npPrev = document.getElementById('np-prev') as HTMLButtonElement;
+const $npNext = document.getElementById('np-next') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
+const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
+const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
+const $npVolume = document.getElementById('np-volume') as HTMLElement;
+const $npVolumeSlider = document.getElementById('np-volume-slider') as HTMLInputElement;
+const $npVolumeValue = document.getElementById('np-volume-value') as HTMLElement;
+const $npInfo = document.getElementById('np-info') as HTMLElement;
+const $npInfoScrim = document.getElementById('np-info-scrim') as HTMLElement;
+const $npInfoClose = document.getElementById('np-info-close') as HTMLButtonElement;
+// Wake-to-radio lives in a hidden legacy container — its UI is removed from
+// the web player, but the scheduler + silent-bed machinery still drive these.
 const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
 const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
@@ -322,15 +334,6 @@ const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement
 const $wakeArmLabel = document.getElementById('wake-arm-label') as HTMLElement;
 const $wakeArmMeta = document.getElementById('wake-arm-meta') as HTMLElement;
 const $wakePane = document.getElementById('np-wake-pane') as HTMLElement;
-const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
-const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
-const $npFormat = document.getElementById('np-format') as HTMLElement;
-const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
-const $npVolume = document.getElementById('np-volume') as HTMLElement;
-const $npVolumeSlider = document.getElementById('np-volume-slider') as HTMLInputElement;
-const $npVolumeValue = document.getElementById('np-volume-value') as HTMLElement;
-const $npDetails = document.getElementById('np-details') as HTMLElement;
-const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
 const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
@@ -366,7 +369,6 @@ const $settingsBackup = document.getElementById('settings-backup') as HTMLButton
 const $settingsRestore = document.getElementById('settings-restore') as HTMLButtonElement;
 const $settingsStats = document.getElementById('settings-stats') as HTMLButtonElement;
 const $settingsTabs = document.getElementById('settings-tabs') as HTMLElement;
-const $settingsHistoryList = document.getElementById('settings-history-list') as HTMLElement;
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
@@ -854,12 +856,10 @@ const NP_REFS: NowPlayingRefs = {
   body: $body,
   npName: $npName,
   npStationLogo: $npStationLogo,
-  npTags: $npTags,
+  npStationLogoBtn: $npStationLogoBtn,
   npBitrate: $npBitrate,
   npOrigin: $npOrigin,
   npListeners: $npListeners,
-  npLiveText: $npLiveText,
-  npFormat: $npFormat,
   npTrackRow: $npTrackRow,
   npTrackTitle: $npTrackTitle,
   npTrackArtist: $npTrackArtist,
@@ -887,8 +887,11 @@ function renderNowPlaying(np: NowPlaying): void {
   renderNowPlayingImpl(NP_REFS, np, {
     armedWake: wakeScheduler.current(),
     isFavorite,
-    onClearOpenIn: closeOpenInPopup,
+    onClearOpenIn: () => {},
   });
+  // The inline open-in row is always-visible (when verified), so reflect the
+  // per-service Settings toggles on every render.
+  syncMusicServiceLinks();
   // Keep the wide-layout body classes (np-twocol/np-threecol) in sync as
   // the station loads/changes/stops — has-station has just been toggled
   // upstream, so the mode is current here.
@@ -2035,8 +2038,10 @@ function resetToDiscovery(): void {
 /** Results header row above the list (mirrors iOS BrowseSortRow): a
  *  back-to-discovery chevron, the alphabet sort toggle (off → A–Z → Z–A),
  *  and the match count centered. Sort is suppressed while a text query is
- *  active (relevance order wins). */
-function resultsRow(count: number): HTMLElement {
+ *  active (relevance order wins). When `label` is given (the active filter
+ *  summary, e.g. a country) it prefixes the count so this single row carries
+ *  the context — no separate section label is needed below it. */
+function resultsRow(count: number, label?: string): HTMLElement {
   const row = document.createElement('div');
   row.className = 'results-row';
 
@@ -2074,7 +2079,7 @@ function resultsRow(count: number): HTMLElement {
 
   const countEl = document.createElement('span');
   countEl.className = 'results-row__count';
-  countEl.textContent = String(count);
+  countEl.textContent = label ? `${label} · ${count}` : String(count);
 
   row.append(back, sort, countEl);
   return row;
@@ -2121,12 +2126,11 @@ function renderContent(): void {
       const ordered = activeSort
         ? sortStations(matched, activeSort)
         : orderFeaturedFirst(matched);
-      $content.append(resultsRow(ordered.length));
+      $content.append(resultsRow(ordered.length, filterSummaryLabel()));
       if (ordered.length === 0) {
         $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try removing a filter'));
         return;
       }
-      $content.append(sectionLabel(filterSummaryLabel(), ordered.length));
       const visible = ordered.slice(0, homeViewLimit);
       $content.append(rowsGrid(visible));
       const remaining = ordered.length - visible.length;
@@ -2177,9 +2181,8 @@ function renderContent(): void {
     // ── Browse all (unfiltered, no query) — RB top + Worldwide ──
     const refined = refine(lastBrowseStations, { textQuery: '', featuredFirst: true });
     const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
-    $content.append(resultsRow(refined.length));
+    $content.append(resultsRow(refined.length, 'Top stations'));
     if (refined.length > 0) {
-      $content.append(sectionLabel('Top stations', refined.length));
       const visibleHome = refined.slice(0, homeViewLimit);
       $content.append(rowsGrid(visibleHome));
       const remainingHome = refined.length - visibleHome.length;
@@ -4460,6 +4463,8 @@ $promoClose.addEventListener('click', () => {
   track('promo/dismiss');
 });
 $promoLink.addEventListener('click', () => track('promo/ios'));
+// Permanent /ios entry on the About page (the banner above is dismissable).
+document.getElementById('about-ios')?.addEventListener('click', () => track('about/ios'));
 
 $addForm.addEventListener('submit', handleAddSubmit);
 
@@ -4507,12 +4512,12 @@ function openSettingsSheet(open: boolean): void {
   $settingsSheet.setAttribute('aria-hidden', String(!open));
 }
 
-// ─── Settings sheet tabs: Settings · About · Add · History ───
+// ─── Settings sheet tabs: Settings · About · Add ───
 // About + Add used to be their own slide-up sheets; their markup is
 // authored once in #about-src / #add-src and relocated into the matching
 // tab panels here at boot (same pattern as the filter-row relocation),
 // so every id + handler inside them is preserved.
-type SettingsTab = 'settings' | 'about' | 'add' | 'history';
+type SettingsTab = 'settings' | 'about' | 'add';
 const settingsPanels = new Map<SettingsTab, HTMLElement>();
 for (const panel of $settingsSheet.querySelectorAll<HTMLElement>('[data-settings-panel]')) {
   settingsPanels.set(panel.dataset.settingsPanel as SettingsTab, panel);
@@ -4556,36 +4561,15 @@ function selectSettingsTab(tab: SettingsTab): void {
     btn.setAttribute('aria-selected', String(on));
   }
   for (const [key, panel] of settingsPanels) panel.hidden = key !== tab;
-  if (tab === 'history') renderHistoryPanel();
   // Scroll the body back to the top when switching tabs.
   const body = $settingsSheet.querySelector<HTMLElement>('.sheet-body');
   if (body) body.scrollTop = 0;
-}
-
-/** Render the History tab → recently-played stations (web's listening-
- *  history equivalent). Reuses the standard station rows; tapping one
- *  plays it and dismisses the sheet to reveal Now Playing. */
-function renderHistoryPanel(): void {
-  const recents = getRecents();
-  $settingsHistoryList.replaceChildren();
-  if (recents.length === 0) {
-    $settingsHistoryList.append(
-      emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),
-    );
-    return;
-  }
-  $settingsHistoryList.append(renderRows(recents));
 }
 
 $settingsTabs.addEventListener('click', (e) => {
   const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.sheet-tab');
   if (!btn) return;
   selectSettingsTab((btn.dataset.settingsTab as SettingsTab) ?? 'settings');
-});
-// A tap on a recent-station row plays it (the row's own handler) and we
-// close the sheet so Now Playing is revealed underneath.
-$settingsHistoryList.addEventListener('click', (e) => {
-  if ((e.target as HTMLElement).closest('.row')) openSettingsSheet(false);
 });
 
 /** Lights the funnel's accent dot when any filter narrows Browse. */
@@ -5132,52 +5116,44 @@ $miniSkip.addEventListener('click', (e) => {
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
 
-// Open-in popup — arrow trigger reveals a small panel with service
-// text links. Click outside / Esc / pick a link closes it. The
-// wrapper carries the open-state for hover styling.
-//
-// The popup must escape `.np-body { overflow: hidden }` AND `.np`'s
-// transform (a transformed ancestor turns `position: fixed` into a
-// containing block, re-clipping us). Moving the popup to body lifts
-// it out of both, so the fixed positioning is true viewport-relative.
-document.body.appendChild($npTrackOpenInPopup);
+// Open in — the music-service marks are shown inline (the render toggles
+// #np-track-open-in-wrap once a track verifies). Per-service Settings
+// toggles hide individual marks via syncMusicServiceLinks(), called after
+// each NP render. Tapping a mark just follows its link (handlers below).
 
-function positionOpenInPopup() {
-  const r = $npTrackOpenIn.getBoundingClientRect();
-  $npTrackOpenInPopup.style.top = `${Math.round(r.bottom + 8)}px`;
-  $npTrackOpenInPopup.style.right = `${Math.round(window.innerWidth - r.right - 4)}px`;
+// ── Station-info popup ──────────────────────────────────────────────
+// Opened by tapping the station logo or the album art (iOS parity);
+// carries the stream details the removed bottom strip used to expand.
+function openStationInfo(): void {
+  if (!currentNP.station.id) return;
+  $npInfo.hidden = false;
+  track('np-info/open');
 }
-function openOpenInPopup() {
-  // Reflect the user's per-service Settings toggles before showing.
-  syncMusicServiceLinks();
-  positionOpenInPopup();
-  $npTrackOpenInPopup.hidden = false;
-  $npTrackOpenInWrap.dataset.open = 'true';
-  $npTrackOpenIn.setAttribute('aria-expanded', 'true');
-  track('open-in/show');
+function closeStationInfo(): void {
+  $npInfo.hidden = true;
 }
-function closeOpenInPopup() {
-  $npTrackOpenInPopup.hidden = true;
-  delete $npTrackOpenInWrap.dataset.open;
-  $npTrackOpenIn.setAttribute('aria-expanded', 'false');
-}
-$npTrackOpenIn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  if ($npTrackOpenInPopup.hidden) openOpenInPopup();
-  else closeOpenInPopup();
+$npStationLogoBtn.addEventListener('click', openStationInfo);
+$npTrackCoverWrap.addEventListener('click', openStationInfo);
+$npTrackCoverWrap.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openStationInfo();
+  }
 });
-document.addEventListener('click', (e) => {
-  if ($npTrackOpenInPopup.hidden) return;
-  const t = e.target as Node;
-  if ($npTrackOpenInWrap.contains(t)) return;
-  if ($npTrackOpenInPopup.contains(t)) return;
-  closeOpenInPopup();
-});
+$npInfoScrim.addEventListener('click', closeStationInfo);
+$npInfoClose.addEventListener('click', closeStationInfo);
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !$npTrackOpenInPopup.hidden) closeOpenInPopup();
+  if (e.key === 'Escape' && !$npInfo.hidden) closeStationInfo();
 });
-window.addEventListener('resize', () => {
-  if (!$npTrackOpenInPopup.hidden) positionOpenInPopup();
+
+// ── Transport: previous / next — cycle through favorites, the same
+// gesture as the mini-player + lock-screen prev/next controls. ──
+$npPrev.addEventListener('click', () => skipFavorite(-1));
+$npNext.addEventListener('click', () => skipFavorite(1));
+
+// ── Add the current station to a list (+ button on the name row). ──
+$npAdd.addEventListener('click', () => {
+  if (currentNP.station.id) openListSheet(currentNP.station);
 });
 
 // Infinite scroll — load the next batch as the result list nears the bottom
@@ -5209,18 +5185,9 @@ function maybeAutoFill(): void {
 
 // Streaming-service deep links — count taps so we can see if anyone
 // uses them. Track strings stay out of telemetry.
-$npTrackSpotify.addEventListener('click', () => {
-  track('open-spotify');
-  closeOpenInPopup();
-});
-$npTrackAppleMusic.addEventListener('click', () => {
-  track('open-apple-music');
-  closeOpenInPopup();
-});
-$npTrackYoutubeMusic.addEventListener('click', () => {
-  track('open-youtube-music');
-  closeOpenInPopup();
-});
+$npTrackSpotify.addEventListener('click', () => track('open-spotify'));
+$npTrackAppleMusic.addEventListener('click', () => track('open-apple-music'));
+$npTrackYoutubeMusic.addEventListener('click', () => track('open-youtube-music'));
 $npMute.addEventListener('click', () => {
   reflectMuteUi(player.toggleMute());
 });
@@ -5254,7 +5221,11 @@ function setVolume(v: number, persist = true): void {
 // still reflects the stored value but won't change playback (expected;
 // the slider is a desktop affordance).
 {
-  const stored = Number(getString(VOLUME_KEY));
+  // getString → null when unset; Number(null) is 0, which would wrongly
+  // start a fresh listener at 0% volume. Treat unset/empty as "default to
+  // full" rather than coercing to 0.
+  const raw = getString(VOLUME_KEY);
+  const stored = raw === null || raw === '' ? NaN : Number(raw);
   const initial = Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : 1;
   setVolume(initial, false);
 }
@@ -5273,13 +5244,6 @@ function handleVolumeInput(slider: HTMLInputElement): void {
 $npVolumeSlider.addEventListener('input', () => handleVolumeInput($npVolumeSlider));
 // Desktop mini-player slider — same behaviour, shared volume state.
 $miniVolumeSlider.addEventListener('input', () => handleVolumeInput($miniVolumeSlider));
-
-$npDetailsToggle.addEventListener('click', () => {
-  const open = $npDetails.dataset.open !== 'true';
-  $npDetails.dataset.open = String(open);
-  $npDetailsToggle.setAttribute('aria-expanded', String(open));
-  track(open ? 'np-details/open' : 'np-details/close');
-});
 
 function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): void {
   $npReportBroken.classList.toggle('is-sent', state === 'sent');
