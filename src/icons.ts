@@ -54,5 +54,13 @@ export const ICON_PENCIL = svg(
   '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
 );
 export const ICON_BACK = svg('<path d="m15 18-6-6 6-6"/>');
+export const ICON_CLOSE = svg('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
 export const ICON_CHEVRON_RIGHT = svg('<path d="m9 18 6-6-6-6"/>');
 export const ICON_CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
+/** Magnifying glass — the iOS LibraryPageStatusBar search accessory. */
+export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
+/** Plain plus — "add stations to favorites" header accessory. */
+export const ICON_PLUS = svg('<path d="M12 5v14"/><path d="M5 12h14"/>');
+/** Minus-in-circle — the per-row remove affordance shown in favorites
+ *  edit mode (the iOS delete-mode red circle). */
+export const ICON_MINUS_CIRCLE = svg('<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>');

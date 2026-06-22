@@ -115,6 +115,7 @@ import {
   ICON_BACK,
   ICON_CHECK,
   ICON_CHEVRON_RIGHT,
+  ICON_CLOSE,
   ICON_EMPTY,
   ICON_FAV,
   ICON_GRIP,
@@ -122,8 +123,11 @@ import {
   ICON_HEART_LINE_CLASSED,
   ICON_LIST,
   ICON_LIST_ADD,
+  ICON_MINUS_CIRCLE,
   ICON_PENCIL,
+  ICON_PLUS,
   ICON_RECENT,
+  ICON_SEARCH,
   ICON_TRASH,
 } from './icons';
 import {
@@ -374,6 +378,18 @@ const $dashStationTable = document.querySelector('#dash-station-table tbody') as
 // ─────────────────────────────────────────────────────────────
 
 let activeTab: Tab = 'browse';
+// Favorites edit mode: trash toggles a per-row remove affordance (the
+// red minus iOS delete mode shows). Survives the re-render the toggle
+// triggers; resets when leaving the tab or emptying the list.
+let favEditing = false;
+
+// Browse multi-select "add to Favorites" mode — the + on the favorites
+// header switches to Browse and lets the user tick stations, then "Add N"
+// adds them all to Favorites and returns there (iOS issue #57). `picked`
+// holds the chosen Station objects; `existing` is the snapshot of stations
+// already favorited (shown ticked + disabled, not re-pickable).
+let selectMode: { picked: Map<string, Station>; existing: Set<string> } | null = null;
+let $selectDock: HTMLElement | null = null;
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
 // Which list is open in the Library detail view (null = the Library home).
@@ -664,6 +680,29 @@ function buildRow(
     info.append(now);
   }
 
+  // Browse multi-select: the row's trailing control is a pick tick, and a
+  // tap toggles selection instead of playing. Stations already in Favorites
+  // show a filled tick and are inert. (Library cards never enter this mode.)
+  if (selectMode && !opts.cover) {
+    const already = selectMode.existing.has(station.id);
+    const picked = selectMode.picked.has(station.id);
+    const tick = document.createElement('span');
+    tick.className = 'row-tick' + (already ? ' is-added' : picked ? ' is-picked' : '');
+    if (already || picked) tick.innerHTML = ICON_CHECK;
+    if (already) row.classList.add('is-added');
+    row.append(fav, info, tick);
+    if (!already) {
+      row.addEventListener('click', () => toggleSelectPick(station, tick));
+      row.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleSelectPick(station, tick);
+        }
+      });
+    }
+    return row;
+  }
+
   // Library feeds (Favorites / Lists / Recents) render as iOS-style cards:
   // no inline add/heart/equalizer — the trailing slot is the station's
   // now-playing cover art, and the subtitle carries the current track.
@@ -898,10 +937,17 @@ function sectionLabel(
   label: string,
   count: number,
   actions?: HTMLElement[],
+  lead?: HTMLElement,
 ): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'section-label';
-  if (actions?.length) wrap.classList.add('section-label--with-actions');
+  // A `lead` (e.g. the favorites search icon) promotes the label to the
+  // iOS LibraryPageStatusBar layout: a 3-column grid (lead · centred title ·
+  // actions). Without one, the existing centred / space-between flex applies.
+  if (lead) wrap.classList.add('section-label--header');
+  else if (actions?.length) wrap.classList.add('section-label--with-actions');
+
+  if (lead) wrap.append(lead);
 
   const title = document.createElement('div');
   title.className = 'section-label__title';
@@ -2146,12 +2192,22 @@ function renderContent(): void {
     const all = getFavorites();
     const list = filterStations(all, query);
     const label = query ? 'Results' : 'Favorites';
-    // Backup actions (export + import icons) appear only on the
-    // unfiltered Favorites view — they operate on the full stored list,
-    // not the search-filtered subset.
-    const actions = !query ? favoriteHeaderActions() : undefined;
-    $content.append(sectionLabel(label, list.length, actions));
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    // Header chrome only on the unfiltered list (it acts on the full stored
+    // set, not a search subset). Mobile mirrors the iOS LibraryPageStatusBar
+    // — search icon (left), centred title, +/trash (right); desktop keeps
+    // the existing backup (export/import) actions above its tile grid.
+    if (query) {
+      $content.append(sectionLabel(label, list.length));
+    } else if (wide) {
+      $content.append(sectionLabel(label, list.length, favoriteBackupActions()));
+    } else {
+      $content.append(
+        sectionLabel(label, list.length, favoriteHeaderActions(), favoriteSearchLead()),
+      );
+    }
     if (all.length === 0) {
+      favEditing = false;
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
       );
@@ -2166,11 +2222,13 @@ function renderContent(): void {
       const grid = rowsGrid(list, { cover: true });
       $content.append(grid);
       armFavCovers(list);
-      // Reorder is a mobile, single-column affair — the desktop card grid is
-      // 2D, so the vertical drag math doesn't apply there. Unfiltered list
-      // only (a search result's order doesn't map back to the stored order).
-      if (!query && !matchMedia('(min-width: 1024px)').matches) {
-        enableFavoriteReorder(grid);
+      // Mobile, unfiltered list only: edit mode reveals a per-row remove
+      // affordance (iOS delete mode); otherwise grip-drag reorder is live.
+      // The desktop card grid is 2D, so neither vertical-drag math nor the
+      // single-column edit chrome applies there.
+      if (!query && !wide) {
+        if (favEditing) decorateFavoriteRemoval(grid, list);
+        else enableFavoriteReorder(grid);
       }
     }
     return;
@@ -3002,6 +3060,8 @@ function clearSearch(refocus: boolean): void {
     $search.value = '';
     syncSearchClear();
   }
+  // Clearing also collapses the favorites search field back to its icon.
+  $body.classList.remove('fav-search-open');
   if (refocus) $search.focus();
 }
 
@@ -3046,6 +3106,21 @@ function setTab(tab: Tab): void {
 
   activeTab = tab;
   $body.classList.toggle('tab-playing', tab === 'playing');
+  // Favorites carries its own mobile chrome (search-icon-expands-the-field,
+  // edit mode). Tag the body so the CSS can hide the brand-row search field,
+  // and drop any half-open edit/search state when leaving the tab.
+  $body.classList.toggle('tab-fav', tab === 'fav');
+  if (tab !== 'fav') {
+    favEditing = false;
+    $body.classList.remove('fav-search-open');
+  }
+  // The select dock belongs to Browse; navigating elsewhere abandons the
+  // pick (saveSelect clears selectMode itself before its setTab, so this
+  // only fires on a genuine bail-out).
+  if (selectMode && tab !== 'browse') {
+    selectMode = null;
+    syncSelectDock();
+  }
   $np.classList.toggle('open', tab === 'playing');
   // NP is only present (and in the a11y tree) when it's the active
   // destination, on every breakpoint.
@@ -4730,26 +4805,182 @@ function pickImportFile(): void {
  *  The backup now carries everything (favorites, custom, lists, recents
  *  and settings), so export is always available — even an empty dial
  *  exports the user's settings. Import is how a fresh device populates. */
-function favoriteHeaderActions(): HTMLElement[] {
-  const exportBtn = document.createElement('button');
-  exportBtn.type = 'button';
-  exportBtn.className = 'section-label__action';
-  exportBtn.setAttribute('aria-label', 'Export backup');
-  exportBtn.title = 'Export everything to a file';
-  exportBtn.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
-  exportBtn.addEventListener('click', exportBackupNow);
+/** Builds a 32×32 section-label icon button (search / + / trash / backup). */
+function headerActionBtn(icon: string, label: string, onClick: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'section-label__action';
+  btn.setAttribute('aria-label', label);
+  btn.title = label;
+  btn.innerHTML = icon;
+  btn.addEventListener('click', onClick);
+  return btn;
+}
 
-  const importBtn = document.createElement('button');
-  importBtn.type = 'button';
-  importBtn.className = 'section-label__action';
-  importBtn.setAttribute('aria-label', 'Import backup');
-  importBtn.title = 'Import from a backup file';
-  importBtn.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>';
-  importBtn.addEventListener('click', pickImportFile);
-
+// Desktop favorites keeps the data backup affordances above its tile grid.
+function favoriteBackupActions(): HTMLElement[] {
+  const exportBtn = headerActionBtn(
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>',
+    'Export everything to a file',
+    exportBackupNow,
+  );
+  const importBtn = headerActionBtn(
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>',
+    'Import from a backup file',
+    pickImportFile,
+  );
   return [exportBtn, importBtn];
+}
+
+// Mobile favorites header — iOS LibraryPageStatusBar accessories.
+// Left: search; right: add-to-favorites (+) and edit/remove mode (trash).
+function favoriteSearchLead(): HTMLElement {
+  const open = $body.classList.contains('fav-search-open');
+  const btn = headerActionBtn(ICON_SEARCH, 'Search favorites', toggleFavSearch);
+  btn.classList.add('section-label__lead');
+  if (open) btn.classList.add('is-active');
+  return btn;
+}
+
+function favoriteHeaderActions(): HTMLElement[] {
+  // "+" enters Browse multi-select targeting Favorites (iOS #57): tick
+  // stations, then "Add N to Favorites" adds them all and returns here.
+  const addBtn = headerActionBtn(ICON_PLUS, 'Add stations to favorites', enterFavoriteSelect);
+  const trashBtn = headerActionBtn(ICON_TRASH, 'Remove favorites', toggleFavEditing);
+  if (favEditing) trashBtn.classList.add('is-active');
+  return [addBtn, trashBtn];
+}
+
+// ── Browse multi-select "add to Favorites" (iOS #57) ──────────────────
+function enterFavoriteSelect(): void {
+  if (favEditing) favEditing = false;
+  selectMode = { picked: new Map(), existing: favIdSet() };
+  setTab('browse'); // setTab won't clear selectMode when going to browse
+  syncSelectDock();
+}
+
+function exitSelectMode(): void {
+  selectMode = null;
+  syncSelectDock();
+  if (activeTab === 'browse') renderContent();
+}
+
+function saveSelect(): void {
+  if (!selectMode || selectMode.picked.size === 0) return;
+  const count = selectMode.picked.size;
+  for (const station of selectMode.picked.values()) {
+    if (!isFavorite(station.id)) toggleFavorite(station);
+  }
+  selectMode = null;
+  syncSelectDock();
+  track(`favorites/add-multi: ${count}`);
+  renderTopBar();
+  // The Browse search is the shared global field — clear it so Favorites
+  // opens on the full list, not filtered by whatever was typed to find
+  // these stations.
+  clearSearch(false);
+  setTab('fav');
+}
+
+/** Toggle a station's pick in select mode and refresh its tick + the dock. */
+function toggleSelectPick(station: Station, tick: HTMLElement): void {
+  if (!selectMode) return;
+  if (selectMode.picked.has(station.id)) {
+    selectMode.picked.delete(station.id);
+    tick.classList.remove('is-picked');
+    tick.innerHTML = '';
+  } else {
+    selectMode.picked.set(station.id, station);
+    tick.classList.add('is-picked');
+    tick.innerHTML = ICON_CHECK;
+  }
+  syncSelectDock();
+}
+
+/** Build / update / tear down the accent-tinted select dock pinned above
+ *  the station list (the iOS BrowseSelectionDock). Lives outside #content
+ *  so a search re-render (runQuery → replaceChildren) can't wipe it. */
+function syncSelectDock(): void {
+  if (!selectMode) {
+    $selectDock?.remove();
+    $selectDock = null;
+    $body.classList.remove('selecting');
+    return;
+  }
+  if (!$selectDock) {
+    $selectDock = document.createElement('div');
+    $selectDock.className = 'select-dock';
+    const stage = document.querySelector('.stage');
+    stage?.parentElement?.insertBefore($selectDock, stage);
+    $body.classList.add('selecting');
+  }
+  const n = selectMode.picked.size;
+
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'select-dock__cancel';
+  cancel.setAttribute('aria-label', 'Cancel');
+  cancel.innerHTML = ICON_CLOSE;
+  cancel.addEventListener('click', exitSelectMode);
+
+  const label = document.createElement('div');
+  label.className = 'select-dock__label';
+  const lead = document.createElement('span');
+  lead.textContent = 'Adding to ';
+  const target = document.createElement('b');
+  target.textContent = 'Favorites';
+  label.append(lead, target);
+  if (n > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'select-dock__count';
+    badge.textContent = String(n);
+    label.append(badge);
+  }
+
+  const save = document.createElement('button');
+  save.type = 'button';
+  save.className = 'select-dock__save';
+  save.disabled = n === 0;
+  save.textContent = n > 0 ? `Add ${n}` : 'Select stations';
+  save.addEventListener('click', saveSelect);
+
+  $selectDock.replaceChildren(cancel, label, save);
+}
+
+function toggleFavEditing(): void {
+  favEditing = !favEditing;
+  if (activeTab === 'fav') renderContent();
+}
+
+function toggleFavSearch(): void {
+  const opening = !$body.classList.contains('fav-search-open');
+  $body.classList.toggle('fav-search-open', opening);
+  if (opening) {
+    $search.focus();
+  } else {
+    clearSearch(false);
+  }
+  if (activeTab === 'fav') renderContent();
+}
+
+/** Prepend a remove (−) button to each favorite card in edit mode. */
+function decorateFavoriteRemoval(grid: HTMLElement, list: Station[]): void {
+  grid.classList.add('rows--editing');
+  const rows = grid.querySelectorAll<HTMLElement>(':scope > .row');
+  rows.forEach((row, i) => {
+    const station = list[i];
+    if (!station) return;
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.className = 'row-remove';
+    rm.setAttribute('aria-label', `Remove ${station.name} from favorites`);
+    rm.innerHTML = ICON_MINUS_CIRCLE;
+    rm.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onToggleFav(station); // un-favorites + re-renders (stays in edit mode)
+    });
+    row.prepend(rm);
+  });
 }
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
