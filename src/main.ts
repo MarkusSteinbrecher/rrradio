@@ -1563,20 +1563,34 @@ function enableColumnReorder(container: HTMLElement, opts: ReorderOpts): void {
   }
 }
 
-/** Reorder a wide card grid via native HTML5 drag-and-drop on the whole
- *  card (desktop / mouse). The card reflows live on dragover; dragend reads
- *  the settled order and persists it. Clicks still fire normally (the
- *  browser distinguishes a click from a drag), so play / open keep working. */
+/** Reorder a wide card grid via native HTML5 drag-and-drop. The drag is
+ *  started from a visible grip handle (so it's discoverable — the same
+ *  affordance as the mobile column path — and leaves the card itself
+ *  clickable). The grid reflows live on dragover; dragend reads the settled
+ *  order and persists it. The container gets `is-reorderable` so the CSS can
+ *  carve a grip slot only where reordering is on. */
 function enableGridReorder(container: HTMLElement, opts: ReorderOpts): void {
   const items = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
   if (items.length < 2) return;
+  container.classList.add('is-reorderable');
   let dragged: HTMLElement | null = null;
 
   for (const item of items) {
+    if (item.querySelector(':scope > .row-grip')) continue;
+    // The whole card is the drag source (most reliable across browsers); the
+    // grip is a non-interactive visual handle so it's clearly reorderable.
     item.draggable = true;
-    item.classList.add('is-draggable');
     // Stop the browser grabbing an inner favicon/cover instead of the card.
     item.querySelectorAll('img').forEach((img) => (img.draggable = false));
+
+    const grip = document.createElement('span');
+    grip.className = 'row-grip';
+    grip.setAttribute('aria-hidden', 'true');
+    grip.innerHTML = ICON_GRIP;
+    if (opts.gripPosition === 'prepend') item.prepend(grip);
+    else item.append(grip);
+    // A stray tap on the handle shouldn't open/play the card.
+    grip.addEventListener('click', (e) => e.stopPropagation());
 
     item.addEventListener('dragstart', (e) => {
       dragged = item;

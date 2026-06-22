@@ -1660,11 +1660,7 @@ a.settings-row { text-decoration: none; }
 }
 
 /* Desktop grid reorder via native drag-and-drop (enableGridReorder): the
-   whole card is the handle, so show the grab cursor and fade the card being
-   dragged. Inner images aren't separately draggable (set in JS too). */
-.is-draggable { cursor: grab; }
-.is-draggable:active { cursor: grabbing; }
-.is-draggable img { -webkit-user-drag: none; user-drag: none; }
+   visible grip is the drag handle; the dragged card fades while in flight. */
 .is-drag-source { opacity: 0.4; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
@@ -4481,6 +4477,16 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      the trailing controls (it stays collapsed until art lands). */
   .rows .row > .row-cover { grid-area: cover; align-self: start; }
   .rows .row > .row-cover.has-cover { width: 48px; height: 48px; border-radius: 6px; }
+  /* Reorderable grids (Favorites, list detail) carve a leading grip column;
+     non-reorderable grids (Browse / search) keep the 4-column layout, so the
+     grip slot never adds empty space there. The grip spans both card rows. */
+  .rows.is-reorderable .row {
+    grid-template-columns: auto auto 1fr auto auto;
+    grid-template-areas:
+      'grip logo .    cover aside'
+      'grip info info info  info';
+  }
+  .rows.is-reorderable .row > .row-grip { grid-area: grip; align-self: center; height: 100%; }
   /* Pointer affordance — a subtle lift, since the mobile cards only have a
      tap (:active) state. */
   .rows .row:hover {
