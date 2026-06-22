@@ -117,7 +117,6 @@ import { faviconClass, stationInitials } from './station-display';
 import {
   ICON_BACK,
   ICON_CHECK,
-  ICON_CHEVRON_RIGHT,
   ICON_CLOSE,
   ICON_EMPTY,
   ICON_FAV,
@@ -2582,7 +2581,6 @@ function renderLibraryIndex(query: string): void {
       itemSelector: ':scope > .list-item--lib:not(.list-item--system)',
       idOf: (el) => el.dataset.listId ?? '',
       onCommit: reorderLists,
-      gripPosition: 'prepend',
     });
   }
 }
@@ -2693,11 +2691,7 @@ function buildRecentsRow(): HTMLElement {
   name.textContent = 'Recents';
   info.append(name, buildIconStrip(recents, 'Stations appear here after you play them.'));
 
-  const chev = document.createElement('div');
-  chev.className = 'list-item__chev';
-  chev.innerHTML = ICON_CHEVRON_RIGHT;
-
-  row.append(info, chev);
+  row.append(info);
   const open = () => setTab('recent');
   row.addEventListener('click', open);
   row.addEventListener('keydown', (e) => {
@@ -2752,11 +2746,7 @@ function buildListIndexRow(list: StationList): HTMLElement {
   });
   del.classList.add('list-item__del');
 
-  const chev = document.createElement('div');
-  chev.className = 'list-item__chev';
-  chev.innerHTML = ICON_CHEVRON_RIGHT;
-
-  row.append(del, chev);
+  row.append(del);
   const open = () => {
     openListId = list.id;
     resetListUiState();

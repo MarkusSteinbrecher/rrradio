@@ -1351,7 +1351,9 @@ a.settings-row { text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 6px 20px 16px;
+  /* Match the Favorites feed's outer inset (.rows: 8px 10px) so list cards
+     line up with station cards. */
+  padding: 8px 10px;
 }
 .list-item {
   display: flex;
@@ -1390,13 +1392,6 @@ a.settings-row { text-decoration: none; }
 }
 .list-item__del { flex-shrink: 0; }
 .list-item__del:hover { color: #ff8b6b; }
-.list-item__chev {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  color: var(--ink-3);
-}
-.list-item__chev svg { width: 18px; height: 18px; }
 
 /* Library-home rows: real cards (iOS LibraryHomeCardContent parity) — a
    warm top→bottom gradient fill + elevation shadow, lifting them off the
@@ -1406,7 +1401,8 @@ a.settings-row { text-decoration: none; }
 .list-item--lib {
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
+  /* Match the Favorites card padding (.rows .row: 12px 14px). */
+  padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--card-fill);
