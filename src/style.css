@@ -2140,6 +2140,9 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   text-align: center;
 }
 .np-track[hidden] { display: none; }
+/* Album column header — hidden on mobile (the tab strip labels the pane);
+   revealed + aligned with the Schedule/Lyrics header in the wide layouts. */
+.np-track__head { display: none; }
 
 /* Mode tabs (iOS parity): Album / Schedule / Lyrics — uppercase mono
    labels that hug their content and centre as a group. The active tab
@@ -3045,6 +3048,9 @@ body.is-playing .np-play .icon-pause { display: block; }
 .np-controls .np-volume { width: 100%; align-self: center; }
 @media (min-width: 1024px) {
   .np-controls .np-volume { max-width: 40%; }
+  /* Breathing room beneath the transport buttons (no tabbar on desktop, so
+     they'd otherwise hug the bottom edge of the viewport). */
+  .np-controls { padding-bottom: 34px; }
 }
 /* Phones use the hardware volume rocker — and iOS Safari ignores
    audio.volume entirely (it's read-only there), so the on-screen slider does
@@ -4433,7 +4439,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   /* Desktop: a taller, fuller player bar that holds all the relevant
      controls (transport + volume), centred as a cluster rather than spread
      edge-to-edge. Bigger station logo + album art match the taller bar. */
-  .mini { justify-content: center; gap: 18px; min-height: 120px; }
+  .mini { min-height: 120px; }
+  /* The flex container is .mini-slide (not .mini), so centre the cluster and
+     match the taller bar here — otherwise the items hug the left edge. */
+  .mini-slide { justify-content: center; gap: 18px; min-height: 120px; }
   .mini-open { flex: 0 1 auto; gap: 18px; }
   .mini-info { flex: 0 1 auto; max-width: 440px; }
   .mini-name { font-size: 15px; }
@@ -4773,9 +4782,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-twocol:not(.is-wake-edit) .np-body {
     display: grid;
     grid-template-columns: minmax(240px, 0.618fr) minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
     grid-template-areas:
       'station station'
+      'divider divider'
       'album   sectabs'
       'album   secpane';
     column-gap: 30px;
@@ -4797,9 +4807,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-threecol:not(.is-wake-edit) .np-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
       'station station station'
+      'divider divider divider'
       'album   program lyrics';
     column-gap: 22px;
   }
@@ -4815,12 +4826,53 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 
   /* ── Shared (both wide modes) ── */
   body.has-station .np-station { grid-area: station; }
-  body.has-station .np-track { grid-area: album; align-self: start; }
-  body.has-station .np-track .np-track__cover-wrap { max-width: 200px; }
+  /* Full-width hairline under the station head: once .np-body becomes a grid
+     the divider is no longer in normal flow, so give it its own row + area.
+     Its base rule already breaks out of the 24px padding (full-bleed). */
+  body.has-station .np-station-divider { grid-area: divider; }
+  /* Centre logo · name · actions as one cluster instead of spreading them
+     edge-to-edge across the full-width station row. */
+  body.has-station .np-station__head { width: auto; gap: 14px; }
+  body.has-station .np-name { flex: 0 1 auto; }
+  /* Extra breathing room between the station row and the column headers
+     (Album / Schedule) — applied on the divider so both columns stay level. */
+  body.has-station .np-station-divider { margin-bottom: 24px; }
+  /* Left-align the album column so the art + header line up under "Album",
+     mirroring the left-aligned schedule column. */
+  body.has-station .np-track {
+    grid-area: album;
+    align-self: start;
+    align-items: flex-start;
+    text-align: left;
+  }
+  /* The "Album" header: match the Schedule tab's type, plus space to the art. */
+  body.has-station .np-track__head {
+    display: block;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 6px 0 0;
+    margin-bottom: 8px;
+  }
+  /* A true square sized off the column width (the cover source is 600×600),
+     not the height-driven 200×400 portrait box that letterboxed the art. */
+  body.has-station .np-track .np-track__cover-wrap {
+    width: min(100%, 56vh);
+    height: auto;
+    max-width: none;
+    aspect-ratio: 1 / 1;
+  }
   body.has-station .np-program-pane,
   body.has-station .np-lyrics-pane {
     min-height: 0;
     overflow-y: auto;
+    /* Breathing room on the right so the schedule / lyrics don't run into
+       the screen edge. */
+    padding-right: clamp(24px, 4vw, 64px);
   }
 }
 

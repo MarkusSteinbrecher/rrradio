@@ -266,11 +266,11 @@
            tracks the dial at any width); the radio photo is decorative. ====== -->
       <aside class="psa" id="promo" hidden>
         <a class="psa__link" id="promo-link" href="/ios" target="_blank" rel="noopener noreferrer"
-           aria-label="Public service announcement — we interrupt your regularly scheduled radio: rrradio has a fresh new look, and an iPhone app is on the way. Tune in.">
+           aria-label="Public service announcement — we interrupt the program to announce a new look of the web app and the imminent arrival of the iOS app. Check it out.">
           <img class="psa__radio" src="/radio-tuner.png" alt="" />
           <span class="psa__caption">
             <span class="psa__label"><span class="psa__on" aria-hidden="true"></span>Public Service Announcement</span>
-            <span class="psa__msg"><strong>We interrupt your regularly scheduled radio</strong> — a fresh new look, and an iPhone app on the way. <span class="psa__cta">Tune in →</span></span>
+            <span class="psa__msg"><strong>We interrupt the program</strong> to announce a new look of the web app and the imminent arrival of the iOS app. <span class="psa__cta">Check it out →</span></span>
           </span>
         </a>
       </aside>
@@ -348,6 +348,10 @@
             </div>
 
             <div class="np-track" id="np-track-row">
+              <!-- Column header for the album, mirroring the Schedule/Lyrics
+                   switcher on the right. Wide layouts only (hidden on mobile,
+                   where the tab strip already labels the pane). -->
+              <div class="np-track__head" aria-hidden="true">Album</div>
               <!-- Tapping the artwork opens the station-info popup (iOS parity). -->
               <div class="np-track__cover-wrap" id="np-track-cover-wrap" role="button" tabindex="0" aria-label="Station info">
                 <img class="np-track__cover" id="np-track-cover" alt="" />
