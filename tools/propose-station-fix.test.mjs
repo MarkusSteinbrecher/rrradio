@@ -128,29 +128,50 @@ describe('applyFixes (real catalog consistency)', () => {
   const yamlText = readFileSync(join(ROOT, 'data/stations.yaml'), 'utf8');
   const jsonPayload = JSON.parse(readFileSync(join(ROOT, 'public/stations.json'), 'utf8'));
   const yamlList = parseYaml(yamlText);
-  const target = yamlList.find((s) => s && PUBLISHABLE.has(s.status) && s.streamUrl);
-  const baselinePub = new Set(yamlList.filter((s) => s && PUBLISHABLE.has(s.status)).map((s) => s.id));
+
+  // The §4a catalog collapse (tools/lib/catalog-dedupe.mjs) folds same-station
+  // rows into one canonical published row, so a publishable YAML id maps to a
+  // JSON id only when it is NOT folded away. public/dedup-report.json lists the
+  // folded ids; the check-catalog invariant is therefore
+  // `publishable YAML ids − folded ids === JSON ids`.
+  const dedupReport = JSON.parse(readFileSync(join(ROOT, 'public/dedup-report.json'), 'utf8'));
+  const foldedIds = new Set();
+  for (const g of dedupReport.groups ?? []) {
+    for (const m of g.members ?? []) if (m.id !== g.canonicalId) foldedIds.add(m.id);
+  }
 
   const publishableIds = (text) =>
     new Set(parseYaml(text).filter((s) => s && PUBLISHABLE.has(s.status)).map((s) => s.id));
+  const publishedFromYaml = (text) =>
+    new Set([...publishableIds(text)].filter((id) => !foldedIds.has(id)));
   const jsonIds = (payload) => new Set(payload.stations.map((s) => s.id));
   const sorted = (set) => [...set].sort();
+
+  // Pick a STANDALONE published station (no stream variants) so applyFixes'
+  // surgical 1:1 YAML↔JSON edit holds — editing a collapse canonical would need
+  // a rebuild to resurface its folded variants, which is out of scope here.
+  const jsonStandaloneIds = new Set(
+    jsonPayload.stations.filter((s) => !s.streams).map((s) => s.id),
+  );
+  const target = yamlList.find(
+    (s) => s && PUBLISHABLE.has(s.status) && s.streamUrl && jsonStandaloneIds.has(s.id),
+  );
 
   it('a stream-swap keeps both sides in sync (same ids, same count)', () => {
     const fix = [{ categories: ['no-audio'], action: 'stream-swap', url: 'https://example.test/replacement.aac', codec: 'AAC', bitrate: 128 }];
     const { yaml, json } = applyFixes(yamlText, jsonPayload, target.id, fix);
     expect(yaml).toContain('  streamUrl: https://example.test/replacement.aac');
     expect(json.stations.find((s) => s.id === target.id).streamUrl).toBe('https://example.test/replacement.aac');
-    // check-catalog invariant: edited publishable YAML ids === JSON ids === baseline
-    expect(sorted(publishableIds(yaml))).toEqual(sorted(jsonIds(json)));
-    expect(sorted(jsonIds(json))).toEqual(sorted(baselinePub));
+    // check-catalog invariant: edited publishable YAML ids (minus folded) === JSON ids === baseline
+    expect(sorted(publishedFromYaml(yaml))).toEqual(sorted(jsonIds(json)));
+    expect(sorted(jsonIds(json))).toEqual(sorted(publishedFromYaml(yamlText)));
     expect(json.$schema).toBe(jsonPayload.$schema); // payload shape preserved
   }, 30000);
 
   it('a mark-broken removes the station from BOTH sides', () => {
     const fix = [{ categories: ['no-audio'], action: 'mark-broken' }];
     const { yaml, json } = applyFixes(yamlText, jsonPayload, target.id, fix);
-    const editedPub = publishableIds(yaml);
+    const editedPub = publishedFromYaml(yaml);
     expect(editedPub.has(target.id)).toBe(false);
     expect(jsonIds(json).has(target.id)).toBe(false);
     expect(sorted(editedPub)).toEqual(sorted(jsonIds(json)));

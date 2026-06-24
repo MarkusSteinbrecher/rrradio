@@ -1,3 +1,19 @@
+/** One delivery variant of a station's single broadcast — a bitrate/codec
+ *  rendition of the *same* programme (FM4 192k vs 128k), grouped at build time
+ *  by `tools/lib/catalog-dedupe.mjs`. */
+export interface StreamVariant {
+  /** Stream endpoint for this variant. */
+  url: string;
+  /** Bitrate in kbps when known. */
+  bitrate?: number;
+  /** Codec when known, e.g. "MP3", "AAC". */
+  codec?: string;
+  /** Coarse listener-facing tier within this station: `best` (the default,
+   *  index 0), `data` (the lowest), `balanced` (anything between). Advisory —
+   *  clients may fall back to ordinal position when absent. */
+  tier?: 'best' | 'balanced' | 'data';
+}
+
 export interface Station {
   id: string;
   name: string;
@@ -18,6 +34,13 @@ export interface Station {
   /** Source broadcaster key from data/broadcasters.yaml when known. */
   broadcaster?: string;
   streamUrl: string;
+  /** Ordered best→worst delivery variants of THIS station's single broadcast
+   *  (different bitrate/codec renditions), grouped at build time by
+   *  `tools/lib/catalog-dedupe.mjs`. Present only when a station has more than
+   *  one variant; `streams[0].url === streamUrl` (the default/best). Absent ⇒
+   *  single-stream station (the common case). Additive & forward-compatible:
+   *  v1 clients and the bundled iOS snapshot ignore it and use `streamUrl`. */
+  streams?: StreamVariant[];
   /** Optional homepage URL for attribution / "more info" links */
   homepage?: string;
   /** Optional country code (ISO 3166-1 alpha-2) */

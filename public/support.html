@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index,follow" />
+  <title>Support — rrradio.org</title>
+  <meta name="description" content="Get help with rrradio: contact, report a broken station, request a station, or file a bug." />
+  <link rel="canonical" href="https://rrradio.org/support.html" />
+  <style>
+    :root {
+      --bg:     #f8f8f3;
+      --bg-2:   #fffffb;
+      --line:   rgba(14, 14, 13, 0.08);
+      --ink:    #0e0e0d;
+      --ink-2:  rgba(14, 14, 13, 0.80);
+      --ink-3:  rgba(14, 14, 13, 0.62);
+      --accent: #00a040;
+      --sans:   ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --mono:   ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:     #3e3e39;
+        --bg-2:   #4e4e47;
+        --line:   rgba(244, 244, 242, 0.08);
+        --ink:    #f4f4f2;
+        --ink-2:  rgba(244, 244, 242, 0.80);
+        --ink-3:  rgba(244, 244, 242, 0.62);
+        --accent: #ffff00;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--bg);
+      padding: 0 20px;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 0 96px;
+    }
+    .crumbs {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+    .crumbs a { color: var(--accent); text-decoration: none; }
+    .crumbs a:hover { text-decoration: underline; }
+    h1 {
+      font-family: var(--sans);
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+    }
+    .lede { color: var(--ink-2); margin: 0 0 40px; font-size: 17px; }
+    h2 {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 600;
+      margin: 40px 0 12px;
+      letter-spacing: -0.005em;
+    }
+    p, ul { margin: 0 0 16px; color: var(--ink-2); }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    a { color: var(--accent); }
+    code {
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg-2);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .card {
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      background: var(--bg-2);
+      border-radius: 0 8px 8px 0;
+      margin: 0 0 32px;
+    }
+    .card p { margin: 0; }
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="crumbs"><a href="/">rrradio.org</a> · support</div>
+
+    <h1>Support</h1>
+    <p class="lede">Need help with rrradio? Here's how to reach us and report problems.</p>
+
+    <div class="card">
+      <p><strong>Email:</strong> <a href="mailto:support@rrradio.org">support@rrradio.org</a></p>
+    </div>
+
+    <h2>Report a broken station, request a station, or file a bug</h2>
+    <p>The fastest way is the public issue tracker — it's open to everyone, and you can search existing reports before filing a new one:</p>
+    <ul>
+      <li><a href="https://github.com/MarkusSteinbrecher/rrradio/issues" rel="noopener">github.com/MarkusSteinbrecher/rrradio/issues</a></li>
+    </ul>
+    <p>In the apps, the quickest path for a dead stream is the built-in <strong>Report broken station</strong> button — it sends an anonymous report (station id/name, stream host, app version, and the current playback error) with one tap. See the <a href="/privacy">privacy policy</a> for exactly what that report contains.</p>
+
+    <h2>Common questions</h2>
+    <p><strong>A station won't play.</strong> Streams sometimes go offline at the broadcaster's end, or are geo-restricted to a country. Try another station to confirm your connection, then tap <em>Report broken station</em> so we can check it.</p>
+    <p><strong>My favorites disappeared.</strong> On the web, favorites and recents live in your browser's storage — clearing site data removes them. On iOS, enable iCloud Sync to keep favorites, lists, and added stations across reinstalls.</p>
+    <p><strong>A logo is wrong or shouldn't be here.</strong> rrradio is an independent directory. Email us or open an issue and we'll correct or remove it promptly — see <a href="/privacy#logos">Logos and trademarks</a>.</p>
+
+    <h2>About rrradio</h2>
+    <p>rrradio.org is a non-commercial, ad-free, tracker-free internet radio project. The source code and full change history are public on <a href="https://github.com/MarkusSteinbrecher/rrradio" rel="noopener">GitHub</a>.</p>
+
+    <footer>
+      <a href="/">← back to rrradio.org</a> · <a href="/privacy">privacy</a> · <a href="/ios">iOS app</a>
+    </footer>
+  </main>
+</body>
+</html>
