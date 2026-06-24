@@ -92,6 +92,19 @@
       <span class="stage__subtag" id="sigSub" hidden></span>
     </div>
 
+    <!-- Persistent App Store link, docked under the dial and lined up with the
+         live FM readout above, so it rides along on every tuned station (the
+         sign-off panel keeps the larger CTA). -->
+    <div class="stage__store-dock">
+      <a class="stage__store" href="https://apps.apple.com/app/rrradio-org/id6767256355" target="_blank" rel="noopener" aria-label="Download rrradio on the App Store">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12.5c0-2.6 2.1-3.9 2.2-4-1.2-1.7-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.4 1-4.3 2.6-1.9 3.2-.5 8 1.3 10.7.9 1.3 1.9 2.7 3.3 2.7 1.3-.1 1.8-.9 3.4-.9 1.6 0 2 .9 3.4.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-3 1.4-3.1-.1 0-2.7-1-2.7-4.1zM14.9 4.6c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z"/></svg>
+        <span class="stage__store-text">
+          <span class="stage__store-pre">Download on the</span>
+          <span class="stage__store-main">App Store</span>
+        </span>
+      </a>
+    </div>
+
     <!-- ═══════════ THE BROADCAST STAGE ═══════════ -->
     <main class="stage" id="stage">
       <div class="stage__content" id="stageContent" aria-hidden="true">
@@ -104,13 +117,13 @@
           <p class="stage__body" id="stageBody">&nbsp;</p>
           <ul class="featurelist" id="stageFeatures" aria-hidden="true"></ul>
           <div class="stage__cta" id="stageCta" hidden>
-            <span class="btn-app is-soon" role="img" aria-label="Coming soon to the App Store">
+            <a class="btn-app" href="https://apps.apple.com/app/rrradio-org/id6767256355" target="_blank" rel="noopener" aria-label="Download rrradio on the App Store">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 12.5c0-2.6 2.1-3.9 2.2-4-1.2-1.7-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.4 1-4.3 2.6-1.9 3.2-.5 8 1.3 10.7.9 1.3 1.9 2.7 3.3 2.7 1.3-.1 1.8-.9 3.4-.9 1.6 0 2 .9 3.4.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-3 1.4-3.1-.1 0-2.7-1-2.7-4.1zM14.9 4.6c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z"/></svg>
               <span class="btn-app__text" aria-hidden="true">
-                <span class="btn-app__pre">Coming soon to the</span>
+                <span class="btn-app__pre">Download on the</span>
                 <span class="btn-app__main">App Store</span>
               </span>
-            </span>
+            </a>
             <a class="btn-ghost" href="https://rrradio.org" target="_blank" rel="noopener">
               <span class="btn-ghost__pre">Try the web app</span>
               <span class="btn-ghost__main">rrradio.org ↗</span>
@@ -128,7 +141,7 @@
   <!-- Plain-text transcript for assistive tech & no-JS. -->
   <div class="sr-only" id="transcript">
     <h1>rrradio — an internet radio app for iPhone</h1>
-    <p>rrradio plays live radio from around the world on iPhone and Apple Watch. Free, no ads, no account, no data collected. Coming soon to the App Store; available now as a web app at rrradio.org.</p>
+    <p>rrradio plays live radio from around the world on iPhone and Apple Watch. Free, no ads, no account, no data collected. Download it on the App Store, or play it as a web app at rrradio.org.</p>
   </div>
 
   <!-- ═══════════ DIAGRAM TEMPLATES ═══════════ -->

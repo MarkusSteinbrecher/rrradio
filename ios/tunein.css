@@ -222,6 +222,41 @@ body.tunein {
 /* Per-slide feature name appended after the tag (e.g. "- Favorites & Lists"). */
 .stage__subtag { color: var(--accent); }
 
+/* Persistent App Store link — docked just under the FM readout, sharing the
+   dial's box + left edge so it lines up with the "FM" above. It's a real link
+   (the readout above is decorative/aria-hidden) and rides along on every tuned
+   station; the sign-off panel keeps the larger paired CTA. */
+.stage__store-dock {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  /* Same box as the dial + signal, so they share a left edge. */
+  width: min(calc(100% - 28px), 1040px);
+  margin: 0 auto clamp(6px, 1.2svh, 12px);
+  display: flex;
+}
+.stage__store {
+  /* Line the link up with the "FM" above (its band starts at 16% of the box);
+     margin-% resolves against the dock width, matching the band's margin-left. */
+  margin-left: 16%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px 6px 9px;
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.stage__store:hover { background: var(--accent); }
+.stage__store:active { transform: scale(0.97); }
+.stage__store svg { width: 20px; height: 20px; flex-shrink: 0; }
+.stage__store-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.05; }
+.stage__store-pre { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.72; white-space: nowrap; }
+.stage__store-main { font-family: var(--sans); font-weight: 600; font-size: 14px; letter-spacing: -0.01em; white-space: nowrap; }
+
 /* App icon on the sign-off page — a rounded squircle so it reads as the
    App Store icon, centred above the headline. */
 /* :not([hidden]) so the `hidden` attribute (set on every non-CTA station)
@@ -733,6 +768,10 @@ body.tunein {
   /* Tighter on mobile so the longest "FEATURES - …" line clears the viewport. */
   .stage__signal { font-size: 11px; letter-spacing: 0.1em; gap: 6px; }
   .stage__signal .stage__band { margin-left: 4%; }
+  /* Match the readout's mobile left edge, and shrink the link to suit. */
+  .stage__store { margin-left: 4%; padding: 5px 11px 5px 8px; }
+  .stage__store svg { width: 18px; height: 18px; }
+  .stage__store-main { font-size: 13px; }
   .stage__title { font-size: clamp(30px, 8.4vw, 46px); }
   .stage__body { font-size: 16px; max-width: 36ch; }
   .stage__media { gap: 10px; }
