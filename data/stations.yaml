@@ -11214,6 +11214,59 @@
   homepage: https://1067litefm.iheart.com/
   country: US
   status: stream-only
+- id: us-91x-xetra-fm
+  broadcaster: independent
+  name: 91X (XETRA-FM)
+  streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/XTRAFMAAC.aac
+  codec: AAC
+  favicon: "https://pwaimg.listenlive.co/XTRAFM_1249091_config_station_logo_image_1459400851.png"
+  faviconSource: broadcaster-site
+  geo:
+    - 32.716
+    - -117.161
+  tags:
+    - alternative
+    - rock
+    - indie
+    - usa
+  homepage: https://www.91x.com/
+  country: US
+  status: stream-only
+  notes: |
+    91X / XETRA-FM 91.1, San Diego alternative rock (border blaster licensed
+    to Tijuana). StreamTheWorld mount XTRAFM — the AAC variant the official
+    91x.com ListenLive player (id 36281) uses. Triton now-playing lives at
+    np.tritondigital.com/public/nowplaying?mountName=XTRAFM if a fetcher is
+    ever wired. Verified live via the Triton now-playing feed (alt-rock
+    rotation); STW edge returns 403 to datacenter IPs so byte-level playback
+    couldn't be confirmed from the build host.
+- id: us-weei-93-7
+  broadcaster: independent
+  name: WEEI 93.7 (Boston Sports)
+  streamUrl: https://live.amperwave.net/direct/audacy-weeifmaac-imc
+  bitrate: 128
+  codec: AAC
+  favicon: "https://i.iheart.com/v3/re/assets.streams/68487790c4ffec3cc815af2a?ops=gravity(%22center%22),contain(167,167),quality(80),format(%22png%22)"
+  faviconSource: broadcaster-api
+  faviconLicense: broadcaster-implicit
+  geo:
+    - 42.358
+    - -71.060
+  tags:
+    - sports
+    - talk
+    - usa
+  homepage: https://www.audacy.com/weei
+  country: US
+  status: stream-only
+  notes: |
+    WEEI-FM 93.7, "Boston's Sports Station" (Audacy). Direct AAC-128 stream
+    via AmperWave — the same URL iHeart's WEEI listing (live id 10790) serves.
+    GEO-GATED to the US: AmperWave routes non-US requests to an
+    "audacy-internationalblackout" loop (verified from the build host, which
+    resolves to .../lookup/14818/aac/128/direct → blackout). Added per sponsor
+    request despite the geo-gate — US listeners get the live feed. No public
+    now-playing endpoint, hence stream-only.
 - id: us-cnn
   favicon: "https://www.cnn.com/audio/static/images/cnn.7bf5c0ae.png"
   faviconSource: broadcaster-site
