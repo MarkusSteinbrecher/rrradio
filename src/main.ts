@@ -5987,13 +5987,20 @@ player.setSkipHandlers(
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
  *  so the SPA can auto-play the station the visitor landed on. We also
  *  parse the URL path as a fallback (in case the injection was stripped
- *  or the user shared a link to a non-prerendered station id). The
- *  match is deferred until BUILTIN_STATIONS has hydrated. */
+ *  or the user shared a link to a non-prerendered station id), plus the
+ *  `?play=<id>` query — that's the Universal Link form the AASA hands to
+ *  the iOS app (public/.well-known/apple-app-site-association), so the
+ *  same link auto-plays in the browser when the app isn't installed.
+ *  onRowPlay → syncUrlForStation then rewrites the address bar to the
+ *  canonical /station/<id>/. The match is deferred until BUILTIN_STATIONS
+ *  has hydrated. */
 function autoLoadStationFromUrl(): void {
   const declared = (window as unknown as { __STATION_ID__?: unknown }).__STATION_ID__;
   const fromGlobal = typeof declared === 'string' ? declared : undefined;
   const fromPath = window.location.pathname.match(/\/station\/([^/]+)\/?$/)?.[1];
-  const id = fromGlobal ?? fromPath;
+  const fromQuery =
+    new URLSearchParams(window.location.search).get('play')?.trim() || undefined;
+  const id = fromGlobal ?? fromPath ?? fromQuery;
   if (!id) return;
   const station = BUILTIN_STATIONS.find((s) => s.id === id);
   if (!station) return;
