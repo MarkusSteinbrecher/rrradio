@@ -432,19 +432,20 @@
                  buttons instead of stretching. Phones have a hardware rocker;
                  this is a desktop affordance. Tapping the speaker mutes;
                  dragging to 0 mutes, dragging up from 0 unmutes. Level persists. -->
-            <div class="np-volume" id="np-volume">
-              <button type="button" class="np-volume__mute" id="np-mute" aria-label="Mute">
-                <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-              </button>
-              <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
-              <span class="np-volume__value" id="np-volume-value" aria-hidden="true">100%</span>
-            </div>
-
             <!-- Transport (iOS controlsBlock parity, minus the iOS/Android-only
                  wake alarm): prev · play · next centered, sleep timer trailing.
-                 The leading spacer balances the trailing sleep button so the
-                 prev/play/next cluster stays optically centered. -->
+                 On desktop the volume slider drops into this row's left column
+                 (left of play); on mobile volume is hidden and the leading
+                 spacer balances the trailing sleep button so the prev/play/next
+                 cluster stays optically centered. -->
             <div class="np-row">
+              <div class="np-volume" id="np-volume">
+                <button type="button" class="np-volume__mute" id="np-mute" aria-label="Mute">
+                  <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </button>
+                <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
+                <span class="np-volume__value" id="np-volume-value" aria-hidden="true">100%</span>
+              </div>
               <span class="np-row__spacer" aria-hidden="true"></span>
               <div class="np-row__group np-row__group--transport">
                 <button type="button" class="np-btn" id="np-prev" aria-label="Previous station">
@@ -540,6 +541,12 @@
              to expose this red zone; tap the X (or fling past the threshold)
              to stop playback and dismiss the bar. -->
         <button class="mini-close" id="mini-close" type="button" aria-label="Close player" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <!-- Desktop has no swipe-to-close, so a visible "×" in the bar's
+             top-right corner stops playback and dismisses the player. Shown
+             only ≥1024px (mobile keeps the swipe gesture above). -->
+        <button class="mini-close-x" id="mini-close-x" type="button" aria-label="Close player">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
         <!-- Sliding content. Logo / text / album block — tap anywhere here to
@@ -641,21 +648,19 @@
       </div>
 
       <!-- ============== ADD TO LIST (slide-up sheet) ============== -->
-      <section class="sheet" id="list-sheet" aria-label="Add to list" aria-hidden="true">
+      <!-- iOS AddListPopupCard parity. renderAddList() paints the body in one
+           of two modes: 'addNow' adds the known station to a chosen list and
+           saves on the ✓; 'pickStations' chooses/creates a list, then hands off
+           to the Browse select dock (step 2) to pick stations. The step strip
+           shows only in pickStations. -->
+      <section class="sheet sheet--addlist" id="list-sheet" aria-label="Add to list" aria-hidden="true">
         <header class="sheet-head">
-          <div class="np-label">Add to list</div>
+          <div class="np-label" id="list-sheet-label">Add to list</div>
           <button type="button" class="icon-btn" id="list-cancel" aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </header>
-        <div class="sheet-body">
-          <h2 class="sheet-title" id="list-sheet-title">Add to list</h2>
-          <p class="sheet-lede">Pick a list, or create a new one — saved locally to this device</p>
-          <ul class="list-picker" id="list-picker"></ul>
-          <div class="sheet-actions">
-            <button type="button" class="btn-primary" id="list-new-btn">New list…</button>
-          </div>
-        </div>
+        <div class="addlist" id="list-sheet-body"></div>
       </section>
 
       <!-- ============== DASHBOARD (slide-up sheet) ============== -->

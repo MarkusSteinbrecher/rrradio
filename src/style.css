@@ -967,11 +967,18 @@ a.settings-row { text-decoration: none; }
 .select-dock {
   flex: 0 0 auto;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 9px;
   padding: 10px 12px;
   background: color-mix(in srgb, var(--accent) 13%, var(--bg));
   border-bottom: 1px solid var(--line);
+}
+/* The cancel · "Adding to …" · Add N action row. A step strip (when the flow
+   came from the choose-list popup) rides above it as a sibling. */
+.select-dock__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .select-dock__cancel {
   flex: 0 0 auto;
@@ -1490,6 +1497,191 @@ a.settings-row { text-decoration: none; }
   font-size: 11px;
   color: var(--ink-3);
 }
+/* addNow: a list already holding the station is disabled and reads
+   "Already in list" with a muted check (iOS parity). */
+.list-picker__btn.is-already { opacity: 0.5; cursor: default; }
+.list-picker__btn.is-already .list-picker__check { opacity: 1; color: var(--ink-3); }
+.list-picker__btn.is-already .list-picker__count {
+  font-family: inherit;
+  font-size: 12px;
+}
+
+/* ─── Add-to-list popup (iOS AddListPopupCard) ───────────────────
+   Lives inside #list-sheet. A fixed footer (cancel + confirm) with a
+   scrollable middle: a "Create list" row that morphs into a focused
+   field, then the existing lists. pickStations adds a step strip up top. */
+.addlist {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.addlist-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 18px;
+  scrollbar-width: none;
+}
+.addlist-scroll::-webkit-scrollbar { width: 0; }
+
+/* Two-segment progress strip (shared with the select dock). */
+.addlist-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.addlist > .addlist-steps {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.addlist-step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+.addlist-step__badge {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 11px/1 var(--mono);
+  color: var(--ink-3);
+  border: 1px solid var(--line-2);
+}
+.addlist-step__badge svg { width: 13px; height: 13px; }
+.addlist-step.is-active .addlist-step__badge,
+.addlist-step.is-done .addlist-step__badge {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.addlist-step__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.addlist-step.is-active .addlist-step__label { color: var(--ink); }
+.addlist-steps__conn {
+  flex: 1;
+  height: 1px;
+  min-width: 12px;
+  background: var(--line-2);
+}
+.addlist-steps__conn.is-done { background: var(--accent); }
+
+/* "Create list" row — label morphs into a focused field once selected. */
+.addlist-create__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 6px;
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.addlist-create__icon { display: grid; place-items: center; }
+.addlist-create__icon svg { width: 18px; height: 18px; }
+.addlist-create__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+}
+.addlist-create__input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+}
+.addlist-create__input::placeholder { color: var(--ink-4); }
+.addlist-create__input:focus { outline: none; }
+.addlist-create__clear {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.addlist-create__clear svg { width: 13px; height: 13px; }
+.addlist-create__err {
+  padding: 0 8px 8px;
+  font-size: 12.5px;
+  color: rgb(255, 90, 90);
+}
+
+/* Footer: cancel (✕) + confirm ("Pick stations →" or ✓). */
+.addlist-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px calc(14px + var(--safe-bottom));
+  border-top: 1px solid var(--line);
+}
+.addlist-foot__cancel {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.addlist-foot__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+.addlist-foot__cancel svg { width: 16px; height: 16px; }
+.addlist-foot__confirm {
+  flex: 1;
+  height: 44px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.addlist-foot__confirm:active { transform: scale(0.97); }
+.addlist-foot__confirm:disabled {
+  background: var(--bg-2);
+  color: var(--ink-4);
+  border: 1px solid var(--line);
+  cursor: not-allowed;
+}
+.addlist-foot__confirm svg { width: 18px; height: 18px; }
+.addlist-foot__arrow { display: inline-grid; place-items: center; }
 
 /* ─── In-app list management (create / rename / delete) ──────────
    In-app replacements for window.prompt / window.confirm so list
@@ -1646,8 +1838,8 @@ a.settings-row { text-decoration: none; }
   transition: transform 0.18s ease;
 }
 
-/* Desktop grid reorder via native drag-and-drop (enableGridReorder): the
-   visible grip is the drag handle; the dragged card fades while in flight. */
+/* Desktop grid reorder via native drag-and-drop (enableGridReorder): the whole
+   card is the drag handle (no visible grip); the dragged card fades in flight. */
 .is-drag-source { opacity: 0.4; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
@@ -1729,6 +1921,12 @@ a.settings-row { text-decoration: none; }
 }
 .mini-close[hidden] { display: none; }
 .mini-close svg { width: 22px; height: 22px; display: block; }
+
+/* Desktop "×" close in the mini bar's top-right corner (mobile uses the
+   swipe gesture above). Revealed in the ≥1024px block; stops playback and
+   dismisses the player via miniClose(). */
+.mini-close-x { display: none; }
+.mini-close-x svg { width: 14px; height: 14px; display: block; }
 /* Hide the mini-player while the Playing tab is active — Now Playing
    is its expanded counterpart, no need to show both. */
 body.tab-playing .mini { display: none; }
@@ -2446,6 +2644,26 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
     flex-shrink: 1;
     min-height: 0;
   }
+  /* Single-pane (album-only) NP — no Schedule/Lyrics. The album is the focal
+     point, so centre it (the base .np-track layout) and size it generously off
+     the viewport height, with breathing room above and below. The grid modes
+     left-align their own album column; this only applies when neither is on.
+     Source is 600×600 (coverArt.ts) so it stays crisp at this size. */
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track {
+    padding-top: 22px;
+    padding-bottom: 26px;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track__cover-wrap {
+    /* Height-driven + flex-shrink so the square stays large on tall screens
+       but shrinks to fit shorter ones (e.g. a MacBook) — the on-air text and
+       the "Open in" row below it (flex-shrink:0) always stay visible instead
+       of being clipped by .np-body's overflow. */
+    width: auto;
+    height: min(520px, 56vh);
+    flex-shrink: 1;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+  }
   /* Extra breathing room between the station name and the action icons. */
   #np-add { margin-left: 12px; }
 }
@@ -3043,11 +3261,26 @@ body.is-playing .np-play .icon-pause { display: block; }
   background: transparent;
   cursor: pointer;
 }
-/* The NP volume row sits above the transport; centre it and cap its width on
-   desktop so the slider lines up over the buttons instead of stretching. */
 .np-controls .np-volume { width: 100%; align-self: center; }
 @media (min-width: 1024px) {
-  .np-controls .np-volume { max-width: 40%; }
+  /* Desktop lays the transport row as three columns so the play cluster stays
+     centred regardless of the side widths: volume (left) · prev·play·next
+     (centre) · sleep (right). The grid takes over the spacer's balancing job. */
+  .np-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    column-gap: 14px;
+  }
+  .np-row__spacer { display: none; }
+  .np-row .np-volume {
+    grid-column: 1;
+    justify-self: start;
+    width: 100%;
+    max-width: 220px;
+    padding: 0;
+  }
+  .np-row__group--transport { grid-column: 2; justify-self: center; }
+  #np-sleep { grid-column: 3; justify-self: end; }
   /* Breathing room beneath the transport buttons (no tabbar on desktop, so
      they'd otherwise hug the bottom edge of the viewport). */
   .np-controls { padding-bottom: 34px; }
@@ -4455,17 +4688,41 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   .mini-toggle { width: 46px; height: 46px; }
   .mini-toggle svg { width: 15px; height: 15px; }
   .mini .mini-volume { display: flex; flex: 0 0 auto; width: 150px; }
+  /* Desktop close affordances: a "×" in the mini bar's top-right corner, and
+     one mirrored at the Now Playing pane's top-right. Both stop playback and
+     dismiss the player (NP also bounces back to the list). The NP back chevron
+     (top-left) stays for "leave NP but keep listening". */
+  .mini-close-x {
+    display: grid;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 4;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, transform 0.12s;
+  }
+  .mini-close-x:hover { color: var(--ink); border-color: var(--line-2); }
+  .mini-close-x:active { transform: scale(0.92); }
+  body.has-station .np-close { display: grid; }
 
   /* Single-column NP (album only, or album + tabbed pane below 1400px) on a
-     wide screen: cap and centre the body so it doesn't hug the left with a
-     sea of empty space, and centre its content under the centred station
-     header. The ≥1400px 2-/3-column grids fill the width on their own, so
-     this only applies when neither is active. */
+     wide screen: cap and centre the *content* so it doesn't hug the left with
+     a sea of empty space. The body itself stays full-pane-width and the
+     station divider is excluded from the cap, so the hairline runs full-bleed
+     edge-to-edge across the whole pane — matching the ≥1400px 2-/3-column
+     grids, where the divider spans every column even with no Schedule/Lyrics. */
   body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body {
-    max-width: 760px;
-    margin-inline: auto;
-    width: 100%;
     align-items: center;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body > :not(.np-station-divider) {
+    max-width: 760px;
   }
   body.tab-playing:not(.np-twocol):not(.np-threecol) .np-pane-tabs {
     justify-content: center;
@@ -4508,16 +4765,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      the trailing controls (it stays collapsed until art lands). */
   .rows .row > .row-cover { grid-area: cover; align-self: start; }
   .rows .row > .row-cover.has-cover { width: 48px; height: 48px; border-radius: 6px; }
-  /* Reorderable grids (Favorites, list detail) carve a leading grip column;
-     non-reorderable grids (Browse / search) keep the 4-column layout, so the
-     grip slot never adds empty space there. The grip spans both card rows. */
-  .rows.is-reorderable .row {
-    grid-template-columns: auto auto 1fr auto auto;
-    grid-template-areas:
-      'grip logo .    cover aside'
-      'grip info info info  info';
-  }
-  .rows.is-reorderable .row > .row-grip { grid-area: grip; align-self: center; height: 100%; }
+  /* Desktop card grids (Favorites, list detail) reorder via whole-card drag —
+     no visible grip column, so the 4-column card layout above applies as-is. */
   /* Pointer affordance — a subtle lift, since the mobile cards only have a
      tap (:active) state. */
   .rows .row:hover {
@@ -4838,15 +5087,20 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      (Album / Schedule) — applied on the divider so both columns stay level. */
   body.has-station .np-station-divider { margin-bottom: 24px; }
   /* Left-align the album column so the art + header line up under "Album",
-     mirroring the left-aligned schedule column. */
-  body.has-station .np-track {
+     mirroring the left-aligned schedule column. Scoped to the actual grid
+     modes — the single-pane (album-only) view keeps the centered base layout
+     (see the album-only rule in the ≥1024px block). */
+  body.np-twocol .np-track,
+  body.np-threecol .np-track {
     grid-area: album;
     align-self: start;
     align-items: flex-start;
     text-align: left;
   }
-  /* The "Album" header: match the Schedule tab's type, plus space to the art. */
-  body.has-station .np-track__head {
+  /* The "Album" header: match the Schedule tab's type, plus space to the art.
+     Only earns its place beside a Schedule/Lyrics column (grid modes). */
+  body.np-twocol .np-track__head,
+  body.np-threecol .np-track__head {
     display: block;
     align-self: flex-start;
     font-family: var(--mono);
@@ -4860,7 +5114,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   }
   /* A true square sized off the column width (the cover source is 600×600),
      not the height-driven 200×400 portrait box that letterboxed the art. */
-  body.has-station .np-track .np-track__cover-wrap {
+  body.np-twocol .np-track .np-track__cover-wrap,
+  body.np-threecol .np-track .np-track__cover-wrap {
     width: min(100%, 56vh);
     height: auto;
     max-width: none;

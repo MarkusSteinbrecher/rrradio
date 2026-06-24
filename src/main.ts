@@ -77,7 +77,6 @@ import {
   reorderLists,
   reorderListStations,
   setLists,
-  toggleInList,
 } from './lists';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
@@ -117,6 +116,7 @@ import { faviconClass, stationInitials } from './station-display';
 import {
   ICON_BACK,
   ICON_CHECK,
+  ICON_CHEVRON_RIGHT,
   ICON_CLOSE,
   ICON_EMPTY,
   ICON_FAV,
@@ -266,6 +266,7 @@ const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLI
 const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
 const $miniSlide = document.getElementById('mini-slide') as HTMLElement;
 const $miniClose = document.getElementById('mini-close') as HTMLButtonElement;
+const $miniCloseX = document.getElementById('mini-close-x') as HTMLButtonElement;
 
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
@@ -345,9 +346,8 @@ const $customList = document.getElementById('custom-list') as HTMLElement;
 
 const $listSheet = document.getElementById('list-sheet') as HTMLElement;
 const $listCancel = document.getElementById('list-cancel') as HTMLButtonElement;
-const $listSheetTitle = document.getElementById('list-sheet-title') as HTMLElement;
-const $listPicker = document.getElementById('list-picker') as HTMLElement;
-const $listNewBtn = document.getElementById('list-new-btn') as HTMLButtonElement;
+const $listSheetLabel = document.getElementById('list-sheet-label') as HTMLElement;
+const $listSheetBody = document.getElementById('list-sheet-body') as HTMLElement;
 
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
 
@@ -399,25 +399,42 @@ let libEditing = false;
 // then "Add N" adds them all to the target and returns there (iOS #57).
 // `picked` holds the chosen Station objects; `existing` is the snapshot of
 // stations already in the target (shown ticked + disabled, not re-pickable).
-type SelectTarget = { kind: 'favorites' } | { kind: 'list'; id: string; name: string };
+type SelectTarget =
+  | { kind: 'favorites' }
+  | { kind: 'list'; id: string; name: string }
+  // A list that doesn't exist yet — created on save (iOS atomic create+add),
+  // so cancelling step 2 of the add-list flow leaves no empty list behind.
+  | { kind: 'newList'; name: string };
 let selectMode: {
   target: SelectTarget;
   picked: Map<string, Station>;
   existing: Set<string>;
+  // Show the "1 Choose list ✓ — 2 Pick stations" strip above the dock — set
+  // only when the flow reached step 2 via the choose-list popup (pickStations).
+  withSteps?: boolean;
 } | null = null;
 let $selectDock: HTMLElement | null = null;
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
 // Which list is open in the Library detail view (null = the Library home).
 let openListId: string | null = null;
-// Station the "Add to list" sheet currently targets.
-let addToListStation: Station | null = null;
+// Add-to-list popup (iOS AddListPopupCard). null when closed. 'addNow' adds the
+// known `station`; 'pickStations' chooses/creates a list then hands off to the
+// Browse select dock. `target` is the chosen existing list or a drafted new
+// list (created only on save); `nameDraft` backs the "Create list" field.
+type AddListMode = 'addNow' | 'pickStations';
+type AddListTarget = { kind: 'existing'; id: string } | { kind: 'new' };
+let addListState: {
+  mode: AddListMode;
+  station: Station | null;
+  target: AddListTarget | null;
+  nameDraft: string;
+} | null = null;
 // Transient in-app list-management UI state (replaces native prompt/confirm).
 // All cleared on navigation so a half-typed create/rename never lingers.
 let listCreateOpen = false; // inline "name your list" row in the lists index
 let listRenameOpen = false; // inline rename input in the list-detail header
 let listDeleteConfirmId: string | null = null; // inline "Delete list?" confirm
-let sheetCreateOpen = false; // inline create row inside the add-to-list sheet
 // Browse filter — multi-select, mirroring the iOS BrowseFilter model.
 // Genre ids (from GENRES) and uppercase ISO country codes; News is the
 // in-filter toggle iOS keeps in the Genre section. When ANY of these (or
@@ -737,7 +754,7 @@ function buildRow(
     const addList = buildAddListBtn();
     addList.addEventListener('click', (e) => {
       e.stopPropagation();
-      openListSheet(station);
+      openAddList({ mode: 'addNow', station });
     });
     const heart = buildHeart(isFav);
     heart.addEventListener('click', (e) => {
@@ -1569,34 +1586,22 @@ function enableColumnReorder(container: HTMLElement, opts: ReorderOpts): void {
   }
 }
 
-/** Reorder a wide card grid via native HTML5 drag-and-drop. The drag is
- *  started from a visible grip handle (so it's discoverable — the same
- *  affordance as the mobile column path — and leaves the card itself
- *  clickable). The grid reflows live on dragover; dragend reads the settled
- *  order and persists it. The container gets `is-reorderable` so the CSS can
- *  carve a grip slot only where reordering is on. */
+/** Reorder a wide card grid via native HTML5 drag-and-drop. The whole card is
+ *  the drag source — no visible grip handle on desktop, so the cards stay
+ *  clean (the mobile column path keeps its grip). The grid reflows live on
+ *  dragover; dragend reads the settled order and persists it. */
 function enableGridReorder(container: HTMLElement, opts: ReorderOpts): void {
   const items = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
   if (items.length < 2) return;
-  container.classList.add('is-reorderable');
   let dragged: HTMLElement | null = null;
 
   for (const item of items) {
-    if (item.querySelector(':scope > .row-grip')) continue;
-    // The whole card is the drag source (most reliable across browsers); the
-    // grip is a non-interactive visual handle so it's clearly reorderable.
+    // `draggable` doubles as the already-wired marker (idempotent re-runs).
+    if (item.draggable) continue;
+    // The whole card is the drag source (most reliable across browsers).
     item.draggable = true;
     // Stop the browser grabbing an inner favicon/cover instead of the card.
     item.querySelectorAll('img').forEach((img) => (img.draggable = false));
-
-    const grip = document.createElement('span');
-    grip.className = 'row-grip';
-    grip.setAttribute('aria-hidden', 'true');
-    grip.innerHTML = ICON_GRIP;
-    if (opts.gripPosition === 'prepend') item.prepend(grip);
-    else item.append(grip);
-    // A stray tap on the handle shouldn't open/play the card.
-    grip.addEventListener('click', (e) => e.stopPropagation());
 
     item.addEventListener('dragstart', (e) => {
       dragged = item;
@@ -2182,6 +2187,10 @@ function resultsRow(count: number, label?: string): HTMLElement {
 
 function renderContent(): void {
   $content.replaceChildren();
+  // The /ios promo banner shows only on the Browse discovery landing; resync
+  // it here so Browse-all, search, filters, and back-to-discovery (none of
+  // which fire setTab) flip it correctly.
+  syncPromo();
   // Recomputed below per view; a full re-render invalidates the prior loader.
   pendingLoadMore = null;
   // Stop the cover poll by default; the library feeds (Favorites / Lists /
@@ -2526,10 +2535,11 @@ function renderLibraryIndex(query: string): void {
   const lists = q ? all.filter((l) => l.name.toLowerCase().includes(q)) : all;
   // No lists left to manage → drop out of edit mode.
   if (all.length === 0) libEditing = false;
-  const newBtn = listActionBtn(ICON_PLUS, 'New list', () => {
-    listCreateOpen = true;
-    renderContent();
-  });
+  // New list → the two-step add-list popup (iOS parity): name it (step 1),
+  // then pick stations on Browse (step 2). The list is created on save.
+  const newBtn = listActionBtn(ICON_PLUS, 'New list', () =>
+    openAddList({ mode: 'pickStations' }),
+  );
   // Trash toggles a per-row delete affordance (iOS edit mode), mirroring the
   // Favorites header — the delete control lives at the top, not on every
   // card. Only shown once there's a list to remove.
@@ -2549,29 +2559,6 @@ function renderLibraryIndex(query: string): void {
   const wide = matchMedia('(min-width: 1024px)').matches;
   const lead = wide ? undefined : headerSearchLead('Search lists');
   $content.append(sectionLabel('Library', lists.length, actions, lead));
-
-  // Inline create row (in-app replacement for window.prompt). Focused
-  // after it lands in the DOM so the user can type immediately.
-  if (listCreateOpen) {
-    const form = buildListNameForm({
-      placeholder: 'Name your list',
-      submitLabel: 'Add',
-      onSubmit: (name) => {
-        const list = createList(name);
-        track('list-create');
-        listCreateOpen = false;
-        openListId = list.id;
-        renderContent();
-        $content.scrollTo({ top: 0 });
-      },
-      onCancel: () => {
-        listCreateOpen = false;
-        renderContent();
-      },
-    });
-    $content.append(form);
-    (form.querySelector('input') as HTMLInputElement | null)?.focus();
-  }
 
   // A search query scopes to list names; if none match, say so (the
   // Recents entry is hidden while filtering).
@@ -2912,91 +2899,284 @@ function renderListDetail(list: StationList, query: string): void {
 
 // ── Add-to-list sheet ────────────────────────────────────────────────
 
-function openListSheet(station: Station): void {
-  addToListStation = station;
-  sheetCreateOpen = false;
-  renderListPicker();
+// ─── Add-to-list popup (iOS AddListPopupCard) ─────────────────────────
+function openAddList(opts: { mode: AddListMode; station?: Station }): void {
+  addListState = { mode: opts.mode, station: opts.station ?? null, target: null, nameDraft: '' };
+  renderAddList();
   $listSheet.classList.add('open');
   $listSheet.setAttribute('aria-hidden', 'false');
 }
 
-function closeListSheet(): void {
+function closeAddList(): void {
   $listSheet.classList.remove('open');
   $listSheet.setAttribute('aria-hidden', 'true');
-  addToListStation = null;
-  sheetCreateOpen = false;
-  $listNewBtn.hidden = false;
+  addListState = null;
 }
 
-function renderListPicker(): void {
-  const station = addToListStation;
-  $listPicker.replaceChildren();
-  if (!station) return;
-  $listSheetTitle.textContent = `Add ${station.name} to…`;
-  const lists = getLists();
-  if (lists.length === 0 && !sheetCreateOpen) {
-    const empty = document.createElement('li');
-    empty.className = 'list-picker__empty';
-    empty.textContent = 'No lists yet — create one below.';
-    $listPicker.append(empty);
-  }
-  for (const l of lists) {
-    const li = document.createElement('li');
+/** Trimmed draft name for the "Create list" field. */
+function addListName(): string {
+  return (addListState?.nameDraft ?? '').trim();
+}
+/** A drafted new-list name that collides with an existing list (case-insensitive). */
+function addListNameTaken(): boolean {
+  const name = addListName().toLowerCase();
+  if (!name) return false;
+  return getLists().some((l) => l.name.trim().toLowerCase() === name);
+}
+/** Step-1 confirm is allowed once a valid target is chosen: an existing list,
+ *  or a non-empty, non-duplicate new name. */
+function addListCanConfirm(): boolean {
+  const st = addListState;
+  if (!st?.target) return false;
+  if (st.target.kind === 'existing') return true;
+  return addListName().length > 0 && !addListNameTaken();
+}
+
+/** Two-segment progress strip (iOS AddListStepStrip): "1 Choose list — 2 Pick
+ *  stations", with the active step inked and completed steps showing a check. */
+function buildStepStrip(activeStep: 1 | 2): HTMLElement {
+  const strip = document.createElement('div');
+  strip.className = 'addlist-steps';
+  const seg = (n: 1 | 2, label: string): HTMLElement => {
+    const el = document.createElement('div');
+    el.className = 'addlist-step';
+    if (n === activeStep) el.classList.add('is-active');
+    if (n < activeStep) el.classList.add('is-done');
+    const badge = document.createElement('span');
+    badge.className = 'addlist-step__badge';
+    if (n < activeStep) badge.innerHTML = ICON_CHECK;
+    else badge.textContent = String(n);
+    const text = document.createElement('span');
+    text.className = 'addlist-step__label';
+    text.textContent = label;
+    el.append(badge, text);
+    return el;
+  };
+  const conn = document.createElement('span');
+  conn.className = 'addlist-steps__conn';
+  if (activeStep > 1) conn.classList.add('is-done');
+  strip.append(seg(1, 'Choose list'), conn, seg(2, 'Pick stations'));
+  return strip;
+}
+
+function renderAddList(): void {
+  const st = addListState;
+  if (!st) return;
+  $listSheetBody.replaceChildren();
+  $listSheetLabel.textContent = st.mode === 'pickStations' ? 'New list' : 'Add to list';
+
+  // Step strip — only the two-step (pickStations) flow signals a step 2.
+  if (st.mode === 'pickStations') $listSheetBody.append(buildStepStrip(1));
+
+  const scroll = document.createElement('div');
+  scroll.className = 'addlist-scroll';
+  scroll.append(buildAddListCreateRow());
+  for (const l of getLists()) scroll.append(buildAddListRow(l, st.station));
+  $listSheetBody.append(scroll, buildAddListFoot());
+}
+
+/** Update the footer confirm's enabled state + the duplicate-name notice
+ *  without a re-render, so the "Create list" field keeps focus while typing. */
+function syncAddListLive(): void {
+  const confirm = $listSheetBody.querySelector<HTMLButtonElement>('.addlist-foot__confirm');
+  if (confirm) confirm.disabled = !addListCanConfirm();
+  const err = $listSheetBody.querySelector<HTMLElement>('.addlist-create__err');
+  if (err) err.hidden = !addListNameTaken();
+}
+
+/** "Create list" row — a label that morphs into a focused text field once
+ *  selected (same idiom as the Favorites search field). */
+function buildAddListCreateRow(): HTMLElement {
+  const st = addListState!;
+  const row = document.createElement('div');
+  row.className = 'addlist-create';
+  if (st.target?.kind !== 'new') {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'list-picker__btn';
-    const inIt = listContains(l.id, station.id);
-    btn.classList.toggle('is-in', inIt);
-    btn.setAttribute('aria-pressed', String(inIt));
-
-    const check = document.createElement('span');
-    check.className = 'list-picker__check';
-    check.innerHTML = ICON_CHECK;
-    const name = document.createElement('span');
-    name.className = 'list-picker__name';
-    name.textContent = l.name;
-    const count = document.createElement('span');
-    count.className = 'list-picker__count';
-    count.textContent = String(l.stations.length);
-
-    btn.append(check, name, count);
+    btn.className = 'addlist-create__btn';
+    const icon = document.createElement('span');
+    icon.className = 'addlist-create__icon';
+    icon.innerHTML = ICON_PLUS;
+    const label = document.createElement('span');
+    label.className = 'addlist-create__label';
+    label.textContent = 'Create list';
+    btn.append(icon, label);
     btn.addEventListener('click', () => {
-      const nowIn = toggleInList(l.id, station);
-      track(nowIn ? 'list-add' : 'list-remove');
-      renderListPicker();
-      if (activeTab === 'library') renderContent();
+      st.target = { kind: 'new' };
+      renderAddList();
+      $listSheetBody.querySelector<HTMLInputElement>('.addlist-create__input')?.focus();
     });
-    li.append(btn);
-    $listPicker.append(li);
+    row.append(btn);
+    return row;
   }
 
-  // Inline create row, toggled by the footer "New list…" button. Creating
-  // here also adds the current station to the new list (create-and-add).
-  $listNewBtn.hidden = sheetCreateOpen;
-  if (sheetCreateOpen) {
-    const li = document.createElement('li');
-    li.className = 'list-picker__create';
-    const form = buildListNameForm({
-      placeholder: 'Name your list',
-      submitLabel: 'Create',
-      onSubmit: (name) => {
-        const list = createList(name);
-        track('list-create');
-        addToList(list.id, station);
-        track('list-add');
-        sheetCreateOpen = false;
-        renderListPicker();
-        if (activeTab === 'library') renderContent();
-      },
-      onCancel: () => {
-        sheetCreateOpen = false;
-        renderListPicker();
-      },
-    });
-    li.append(form);
-    $listPicker.append(li);
-    (form.querySelector('input') as HTMLInputElement | null)?.focus();
+  row.classList.add('is-selected');
+  const field = document.createElement('div');
+  field.className = 'addlist-create__field';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'addlist-create__input';
+  input.placeholder = 'Create list';
+  input.value = st.nameDraft;
+  input.autocomplete = 'off';
+  input.maxLength = 60;
+  input.setAttribute('aria-label', 'New list name');
+  const clear = document.createElement('button');
+  clear.type = 'button';
+  clear.className = 'addlist-create__clear';
+  clear.setAttribute('aria-label', 'Clear name');
+  clear.innerHTML = ICON_CLOSE;
+  clear.hidden = st.nameDraft.length === 0;
+  input.addEventListener('input', () => {
+    st.nameDraft = input.value;
+    clear.hidden = input.value.length === 0;
+    syncAddListLive();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (addListCanConfirm()) confirmAddList();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      closeAddList();
+    }
+  });
+  clear.addEventListener('click', () => {
+    st.nameDraft = '';
+    input.value = '';
+    clear.hidden = true;
+    input.focus();
+    syncAddListLive();
+  });
+  field.append(input, clear);
+  const err = document.createElement('div');
+  err.className = 'addlist-create__err';
+  err.textContent = 'Name already in use';
+  err.hidden = !addListNameTaken();
+  row.append(field, err);
+  return row;
+}
+
+/** A selectable existing-list row. In 'addNow' a list already holding the
+ *  station is disabled and reads "Already in list" (iOS parity). */
+function buildAddListRow(l: StationList, station: Station | null): HTMLElement {
+  const st = addListState!;
+  const already = st.mode === 'addNow' && station ? listContains(l.id, station.id) : false;
+  const selected = st.target?.kind === 'existing' && st.target.id === l.id;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-picker__btn';
+  btn.classList.toggle('is-in', selected);
+  if (already) {
+    btn.classList.add('is-already');
+    btn.disabled = true;
   }
+  btn.setAttribute('aria-pressed', String(selected));
+
+  const check = document.createElement('span');
+  check.className = 'list-picker__check';
+  check.innerHTML = ICON_CHECK;
+  const name = document.createElement('span');
+  name.className = 'list-picker__name';
+  name.textContent = l.name;
+  const tail = document.createElement('span');
+  tail.className = 'list-picker__count';
+  tail.textContent = already ? 'Already in list' : String(l.stations.length);
+  btn.append(check, name, tail);
+
+  if (!already) {
+    btn.addEventListener('click', () => {
+      st.target = { kind: 'existing', id: l.id };
+      renderAddList();
+    });
+  }
+  return btn;
+}
+
+/** Footer: cancel (✕) + confirm. Confirm is "Pick stations →" in pickStations
+ *  (advances to the select dock) or a ✓ in addNow (saves immediately). */
+function buildAddListFoot(): HTMLElement {
+  const st = addListState!;
+  const foot = document.createElement('div');
+  foot.className = 'addlist-foot';
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'addlist-foot__cancel';
+  cancel.setAttribute('aria-label', 'Cancel');
+  cancel.innerHTML = ICON_CLOSE;
+  cancel.addEventListener('click', closeAddList);
+
+  const confirm = document.createElement('button');
+  confirm.type = 'button';
+  confirm.className = 'addlist-foot__confirm';
+  confirm.disabled = !addListCanConfirm();
+  if (st.mode === 'pickStations') {
+    confirm.classList.add('addlist-foot__confirm--next');
+    const text = document.createElement('span');
+    text.textContent = 'Pick stations';
+    const arrow = document.createElement('span');
+    arrow.className = 'addlist-foot__arrow';
+    arrow.innerHTML = ICON_CHEVRON_RIGHT;
+    confirm.append(text, arrow);
+    confirm.setAttribute('aria-label', 'Pick stations');
+  } else {
+    confirm.classList.add('addlist-foot__confirm--ok');
+    confirm.innerHTML = ICON_CHECK;
+    confirm.setAttribute('aria-label', 'Add to list');
+  }
+  confirm.addEventListener('click', () => {
+    if (addListCanConfirm()) confirmAddList();
+  });
+  foot.append(cancel, confirm);
+  return foot;
+}
+
+function confirmAddList(): void {
+  const st = addListState;
+  if (!st?.target) return;
+
+  if (st.mode === 'addNow') {
+    const station = st.station;
+    if (!station) return;
+    let listId: string;
+    if (st.target.kind === 'existing') {
+      listId = st.target.id;
+    } else {
+      listId = createList(addListName()).id;
+      track('list-create');
+    }
+    addToList(listId, station);
+    track('list-add');
+    closeAddList();
+    if (activeTab === 'library' || activeTab === 'fav') renderContent();
+    renderTopBar();
+    return;
+  }
+
+  // pickStations → hand off to the Browse select dock (step 2). A new list is
+  // carried as a 'newList' target and created on save, so a cancel here (or in
+  // step 2) leaves nothing behind.
+  let target: SelectTarget | null;
+  if (st.target.kind === 'existing') {
+    const l = getList(st.target.id);
+    target = l ? { kind: 'list', id: l.id, name: l.name } : null;
+  } else {
+    target = { kind: 'newList', name: addListName() };
+  }
+  closeAddList();
+  if (!target) return;
+  selectMode = {
+    target,
+    picked: new Map(),
+    existing:
+      target.kind === 'list'
+        ? new Set(getList(target.id)?.stations.map((s) => s.id) ?? [])
+        : new Set(),
+    withSteps: true,
+  };
+  setTab('browse'); // setTab won't clear selectMode when going to browse
+  syncSelectDock();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -4253,14 +4433,11 @@ $npCollapseBrowse.addEventListener('click', () => {
 });
 applyBrowseCollapsed(getString(BROWSE_COLLAPSED_KEY) === '1');
 
-// Desktop "close player": hide the docked NP pane so browse fills the
-// width. Playback continues — the mini-player reappears as the transport
-// and tap-to-reopen control. Not persisted: it's tied to the live
-// session and is cleared when a station stops (see updateNowPlaying).
-function applyNpClosed(closed: boolean): void {
-  $body.classList.toggle('np-closed', closed);
-}
-$npClose.addEventListener('click', () => applyNpClosed(true));
+// Desktop "close player" (×, NP top-right): stop playback and dismiss the
+// player. miniClose() clears the station, which hides the mini bar and bounces
+// the Playing tab back to the last list (updateNowPlaying's stationLost path).
+// The back chevron (np-back, top-left) stays for "leave NP but keep listening".
+$npClose.addEventListener('click', () => miniClose());
 
 $search.addEventListener('input', () => {
   // Typing while the Now Playing destination is open jumps back to Browse:
@@ -4587,14 +4764,18 @@ $wordmark.addEventListener('click', goHome);
 
 // ─── PSA banner: redesign + iPhone-app announcement ───
 // Vintage-tuner banner under the top nav linking to the /ios landing. It's a
-// Browse-only banner that returns on every load — no persisted dismissal and
-// no close button — so syncPromo() simply tracks the active tab. The CTA opens
-// in a new tab (target="_blank" in the markup) so playback keeps going.
+// discovery-landing-only banner that returns on every load — no persisted
+// dismissal and no close button — so syncPromo() tracks whether the Browse
+// discovery landing is showing. It hides the moment the user drops into
+// Browse-all, a search, a filter, or any other tab (Favorites, lists, …).
+// The CTA opens in a new tab (target="_blank" in the markup) so playback keeps
+// going. renderContent() calls syncPromo() on every render so Browse-all and
+// back-to-discovery flip the banner without a tab change.
 const $promo = document.getElementById('promo') as HTMLElement;
 const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
-/** Reveal the promo only while Browse is the active destination. */
+/** Reveal the promo only on the Browse discovery landing. */
 function syncPromo(): void {
-  $promo.hidden = activeTab !== 'browse';
+  $promo.hidden = !inDiscovery();
 }
 syncPromo();
 $promoLink.addEventListener('click', () => track('promo/ios'));
@@ -4603,15 +4784,9 @@ document.getElementById('about-ios')?.addEventListener('click', () => track('abo
 
 $addForm.addEventListener('submit', handleAddSubmit);
 
-$listCancel.addEventListener('click', () => closeListSheet());
-$listNewBtn.addEventListener('click', () => {
-  // Reveal the inline create row (rendered by renderListPicker); creating
-  // there adds the current station to the new list in one step.
-  sheetCreateOpen = true;
-  renderListPicker();
-});
+$listCancel.addEventListener('click', () => closeAddList());
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeListSheet();
+  if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeAddList();
   if (e.key === 'Escape' && $filterSheet.classList.contains('open')) openFilterSheet(false);
 });
 
@@ -5058,22 +5233,31 @@ function saveSelect(): void {
   if (!selectMode || selectMode.picked.size === 0) return;
   const { target, picked } = selectMode;
   const count = picked.size;
+  // The list the stations land in — null for Favorites. A 'newList' target is
+  // created here (iOS atomic create+add) so a cancelled flow leaves no list.
+  let listId: string | null = null;
   if (target.kind === 'favorites') {
     for (const station of picked.values()) {
       if (!isFavorite(station.id)) toggleFavorite(station);
     }
   } else {
-    for (const station of picked.values()) addToList(target.id, station);
+    if (target.kind === 'newList') {
+      listId = createList(target.name).id;
+      track('list-create');
+    } else {
+      listId = target.id;
+    }
+    for (const station of picked.values()) addToList(listId, station);
   }
   selectMode = null;
   syncSelectDock();
-  track(`${target.kind === 'list' ? 'list' : 'favorites'}/add-multi: ${count}`);
+  track(`${target.kind === 'favorites' ? 'favorites' : 'list'}/add-multi: ${count}`);
   renderTopBar();
   // The Browse search is the shared global field — clear it so the target
   // opens on its full list, not filtered by what was typed to find these.
   clearSearch(false);
-  if (target.kind === 'list') {
-    openListId = target.id;
+  if (listId) {
+    openListId = listId;
     setTab('library');
   } else {
     setTab('fav');
@@ -5127,7 +5311,7 @@ function syncSelectDock(): void {
   lead.textContent = 'Adding to ';
   const target = document.createElement('b');
   target.textContent =
-    selectMode.target.kind === 'list' ? selectMode.target.name : 'Favorites';
+    selectMode.target.kind === 'favorites' ? 'Favorites' : selectMode.target.name;
   label.append(lead, target);
   if (n > 0) {
     const badge = document.createElement('span');
@@ -5143,7 +5327,14 @@ function syncSelectDock(): void {
   save.textContent = n > 0 ? `Add ${n}` : 'Select stations';
   save.addEventListener('click', saveSelect);
 
-  $selectDock.replaceChildren(cancel, label, save);
+  const row = document.createElement('div');
+  row.className = 'select-dock__row';
+  row.append(cancel, label, save);
+
+  // The step strip rides above the action row only when this select reached
+  // step 2 via the choose-list popup (Favorites / existing-list "+" skip it).
+  if (selectMode.withSteps) $selectDock.replaceChildren(buildStepStrip(2), row);
+  else $selectDock.replaceChildren(row);
 }
 
 function toggleFavEditing(): void {
@@ -5337,6 +5528,11 @@ $miniClose.addEventListener('click', (e) => {
   e.stopPropagation();
   miniClose();
 });
+// Desktop-only "×" in the bar's top-right corner (no swipe on desktop).
+$miniCloseX.addEventListener('click', (e) => {
+  e.stopPropagation();
+  miniClose();
+});
 
 // ── Swipe between the main destinations (iOS root-swipe parity) ──────
 // A horizontal TOUCH swipe on the content area cycles Browse ⇄ Favorites ⇄
@@ -5464,7 +5660,7 @@ $npNext.addEventListener('click', () => skipFavorite(1));
 
 // ── Add the current station to a list (+ button on the name row). ──
 $npAdd.addEventListener('click', () => {
-  if (currentNP.station.id) openListSheet(currentNP.station);
+  if (currentNP.station.id) openAddList({ mode: 'addNow', station: currentNP.station });
 });
 
 // Infinite scroll — load the next batch as the result list nears the bottom
@@ -5633,9 +5829,6 @@ player.subscribe((np) => {
   }
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);
-  // A stopped/cleared station resets the closed-player state, so the pane
-  // docks again by default next time something plays.
-  if (!np.station.id) $body.classList.remove('np-closed');
   // If the station was unloaded while the Playing tab was active,
   // bounce back to the last list tab so the user isn't stranded.
   if (stationLost) setTab(lastListTab);
