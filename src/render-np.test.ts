@@ -2,7 +2,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SILENT_BED_ID } from './np-display';
 import { NP_FRAGMENT, mountFragment } from './render-test-harness';
-import { renderNowPlaying, type NowPlayingRefs } from './render-np';
+import {
+  renderLyricsPane,
+  renderNowPlaying,
+  type LyricsPaneRefs,
+  type NowPlayingRefs,
+} from './render-np';
 import type { Station, WakeTo } from './types';
 
 function mountNp(): NowPlayingRefs {
@@ -16,17 +21,16 @@ function mountNp(): NowPlayingRefs {
     body: document.body,
     npName: byId('np-name'),
     npStationLogo: byId('np-station-logo') as HTMLImageElement,
-    npProgramName: byId('np-program-name'),
-    npProgramPre: byId('np-program-pre'),
-    npPaneProgram: byId('np-pane-program'),
-    npTags: byId('np-tags'),
+    npStationLogoBtn: byId('np-station-logo-btn'),
     npBitrate: byId('np-bitrate'),
     npOrigin: byId('np-origin'),
     npListeners: byId('np-listeners'),
-    npLiveText: byId('np-live-text'),
-    npFormat: byId('np-format'),
     npTrackRow: byId('np-track-row'),
     npTrackTitle: byId('np-track-title'),
+    npTrackArtist: byId('np-track-artist'),
+    npTrackProgram: byId('np-track-program'),
+    npTrackStatus: byId('np-track-status'),
+    npTrackStatusText: byId('np-track-status-text'),
     npTrackCover: byId('np-track-cover') as HTMLImageElement,
     npTrackCoverFallback: byId('np-track-cover-fallback'),
     npTrackSpotify: byId('np-track-spotify') as HTMLAnchorElement,
@@ -67,16 +71,13 @@ afterEach(() => {
 });
 
 describe('renderNowPlaying — header + meta', () => {
-  it('writes name, tags, format, country, listeners, live text', () => {
+  it('writes name, format, country, listeners', () => {
     const refs = mountNp();
     renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
     expect(refs.npName.textContent).toBe('FM4');
-    expect(refs.npTags.textContent).toBe('alternative · indie');
     expect(refs.npBitrate.textContent).toBe('AAC · 192 kbps');
     expect(refs.npOrigin.textContent).toBe('Austria');
     expect(refs.npListeners.textContent).toBe('1,234');
-    expect(refs.npLiveText.textContent).toBe('Live · Streaming');
-    expect(refs.npFormat.textContent).toBe('192 kbps · AAC');
   });
 
   it('em-dashes when station has no name', () => {
@@ -92,39 +93,60 @@ describe('renderNowPlaying — header + meta', () => {
   });
 });
 
-describe('renderNowPlaying — program block', () => {
-  it('shows program name when available', () => {
-    const refs = mountNp();
-    renderNowPlaying(
-      refs,
-      { station: fm4, state: 'playing', programName: 'Morning Show' },
-      ctx(),
-    );
-    expect(refs.npProgramName.textContent).toBe('Morning Show');
-    expect(refs.npProgramPre.hidden).toBe(false);
-  });
-
-  it('uses subtitle as the pane title when available', () => {
+describe('renderNowPlaying — album pane (artist / program / status)', () => {
+  it('splits the song title + artist onto separate lines (prefers trackName)', () => {
     const refs = mountNp();
     renderNowPlaying(
       refs,
       {
         station: fm4,
         state: 'playing',
-        programName: 'Morning Show',
-        programSubtitle: 'with Stuart Freeman',
+        trackTitle: 'Radiohead — Pyramid Song',
+        trackName: 'Pyramid Song',
+        trackArtist: 'Radiohead',
       },
       ctx(),
     );
-    expect(refs.npPaneProgram.title).toBe('with Stuart Freeman');
+    expect(refs.npTrackTitle.textContent).toBe('Pyramid Song');
+    expect(refs.npTrackArtist.textContent).toBe('Radiohead');
+    expect(refs.npTrackArtist.hidden).toBe(false);
   });
 
-  it('falls back to "Program" placeholder when no program', () => {
+  it('hides the artist line when the metadata carries no artist split', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      { station: fm4, state: 'playing', trackTitle: 'BR24 Aktuell', trackName: 'BR24 Aktuell' },
+      ctx(),
+    );
+    expect(refs.npTrackArtist.hidden).toBe(true);
+    expect(refs.npTrackArtist.textContent).toBe('');
+  });
+
+  it('shows the program/show line when available, hides it otherwise', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      { station: fm4, state: 'playing', programName: 'Morning Show' },
+      ctx(),
+    );
+    expect(refs.npTrackProgram.textContent).toBe('Morning Show');
+    expect(refs.npTrackProgram.hidden).toBe(false);
+
+    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
+    expect(refs.npTrackProgram.hidden).toBe(true);
+  });
+
+  it('shows a status badge while active and hides it when idle', () => {
     const refs = mountNp();
     renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
-    expect(refs.npProgramName.textContent).toBe('Program');
-    expect(refs.npProgramPre.hidden).toBe(true);
-    expect(refs.npPaneProgram.title).toBe('Program');
+    expect(refs.npTrackStatus.hidden).toBe(false);
+    expect(refs.npTrackStatusText.textContent).toBe('Live');
+    expect(refs.npTrackStatus.dataset.state).toBe('playing');
+
+    renderNowPlaying(refs, { station: fm4, state: 'idle' }, ctx());
+    expect(refs.npTrackStatus.hidden).toBe(true);
+    expect(refs.npTrackStatusText.textContent).toBe('');
   });
 });
 
@@ -314,5 +336,104 @@ describe('renderNowPlaying — silent-bed wake masquerade', () => {
     refs.body.classList.add('is-wake-bed');
     renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
     expect(refs.body.classList.contains('is-wake-bed')).toBe(false);
+  });
+});
+
+function mountLyrics(): LyricsPaneRefs {
+  mountFragment(NP_FRAGMENT);
+  const byId = (id: string): HTMLElement => {
+    const el = document.getElementById(id);
+    if (!el) throw new Error(`#${id} not in NP_FRAGMENT`);
+    return el;
+  };
+  return {
+    npLyricsText: byId('np-lyrics-text'),
+    npLyricsEmpty: byId('np-lyrics-empty'),
+    npLyricsHead: byId('np-lyrics-head'),
+    npLyricsTitle: byId('np-lyrics-title'),
+    npLyricsArtist: byId('np-lyrics-artist'),
+    npLyricsSource: byId('np-lyrics-source') as HTMLAnchorElement,
+    npLyricsSourceText: byId('np-lyrics-source-text'),
+  };
+}
+
+const lrclib = { name: 'LRCLIB', url: 'https://lrclib.net' };
+const track = { trackName: 'Pyramid Song', trackArtist: 'Radiohead' };
+
+describe('renderLyricsPane', () => {
+  it('renders plain lyrics + iOS-parity header + source credit', () => {
+    const refs = mountLyrics();
+    renderLyricsPane(refs, { plain: 'Line one\nLine two', source: lrclib }, track);
+    expect(refs.npLyricsText.textContent).toBe('Line one\nLine two');
+    expect(refs.npLyricsEmpty.hidden).toBe(true);
+    expect(refs.npLyricsHead.hidden).toBe(false);
+    expect(refs.npLyricsTitle.textContent).toBe('Pyramid Song');
+    expect(refs.npLyricsArtist.textContent).toBe('Radiohead');
+    expect(refs.npLyricsArtist.hidden).toBe(false);
+    expect(refs.npLyricsSource.hidden).toBe(false);
+    expect(refs.npLyricsSource.getAttribute('href')).toBe('https://lrclib.net');
+    expect(refs.npLyricsSourceText.textContent).toBe('Lyrics via LRCLIB');
+  });
+
+  it('flattens synced lyrics to text when there is no plain text', () => {
+    const refs = mountLyrics();
+    renderLyricsPane(
+      refs,
+      {
+        synced: [
+          { ts: 0, text: 'First line' },
+          { ts: 1200, text: 'Second line' },
+        ],
+        source: lrclib,
+      },
+      track,
+    );
+    expect(refs.npLyricsText.textContent).toBe('First line\nSecond line');
+    expect(refs.npLyricsEmpty.hidden).toBe(true);
+  });
+
+  it('shows the empty-state and clears header + source when there are no lyrics', () => {
+    const refs = mountLyrics();
+    // Seed a populated pane, then reset — mirrors switching from a track
+    // with lyrics to one without (resetLyrics passes null).
+    renderLyricsPane(refs, { plain: 'something', source: lrclib }, track);
+    renderLyricsPane(refs, null, { trackName: '', trackArtist: '' });
+    expect(refs.npLyricsText.textContent).toBe('');
+    expect(refs.npLyricsEmpty.hidden).toBe(false);
+    expect(refs.npLyricsHead.hidden).toBe(true);
+    expect(refs.npLyricsSource.hidden).toBe(true);
+    expect(refs.npLyricsSource.hasAttribute('href')).toBe(false);
+  });
+
+  it('hides the artist line when the track carries no artist split', () => {
+    const refs = mountLyrics();
+    renderLyricsPane(
+      refs,
+      { plain: 'la la la', source: { name: 'Lyrics.ovh', url: 'https://lyrics.ovh' } },
+      { trackName: 'Some Track' },
+    );
+    expect(refs.npLyricsArtist.hidden).toBe(true);
+    expect(refs.npLyricsArtist.textContent).toBe('');
+    // Head still shows — there's a title to head.
+    expect(refs.npLyricsHead.hidden).toBe(false);
+    expect(refs.npLyricsSourceText.textContent).toBe('Lyrics via Lyrics.ovh');
+  });
+
+  it('keeps the source link hidden when lyrics carry no source', () => {
+    const refs = mountLyrics();
+    renderLyricsPane(refs, { plain: 'orphan lyrics' }, track);
+    expect(refs.npLyricsText.textContent).toBe('orphan lyrics');
+    expect(refs.npLyricsSource.hidden).toBe(true);
+    expect(refs.npLyricsSource.hasAttribute('href')).toBe(false);
+  });
+
+  it('falls back to trackTitle for the header when trackName is absent', () => {
+    const refs = mountLyrics();
+    renderLyricsPane(
+      refs,
+      { plain: 'words', source: lrclib },
+      { trackTitle: 'Artist - Song', trackArtist: 'Artist' },
+    );
+    expect(refs.npLyricsTitle.textContent).toBe('Artist - Song');
   });
 });

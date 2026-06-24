@@ -82,8 +82,8 @@ import './landdots.js';
       tag: 'TUNE IN',
       icon: new URL('./rrradio-logo-app-dark.svg', import.meta.url).href,
       iconLight: new URL('./rrradio-logo-app-light.svg', import.meta.url).href,
-      title: 'Coming soon to the App\u00a0Store.',
-      body: 'Until then, the web app plays in any browser at rrradio.org.',
+      title: 'Now on the App\u00a0Store.',
+      body: 'Free on iPhone and Apple\u00a0Watch \u2014 or play in any browser at rrradio.org.',
       cta: true,
     },
   ];

@@ -32,6 +32,15 @@ export interface ITunesResult {
   cover?: string;
 }
 
+/** True when a station-supplied cover URL is a known low-resolution source
+ *  worth upgrading via iTunes' 600×600 (e.g. Grrif's 246×246 JPEGs, visibly
+ *  upscaled on retina inside our cover frame). */
+export function isLowResCoverUrl(url: string): boolean {
+  // Grrif: /Medias/Covers/m/...  → 246×246 JPEGs only
+  if (/\/Medias\/Covers\/m\//.test(url)) return true;
+  return false;
+}
+
 const CACHE_LIMIT = 64;
 // Map iteration order is insertion-order, so we get FIFO eviction for free.
 const cache = new Map<string, ITunesResult>();

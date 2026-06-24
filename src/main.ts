@@ -7,15 +7,35 @@ import {
   loadBuiltinStations,
 } from './builtins';
 import type { ScheduleDay } from './metadata';
-import { searchITunes } from './coverArt';
+import { searchITunes, isLowResCoverUrl } from './coverArt';
+import { FavoritesCoverStore, type FavCoverEntry } from './favoritesMetadata';
 import { lookupLyrics } from './lyrics';
 import type { LyricsResult } from './lyrics';
 import { MetadataPoller, icyFetcher } from './metadata';
 import { AudioPlayer } from './player';
 import { track } from './telemetry';
 import { pseudoFrequency } from './radioBrowser';
-import { composeBrowseFilter, PAGE_SIZE, fetchStations, searchStations } from './stations';
+import { PAGE_SIZE, fetchStations, searchStations } from './stations';
 import { GENRES, findGenre, stationMatchesGenre } from './genre-taxonomy';
+import { stationQualityBucket, type QualityBucket } from './quality';
+import { type BrowseSort, cycleSort, sortStations, orderFeaturedFirst } from './sort';
+import {
+  discoveryCounts,
+  genreChips,
+  countryChips,
+  abbreviateCount,
+  DISCOVERY_HIGHLIGHT_LIMIT,
+  DISCOVERY_BROWSE_ALL_LOGO_LIMIT,
+  type DiscoveryCounts,
+} from './discovery';
+import { loadDiscoverySummary, getDiscoverySummary } from './discovery-summary';
+import {
+  loadHighlights,
+  resolveHighlights,
+  todayISO,
+  type Highlight,
+  type ResolvedHighlight,
+} from './highlights';
 import {
   addCustom,
   getCustom,
@@ -31,10 +51,12 @@ import {
   setCustom,
   setFavorites,
   setLastWakeTime,
+  setRecents,
   setString,
   setWakeTo,
   toggleFavorite,
 } from './storage';
+import type { BackupSettings } from './backup';
 import {
   BackupParseError,
   backupFilename,
@@ -43,6 +65,19 @@ import {
   serializeBackup,
   summaryMessage,
 } from './backup';
+import {
+  type StationList,
+  addToList,
+  createList,
+  deleteList,
+  getList,
+  getLists,
+  listContains,
+  renameList,
+  reorderLists,
+  reorderListStations,
+  setLists,
+} from './lists';
 import { STATS_WORKER_BASE } from './config';
 import { countryName } from './country';
 import {
@@ -64,7 +99,6 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
-import { buildPollBanner, POLL_CHOICE_LABELS } from './poll';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import { SILENT_BED_ID } from './np-display';
@@ -73,20 +107,38 @@ import {
   renderMiniPlayer as renderMiniPlayerImpl,
 } from './render-mini';
 import {
+  type LyricsPaneRefs,
   type NowPlayingRefs,
+  renderLyricsPane as renderLyricsPaneImpl,
   renderNowPlaying as renderNowPlayingImpl,
 } from './render-np';
 import { faviconClass, stationInitials } from './station-display';
 import {
+  ICON_BACK,
+  ICON_CHECK,
+  ICON_CHEVRON_RIGHT,
+  ICON_CLOSE,
   ICON_EMPTY,
   ICON_FAV,
   ICON_GRIP,
   ICON_HEART_FILL,
   ICON_HEART_LINE_CLASSED,
+  ICON_LIST,
+  ICON_LIST_ADD,
+  ICON_MINUS_CIRCLE,
+  ICON_PENCIL,
+  ICON_PLUS,
   ICON_RECENT,
-  STAR_SVG,
+  ICON_SEARCH,
+  ICON_TRASH,
 } from './icons';
-import { bootstrapTheme, toggleTheme } from './theme';
+import {
+  bootstrapTheme,
+  applyTheme,
+  readStoredTheme,
+  effectiveTheme,
+} from './theme';
+import { bootstrapAccent, readAccent, setAccent, DEFAULT_ACCENT } from './accent';
 import { safeUrl, urlDisplay } from './url';
 import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
@@ -97,7 +149,7 @@ import type { NowPlaying, Station, WakeTo } from './types';
 
 const SLEEP_CYCLE_MIN = [0, 15, 30, 60];
 
-type Tab = 'browse' | 'fav' | 'recent' | 'playing';
+type Tab = 'browse' | 'fav' | 'library' | 'recent' | 'playing';
 type ListTab = Exclude<Tab, 'playing'>;
 
 // ─────────────────────────────────────────────────────────────
@@ -115,14 +167,10 @@ const player = new AudioPlayer();
 let coverEnrichToken = 0;
 let coverEnrichController: AbortController | undefined;
 
-/** Patterns of station-supplied cover URLs known to publish only small
- *  thumbnails. When one of these is the only cover available, we still
- *  run iTunes as an upgrade and prefer the higher-res result. */
-function isLowResCoverUrl(url: string): boolean {
-  // Grrif: /Medias/Covers/m/...  → 246×246 JPEGs only
-  if (/\/Medias\/Covers\/m\//.test(url)) return true;
-  return false;
-}
+// Per-station "now playing" cover art for library feeds (Favorites, Lists,
+// Recents) — iOS FavoriteNowPlayingStore parity. Polls the visible rows and
+// paints each station's current-track cover into its card in place.
+const favCovers = new FavoritesCoverStore(() => paintFavCovers());
 
 const meta = new MetadataPoller((parsed) => {
   if (!parsed) {
@@ -193,42 +241,37 @@ const $body = document.body;
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
-const $genre = document.getElementById('genre') as HTMLSelectElement;
-// Populate genre dropdown from the taxonomy. Boot-time so it's
-// available before the first render. The "All genres" option is
-// already in the static markup as the default; we just append the
-// canonical chip list after it.
-for (const g of GENRES) {
-  const opt = document.createElement('option');
-  opt.value = g.id;
-  opt.textContent = g.label;
-  $genre.appendChild(opt);
-}
-const $country = document.getElementById('country') as HTMLSelectElement;
-const $modePlayed = document.getElementById('mode-played') as HTMLButtonElement;
-const $mapToggle = document.getElementById('map-toggle') as HTMLButtonElement;
-const $newsToggle = document.getElementById('news-toggle') as HTMLButtonElement;
-const $curatedToggle = document.getElementById('curated-toggle') as HTMLButtonElement;
-const $filterRow = document.getElementById('filter-row') as HTMLElement;
+// Filter sheet (iOS BrowseFiltersSheet port) — collapsible multi-select
+// sections built into #bf-sections, with a draft-model footer.
+const $bfSections = document.getElementById('bf-sections') as HTMLElement;
+const $bfCancel = document.getElementById('bf-cancel') as HTMLButtonElement;
+const $bfClear = document.getElementById('bf-clear') as HTMLButtonElement;
+const $bfApply = document.getElementById('bf-apply') as HTMLButtonElement;
 const $tabStatus = document.getElementById('tab-status') as HTMLElement;
-const $topbarLibSeg = document.getElementById('topbar-lib-seg') as HTMLElement;
 const $content = document.getElementById('content') as HTMLElement;
 const $tabbar = document.getElementById('tabbar') as HTMLElement;
+const $topnavNav = document.querySelector('.topnav-nav') as HTMLElement;
 
-const $mini = document.getElementById('mini') as HTMLButtonElement;
+const $mini = document.getElementById('mini') as HTMLElement;
 const $miniFav = document.getElementById('mini-fav') as HTMLElement;
+const $miniArt = document.getElementById('mini-art') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
 const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
+const $miniPrev = document.getElementById('mini-prev') as HTMLElement;
 const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
+const $miniVolume = document.getElementById('mini-volume') as HTMLElement;
+const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLInputElement;
+const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
+const $miniSlide = document.getElementById('mini-slide') as HTMLElement;
+const $miniClose = document.getElementById('mini-close') as HTMLButtonElement;
+const $miniCloseX = document.getElementById('mini-close-x') as HTMLButtonElement;
 
 const $np = document.getElementById('np') as HTMLElement;
 const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
-const $npProgramName = document.getElementById('np-program-name') as HTMLElement;
-const $npProgramPre = document.getElementById('np-program-pre') as HTMLElement;
-const $npTags = document.getElementById('np-tags') as HTMLElement;
+const $npStationLogoBtn = document.getElementById('np-station-logo-btn') as HTMLButtonElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
@@ -237,18 +280,36 @@ const $npPaneNow = document.getElementById('np-pane-now') as HTMLButtonElement;
 const $npPaneProgram = document.getElementById('np-pane-program') as HTMLButtonElement;
 const $npPaneLyrics = document.getElementById('np-pane-lyrics') as HTMLButtonElement;
 const $npProgramPane = document.getElementById('np-program-pane') as HTMLElement;
+const $npProgramHead = document.getElementById('np-program-head') as HTMLElement;
+const $npProgramHeadName = document.getElementById('np-program-head-name') as HTMLElement;
+const $npProgramHeadSub = document.getElementById('np-program-head-sub') as HTMLElement;
+const $npProgramMeta = document.getElementById('np-program-meta') as HTMLElement;
+const $npProgramCount = document.getElementById('np-program-count') as HTMLElement;
 const $npProgramList = document.getElementById('np-program-list') as HTMLElement;
+const $npProgramEmpty = document.getElementById('np-program-empty') as HTMLElement;
 const $npLyricsPane = document.getElementById('np-lyrics-pane') as HTMLElement;
+const $npLyricsHead = document.getElementById('np-lyrics-head') as HTMLElement;
+const $npLyricsTitle = document.getElementById('np-lyrics-title') as HTMLElement;
+const $npLyricsArtist = document.getElementById('np-lyrics-artist') as HTMLElement;
 const $npLyricsText = document.getElementById('np-lyrics-text') as HTMLElement;
+const $npLyricsSource = document.getElementById('np-lyrics-source') as HTMLAnchorElement;
+const $npLyricsSourceText = document.getElementById('np-lyrics-source-text') as HTMLElement;
+const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
+const $npSecondaryEmpty = document.getElementById('np-secondary-empty') as HTMLElement;
+const $npCollapseBrowse = document.getElementById('np-collapse-browse') as HTMLButtonElement;
+const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
+const $npTrackArtist = document.getElementById('np-track-artist') as HTMLElement;
+const $npTrackProgram = document.getElementById('np-track-program') as HTMLElement;
+const $npTrackStatus = document.getElementById('np-track-status') as HTMLElement;
+const $npTrackStatusText = document.getElementById('np-track-status-text') as HTMLElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
+const $npTrackCoverWrap = document.getElementById('np-track-cover-wrap') as HTMLElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
 const $npTrackAppleMusic = document.getElementById('np-track-apple-music') as HTMLAnchorElement;
 const $npTrackYoutubeMusic = document.getElementById('np-track-youtube-music') as HTMLAnchorElement;
 const $npTrackOpenInWrap = document.getElementById('np-track-open-in-wrap') as HTMLElement;
-const $npTrackOpenIn = document.getElementById('np-track-open-in') as HTMLButtonElement;
-const $npTrackOpenInPopup = document.getElementById('np-track-open-in-popup') as HTMLElement;
 const $npStream = document.getElementById('np-stream') as HTMLAnchorElement;
 const $npStreamHost = document.getElementById('np-stream-host') as HTMLElement;
 const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
@@ -256,8 +317,21 @@ const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npReportBroken = document.getElementById('np-report-broken') as HTMLButtonElement;
 const $npReportBrokenLabel = document.getElementById('np-report-broken-label') as HTMLElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
+const $npAdd = document.getElementById('np-add') as HTMLButtonElement;
+const $npPrev = document.getElementById('np-prev') as HTMLButtonElement;
+const $npNext = document.getElementById('np-next') as HTMLButtonElement;
 const $npSleep = document.getElementById('np-sleep') as HTMLButtonElement;
 const $npSleepChip = document.getElementById('np-sleep-chip') as HTMLElement;
+const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
+const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
+const $npVolume = document.getElementById('np-volume') as HTMLElement;
+const $npVolumeSlider = document.getElementById('np-volume-slider') as HTMLInputElement;
+const $npVolumeValue = document.getElementById('np-volume-value') as HTMLElement;
+const $npInfo = document.getElementById('np-info') as HTMLElement;
+const $npInfoScrim = document.getElementById('np-info-scrim') as HTMLElement;
+const $npInfoClose = document.getElementById('np-info-close') as HTMLButtonElement;
+// Wake-to-radio lives in a hidden legacy container — its UI is removed from
+// the web player, but the scheduler + silent-bed machinery still drive these.
 const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
 const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
 const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
@@ -265,91 +339,145 @@ const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement
 const $wakeArmLabel = document.getElementById('wake-arm-label') as HTMLElement;
 const $wakeArmMeta = document.getElementById('wake-arm-meta') as HTMLElement;
 const $wakePane = document.getElementById('np-wake-pane') as HTMLElement;
-const $npPlay = document.getElementById('np-play') as HTMLButtonElement;
-const $npLiveText = document.getElementById('np-live-text') as HTMLElement;
-const $npFormat = document.getElementById('np-format') as HTMLElement;
-const $npMute = document.getElementById('np-mute') as HTMLButtonElement;
-const $npDetails = document.getElementById('np-details') as HTMLElement;
-const $npDetailsToggle = document.getElementById('np-details-toggle') as HTMLButtonElement;
 
-const $addBtn = document.getElementById('add-btn') as HTMLButtonElement;
-const $addSheet = document.getElementById('add-sheet') as HTMLElement;
-const $addCancel = document.getElementById('add-cancel') as HTMLButtonElement;
 const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
 const $customList = document.getElementById('custom-list') as HTMLElement;
 
-const $themeBtn = document.getElementById('theme-btn') as HTMLButtonElement;
-const $aboutBtn = document.getElementById('about-btn') as HTMLButtonElement;
-const $aboutSheet = document.getElementById('about-sheet') as HTMLElement;
-const $aboutClose = document.getElementById('about-close') as HTMLButtonElement;
+const $listSheet = document.getElementById('list-sheet') as HTMLElement;
+const $listCancel = document.getElementById('list-cancel') as HTMLButtonElement;
+const $listSheetLabel = document.getElementById('list-sheet-label') as HTMLElement;
+const $listSheetBody = document.getElementById('list-sheet-body') as HTMLElement;
 
-const $dashboardBtn = document.getElementById('dashboard-btn') as HTMLButtonElement;
 const $dashboardSheet = document.getElementById('dashboard-sheet') as HTMLElement;
+
+// iOS-style top toolbar: filter funnel + settings gear, each opening a
+// slide-up sheet. The inline filter controls are relocated into
+// #filter-sheet at boot (see below).
+const $filterBtn = document.getElementById('filter-btn') as HTMLButtonElement;
+const $filterDot = document.getElementById('filter-dot') as HTMLElement;
+const $filterSheet = document.getElementById('filter-sheet') as HTMLElement;
+const $filterClose = document.getElementById('filter-close') as HTMLButtonElement;
+const $settingsBtn = document.getElementById('settings-btn') as HTMLButtonElement;
+const $settingsSheet = document.getElementById('settings-sheet') as HTMLElement;
+const $settingsClose = document.getElementById('settings-close') as HTMLButtonElement;
+const $themeSeg = document.getElementById('theme-seg') as HTMLElement;
+const $accentSeg = document.getElementById('accent-seg') as HTMLElement;
+const $accentRow = document.getElementById('accent-row') as HTMLElement;
+const $accentPicker = document.getElementById('accent-picker') as HTMLInputElement;
+const $landingSeg = document.getElementById('landing-seg') as HTMLElement;
+const $msApple = document.getElementById('ms-apple') as HTMLButtonElement;
+const $msSpotify = document.getElementById('ms-spotify') as HTMLButtonElement;
+const $msYoutube = document.getElementById('ms-youtube') as HTMLButtonElement;
+const $settingsBackup = document.getElementById('settings-backup') as HTMLButtonElement;
+const $settingsRestore = document.getElementById('settings-restore') as HTMLButtonElement;
+const $settingsStats = document.getElementById('settings-stats') as HTMLButtonElement;
+const $settingsTabs = document.getElementById('settings-tabs') as HTMLElement;
 const $dashboardClose = document.getElementById('dashboard-close') as HTMLButtonElement;
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
-const $dashPollTable = document.querySelector('#dash-poll-table tbody') as HTMLTableSectionElement;
-const $dashPollEmpty = document.getElementById('dash-poll-empty') as HTMLElement;
 
 // ─────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────
 
 let activeTab: Tab = 'browse';
+// Favorites edit mode: trash toggles a per-row remove affordance (the
+// red minus iOS delete mode shows). Survives the re-render the toggle
+// triggers; resets when leaving the tab or emptying the list.
+let favEditing = false;
+// Library edit mode: the header trash toggles a per-row delete affordance
+// on the lists index (mirrors favEditing). The delete control lives at the
+// top, not on every card. Resets when leaving Library or emptying the lists.
+let libEditing = false;
+
+// Browse multi-select "add to <target>" mode — the + on a Favorites or
+// list-detail header switches to Browse and lets the user tick stations,
+// then "Add N" adds them all to the target and returns there (iOS #57).
+// `picked` holds the chosen Station objects; `existing` is the snapshot of
+// stations already in the target (shown ticked + disabled, not re-pickable).
+type SelectTarget =
+  | { kind: 'favorites' }
+  | { kind: 'list'; id: string; name: string }
+  // A list that doesn't exist yet — created on save (iOS atomic create+add),
+  // so cancelling step 2 of the add-list flow leaves no empty list behind.
+  | { kind: 'newList'; name: string };
+let selectMode: {
+  target: SelectTarget;
+  picked: Map<string, Station>;
+  existing: Set<string>;
+  // Show the "1 Choose list ✓ — 2 Pick stations" strip above the dock — set
+  // only when the flow reached step 2 via the choose-list popup (pickStations).
+  withSteps?: boolean;
+} | null = null;
+let $selectDock: HTMLElement | null = null;
 /** Last list tab we were on, so closing Now Playing returns there. */
 let lastListTab: ListTab = 'browse';
-/** Which section the unified Library tab is showing. Persisted so the
- *  user's last choice is remembered across reloads. */
-type LibrarySection = 'fav' | 'recent';
-const LIBRARY_KEY = 'rrradio.library-section';
-let librarySection: LibrarySection =
-  getString(LIBRARY_KEY) === 'recent' ? 'recent' : 'fav';
-let activeTag = 'all';
-// ISO 3166-1 alpha-2 country code (uppercase) or 'all'. Filters both
-// curated matches and Radio Browser results (the API takes the same
-// 2-letter code via its `countrycode` param).
-let activeCountry = 'all';
-// Browse home view's source mode. Mutually-exclusive across the
-// played + news icon buttons. Tapping the active button deselects to
-// null, which falls back to RB top 50.
-//   'played'  → top 20 played (default)
-//   'news'    → RB top 50 with tag=news
-//   null      → RB top 50, no filter
-type BrowseMode = 'played' | 'news' | null;
-let browseMode: BrowseMode = 'played';
-// Scope filter: when true, the home + filtered views drop everything
-// that isn't in BUILTIN_STATIONS — no RB long-tail, no GoatCounter
-// played-* backlog rows, no Worldwide Load more button. Orthogonal
-// to browseMode (works alongside Played; News auto-deselects since
-// news-tag is RB-only).
-let curatedOnly = false;
-// When true, the unfiltered home view replaces the list section
-// with a Leaflet map. Default false (list view); orthogonal to
-// curatedOnly — the map can show either station set.
-let mapView = false;
+// Which list is open in the Library detail view (null = the Library home).
+let openListId: string | null = null;
+// Add-to-list popup (iOS AddListPopupCard). null when closed. 'addNow' adds the
+// known `station`; 'pickStations' chooses/creates a list then hands off to the
+// Browse select dock. `target` is the chosen existing list or a drafted new
+// list (created only on save); `nameDraft` backs the "Create list" field.
+type AddListMode = 'addNow' | 'pickStations';
+type AddListTarget = { kind: 'existing'; id: string } | { kind: 'new' };
+let addListState: {
+  mode: AddListMode;
+  station: Station | null;
+  target: AddListTarget | null;
+  nameDraft: string;
+} | null = null;
+// Transient in-app list-management UI state (replaces native prompt/confirm).
+// All cleared on navigation so a half-typed create/rename never lingers.
+let listCreateOpen = false; // inline "name your list" row in the lists index
+let listRenameOpen = false; // inline rename input in the list-detail header
+let listDeleteConfirmId: string | null = null; // inline "Delete list?" confirm
+// Browse filter — multi-select, mirroring the iOS BrowseFilter model.
+// Genre ids (from GENRES) and uppercase ISO country codes; News is the
+// in-filter toggle iOS keeps in the Genre section. When ANY of these (or
+// activeQuality) is set, the Browse list is matched locally against the
+// catalog — no Radio Browser fetch — so the live "Show N" count is real.
+const filterGenres = new Set<string>();
+const filterCountries = new Set<string>();
+let filterNews = false;
+// Alphabet sort for the result list (off → A–Z → Z–A). Lives on the page
+// (the results row), not in the filter. Suppressed while a text query is
+// active (relevance order wins).
+let activeSort: BrowseSort = null;
+// Stream-quality buckets to keep (empty = no quality filter). Part of the
+// filter; matched locally, never forwarded to Radio Browser.
+const activeQuality = new Set<QualityBucket>();
+// True once the user taps "Browse all" on the discovery landing — drops
+// into the flat catalog list. Cleared by back-to-discovery / goHome.
+let browseAll = false;
+// Raw editorial highlights feed (loaded once at boot); resolved against
+// the catalog at render time for the discovery Featured rail.
+let highlightsRaw: Highlight[] = [];
+// Memoised discovery counts, recomputed when the catalog size changes.
+let discoveryCountsCache: DiscoveryCounts | null = null;
+let discoveryCountsForLen = -1;
 
 // countryName lives in ./country.
 
-/** Populate the country dropdown from distinct codes in the curated
- *  catalog. Run after stations.json loads (BUILTIN_STATIONS is empty
- *  before that). Idempotent — skips if already populated. */
-function syncCountryOptions(): void {
-  if ($country.options.length > 1) return; // already done
+/** Distinct uppercase country codes present in the catalog, ordered by
+ *  display name. Memoised against catalog size; feeds the filter sheet's
+ *  Country section. Empty before stations.json loads. */
+let catalogCountriesCache: string[] | null = null;
+let catalogCountriesForLen = -1;
+function catalogCountries(): string[] {
+  if (catalogCountriesCache && catalogCountriesForLen === BUILTIN_STATIONS.length) {
+    return catalogCountriesCache;
+  }
   const codes = new Set<string>();
   for (const s of BUILTIN_STATIONS) {
     if (s.country && s.country.length >= 2) codes.add(s.country.toUpperCase());
   }
-  const sorted = [...codes].sort((a, b) => countryName(a).localeCompare(countryName(b)));
-  for (const code of sorted) {
-    const opt = document.createElement('option');
-    opt.value = code;
-    opt.textContent = countryName(code);
-    $country.append(opt);
-  }
+  catalogCountriesCache = [...codes].sort((a, b) => countryName(a).localeCompare(countryName(b)));
+  catalogCountriesForLen = BUILTIN_STATIONS.length;
+  return catalogCountriesCache;
 }
 let queryToken = 0;
 let sleepIndex = 0;
@@ -365,6 +493,19 @@ let lastBrowseStations: Station[] = [];
 let browseOffset = 0;
 let browseHasMore = false;
 let browseLoadingMore = false;
+
+// Infinite scroll: the active result list's "load more" action, or null
+// when nothing more is available. renderContent() recomputes it each render;
+// the $content scroll listener (wired in init) fires it as the user nears the
+// bottom — iOS parity, so stations load on scroll, not via a button tap. The
+// manual "Load more" / "Show more" buttons stay as a keyboard/fallback path.
+let pendingLoadMore: (() => void) | null = null;
+// A short first page (RB dedupes a 60-page down to ~25) may not fill a tall
+// viewport, leaving nothing to scroll to engage infinite scroll. Auto-pull the
+// next batch(es) until the list overflows — capped per view so a degenerate
+// run of all-duplicate RB pages can't loop forever (the manual button remains).
+let autoFillTries = 0;
+const AUTO_FILL_MAX = 6;
 
 // Local-catalog pagination — once the curated YAML grew past ~2k
 // stations, rendering the whole list on every renderContent() call
@@ -471,6 +612,16 @@ function buildHeart(isFav: boolean): HTMLButtonElement {
   return btn;
 }
 
+function buildAddListBtn(): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'row-addlist';
+  btn.setAttribute('aria-label', 'Add to list');
+  btn.title = 'Add to a list';
+  btn.innerHTML = ICON_LIST_ADD;
+  return btn;
+}
+
 /** ISO 3166-1 alpha-2 → flag emoji via regional indicator code points.
  *  Renders as a real flag on Apple / Linux; Windows shows the two-letter
  *  code (Windows ships no flag font for political reasons). Returns
@@ -482,42 +633,20 @@ function flagEmoji(country: string | undefined): string {
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
 }
 
-// Capability stars — three small stars rendered inline before the tags
-// text, one per dimension we provide for the station:
-//   ★ stream  — we've vetted the URL plays (every published curated row)
-//   ★ track   — broadcaster fetcher OR ICY metadata gives us "now playing"
-//   ★ program — schedule fetcher gives us the on-air show + day grid
-// Stars are conditionally appended, so a `stream-only` row shows ★, an
-// `icy-only` row shows ★★, and a row backed by a full broadcaster API
-// (FM4, BBC, BR, HR) shows ★★★.
-function stationCapabilities(station: Station): { stream: boolean; track: boolean; program: boolean } {
-  const stream = !!station.status;
-  const track =
-    stream && (!!station.metadata || station.status === 'icy-only' || station.status === 'working');
-  const program = stream && !!findScheduleFetcher(station);
-  return { stream, track, program };
+interface RowOptions {
+  /** Library feeds (Favorites / Lists / Recents) carry a trailing cover-art
+   *  slot showing the station's current-track art (iOS parity). Browse rows
+   *  don't. */
+  cover?: boolean;
 }
 
-function buildCapabilityStars(station: Station): HTMLSpanElement | null {
-  const { stream, track, program } = stationCapabilities(station);
-  if (!stream && !track && !program) return null;
-  const wrap = document.createElement('span');
-  wrap.className = 'row-stars';
-  const titles: string[] = [];
-  if (stream) titles.push('verified stream');
-  if (track) titles.push('track info');
-  if (program) titles.push('program info');
-  wrap.title = titles.join(' · ');
-  wrap.setAttribute('aria-label', titles.join(', '));
-  let html = '';
-  if (stream) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  if (track) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  if (program) html += `<span class="row-stars__star">${STAR_SVG}</span>`;
-  wrap.innerHTML = html;
-  return wrap;
-}
-
-function buildRow(station: Station, currentId: string, state: NowPlaying['state'], favs: Set<string>): HTMLDivElement {
+function buildRow(
+  station: Station,
+  currentId: string,
+  state: NowPlaying['state'],
+  favs: Set<string>,
+  opts: RowOptions = {},
+): HTMLDivElement {
   const isCurrent = !!currentId && station.id === currentId;
   const isPaused = isCurrent && state !== 'playing';
   const isFav = favs.has(station.id);
@@ -553,8 +682,6 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   }
   const tags = document.createElement('div');
   tags.className = 'row-tags';
-  const stars = buildCapabilityStars(station);
-  if (stars) tags.append(stars);
   if (geoLabel) {
     const geo = document.createElement('span');
     geo.className = 'row-geo';
@@ -564,23 +691,79 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
     geo.title = `${geoLabel} — likely a music-licensing geo-block from the broadcaster.`;
     tags.append(geo);
   }
-  const tagsText = document.createElement('span');
-  tagsText.className = 'row-tags__text';
-  tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
-  tags.append(tagsText);
-  info.append(name, tags);
+  // Genre tags appear on Browse rows only. Library cards (Favorites / Lists
+  // / Recents) show the now-playing track under the name instead — or just
+  // the station name when nothing is playing (iOS favorites layout).
+  if (!opts.cover) {
+    const tagsText = document.createElement('span');
+    tagsText.className = 'row-tags__text';
+    tagsText.textContent = (station.tags ?? []).slice(0, 3).join(' · ');
+    tags.append(tagsText);
+  }
+  info.append(name);
+  // Only attach the tags line when it has content: Browse always has the
+  // genre text; a library card only when the station is geo-restricted.
+  if (tags.childElementCount > 0) info.append(tags);
+  // Library feeds carry a now-playing subtitle (artist — track) shown once
+  // the cover poll resolves a track.
+  if (opts.cover) {
+    const now = document.createElement('div');
+    now.className = 'row-now';
+    now.hidden = true;
+    info.append(now);
+  }
 
-  const right = document.createElement('div');
-  right.className = 'row-right';
-  const eq = buildEq(isPaused);
-  const heart = buildHeart(isFav);
-  heart.addEventListener('click', (e) => {
-    e.stopPropagation();
-    onToggleFav(station);
-  });
-  right.append(eq, heart);
+  // Browse multi-select: the row's trailing control is a pick tick, and a
+  // tap toggles selection instead of playing. Stations already in Favorites
+  // show a filled tick and are inert. (Library cards never enter this mode.)
+  if (selectMode && !opts.cover) {
+    const already = selectMode.existing.has(station.id);
+    const picked = selectMode.picked.has(station.id);
+    const tick = document.createElement('span');
+    tick.className = 'row-tick' + (already ? ' is-added' : picked ? ' is-picked' : '');
+    if (already || picked) tick.innerHTML = ICON_CHECK;
+    if (already) row.classList.add('is-added');
+    row.append(fav, info, tick);
+    if (!already) {
+      row.addEventListener('click', () => toggleSelectPick(station, tick));
+      row.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleSelectPick(station, tick);
+        }
+      });
+    }
+    return row;
+  }
 
-  row.append(fav, info, right);
+  // Library feeds (Favorites / Lists / Recents) render as iOS-style cards:
+  // no inline add/heart/equalizer — the trailing slot is the station's
+  // now-playing cover art, and the subtitle carries the current track.
+  // Browse rows keep the equalizer + add-to-list + favorite controls.
+  if (opts.cover) {
+    const cover = document.createElement('span');
+    cover.className = 'row-cover';
+    const entry = favCovers.get(station.id);
+    if (entry) setRowCover(cover, entry.coverUrl);
+    row.append(fav, info, cover);
+    applyRowNowPlaying(row, entry);
+  } else {
+    const right = document.createElement('div');
+    right.className = 'row-right';
+    const eq = buildEq(isPaused);
+    const addList = buildAddListBtn();
+    addList.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openAddList({ mode: 'addNow', station });
+    });
+    const heart = buildHeart(isFav);
+    heart.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onToggleFav(station);
+    });
+    right.append(eq, addList, heart);
+    row.append(fav, info, right);
+  }
 
   row.addEventListener('click', () => onRowPlay(station));
   row.addEventListener('keydown', (e) => {
@@ -591,6 +774,74 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
   });
 
   return row;
+}
+
+/** Fill a row's cover slot with a track-art image. Idempotent (no-op when the
+ *  URL is unchanged). A broken/blocked cover removes itself so the slot
+ *  collapses back to the station-logo-only layout. */
+function setRowCover(slot: HTMLElement, url: string): void {
+  let img = slot.querySelector('img');
+  if (img && img.getAttribute('src') === url) return;
+  if (!img) {
+    img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    img.addEventListener('error', () => {
+      slot.classList.remove('has-cover');
+      img?.remove();
+    });
+    slot.appendChild(img);
+  }
+  img.src = url;
+  slot.classList.add('has-cover');
+}
+
+/** Build the now-playing subtitle line ("artist — track", or just the
+ *  track) from a cover-store entry. Empty when there's no resolved track. */
+function nowPlayingLine(entry: FavCoverEntry | undefined): string {
+  if (!entry?.title) return '';
+  return entry.artist ? `${entry.artist} — ${entry.title}` : entry.title;
+}
+
+/** Swap a library row's subtitle between the genre tags and the live
+ *  now-playing line. When a track is known it wins (matching iOS, which
+ *  shows the current track under the station name); otherwise the genre
+ *  tags stay visible. */
+function applyRowNowPlaying(row: HTMLElement, entry: FavCoverEntry | undefined): void {
+  const now = row.querySelector<HTMLElement>('.row-now');
+  if (!now) return;
+  const tags = row.querySelector<HTMLElement>('.row-tags');
+  const line = nowPlayingLine(entry);
+  if (line) {
+    now.textContent = line;
+    now.hidden = false;
+    if (tags) tags.hidden = true;
+  } else {
+    now.hidden = true;
+    if (tags) tags.hidden = false;
+  }
+}
+
+/** Repaint every visible cover slot + now-playing line from the store.
+ *  Called when a poll cycle lands new art — patches the DOM in place (no
+ *  re-render, no scroll loss). */
+function paintFavCovers(): void {
+  for (const slot of document.querySelectorAll<HTMLElement>('.row-cover')) {
+    const row = slot.closest<HTMLElement>('.row');
+    const id = row?.dataset.id;
+    if (!id || !row) continue;
+    const entry = favCovers.get(id);
+    if (entry) setRowCover(slot, entry.coverUrl);
+    applyRowNowPlaying(row, entry);
+  }
+}
+
+/** Point the cover poll at the rows a library feed just rendered. */
+function armFavCovers(stations: Station[]): void {
+  favCovers.setVisibleStations(stations);
+  favCovers.start();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -608,6 +859,7 @@ function buildRow(station: Station, currentId: string, state: NowPlaying['state'
 const MINI_REFS: MiniRefs = {
   mini: $mini,
   miniFav: $miniFav,
+  miniArt: $miniArt,
   miniName: $miniName,
   miniTrack: $miniTrack,
   miniMeta: $miniMeta,
@@ -629,17 +881,16 @@ const NP_REFS: NowPlayingRefs = {
   body: $body,
   npName: $npName,
   npStationLogo: $npStationLogo,
-  npProgramName: $npProgramName,
-  npProgramPre: $npProgramPre,
-  npPaneProgram: $npPaneProgram,
-  npTags: $npTags,
+  npStationLogoBtn: $npStationLogoBtn,
   npBitrate: $npBitrate,
   npOrigin: $npOrigin,
   npListeners: $npListeners,
-  npLiveText: $npLiveText,
-  npFormat: $npFormat,
   npTrackRow: $npTrackRow,
   npTrackTitle: $npTrackTitle,
+  npTrackArtist: $npTrackArtist,
+  npTrackProgram: $npTrackProgram,
+  npTrackStatus: $npTrackStatus,
+  npTrackStatusText: $npTrackStatusText,
   npTrackCover: $npTrackCover,
   npTrackCoverFallback: document.getElementById(
     'np-track-cover-fallback',
@@ -661,8 +912,15 @@ function renderNowPlaying(np: NowPlaying): void {
   renderNowPlayingImpl(NP_REFS, np, {
     armedWake: wakeScheduler.current(),
     isFavorite,
-    onClearOpenIn: closeOpenInPopup,
+    onClearOpenIn: () => {},
   });
+  // The inline open-in row is always-visible (when verified), so reflect the
+  // per-service Settings toggles on every render.
+  syncMusicServiceLinks();
+  // Keep the wide-layout body classes (np-twocol/np-threecol) in sync as
+  // the station loads/changes/stops — has-station has just been toggled
+  // upstream, so the mode is current here.
+  syncNpTabs();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -673,40 +931,34 @@ function renderTopBar(): void {
   // Search is available on the list tabs. Genre filter is Browse-only.
   // The Playing tab keeps the topbar quiet (no search/genre input —
   // they don't apply to a single-station view).
-  const isPlaying = activeTab === 'playing';
-  $filterRow.hidden = isPlaying || activeTab !== 'browse';
+  // Filters apply to Browse only, but the top nav is stable chrome: rather
+  // than removing the funnel off-Browse (which would reflow the centred
+  // nav+search group), keep its slot and just hide it visually.
+  $filterBtn.classList.toggle('slot-hidden', activeTab !== 'browse');
   $search.placeholder =
     activeTab === 'fav'
       ? 'Search your favorites…'
       : activeTab === 'recent'
         ? 'Search recently played…'
-        : 'Search stations, genres, places…';
-  // tab-status used to repeat the section name + count under the
-  // search bar on Library views, but the segmented control + the
-  // section label below already say it. Always hidden now; kept in
-  // the DOM in case a future tab wants the slot.
+        : activeTab === 'library'
+          ? 'Search lists…'
+          : 'Search stations, genres, places…';
+  // tab-status used to repeat the section name + count under the search
+  // bar on Library views; the section label below already says it. Always
+  // hidden now; kept in the DOM in case a future tab wants the slot.
   $tabStatus.hidden = true;
-  syncLibrarySegmented();
-}
-
-function syncGenre(): void {
-  if ($genre.value !== activeTag) $genre.value = activeTag;
-  // Collapse the wrap to icon-only when no filter is active.
-  $genre.parentElement?.classList.toggle('is-default', activeTag === 'all');
-}
-
-function syncCountry(): void {
-  if ($country.value !== activeCountry) $country.value = activeCountry;
-  $country.parentElement?.classList.toggle('is-default', activeCountry === 'all');
 }
 
 function renderTabBar(): void {
-  $tabbar.querySelectorAll<HTMLButtonElement>('.tab-btn').forEach((btn) => {
+  // Active-state spans both the bottom tab bar (mobile) and the top-nav
+  // section links (desktop) so they never disagree.
+  document
+    .querySelectorAll<HTMLButtonElement>('.tabbar .tab-btn, .topnav-nav .tab-btn')
+    .forEach((btn) => {
     const t = btn.dataset.tab;
-    // Library is the UI label for either fav or recent — it stays
-    // active across both sub-sections so the bottom nav doesn't blink.
-    const isActive =
-      t === activeTab || (t === 'library' && (activeTab === 'fav' || activeTab === 'recent'));
+    // The Library nav button stays active across the Library home and its
+    // sub-views (Recents, a list detail) so the nav doesn't blink.
+    const isActive = t === activeTab || (t === 'library' && isLibraryTab(activeTab));
     btn.classList.toggle('active', isActive);
   });
 }
@@ -719,10 +971,24 @@ function sectionLabel(
   label: string,
   count: number,
   actions?: HTMLElement[],
+  lead?: HTMLElement | HTMLElement[],
 ): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = 'section-label';
-  if (actions?.length) wrap.classList.add('section-label--with-actions');
+  // A `lead` (e.g. the search icon, optionally preceded by a back arrow)
+  // promotes the label to the iOS LibraryPageStatusBar layout: a 3-column
+  // grid (lead · centred title · actions). Without one, the existing centred
+  // / space-between flex applies.
+  const leads = lead ? (Array.isArray(lead) ? lead : [lead]) : [];
+  if (leads.length) wrap.classList.add('section-label--header');
+  else if (actions?.length) wrap.classList.add('section-label--with-actions');
+
+  if (leads.length) {
+    const zone = document.createElement('div');
+    zone.className = 'section-label__lead';
+    zone.append(...leads);
+    wrap.append(zone);
+  }
 
   const title = document.createElement('div');
   title.className = 'section-label__title';
@@ -744,32 +1010,10 @@ function sectionLabel(
 }
 
 
-/** Two-pill segmented control rendered at the top of the Library tab.
- *  Lives in the sticky topbar so it stays visible regardless of how
- *  far the list has scrolled; populated/hidden via syncLibrarySegmented. */
-function syncLibrarySegmented(): void {
-  const visible = activeTab === 'fav' || activeTab === 'recent';
-  $topbarLibSeg.hidden = !visible;
-  if (!visible) return;
-  if ($topbarLibSeg.childElementCount === 0) {
-    const make = (key: LibrarySection, label: string) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'lib-seg__btn';
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
-        if (activeTab !== key) setTab(key);
-      });
-      return btn;
-    };
-    $topbarLibSeg.append(make('fav', 'Favorites'), make('recent', 'Recents'));
-  }
-  for (const btn of $topbarLibSeg.querySelectorAll<HTMLButtonElement>('.lib-seg__btn')) {
-    const key = btn.textContent === 'Favorites' ? 'fav' : 'recent';
-    const isActive = activeTab === key;
-    btn.classList.toggle('is-active', isActive);
-    btn.setAttribute('aria-pressed', String(isActive));
-  }
+/** Tabs that live under the Library nav button: the Library home and its
+ *  Recents sub-view. (Favorites is its own top-level tab, not grouped here.) */
+function isLibraryTab(tab: Tab): boolean {
+  return tab === 'library' || tab === 'recent';
 }
 
 // Played-stations data sources. Two fetches feed the Browse home view:
@@ -791,7 +1035,7 @@ function syncLibrarySegmented(): void {
 const STATS_DAYS = 7;
 const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
 // Public stats sheet uses a single batched endpoint so totals + top
-// stations + locations + poll all come from the same in-Worker snapshot.
+// stations + locations all come from the same in-Worker snapshot.
 // Splitting them across four endpoints with independent edge-cache
 // windows (and four browser HTTP cache entries) was the cause of
 // "huge differences between devices" — each device could be reading
@@ -877,9 +1121,6 @@ function playedStations(): Station[] {
       seen.add(lc);
       continue;
     }
-    // Curated-only filter strips the GoatCounter-popular-but-not-curated
-    // backlog rows ('played-<slug>' entries that come from station-backlog.json).
-    if (curatedOnly) continue;
     const backlog = backlogByName.get(lc);
     if (backlog?.streamUrl && backlog.verdict !== 'stream-broken' && backlog.verdict !== 'no-rb-match') {
       ordered.push({
@@ -932,6 +1173,8 @@ async function loadSchedule(station: Station): Promise<void> {
   const found = findScheduleFetcher(station);
   if (!found) {
     syncNpTabs();
+    // Populate the schedule column's empty-state (wide 4-col layout).
+    renderProgramPane();
     return;
   }
   const ctrl = new AbortController();
@@ -947,6 +1190,9 @@ async function loadSchedule(station: Station): Promise<void> {
       npSelectedDayIdx = Math.max(0, idx);
     }
     syncNpTabs();
+    // Render eagerly so the schedule column is populated in the wide
+    // 4-column layout without the user tapping the program tab.
+    renderProgramPane();
   } catch {
     /* silent — program panel just stays hidden */
   }
@@ -969,7 +1215,9 @@ function loadLyrics(artist: string, track: string): void {
       if (ctrl.signal.aborted || key !== npLyricsKey) return;
       npLyrics = result;
       syncNpTabs();
-      if (npView === 'lyrics') renderLyricsPane();
+      // Render eagerly (not only when the lyrics tab is active) so the
+      // lyrics column populates in the wide 4-column layout.
+      renderLyricsPane();
     })
     .catch(() => {
       /* abort or network — silently leave the tab hidden */
@@ -985,23 +1233,67 @@ function resetLyrics(): void {
   npLyricsKey = '';
   if (npView === 'lyrics') npView = 'now';
   syncNpTabs();
+  // Clear text + show the empty-state (wide 4-col lyrics column).
+  renderLyricsPane();
+}
+
+/** Now Playing wide-desktop layout mode. 'narrow' is the docked tabbed
+ *  view (mobile + 1024–1400px desktop). At ≥1400px while a station is
+ *  docked it's 'twocol' (Album + a switchable Schedule/Lyrics column,
+ *  browse list still visible) or 'threecol' (browse collapsed → Album │
+ *  Schedule │ Lyrics, all visible). */
+const wideNpMq = matchMedia('(min-width: 1400px)');
+type NpLayout = 'narrow' | 'twocol' | 'threecol';
+function npLayoutMode(): NpLayout {
+  if (!wideNpMq.matches || !currentNP.station.id) return 'narrow';
+  // The wide NP is the golden split — album on the left, a switchable
+  // Schedule/Lyrics column on the right (the pane-tab strip toggles which) —
+  // whenever there's at least one secondary pane to show. Album-only
+  // stations stay single-column (centred). 3-column (all panes at once) is
+  // no longer auto-selected; the switchable 2-column split is the default.
+  const hasProgram = !!(npSchedule && npSchedule.length > 0);
+  const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
+  if (hasProgram || hasLyrics) return 'twocol';
+  return 'narrow';
 }
 
 /** Synchronise the Now Playing tab pills + pane visibility with the
- *  three sources (track row, program guide, lyrics). The tab pill
- *  for a given source only shows when that source has content;
- *  if the user is currently viewing a source that disappears (e.g.
- *  on station change), drop them back to 'now'. */
+ *  three sources (track row, program guide, lyrics) and the layout mode.
+ *  The tab pill for a given source only shows when that source has
+ *  content; in the 2-column wide layout the strip doubles as the
+ *  Schedule/Lyrics switcher (the 'now'/album pill is dropped — album is
+ *  always its own column there). */
 function syncNpTabs(): void {
   const hasProgram = !!(npSchedule && npSchedule.length > 0);
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
+  const mode = npLayoutMode();
 
-  // Auto-switch back to 'now' if the active view's content is gone.
-  if (npView === 'program' && !hasProgram) npView = 'now';
-  if (npView === 'lyrics' && !hasLyrics) npView = 'now';
+  // Layout body classes drive the wide grid (CSS); both cleared on narrow.
+  $body.classList.toggle('np-twocol', mode === 'twocol');
+  $body.classList.toggle('np-threecol', mode === 'threecol');
 
-  // Show the tab strip whenever at least one secondary tab has content.
+  if (mode === 'twocol') {
+    // Album owns column 1; the second column is Schedule OR Lyrics, so
+    // npView is restricted to those. Fall back to whichever exists; if
+    // neither, 'now' (→ the secondary empty-state shows).
+    if (
+      npView === 'now' ||
+      (npView === 'program' && !hasProgram) ||
+      (npView === 'lyrics' && !hasLyrics)
+    ) {
+      npView = hasProgram ? 'program' : hasLyrics ? 'lyrics' : 'now';
+    }
+  } else {
+    // narrow + threecol: drop to 'now' if the active secondary is gone.
+    if (npView === 'program' && !hasProgram) npView = 'now';
+    if (npView === 'lyrics' && !hasLyrics) npView = 'now';
+  }
+
+  // Show the tab strip whenever at least one secondary source has content.
+  // The 'now' pill is redundant in the 2-column layout (album is always
+  // shown), so hide it there.
   $npPaneTabs.hidden = !hasProgram && !hasLyrics;
+  $npPaneNow.hidden = mode === 'twocol';
   $npPaneProgram.hidden = !hasProgram;
   $npPaneLyrics.hidden = !hasLyrics;
 
@@ -1012,30 +1304,55 @@ function syncNpTabs(): void {
   $npPaneLyrics.classList.toggle('is-active', npView === 'lyrics');
   $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
 
-  // Pane visibility is owned here — render-np writes content into
-  // npTrackRow but never touches its `hidden` attribute. Track row
-  // also stays hidden when no station is loaded so we don't show
-  // an empty em-dashed shell at boot.
+  // Pane [hidden] flags. The narrow docked view obeys them directly; the
+  // wide grids override via CSS (3-col force-shows all panes; 2-col always
+  // shows album and shows whichever secondary matches npView). render-np
+  // writes content into npTrackRow but never touches its `hidden`. Track
+  // also stays hidden with no station so we don't show an em-dashed shell.
   $npTrackRow.hidden = npView !== 'now' || !currentNP.station.id;
   $npProgramPane.hidden = npView !== 'program';
   $npLyricsPane.hidden = npView !== 'lyrics';
+
+  // 2-column with neither schedule nor lyrics → the second column shows a
+  // small empty state (the only layout where it can surface).
+  $npSecondaryEmpty.hidden = !(mode === 'twocol' && !hasProgram && !hasLyrics);
 }
 
+// Recompute the wide layout when the 1400px boundary is crossed.
+wideNpMq.addEventListener('change', syncNpTabs);
+
+// renderLyricsPane lives in ./render-np (refs-based). The local wrapper
+// closes over the production refs + the current lyrics/track state so the
+// rest of main.ts can call it with no args.
+const NP_LYRICS_REFS: LyricsPaneRefs = {
+  npLyricsText: $npLyricsText,
+  npLyricsEmpty: $npLyricsEmpty,
+  npLyricsHead: $npLyricsHead,
+  npLyricsTitle: $npLyricsTitle,
+  npLyricsArtist: $npLyricsArtist,
+  npLyricsSource: $npLyricsSource,
+  npLyricsSourceText: $npLyricsSourceText,
+};
+
 function renderLyricsPane(): void {
-  if (!npLyrics) {
-    $npLyricsText.textContent = '';
-    return;
-  }
-  // Plain text wins if both are present — synced is a UX nice-to-have
-  // we can layer later (current-line highlight needs an estimate of
-  // elapsed-since-track-started, which live radio doesn't give us).
-  if (npLyrics.plain) {
-    $npLyricsText.textContent = npLyrics.plain;
-  } else if (npLyrics.synced) {
-    $npLyricsText.textContent = npLyrics.synced.map((l) => l.text).join('\n');
-  } else {
-    $npLyricsText.textContent = '';
-  }
+  renderLyricsPaneImpl(NP_LYRICS_REFS, npLyrics, currentNP);
+}
+
+/** Populate the iOS-parity schedule header: the current show name +
+ *  subtitle (from the live now-playing metadata, not the schedule rows)
+ *  and a "N broadcasts" count caption. The header collapses entirely
+ *  when there's no current-show name, so the column doesn't carry a
+ *  redundant label (the tab / column header already says "Schedule"). */
+function renderProgramHead(broadcastCount: number): void {
+  const programName = currentNP.programName?.trim() ?? '';
+  const programSub = currentNP.programSubtitle?.trim() ?? '';
+  $npProgramHeadName.textContent = programName;
+  $npProgramHeadSub.textContent = programSub;
+  $npProgramHeadSub.hidden = programSub.length === 0;
+  $npProgramHead.hidden = programName.length === 0;
+  $npProgramCount.textContent =
+    broadcastCount === 1 ? '1 broadcast' : `${broadcastCount} broadcasts`;
+  $npProgramMeta.hidden = broadcastCount === 0;
 }
 
 function renderProgramPane(): void {
@@ -1045,12 +1362,20 @@ function renderProgramPane(): void {
     // here used to fight the tab-state and cause the same cover-bleed
     // bug we hit on the lyrics pane (gh #84).
     $npProgramList.replaceChildren();
+    renderProgramHead(0);
+    $npProgramHead.hidden = true;
+    // Empty-state line — only ever visible in the wide 4-column layout
+    // (the narrow docked view hides the whole pane when there's no
+    // schedule, since the program tab doesn't appear).
+    $npProgramEmpty.hidden = false;
     return;
   }
+  $npProgramEmpty.hidden = true;
   // Today's broadcasts only — broadcaster APIs we hit only return
   // today + past, so a multi-day picker is dead weight.
   $npProgramList.replaceChildren();
   const day = npSchedule[npSelectedDayIdx];
+  renderProgramHead(day.broadcasts.length);
   const now = Date.now();
   let liveRow: HTMLDivElement | null = null;
   let nextRow: HTMLDivElement | null = null;
@@ -1081,17 +1406,34 @@ function renderProgramPane(): void {
       text.append(sub);
     }
     row.append(time, text);
+    // iOS parity: a LIVE capsule pinned to the right of the on-air row.
+    if (isLive) {
+      const badge = document.createElement('span');
+      badge.className = 'np-program-row__live';
+      badge.textContent = 'Live';
+      row.append(badge);
+    }
     $npProgramList.append(row);
     if (isLive && !liveRow) liveRow = row;
     else if (!isLive && !isPast && !nextRow) nextRow = row;
   }
-  // Center the now-on-air row (or the next upcoming one if we hit a
-  // gap between broadcasts). Deferred a frame so the pane's layout
-  // is settled before scrollIntoView measures positions.
+  // Center the now-on-air row (or the next upcoming one if we hit a gap
+  // between broadcasts) WITHIN the program pane only. We must not use
+  // Element.scrollIntoView here: it scrolls every scrollable ancestor,
+  // including the .app shell (overflow:hidden, but still scrollable
+  // programmatically), which on desktop pushes the whole layout — and the
+  // top nav / search bar — off the top of the viewport. Setting the pane's
+  // own scrollTop keeps the scroll contained. Deferred a frame so layout
+  // is settled before we measure.
   const target = liveRow ?? nextRow;
   if (target) {
     requestAnimationFrame(() => {
-      target.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const pane = $npProgramPane;
+      const delta =
+        target.getBoundingClientRect().top -
+        pane.getBoundingClientRect().top -
+        (pane.clientHeight - target.offsetHeight) / 2;
+      pane.scrollTop += delta;
     });
   }
 }
@@ -1159,246 +1501,62 @@ $npBody.addEventListener('pointercancel', () => {
   swipeActivePointer = null;
 });
 
-let selectedClusterKey: string | null = null;
-
-// Persists across re-renders (cluster selection, mode switches) so the
-// user keeps their pan/zoom while interacting. Cleared in toggleMapView.
-let mapPosition: { center: L.LatLngExpression; zoom: number } | null = null;
-let currentMap: L.Map | null = null;
-
-/**
- * Default frame: skip Antarctica, leave a little margin. Used on first
- * paint and when the map is reset.
- */
-const DEFAULT_BOUNDS: L.LatLngBoundsLiteral = [
-  [-55, -170],
-  [75, 175],
-];
-
-/**
- * Tear down the live Leaflet map. Called when the map view is toggled
- * off (so renderGlobe won't run to do it itself) and at the start of
- * each renderGlobe call (since the prior container has been detached).
- */
-function teardownMap(): void {
-  currentMap?.remove();
-  currentMap = null;
-}
-
-/**
- * Memoized favicon preflight. SVG <image> with a broken href shows a
- * broken-image glyph in some browsers; cheaper to probe via a regular
- * Image() and only attach the SVG <image> on success. Every favicon is
- * validated once per session, then the result is cached so re-renders
- * (mode switches, cluster selection) don't repeat the work.
- */
-const validatedFavicons = new Map<string, boolean | Promise<boolean>>();
-function preflightFavicon(url: string): Promise<boolean> {
-  const cached = validatedFavicons.get(url);
-  if (cached === true || cached === false) return Promise.resolve(cached);
-  if (cached) return cached;
-  const p = new Promise<boolean>((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      validatedFavicons.set(url, true);
-      resolve(true);
-    };
-    img.onerror = () => {
-      validatedFavicons.set(url, false);
-      resolve(false);
-    };
-    img.src = url;
-  });
-  validatedFavicons.set(url, p);
-  return p;
-}
-
-function renderGlobe(stations: Station[]): HTMLElement {
-  const wrap = document.createElement('section');
-  wrap.className = 'globe-wrap';
-
-  const mapEl = document.createElement('div');
-  mapEl.className = 'globe-map';
-  wrap.append(mapEl);
-
-  // Cluster stations by 0.1° (~11 km) so multiple regional channels at
-  // the same broadcaster don't pile a tower of identical pins.
-  const clusters = new Map<string, Station[]>();
-  for (const s of stations) {
-    if (!s.geo) continue;
-    const key = `${Math.round(s.geo[0] * 10)},${Math.round(s.geo[1] * 10)}`;
-    const arr = clusters.get(key) ?? [];
-    arr.push(s);
-    clusters.set(key, arr);
-  }
-
-  // Replace any prior Leaflet instance — its container has been
-  // detached by the previous renderContent() call.
-  teardownMap();
-
-  // Leaflet measures its container size at init time, so the wrap has
-  // to be in the DOM first. renderContent appends synchronously, so
-  // by the next microtask the container is laid out and sized.
-  queueMicrotask(() => {
-    const map = L.map(mapEl, {
-      worldCopyJump: true,
-      zoomControl: true,
-      attributionControl: true,
-      // Hold Cmd/Ctrl to zoom; plain scroll-wheel passes through to
-      // page scroll. Without this, the map captures every wheel event
-      // when the cursor is over it and listing-scroll appears to break.
-      scrollWheelZoom: false,
-      // Trackpad pinch (gesture-based zoom on touchpads) stays active.
-      wheelPxPerZoomLevel: 80,
-    });
-    // Re-enable scroll-wheel zoom only while a modifier is held.
-    mapEl.addEventListener('wheel', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        if (!map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
-      } else if (map.scrollWheelZoom.enabled()) {
-        map.scrollWheelZoom.disable();
-      }
-    });
-    currentMap = map;
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      subdomains: 'abcd',
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> ' +
-        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-    }).addTo(map);
-
-    if (mapPosition) {
-      map.setView(mapPosition.center, mapPosition.zoom);
-    } else {
-      map.fitBounds(DEFAULT_BOUNDS);
-    }
-    map.on('moveend zoomend', () => {
-      mapPosition = { center: map.getCenter(), zoom: map.getZoom() };
-    });
-
-    for (const [key, group] of clusters) {
-      const first = group[0];
-      if (!first.geo) continue;
-      const isCluster = group.length > 1;
-
-      // divIcon lets us render markers as plain HTML — much easier to
-      // style and to swap in a station favicon than Leaflet's image
-      // markers. anchor=center so the lat/lon sits dead-center on the
-      // pin.
-      const html = isCluster
-        ? `<div class="map-pin map-pin--cluster">${group.length}</div>`
-        : `<div class="map-pin map-pin--single"><div class="map-pin__dot"></div></div>`;
-      const icon = L.divIcon({
-        html,
-        className: 'map-pin-wrap',
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-      });
-
-      const marker = L.marker(first.geo, { icon, riseOnHover: true }).addTo(map);
-      marker.bindTooltip(isCluster ? `${group.length} stations` : first.name, {
-        direction: 'top',
-        offset: [0, -10],
-        opacity: 0.95,
-      });
-
-      marker.on('click', () => {
-        if (isCluster) {
-          selectedClusterKey = selectedClusterKey === key ? null : key;
-          renderContent();
-        } else {
-          onRowPlay(first);
-        }
-      });
-
-      // Single-station: try to swap the dot for the station favicon.
-      if (!isCluster && first.favicon) {
-        const favicon = first.favicon;
-        preflightFavicon(favicon).then((ok) => {
-          if (!ok) return;
-          const el = marker.getElement();
-          if (!el) return;
-          const dot = el.querySelector('.map-pin__dot') as HTMLDivElement | null;
-          if (!dot) return;
-          dot.classList.add('is-image');
-          dot.style.backgroundImage = `url(${JSON.stringify(favicon)})`;
-        });
-      }
-    }
-
-    // Belt-and-suspenders: re-measure once the surrounding layout has
-    // had its first paint, in case the wrap animated in.
-    setTimeout(() => map.invalidateSize(), 0);
-  });
-
-  // Below-map panel: shown when a multi-station cluster is selected.
-  const selected = selectedClusterKey ? clusters.get(selectedClusterKey) : undefined;
-  if (selected && selected.length > 1) {
-    const panel = document.createElement('div');
-    panel.className = 'globe-cluster-panel';
-    const label = document.createElement('div');
-    label.className = 'globe-cluster-panel__label';
-    label.textContent = `${selected.length} stations here`;
-    panel.append(label);
-    panel.append(renderRows(selected));
-    wrap.append(panel);
-  }
-
-  return wrap;
-}
 
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
 // fetch once per page load and remember the value for re-renders.
-let siteVisitCount: string | undefined;
-let siteVisitFetched = false;
-async function loadSiteVisits(): Promise<void> {
-  if (siteVisitFetched) return;
-  siteVisitFetched = true;
-  try {
-    const res = await fetch('https://markussteinbrecher.goatcounter.com/counter/TOTAL.json');
-    if (!res.ok) return;
-    const data = (await res.json()) as { count?: string };
-    if (typeof data.count === 'string') {
-      siteVisitCount = data.count;
-      // Re-render Browse so any visible counter picks up the count.
-      if (activeTab === 'browse') renderContent();
-    }
-  } catch {
-    /* silent: optional decoration */
-  }
-}
-
-function siteCounter(): HTMLDivElement | null {
-  if (!siteVisitCount) return null;
-  const wrap = document.createElement('div');
-  wrap.className = 'site-counter';
-  const num = document.createElement('span');
-  num.className = 'site-counter__num';
-  num.textContent = siteVisitCount;
-  const label = document.createElement('span');
-  label.className = 'site-counter__label';
-  label.textContent = 'visits served';
-  wrap.append(num, label);
-  return wrap;
-}
-
-
-function renderRows(stations: Station[]): DocumentFragment {
+function renderRows(stations: Station[], opts: RowOptions = {}): DocumentFragment {
   const frag = document.createDocumentFragment();
   const favs = favIdSet();
-  for (const s of stations) frag.append(buildRow(s, currentNP.station.id, currentNP.state, favs));
+  for (const s of stations)
+    frag.append(buildRow(s, currentNP.station.id, currentNP.state, favs, opts));
   return frag;
 }
 
-/** Append a grip handle to each direct-child .row of `container` and
- *  wire pointer-event drag-to-reorder. On drop, persist via
- *  reorderFavorites and don't re-render — the DOM order already
- *  matches the new order. Designed for the favorites tab; the caller
- *  is responsible for only invoking it where reordering makes sense
- *  (no active search query, etc).
+/** Browse/Discovery row groups get wrapped in a `.rows` container so the
+ *  desktop breakpoint can lay them out as a responsive card grid. A bare
+ *  `<div>` on mobile (rows stack exactly as before). Favorites/Recents
+ *  intentionally do NOT use this — their drag-reorder assumes a single
+ *  vertical column of direct `.row` children. */
+function rowsGrid(stations: Station[], opts: RowOptions = {}): HTMLDivElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'rows';
+  wrap.append(renderRows(stations, opts));
+  return wrap;
+}
+
+/** Options shared by the column (grip) and grid (native DnD) reorderers:
+ *  which direct children are reorderable, how to read each one's stable id,
+ *  and where to persist the resulting order. */
+interface ReorderOpts {
+  itemSelector: string;
+  idOf: (el: HTMLElement) => string;
+  onCommit: (orderedIds: string[]) => void;
+  /** Grip side for the column path; defaults to trailing (favorites idiom). */
+  gripPosition?: 'append' | 'prepend';
+}
+
+/** Read the container's current child order and persist it. */
+function commitReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const ids = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector))
+    .map(opts.idOf)
+    .filter(Boolean);
+  opts.onCommit(ids);
+}
+
+/** Pick the reorder mechanism by layout: a single-column (mobile) stack uses
+ *  the grip + pointer drag; a wide grid uses native HTML5 drag-and-drop on
+ *  the whole card (touch doesn't fire native DnD, so the two are exclusive).
+ *  Used for Favorites, Library-home lists, and list-detail stations. */
+function enableReorder(container: HTMLElement, opts: ReorderOpts): void {
+  if (matchMedia('(min-width: 1024px)').matches) enableGridReorder(container, opts);
+  else enableColumnReorder(container, opts);
+}
+
+/** Append a grip handle to each reorderable child of `container` and wire
+ *  pointer-event drag-to-reorder. On drop, persist via opts.onCommit and
+ *  don't re-render — the DOM order already matches. The caller only invokes
+ *  this where reordering makes sense (no active search query, etc).
  *
  *  Drag mechanics:
  *    1. pointerdown snapshots all rows + their indices and the row
@@ -1411,8 +1569,8 @@ function renderRows(stations: Station[]): DocumentFragment {
  *       the pointer math after each swap.
  *    3. pointerup does a single atomic insertBefore to commit the
  *       new index, clears all transforms, and persists the order. */
-function enableFavoriteReorder(container: HTMLElement): void {
-  const rows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+function enableColumnReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const rows = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
   if (rows.length < 2) return;
 
   for (const row of rows) {
@@ -1422,15 +1580,67 @@ function enableFavoriteReorder(container: HTMLElement): void {
     grip.className = 'row-grip';
     grip.setAttribute('aria-label', 'Drag to reorder');
     grip.innerHTML = ICON_GRIP;
-    row.append(grip);
-    attachGripDrag(grip, row, container);
+    if (opts.gripPosition === 'prepend') row.prepend(grip);
+    else row.append(grip);
+    attachGripDrag(grip, row, container, opts);
   }
+}
+
+/** Reorder a wide card grid via native HTML5 drag-and-drop. The whole card is
+ *  the drag source — no visible grip handle on desktop, so the cards stay
+ *  clean (the mobile column path keeps its grip). The grid reflows live on
+ *  dragover; dragend reads the settled order and persists it. */
+function enableGridReorder(container: HTMLElement, opts: ReorderOpts): void {
+  const items = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
+  if (items.length < 2) return;
+  let dragged: HTMLElement | null = null;
+
+  for (const item of items) {
+    // `draggable` doubles as the already-wired marker (idempotent re-runs).
+    if (item.draggable) continue;
+    // The whole card is the drag source (most reliable across browsers).
+    item.draggable = true;
+    // Stop the browser grabbing an inner favicon/cover instead of the card.
+    item.querySelectorAll('img').forEach((img) => (img.draggable = false));
+
+    item.addEventListener('dragstart', (e) => {
+      dragged = item;
+      item.classList.add('is-drag-source');
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        // Some browsers won't start a drag without payload.
+        try { e.dataTransfer.setData('text/plain', opts.idOf(item)); } catch { /* ignore */ }
+      }
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('is-drag-source');
+      if (dragged) {
+        dragged = null;
+        commitReorder(container, opts);
+      }
+    });
+    item.addEventListener('dragover', (e) => {
+      if (!dragged || dragged === item) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      // Insert before the hovered card when the pointer is in its leading
+      // half (reading order: x within a row), else after.
+      const r = item.getBoundingClientRect();
+      const after = e.clientX > r.left + r.width / 2;
+      container.insertBefore(dragged, after ? item.nextSibling : item);
+    });
+  }
+  // Keep the drop allowed while crossing the gaps between cards.
+  container.addEventListener('dragover', (e) => {
+    if (dragged) e.preventDefault();
+  });
 }
 
 function attachGripDrag(
   grip: HTMLElement,
   row: HTMLElement,
   container: HTMLElement,
+  opts: ReorderOpts,
 ): void {
   let pointerId: number | null = null;
   let startY = 0;
@@ -1501,10 +1711,7 @@ function attachGripDrag(
     row.classList.remove('is-dragging');
     row.style.removeProperty('--drag-y');
 
-    const ids = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'))
-      .map((r) => r.dataset.id ?? '')
-      .filter(Boolean);
-    reorderFavorites(ids);
+    commitReorder(container, opts);
   };
 
   grip.addEventListener('pointerdown', (ev) => {
@@ -1515,10 +1722,20 @@ function attachGripDrag(
     ev.stopPropagation();
     pointerId = ev.pointerId;
     startY = ev.clientY;
-    allRows = Array.from(container.querySelectorAll<HTMLElement>(':scope > .row'));
+    allRows = Array.from(container.querySelectorAll<HTMLElement>(opts.itemSelector));
     originalIndex = allRows.indexOf(row);
     targetIndex = originalIndex;
+    // Slot pitch = top-to-top distance to an adjacent row, which folds in
+    // the inter-card gap now that feed rows are spaced cards (not the old
+    // contiguous list). Falls back to the row's own height for a lone row.
     rowHeight = row.getBoundingClientRect().height;
+    const below = allRows[originalIndex + 1];
+    const above = allRows[originalIndex - 1];
+    if (below) {
+      rowHeight = below.getBoundingClientRect().top - row.getBoundingClientRect().top;
+    } else if (above) {
+      rowHeight = row.getBoundingClientRect().top - above.getBoundingClientRect().top;
+    }
     // Siblings need the row height to know how far to shift. Set on
     // each non-dragged row so the .is-shifting-up/down rules resolve.
     for (const r of allRows) {
@@ -1536,147 +1753,591 @@ function attachGripDrag(
   grip.addEventListener('click', (ev) => ev.stopPropagation());
 }
 
+// ─────────────────────────────────────────────────────────────
+// Browse discovery landing + refinements (sort / quality / featured)
+// ─────────────────────────────────────────────────────────────
+
+/** Is the Browse tab showing its discovery landing? True only when
+ *  nothing narrows the catalog: no query, genre, country, mode,
+ *  curated-only, map, or Browse-all. */
+/** True when any filter narrows the catalog (genres / countries / news /
+ *  quality). Drives the local-catalog match path + the funnel dot. */
+function hasActiveFilter(): boolean {
+  return (
+    filterGenres.size > 0 || filterCountries.size > 0 || filterNews || activeQuality.size > 0
+  );
+}
+
+function inDiscovery(): boolean {
+  return (
+    activeTab === 'browse' &&
+    !$search.value.trim() &&
+    !hasActiveFilter() &&
+    !browseAll
+  );
+}
+
+/** Per-genre / per-country counts over the curated catalog, memoised
+ *  until the catalog size changes. */
+function getDiscoveryCounts(): DiscoveryCounts {
+  // Before the full catalog lands, paint the chips from the precomputed
+  // discovery summary (a few KB) so the landing is instant; once
+  // BUILTIN_STATIONS has hydrated, compute from it (identical counts) and
+  // memoise against its size.
+  if (BUILTIN_STATIONS.length === 0) {
+    const summary = getDiscoverySummary();
+    if (summary) return summary.counts;
+  }
+  if (!discoveryCountsCache || discoveryCountsForLen !== BUILTIN_STATIONS.length) {
+    discoveryCountsCache = discoveryCounts(BUILTIN_STATIONS);
+    discoveryCountsForLen = BUILTIN_STATIONS.length;
+  }
+  return discoveryCountsCache;
+}
+
+function stationById(id: string): Station | undefined {
+  return BUILTIN_STATIONS.find((s) => s.id === id);
+}
+
+/** Apply the local quality filter, then ordering. Quality always
+ *  applies; ordering is skipped while a text query is active (relevance
+ *  wins). Otherwise the alphabet sort wins, else featured-first for the
+ *  un-queried catalog. */
+function refine(
+  list: Station[],
+  opts: { textQuery: string; featuredFirst: boolean },
+): Station[] {
+  let out = list;
+  if (activeQuality.size > 0) {
+    out = out.filter((s) => activeQuality.has(stationQualityBucket(s)));
+  }
+  if (!opts.textQuery) {
+    if (activeSort) out = sortStations(out, activeSort);
+    else if (opts.featuredFirst) out = orderFeaturedFirst(out);
+  }
+  return out;
+}
+
+/** Does a station pass the active filter? Mirrors iOS
+ *  `CatalogStationSearch.matchesBrowseFilters`: countries OR within the
+ *  set, genres OR within the set, news + quality as extra ANDed gates.
+ *  An empty category doesn't constrain. */
+function matchesBrowseFilter(
+  s: Station,
+  genres: Set<string>,
+  countries: Set<string>,
+  news: boolean,
+  quality: Set<QualityBucket>,
+): boolean {
+  if (countries.size > 0) {
+    const code = (s.country ?? '').toUpperCase();
+    if (!code || !countries.has(code)) return false;
+  }
+  if (genres.size > 0) {
+    let ok = false;
+    for (const id of genres) {
+      const g = findGenre(id);
+      if (g && stationMatchesGenre(s, g)) {
+        ok = true;
+        break;
+      }
+    }
+    if (!ok) return false;
+  }
+  if (news) {
+    const ng = findGenre('news');
+    if (!ng || !stationMatchesGenre(s, ng)) return false;
+  }
+  if (quality.size > 0 && !quality.has(stationQualityBucket(s))) return false;
+  return true;
+}
+
+/** Count of catalog stations the given filter selection matches — the
+ *  live "Show N stations" figure on the filter sheet. */
+function filterMatchCount(
+  genres: Set<string>,
+  countries: Set<string>,
+  news: boolean,
+  quality: Set<QualityBucket>,
+): number {
+  // An empty selection constrains nothing, so it matches the whole
+  // catalog — mirrors iOS, where the accept button shows the full count
+  // ("Show 17k stations") rather than zero on an untouched draft.
+  let n = 0;
+  for (const s of BUILTIN_STATIONS) {
+    if (matchesBrowseFilter(s, genres, countries, news, quality)) n += 1;
+  }
+  return n;
+}
+
+/** Short human label for the active filter, used as the result section
+ *  header (e.g. "Rock · News · Germany"). Falls back to "Results". */
+function filterSummaryLabel(): string {
+  const parts: string[] = [];
+  for (const id of filterGenres) {
+    const g = findGenre(id);
+    if (g) parts.push(g.label);
+  }
+  if (filterNews) parts.push('News');
+  for (const code of filterCountries) parts.push(countryName(code));
+  return parts.length > 0 ? parts.join(' · ') : 'Results';
+}
+
+// ─── Discovery render ───
+
+function discoverySection(title: string): HTMLDivElement {
+  const h = document.createElement('div');
+  h.className = 'disc-section-label';
+  h.textContent = title;
+  return h;
+}
+
+function discoveryChip(
+  label: string,
+  count: number,
+  onPick: () => void,
+  flag?: string,
+): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'disc-chip';
+  // Country chips lead with a flag glyph (iOS DiscoveryChip parity); genre
+  // chips pass none. Decorative — the country name carries the label, so
+  // the flag is aria-hidden and the aria-label stays "{name}, N stations".
+  if (flag) {
+    const f = document.createElement('span');
+    f.className = 'disc-chip__flag';
+    f.textContent = flag;
+    f.setAttribute('aria-hidden', 'true');
+    btn.append(f);
+  }
+  const name = document.createElement('span');
+  name.className = 'disc-chip__name';
+  name.textContent = label;
+  const c = document.createElement('span');
+  c.className = 'disc-chip__count';
+  c.textContent = abbreviateCount(count);
+  btn.append(name, c);
+  btn.setAttribute('aria-label', `${label}, ${count} stations`);
+  btn.addEventListener('click', onPick);
+  return btn;
+}
+
+function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'feat-card';
+  card.dataset.id = item.station.id;
+  // Per-highlight editorial accent. Mirrors the current iOS HighlightCard,
+  // where the accent survives only as a soft tint on the badge dot (no left
+  // stripe, no play button); falls back to the app accent.
+  if (item.badge?.accent) card.style.setProperty('--feat-accent', item.badge.accent);
+  const art = buildFavicon(item.station, 72);
+  art.classList.add('feat-card__art');
+  const body = document.createElement('div');
+  body.className = 'feat-card__body';
+  if (item.badge?.label) {
+    const badge = document.createElement('div');
+    badge.className = 'feat-card__badge';
+    badge.textContent = item.badge.label;
+    body.append(badge);
+  }
+  const name = document.createElement('div');
+  name.className = 'feat-card__name';
+  name.textContent = item.station.name;
+  body.append(name);
+  if (item.blurb) {
+    const blurb = document.createElement('div');
+    blurb.className = 'feat-card__blurb';
+    blurb.textContent = item.blurb;
+    body.append(blurb);
+  }
+  // The whole card is the play affordance (tapping anywhere plays), matching
+  // iOS — no separate play button.
+  card.append(art, body);
+  card.addEventListener('click', () => onRowPlay(item.station));
+  return card;
+}
+
+/** Let a horizontal scroller respond to a vertical mouse wheel, so
+ *  desktop/mouse users can scroll the featured rail without a trackpad
+ *  swipe. No-op when the gesture is already horizontal or the rail is at
+ *  an edge — there the event bubbles so the page keeps scrolling. */
+function enableWheelScroll(el: HTMLElement): void {
+  el.addEventListener(
+    'wheel',
+    (e) => {
+      if (e.deltaY === 0 || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 0) return;
+      if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max)) return;
+      el.scrollLeft = Math.max(0, Math.min(max, el.scrollLeft + e.deltaY));
+      e.preventDefault();
+    },
+    { passive: false },
+  );
+}
+
+function renderDiscovery(): void {
+  const featured = resolveHighlights(
+    highlightsRaw,
+    stationById,
+    todayISO(),
+    DISCOVERY_HIGHLIGHT_LIMIT,
+  );
+
+  // Section order mirrors the iOS BrowseDiscoveryView: genre chips,
+  // country chips, the "Browse all" header + logo rail, then the
+  // Featured carousel at the bottom. Each chip row is a single
+  // horizontally-scrolling line (not a wrapping grid) to match iOS.
+  const counts = getDiscoveryCounts();
+  const gChips = genreChips(counts);
+  if (gChips.length > 0) {
+    $content.append(discoverySection('Browse by genre'));
+    const row = document.createElement('div');
+    row.className = 'disc-chips';
+    for (const c of gChips) row.append(discoveryChip(c.label, c.count, () => selectGenreChip(c.id)));
+    enableWheelScroll(row);
+    $content.append(row);
+  }
+  const cChips = countryChips(counts, countryName);
+  if (cChips.length > 0) {
+    $content.append(discoverySection('Browse by country'));
+    const row = document.createElement('div');
+    row.className = 'disc-chips';
+    for (const c of cChips)
+      row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id), flagEmoji(c.id)));
+    enableWheelScroll(row);
+    $content.append(row);
+  }
+
+  $content.append(browseAllSection(featured));
+
+  if (featured.length > 0) {
+    $content.append(discoverySection('Featured'));
+    const rail = document.createElement('div');
+    rail.className = 'feat-rail';
+    for (const f of featured) rail.append(featuredCard(f));
+    enableWheelScroll(rail);
+    $content.append(rail);
+  }
+}
+
+/** "Browse all" — a full-width tappable header row plus a horizontal
+ *  logo rail (iOS BrowseDiscoveryView.browseAllSection). Tapping the
+ *  header or any logo drops into the full catalog list. The rail shows
+ *  up to DISCOVERY_BROWSE_ALL_LOGO_LIMIT featured-first stations that
+ *  carry real artwork. */
+function browseAllSection(featured: ResolvedHighlight[]): DocumentFragment {
+  const frag = document.createDocumentFragment();
+
+  const header = document.createElement('button');
+  header.type = 'button';
+  header.className = 'disc-browse-all';
+  header.setAttribute('aria-label', 'Browse all stations');
+  const lbl = document.createElement('span');
+  lbl.className = 'disc-browse-all__label';
+  lbl.textContent = 'Browse all stations';
+  const cnt = document.createElement('span');
+  cnt.className = 'disc-browse-all__count';
+  // Falls back to the summary's total until the full catalog hydrates.
+  cnt.textContent = abbreviateCount(BUILTIN_STATIONS.length || getDiscoverySummary()?.total || 0);
+  header.append(lbl, cnt);
+  header.addEventListener('click', enterBrowseAll);
+  frag.append(header);
+
+  // Prefer the featured stations (recognisable artwork) up front, then
+  // fill from the featured-first catalog ordering. Dedupe by id and keep
+  // only stations that carry a favicon.
+  const seen = new Set<string>();
+  const pool: Station[] = [];
+  for (const f of featured) {
+    if (f.station.favicon && !seen.has(f.station.id)) {
+      seen.add(f.station.id);
+      pool.push(f.station);
+    }
+  }
+  for (const s of orderFeaturedFirst(BUILTIN_STATIONS)) {
+    if (pool.length >= DISCOVERY_BROWSE_ALL_LOGO_LIMIT) break;
+    if (s.favicon && !seen.has(s.id)) {
+      seen.add(s.id);
+      pool.push(s);
+    }
+  }
+
+  if (pool.length > 0) {
+    const rail = document.createElement('div');
+    rail.className = 'disc-browse-all-rail';
+    rail.setAttribute('aria-hidden', 'true');
+    for (const s of pool.slice(0, DISCOVERY_BROWSE_ALL_LOGO_LIMIT)) {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.tabIndex = -1;
+      item.className = 'disc-browse-all-logo';
+      const fav = buildFavicon(s, 38);
+      // The rail can carry ~100 logos; defer off-screen fetches.
+      const img = fav.querySelector('img');
+      if (img) {
+        img.loading = 'lazy';
+        img.decoding = 'async';
+      }
+      item.append(fav);
+      item.addEventListener('click', enterBrowseAll);
+      rail.append(item);
+    }
+    enableWheelScroll(rail);
+    frag.append(rail);
+  }
+  return frag;
+}
+
+/** Tapping a discovery genre chip is a one-tap shortcut for the Genre
+ *  filter: it replaces the selection with just this genre (mirrors iOS,
+ *  where the chip pre-selects that section). */
+function selectGenreChip(id: string): void {
+  filterGenres.clear();
+  filterGenres.add(id);
+  filterCountries.clear();
+  filterNews = false;
+  browseAll = false;
+  syncFilterDot();
+  track(`discovery/genre/${id}`);
+  void runQuery();
+}
+
+function selectCountryChip(code: string): void {
+  filterCountries.clear();
+  filterCountries.add(code.toUpperCase());
+  filterGenres.clear();
+  filterNews = false;
+  browseAll = false;
+  syncFilterDot();
+  track(`discovery/country/${code}`);
+  void runQuery();
+}
+
+function enterBrowseAll(): void {
+  browseAll = true;
+  track('discovery/browse-all');
+  void runQuery();
+}
+
+/** Clear every Browse narrowing and return to the discovery landing. */
+function resetToDiscovery(): void {
+  clearSearch(false);
+  filterGenres.clear();
+  filterCountries.clear();
+  filterNews = false;
+  activeQuality.clear();
+  browseAll = false;
+  activeSort = null;
+  syncFilterDot();
+  void runQuery();
+}
+
+/** Results header row above the list (mirrors iOS BrowseSortRow): a
+ *  back-to-discovery chevron, the alphabet sort toggle (off → A–Z → Z–A),
+ *  and the match count centered. Sort is suppressed while a text query is
+ *  active (relevance order wins). When `label` is given (the active filter
+ *  summary, e.g. a country) it prefixes the count so this single row carries
+ *  the context — no separate section label is needed below it. */
+function resultsRow(count: number, label?: string): HTMLElement {
+  const row = document.createElement('div');
+  row.className = 'results-row';
+
+  const back = document.createElement('button');
+  back.type = 'button';
+  back.className = 'results-row__back';
+  back.setAttribute('aria-label', 'Back to Browse');
+  back.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
+  back.addEventListener('click', resetToDiscovery);
+
+  const queryActive = $search.value.trim().length > 0;
+  const sort = document.createElement('button');
+  sort.type = 'button';
+  sort.className = 'results-row__sort';
+  sort.classList.toggle('is-active', activeSort !== null && !queryActive);
+  sort.disabled = queryActive;
+  sort.dataset.sort = activeSort ?? 'off';
+  sort.setAttribute(
+    'aria-label',
+    activeSort === 'az' ? 'Sort Z to A' : activeSort === 'za' ? 'Clear sort' : 'Sort A to Z',
+  );
+  sort.innerHTML =
+    activeSort === 'az'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 11 6 6 6-6"/></svg>'
+      : activeSort === 'za'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18"/><path d="m4 7 4-4 4 4"/><path d="M16 21V3"/><path d="m12 17 4 4 4-4"/></svg>';
+  sort.addEventListener('click', () => {
+    if (sort.disabled) return;
+    activeSort = cycleSort(activeSort);
+    track(`sort/${activeSort ?? 'off'}`);
+    void runQuery();
+  });
+
+  const countEl = document.createElement('span');
+  countEl.className = 'results-row__count';
+  countEl.textContent = label ? `${label} · ${count}` : String(count);
+
+  row.append(back, sort, countEl);
+  return row;
+}
+
 function renderContent(): void {
   $content.replaceChildren();
-
-  // Platform-interest poll banner — shown at the top of the browse
-  // view until the user votes. buildPollBanner() returns null once a
-  // vote is recorded so the banner stops appearing on subsequent
-  // renders. Only on the browse tab — Library views are intent-driven
-  // and shouldn't carry a top-of-list interrupt.
-  if (activeTab === 'browse') {
-    $content.append(
-      buildPollBanner({ onSeeResults: () => void openDashboardSheet(true) }),
-    );
-  }
+  // The /ios promo banner shows only on the Browse discovery landing; resync
+  // it here so Browse-all, search, filters, and back-to-discovery (none of
+  // which fire setTab) flip it correctly.
+  syncPromo();
+  // Recomputed below per view; a full re-render invalidates the prior loader.
+  pendingLoadMore = null;
+  // Stop the cover poll by default; the library feeds (Favorites / Lists /
+  // Recents) re-arm it with their visible rows via armFavCovers() below.
+  favCovers.stop();
 
   // View-signature reset for the local-catalog cap. Same view across
   // calls = persist the user's "Show more" clicks; new view = reset.
-  const sig = `${activeTab}|${browseMode}|${curatedOnly}|${activeTag}|${activeCountry}|${$search.value.trim()}`;
+  const sig = `${activeTab}|${[...filterGenres].sort().join('+')}|${[...filterCountries].sort().join('+')}|${filterNews}|${$search.value.trim()}|${browseAll}|${activeSort}|${[...activeQuality].sort().join(',')}`;
   if (sig !== lastViewSig) {
     homeViewLimit = HOME_VIEW_PAGE_SIZE;
+    autoFillTries = 0;
     lastViewSig = sig;
   }
 
   if (activeTab === 'browse') {
     const query = $search.value.trim();
-    const activeGenre = findGenre(activeTag);
-    const countryFilter = activeCountry === 'all' ? undefined : activeCountry.toUpperCase();
-    const noFilter = !query && !activeGenre && !countryFilter;
-    // News mode is a special case that pretends the "news" chip is
-    // active even when the dropdown says "all". Resolve it through the
-    // taxonomy so synonyms (noticias / local news) fold in.
-    const newsGenre = browseMode === 'news' ? findGenre('news') : undefined;
-    const effectiveGenre = newsGenre ?? activeGenre;
-    // Map view only renders inside the home view (no genre/country/search);
-    // disable the toggle visually when it'd be a no-op.
-    $mapToggle.disabled = !noFilter;
+    const filtered = hasActiveFilter();
+    syncFilterDot();
 
-    // Unfiltered home view. The list is sourced based on browseMode.
-    if (noFilter) {
-      // Source set per mode:
-      //   played   → playedStations() — local, no RB
-      //   news     → lastBrowseStations (RB top news, fetched in runQuery)
-      //   null     → lastBrowseStations (RB top 50, fetched in runQuery)
-      let stations: Station[];
-      let restLabel: string;
-      if (curatedOnly) {
-        // RB is off-limits — source locally and let News (and any
-        // future tag-mode toggles) act as a sub-filter on the catalog.
-        stations = playedStations();
-        if (browseMode === 'news') {
-          stations = stations.filter((s) =>
-            (s.tags ?? []).some((t) => /news|talk/i.test(t)),
-          );
-          restLabel = 'News';
-        } else {
-          restLabel = 'Most played';
-        }
-      } else if (browseMode === 'played') {
-        stations = playedStations();
-        restLabel = 'Most played';
-      } else if (browseMode === 'news') {
-        stations = lastBrowseStations;
-        restLabel = 'News';
-      } else {
-        stations = lastBrowseStations;
-        restLabel = 'Top stations';
-      }
-
-      if (mapView) {
-        $content.append(renderGlobe(stations));
-      } else if (stations.length > 0) {
-        $content.append(sectionLabel(restLabel, stations.length));
-        // Cap the initial render — bigger catalogs (2k+ rows) made
-        // tab-switch DOM build cost ~1s. "Show more" reveals the
-        // next page in place.
-        const visibleHome = stations.slice(0, homeViewLimit);
-        $content.append(renderRows(visibleHome));
-        const remainingHome = stations.length - visibleHome.length;
-        if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
-        // Pagination — RB-sourced modes (null/news) paginate the
-        // primary list; played mode appends a separate "Worldwide"
-        // section on demand below the curated catalog.
-        if ((browseMode === null || browseMode === 'news') && browseHasMore) {
-          $content.append(loadMoreButton());
-        }
-        // Worldwide expansion only when we're not constrained to the
-        // curated catalog (curatedOnly hides the section + button).
-        if (browseMode === 'played' && !curatedOnly) {
-          if (homeRbStations.length > 0) {
-            $content.append(sectionLabel('Worldwide', homeRbStations.length));
-            $content.append(renderRows(homeRbStations));
-          }
-          if (homeRbHasMore) $content.append(loadMoreHomeButton());
-        }
-      }
-
-      const counter = siteCounter();
-      if (counter) $content.append(counter);
+    // Discovery landing is the default unfiltered Browse view; anything
+    // that narrows the catalog (a filter, Browse-all, or a search) drops
+    // into a result list with the results row (back + sort + count).
+    const onDiscovery = inDiscovery();
+    if (onDiscovery) {
+      renderDiscovery();
       return;
     }
 
-    // Filtered view (search / genre / country): built-ins + custom
-    // matches first ("My stations"), then Radio Browser long-tail.
-    const tagMatch = (s: Station): boolean =>
-      !effectiveGenre || stationMatchesGenre(s, effectiveGenre);
-    const countryMatch = (s: Station): boolean =>
-      !countryFilter || (s.country ?? '').toUpperCase() === countryFilter;
-    const mySource = [...BUILTIN_STATIONS, ...getCustom()];
-    const myFiltered = filterStations(mySource, query).filter(tagMatch).filter(countryMatch);
+    // ── Local-catalog filter (genre / country / news / quality) ──
+    // Matched directly against the catalog — no Radio Browser — so this
+    // count equals the sheet's "Show N stations" (iOS parity).
+    if (filtered && !query) {
+      const matched = BUILTIN_STATIONS.filter((s) =>
+        matchesBrowseFilter(s, filterGenres, filterCountries, filterNews, activeQuality),
+      );
+      const ordered = activeSort
+        ? sortStations(matched, activeSort)
+        : orderFeaturedFirst(matched);
+      $content.append(resultsRow(ordered.length, filterSummaryLabel()));
+      if (ordered.length === 0) {
+        $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try removing a filter'));
+        return;
+      }
+      const visible = ordered.slice(0, homeViewLimit);
+      $content.append(rowsGrid(visible));
+      const remaining = ordered.length - visible.length;
+      if (remaining > 0) {
+        $content.append(homeShowMoreButton(remaining));
+        pendingLoadMore = (): void => {
+          homeViewLimit += HOME_VIEW_PAGE_SIZE;
+          renderContent();
+        };
+      }
+      return;
+    }
 
-    if (myFiltered.length > 0) {
-      $content.append(sectionLabel('My stations', myFiltered.length));
-      const visibleMy = myFiltered.slice(0, homeViewLimit);
-      $content.append(renderRows(visibleMy));
-      const remainingMy = myFiltered.length - visibleMy.length;
-      if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
+    // ── Text search (Radio-Browser-backed) ──
+    // Built-ins + custom matches first ("My stations"), then the RB
+    // long-tail ("Results"). Sort is suppressed (relevance wins).
+    if (query) {
+      const mySource = [...BUILTIN_STATIONS, ...getCustom()];
+      const myFiltered = refine(filterStations(mySource, query), {
+        textQuery: query,
+        featuredFirst: true,
+      });
+      const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
+      $content.append(resultsRow(myFiltered.length + results.length));
+      if (myFiltered.length > 0) {
+        $content.append(sectionLabel('My stations', myFiltered.length));
+        const visibleMy = myFiltered.slice(0, homeViewLimit);
+        $content.append(rowsGrid(visibleMy));
+        const remainingMy = myFiltered.length - visibleMy.length;
+        if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
+      }
+      if (results.length > 0) {
+        $content.append(sectionLabel('Results', results.length));
+        $content.append(rowsGrid(results));
+        if (browseHasMore) {
+          $content.append(loadMoreButton());
+          pendingLoadMore = (): void => void loadMore();
+        }
+      } else if (myFiltered.length === 0) {
+        $content.append(
+          emptyState(ICON_EMPTY, 'No stations match', 'Try a different search'),
+        );
+      }
+      maybeAutoFill();
+      return;
     }
-    if (lastBrowseStations.length > 0) {
-      const label = query ? 'Results' : effectiveGenre?.label ?? 'Results';
-      $content.append(sectionLabel(label, lastBrowseStations.length));
-      $content.append(renderRows(lastBrowseStations));
+
+    // ── Browse all (unfiltered, no query) — RB top + Worldwide ──
+    const refined = refine(lastBrowseStations, { textQuery: '', featuredFirst: true });
+    const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
+    $content.append(resultsRow(refined.length, 'Top stations'));
+    if (refined.length > 0) {
+      const visibleHome = refined.slice(0, homeViewLimit);
+      $content.append(rowsGrid(visibleHome));
+      const remainingHome = refined.length - visibleHome.length;
+      if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
       if (browseHasMore) $content.append(loadMoreButton());
-    } else if (myFiltered.length === 0) {
-      $content.append(emptyState(ICON_EMPTY, 'No stations match', 'Try a different search or genre'));
+      if (remainingHome > 0) {
+        pendingLoadMore = (): void => {
+          homeViewLimit += HOME_VIEW_PAGE_SIZE;
+          renderContent();
+        };
+      } else if (browseHasMore) {
+        pendingLoadMore = (): void => void loadMore();
+      }
     }
-    const counter = siteCounter();
-    if (counter) $content.append(counter);
+    if (worldwide.length > 0) {
+      $content.append(sectionLabel('Worldwide', worldwide.length));
+      $content.append(rowsGrid(worldwide));
+    }
+    if (homeRbHasMore) $content.append(loadMoreHomeButton());
+    maybeAutoFill();
     return;
   }
 
   const query = $search.value.trim();
 
+  if (activeTab === 'library') {
+    renderLibraryHome(query);
+    return;
+  }
+
   if (activeTab === 'fav') {
     const all = getFavorites();
     const list = filterStations(all, query);
     const label = query ? 'Results' : 'Favorites';
-    // Backup actions (export + import icons) appear only on the
-    // unfiltered Favorites view — they operate on the full stored list,
-    // not the search-filtered subset.
-    const actions = !query ? favoriteHeaderActions(all.length) : undefined;
-    $content.append(sectionLabel(label, list.length, actions));
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    // Header chrome only on the unfiltered list (it acts on the full stored
+    // set, not a search subset). Both breakpoints mirror the iOS
+    // LibraryPageStatusBar +/trash actions; mobile adds the search-icon
+    // accessory (left), while desktop keeps search in the top bar (and
+    // backup/restore in Settings).
+    if (query) {
+      $content.append(sectionLabel(label, list.length));
+    } else if (wide) {
+      $content.append(sectionLabel(label, list.length, favoriteHeaderActions()));
+    } else {
+      $content.append(
+        sectionLabel(label, list.length, favoriteHeaderActions(), headerSearchLead('Search favorites')),
+      );
+    }
     if (all.length === 0) {
+      favEditing = false;
       $content.append(
         emptyState(ICON_FAV, 'No favorites yet', 'Tap the heart on any station to save it here'),
       );
@@ -1685,10 +2346,25 @@ function renderContent(): void {
         emptyState(ICON_EMPTY, 'No matches', 'Nothing in your favorites matches that search'),
       );
     } else {
-      $content.append(renderRows(list));
-      // Reorder is only meaningful on the unfiltered list — a search
-      // result's row order doesn't map back to the persisted order.
-      if (!query) enableFavoriteReorder($content);
+      // Desktop lays favorites out as a card grid (iOS landscape tile view);
+      // mobile keeps the single-column list. rowsGrid wraps in `.rows`, which
+      // is a plain vertical stack on mobile and a card grid at ≥1024px.
+      const grid = rowsGrid(list, { cover: true });
+      $content.append(grid);
+      armFavCovers(list);
+      // Unfiltered list: edit mode reveals a per-row remove affordance (iOS
+      // delete mode) on both layouts. Otherwise the cards are reorderable —
+      // grip drag on the mobile column, native drag-and-drop on the desktop
+      // grid (enableReorder picks per layout).
+      if (!query) {
+        if (favEditing) decorateFavoriteRemoval(grid, list);
+        else
+          enableReorder(grid, {
+            itemSelector: ':scope > .row',
+            idOf: (el) => el.dataset.id ?? '',
+            onCommit: reorderFavorites,
+          });
+      }
     }
     return;
   }
@@ -1697,7 +2373,18 @@ function renderContent(): void {
     const all = getRecents();
     const list = filterStations(all, query);
     const label = query ? 'Results' : 'Recently played';
-    $content.append(sectionLabel(label, list.length));
+    // Recents is a Library sub-view — offer a back affordance to the home.
+    const back = listActionBtn(ICON_BACK, 'Back to library', () => setTab('library'));
+    back.classList.add('section-label__back');
+    // Mobile gets the [back · search] lead (the brand-row field is hidden on
+    // the Library tab); desktop keeps the back-prepended header.
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    const recLabel = wide
+      ? sectionLabel(label, list.length)
+      : sectionLabel(label, list.length, undefined, [back, headerSearchLead('Search recently played')]);
+    recLabel.classList.add('section-label--list-detail');
+    if (wide) recLabel.prepend(back);
+    $content.append(recLabel);
     if (all.length === 0) {
       $content.append(
         emptyState(ICON_RECENT, 'No history yet', 'Stations you play will show up here'),
@@ -1707,9 +2394,789 @@ function renderContent(): void {
         emptyState(ICON_EMPTY, 'No matches', 'Nothing in your history matches that search'),
       );
     } else {
-      $content.append(renderRows(list));
+      // Recents matches the Favorites layout: iOS-style cards on desktop
+      // (single-column stack on mobile) with now-playing cover + track.
+      $content.append(rowsGrid(list, { cover: true }));
+      armFavCovers(list);
     }
   }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Render — Lists (named station lists, gh #520)
+// ─────────────────────────────────────────────────────────────
+
+/** Small icon button for a section-label action slot (new/rename/delete). */
+function listActionBtn(icon: string, label: string, onClick: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'section-label__action';
+  btn.setAttribute('aria-label', label);
+  btn.title = label;
+  btn.innerHTML = icon;
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return btn;
+}
+
+/** Clear the transient list-management UI flags. Called on navigation so
+ *  a half-typed create/rename or an open delete-confirm never lingers. */
+function resetListUiState(): void {
+  listCreateOpen = false;
+  listRenameOpen = false;
+  listDeleteConfirmId = null;
+}
+
+/** Inline "name your list" form (input + confirm + cancel) — the in-app
+ *  replacement for window.prompt, used for both create and rename. Enter
+ *  submits, Esc cancels (stopping propagation so it doesn't also close an
+ *  enclosing sheet); a blank name is ignored. */
+function buildListNameForm(opts: {
+  initial?: string;
+  placeholder: string;
+  submitLabel: string;
+  onSubmit: (name: string) => void;
+  onCancel: () => void;
+}): HTMLFormElement {
+  const form = document.createElement('form');
+  form.className = 'list-name-form';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'list-name-form__input';
+  input.placeholder = opts.placeholder;
+  input.value = opts.initial ?? '';
+  input.autocomplete = 'off';
+  input.maxLength = 60;
+  input.setAttribute('aria-label', opts.placeholder);
+  const save = document.createElement('button');
+  save.type = 'submit';
+  save.className = 'list-name-form__save';
+  save.textContent = opts.submitLabel;
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'list-name-form__cancel';
+  cancel.textContent = 'Cancel';
+  form.append(input, save, cancel);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = input.value.trim();
+    if (!name) {
+      input.focus();
+      return;
+    }
+    opts.onSubmit(name);
+  });
+  cancel.addEventListener('click', (e) => {
+    e.preventDefault();
+    opts.onCancel();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      opts.onCancel();
+    }
+  });
+  return form;
+}
+
+/** Inline two-step delete confirm ("Delete list? Cancel / Delete") — the
+ *  in-app replacement for window.confirm. Used in the lists index row and
+ *  the detail header. Button clicks stop propagation so a surrounding
+ *  clickable row doesn't also fire. */
+function buildDeleteConfirm(onConfirm: () => void, onCancel: () => void): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'list-confirm';
+  const q = document.createElement('span');
+  q.className = 'list-confirm__q';
+  q.textContent = 'Delete list?';
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'list-confirm__cancel';
+  cancel.textContent = 'Cancel';
+  cancel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onCancel();
+  });
+  const del = document.createElement('button');
+  del.type = 'button';
+  del.className = 'list-confirm__delete';
+  del.textContent = 'Delete';
+  del.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onConfirm();
+  });
+  wrap.append(q, cancel, del);
+  return wrap;
+}
+
+/** The Library home: the user's lists + a pinned Recents entry (matching
+ *  iOS, whose Library home renders lists + Recents and excludes Favorites,
+ *  which is its own tab). A specific list open → its detail view. */
+function renderLibraryHome(query: string): void {
+  // Detail view — a specific list is open.
+  if (openListId) {
+    const list = getList(openListId);
+    if (list) {
+      renderListDetail(list, query);
+      return;
+    }
+    // The open list was deleted out from under us — fall back to the home.
+    openListId = null;
+  }
+  renderLibraryIndex(query);
+}
+
+function renderLibraryIndex(query: string): void {
+  const all = getLists();
+  const q = query.toLowerCase();
+  const lists = q ? all.filter((l) => l.name.toLowerCase().includes(q)) : all;
+  // No lists left to manage → drop out of edit mode.
+  if (all.length === 0) libEditing = false;
+  // New list → the two-step add-list popup (iOS parity): name it (step 1),
+  // then pick stations on Browse (step 2). The list is created on save.
+  const newBtn = listActionBtn(ICON_PLUS, 'New list', () =>
+    openAddList({ mode: 'pickStations' }),
+  );
+  // Trash toggles a per-row delete affordance (iOS edit mode), mirroring the
+  // Favorites header — the delete control lives at the top, not on every
+  // card. Only shown once there's a list to remove.
+  const actions: HTMLElement[] = [newBtn];
+  if (all.length > 0) {
+    const editBtn = listActionBtn(
+      ICON_TRASH,
+      libEditing ? 'Done editing lists' : 'Edit lists',
+      toggleLibEditing,
+    );
+    if (libEditing) editBtn.classList.add('is-active');
+    actions.push(editBtn);
+  }
+  // Mobile mirrors the iOS LibraryPageStatusBar: search icon (left) ·
+  // "Library" · + new-list (right). Desktop keeps the existing header (its
+  // brand-row search field stays, so no header search icon).
+  const wide = matchMedia('(min-width: 1024px)').matches;
+  const lead = wide ? undefined : headerSearchLead('Search lists');
+  $content.append(sectionLabel('Library', lists.length, actions, lead));
+
+  // A search query scopes to list names; if none match, say so (the
+  // Recents entry is hidden while filtering).
+  if (q && lists.length === 0) {
+    $content.append(emptyState(ICON_EMPTY, 'No matches', 'No list name matches that search'));
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'lists-index';
+  for (const l of lists) wrap.append(buildListIndexRow(l));
+  // Recents is a system entry pinned at the tail of the Library home
+  // (matching iOS); shown only on the unfiltered home.
+  if (!q) wrap.append(buildRecentsRow());
+  $content.append(wrap);
+  // Settle each favicon strip now that the rows have a measured width,
+  // and keep them in sync as the column width changes.
+  bindStripResize();
+  wrap.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+  // Reorder the user's lists — the pinned Recents row (.list-item--system) is
+  // excluded, so it stays at the tail. Only on the unfiltered home with no
+  // create / delete-confirm row in the way. Grip drag on mobile, DnD on
+  // desktop; a leading grip keeps clear of the trailing trash/chevron.
+  if (!q && !listCreateOpen && listDeleteConfirmId === null) {
+    enableReorder(wrap, {
+      itemSelector: ':scope > .list-item--lib:not(.list-item--system)',
+      idOf: (el) => el.dataset.listId ?? '',
+      onCommit: reorderLists,
+    });
+  }
+}
+
+// Favicon-strip sizing for the Library-home rows — mirrors iOS, whose
+// cards show a row of station favicons under the title. 36px icons, 6px
+// gaps; the trailing "+N more" badge gets ~72px reserved. The visible
+// count is recomputed from the row's measured width, so a narrow phone
+// column sheds icons into "+N more" — but never shows more than the cap.
+const STRIP_ICON = 36;
+const STRIP_GAP = 6;
+const STRIP_MORE_RESERVE = 72;
+// iOS parity (StationListIconStrip.maxIcons): show at most 5 favicons, then
+// collapse the rest into "+N more". This is a hard cap on every width — even
+// a wide card stops at 5. It doubles as the DOM-build cap (no point building
+// icons fitStrip will never reveal).
+const MAX_STRIP_ICONS = 5;
+
+/** Build the horizontal favicon strip shown under a Library-home row's
+ *  title. Empty lists show a faint hint instead. The visible-icon count
+ *  is settled later by fitStrip, once the row has a measured width. */
+function buildIconStrip(stations: Station[], emptyHint: string): HTMLElement {
+  const strip = document.createElement('div');
+  strip.className = 'list-item__strip';
+  if (stations.length === 0) {
+    const hint = document.createElement('div');
+    hint.className = 'list-item__empty';
+    hint.textContent = emptyHint;
+    strip.append(hint);
+    return strip;
+  }
+  strip.dataset.total = String(stations.length);
+  for (const st of stations.slice(0, MAX_STRIP_ICONS)) {
+    const ico = buildFavicon(st, STRIP_ICON);
+    ico.classList.add('strip-ico');
+    strip.append(ico);
+  }
+  return strip;
+}
+
+/** Settle how many favicons a strip shows from its measured width: show
+ *  every station when they all fit (and were all built), otherwise fill
+ *  the row and collapse the rest into a trailing "+N more" badge. Reading
+ *  clientWidth forces layout, so callers run this synchronously right
+ *  after the row lands in the DOM. */
+function fitStrip(strip: HTMLElement): void {
+  const total = Number(strip.dataset.total ?? '0');
+  if (!total) return;
+  const avail = strip.clientWidth;
+  if (!avail) return;
+  const icons = Array.from(strip.querySelectorAll<HTMLElement>('.strip-ico'));
+  const built = icons.length;
+  const per = STRIP_ICON + STRIP_GAP;
+  const fitPlain = Math.floor((avail + STRIP_GAP) / per);
+
+  let show: number;
+  let more: number;
+  // iOS caps at MAX_STRIP_ICONS on every width, so the "show them all" path
+  // only applies to lists at or under the cap (built is already capped too).
+  if (built >= total && fitPlain >= total && total <= MAX_STRIP_ICONS) {
+    show = total;
+    more = 0;
+  } else {
+    const fitBadged = Math.max(1, Math.floor((avail - STRIP_MORE_RESERVE + STRIP_GAP) / per));
+    show = Math.min(built, fitBadged, MAX_STRIP_ICONS);
+    more = total - show;
+  }
+
+  icons.forEach((el, i) => {
+    el.style.display = i < show ? '' : 'none';
+  });
+  strip.querySelector('.list-item__more')?.remove();
+  if (more > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'list-item__more';
+    badge.textContent = `+${more} more`;
+    strip.append(badge);
+  }
+}
+
+// Re-fit every visible Library-home strip when the viewport changes
+// width. Bound once, lazily, the first time the index renders.
+let stripResizeBound = false;
+function bindStripResize(): void {
+  if (stripResizeBound) return;
+  stripResizeBound = true;
+  let pending = 0;
+  window.addEventListener('resize', () => {
+    if (pending) return;
+    pending = requestAnimationFrame(() => {
+      pending = 0;
+      document.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+    });
+  });
+}
+
+/** The pinned Recents entry on the Library home — a non-removable system
+ *  row that opens the Recents sub-view. */
+function buildRecentsRow(): HTMLElement {
+  const recents = getRecents();
+  const row = document.createElement('div');
+  row.className = 'list-item list-item--lib list-item--system';
+  row.setAttribute('role', 'button');
+  row.tabIndex = 0;
+
+  const info = document.createElement('div');
+  info.className = 'list-item__info';
+  const name = document.createElement('div');
+  name.className = 'list-item__name';
+  name.textContent = 'Recents';
+  info.append(name, buildIconStrip(recents, 'Stations appear here after you play them.'));
+
+  row.append(info);
+  const open = () => setTab('recent');
+  row.addEventListener('click', open);
+  row.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      open();
+    }
+  });
+  return row;
+}
+
+function buildListIndexRow(list: StationList): HTMLElement {
+  const row = document.createElement('div');
+  row.className = 'list-item list-item--lib';
+  row.setAttribute('role', 'button');
+  row.tabIndex = 0;
+  row.dataset.listId = list.id;
+
+  const info = document.createElement('div');
+  info.className = 'list-item__info';
+  const name = document.createElement('div');
+  name.className = 'list-item__name';
+  name.textContent = list.name;
+  info.append(name, buildIconStrip(list.stations, 'Empty list'));
+
+  row.append(info);
+
+  // Delete-confirm mode: the row swaps its chevron + trash for an inline
+  // "Delete list?" confirm and is no longer clickable.
+  if (listDeleteConfirmId === list.id) {
+    row.classList.add('list-item--confirming');
+    row.append(
+      buildDeleteConfirm(
+        () => {
+          deleteList(list.id);
+          track('list-delete');
+          listDeleteConfirmId = null;
+          renderContent();
+        },
+        () => {
+          listDeleteConfirmId = null;
+          renderContent();
+        },
+      ),
+    );
+    return row;
+  }
+
+  // The trailing trash only appears in edit mode (toggled from the Library
+  // header); outside it the card is tap-to-open only. Tapping it opens the
+  // inline "Delete list?" confirm handled above.
+  if (libEditing) {
+    const del = listActionBtn(ICON_TRASH, `Delete ${list.name}`, () => {
+      listDeleteConfirmId = list.id;
+      renderContent();
+    });
+    del.classList.add('list-item__del');
+    row.append(del);
+  }
+  const open = () => {
+    openListId = list.id;
+    resetListUiState();
+    renderContent();
+    $content.scrollTo({ top: 0 });
+  };
+  row.addEventListener('click', open);
+  row.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      open();
+    }
+  });
+  return row;
+}
+
+function renderListDetail(list: StationList, query: string): void {
+  const back = listActionBtn(ICON_BACK, 'Back to lists', () => {
+    openListId = null;
+    resetListUiState();
+    renderContent();
+  });
+  back.classList.add('section-label__back');
+
+  const stations = query ? filterStations(list.stations, query) : list.stations;
+
+  if (listRenameOpen) {
+    // Inline rename: the header title becomes a text input (prefilled).
+    const header = document.createElement('div');
+    header.className = 'section-label section-label--list-detail section-label--editing';
+    header.append(back);
+    const form = buildListNameForm({
+      initial: list.name,
+      placeholder: 'List name',
+      submitLabel: 'Save',
+      onSubmit: (name) => {
+        renameList(list.id, name);
+        track('list-rename');
+        listRenameOpen = false;
+        renderContent();
+      },
+      onCancel: () => {
+        listRenameOpen = false;
+        renderContent();
+      },
+    });
+    header.append(form);
+    $content.append(header);
+    const input = form.querySelector('input') as HTMLInputElement | null;
+    input?.focus();
+    input?.select();
+  } else {
+    const actions: HTMLElement[] =
+      listDeleteConfirmId === list.id
+        ? [
+            buildDeleteConfirm(
+              () => {
+                deleteList(list.id);
+                track('list-delete');
+                openListId = null;
+                resetListUiState();
+                renderContent();
+              },
+              () => {
+                listDeleteConfirmId = null;
+                renderContent();
+              },
+            ),
+          ]
+        : [
+            listActionBtn(ICON_PENCIL, 'Rename list', () => {
+              listRenameOpen = true;
+              listDeleteConfirmId = null;
+              renderContent();
+            }),
+            listActionBtn(ICON_TRASH, 'Delete list', () => {
+              listDeleteConfirmId = list.id;
+              renderContent();
+            }),
+          ];
+    // The "+" enters Browse multi-select targeting this list — on both
+    // breakpoints. Mobile additionally adopts the iOS status-bar layout
+    // ([back · search] · name · actions); desktop keeps its back-prepended
+    // header and only gains the "+". The inline delete-confirm skips "+" so
+    // its buttons aren't crowded.
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    const confirming = listDeleteConfirmId === list.id;
+    const fullActions = confirming
+      ? actions
+      : [
+          headerActionBtn(ICON_PLUS, 'Add stations to this list', () => enterListSelect(list)),
+          ...actions,
+        ];
+    if (!wide && !confirming) {
+      const label = sectionLabel(list.name, stations.length, fullActions, [
+        back,
+        headerSearchLead('Search this list'),
+      ]);
+      label.classList.add('section-label--list-detail');
+      $content.append(label);
+    } else {
+      const label = sectionLabel(list.name, stations.length, fullActions);
+      label.classList.add('section-label--list-detail');
+      label.prepend(back);
+      $content.append(label);
+    }
+  }
+
+  if (list.stations.length === 0) {
+    $content.append(
+      emptyState(
+        ICON_LIST,
+        'This list is empty',
+        'Add stations with the list icon on any station row.',
+      ),
+    );
+    return;
+  }
+  if (stations.length === 0) {
+    $content.append(emptyState(ICON_EMPTY, 'No matches', 'Nothing in this list matches that search'));
+    return;
+  }
+  // List detail matches the Favorites layout: iOS-style cards on desktop,
+  // single-column stack on mobile, with now-playing cover + track.
+  const grid = rowsGrid(stations, { cover: true });
+  $content.append(grid);
+  armFavCovers(stations);
+  // Reorder the list's stations (full, unfiltered list only — a search
+  // subset isn't the stored order). Grip drag on mobile, DnD on desktop.
+  if (!query) {
+    enableReorder(grid, {
+      itemSelector: ':scope > .row',
+      idOf: (el) => el.dataset.id ?? '',
+      onCommit: (ids) => reorderListStations(list.id, ids),
+    });
+  }
+}
+
+// ── Add-to-list sheet ────────────────────────────────────────────────
+
+// ─── Add-to-list popup (iOS AddListPopupCard) ─────────────────────────
+function openAddList(opts: { mode: AddListMode; station?: Station }): void {
+  addListState = { mode: opts.mode, station: opts.station ?? null, target: null, nameDraft: '' };
+  renderAddList();
+  $listSheet.classList.add('open');
+  $listSheet.setAttribute('aria-hidden', 'false');
+}
+
+function closeAddList(): void {
+  $listSheet.classList.remove('open');
+  $listSheet.setAttribute('aria-hidden', 'true');
+  addListState = null;
+}
+
+/** Trimmed draft name for the "Create list" field. */
+function addListName(): string {
+  return (addListState?.nameDraft ?? '').trim();
+}
+/** A drafted new-list name that collides with an existing list (case-insensitive). */
+function addListNameTaken(): boolean {
+  const name = addListName().toLowerCase();
+  if (!name) return false;
+  return getLists().some((l) => l.name.trim().toLowerCase() === name);
+}
+/** Step-1 confirm is allowed once a valid target is chosen: an existing list,
+ *  or a non-empty, non-duplicate new name. */
+function addListCanConfirm(): boolean {
+  const st = addListState;
+  if (!st?.target) return false;
+  if (st.target.kind === 'existing') return true;
+  return addListName().length > 0 && !addListNameTaken();
+}
+
+/** Two-segment progress strip (iOS AddListStepStrip): "1 Choose list — 2 Pick
+ *  stations", with the active step inked and completed steps showing a check. */
+function buildStepStrip(activeStep: 1 | 2): HTMLElement {
+  const strip = document.createElement('div');
+  strip.className = 'addlist-steps';
+  const seg = (n: 1 | 2, label: string): HTMLElement => {
+    const el = document.createElement('div');
+    el.className = 'addlist-step';
+    if (n === activeStep) el.classList.add('is-active');
+    if (n < activeStep) el.classList.add('is-done');
+    const badge = document.createElement('span');
+    badge.className = 'addlist-step__badge';
+    if (n < activeStep) badge.innerHTML = ICON_CHECK;
+    else badge.textContent = String(n);
+    const text = document.createElement('span');
+    text.className = 'addlist-step__label';
+    text.textContent = label;
+    el.append(badge, text);
+    return el;
+  };
+  const conn = document.createElement('span');
+  conn.className = 'addlist-steps__conn';
+  if (activeStep > 1) conn.classList.add('is-done');
+  strip.append(seg(1, 'Choose list'), conn, seg(2, 'Pick stations'));
+  return strip;
+}
+
+function renderAddList(): void {
+  const st = addListState;
+  if (!st) return;
+  $listSheetBody.replaceChildren();
+  $listSheetLabel.textContent = st.mode === 'pickStations' ? 'New list' : 'Add to list';
+
+  // Step strip — only the two-step (pickStations) flow signals a step 2.
+  if (st.mode === 'pickStations') $listSheetBody.append(buildStepStrip(1));
+
+  const scroll = document.createElement('div');
+  scroll.className = 'addlist-scroll';
+  scroll.append(buildAddListCreateRow());
+  for (const l of getLists()) scroll.append(buildAddListRow(l, st.station));
+  $listSheetBody.append(scroll, buildAddListFoot());
+}
+
+/** Update the footer confirm's enabled state + the duplicate-name notice
+ *  without a re-render, so the "Create list" field keeps focus while typing. */
+function syncAddListLive(): void {
+  const confirm = $listSheetBody.querySelector<HTMLButtonElement>('.addlist-foot__confirm');
+  if (confirm) confirm.disabled = !addListCanConfirm();
+  const err = $listSheetBody.querySelector<HTMLElement>('.addlist-create__err');
+  if (err) err.hidden = !addListNameTaken();
+}
+
+/** "Create list" row — a label that morphs into a focused text field once
+ *  selected (same idiom as the Favorites search field). */
+function buildAddListCreateRow(): HTMLElement {
+  const st = addListState!;
+  const row = document.createElement('div');
+  row.className = 'addlist-create';
+  if (st.target?.kind !== 'new') {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'addlist-create__btn';
+    const icon = document.createElement('span');
+    icon.className = 'addlist-create__icon';
+    icon.innerHTML = ICON_PLUS;
+    const label = document.createElement('span');
+    label.className = 'addlist-create__label';
+    label.textContent = 'Create list';
+    btn.append(icon, label);
+    btn.addEventListener('click', () => {
+      st.target = { kind: 'new' };
+      renderAddList();
+      $listSheetBody.querySelector<HTMLInputElement>('.addlist-create__input')?.focus();
+    });
+    row.append(btn);
+    return row;
+  }
+
+  row.classList.add('is-selected');
+  const field = document.createElement('div');
+  field.className = 'addlist-create__field';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'addlist-create__input';
+  input.placeholder = 'Create list';
+  input.value = st.nameDraft;
+  input.autocomplete = 'off';
+  input.maxLength = 60;
+  input.setAttribute('aria-label', 'New list name');
+  const clear = document.createElement('button');
+  clear.type = 'button';
+  clear.className = 'addlist-create__clear';
+  clear.setAttribute('aria-label', 'Clear name');
+  clear.innerHTML = ICON_CLOSE;
+  clear.hidden = st.nameDraft.length === 0;
+  input.addEventListener('input', () => {
+    st.nameDraft = input.value;
+    clear.hidden = input.value.length === 0;
+    syncAddListLive();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (addListCanConfirm()) confirmAddList();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      closeAddList();
+    }
+  });
+  clear.addEventListener('click', () => {
+    st.nameDraft = '';
+    input.value = '';
+    clear.hidden = true;
+    input.focus();
+    syncAddListLive();
+  });
+  field.append(input, clear);
+  const err = document.createElement('div');
+  err.className = 'addlist-create__err';
+  err.textContent = 'Name already in use';
+  err.hidden = !addListNameTaken();
+  row.append(field, err);
+  return row;
+}
+
+/** A selectable existing-list row. In 'addNow' a list already holding the
+ *  station is disabled and reads "Already in list" (iOS parity). */
+function buildAddListRow(l: StationList, station: Station | null): HTMLElement {
+  const st = addListState!;
+  const already = st.mode === 'addNow' && station ? listContains(l.id, station.id) : false;
+  const selected = st.target?.kind === 'existing' && st.target.id === l.id;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-picker__btn';
+  btn.classList.toggle('is-in', selected);
+  if (already) {
+    btn.classList.add('is-already');
+    btn.disabled = true;
+  }
+  btn.setAttribute('aria-pressed', String(selected));
+
+  const check = document.createElement('span');
+  check.className = 'list-picker__check';
+  check.innerHTML = ICON_CHECK;
+  const name = document.createElement('span');
+  name.className = 'list-picker__name';
+  name.textContent = l.name;
+  const tail = document.createElement('span');
+  tail.className = 'list-picker__count';
+  tail.textContent = already ? 'Already in list' : String(l.stations.length);
+  btn.append(check, name, tail);
+
+  if (!already) {
+    btn.addEventListener('click', () => {
+      st.target = { kind: 'existing', id: l.id };
+      renderAddList();
+    });
+  }
+  return btn;
+}
+
+/** Footer: cancel (✕) + confirm. Confirm is "Pick stations →" in pickStations
+ *  (advances to the select dock) or a ✓ in addNow (saves immediately). */
+function buildAddListFoot(): HTMLElement {
+  const st = addListState!;
+  const foot = document.createElement('div');
+  foot.className = 'addlist-foot';
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'addlist-foot__cancel';
+  cancel.setAttribute('aria-label', 'Cancel');
+  cancel.innerHTML = ICON_CLOSE;
+  cancel.addEventListener('click', closeAddList);
+
+  const confirm = document.createElement('button');
+  confirm.type = 'button';
+  confirm.className = 'addlist-foot__confirm';
+  confirm.disabled = !addListCanConfirm();
+  if (st.mode === 'pickStations') {
+    confirm.classList.add('addlist-foot__confirm--next');
+    const text = document.createElement('span');
+    text.textContent = 'Pick stations';
+    const arrow = document.createElement('span');
+    arrow.className = 'addlist-foot__arrow';
+    arrow.innerHTML = ICON_CHEVRON_RIGHT;
+    confirm.append(text, arrow);
+    confirm.setAttribute('aria-label', 'Pick stations');
+  } else {
+    confirm.classList.add('addlist-foot__confirm--ok');
+    confirm.innerHTML = ICON_CHECK;
+    confirm.setAttribute('aria-label', 'Add to list');
+  }
+  confirm.addEventListener('click', () => {
+    if (addListCanConfirm()) confirmAddList();
+  });
+  foot.append(cancel, confirm);
+  return foot;
+}
+
+function confirmAddList(): void {
+  const st = addListState;
+  if (!st?.target) return;
+
+  if (st.mode === 'addNow') {
+    const station = st.station;
+    if (!station) return;
+    let listId: string;
+    if (st.target.kind === 'existing') {
+      listId = st.target.id;
+    } else {
+      listId = createList(addListName()).id;
+      track('list-create');
+    }
+    addToList(listId, station);
+    track('list-add');
+    closeAddList();
+    if (activeTab === 'library' || activeTab === 'fav') renderContent();
+    renderTopBar();
+    return;
+  }
+
+  // pickStations → hand off to the Browse select dock (step 2). A new list is
+  // carried as a 'newList' target and created on save, so a cancel here (or in
+  // step 2) leaves nothing behind.
+  let target: SelectTarget | null;
+  if (st.target.kind === 'existing') {
+    const l = getList(st.target.id);
+    target = l ? { kind: 'list', id: l.id, name: l.name } : null;
+  } else {
+    target = { kind: 'newList', name: addListName() };
+  }
+  closeAddList();
+  if (!target) return;
+  selectMode = {
+    target,
+    picked: new Map(),
+    existing:
+      target.kind === 'list'
+        ? new Set(getList(target.id)?.stations.map((s) => s.id) ?? [])
+        : new Set(),
+    withSteps: true,
+  };
+  setTab('browse'); // setTab won't clear selectMode when going to browse
+  syncSelectDock();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1719,20 +3186,6 @@ function renderContent(): void {
 /** Snapshot the current Browse-tab inputs into a shape composeBrowseFilter
  *  can operate on. One read site, used by runQuery + loadMore so they
  *  cannot drift out of sync (the audit-#70 bug). */
-function browseInputs(): {
-  query: string;
-  activeTag: string;
-  activeCountry: string;
-  browseMode: 'played' | 'news' | null;
-} {
-  return {
-    query: $search.value,
-    activeTag,
-    activeCountry,
-    browseMode,
-  };
-}
-
 async function runQuery(): Promise<void> {
   if (activeTab !== 'browse') {
     renderContent();
@@ -1743,14 +3196,13 @@ async function runQuery(): Promise<void> {
   browseOffset = 0;
   browseHasMore = false;
   browseLoadingMore = false;
-  const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), { offset: 0 });
-  // Skip Radio Browser fetch when:
-  //  · curated-only is on (we never render RB results in that mode)
-  //  · OR mode is 'played' AND no filter is set (local data only)
-  // Mode='news' and mode=null both need an RB fetch (unless curated-only
-  // is on, in which case we'd never use the result).
-  const needsRb =
-    !curatedOnly && (hasAnyFilter || browseMode === null || browseMode === 'news');
+  pendingLoadMore = null;
+  const query = $search.value.trim();
+  // Radio Browser is fetched only for a text search or the unfiltered
+  // "Browse all" view. Local filters (genre / country / news / quality)
+  // match the catalog directly — no network — so the discovery landing
+  // and every filtered view skip RB entirely.
+  const needsRb = !inDiscovery() && (query.length > 0 || (browseAll && !hasActiveFilter()));
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -1759,7 +3211,7 @@ async function runQuery(): Promise<void> {
   }
   $content.replaceChildren(statusLine('Tuning in…'));
   try {
-    const stations = await searchStations(filter);
+    const stations = await searchStations({ query: query || undefined, offset: 0 });
     if (myToken !== queryToken) return;
     lastBrowseStations = stations;
     // RB's searchStations dedupes by streamUrl, so a 60-result page
@@ -1784,15 +3236,12 @@ async function loadMore(): Promise<void> {
   renderContent(); // flips the button into a "Loading…" state
   const myToken = queryToken;
   const nextOffset = browseOffset + PAGE_SIZE;
+  const query = $search.value.trim();
   try {
-    const { filter, hasAnyFilter } = composeBrowseFilter(browseInputs(), {
-      offset: nextOffset,
-    });
-    // Filtered pagination uses searchStations (carries query + tag +
-    // country); unfiltered home-view uses fetchStations which returns
-    // the worldwide top-by-votes feed.
-    const more = hasAnyFilter
-      ? await searchStations(filter)
+    // Text search paginates via searchStations (carries the query);
+    // the unfiltered Browse-all view uses fetchStations (top-by-votes).
+    const more = query
+      ? await searchStations({ query, offset: nextOffset })
       : await fetchStations(nextOffset);
     if (myToken !== queryToken) return;
     // Radio Browser sometimes returns duplicates across page boundaries
@@ -1918,9 +3367,12 @@ function onRowPlay(station: Station): void {
   pushRecent(station);
   void player.play(station);
   track(`play: ${station.name}`);
-  if (activeTab === 'recent') renderContent();
-  // Open Now Playing on first play of this station
-  openNp(true);
+  // Keep the Recents sub-view and the Library home's Recents count fresh.
+  if (activeTab === 'recent' || activeTab === 'library') renderContent();
+  // On desktop, playing keeps you on the list and pops the mini-player —
+  // Now Playing opens on demand (tap the mini). On mobile the small screen
+  // makes NP the focus, so jump straight there.
+  if (!isDesktop()) openNp(true);
   // Reflect the active station in the URL so the user can copy it /
   // refresh / share. Only built-in stations get a pre-rendered
   // /station/<id>/ page; for custom + RB rows we leave the URL alone.
@@ -1980,32 +3432,27 @@ function clearSearch(refocus: boolean): void {
     $search.value = '';
     syncSearchClear();
   }
+  // Clearing also collapses the expandable feed-page search back to its icon.
+  $body.classList.remove('search-open');
   if (refocus) $search.focus();
 }
 
 function goHome(): void {
-  // Close Now Playing if open, then reset Browse to its initial state
+  // Close Now Playing if open, then reset Browse to its discovery landing.
   if ($np.classList.contains('open')) openNp(false);
-  const wasBrowseDefault =
-    activeTab === 'browse' &&
-    activeTag === 'all' &&
-    activeCountry === 'all' &&
-    browseMode === 'played' &&
-    $search.value === '';
+  const wasDiscovery = activeTab === 'browse' && inDiscovery();
   clearSearch(false);
-  activeTag = 'all';
-  activeCountry = 'all';
-  // Reset to default played mode + clear visual state on the others.
-  browseMode = 'played';
-  $modePlayed.classList.add('is-active');
-  $modePlayed.setAttribute('aria-pressed', 'true');
-  $newsToggle.classList.remove('is-active');
-  $newsToggle.setAttribute('aria-pressed', 'false');
-  syncGenre();
-  syncCountry();
+  // Reset every Browse narrowing back to the discovery landing.
+  filterGenres.clear();
+  filterCountries.clear();
+  filterNews = false;
+  activeQuality.clear();
+  browseAll = false;
+  activeSort = null;
+  syncFilterDot();
   if (activeTab !== 'browse') {
     setTab('browse'); // setTab also runs the query
-  } else if (!wasBrowseDefault) {
+  } else if (!wasDiscovery) {
     void runQuery();
   }
   $content.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2021,49 +3468,95 @@ function setTab(tab: Tab): void {
   if (activeTab === tab) return;
   if (tab === 'playing' && !currentNP.station.id) return;
 
+  // Drop any half-finished list create/rename/delete when changing tabs.
+  resetListUiState();
+
   // Track the last list tab so closing Now Playing returns there.
-  if (tab !== 'playing' && (tab === 'browse' || tab === 'fav' || tab === 'recent')) {
+  if (tab !== 'playing') {
     lastListTab = tab;
-  }
-  // Library section follows whichever sub-tab is active.
-  if (tab === 'fav' || tab === 'recent') {
-    librarySection = tab;
-    setString(LIBRARY_KEY, tab);
   }
 
   activeTab = tab;
   $body.classList.toggle('tab-playing', tab === 'playing');
+  // Favorites carries its own mobile chrome (search-icon-expands-the-field,
+  // edit mode). Tag the body so the CSS can hide the brand-row search field,
+  // and drop any half-open edit/search state when leaving the tab.
+  // Favorites + Library (home / list detail / recents) carry the expandable
+  // search-icon chrome on mobile; tag the body so the CSS hides the brand-row
+  // field there. Any tab change collapses an open search and drops edit mode.
+  $body.classList.toggle('tab-fav', tab === 'fav');
+  $body.classList.toggle('tab-library', tab === 'library');
+  $body.classList.remove('search-open');
+  if (tab !== 'fav') favEditing = false;
+  if (tab !== 'library') libEditing = false;
+  // The /ios promo banner is Browse-only — reveal/hide it as the tab changes.
+  syncPromo();
+  // The select dock belongs to Browse; navigating elsewhere abandons the
+  // pick (saveSelect clears selectMode itself before its setTab, so this
+  // only fires on a genuine bail-out).
+  if (selectMode && tab !== 'browse') {
+    selectMode = null;
+    syncSelectDock();
+  }
   $np.classList.toggle('open', tab === 'playing');
+  // NP is only present (and in the a11y tree) when it's the active
+  // destination, on every breakpoint.
   $np.setAttribute('aria-hidden', String(tab !== 'playing'));
+  // The wide album/schedule/lyrics column count depends on the breakpoint
+  // and available panes; re-sync when entering/leaving the destination.
+  syncNpTabs();
 
   renderTabBar();
   renderTopBar();
   if (tab === 'browse') void runQuery();
   else if (tab !== 'playing') renderContent();
+  // The player destination skips renderContent, so stop the library cover
+  // poll here when leaving a feed for Now Playing.
+  else favCovers.stop();
 
   track(`tab/${tab}`);
 }
 
+// Desktop (≥1024px) shows Now Playing as a persistent docked pane next
+// to the list, so opening/closing it is a no-op there — the pane is
+// always mounted and the $np* updates run on every player event
+// regardless of which list tab is active. On mobile it stays the
+// slide-up destination reached via the 'playing' tab.
+const desktopMq = matchMedia('(min-width: 1024px)');
+function isDesktop(): boolean {
+  return desktopMq.matches;
+}
+
 function openNp(open: boolean): void {
+  // Now Playing is a full-area destination on every breakpoint (the
+  // 'playing' tab), bridged by the persistent mini-player. The desktop
+  // dock is gone — playing keeps you on the list, NP opens on demand.
   if (open) setTab('playing');
   else if (activeTab === 'playing') setTab(lastListTab);
 }
+
+/** Keep breakpoint-dependent state in sync. NP is a full-area destination
+ *  on every breakpoint now (the 'playing' tab), so its a11y visibility
+ *  just follows that tab. Crossing the wide breakpoint re-evaluates the
+ *  album/schedule/lyrics column count. Called at boot + on breakpoint
+ *  changes. */
+function syncLayoutMode(): void {
+  $np.setAttribute('aria-hidden', String(activeTab !== 'playing'));
+  syncNpTabs();
+}
+desktopMq.addEventListener('change', syncLayoutMode);
 
 // Theme persistence + DOM application live in ./theme. Boot wiring
 // applies the persisted choice before first paint, then keeps the
 // `<meta name="theme-color">` tint in sync with the OS preference if
 // the user hasn't picked an explicit theme.
 bootstrapTheme();
+bootstrapAccent();
 
-function onToggleTheme(): void {
-  const next = toggleTheme();
-  track(`theme/${next}`);
-}
-
-function openAboutSheet(open: boolean): void {
-  $aboutSheet.classList.toggle('open', open);
-  $aboutSheet.setAttribute('aria-hidden', String(!open));
-}
+// About + Add are now tabs of the unified Settings sheet, not their own
+// slide-up sheets. About is reachable only via the tab strip; Add keeps a
+// programmatic opener (openAddSheet) for the post-submit close + any future
+// "add station" affordance.
 
 // ─────────────────────────────────────────────────────────────
 // Dashboard sheet
@@ -2096,17 +3589,6 @@ const COUNTRY_CENTROIDS: Record<string, [number, number]> = {
 
 // Dashboard types + aggregation helpers live in ./dashboard.
 
-interface PollCounts {
-  ios: number;
-  android: number;
-  'dont-care': number;
-}
-interface PollResults {
-  counts: PollCounts;
-  total: number;
-  range_days?: number;
-}
-
 interface DashboardPayload {
   range_days: number;
   days: string[];
@@ -2117,7 +3599,6 @@ interface DashboardPayload {
     distinct_stations: number;
   };
   locations: { items: PublicLocationItem[]; total: number };
-  poll: { counts: PollCounts; total: number; all_time?: boolean };
 }
 
 // `cache: 'no-store'` so the browser's HTTP cache never serves a stale
@@ -2207,45 +3688,6 @@ function renderSparkline(series: number[], maxAcrossTable: number, days: string[
     wrap.append(cell);
   });
   return wrap;
-}
-
-function renderDashPollTable(results: PollResults | null): void {
-  $dashPollTable.replaceChildren();
-  if (!results || results.total === 0) {
-    $dashPollEmpty.hidden = false;
-    return;
-  }
-  $dashPollEmpty.hidden = true;
-  const ORDER: Array<['ios' | 'android' | 'dont-care', string]> = [
-    ['ios', POLL_CHOICE_LABELS.ios],
-    ['android', POLL_CHOICE_LABELS.android],
-    ['dont-care', POLL_CHOICE_LABELS['dont-care']],
-  ];
-  const rows = ORDER.map(([k, label]) => ({ key: k, label, count: results.counts[k] ?? 0 }));
-  rows.sort((a, b) => b.count - a.count);
-  const max = rows[0]?.count ?? 1;
-  rows.forEach((r, i) => {
-    const tr = document.createElement('tr');
-    const rank = document.createElement('td');
-    rank.className = 'rank';
-    rank.textContent = String(i + 1).padStart(2, '0');
-    const name = document.createElement('td');
-    name.className = 'country';
-    name.textContent = r.label;
-    const bar = document.createElement('td');
-    bar.className = 'bar';
-    bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${
-      max > 0 ? (r.count / max) * 100 : 0
-    }%"></div></div>`;
-    const num = document.createElement('td');
-    num.className = 'count';
-    num.textContent = String(r.count);
-    const pct = document.createElement('td');
-    pct.className = 'pct';
-    pct.textContent = fmtSharePct(r.count, results.total);
-    tr.append(rank, name, bar, num, pct);
-    $dashPollTable.append(tr);
-  });
 }
 
 function renderDashStationTable(items: TopStationItem[], days: string[]): void {
@@ -2411,14 +3853,13 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   renderDashKpis(data, payload?.totals ?? null);
   renderDashCountryTable(data);
   renderDashStationTable(items, payload?.days ?? []);
-  renderDashPollTable(payload ? { counts: payload.poll.counts, total: payload.poll.total } : null);
   void renderDashMap(data);
 }
 
 function openAddSheet(open: boolean): void {
-  $addSheet.classList.toggle('open', open);
-  $addSheet.setAttribute('aria-hidden', String(!open));
   if (open) {
+    openSettingsSheet(true);
+    selectSettingsTab('add');
     renderCustomList();
     $addError.hidden = true;
     // Focus the first field when opening
@@ -2426,6 +3867,8 @@ function openAddSheet(open: boolean): void {
       const first = $addForm.querySelector<HTMLInputElement>('input[name="name"]');
       first?.focus();
     }, 280);
+  } else {
+    openSettingsSheet(false);
   }
 }
 
@@ -2643,10 +4086,18 @@ function toggleWakePane(): void {
   setWakePane(!$body.classList.contains('is-wake-edit'));
 }
 
+/** Reflect the muted flag across the mute button + the volume slider's
+ *  speaker icon, without re-toggling the audio element. */
+function reflectMuteUi(muted: boolean): void {
+  $body.classList.toggle('is-muted', muted);
+  $npVolume.classList.toggle('is-muted', muted);
+  $miniVolume.classList.toggle('is-muted', muted);
+  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+}
+
 function setMuted(muted: boolean): void {
   if (player.isMuted() !== muted) player.toggleMute();
-  $body.classList.toggle('is-muted', muted);
-  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+  reflectMuteUi(muted);
 }
 
 // Stub "station" for the silent audio bed. /silence.m4a is a tiny
@@ -2948,21 +4399,54 @@ function setSleep(minutes: number): void {
 // Event wiring
 // ─────────────────────────────────────────────────────────────
 
-$tabbar.addEventListener('click', (e) => {
+// Bottom tab bar (mobile) and top-nav section links (desktop) both carry
+// the Browse / Favorites / Library buttons; one handler serves both.
+function handleNavClick(e: Event): void {
   const target = e.target as HTMLElement;
   const btn = target.closest<HTMLButtonElement>('.tab-btn');
   if (!btn) return;
   const raw = btn.dataset.tab;
-  // The "library" button is a UI grouping over the fav + recent tabs;
-  // it routes to whichever section the user picked last.
-  if (raw === 'library') {
-    setTab(librarySection);
-    return;
-  }
+  // Opening Library always lands on its home (openListId cleared), not a
+  // stale list detail from a previous visit.
+  if (raw === 'library') openListId = null;
   if (raw) setTab(raw as Tab);
-});
+}
+$tabbar.addEventListener('click', handleNavClick);
+$topnavNav.addEventListener('click', handleNavClick);
 
-$search.addEventListener('input', () => syncSearchClear());
+// Browse-list collapse toggle (wide desktop only, in the NP pane corner).
+// Collapsing the browse list hands the freed width to the player, which
+// expands from 2 columns (Album + Schedule/Lyrics) to 3 (Album │ Schedule
+// │ Lyrics). Persisted; only takes visual effect at ≥1400px (CSS-gated).
+const BROWSE_COLLAPSED_KEY = 'rrradio.browse-collapsed';
+function applyBrowseCollapsed(collapsed: boolean): void {
+  $body.classList.toggle('browse-collapsed', collapsed);
+  $npCollapseBrowse.setAttribute('aria-expanded', String(!collapsed));
+  $npCollapseBrowse.setAttribute('aria-label', collapsed ? 'Show browse list' : 'Hide browse list');
+  // twocol ⇄ threecol depends on this class — recompute.
+  syncNpTabs();
+}
+$npCollapseBrowse.addEventListener('click', () => {
+  const collapsed = !$body.classList.contains('browse-collapsed');
+  applyBrowseCollapsed(collapsed);
+  setString(BROWSE_COLLAPSED_KEY, collapsed ? '1' : '0');
+});
+applyBrowseCollapsed(getString(BROWSE_COLLAPSED_KEY) === '1');
+
+// Desktop "close player" (×, NP top-right): stop playback and dismiss the
+// player. miniClose() clears the station, which hides the mini bar and bounces
+// the Playing tab back to the last list (updateNowPlaying's stationLost path).
+// The back chevron (np-back, top-left) stays for "leave NP but keep listening".
+$npClose.addEventListener('click', () => miniClose());
+
+$search.addEventListener('input', () => {
+  // Typing while the Now Playing destination is open jumps back to Browse:
+  // the results belong on a list, so we leave NP (which reveals the
+  // mini-player) and let Browse run the query. setTab('browse') re-runs
+  // runQuery itself, so the debounced handler below just refreshes it.
+  if (activeTab === 'playing' && $search.value.trim()) setTab('browse');
+  syncSearchClear();
+});
 $search.addEventListener(
   'input',
   debounce(() => {
@@ -2971,78 +4455,304 @@ $search.addEventListener(
   }, 300),
 );
 
-$genre.addEventListener('change', () => {
-  activeTag = $genre.value || 'all';
-  syncGenre();
-  // Picking a genre clears news mode (single tag in effect at a time).
-  if (activeTag !== 'all' && browseMode === 'news') {
-    setBrowseMode(null);
-    return; // setBrowseMode triggers runQuery
+// ─── Filter sheet (port of the iOS BrowseFiltersSheet) ───
+// Selections pile up in a draft while the sheet is open; they apply to
+// the live filter only when the user taps "Show N stations" (iOS parity).
+type BfSection = 'genre' | 'country' | 'quality';
+const draftGenres = new Set<string>();
+const draftCountries = new Set<string>();
+let draftNews = false;
+const draftQuality = new Set<QualityBucket>();
+const bfExpanded = new Set<BfSection>();
+let bfCountrySearch = '';
+
+function copySet<T>(dst: Set<T>, src: Iterable<T>): void {
+  dst.clear();
+  for (const v of src) dst.add(v);
+}
+
+function draftIsEmpty(): boolean {
+  return (
+    draftGenres.size === 0 && draftCountries.size === 0 && !draftNews && draftQuality.size === 0
+  );
+}
+
+/** Abbreviate large match counts ("1.4k") so the apply pill stays narrow,
+ *  matching the discovery chips. */
+function bfCount(n: number): string {
+  return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
+}
+
+const QUALITY_BUCKETS: { id: QualityBucket; label: string; level: number }[] = [
+  { id: 'low', label: 'Low', level: 2 },
+  { id: 'medium', label: 'Medium', level: 3 },
+  { id: 'high', label: 'High', level: 4 },
+];
+
+const BF_SECTION_ICON: Record<BfSection, string> = {
+  genre:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+  country:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>',
+  quality:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-4"/><path d="M12 20V9"/><path d="M19 20V4"/></svg>',
+};
+const CHECK_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+/** A multi-select pick row (label + optional leading glyph + checkmark),
+ *  mirroring iOS `pickerRow`. */
+function bfPickRow(
+  label: string,
+  selected: boolean,
+  onToggle: () => void,
+  lead?: HTMLElement,
+): HTMLButtonElement {
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'bf-row';
+  row.setAttribute('aria-pressed', String(selected));
+  const leadEl = document.createElement('span');
+  leadEl.className = 'bf-row__lead';
+  if (lead) leadEl.append(lead);
+  const name = document.createElement('span');
+  name.className = 'bf-row__label';
+  name.textContent = label;
+  const check = document.createElement('span');
+  check.className = 'bf-row__check';
+  check.innerHTML = CHECK_SVG;
+  row.append(leadEl, name, check);
+  row.addEventListener('click', onToggle);
+  return row;
+}
+
+/** The 4-bar ascending quality meter, sized for a pick row (iOS
+ *  qualityMeterGraphic). */
+function bfQualityMeter(level: number): HTMLElement {
+  const meter = document.createElement('span');
+  meter.className = 'bf-meter';
+  for (let i = 0; i < 4; i += 1) {
+    const bar = document.createElement('span');
+    bar.className = 'bf-meter__bar' + (i < level ? ' is-on' : '');
+    meter.append(bar);
   }
-  selectedClusterKey = null;
+  return meter;
+}
+
+/** Repaint the footer: live "Show N stations" count + Clear visibility. */
+function bfUpdateFooter(): void {
+  const count = filterMatchCount(draftGenres, draftCountries, draftNews, draftQuality);
+  $bfApply.textContent = count === 1 ? 'Show 1 station' : `Show ${bfCount(count)} stations`;
+  $bfApply.disabled = count === 0;
+  $bfApply.classList.toggle('is-active', count > 0);
+  $bfClear.hidden = draftIsEmpty();
+}
+
+/** Build one collapsible section (header + body) into the sheet. */
+function bfSection(
+  section: BfSection,
+  title: string,
+  badgeCount: number,
+  fillBody: (body: HTMLElement) => void,
+): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'bf-section';
+
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'bf-section__head';
+  const expanded = bfExpanded.has(section);
+  head.setAttribute('aria-expanded', String(expanded));
+  head.innerHTML =
+    `<span class="bf-section__icon${badgeCount > 0 ? ' is-on' : ''}">${BF_SECTION_ICON[section]}</span>` +
+    `<span class="bf-section__title">${title}</span>` +
+    (badgeCount > 0 ? `<span class="bf-section__badge">${badgeCount}</span>` : '') +
+    `<span class="bf-section__chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${expanded ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'}"/></svg></span>`;
+  head.addEventListener('click', () => {
+    if (bfExpanded.has(section)) bfExpanded.delete(section);
+    else bfExpanded.add(section);
+    renderFilterSheet();
+  });
+  wrap.append(head);
+
+  if (expanded) {
+    const body = document.createElement('div');
+    body.className = 'bf-section__body';
+    fillBody(body);
+    wrap.append(body);
+  }
+  return wrap;
+}
+
+/** Rebuild the filter sheet sections from the current draft. */
+function renderFilterSheet(): void {
+  $bfSections.replaceChildren();
+
+  // Genre — News toggle first, then the taxonomy.
+  $bfSections.append(
+    bfSection('genre', 'Genre', draftGenres.size + (draftNews ? 1 : 0), (body) => {
+      body.append(
+        bfPickRow('News', draftNews, () => {
+          draftNews = !draftNews;
+          renderFilterSheet();
+        }),
+      );
+      for (const g of GENRES) {
+        // News has its own dedicated toggle above (iOS parity), so skip
+        // the 'news' genre here to avoid showing it twice.
+        if (g.id === 'news') continue;
+        body.append(
+          bfPickRow(g.label, draftGenres.has(g.id), () => {
+            if (draftGenres.has(g.id)) draftGenres.delete(g.id);
+            else draftGenres.add(g.id);
+            renderFilterSheet();
+          }),
+        );
+      }
+    }),
+  );
+
+  // Country — search box, selected pinned to the top.
+  $bfSections.append(
+    bfSection('country', 'Country', draftCountries.size, (body) => {
+      const search = document.createElement('div');
+      search.className = 'bf-search';
+      search.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+      const input = document.createElement('input');
+      input.type = 'search';
+      input.className = 'bf-search__input';
+      input.placeholder = 'Search countries…';
+      input.value = bfCountrySearch;
+      input.setAttribute('aria-label', 'Search countries');
+      const list = document.createElement('div');
+      list.className = 'bf-country-list';
+      const paint = (): void => {
+        list.replaceChildren();
+        for (const code of orderedDraftCountries()) {
+          const flag = document.createElement('span');
+          flag.className = 'bf-row__flag';
+          flag.textContent = flagEmoji(code) ?? '';
+          list.append(
+            bfPickRow(
+              `${countryName(code)} (${code})`,
+              draftCountries.has(code),
+              () => {
+                if (draftCountries.has(code)) draftCountries.delete(code);
+                else draftCountries.add(code);
+                // Targeted repaint keeps the search input focused.
+                paint();
+                bfUpdateBadges();
+                bfUpdateFooter();
+              },
+              flag,
+            ),
+          );
+        }
+      };
+      input.addEventListener('input', () => {
+        bfCountrySearch = input.value;
+        paint();
+      });
+      search.append(input);
+      body.append(search, list);
+      paint();
+    }),
+  );
+
+  // Quality — Low / Medium / High buckets with the ascending meter.
+  $bfSections.append(
+    bfSection('quality', 'Quality', draftQuality.size, (body) => {
+      for (const q of QUALITY_BUCKETS) {
+        body.append(
+          bfPickRow(
+            q.label,
+            draftQuality.has(q.id),
+            () => {
+              if (draftQuality.has(q.id)) draftQuality.delete(q.id);
+              else draftQuality.add(q.id);
+              renderFilterSheet();
+            },
+            bfQualityMeter(q.level),
+          ),
+        );
+      }
+    }),
+  );
+
+  bfUpdateFooter();
+}
+
+/** Update only the section header badges in place (used by the country
+ *  list's targeted repaint so the search input keeps focus). */
+function bfUpdateBadges(): void {
+  const counts: Record<BfSection, number> = {
+    genre: draftGenres.size + (draftNews ? 1 : 0),
+    country: draftCountries.size,
+    quality: draftQuality.size,
+  };
+  const heads = $bfSections.querySelectorAll<HTMLElement>('.bf-section');
+  const order: BfSection[] = ['genre', 'country', 'quality'];
+  heads.forEach((wrap, i) => {
+    const section = order[i];
+    const icon = wrap.querySelector('.bf-section__icon');
+    icon?.classList.toggle('is-on', counts[section] > 0);
+    let badge = wrap.querySelector<HTMLElement>('.bf-section__badge');
+    const chev = wrap.querySelector('.bf-section__chev');
+    if (counts[section] > 0) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'bf-section__badge';
+        chev?.before(badge);
+      }
+      badge.textContent = String(counts[section]);
+    } else {
+      badge?.remove();
+    }
+  });
+}
+
+/** Draft countries ordered for display: selected pinned to the top, the
+ *  rest filtered by the search box. Mirrors iOS `orderedCountries`. */
+function orderedDraftCountries(): string[] {
+  const all = catalogCountries();
+  const q = bfCountrySearch.trim().toLowerCase();
+  const matches = (code: string): boolean => {
+    if (!q) return true;
+    return `${countryName(code)} ${code}`.toLowerCase().includes(q);
+  };
+  if (draftCountries.size === 0) return all.filter(matches);
+  const selected = all.filter((c) => draftCountries.has(c));
+  const rest = all.filter((c) => !draftCountries.has(c) && matches(c));
+  return [...selected, ...rest];
+}
+
+function applyDraftFilter(): void {
+  copySet(filterGenres, draftGenres);
+  copySet(filterCountries, draftCountries);
+  filterNews = draftNews;
+  copySet(activeQuality, draftQuality);
+  // An empty filter narrows nothing — applying it means "show everything",
+  // so drop into the flat browse-all list (matching the footer's "Show N
+  // stations" count) instead of bouncing back to the discovery landing.
+  browseAll = draftIsEmpty();
+  syncFilterDot();
+  openFilterSheet(false);
+  track('filter/apply');
   void runQuery();
-  track(`genre/${activeTag}`);
+}
+
+$bfCancel.addEventListener('click', () => openFilterSheet(false));
+$bfClear.addEventListener('click', () => {
+  draftGenres.clear();
+  draftCountries.clear();
+  draftNews = false;
+  draftQuality.clear();
+  renderFilterSheet();
 });
-
-$country.addEventListener('change', () => {
-  activeCountry = $country.value || 'all';
-  syncCountry();
-  selectedClusterKey = null;
-  void runQuery();
-  track(`country/${activeCountry}`);
-});
-
-function setBrowseMode(target: BrowseMode): void {
-  // Toggle off when the user taps the active button.
-  const next = browseMode === target ? null : target;
-  if (next === browseMode) return;
-  browseMode = next;
-  $modePlayed.classList.toggle('is-active', browseMode === 'played');
-  $modePlayed.setAttribute('aria-pressed', String(browseMode === 'played'));
-  $newsToggle.classList.toggle('is-active', browseMode === 'news');
-  $newsToggle.setAttribute('aria-pressed', String(browseMode === 'news'));
-  // News mode and the genre dropdown both encode a single tag filter,
-  // so they're mutually exclusive — picking news clears the genre.
-  if (browseMode === 'news' && activeTag !== 'all') {
-    activeTag = 'all';
-    syncGenre();
-  }
-  selectedClusterKey = null;
-  track(`mode/${browseMode ?? 'none'}`);
-  void runQuery();
-}
-
-function syncCuratedToggle(): void {
-  $curatedToggle.classList.toggle('is-active', curatedOnly);
-  $curatedToggle.setAttribute('aria-pressed', String(curatedOnly));
-}
-
-function setCuratedOnly(target: boolean): void {
-  if (curatedOnly === target) return;
-  curatedOnly = target;
-  syncCuratedToggle();
-  selectedClusterKey = null;
-  track(`curated/${curatedOnly ? 'on' : 'off'}`);
-  void runQuery();
-}
-
-$modePlayed.addEventListener('click', () => setBrowseMode('played'));
-$newsToggle.addEventListener('click', () => setBrowseMode('news'));
-$curatedToggle.addEventListener('click', () => setCuratedOnly(!curatedOnly));
-
-$mapToggle.addEventListener('click', () => {
-  if ($mapToggle.disabled) return;
-  mapView = !mapView;
-  $mapToggle.classList.toggle('is-active', mapView);
-  $mapToggle.setAttribute('aria-pressed', String(mapView));
-  if (!mapView) {
-    selectedClusterKey = null;
-    // renderContent() won't run renderGlobe(), so nothing else will
-    // dispose the live Leaflet instance — do it here.
-    teardownMap();
-  }
-  track(`map-view/${mapView ? 'on' : 'off'}`);
-  renderContent();
+$bfApply.addEventListener('click', () => {
+  if ($bfApply.disabled) return;
+  applyDraftFilter();
 });
 
 $searchClear.addEventListener('click', () => {
@@ -3052,13 +4762,246 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
-$addBtn.addEventListener('click', () => openAddSheet(true));
-$addCancel.addEventListener('click', () => openAddSheet(false));
+// ─── PSA banner: redesign + iPhone-app announcement ───
+// Vintage-tuner banner under the top nav linking to the /ios landing. It's a
+// discovery-landing-only banner that returns on every load — no persisted
+// dismissal and no close button — so syncPromo() tracks whether the Browse
+// discovery landing is showing. It hides the moment the user drops into
+// Browse-all, a search, a filter, or any other tab (Favorites, lists, …).
+// The CTA opens in a new tab (target="_blank" in the markup) so playback keeps
+// going. renderContent() calls syncPromo() on every render so Browse-all and
+// back-to-discovery flip the banner without a tab change.
+const $promo = document.getElementById('promo') as HTMLElement;
+const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
+/** Reveal the promo only on the Browse discovery landing. */
+function syncPromo(): void {
+  $promo.hidden = !inDiscovery();
+}
+syncPromo();
+$promoLink.addEventListener('click', () => track('promo/ios'));
+// Permanent /ios entry on the About page (the banner above is dismissable).
+document.getElementById('about-ios')?.addEventListener('click', () => track('about/ios'));
+
 $addForm.addEventListener('submit', handleAddSubmit);
 
-$themeBtn.addEventListener('click', onToggleTheme);
-$aboutBtn.addEventListener('click', () => openAboutSheet(true));
-$aboutClose.addEventListener('click', () => openAboutSheet(false));
+$listCancel.addEventListener('click', () => closeAddList());
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $listSheet.classList.contains('open')) closeAddList();
+  if (e.key === 'Escape' && $filterSheet.classList.contains('open')) openFilterSheet(false);
+});
+
+// ─── Top-toolbar sheets: filters (funnel) + settings (gear) ───
+
+/** Open/close the filter sheet. On open, seed the draft from the live
+ *  filter, auto-expand any section that already carries a selection, and
+ *  build the sheet (mirrors how the iOS sheet starts from `initial`). */
+function openFilterSheet(open: boolean): void {
+  if (open) {
+    copySet(draftGenres, filterGenres);
+    copySet(draftCountries, filterCountries);
+    draftNews = filterNews;
+    copySet(draftQuality, activeQuality);
+    bfCountrySearch = '';
+    bfExpanded.clear();
+    if (draftGenres.size > 0 || draftNews) bfExpanded.add('genre');
+    if (draftCountries.size > 0) bfExpanded.add('country');
+    if (draftQuality.size > 0) bfExpanded.add('quality');
+    renderFilterSheet();
+  }
+  $filterSheet.classList.toggle('open', open);
+  $filterSheet.setAttribute('aria-hidden', String(!open));
+}
+function openSettingsSheet(open: boolean): void {
+  if (open) {
+    syncThemeSeg();
+    syncAccentSeg();
+    syncLandingSeg();
+    syncMusicToggles();
+  }
+  $settingsSheet.classList.toggle('open', open);
+  $settingsSheet.setAttribute('aria-hidden', String(!open));
+}
+
+// ─── Settings sheet tabs: Settings · About · Add ───
+// About + Add used to be their own slide-up sheets; their markup is
+// authored once in #about-src / #add-src and relocated into the matching
+// tab panels here at boot (same pattern as the filter-row relocation),
+// so every id + handler inside them is preserved.
+type SettingsTab = 'settings' | 'about' | 'add';
+const settingsPanels = new Map<SettingsTab, HTMLElement>();
+for (const panel of $settingsSheet.querySelectorAll<HTMLElement>('[data-settings-panel]')) {
+  settingsPanels.set(panel.dataset.settingsPanel as SettingsTab, panel);
+}
+function relocateInto(srcId: string, tab: SettingsTab): void {
+  const src = document.getElementById(srcId);
+  const panel = settingsPanels.get(tab);
+  if (src && panel) panel.append(...Array.from(src.childNodes));
+}
+relocateInto('about-src', 'about');
+relocateInto('add-src', 'add');
+
+// About hero (mirrors the iOS AboutContentView header): stamp the build
+// version, and reveal the share button only where Web Share is supported.
+declare const __BUILD_VERSION__: string;
+const $aboutVersion = document.getElementById('about-version');
+if ($aboutVersion) {
+  const v = typeof __BUILD_VERSION__ !== 'undefined' ? __BUILD_VERSION__ : 'dev';
+  $aboutVersion.textContent = `Version ${v}`;
+}
+const $aboutShare = document.getElementById('about-share');
+if ($aboutShare && typeof navigator.share === 'function') {
+  $aboutShare.hidden = false;
+  $aboutShare.addEventListener('click', () => {
+    void navigator
+      .share({
+        title: 'rrradio.org',
+        text: 'Free internet radio without ads.',
+        url: 'https://rrradio.org',
+      })
+      .catch(() => {
+        /* user dismissed the share sheet — nothing to do */
+      });
+  });
+}
+
+function selectSettingsTab(tab: SettingsTab): void {
+  for (const btn of $settingsTabs.querySelectorAll<HTMLButtonElement>('.sheet-tab')) {
+    const on = btn.dataset.settingsTab === tab;
+    btn.classList.toggle('is-active', on);
+    btn.setAttribute('aria-selected', String(on));
+  }
+  for (const [key, panel] of settingsPanels) panel.hidden = key !== tab;
+  // Scroll the body back to the top when switching tabs.
+  const body = $settingsSheet.querySelector<HTMLElement>('.sheet-body');
+  if (body) body.scrollTop = 0;
+}
+
+$settingsTabs.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.sheet-tab');
+  if (!btn) return;
+  selectSettingsTab((btn.dataset.settingsTab as SettingsTab) ?? 'settings');
+});
+
+/** Lights the funnel's accent dot when any filter narrows Browse. */
+function syncFilterDot(): void {
+  $filterDot.hidden = !hasActiveFilter();
+}
+
+$filterBtn.addEventListener('click', () => openFilterSheet(true));
+$filterClose.addEventListener('click', () => openFilterSheet(false));
+$settingsBtn.addEventListener('click', () => {
+  openSettingsSheet(true);
+  selectSettingsTab('settings');
+});
+$settingsClose.addEventListener('click', () => openSettingsSheet(false));
+// ─── Settings: theme · landing page · music services ───
+const LANDING_KEY = 'rrradio.landing';
+type MusicService = 'apple' | 'spotify' | 'youtube';
+const MS_KEYS: Record<MusicService, string> = {
+  apple: 'rrradio.ms.apple',
+  spotify: 'rrradio.ms.spotify',
+  youtube: 'rrradio.ms.youtube',
+};
+/** Music-service deep-links default ON; '0' = user turned it off. */
+function msEnabled(svc: MusicService): boolean {
+  return getString(MS_KEYS[svc]) !== '0';
+}
+
+function syncSeg(seg: HTMLElement, attr: string, value: string): void {
+  for (const btn of seg.querySelectorAll<HTMLButtonElement>('.seg__btn')) {
+    const on = btn.dataset[attr] === value;
+    btn.classList.toggle('is-active', on);
+    btn.setAttribute('aria-checked', String(on));
+  }
+}
+function syncThemeSeg(): void {
+  syncSeg($themeSeg, 'themeChoice', readStoredTheme() ?? 'system');
+}
+/** Reflect the custom accent for the *current* appearance: Standard vs
+ *  Custom segment, the picker swatch, and whether the picker row shows. */
+function syncAccentSeg(): void {
+  const theme = effectiveTheme();
+  const custom = readAccent(theme);
+  syncSeg($accentSeg, 'accent', custom ? 'custom' : 'standard');
+  $accentRow.hidden = !custom;
+  $accentPicker.value = custom ?? DEFAULT_ACCENT[theme];
+}
+function syncLandingSeg(): void {
+  syncSeg($landingSeg, 'landing', getString(LANDING_KEY) || 'browse');
+}
+function syncMusicToggles(): void {
+  $msApple.setAttribute('aria-pressed', String(msEnabled('apple')));
+  $msSpotify.setAttribute('aria-pressed', String(msEnabled('spotify')));
+  $msYoutube.setAttribute('aria-pressed', String(msEnabled('youtube')));
+}
+/** Hide the open-in links the user turned off in Settings. */
+function syncMusicServiceLinks(): void {
+  $npTrackAppleMusic.style.display = msEnabled('apple') ? '' : 'none';
+  $npTrackSpotify.style.display = msEnabled('spotify') ? '' : 'none';
+  $npTrackYoutubeMusic.style.display = msEnabled('youtube') ? '' : 'none';
+}
+
+$themeSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const choice = btn.dataset.themeChoice ?? 'system';
+  applyTheme(choice === 'system' ? null : (choice as 'light' | 'dark'));
+  syncThemeSeg();
+  // The effective appearance may have changed — repaint the accent picker
+  // for the appearance now in effect (applyAccent already ran via the
+  // onThemeApplied hook).
+  syncAccentSeg();
+  track(`theme/${choice}`);
+});
+// Accent: Standard clears the override; Custom seeds from the current value
+// (default if none) so the override takes effect immediately, then the
+// swatch fine-tunes it live. Stored per appearance.
+$accentSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const choice = btn.dataset.accent ?? 'standard';
+  const theme = effectiveTheme();
+  setAccent(theme, choice === 'custom' ? readAccent(theme) ?? DEFAULT_ACCENT[theme] : null);
+  syncAccentSeg();
+  track(`accent/${choice}`);
+});
+$accentPicker.addEventListener('input', () => {
+  setAccent(effectiveTheme(), $accentPicker.value);
+});
+$landingSeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
+  if (!btn) return;
+  const landing = btn.dataset.landing ?? 'browse';
+  setString(LANDING_KEY, landing);
+  syncLandingSeg();
+  track(`landing/${landing}`);
+});
+function bindMusicToggle(btn: HTMLButtonElement, svc: MusicService): void {
+  btn.addEventListener('click', () => {
+    const next = !msEnabled(svc);
+    setString(MS_KEYS[svc], next ? '1' : '0');
+    syncMusicToggles();
+    syncMusicServiceLinks();
+    track(`music-service/${svc}/${next ? 'on' : 'off'}`);
+  });
+}
+bindMusicToggle($msApple, 'apple');
+bindMusicToggle($msSpotify, 'spotify');
+bindMusicToggle($msYoutube, 'youtube');
+
+$settingsBackup.addEventListener('click', () => {
+  openSettingsSheet(false);
+  exportBackupNow();
+});
+$settingsRestore.addEventListener('click', () => {
+  openSettingsSheet(false);
+  pickImportFile();
+});
+
+$settingsStats.addEventListener('click', () => {
+  openSettingsSheet(false);
+  void openDashboardSheet(true);
+});
 
 // ─── Backup & restore ──────────────────────────────────────────────
 // UI lives on the Favorites tab header (icons rendered by
@@ -3086,10 +5029,58 @@ function showBackupToast(text: string, tone: 'ok' | 'err'): void {
   }, tone === 'err' ? 7_000 : 4_000);
 }
 
+/** Snapshot the current app settings for a backup. Reads through the
+ *  same accessors the app uses at boot, so the file always reflects the
+ *  live state. Omitted (undefined) keys drop out of the JSON. */
+function collectSettings(): BackupSettings {
+  const accent: { light?: string; dark?: string } = {};
+  const lightAccent = readAccent('light');
+  const darkAccent = readAccent('dark');
+  if (lightAccent) accent.light = lightAccent;
+  if (darkAccent) accent.dark = darkAccent;
+  return {
+    theme: readStoredTheme() ?? undefined,
+    accent: Object.keys(accent).length > 0 ? accent : undefined,
+    landing: getString(LANDING_KEY) ?? undefined,
+    musicServices: {
+      apple: msEnabled('apple'),
+      spotify: msEnabled('spotify'),
+      youtube: msEnabled('youtube'),
+    },
+    browseCollapsed: getString(BROWSE_COLLAPSED_KEY) === '1',
+  };
+}
+
+/** Apply imported settings live — persist each key and call the same
+ *  apply functions the toggles use, so a restore takes effect without a
+ *  reload. Only the keys present in the file are touched. */
+function applySettings(s: BackupSettings): void {
+  if (s.theme) applyTheme(s.theme);
+  if (s.accent) {
+    if (s.accent.light) setAccent('light', s.accent.light);
+    if (s.accent.dark) setAccent('dark', s.accent.dark);
+  }
+  if (s.landing) setString(LANDING_KEY, s.landing);
+  if (s.musicServices) {
+    const ms = s.musicServices;
+    if (typeof ms.apple === 'boolean') setString(MS_KEYS.apple, ms.apple ? '1' : '0');
+    if (typeof ms.spotify === 'boolean') setString(MS_KEYS.spotify, ms.spotify ? '1' : '0');
+    if (typeof ms.youtube === 'boolean') setString(MS_KEYS.youtube, ms.youtube ? '1' : '0');
+    syncMusicServiceLinks();
+  }
+  if (typeof s.browseCollapsed === 'boolean') {
+    setString(BROWSE_COLLAPSED_KEY, s.browseCollapsed ? '1' : '0');
+    applyBrowseCollapsed(s.browseCollapsed);
+  }
+}
+
 function exportBackupNow(): void {
   const favs = getFavorites();
   const cus = getCustom();
-  const text = serializeBackup(favs, cus);
+  const lists = getLists();
+  const recents = getRecents();
+  const settings = collectSettings();
+  const text = serializeBackup(favs, cus, lists, recents, settings);
   // Blob URL + temporary anchor for the download. Works on desktop;
   // iOS Safari opens inline (Save to Files is two taps from there).
   const blob = new Blob([text], { type: 'application/json' });
@@ -3101,13 +5092,25 @@ function exportBackupNow(): void {
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  showBackupToast(
-    `Exported ${favs.length} favorite${favs.length === 1 ? '' : 's'}` +
-      (cus.length > 0 ? ` and ${cus.length} custom station${cus.length === 1 ? '' : 's'}` : '') +
-      '.',
-    'ok',
+  const exportParts: string[] = [];
+  if (favs.length > 0) exportParts.push(`${favs.length} favorite${favs.length === 1 ? '' : 's'}`);
+  if (cus.length > 0) exportParts.push(`${cus.length} custom station${cus.length === 1 ? '' : 's'}`);
+  if (lists.length > 0) exportParts.push(`${lists.length} list${lists.length === 1 ? '' : 's'}`);
+  if (recents.length > 0)
+    exportParts.push(`${recents.length} recent${recents.length === 1 ? '' : 's'}`);
+  exportParts.push('settings');
+  showBackupToast(`Exported ${joinNatural(exportParts)}.`, 'ok');
+  track(
+    'backup-export',
+    `favs=${favs.length} custom=${cus.length} lists=${lists.length} recents=${recents.length}`,
   );
-  track('backup-export', `favs=${favs.length} custom=${cus.length}`);
+}
+
+/** "a", "a and b", "a, b and c" — matches backup.ts's joinParts wording. */
+function joinNatural(parts: string[]): string {
+  if (parts.length <= 1) return parts.join('');
+  if (parts.length === 2) return `${parts[0]} and ${parts[1]}`;
+  return `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
 }
 
 function importBackupFromFile(file: File): void {
@@ -3117,16 +5120,27 @@ function importBackupFromFile(file: File): void {
     try {
       const text = String(reader.result ?? '');
       const snap = parseBackup(text);
-      const summary = mergeSnapshot(getFavorites(), getCustom(), snap);
+      const summary = mergeSnapshot(
+        getFavorites(),
+        getCustom(),
+        getLists(),
+        getRecents(),
+        snap,
+      );
       setFavorites(summary.mergedFavorites);
       setCustom(summary.mergedCustom);
+      setLists(summary.mergedLists);
+      setRecents(summary.mergedRecents);
+      applySettings(summary.mergedSettings);
       showBackupToast(summaryMessage(summary), 'ok');
       track(
         'backup-import',
-        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded}`,
+        `favsAdded=${summary.favoritesAdded} customAdded=${summary.customAdded} listsAdded=${summary.listsAdded} recentsAdded=${summary.recentsAdded} settings=${summary.settingsApplied}`,
       );
       void runQuery();
       renderCustomList();
+      // Favorites / Library / Recents all may have changed — re-render if visible.
+      if (activeTab === 'fav' || isLibraryTab(activeTab)) renderContent();
     } catch (err) {
       const msg =
         err instanceof BackupParseError
@@ -3155,31 +5169,214 @@ function pickImportFile(): void {
 }
 
 /** Build the export + import icon buttons for the Favorites tab header.
- *  Export is disabled when there's nothing to export; import is always
- *  available (it's how a fresh device becomes populated). */
-function favoriteHeaderActions(favoriteCount: number): HTMLElement[] {
-  const exportBtn = document.createElement('button');
-  exportBtn.type = 'button';
-  exportBtn.className = 'section-label__action';
-  exportBtn.setAttribute('aria-label', 'Export favorites');
-  exportBtn.title = 'Export favorites to file';
-  exportBtn.disabled = favoriteCount === 0;
-  exportBtn.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
-  exportBtn.addEventListener('click', exportBackupNow);
-
-  const importBtn = document.createElement('button');
-  importBtn.type = 'button';
-  importBtn.className = 'section-label__action';
-  importBtn.setAttribute('aria-label', 'Import favorites');
-  importBtn.title = 'Import favorites from file';
-  importBtn.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>';
-  importBtn.addEventListener('click', pickImportFile);
-
-  return [exportBtn, importBtn];
+ *  The backup now carries everything (favorites, custom, lists, recents
+ *  and settings), so export is always available — even an empty dial
+ *  exports the user's settings. Import is how a fresh device populates. */
+/** Builds a 32×32 section-label icon button (search / + / trash / backup). */
+function headerActionBtn(icon: string, label: string, onClick: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'section-label__action';
+  btn.setAttribute('aria-label', label);
+  btn.title = label;
+  btn.innerHTML = icon;
+  btn.addEventListener('click', onClick);
+  return btn;
 }
-$dashboardBtn.addEventListener('click', () => void openDashboardSheet(true));
+
+// Mobile favorites header — iOS LibraryPageStatusBar accessories.
+// Left: search; right: add-to-favorites (+) and edit/remove mode (trash).
+// The iOS LibraryPageStatusBar search accessory — shared by every feed
+// page (Favorites, Library home, list detail, Recents). On mobile the
+// brand-row search field is hidden (body.tab-fav / .tab-library); tapping
+// this expands it (body.search-open).
+function headerSearchLead(label = 'Search'): HTMLElement {
+  const btn = headerActionBtn(ICON_SEARCH, label, toggleHeaderSearch);
+  if ($body.classList.contains('search-open')) btn.classList.add('is-active');
+  return btn;
+}
+
+function favoriteHeaderActions(): HTMLElement[] {
+  // "+" enters Browse multi-select targeting Favorites (iOS #57): tick
+  // stations, then "Add N to Favorites" adds them all and returns here.
+  const addBtn = headerActionBtn(ICON_PLUS, 'Add stations to favorites', enterFavoriteSelect);
+  const trashBtn = headerActionBtn(ICON_TRASH, 'Remove favorites', toggleFavEditing);
+  if (favEditing) trashBtn.classList.add('is-active');
+  return [addBtn, trashBtn];
+}
+
+// ── Browse multi-select "add to <target>" (iOS #57) ───────────────────
+function enterFavoriteSelect(): void {
+  if (favEditing) favEditing = false;
+  selectMode = { target: { kind: 'favorites' }, picked: new Map(), existing: favIdSet() };
+  setTab('browse'); // setTab won't clear selectMode when going to browse
+  syncSelectDock();
+}
+
+function enterListSelect(list: StationList): void {
+  selectMode = {
+    target: { kind: 'list', id: list.id, name: list.name },
+    picked: new Map(),
+    existing: new Set(list.stations.map((s) => s.id)),
+  };
+  setTab('browse');
+  syncSelectDock();
+}
+
+function exitSelectMode(): void {
+  selectMode = null;
+  syncSelectDock();
+  if (activeTab === 'browse') renderContent();
+}
+
+function saveSelect(): void {
+  if (!selectMode || selectMode.picked.size === 0) return;
+  const { target, picked } = selectMode;
+  const count = picked.size;
+  // The list the stations land in — null for Favorites. A 'newList' target is
+  // created here (iOS atomic create+add) so a cancelled flow leaves no list.
+  let listId: string | null = null;
+  if (target.kind === 'favorites') {
+    for (const station of picked.values()) {
+      if (!isFavorite(station.id)) toggleFavorite(station);
+    }
+  } else {
+    if (target.kind === 'newList') {
+      listId = createList(target.name).id;
+      track('list-create');
+    } else {
+      listId = target.id;
+    }
+    for (const station of picked.values()) addToList(listId, station);
+  }
+  selectMode = null;
+  syncSelectDock();
+  track(`${target.kind === 'favorites' ? 'favorites' : 'list'}/add-multi: ${count}`);
+  renderTopBar();
+  // The Browse search is the shared global field — clear it so the target
+  // opens on its full list, not filtered by what was typed to find these.
+  clearSearch(false);
+  if (listId) {
+    openListId = listId;
+    setTab('library');
+  } else {
+    setTab('fav');
+  }
+}
+
+/** Toggle a station's pick in select mode and refresh its tick + the dock. */
+function toggleSelectPick(station: Station, tick: HTMLElement): void {
+  if (!selectMode) return;
+  if (selectMode.picked.has(station.id)) {
+    selectMode.picked.delete(station.id);
+    tick.classList.remove('is-picked');
+    tick.innerHTML = '';
+  } else {
+    selectMode.picked.set(station.id, station);
+    tick.classList.add('is-picked');
+    tick.innerHTML = ICON_CHECK;
+  }
+  syncSelectDock();
+}
+
+/** Build / update / tear down the accent-tinted select dock pinned above
+ *  the station list (the iOS BrowseSelectionDock). Lives outside #content
+ *  so a search re-render (runQuery → replaceChildren) can't wipe it. */
+function syncSelectDock(): void {
+  if (!selectMode) {
+    $selectDock?.remove();
+    $selectDock = null;
+    $body.classList.remove('selecting');
+    return;
+  }
+  if (!$selectDock) {
+    $selectDock = document.createElement('div');
+    $selectDock.className = 'select-dock';
+    const stage = document.querySelector('.stage');
+    stage?.parentElement?.insertBefore($selectDock, stage);
+    $body.classList.add('selecting');
+  }
+  const n = selectMode.picked.size;
+
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'select-dock__cancel';
+  cancel.setAttribute('aria-label', 'Cancel');
+  cancel.innerHTML = ICON_CLOSE;
+  cancel.addEventListener('click', exitSelectMode);
+
+  const label = document.createElement('div');
+  label.className = 'select-dock__label';
+  const lead = document.createElement('span');
+  lead.textContent = 'Adding to ';
+  const target = document.createElement('b');
+  target.textContent =
+    selectMode.target.kind === 'favorites' ? 'Favorites' : selectMode.target.name;
+  label.append(lead, target);
+  if (n > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'select-dock__count';
+    badge.textContent = String(n);
+    label.append(badge);
+  }
+
+  const save = document.createElement('button');
+  save.type = 'button';
+  save.className = 'select-dock__save';
+  save.disabled = n === 0;
+  save.textContent = n > 0 ? `Add ${n}` : 'Select stations';
+  save.addEventListener('click', saveSelect);
+
+  const row = document.createElement('div');
+  row.className = 'select-dock__row';
+  row.append(cancel, label, save);
+
+  // The step strip rides above the action row only when this select reached
+  // step 2 via the choose-list popup (Favorites / existing-list "+" skip it).
+  if (selectMode.withSteps) $selectDock.replaceChildren(buildStepStrip(2), row);
+  else $selectDock.replaceChildren(row);
+}
+
+function toggleFavEditing(): void {
+  favEditing = !favEditing;
+  if (activeTab === 'fav') renderContent();
+}
+
+function toggleLibEditing(): void {
+  libEditing = !libEditing;
+  if (activeTab === 'library') renderContent();
+}
+
+function toggleHeaderSearch(): void {
+  const opening = !$body.classList.contains('search-open');
+  $body.classList.toggle('search-open', opening);
+  if (opening) {
+    $search.focus();
+  } else {
+    clearSearch(false);
+  }
+  renderContent();
+}
+
+/** Prepend a remove (−) button to each favorite card in edit mode. */
+function decorateFavoriteRemoval(grid: HTMLElement, list: Station[]): void {
+  grid.classList.add('rows--editing');
+  const rows = grid.querySelectorAll<HTMLElement>(':scope > .row');
+  rows.forEach((row, i) => {
+    const station = list[i];
+    if (!station) return;
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.className = 'row-remove';
+    rm.setAttribute('aria-label', `Remove ${station.name} from favorites`);
+    rm.innerHTML = ICON_MINUS_CIRCLE;
+    rm.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onToggleFav(station); // un-favorites + re-renders (stays in edit mode)
+    });
+    row.prepend(rm);
+  });
+}
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
 // Tap the alarm icon at the bottom of NP controls → toggle the
@@ -3218,7 +5415,193 @@ $wakeArmBtn.addEventListener('click', () => {
   syncWakeArmButton();
 });
 
-$mini.addEventListener('click', () => openNp(true));
+// Tapping anywhere on the mini-player bar opens the Now Playing destination
+// (iOS parity) — except the transport + volume controls, which keep their own
+// behavior. prev/toggle/skip already stop propagation; the closest() guard
+// also covers the volume slider. The #mini-open button bubbles here too, so a
+// keyboard Enter on it still expands to Now Playing.
+$mini.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('.mini-prev, .mini-toggle, .mini-skip, .mini-volume, .mini-close')) {
+    return;
+  }
+  // A swipe just ended — swallow the click it would otherwise fire.
+  if (miniSuppressClick) {
+    miniSuppressClick = false;
+    return;
+  }
+  // Tapping while the close zone is revealed cancels it (iOS parity), rather
+  // than opening Now Playing.
+  if (miniRested) {
+    miniSpringBack();
+    return;
+  }
+  openNp(true);
+});
+
+// ── Mini-player swipe-to-close (iOS MiniPlayerView parity) ───────────
+// Drag the bar's content left to reveal a red close zone; release past a
+// small threshold rests there (tap the X to confirm), a fling / far swipe
+// auto-closes. Close = player.stop(), which clears the station so the bar
+// hides and the Playing tab bounces back to the list.
+const MINI_REVEAL_WIDTH = 76;
+const MINI_REVEAL_THRESHOLD = 40;
+let miniDx = 0;
+let miniRested = false;
+let miniSwipePointer: number | null = null;
+let miniSwipeStartX = 0;
+let miniSwipeStartY = 0;
+let miniSwiping = false;
+let miniSuppressClick = false;
+
+function miniBarWidth(): number {
+  const w = $mini.getBoundingClientRect().width;
+  return w > 0 ? w : 360;
+}
+function miniCloseThreshold(): number {
+  return Math.max(miniBarWidth() * 0.5, 160);
+}
+function setMiniDx(dx: number, animate: boolean): void {
+  miniDx = dx;
+  $miniSlide.classList.toggle('is-animating', animate);
+  $miniSlide.style.setProperty('--mini-dx', `${dx}px`);
+  $miniClose.hidden = dx >= 0;
+}
+function miniSpringBack(): void {
+  miniRested = false;
+  setMiniDx(0, true);
+}
+function miniRest(): void {
+  miniRested = true;
+  setMiniDx(-MINI_REVEAL_WIDTH, true);
+}
+function miniReset(): void {
+  miniRested = false;
+  miniSwiping = false;
+  setMiniDx(0, false);
+}
+function miniClose(): void {
+  player.stop();
+  miniReset();
+  track('mini/close');
+}
+
+$miniOpen.addEventListener('pointerdown', (e) => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  miniSwipePointer = e.pointerId;
+  miniSwipeStartX = e.clientX;
+  miniSwipeStartY = e.clientY;
+  miniSwiping = false;
+  miniSuppressClick = false;
+});
+$miniOpen.addEventListener('pointermove', (e) => {
+  if (miniSwipePointer !== e.pointerId) return;
+  const dx = e.clientX - miniSwipeStartX;
+  const dy = e.clientY - miniSwipeStartY;
+  if (!miniSwiping) {
+    // Only claim the gesture once it's clearly a horizontal drag, so taps
+    // (open NP) and vertical scrolls still pass through.
+    if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+    miniSwiping = true;
+    miniSuppressClick = true;
+    try { $miniOpen.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+  }
+  e.preventDefault();
+  const base = miniRested ? -MINI_REVEAL_WIDTH : 0;
+  const lower = -miniBarWidth();
+  setMiniDx(Math.min(0, Math.max(lower, base + dx)), false);
+});
+function endMiniSwipe(e: PointerEvent): void {
+  if (miniSwipePointer !== e.pointerId) return;
+  miniSwipePointer = null;
+  if (!miniSwiping) return;
+  miniSwiping = false;
+  try { $miniOpen.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
+  const distance = -miniDx;
+  if (distance >= miniCloseThreshold()) miniClose();
+  else if (distance >= MINI_REVEAL_THRESHOLD) miniRest();
+  else miniSpringBack();
+}
+$miniOpen.addEventListener('pointerup', endMiniSwipe);
+$miniOpen.addEventListener('pointercancel', endMiniSwipe);
+
+$miniClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  miniClose();
+});
+// Desktop-only "×" in the bar's top-right corner (no swipe on desktop).
+$miniCloseX.addEventListener('click', (e) => {
+  e.stopPropagation();
+  miniClose();
+});
+
+// ── Swipe between the main destinations (iOS root-swipe parity) ──────
+// A horizontal TOUCH swipe on the content area cycles Browse ⇄ Favorites ⇄
+// Library. Threshold-based (commit on release) so it doesn't fight vertical
+// scroll; guarded against the horizontal chip carousels, card reorder grips,
+// open sheets, multi-select, and list-detail sub-views. Touch-only — desktop
+// keeps mouse selection/drag.
+const PAGE_SWIPE_TABS: Tab[] = ['browse', 'fav', 'library'];
+const PAGE_SWIPE_THRESHOLD = 60;
+let pageSwipePointer: number | null = null;
+let pageSwipeStartX = 0;
+let pageSwipeStartY = 0;
+let pageSwipeArmed = false;
+
+/** True when the start point sits inside a horizontally scrollable element
+ *  (a chip carousel / featured rail) — those own the horizontal gesture. */
+function hasHorizontalScrollAncestor(start: HTMLElement | null): boolean {
+  let el: HTMLElement | null = start;
+  while (el && el !== $content) {
+    if (el.scrollWidth > el.clientWidth + 4) {
+      const ox = getComputedStyle(el).overflowX;
+      if (ox === 'auto' || ox === 'scroll') return true;
+    }
+    el = el.parentElement;
+  }
+  return false;
+}
+
+function pageSwipeEligible(target: HTMLElement | null): boolean {
+  if (!PAGE_SWIPE_TABS.includes(activeTab)) return false;
+  if (openListId || listCreateOpen || selectMode) return false;
+  if (!$npInfo.hidden) return false;
+  if (document.querySelector('.sheet.open')) return false;
+  if (hasHorizontalScrollAncestor(target)) return false;
+  if (target?.closest('.row-grip, input, .np-volume')) return false;
+  return true;
+}
+
+$content.addEventListener('pointerdown', (e) => {
+  if (e.pointerType !== 'touch') return;
+  if (!pageSwipeEligible(e.target as HTMLElement)) {
+    pageSwipeArmed = false;
+    return;
+  }
+  pageSwipePointer = e.pointerId;
+  pageSwipeStartX = e.clientX;
+  pageSwipeStartY = e.clientY;
+  pageSwipeArmed = true;
+});
+$content.addEventListener('pointerup', (e) => {
+  if (!pageSwipeArmed || pageSwipePointer !== e.pointerId) return;
+  pageSwipeArmed = false;
+  pageSwipePointer = null;
+  const dx = e.clientX - pageSwipeStartX;
+  const dy = e.clientY - pageSwipeStartY;
+  // Mostly-horizontal and past the threshold (so vertical scroll + small
+  // taps never switch pages).
+  if (Math.abs(dx) < PAGE_SWIPE_THRESHOLD || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+  const idx = PAGE_SWIPE_TABS.indexOf(activeTab);
+  if (idx < 0) return;
+  const next = dx < 0 ? idx + 1 : idx - 1; // swipe left → next destination
+  if (next < 0 || next >= PAGE_SWIPE_TABS.length) return;
+  setTab(PAGE_SWIPE_TABS[next]);
+  track(`page-swipe/${PAGE_SWIPE_TABS[next]}`);
+});
+$content.addEventListener('pointercancel', () => {
+  pageSwipeArmed = false;
+  pageSwipePointer = null;
+});
 
 const $npBack = document.getElementById('np-back') as HTMLButtonElement;
 $npBack.addEventListener('click', () => openNp(false));
@@ -3227,9 +5610,12 @@ $miniToggle.addEventListener('click', (e) => {
   handlePlayToggle();
 });
 
-// Mini-player skip — same gesture as the lock-screen "next" control:
-// cycles through favorites. Stops propagation so it doesn't also
-// trigger the parent .mini click that opens Now Playing.
+// Mini-player prev/next — same gesture as the lock-screen previous/next
+// controls: cycle backward/forward through favorites.
+$miniPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  skipFavorite(-1);
+});
 $miniSkip.addEventListener('click', (e) => {
   e.stopPropagation();
   skipFavorite(1);
@@ -3237,78 +5623,134 @@ $miniSkip.addEventListener('click', (e) => {
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
 
-// Open-in popup — arrow trigger reveals a small panel with service
-// text links. Click outside / Esc / pick a link closes it. The
-// wrapper carries the open-state for hover styling.
-//
-// The popup must escape `.np-body { overflow: hidden }` AND `.np`'s
-// transform (a transformed ancestor turns `position: fixed` into a
-// containing block, re-clipping us). Moving the popup to body lifts
-// it out of both, so the fixed positioning is true viewport-relative.
-document.body.appendChild($npTrackOpenInPopup);
+// Open in — the music-service marks are shown inline (the render toggles
+// #np-track-open-in-wrap once a track verifies). Per-service Settings
+// toggles hide individual marks via syncMusicServiceLinks(), called after
+// each NP render. Tapping a mark just follows its link (handlers below).
 
-function positionOpenInPopup() {
-  const r = $npTrackOpenIn.getBoundingClientRect();
-  $npTrackOpenInPopup.style.top = `${Math.round(r.bottom + 8)}px`;
-  $npTrackOpenInPopup.style.right = `${Math.round(window.innerWidth - r.right - 4)}px`;
+// ── Station-info popup ──────────────────────────────────────────────
+// Opened by tapping the station logo or the album art (iOS parity);
+// carries the stream details the removed bottom strip used to expand.
+function openStationInfo(): void {
+  if (!currentNP.station.id) return;
+  $npInfo.hidden = false;
+  track('np-info/open');
 }
-function openOpenInPopup() {
-  positionOpenInPopup();
-  $npTrackOpenInPopup.hidden = false;
-  $npTrackOpenInWrap.dataset.open = 'true';
-  $npTrackOpenIn.setAttribute('aria-expanded', 'true');
-  track('open-in/show');
+function closeStationInfo(): void {
+  $npInfo.hidden = true;
 }
-function closeOpenInPopup() {
-  $npTrackOpenInPopup.hidden = true;
-  delete $npTrackOpenInWrap.dataset.open;
-  $npTrackOpenIn.setAttribute('aria-expanded', 'false');
-}
-$npTrackOpenIn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  if ($npTrackOpenInPopup.hidden) openOpenInPopup();
-  else closeOpenInPopup();
+$npStationLogoBtn.addEventListener('click', openStationInfo);
+$npTrackCoverWrap.addEventListener('click', openStationInfo);
+$npTrackCoverWrap.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openStationInfo();
+  }
 });
-document.addEventListener('click', (e) => {
-  if ($npTrackOpenInPopup.hidden) return;
-  const t = e.target as Node;
-  if ($npTrackOpenInWrap.contains(t)) return;
-  if ($npTrackOpenInPopup.contains(t)) return;
-  closeOpenInPopup();
-});
+$npInfoScrim.addEventListener('click', closeStationInfo);
+$npInfoClose.addEventListener('click', closeStationInfo);
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !$npTrackOpenInPopup.hidden) closeOpenInPopup();
+  if (e.key === 'Escape' && !$npInfo.hidden) closeStationInfo();
 });
-window.addEventListener('resize', () => {
-  if (!$npTrackOpenInPopup.hidden) positionOpenInPopup();
+
+// ── Transport: previous / next — cycle through favorites, the same
+// gesture as the mini-player + lock-screen prev/next controls. ──
+$npPrev.addEventListener('click', () => skipFavorite(-1));
+$npNext.addEventListener('click', () => skipFavorite(1));
+
+// ── Add the current station to a list (+ button on the name row). ──
+$npAdd.addEventListener('click', () => {
+  if (currentNP.station.id) openAddList({ mode: 'addNow', station: currentNP.station });
 });
+
+// Infinite scroll — load the next batch as the result list nears the bottom
+// (iOS parity). pendingLoadMore is set by renderContent() to the current
+// view's loader (reveal-more / fetch-next) and cleared when nothing remains.
+// The async loaders self-guard against re-entry, so firing on every scroll
+// tick near the bottom is safe.
+$content.addEventListener(
+  'scroll',
+  () => {
+    if (!pendingLoadMore) return;
+    if ($content.scrollTop + $content.clientHeight >= $content.scrollHeight - 600) {
+      pendingLoadMore();
+    }
+  },
+  { passive: true },
+);
+
+/** If the freshly rendered list is too short to scroll, pull more so the
+ *  user can actually reach the bottom (and infinite scroll can take over).
+ *  Capped per view via autoFillTries. Call at the end of a browse render. */
+function maybeAutoFill(): void {
+  if (!pendingLoadMore || autoFillTries >= AUTO_FILL_MAX) return;
+  if (browseLoadingMore) return; // a fetch is already in flight — wait for it
+  if ($content.scrollHeight > $content.clientHeight + 8) return; // already scrollable
+  autoFillTries++;
+  pendingLoadMore();
+}
 
 // Streaming-service deep links — count taps so we can see if anyone
 // uses them. Track strings stay out of telemetry.
-$npTrackSpotify.addEventListener('click', () => {
-  track('open-spotify');
-  closeOpenInPopup();
-});
-$npTrackAppleMusic.addEventListener('click', () => {
-  track('open-apple-music');
-  closeOpenInPopup();
-});
-$npTrackYoutubeMusic.addEventListener('click', () => {
-  track('open-youtube-music');
-  closeOpenInPopup();
-});
+$npTrackSpotify.addEventListener('click', () => track('open-spotify'));
+$npTrackAppleMusic.addEventListener('click', () => track('open-apple-music'));
+$npTrackYoutubeMusic.addEventListener('click', () => track('open-youtube-music'));
 $npMute.addEventListener('click', () => {
-  const muted = player.toggleMute();
-  $body.classList.toggle('is-muted', muted);
-  $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+  reflectMuteUi(player.toggleMute());
 });
 
-$npDetailsToggle.addEventListener('click', () => {
-  const open = $npDetails.dataset.open !== 'true';
-  $npDetails.dataset.open = String(open);
-  $npDetailsToggle.setAttribute('aria-expanded', String(open));
-  track(open ? 'np-details/open' : 'np-details/close');
-});
+// ── Volume slider ─────────────────────────────────────────────────
+// Desktop has no hardware volume rocker, so the Now Playing surface
+// carries its own slider. Level (0–1) persists across sessions; the
+// accent-filled portion is drawn by the `--vol` custom property.
+const VOLUME_KEY = 'rrradio.volume.v1';
+
+function applyVolumeUi(v: number): void {
+  const pct = Math.round(v * 100);
+  $npVolumeSlider.value = String(pct);
+  $npVolume.style.setProperty('--vol', `${pct}%`);
+  $npVolumeValue.textContent = `${pct}%`;
+  // The desktop mini-player carries its own slider — keep it in lockstep
+  // so the two never disagree (same shared volume state).
+  $miniVolumeSlider.value = String(pct);
+  $miniVolume.style.setProperty('--vol', `${pct}%`);
+}
+
+function setVolume(v: number, persist = true): void {
+  const clamped = Math.max(0, Math.min(1, v));
+  player.setVolume(clamped);
+  applyVolumeUi(clamped);
+  if (persist) setString(VOLUME_KEY, clamped.toFixed(2));
+}
+
+// Restore the stored level at boot (default full). audio.volume is
+// read-only on iOS Safari, so setVolume is a no-op there — the slider
+// still reflects the stored value but won't change playback (expected;
+// the slider is a desktop affordance).
+{
+  // getString → null when unset; Number(null) is 0, which would wrongly
+  // start a fresh listener at 0% volume. Treat unset/empty as "default to
+  // full" rather than coercing to 0.
+  const raw = getString(VOLUME_KEY);
+  const stored = raw === null || raw === '' ? NaN : Number(raw);
+  const initial = Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : 1;
+  setVolume(initial, false);
+}
+
+function handleVolumeInput(slider: HTMLInputElement): void {
+  const v = Number(slider.value) / 100;
+  // Dragging up from a muted state unmutes — the slider becoming the
+  // primary control would otherwise feel broken.
+  if (v > 0 && player.isMuted()) {
+    player.toggleMute();
+    reflectMuteUi(false);
+  }
+  setVolume(v);
+}
+
+$npVolumeSlider.addEventListener('input', () => handleVolumeInput($npVolumeSlider));
+// Desktop mini-player slider — same behaviour, shared volume state.
+$miniVolumeSlider.addEventListener('input', () => handleVolumeInput($miniVolumeSlider));
 
 function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): void {
   $npReportBroken.classList.toggle('is-sent', state === 'sent');
@@ -3382,6 +5824,8 @@ player.subscribe((np) => {
     void loadSchedule(np.station);
     resetLyrics();
     setReportBrokenState('idle');
+    // A new station starts the mini bar at rest (cancel any open close-swipe).
+    miniReset();
   }
   $body.classList.toggle('is-playing', np.state === 'playing');
   $body.classList.toggle('has-station', !!np.station.id);
@@ -3454,16 +5898,36 @@ player.subscribe((np) => {
 
 renderTabBar();
 renderTopBar();
-syncGenre();
-syncCountry();
+syncLayoutMode();
 syncSearchClear();
+syncFilterDot();
+syncMusicServiceLinks();
+// Landing-page preference: open Favorites / Recents on launch when the
+// user picked one (and there's no inbound ?q search / station deep-link
+// taking precedence — those still win via runQuery / autoLoadStationFromUrl).
+{
+  const landing = getString(LANDING_KEY);
+  const hasQuery = !!new URLSearchParams(window.location.search).get('q');
+  if (!hasQuery && (landing === 'fav' || landing === 'recent')) setTab(landing);
+}
+// Paint the discovery landing from the few-KB summary first (genre/country
+// chips + the "Browse all N" count) so Browse is usable immediately instead
+// of waiting on the 21 MB catalog below. Cheap re-render; no-op off-Browse.
+void loadDiscoverySummary().then(() => {
+  if (inDiscovery()) renderContent();
+});
 // Stations.json defines the built-in catalog (Featured strip + per-station
-// metadata fetcher overrides). Render once it lands so the first paint
-// already has the Featured tiles.
+// metadata fetcher overrides). It loads in the background; re-render once it
+// lands so the Featured tiles + exact counts replace the summary view.
 void loadBuiltinStations().then(() => {
-  syncCountryOptions();
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
+});
+// Editorial Featured rail on the discovery landing — load once, then
+// re-render if we're still on the discovery view when it lands.
+void loadHighlights().then((list) => {
+  highlightsRaw = list;
+  if (inDiscovery()) renderContent();
 });
 // Fetch the visitor's country from the worker so geo-restricted
 // station rows can show a "<Country> only" badge instead of failing
@@ -3488,7 +5952,6 @@ void fetchUserRegion().then(() => {
   }
 }
 void runQuery();
-void loadSiteVisits();
 void loadTopStations();
 void loadBacklog();
 restoreWakeOnBoot();

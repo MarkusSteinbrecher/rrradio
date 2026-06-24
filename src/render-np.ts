@@ -10,26 +10,32 @@
 
 import { countryName } from './country';
 import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
-import { npFormatText, npLiveText } from './np-labels';
+import { npStatusText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
+import type { LyricsResult } from './lyrics';
 import type { NowPlaying, WakeTo } from './types';
 
 export interface NowPlayingRefs {
   body: HTMLElement;
   npName: HTMLElement;
   npStationLogo: HTMLImageElement;
-  npProgramName: HTMLElement;
-  npProgramPre: HTMLElement;
-  npPaneProgram: HTMLElement;
-  npTags: HTMLElement;
+  /** The logo's tap-target wrapper button (opens the station-info popup).
+   *  Toggled hidden together with the logo image. */
+  npStationLogoBtn: HTMLElement;
   npBitrate: HTMLElement;
   npOrigin: HTMLElement;
   npListeners: HTMLElement;
-  npLiveText: HTMLElement;
-  npFormat: HTMLElement;
   npTrackRow: HTMLElement;
   npTrackTitle: HTMLElement;
+  /** Album-pane artist line (iOS parity) — hidden when no artist. */
+  npTrackArtist: HTMLElement;
+  /** Album-pane program/show line — hidden when no program. */
+  npTrackProgram: HTMLElement;
+  /** Album-pane status badge wrapper (carries the `data-state` that
+   *  colours the dot) + its label span. */
+  npTrackStatus: HTMLElement;
+  npTrackStatusText: HTMLElement;
   npTrackCover: HTMLImageElement;
   /** Container the cover-fallback initials live in. */
   npTrackCoverFallback: HTMLElement;
@@ -66,32 +72,24 @@ export function renderNowPlaying(
   const s = displayStation(np, ctx.armedWake);
   const wakeBed = isWakeBedActive(np, ctx.armedWake);
   refs.npName.textContent = s.name || '—';
-  refs.npTags.textContent = (s.tags ?? []).join(' · ');
   // is-wake-bed dims the cover/logo + overlays a small mute icon so
   // it's visually obvious the audio is silent right now.
   refs.body.classList.toggle('is-wake-bed', wakeBed);
-
-  if (np.programName) {
-    refs.npProgramName.textContent = np.programName;
-    refs.npProgramPre.hidden = false;
-    refs.npPaneProgram.title = np.programSubtitle || 'Program';
-  } else {
-    refs.npProgramName.textContent = 'Program';
-    refs.npProgramPre.hidden = true;
-    refs.npPaneProgram.title = 'Program';
-  }
 
   if (s.favicon) {
     if (refs.npStationLogo.getAttribute('src') !== s.favicon) {
       refs.npStationLogo.src = s.favicon;
     }
     refs.npStationLogo.hidden = false;
+    refs.npStationLogoBtn.hidden = false;
     refs.npStationLogo.onerror = () => {
       refs.npStationLogo.hidden = true;
+      refs.npStationLogoBtn.hidden = true;
       refs.npStationLogo.removeAttribute('src');
     };
   } else {
     refs.npStationLogo.hidden = true;
+    refs.npStationLogoBtn.hidden = true;
     refs.npStationLogo.removeAttribute('src');
   }
 
@@ -101,8 +99,6 @@ export function renderNowPlaying(
   refs.npBitrate.textContent = fmtParts.length > 0 ? fmtParts.join(' · ') : '—';
   refs.npOrigin.textContent = s.country ? countryName(s.country) : '—';
   refs.npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
-  refs.npLiveText.textContent = npLiveText(np);
-  refs.npFormat.textContent = npFormatText(s);
 
   // On-air block — content is always written (em-dashes when empty);
   // visibility is owned by main.ts's syncNpTabs (which gates on the
@@ -110,7 +106,32 @@ export function renderNowPlaying(
   // here used to fight syncNpTabs and let the cover bleed through
   // the lyrics pane on pause (gh #84).
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
-  refs.npTrackTitle.textContent = hasTrack ? (np.trackTitle as string) : '—';
+  // iOS-parity split: the album title shows just the song (`trackName`)
+  // with the artist on its own line below. Fall back to the combined
+  // `trackTitle` when the metadata source didn't split them (e.g. the
+  // wake-bed masquerade passes a single display string).
+  const songTitle = (np.trackName ?? '').trim() || (np.trackTitle ?? '').trim();
+  refs.npTrackTitle.textContent = hasTrack ? songTitle || '—' : '—';
+
+  // Artist line — only shown when the metadata carried a real artist
+  // (an "Artist - Track" split). News/talk/IDs leave it absent, so the
+  // line collapses rather than echoing the station name (already the
+  // big header above).
+  const artist = (np.trackArtist ?? '').trim();
+  refs.npTrackArtist.textContent = artist;
+  refs.npTrackArtist.hidden = artist.length === 0;
+
+  // Program/show line — the parent broadcast (e.g. "Morning Show").
+  const program = (np.programName ?? '').trim();
+  refs.npTrackProgram.textContent = program;
+  refs.npTrackProgram.hidden = program.length === 0;
+
+  // Status badge — "● LIVE / TUNING / PAUSED / ERROR"; the dot colour is
+  // driven by data-state. Hidden (empty label) while idle.
+  const status = npStatusText(np);
+  refs.npTrackStatusText.textContent = status;
+  refs.npTrackStatus.dataset.state = np.state;
+  refs.npTrackStatus.hidden = status.length === 0;
 
   // Music-service search links only render once iTunes has confirmed
   // the title resolves to a real song (np.trackVerified === true).
@@ -181,4 +202,58 @@ export function renderNowPlaying(
 
   refs.npReportBroken.hidden = !s.id || s.id === SILENT_BED_ID;
   refs.npReportBroken.disabled = !s.id || s.id === SILENT_BED_ID;
+}
+
+/** Elements the lyrics pane writes to. The pane's *visibility* (and the
+ *  Lyrics tab pill) is owned by main.ts's syncNpTabs — this render only
+ *  fills content, so it never touches `np-lyrics-pane`'s own `hidden`. */
+export interface LyricsPaneRefs {
+  npLyricsText: HTMLElement;
+  /** "No lyrics" line — only ever visible in the wide layout where the
+   *  lyrics column shows even with nothing to display. */
+  npLyricsEmpty: HTMLElement;
+  /** iOS-parity header wrapper (title + artist), pinned above the body. */
+  npLyricsHead: HTMLElement;
+  npLyricsTitle: HTMLElement;
+  npLyricsArtist: HTMLElement;
+  npLyricsSource: HTMLAnchorElement;
+  npLyricsSourceText: HTMLElement;
+}
+
+/** Render the Now Playing lyrics pane (iOS parity). Plain text wins over
+ *  synced — current-line highlighting needs an elapsed-since-track-start
+ *  estimate live radio can't give us, so synced lines are flattened. The
+ *  header + source-credit link only surface when there's actual text;
+ *  with no lyrics the pane collapses to the empty-state line (the Lyrics
+ *  tab itself is hidden upstream, so that line only shows in the wide
+ *  layout's always-on lyrics column). */
+export function renderLyricsPane(
+  refs: LyricsPaneRefs,
+  lyrics: LyricsResult | null | undefined,
+  track: Pick<NowPlaying, 'trackName' | 'trackTitle' | 'trackArtist'>,
+): void {
+  const text = lyrics?.plain || lyrics?.synced?.map((l) => l.text).join('\n') || '';
+  refs.npLyricsText.textContent = text;
+  const hasText = text !== '';
+  refs.npLyricsEmpty.hidden = hasText;
+
+  // Header track info comes from the live now-playing metadata — the same
+  // song/artist split the album pane uses.
+  const title = track.trackName?.trim() || track.trackTitle?.trim() || '';
+  const artist = track.trackArtist?.trim() ?? '';
+  refs.npLyricsTitle.textContent = title;
+  refs.npLyricsArtist.textContent = artist;
+  refs.npLyricsArtist.hidden = artist.length === 0;
+  refs.npLyricsHead.hidden = !hasText || title.length === 0;
+
+  // Source credit (LRCLIB / Lyrics.ovh) — only when we actually rendered text.
+  const source = lyrics?.source;
+  if (hasText && source) {
+    refs.npLyricsSource.href = source.url;
+    refs.npLyricsSourceText.textContent = `Lyrics via ${source.name}`;
+    refs.npLyricsSource.hidden = false;
+  } else {
+    refs.npLyricsSource.hidden = true;
+    refs.npLyricsSource.removeAttribute('href');
+  }
 }

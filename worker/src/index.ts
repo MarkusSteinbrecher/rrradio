@@ -19,13 +19,10 @@
  *                                    stored in D1, returns a receipt id
  *   GET  /api/public/report-status — per-receipt report status polling
  *                                    (?ids=a,b,c — see src/reports.ts)
- *   GET  /api/public/poll          — native-app interest poll tallies,
- *                                    all-time (filter: "vote: ")
  *   GET  /api/public/dashboard     — totals + top stations + locations
- *                                    + poll in one cache window, so the
- *                                    public stats sheet always shows a
- *                                    consistent snapshot. Plays/locations
- *                                    follow ?days=N; poll is all-time.
+ *                                    in one cache window, so the public
+ *                                    stats sheet always shows a
+ *                                    consistent snapshot (?days=N).
  *
  * Report triage (Bearer ADMIN_TOKEN, see src/reports.ts):
  *   GET  /api/broken-reports        — recent report rows from D1
@@ -230,13 +227,6 @@ async function fetchHitsRange(
 async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   return fetchHitsRange(rangeStart(daysBack), rangeEnd(), env);
 }
-
-// Poll counts span the lifetime of the project — votes don't expire
-// like listening behaviour does. This is the earliest plausible start
-// (well before the poll banner shipped) so a single GC call covers
-// every recorded vote. Bump if the project's GC history ever predates
-// this date; otherwise the literal is fine.
-const POLL_RANGE_START = '2024-01-01';
 
 // Canonical [oldest..today] list of YYYY-MM-DD day strings for a
 // `daysBack`-window, matching the window fetchAllHits passes to GC. The
@@ -479,71 +469,23 @@ export default {
           );
         }
 
-        // Public native-app interest poll counts. Picks `vote: <choice>`
-        // events from the GC hits buffer and returns per-choice tallies
-        // for the three published options. Edge-cached for an hour like
-        // the other public endpoints.
-        //
-        // ALL-TIME window — vote sentiment doesn't decay, so capping
-        // the poll to a `?days=N` window dropped legitimate votes off
-        // the back of the buffer. We fetch from POLL_RANGE_START to
-        // yesterday EOD and ignore the request's `days` parameter for
-        // counting purposes. (We still echo it in the response so
-        // existing clients that read it don't choke.)
-        if (url.pathname === '/api/public/poll') {
-          const hits = await fetchHitsRange(POLL_RANGE_START, rangeEnd(), env, {
-            daily: false,
-          });
-          const counts: Record<'ios' | 'android' | 'dont-care', number> = {
-            ios: 0,
-            android: 0,
-            'dont-care': 0,
-          };
-          let total = 0;
-          for (const h of hits) {
-            if (!h.path.startsWith('vote: ')) continue;
-            const label = h.path.slice('vote: '.length).trim();
-            if (label === 'ios' || label === 'android' || label === 'dont-care') {
-              counts[label] = h.count;
-              total += h.count;
-            }
-          }
-          return new Response(
-            JSON.stringify({ counts, total, range_days: days, all_time: true }),
-            {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
-                ...publicCors,
-              },
-            },
-          );
-        }
-
         // Unified dashboard endpoint. Mirrors what GoatCounter's own
         // dashboard shows for the same window, plus rrradio-specific
-        // extras (top `play:` events, all-time poll). One Worker call,
-        // one cache key, so every device opening the sheet sees the
-        // same snapshot.
+        // extras (top `play:` events). One Worker call, one cache key,
+        // so every device opening the sheet sees the same snapshot.
         //
         // - listening window (top stations, totals, locations) uses
         //   the request's `?days=N` like the standalone endpoints.
-        // - poll counts are ALL-TIME (see /api/public/poll comment).
         if (url.pathname === '/api/public/dashboard') {
           const start = rangeStart(days);
           const end = rangeEnd();
           const trendDays = rangeDays(days);
 
-          // Four concurrent GC calls. Each tolerate() makes one slow or
+          // Three concurrent GC calls. Each tolerate() makes one slow or
           // flaky upstream degrade just its card instead of blanking the
           // whole sheet.
-          const [hits, voteHits, tot, locationsData] = await Promise.all([
+          const [hits, tot, locationsData] = await Promise.all([
             tolerate(() => fetchHitsRange(start, end, env), [] as GcHit[]),
-            tolerate(
-              () => fetchHitsRange(POLL_RANGE_START, end, env, { daily: false }),
-              [] as GcHit[],
-            ),
             tolerate(
               () => gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env),
               {} as GcTotals,
@@ -585,22 +527,6 @@ export default {
           locationItems.sort((a, b) => b.count - a.count);
           const locationsTotal = locationItems.reduce((s, i) => s + i.count, 0);
 
-          // Poll counts from the all-time vote hits.
-          const voteCounts: Record<'ios' | 'android' | 'dont-care', number> = {
-            ios: 0,
-            android: 0,
-            'dont-care': 0,
-          };
-          let voteTotal = 0;
-          for (const h of voteHits) {
-            if (!h.path.startsWith('vote: ')) continue;
-            const label = h.path.slice('vote: '.length).trim();
-            if (label === 'ios' || label === 'android' || label === 'dont-care') {
-              voteCounts[label] = h.count;
-              voteTotal += h.count;
-            }
-          }
-
           return new Response(
             JSON.stringify({
               generated_at: new Date().toISOString(),
@@ -618,11 +544,6 @@ export default {
               locations: {
                 items: locationItems,
                 total: locationsTotal,
-              },
-              poll: {
-                counts: voteCounts,
-                total: voteTotal,
-                all_time: true,
               },
             }),
             {

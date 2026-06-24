@@ -42,14 +42,22 @@ repository under the project license unless a future notice says otherwise:
 
 ## Music service links
 
-The app links current track searches to Apple Music, Spotify, and YouTube Music.
-Those names are used referentially as text labels only. We do not ship Apple
-Music, Spotify, YouTube, or YouTube Music logo files, and the UI intentionally
-does not hand-recreate those brand marks.
+The app links current track searches to Apple Music, Spotify, and YouTube
+Music. The Now Playing "Open in" row shows each service with its **official,
+unmodified** brand mark — we do not hand-recreate these marks.
 
-If branded buttons are added later, use only official assets downloaded from
-the relevant brand resources, keep them unmodified, and record the download URL,
-download date, and applicable guidelines in this file:
+The marks are vector assets bundled at `public/brand/`:
+
+| File | Mark | Source | Added |
+|---|---|---|---|
+| `public/brand/apple-music.svg` | Apple Music icon | Official brand asset, taken unmodified from the rrradio-ios app's vetted asset catalog (`rrradio/Resources/Assets.xcassets/AppleMusicIcon.imageset`). | 2026-06-22 |
+| `public/brand/spotify.svg` | Spotify icon | Official brand asset, same provenance (`SpotifyIcon.imageset`). | 2026-06-22 |
+| `public/brand/youtube-music.svg` | YouTube Music icon | Official brand asset, same provenance (`YouTubeMusicIcon.imageset`). | 2026-06-22 |
+
+These marks are owned by their respective brands, are not covered by the MIT
+license, and must be used only to identify the linked service, kept unmodified,
+per each brand's guidelines. If a mark is updated, replace it with the official
+asset (do not redraw) and keep this record current:
 
 - Apple Music marketing and identity guidelines:
   <https://artists.apple.com/support/1117-apple-music-marketing-tools>,

@@ -19,6 +19,15 @@ const THEME_KEY = 'rrradio.theme';
 
 export type Theme = 'light' | 'dark';
 
+/** Callback run after every {@link applyTheme}. The accent module
+ *  registers here so a per-appearance custom accent re-resolves whenever
+ *  the effective light/dark appearance changes (explicit choice, OS flip,
+ *  or backup restore) — without theme.ts having to import accent.ts. */
+let afterApply: (() => void) | null = null;
+export function onThemeApplied(fn: () => void): void {
+  afterApply = fn;
+}
+
 /** Returns the user's explicit choice, or null if they haven't picked
  *  one (in which case the OS preference wins via {@link effectiveTheme}). */
 export function readStoredTheme(): Theme | null {
@@ -62,8 +71,9 @@ export function applyTheme(theme: Theme | null): void {
     'meta[name="theme-color"]',
   );
   if (meta) {
-    meta.content = effectiveTheme() === 'light' ? '#f8f8f3' : '#3e3e39';
+    meta.content = effectiveTheme() === 'light' ? '#f8f8f6' : '#1e1d19';
   }
+  afterApply?.();
 }
 
 /** Flip light↔dark and persist. The caller usually wants to track the
