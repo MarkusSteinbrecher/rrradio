@@ -487,6 +487,11 @@ html.theme-switching *::after {
 .toolbar-btn:hover { color: var(--ink); border-color: var(--line-2); }
 .toolbar-btn svg { width: 19px; height: 19px; }
 .toolbar-btn[hidden] { display: none; }
+/* Ko-fi support button: official cup logo (self-hosted), no toolbar ring —
+   just the image. The 40px .toolbar-btn box stays as an invisible tap target. */
+.topnav-kofi,
+.topnav-kofi:hover { border-color: transparent; background: transparent; }
+.topnav-kofi img { width: 24px; height: auto; display: block; }
 .toolbar-btn__dot {
   position: absolute;
   top: 7px;

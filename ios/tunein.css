@@ -676,6 +676,12 @@ body.tunein {
 }
 .has-media:not(.is-trio) .stage__cta { justify-content: flex-start; }
 .stage__cta[hidden] { display: none; }
+/* Ko-fi "Buy me a coffee" button — official image (self-hosted), sized to
+   sit alongside the App Store / rrradio.org CTAs (~44px tall). */
+.btn-kofi { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.15s; }
+.btn-kofi:hover { transform: translateY(-1px); }
+.btn-kofi:active { transform: scale(0.97); }
+.btn-kofi img { display: block; height: 44px; width: auto; }
 
 /* ════════════════════════════════════════════════════════
    READOUT BAR
