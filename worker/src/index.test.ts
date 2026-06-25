@@ -8,13 +8,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import worker from './index';
 import type { Env } from './index';
+import { FakeD1 } from './test-d1';
 
-const ENV: Env = {
-  GOATCOUNTER_SITE: 'test.goatcounter.com',
-  GOATCOUNTER_TOKEN: 'gc-token',
-  ADMIN_TOKEN: 'admin-token',
-  ALLOWED_ORIGIN: 'https://rrradio.org',
-};
+// Rebuilt per test (beforeEach) so every test gets an empty D1.
+let db: FakeD1;
+let ENV: Env;
 
 interface UpstreamCall {
   url: string;
@@ -73,6 +71,14 @@ async function json<T = Record<string, unknown>>(res: Response): Promise<T> {
 }
 
 beforeEach(() => {
+  db = new FakeD1();
+  ENV = {
+    GOATCOUNTER_SITE: 'test.goatcounter.com',
+    GOATCOUNTER_TOKEN: 'gc-token',
+    ADMIN_TOKEN: 'admin-token',
+    ALLOWED_ORIGIN: 'https://rrradio.org',
+    DB: db.asD1(),
+  };
   // Default: fail any upstream fetch unless the test explicitly stubs.
   stubFetch(async (c) => {
     throw new Error(`Unstubbed upstream fetch: ${c.url}`);
@@ -348,7 +354,12 @@ describe('public endpoints', () => {
     expect(url.searchParams.get('e')).toBe('1');
     expect(url.searchParams.get('t')).toContain('station=fm4');
     expect(url.searchParams.get('t')).toContain('host=example.com');
+    expect(url.searchParams.get('t')).toContain('category=unspecified');
     expect(url.searchParams.get('t')).not.toContain('token=private');
+    // The D1 row is the primary record; its id is the receipt token.
+    const body = await json<{ ok: boolean; reportId: string }>(res);
+    expect(body.ok).toBe(true);
+    expect(db.reports.get(body.reportId)?.station_id).toBe('fm4');
   });
 
   it('POST /api/public/report-broken rejects missing station id', async () => {
@@ -604,63 +615,10 @@ describe('cache headers', () => {
   });
 });
 
-describe('poll (all-time)', () => {
-  it('GET /api/public/poll counts every vote regardless of ?days', async () => {
-    // The poll endpoint must ignore the request's `?days` and fetch
-    // back to POLL_RANGE_START so a vote cast last year still counts.
-    // We assert by capturing the upstream URL the worker built — its
-    // `start` should match the all-time epoch, not the windowed start.
-    let observedStart: string | undefined;
-    let observedEnd: string | undefined;
-    stubFetch(async ({ url }) => {
-      const u = new URL(url);
-      observedStart = u.searchParams.get('start') ?? undefined;
-      observedEnd = u.searchParams.get('end') ?? undefined;
-      return gcHits([
-        { path: 'vote: ios', count: 12 },
-        { path: 'vote: android', count: 8 },
-        { path: 'vote: dont-care', count: 3 },
-        { path: 'play: noise', count: 99 },
-      ]);
-    });
-
-    const res = await call('/api/public/poll?days=7');
-    expect(res.status).toBe(200);
-    const body = await json<{
-      counts: { ios: number; android: number; 'dont-care': number };
-      total: number;
-      all_time: boolean;
-    }>(res);
-    expect(body.counts).toEqual({ ios: 12, android: 8, 'dont-care': 3 });
-    expect(body.total).toBe(23);
-    expect(body.all_time).toBe(true);
-    // Upstream start is the all-time poll epoch, not the windowed start.
-    expect(observedStart).toBe('2024-01-01');
-    // End is today UTC (rangeEnd), shape-check only.
-    expect(observedEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-  });
-
-  it('GET /api/public/poll ignores votes outside the published choices', async () => {
-    stubFetch(async () =>
-      gcHits([
-        { path: 'vote: ios', count: 5 },
-        { path: 'vote: maybe-someday', count: 99 }, // not a published choice — dropped
-      ]),
-    );
-    const res = await call('/api/public/poll');
-    const body = await json<{
-      counts: { ios: number; android: number; 'dont-care': number };
-      total: number;
-    }>(res);
-    expect(body.counts).toEqual({ ios: 5, android: 0, 'dont-care': 0 });
-    expect(body.total).toBe(5);
-  });
-});
-
 describe('unified public dashboard', () => {
   // /api/public/dashboard mirrors what GoatCounter's dashboard shows
   // for the same window, plus rrradio-specific extras (top `play:`
-  // events, all-time poll). One Worker call, one cache key.
+  // events). One Worker call, one cache key.
 
   function setupDashboardStub(): void {
     const today = new Date();
@@ -671,19 +629,8 @@ describe('unified public dashboard', () => {
     };
     stubFetch(async ({ url }) => {
       const u = new URL(url);
-      const start = u.searchParams.get('start') ?? '';
 
       if (u.pathname.endsWith('/stats/hits')) {
-        // Two flavours: the all-time poll fetch (start === POLL_RANGE_START)
-        // and the windowed listening fetch (start is recent). Return
-        // different payloads so we can tell which one was used for what.
-        if (start === '2024-01-01') {
-          return gcHits([
-            { path: 'vote: ios', count: 11 },
-            { path: 'vote: android', count: 4 },
-            { path: 'vote: dont-care', count: 1 },
-          ]);
-        }
         return gcHits([
           { path: 'play: Alpha FM', count: 25, stats: [{ day: day(0), daily: 25 }] },
           { path: 'play: Beta FM', count: 10 },
@@ -714,7 +661,7 @@ describe('unified public dashboard', () => {
     });
   }
 
-  it('GET /api/public/dashboard returns the four sections from one snapshot', async () => {
+  it('GET /api/public/dashboard returns the three sections from one snapshot', async () => {
     setupDashboardStub();
     const res = await call('/api/public/dashboard?days=7');
     expect(res.status).toBe(200);
@@ -731,11 +678,6 @@ describe('unified public dashboard', () => {
       locations: {
         items: Array<{ code: string; name: string; count: number }>;
         total: number;
-      };
-      poll: {
-        counts: { ios: number; android: number; 'dont-care': number };
-        total: number;
-        all_time: boolean;
       };
       generated_at: string;
     }>(res);
@@ -764,11 +706,6 @@ describe('unified public dashboard', () => {
     expect(body.locations.items[0]).toEqual({ code: 'DE', name: 'Germany', count: 12 });
     expect(body.locations.items[1]).toEqual({ code: 'CH', name: 'Switzerland', count: 7 });
     expect(body.locations.total).toBe(19);
-
-    // Poll comes from the all-time fetch.
-    expect(body.poll.counts).toEqual({ ios: 11, android: 4, 'dont-care': 1 });
-    expect(body.poll.total).toBe(16);
-    expect(body.poll.all_time).toBe(true);
 
     // generated_at is an ISO timestamp.
     expect(body.generated_at).toMatch(/^\d{4}-\d{2}-\d{2}T/);

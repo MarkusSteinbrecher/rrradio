@@ -89,6 +89,17 @@ describe('streamFingerprint', () => {
       .toBe(fp);
   });
 
+  it('collapses ORS/ORF q<N>a quality-variant suffixes (FM4 192k vs 128k)', () => {
+    const fp = streamFingerprint('https://orf-live.ors-shoutcast.at/fm4-q2a');
+    expect(fp).toBe('//orf-live.ors-shoutcast.at/fm4');
+    expect(streamFingerprint('https://orf-live.ors-shoutcast.at/fm4-q1a')).toBe(fp);
+    // bare q1/q2 too
+    expect(streamFingerprint('https://h.com/oe1-q1')).toBe(streamFingerprint('https://h.com/oe1-q2'));
+    // …but a different channel prefix stays distinct.
+    expect(streamFingerprint('https://orf-live.ors-shoutcast.at/oe3-q2a'))
+      .not.toBe(streamFingerprint('https://orf-live.ors-shoutcast.at/fm4-q2a'));
+  });
+
   it('keeps genuinely different regional feeds apart', () => {
     // Bayern 1 Franken vs Schwaben — distinct local programmes, distinct path.
     expect(streamFingerprint('https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid'))
@@ -129,18 +140,16 @@ describe('streamFingerprint', () => {
     expect(streamFingerprint('https://h.com/live')).toBe('');
   });
 
-  it('collapses query-selector channels onto one fingerprint (callers must add a name guard)', () => {
+  it('refuses to fingerprint a shared web-script entrypoint (channel is in the query)', () => {
     // Sweden's Bauer feeds put the real channel in `?i=…` over a shared
-    // `/http_live.php` entrypoint. The fingerprint drops the query, so three
-    // distinct stations share ONE fingerprint. This is intentional (the path
-    // genuinely is the same), but it means a fingerprint match alone is NOT a
-    // duplicate signal for these hosts — check-duplicates scopes its
-    // stream-fingerprint key by name signature so Mix Megapol / NRJ /
-    // Rockklassiker stay apart. Documented here so the gotcha is regression-safe.
-    const fp = streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3');
-    expect(fp).not.toBe('');
-    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3')).toBe(fp);
-    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=rockklassiker_instream_se_mp3')).toBe(fp);
+    // `/http_live.php` entrypoint. The query is dropped and `http`/`live`/`php`
+    // are all generic, so the path carries no identity → '' → Mix Megapol /
+    // NRJ / Rockklassiker never fuse on a fingerprint match.
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3')).toBe('');
+    expect(streamFingerprint('https://tx-bauerse.sharp-stream.com/http_live.php?i=nrj_instreamtest_se_mp3')).toBe('');
+    // A real per-channel path on the same family of CDN still fingerprints.
+    expect(streamFingerprint('https://live-bauerse-fm.sharp-stream.com/nostalgi_aacp'))
+      .toBe(streamFingerprint('https://live-bauerse-fm.sharp-stream.com/nostalgi_mp3'));
   });
 
   it('returns empty when only the host would survive (too weak to group on)', () => {

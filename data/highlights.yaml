@@ -1,5 +1,6 @@
 # rrradio editorial highlights — the "Featured by rrradio" rail in the
-# Browse discovery surface (web + iOS + Android).
+# Browse discovery surface (rendered by the iOS app today; web/Android
+# planned).
 #
 # This file is the SOURCE OF TRUTH. `tools/build-highlights.mjs` validates
 # it against the published catalog and writes public/highlights.json, which
@@ -10,6 +11,7 @@
 #
 #   npm run highlights        — regenerate public/highlights.json
 #   npm run check-highlights  — verify the committed JSON matches this file
+#                               AND audit the runway (see below)
 #
 # Each entry references a PUBLISHED catalog station by id (the `id:` field in
 # data/stations.yaml; only working / stream-only / icy-only stations ship).
@@ -27,18 +29,86 @@
 #   endsOn    (optional) — YYYY-MM-DD; the entry is hidden after this day
 #
 # Order matters: entries render left-to-right in the rail. Clients show the
-# first 8. A row whose `station` isn't published is a build error, so this
-# file can't reference a station that won't render.
+# first 8 visible entries. A row whose `station` isn't published is a build
+# error, so this file can't reference a station that won't render.
+#
+# ── Label taxonomy ──────────────────────────────────────────────────────
+# Every badge label must be one of:
+#   1. DESCRIPTIVE of the station — "Genre-less gem", "Late-night pick",
+#      "Seattle institution". Claims nothing about process; always safe.
+#   2. TRUE OF THE PROCESS — "Station of the week" only on entries in the
+#      windowed rotation queue below; "Hand-picked" (the maintainer picks,
+#      and says so); "New on rrradio" only for stations added within the
+#      last few weeks.
+#   3. BACKED BY NAMED DATA — e.g. "Most played this month" — only once
+#      we derive it from telemetry and can show the numbers.
+# No invented authority: there is no editorial team, so no "Editor's
+# pick", no "Staff favourite", no implied voting. Nobody pays for
+# placement, ever.
+#
+# ── Weekly rotation ─────────────────────────────────────────────────────
+# The "Station of the week" slot is a queue of windowed entries (Monday
+# startsOn → Sunday endsOn), scheduled several weeks ahead. Clients hide
+# entries outside their window, so the rail rotates by itself — no commit,
+# no deploy. Keep the queue first in the file (the current week's pick
+# leads the rail) and keep a few evergreen, un-windowed entries below it
+# so the rail never thins out.
+#
+# `npm run check-highlights` (CI catalog job) audits the runway and fails
+# when the queue's last window ends < 14 days out, or when any day in the
+# next 28 would show fewer than 3 entries. When it goes red: append the
+# next weeks here, pick stations not already featured below, write an
+# accurate blurb, run `npm run highlights`, commit both files.
+
+# ── Station of the week — rotation queue ────────────────────────────────
 
 - station: builtin-grrif
   badge:
     label: Station of the week
-    accent: "#0f8a40"
   blurb: Lausanne's indie outpost — guitars, deep cuts, and zero repeats.
+  startsOn: "2026-06-08"
+  endsOn: "2026-06-14"
+
+- station: builtin-wfmu
+  badge:
+    label: Station of the week
+  blurb: Freeform radio's flagship — listener-powered and gloriously unpredictable since 1958.
+  startsOn: "2026-06-15"
+  endsOn: "2026-06-21"
+
+- station: fr-radio-nova
+  badge:
+    label: Station of the week
+  blurb: Paris's eclectic institution — le grand mix of global sounds since 1981.
+  startsOn: "2026-06-22"
+  endsOn: "2026-06-28"
+
+- station: builtin-kcrw-eclectic
+  badge:
+    label: Station of the week
+  blurb: KCRW's 24/7 eclectic music channel — Santa Monica's tastemaker, around the clock.
+  startsOn: "2026-06-29"
+  endsOn: "2026-07-05"
+
+- station: de-refuge-worldwide
+  badge:
+    label: Station of the week
+  blurb: Berlin community radio born from a fundraising platform — grassroots shows, global reach.
+  startsOn: "2026-07-06"
+  endsOn: "2026-07-12"
+
+- station: builtin-abc-triple-j
+  badge:
+    label: Station of the week
+  blurb: Australia's national youth broadcaster — new music first, home of the Hottest 100.
+  startsOn: "2026-07-13"
+  endsOn: "2026-07-19"
+
+# ── Evergreen picks ─────────────────────────────────────────────────────
 
 - station: builtin-bbc-radio-6-music
   badge:
-    label: Editor's pick
+    label: Hand-picked
     accent: "#e6007e"
   blurb: "The BBC's alternative-music home: new releases meets the canon."
 
@@ -50,29 +120,17 @@
 
 - station: byte-fm
   badge:
-    label: New on rrradio
+    label: Hamburg independent
     accent: "#2a6fdb"
-  blurb: Hamburg's music-first independent — curated shows, no algorithm.
+  blurb: Music-first community radio — curated shows by real hosts, no algorithm.
 
 - station: builtin-kexp
   badge:
-    label: Local favourite
+    label: Seattle institution
     accent: "#f25c05"
-  blurb: Seattle's legendary listener-supported station, championing new artists.
+  blurb: Legendary listener-supported radio, championing new artists since 1972.
 
 - station: soma-groove-salad
   badge:
     label: Late-night pick
   blurb: A nicely chilled plate of ambient and downtempo from SomaFM.
-
-# Scheduling example (commented out) — uncomment and adjust the dates to
-# run a time-boxed feature. ISO dates compare chronologically, so an entry
-# shows only while startsOn ≤ today ≤ endsOn:
-#
-# - station: builtin-oe1
-#   badge:
-#     label: Festival season
-#     accent: "#6c4ec2"
-#   blurb: Live classical and culture from Vienna all summer.
-#   startsOn: "2026-07-01"
-#   endsOn: "2026-08-31"

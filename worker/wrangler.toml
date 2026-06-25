@@ -18,3 +18,13 @@ routes = [
 [vars]
 GOATCOUNTER_SITE = "markussteinbrecher.goatcounter.com"
 ALLOWED_ORIGIN  = "https://rrradio.org"
+
+# Broken-station reports (issue #507). Schema lives in migrations/;
+# CI applies pending migrations before every deploy, and `wrangler dev`
+# provisions a local sqlite copy automatically (apply migrations to it
+# with `npx wrangler d1 migrations apply rrradio-reports` minus --remote).
+[[d1_databases]]
+binding = "DB"
+database_name = "rrradio-reports"
+database_id = "3617b3fa-9ff7-4cc2-b38f-3140850cba15"
+migrations_dir = "migrations"

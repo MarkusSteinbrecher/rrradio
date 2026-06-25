@@ -1,9 +1,9 @@
 # Wake To Radio Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -24,55 +24,73 @@ setup guidance and platform-limit prose; this spec does not duplicate it.
 - **Program schedule on Now Playing** — tapping a scheduled broadcast opens the
   wake sheet pre-filled (preset) with that broadcast's station, start time, and
   program name as the alarm title, with the notification toggle on by default.
-- **Settings** — three persistent preference rows (default wake time, Lock Screen
-  notification toggle) seed the next alarm but do not arm one.
+- **Settings** — two persistent wake preference rows (default wake time, Lock Screen
+  notification toggle) seed the next alarm but do not arm one; a denied-permission
+  warning row appears under them only while an alarm is armed with the notification
+  preference on and OS permission denied. Keep-audio-alive has no Settings row — it
+  lives only in the wake sheet, even though its default is part of preference sync.
 - **Notification tap** — tapping the fired wake notification re-enters the app and
   drives the notification → playback flow (see Interactions).
-- **Shortcuts / Siri (iOS)** — "Play Station" and "Play Last Station" App Intents
-  let a user build a Time-of-Day Personal Automation that starts a station on a
-  schedule. This is a parallel path, independent of the in-app alarm.
+- **Shortcuts / Siri (iOS)** — three App Intents reach this feature:
+  - "Set Wake Alarm" (station + time) arms the in-app alarm directly, opening the
+    app; it stores only the time-of-day, so "tomorrow" resolves at arm time.
+  - "Play Station" and "Play Last Station" let a user build a Time-of-Day Personal
+    Automation that starts a station on a schedule — a parallel path that plays
+    immediately rather than arming the alarm.
 
 ## Layout
 
 The wake sheet, top to bottom:
 
-- **Close button** — top-trailing `xmark`; dismisses the sheet without changing the
-  alarm.
-- **Header** — alarm glyph (filled + accent when armed); title "Wake to radio";
-  when armed, a live countdown capsule ("IN 7H 20M") that ticks every 30s.
-- **Station identity card** — favicon, station name, and (when set) the alarm
-  title/program line for the wake target. When no station is resolvable, shows
-  "Play a station first" instead.
-- **Time wheel** — hour/minute picker. Defaults to the preset time, else the
-  current alarm time, else the saved default wake time.
+- **Header** — a centered title row: alarm glyph (filled + accent when armed) plus
+  the title "Wake to", closed by a full-width hairline rule. When armed, a live
+  countdown capsule ("IN 7H 20M") rides the trailing edge of the row and ticks every
+  30s without pulling the title off-center. The header stays pinned; the rest of the
+  sheet scrolls under it.
+- **Station identity line** — directly under the rule, a centered favicon + station
+  name for the wake target. When no station is resolvable, shows "Play a station
+  first" instead. (The alarm title/program name is carried on the alarm but is not
+  shown on this line; it surfaces in the notification body.)
+- **Time wheel** — hour/minute picker (follows the device 24-hour setting, not the
+  app language). Defaults to the preset time, else the current alarm time, else the
+  saved default wake time.
 - **Lock Screen notification toggle** — with detail copy. Disabled while an alarm
   is armed (unless the sheet is editing that armed alarm).
 - **Notification-denied warning** (conditional) — shown only when the notification
   toggle is on and OS permission is denied: a bell-slash icon, a warning line, and
   an "Open Settings" button that deep-links to the app's system settings.
 - **Keep-audio-alive toggle** — with detail copy. Disabled while an alarm is armed.
-- **Action button** — "SET" when no alarm (or editing one); "UNSET" when armed and
-  unchanged. While armed it shows a subtitle (the new time when editing, else
-  "<time> · in <countdown>"). Disabled when setting but no station resolves.
-- **Hint** — accent footnote: keep rrradio running and enable keep-alive for the
-  best chance of autoplay.
+- **Footer button pair** — a centered `xmark` capsule (dismiss without changing the
+  alarm) beside the action button. The action button reads "SET" when no alarm (or
+  editing one) and "UNSET" when armed and unchanged; it carries no subtitle. The SET
+  state is disabled (dimmed) when no station resolves; UNSET is always available.
 
-The wake target station chips show the armed time on the Now Playing wake button
-while armed.
+The Now Playing wake button shows the armed time as a small accent chip while armed
+(`alarm.fill` glyph + time); the chip is decorative and is not exposed as an
+accessibility value.
 
 ## States
 
 | State | What shows | Actionable |
 |---|---|---|
 | Disarmed, station playing | Sheet pre-fills station + default/last time; SET enabled. | Set an alarm. |
-| Disarmed, nothing playing | Station card shows "Play a station first"; SET disabled. | Pick time/toggles only; cannot set. |
-| Armed | Header countdown capsule; button reads UNSET with `<time> · in <countdown>`; toggles locked. | Unset; edit (changing time/station/title flips to SET). |
-| Editing an armed alarm | Button flips back to SET with the new time as subtitle; toggles re-enabled. | Re-arm with new values. |
-| Notification permission denied | Denied-warning block under the notification toggle (only while toggle on). | Open Settings. |
-| Fired (alarm reached) | Alarm disarms itself; if the app is alive it switches to the station; Now Playing surfaces shortly after. | Normal playback. |
+| Disarmed, nothing playing | Station line shows "Play a station first"; SET disabled. | Pick time/toggles only; cannot set. |
+| Armed | Header countdown capsule; button reads UNSET (no subtitle); toggles locked; lock-screen Live Activity glances the station + fire time. | Unset; edit (changing time/station/title flips to SET). |
+| Editing an armed alarm | Button flips back to SET; toggles re-enabled. | Re-arm with new values. |
+| Notification permission denied | Denied-warning block under the notification toggle (only while toggle on and alarm armed); same warning row appears in Settings. | Open Settings. |
+| Fired (alarm reached) | Alarm disarms itself; Live Activity ends; if the app is alive it switches to the station; Now Playing surfaces shortly after. | Normal playback. |
 | Missed (app was suspended/asleep) | The fired local notification is the cue; on next launch a stale alarm is cleared (see deviations). | Tap notification to start; or re-arm. |
 
 There is at most **one** active wake intent at a time.
+
+While armed, a dedicated lock-screen / Dynamic Island **Live Activity** glances the
+alarm independent of current playback: an alarm glyph, the wake station name, the
+fire time, and a relative countdown, themed in the app's effective accent/surface
+colors. It is a glanceable surface only — the alarm still fires via the in-app timer,
+keep-alive, and scheduled notification, so the activity expiring (e.g. iOS's ~12 h
+Live Activity lifetime cap on an alarm set far ahead) never affects whether the alarm
+goes off. It updates on re-arm and ends on disarm/fire; if Live Activities are
+disabled or starting one fails, the alarm is unaffected.
 
 ## Interactions
 
@@ -90,8 +108,9 @@ There is at most **one** active wake intent at a time.
 | Alarm time reached, app alive | Armed | Timer fires: disarms, stops keep-alive, plays the station | Diagnostic "timer fired"; Now Playing surfaces |
 | App launch / foreground with pending fire | `firesAt` already passed but within grace | Fires immediately on activate | — |
 | Tap fired notification | Notification delivered | Queues the station id; on next active app pass, fires the armed alarm (or plays the station directly if no longer armed) | Now Playing surfaces |
-| Pause playback while armed (keep-alive off) | Armed, keep-alive off, warning not suppressed | One-time alert: alarm may not auto-play; offers "Don't show again" | Suppress flag persisted on dismiss-with-don't-show |
-| Run "Play Station" / "Play Last Station" intent | App launchable by iOS | Queues a playback request; app foregrounds and plays | Independent of in-app alarm |
+| Pause playback while armed (keep-alive off) | Armed, keep-alive off, warning not suppressed | One-time alert: alarm may not auto-play; offers "Don't show again" + "OK" | Suppress flag persisted on dismiss-with-don't-show |
+| Run "Set Wake Alarm" intent (station + time) | App launchable by iOS | Queues an arm request (time-of-day only); app foregrounds and arms the in-app alarm | Independent of the notification-tap path; resolves the station against everything playable; stale requests past the intent lifetime are dropped |
+| Run "Play Station" / "Play Last Station" intent | App launchable by iOS | Queues a playback request; app foregrounds and plays | Plays immediately; does not arm an alarm |
 
 ## Business rules
 
@@ -118,7 +137,10 @@ There is at most **one** active wake intent at a time.
   the project privacy boundary — no full private stream URLs leak. Diagnostics are
   local opt-in.
 - **Preference sync:** default time, notification-enabled, and keep-alive-enabled
-  are part of the cloud-sync snapshot (see Known deviations for the keep-alive gap).
+  are all part of the cloud-sync snapshot; changing any of the three (via its
+  setter or the wake sheet) pushes to sync, and applying a remote snapshot suppresses
+  the re-push. The armed alarm itself (station, time, title) is device-local — only
+  the three defaults sync.
 
 ## Data dependencies
 
@@ -166,36 +188,45 @@ There is at most **one** active wake intent at a time.
 
 ## Accessibility
 
-- Wake button carries the localized "Wake to radio" label; armed state adds the
-  time as a value.
-- Close button has an explicit "Close" accessibility label.
+- Wake button carries the localized "Wake to radio" label; the armed-time chip is a
+  visual badge only and is not exposed as an accessibility value.
+- Footer close button has an explicit "Close" accessibility label; the action button
+  is labeled "Set"/"Unset" to match its state.
 - Toggles expose title + detail text; the denied warning is readable as a labeled
   block with an "Open Settings" action.
-- Station name and title use `minimumScaleFactor` so they scale rather than
+- Header title and station name use `minimumScaleFactor` so they scale rather than
   truncate under large Dynamic Type.
 - Countdown capsule updates on a 30s timeline; it is decorative relative to the
   primary time, which remains the source of truth.
+- The wake Live Activity collapses to a single element labeled "Alarm set for
+  <station>"; its alarm glyph is hidden from VoiceOver.
 
 ## Localization
 
 This surface owns these strings (English reference values):
 
-- `wakeToRadio` — "Wake to radio"
+- `wakeTo` — "Wake to" (wake-sheet header title)
+- `wakeToRadio` — "Wake to radio" (Now Playing wake button label)
 - `wakeTime` — "Wake time"
-- `defaultWake` — "Default wake time"
-- `wakeHint` — autoplay/keep-alive guidance footnote
+- `defaultWake` — "Default wake time" (Settings row)
 - `wakeNotification` — "Lock Screen notification"
 - `wakeNotificationDetail` — "Shows a wake alert at the set time. Program alarms turn this on by default."
 - `wakeNotificationsDeniedWarning` — denied-permission warning
 - `wakeKeepAlive` — "Keep audio alive until wake"
 - `wakeKeepAliveDetail` — near-silent-sound + battery explanation
 - `wakePauseWarningTitle` / `wakePauseWarningMessage` — pause-while-armed alert
-- `unsetWakeAlarm` — "Unset wake alarm"
 - `playStationFirst` — "Play a station first"
 - `set` / `unset`, `openSettings`, `dontShowAgain`, `close`, `ok` (shared)
 
-Notification body interpolates station name and time; localization must keep the
-station/time parameters. No plural forms required (countdown uses compact "Hh Mm"
+`wakeHint` (autoplay/keep-alive footnote) and `unsetWakeAlarm` remain defined but
+are no longer rendered after the sheet restructure; the keep-alive guidance now lives
+in `wakeKeepAliveDetail`.
+
+Notification body interpolates station name and time, with a separate body when an
+alarm title is set; localization must keep the station/time parameters. The Live
+Activity strings ("Alarm", "Alarm set for <station>") and the App Intent titles
+("Set Wake Alarm", "Play Station", "Play Last Station") are not yet part of the
+localized string table. No plural forms required (countdown uses compact "Hh Mm"
 formatting; "now"/"soon" are special-cased).
 
 ## Platform Matrix
@@ -203,24 +234,33 @@ formatting; "now"/"soon" are special-cased).
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | In-app timer | Supported while tab/session remains alive. | Supported while app remains alive. | Planned while process/service remains alive. |
-| Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | TBD, likely foreground service if allowed. |
-| Local notification fallback | Browser support dependent. | Supported (one-shot, fixed identifier). | Planned. |
-| Notification-tap → playback | Browser support dependent. | Supported (queued, consumed on next active pass — see W1). | Planned. |
-| Pre-armed default time / prefs | Browser-local. | Supported (default time, notify, keep-alive). | Planned. |
-| Program-schedule preset arming | Where schedules exist. | Supported. | Planned. |
-| DST-safe next-fire resolution | Required. | Supported. | Required. |
-| Pause-while-armed warning | TBD. | Supported (once per alarm, keep-alive off). | TBD. |
-| Shortcuts/automation | Not applicable. | Supported through App Intents/Shortcuts. | Not applicable. |
-| Exact alarm | Not available. | Not available to third-party app in this sense. | Open decision; may require permission. |
+| Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | Planned (a foreground service / near-silent playback bed while armed; Android-native equivalent of the iOS keep-alive). |
+| Local notification fallback | Partial (best-effort `Notification` fired at wake time only when the page is alive and permission granted; no scheduled/background fallback). | Supported (one-shot, fixed identifier). | Planned. |
+| Notification-tap → playback | Not planned (no notification-tap path; audio starts directly from the in-page timer). | Supported (queued, consumed on next active pass — see W1). | Planned. |
+| Pre-armed default time / prefs | Partial (last-used wake time persists in localStorage; no notify or keep-alive preference rows). | Supported (default time, notify, keep-alive). | Planned. |
+| Program-schedule preset arming | Not planned (no schedule → wake preset path on web). | Supported. | Planned. |
+| DST-safe next-fire resolution | Required. | Supported. | Planned (required of the future implementation). |
+| Pause-while-armed warning | Not applicable (web swaps to the silent bed on pause, so the keep-alive footgun the warning guards against does not exist). | Supported (once per alarm, keep-alive off). | Planned. |
+| Lock-screen wake Live Activity | Not applicable. | Supported (glanceable; independent of playback). | Planned (an ongoing / lock-screen notification glances the armed alarm; Android-native equivalent of the iOS Live Activity). |
+| Shortcuts/automation | Not applicable. | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Planned (App Actions / Assistant as the Android-native equivalent of Siri/Shortcuts). |
+| Exact alarm | Not available. | Not available to third-party app in this sense. | Planned (AlarmManager exact-alarm via `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`; permission model still an open decision). |
 | Survives force quit | No. | No. | No reliable guarantee. |
-| Preference cloud sync | Not planned. | Supported for time + notify (keep-alive gap, W6). | Not applicable. |
+| Preference cloud sync | Not planned. | Supported for time + notify + keep-alive. | Not applicable. |
 
 ## Web
 
 The web wake flow is browser-limited. It can work while the page and audio session
-remain eligible, but it must not promise alarm-clock reliability. A silent-bed
-audio workaround and the Media Session / Notifications APIs (where supported) are
-the closest analogs to the iOS keep-alive and notification fallback.
+remain eligible, but it must not promise alarm-clock reliability. The in-page
+scheduler (a clamped `setTimeout`, a 30s heartbeat, a `visibilitychange` re-check,
+and a best-effort screen Wake Lock) only runs while the tab is open; closing the
+page ends the alarm. A silent-bed audio workaround (always on while armed, not a
+user preference) stands in for the iOS keep-alive — it loops a near-silent AAC clip
+so the audio session stays active across the fire-time station swap. The Media
+Session API supplies the lock-screen "Wake to …" title. The notification is fired
+best-effort at wake time (only when the page is alive and `Notification` permission
+is granted), not scheduled to fire while the tab is suspended; there is no
+notification-tap-to-play path, no program-schedule preset arming, and no
+preference cloud sync on web. Only the last-used wake time persists in localStorage.
 
 ## iOS
 
@@ -229,23 +269,39 @@ iOS is the current reference behavior:
 - In-app wake alarm with a runloop-`.common` timer (survives scroll).
 - Near-silent keep-alive option (default on).
 - One-shot local notification fallback.
-- App Intents / Shortcuts actions "Play Station" and "Play Last Station".
+- Lock-screen / Dynamic Island Live Activity while armed (glanceable only).
+- App Intents / Shortcuts actions "Set Wake Alarm" (arms the alarm), "Play Station",
+  and "Play Last Station" (play immediately).
 
 See [Wake to radio on iOS](../../wake-to-radio.md) for setup and limits.
 
 ## Android
 
-Android wake-to-radio needs a separate implementation decision before coding. The
-spec should decide:
+Wake-to-radio is **not yet built on Android** and is Planned toward iOS parity.
+The current Android app (Jetpack Compose + media3/ExoPlayer in a foreground
+`MediaSessionService`) implements playback, Favorites, and custom stations but
+carries no wake/alarm code: there is no `AlarmManager` scheduling, no exact-alarm
+permission, no scheduled wake notification, no keep-alive bed, and no glanceable
+armed-alarm surface. The lone `WAKE_LOCK` permission is the generic CPU wake-lock
+used during playback, not this feature, and `POST_NOTIFICATIONS` powers only the
+media-playback notification.
 
-- Whether exact alarms are acceptable, and whether requesting exact-alarm
-  permission matches the product.
-- Whether a foreground media service is required while armed.
-- How to explain battery-optimization limits.
+The Android-native mechanic differs from the iOS local-notification approach: the
+intended port schedules the fire with **`AlarmManager` exact-alarm**
+(`SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`, behind a runtime permission grant) plus
+a **foreground service** to drive playback at fire time, rather than the iOS in-app
+timer + one-shot local notification. A `BroadcastReceiver` (and a
+`BOOT_COMPLETED` receiver to survive reboot) would replace the iOS notification-tap
+re-entry path. Before coding, the spec must still decide:
+
+- Whether requesting exact-alarm permission matches the product, versus an inexact
+  `AlarmManager` schedule that trades precision for no permission prompt.
+- How the foreground service and battery-optimization (Doze / app-standby) limits
+  are explained to the user.
 - What fallback notification copy says when autoplay cannot happen.
 
-The first Android port may defer wake-to-radio if playback, Favorites, and custom
-stations are the launch scope.
+The first Android port may sequence wake-to-radio after the launch scope (playback,
+Favorites, custom stations), but it remains targeted for parity rather than dropped.
 
 ## Open questions
 
@@ -263,36 +319,48 @@ stations are the launch scope.
 
 iOS source files (the only place iOS mechanics are named):
 
-- `rrradio-ios/rrradio/Player/WakeAlarm.swift` — `WakeAlarm` (`arm`, `disarm`,
+- `rrradio/Player/WakeAlarm.swift` — `WakeAlarm` (`arm`, `disarm`,
   `activate`, `fire`, `fireFromNotification`, `nextFireDate` DST-safe resolution,
-  `formatCountdown`, keep-alive/notification preference `didSet`s, stale-grace
-  restore in `init`, `shouldShowPauseWarning`/`suppressPauseWarning`,
-  `requestNotificationAuthorizationIfNeeded`, `applyCloudSyncPreferences`);
+  `formatCountdown`, keep-alive/notification preference `didSet`s that push prefs,
+  stale-grace restore in `init`, `shouldShowPauseWarning`/`suppressPauseWarning`,
+  `requestNotificationAuthorizationIfNeeded`, `applyCloudSyncPreferences`,
+  `shouldShowNotificationPermissionWarning`, `chipText`);
   `WakeAlarmNotification` (payload, category, `requestPlayback`, pending-station id);
   `LocalWakeAlarmNotifier` (`UNCalendarNotificationTrigger`, authorization).
-- `rrradio-ios/rrradio/Player/AudioPlayer.swift` — `startWakeKeepAlive`/
-  `stopWakeKeepAlive`, `keepAliveWavData` (near-silent looped WAV), session
+- `rrradio/Player/AudioPlayer.swift` — `startWakeKeepAlive`/
+  `stopWakeKeepAlive` (deactivates the session when idle and nothing follows),
+  `keepAliveWavData` (near-silent looped WAV, volume 0.001), session
   configure/deactivate.
-- `rrradio-ios/rrradio/Views/NowPlayingView.swift` — `WakeAlarmView` sheet,
-  `WakeAlarmPreset`, wake button, station identity, countdown, pause warning trigger.
-- `rrradio-ios/rrradio/Views/ContentView.swift` — `activate`, `syncWakeKeepAlive`,
-  `playPendingWakeAlarmNotificationIfPossible`, pause-warning alert.
-- `rrradio-ios/rrradio/Views/AppRouter.swift` — `consumePendingWakeNotification`,
-  `WakeNotificationOutcome`.
-- `rrradio-ios/rrradio/App.swift` — `AppDelegate` `UNUserNotificationCenterDelegate`
-  (`willPresent`, `didReceive`), category registration.
-- `rrradio-ios/rrradio/Shortcuts/PlayStationIntent.swift`,
-  `IntentPlaybackRequest.swift` — "Play Station" / "Play Last Station" App Intents.
-- `rrradio-ios/rrradio/CloudSync/CloudSyncSnapshot.swift` — `wakeDefaultTime`,
+- `rrradio/Player/WakeAlarmLiveActivityController.swift` — `sync`/`end`, re-adopts a
+  surviving activity on launch.
+- `Shared/WakeAlarmActivityAttributes.swift` — Live Activity `ContentState`
+  (station, `firesAt`, themed colors).
+- `rrradioWidget/WakeAlarmLiveActivity.swift` — lock-screen + Dynamic Island
+  presentation.
+- `rrradio/Views/NowPlayingView.swift` — `WakeAlarmView` sheet (`sheetHeader`,
+  `stationLine`, footer SET/UNSET + close pair), `WakeAlarmPreset`,
+  `WakeAlarmSheet`, wake button + armed chip, countdown.
+- `rrradio/Views/ContentView.swift` — `activate`, `syncWakeKeepAlive`,
+  `syncWakeLiveActivity`, `playPendingWakeAlarmNotificationIfPossible`,
+  `consumePendingIntentWakeAlarm` arming, pause-warning trigger + alert.
+- `rrradio/Views/AppRouter.swift` — `consumePendingWakeNotification`,
+  `WakeNotificationOutcome`, `consumePendingIntentWakeAlarm`.
+- `rrradio/App.swift` — `AppDelegate` `UNUserNotificationCenterDelegate`
+  (`willPresent` → banner+sound, `didReceive` → `requestPlayback`), category
+  registration.
+- `rrradio/Shortcuts/PlayStationIntent.swift` — `SetWakeAlarmIntent`,
+  `PlayStationIntent`, `PlayLastStationIntent`; `IntentPlaybackRequest.swift` —
+  `requestArmWakeAlarm` / `consumePendingWakeAlarm` (time-of-day, stale-drop).
+- `rrradio/CloudSync/CloudSyncSnapshot.swift` — `wakeDefaultTime`,
   `wakeNotificationsEnabled`, `wakeKeepAliveEnabled`.
-- `rrradio-ios/rrradio/Views/SettingsView.swift` — default-time row, notification
-  row, denied warning.
+- `rrradio/Views/SettingsView.swift` — default-time row, notification
+  row, conditional denied-warning row.
 
 ## Known deviations
 
 These record shipped iOS code that does not match the intended behavior above; the
 spec states intent, the audit owns the bug. See
-`rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice3.md`:
+`internal/audit/2026-05-25-ios-code-review-slice3.md`:
 
 - **W1 (High):** notification-tap handler *queues* playback (consumed on the next
   active app pass) rather than starting it directly; a sound-only, untapped banner
@@ -304,10 +372,6 @@ spec states intent, the audit owns the bug. See
   (non-idempotent getter).
 - **W4 (Medium):** DST resolution is fixed but the chosen `firesAt` is not logged,
   so a silently-shifted firing is hard to diagnose.
-- **W5 (Medium):** a direct write to `notificationsEnabled` bypasses the cloud-sync
-  push that the explicit setter performs.
-- **W6 (Medium):** keep-alive-enabled is read into the snapshot but its direct setter
-  is not consistently synced across devices.
 - **W10 (Low):** the notification trigger is constructed without a pinned timezone;
   travel mid-arm fires at the new local time matching the original components.
 - **W11 (Low):** when no notification preference is stored, the default splits on
@@ -315,7 +379,11 @@ spec states intent, the audit owns the bug. See
   branch.
 - **W12 (Medium):** the denied-permission warning only renders while
   `isArmed && notificationsEnabled && notificationPermissionDenied`; denying after
-  arming then disarming loses the warning surface.
-- Related session/keep-alive teardown gap: see
-  `rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice5.md` (A2) — the audio
-  session is not always deactivated when keep-alive stops and nothing follows.
+  arming then disarming loses the in-sheet warning surface (the Settings warning row
+  shares the same predicate).
+
+Resolved since the audit (code now matches intent at d241aa9, no longer deviations):
+W5 (the `notificationsEnabled` `didSet` now pushes the cloud-sync change, guarded by
+the apply-from-sync flag); W6 (keep-alive is in the cloud-sync snapshot and its
+`didSet` pushes); and the slice5 (A2) keep-alive teardown gap (`stopWakeKeepAlive`
+deactivates the audio session when the player is idle and nothing follows).

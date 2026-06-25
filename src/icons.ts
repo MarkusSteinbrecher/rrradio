@@ -37,3 +37,30 @@ export const ICON_GRIP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentCo
  *  ★★★ + program/schedule). */
 export const STAR_SVG =
   '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>';
+
+// ── Named-lists icons (gh #520) ──────────────────────────────────────
+/** Plain list glyph — Lists nav + section label. */
+export const ICON_LIST = svg(
+  '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+);
+/** List + plus — the per-row "add to list" affordance. */
+export const ICON_LIST_ADD = svg(
+  '<path d="M4 6h11"/><path d="M4 12h8"/><path d="M4 18h8"/><path d="M16 16h6"/><path d="M19 13v6"/>',
+);
+export const ICON_TRASH = svg(
+  '<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>',
+);
+export const ICON_PENCIL = svg(
+  '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+);
+export const ICON_BACK = svg('<path d="m15 18-6-6 6-6"/>');
+export const ICON_CLOSE = svg('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
+export const ICON_CHEVRON_RIGHT = svg('<path d="m9 18 6-6-6-6"/>');
+export const ICON_CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
+/** Magnifying glass — the iOS LibraryPageStatusBar search accessory. */
+export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
+/** Plain plus — "add stations to favorites" header accessory. */
+export const ICON_PLUS = svg('<path d="M12 5v14"/><path d="M5 12h14"/>');
+/** Minus-in-circle — the per-row remove affordance shown in favorites
+ *  edit mode (the iOS delete-mode red circle). */
+export const ICON_MINUS_CIRCLE = svg('<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>');

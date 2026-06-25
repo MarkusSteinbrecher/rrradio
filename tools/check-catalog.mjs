@@ -81,15 +81,51 @@ if (!Array.isArray(jsonStations)) fail('public/stations.json: stations[] not fou
 
 const jsonIds = new Set(jsonStations.map((s) => s.id));
 
-// Every publishable YAML row should have a matching JSON entry.
-const missingFromJson = [...yamlPublishableIds].filter((id) => !jsonIds.has(id));
+// Account for the §4a catalog collapse (tools/lib/catalog-dedupe.mjs): same-
+// station rows (bitrate/codec variants of one broadcast) are folded into one
+// canonical published row, so the folded-away ids live in the YAML but not in
+// stations.json. public/dedup-report.json records exactly which ids were folded
+// and into which canonical. A publishable YAML id is consistent iff it is
+// either published OR folded away by the collapse.
+const dedupReportPath = join(root, 'public/dedup-report.json');
+const collapsedAwayIds = new Set();
+const collapsedCanonicalOf = new Map();
+if (existsSync(dedupReportPath)) {
+  let rep;
+  try {
+    rep = JSON.parse(readFileSync(dedupReportPath, 'utf8'));
+  } catch {
+    fail('public/dedup-report.json is not valid JSON — run npm run catalog');
+  }
+  for (const g of rep.groups ?? []) {
+    for (const m of g.members ?? []) {
+      if (m.id !== g.canonicalId) {
+        collapsedAwayIds.add(m.id);
+        collapsedCanonicalOf.set(m.id, g.canonicalId);
+      }
+    }
+  }
+}
+
+// Every publishable YAML row should be either published or folded by collapse.
+const missingFromJson = [...yamlPublishableIds].filter(
+  (id) => !jsonIds.has(id) && !collapsedAwayIds.has(id),
+);
 // Every JSON entry should trace back to a publishable YAML row.
 const missingFromYaml = [...jsonIds].filter((id) => !yamlPublishableIds.has(id));
+// Every folded id must be a publishable YAML row whose canonical actually
+// shipped — otherwise the report and the JSON disagree.
+const foldedNotInYaml = [...collapsedAwayIds].filter((id) => !yamlPublishableIds.has(id));
+const foldedCanonicalMissing = [...collapsedCanonicalOf.entries()]
+  .filter(([, canonical]) => !jsonIds.has(canonical))
+  .map(([id, canonical]) => `${id} → ${canonical}`);
 
 const drift =
   missingFromJson.length > 0 ||
   missingFromYaml.length > 0 ||
-  yamlPublishableIds.size !== jsonIds.size;
+  foldedNotInYaml.length > 0 ||
+  foldedCanonicalMissing.length > 0 ||
+  yamlPublishableIds.size !== jsonIds.size + collapsedAwayIds.size;
 
 // URL safety: every absolute URL in the catalog must be http/https.
 // Catches catalog poisoning where a YAML or RB-merged value somehow
@@ -116,6 +152,26 @@ for (const s of jsonStations) {
       urlIssues.push(`${s.id}: ${field} has disallowed scheme ${proto} → ${v}`);
     }
   }
+  // Stream variants (`streams[]`) get the same scheme-safety check as streamUrl.
+  if (Array.isArray(s.streams)) {
+    s.streams.forEach((variant, i) => {
+      const v = variant?.url;
+      if (!v) {
+        urlIssues.push(`${s.id}: streams[${i}].url is missing`);
+        return;
+      }
+      let proto;
+      try {
+        proto = new URL(v).protocol;
+      } catch {
+        urlIssues.push(`${s.id}: streams[${i}].url not a parseable URL: ${v}`);
+        return;
+      }
+      if (!ALLOWED_PROTOCOLS.has(proto)) {
+        urlIssues.push(`${s.id}: streams[${i}].url has disallowed scheme ${proto} → ${v}`);
+      }
+    });
+  }
 }
 if (urlIssues.length > 0) {
   console.error(`${C.bad}check-catalog: ${urlIssues.length} URL safety issue(s):${C.reset}`);
@@ -131,10 +187,13 @@ if (urlIssues.length > 0) {
 // reviewed and visible in diffs.
 const httpsIssues = [];
 for (const s of jsonStations) {
-  if (!s.streamUrl || typeof s.streamUrl !== 'string') continue;
-  if (!s.streamUrl.startsWith('http://')) continue;
   if (httpAllowedIds.has(s.id)) continue;
-  httpsIssues.push(`${s.id}: HTTP streamUrl not allowlisted → ${s.streamUrl}`);
+  // Every variant URL is held to the HTTPS-only policy, not just streamUrl.
+  const urls = [s.streamUrl, ...(Array.isArray(s.streams) ? s.streams.map((v) => v?.url) : [])];
+  for (const u of urls) {
+    if (!u || typeof u !== 'string' || !u.startsWith('http://')) continue;
+    httpsIssues.push(`${s.id}: HTTP stream not allowlisted → ${u}`);
+  }
 }
 if (httpsIssues.length > 0) {
   console.error(`${C.bad}check-catalog: ${httpsIssues.length} HTTPS-policy violation(s):${C.reset}`);
@@ -148,11 +207,37 @@ if (httpsIssues.length > 0) {
   process.exit(2);
 }
 
-// Favicon variants: every `favicons.{76,128,152}` path in the catalog
-// must point at a file that actually exists under public/. Build pipeline
-// in tools/build-favicon-variants.mjs writes these; catches the case
-// where a curator edits stations.json by hand or the variants were
-// pruned without re-running the pipeline.
+// Stream-variant shape (audit: tools/lib/catalog-dedupe.mjs invariants). When
+// a station carries `streams[]` it must be a ranked list of >= 2 variants with
+// `streams[0].url === streamUrl` (the best/default). We never emit a 1-element
+// streams[]; a malformed build is a bug worth blocking on.
+const streamsShapeIssues = [];
+for (const s of jsonStations) {
+  if (s.streams === undefined) continue;
+  if (!Array.isArray(s.streams) || s.streams.length < 2) {
+    streamsShapeIssues.push(`${s.id}: streams must be an array of >= 2 variants`);
+    continue;
+  }
+  if (s.streams[0]?.url !== s.streamUrl) {
+    streamsShapeIssues.push(`${s.id}: streams[0].url must equal streamUrl`);
+  }
+}
+if (streamsShapeIssues.length > 0) {
+  console.error(`${C.bad}check-catalog: ${streamsShapeIssues.length} stream-variant shape issue(s):${C.reset}`);
+  for (const m of streamsShapeIssues.slice(0, 20)) console.error(`  ${m}`);
+  if (streamsShapeIssues.length > 20) console.error(`  …and ${streamsShapeIssues.length - 20} more`);
+  console.error(`\n  Fix: run ${C.ok}npm run catalog${C.reset}${C.bad} to regenerate stations.json.${C.reset}`);
+  process.exit(2);
+}
+
+// Favicon variants: validate the *shape* of every `favicons.{76,128,152}`
+// ref (must be a `favicons/` path). The webp files themselves live under the
+// gitignored public/favicons/ dir — build output of
+// tools/build-favicon-variants.mjs, regenerated locally by `npm run catalog`
+// and NEVER committed (the web runtime renders the remote `favicon` URL, not
+// these; the array is a build-time hint). So on-disk presence is deliberately
+// NOT required: it can't hold in a fresh checkout / CI, and enforcing it broke
+// the deploy in #522 (a committed stations.json referenced uncommitted webps).
 const VARIANT_SIZES = ['76', '128', '152'];
 const variantIssues = [];
 for (const s of jsonStations) {
@@ -163,10 +248,6 @@ for (const s of jsonStations) {
     if (path === undefined) continue;
     if (typeof path !== 'string' || !path.startsWith('favicons/')) {
       variantIssues.push(`${s.id}: favicons[${size}] is not a favicons/ path → ${path}`);
-      continue;
-    }
-    if (!existsSync(join(root, 'public', path))) {
-      variantIssues.push(`${s.id}: favicons[${size}] missing on disk → public/${path}`);
     }
   }
 }
@@ -177,7 +258,7 @@ if (variantIssues.length > 0) {
   for (const m of variantIssues.slice(0, 20)) console.error(`  ${m}`);
   if (variantIssues.length > 20) console.error(`  …and ${variantIssues.length - 20} more`);
   console.error(
-    `\n  Fix: run ${C.ok}npm run favicon-variants${C.reset}${C.bad} (or remove the stale variants from stations.json).${C.reset}`,
+    `\n  Fix: correct the favicons[] path in stations.json (must be a ${C.ok}favicons/${C.reset}${C.bad} path) or remove it.${C.reset}`,
   );
   process.exit(2);
 }
@@ -186,22 +267,31 @@ if (drift) {
   console.error(
     `${C.bad}check-catalog: stations.json is out of sync with stations.yaml${C.reset}`,
   );
-  console.error(`  YAML publishable: ${yamlPublishableIds.size}`);
-  console.error(`  JSON published:   ${jsonIds.size}`);
+  console.error(`  YAML publishable:    ${yamlPublishableIds.size}`);
+  console.error(`  JSON published:      ${jsonIds.size}`);
+  console.error(`  Folded by collapse:  ${collapsedAwayIds.size}  (published + folded should equal publishable)`);
   if (missingFromJson.length > 0) {
-    console.error(`\n  ${missingFromJson.length} station(s) in YAML but not JSON:`);
+    console.error(`\n  ${missingFromJson.length} publishable YAML station(s) neither published nor folded:`);
     for (const id of missingFromJson.slice(0, 10)) console.error(`    + ${id}`);
     if (missingFromJson.length > 10) console.error(`    + …and ${missingFromJson.length - 10} more`);
   }
   if (missingFromYaml.length > 0) {
-    console.error(`\n  ${missingFromYaml.length} station(s) in JSON but not YAML:`);
+    console.error(`\n  ${missingFromYaml.length} station(s) in JSON but not a publishable YAML row:`);
     for (const id of missingFromYaml.slice(0, 10)) console.error(`    - ${id}`);
     if (missingFromYaml.length > 10) console.error(`    - …and ${missingFromYaml.length - 10} more`);
   }
+  if (foldedNotInYaml.length > 0) {
+    console.error(`\n  ${foldedNotInYaml.length} folded id(s) not a publishable YAML row (stale dedup-report):`);
+    for (const id of foldedNotInYaml.slice(0, 10)) console.error(`    ! ${id}`);
+  }
+  if (foldedCanonicalMissing.length > 0) {
+    console.error(`\n  ${foldedCanonicalMissing.length} folded id(s) whose canonical did NOT ship:`);
+    for (const m of foldedCanonicalMissing.slice(0, 10)) console.error(`    ! ${m}`);
+  }
   console.error(
-    `\n  Fix: run ${C.ok}npm run catalog${C.reset}${C.bad} (regenerates JSON from YAML + Radio Browser),${C.reset}`,
+    `\n  Fix: run ${C.ok}npm run catalog${C.reset}${C.bad} (regenerates JSON + dedup-report from YAML + Radio Browser),${C.reset}`,
   );
-  console.error(`  then commit the updated public/stations.json.`);
+  console.error(`  then commit the updated public/stations.json + public/dedup-report.json.`);
   process.exit(2);
 }
 

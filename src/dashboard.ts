@@ -2,7 +2,7 @@
  * Dashboard aggregation — pure reducer over the Worker payload for the
  * public stats sheet. The sheet mirrors what GoatCounter's own dashboard
  * shows for the same window (Visits + Locations) plus rrradio-specific
- * extras (top `play:` events, all-time poll).
+ * extras (top `play:` events).
  *
  * No more synthesized "station country" join against the local catalog,
  * no Listeners/Stations toggle, no per-country sparkline rollups. If you

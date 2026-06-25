@@ -1,9 +1,9 @@
 # Playback State Machine Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -109,13 +109,32 @@ station with the same queue, re-arming automatic retry and resetting the budget.
 
 ### Stream-quality selection
 
-- The catalog ships one stream per station (`streamUrl`). HLS sources adapt
-  bitrate internally; the player does not pick among catalog-level tiers.
-- A `best` / `data` / `low` listener-facing quality tier is a **product decision
-  not yet implemented on any platform** — see Open questions. It is NOT part of
-  this contract today.
-- iOS-only: a non-interactive stream-quality *meter* (a bitrate indicator derived
-  from `Station.bitrate` / `codec`) is a display affordance, not a tier selector.
+The catalog MAY ship multiple delivery variants per station as an ordered
+`streams: StreamVariant[]` (best→worst, `streams[0].url === streamUrl`); see
+[catalog-schema](catalog-schema.md). When present, the player selects which
+variant to play from a **persisted, global listener preference**:
+
+- **Preference:** `best` (default) or `data` (data-saver) — one value, stored
+  locally (web: `localStorage` key `rrradio.qualityPref.v1`), applied to every
+  station.
+- **Per-station resolution:** pick the variant whose `tier` matches the
+  preference; if that tier is absent, **fall back toward `best`** (`data` walks
+  down from `best` to the lowest available; `best` always resolves to
+  `streams[0]`). A single-stream station (no `streams`) ignores the preference
+  and plays `streamUrl`.
+- **Failure fallback:** when the selected variant fails to play, the retry
+  rebuild advances to the next **lower** variant before surfacing `error`; the
+  variant list bounds the attempt budget (see Stream-retry policy). A
+  single-stream station keeps the one-rebuild-then-error behaviour.
+- **Changing the preference** re-plays the current station on the newly chosen
+  variant. HLS sources still adapt bitrate internally *within* a chosen variant.
+- A non-interactive stream-quality **meter** (a 1–4 indicator derived from a
+  variant's `bitrate`/`codec`) is a display affordance, not the selector.
+
+**Implementation status:** the catalog ships `streams[]` now; the web player
+selection + Now Playing toggle and the iOS parity are **Planned** (the wire
+schema lands first so clients adopt incrementally). See
+`design/decisions/001-stream-variants-and-catalog-collapse.md`.
 
 ### Playback queue model
 
@@ -158,8 +177,20 @@ Stepping to a different station calls `play` on it (rebuild, `loading`).
 ### Audio-session + media-control contract
 
 - **Session category:** playback (continues in background; mixes per platform
-  background-audio entitlement). Activated on configure; deactivated on `stop`,
-  on interruption-began, and on keep-alive stop when nothing follows.
+  background-audio entitlement). The category is set **dormant** at startup —
+  configured but not activated — so an idle app never registers as the system
+  Now Playing app or shows an empty lock-screen card.
+- **Lazy activation:** the session is activated only when audible work begins:
+  on `play`, on `resume`, and when the wake keep-alive starts.
+- **Deactivation:** the session is released (with notify-others-on-deactivation)
+  whenever nothing is playing — on `stop`, on interruption-began, when
+  now-playing is cleared (no `current` station) and no wake keep-alive is
+  running, and when the wake keep-alive stops with the player idle. A user
+  `pause` keeps the session active so resume from the lock screen is instant.
+- **Wake keep-alive (iOS-only):** a near-silent looped tone can hold the audio
+  session alive while the app waits to start playback at a scheduled wake time;
+  starting `play` tears it down and starts the real stream. It supports the
+  wake-to-radio alarm and is not part of the cross-platform state machine.
 - **Now-playing info published** (see Detail) so the lock screen / system surface
   shows station identity, current track, live-stream flag, playback rate, queue
   position, and artwork.
@@ -212,7 +243,7 @@ the `NowPlayingMetadata` struct produced in
 | Field | Type | Value | When |
 |---|---|---|---|
 | Title | string | Station name; `"<station> - <program>"` when a program name is known; sleep-timer suffix `" - Sleep in <n>m"` appended when armed. | always when station selected |
-| Artist (subtitle) | string | `"<artist> - <title>"` for music tracks; else state label (`Standby`/`Loading`/`Live`/`Paused`/`Error`) or country code. | always |
+| Artist (subtitle) | string | `"<artist> - <title>"` for music tracks (or bare `<title>` when no artist); else a per-state label — `Loading` / `Live` / `Paused` / `Error` (and, in the defensive `idle`-with-station branch, the station's uppercased country code or `Standby`). | when a station is selected |
 | Media type | enum | audio | always |
 | Is live stream | bool | true | always |
 | Playback rate | number | 1.0 when state == `playing`, else 0.0 | always |
@@ -306,8 +337,8 @@ reactivate session, resume; state → playing
   numbers, is a contract change and must update this file plus
   [Playback](../playback.md).
 - The station payload carries `schemaVersion` (currently `1`); this machine
-  consumes only `streamUrl`, `availableIn`, `bitrate`, `codec`. See the station
-  schema (Station model) for evolution of those fields.
+  consumes only `streamUrl`, `streams`, `availableIn`, `bitrate`, `codec`. See
+  the station schema (Station model) for evolution of those fields.
 - **Backward compatibility:** a missing `availableIn` means no geo restriction
   (the common case) — retry proceeds normally. A queue with an unknown `source`
   string should degrade to `single`.
@@ -334,15 +365,34 @@ reactivate session, resume; state → playing
 
 ### Web
 
-- Expose the five states (or an equivalent enum) and the listed transitions.
-- Treat `HTMLAudioElement` as unreliable after failure: **rebuild the source**,
-  do not only re-call play (per [Playback](../playback.md) Recovery).
-- Apply the same retry budget (≤3) and avoid tight retry loops.
-- Use the Media Session API where supported to publish the now-playing fields and
-  to wire play/pause/previous/next; previous/next only when the queue is steppable.
-- Honor the queue model (browse/favorites/recents/stationList/single), circular
-  stepping, and the "no jump to unrelated stations" rule.
-- Geo-restricted streams: surface the friendly message, do not retry.
+- Exposes the five states (`idle`/`loading`/`playing`/`paused`/`error`) as a
+  flat enum. It honors the user-driven transitions (play/pause/toggle/stop) and
+  the play-rebuild rule, but does **not** implement the system-event transitions
+  (audio interruption, output-route lost, media-services reset) or the
+  network-restored auto-reconnect predicate — those are iOS/native concerns.
+- Treats `HTMLAudioElement` as unreliable after failure: **rebuilds the source**,
+  does not only re-call play (per [Playback](../playback.md) Recovery). Every
+  `play()` tears down and rebuilds; live streams are never resumed in place.
+- **Planned: the automatic retry budget/backoff is not yet implemented.** Web
+  recovery today is (a) a stall **watchdog** — if `currentTime` stops advancing
+  for ~8s it forces one fresh rebuild — and (b) surfacing the `<audio>` `error`
+  event as `error(message)`. There is no attempt counter, no `min(30, 2^…)`
+  backoff curve, and no healthy-reset timer. The ≤3-budget exponential-backoff
+  reconnect is deferred (see the `Phase 4` note in `src/player.ts`).
+- Uses the Media Session API where supported to wire play/pause/previous/next and
+  to publish a reduced now-playing surface — title, artist, album, artwork only.
+  It does **not** publish the live-stream flag, playback rate, or queue
+  index/count via Media Session.
+- **Divergence: no cross-platform queue model.** Web has no
+  `(source, sourceID, stations[])` queue, no browse/favorites/recents/
+  stationList/single sources, and no circular stepping over an active queue.
+  Previous/next are wired unconditionally (not gated on a steppable queue) and
+  cycle the user's **favorites list only**; when the current station is not in
+  favorites, skip jumps to the first/last favorite, and skip is a no-op when
+  there are no favorites. The "no jump to unrelated stations" rule is therefore
+  not honored — skip can land on any favorite.
+- Geo-restricted streams: surfaces the friendly region-locked message and does
+  not retry (consistent — there is no automatic retry to suppress).
 
 ### iOS (reference)
 
@@ -354,20 +404,68 @@ reactivate session, resume; state → playing
 
 ### Android
 
-- Mirror the state machine and transitions using Media3/ExoPlayer error callbacks.
-- Rebuild the `MediaItem`/player item on retry with the same budget and backoff;
-  resolve `.m3u`/`.pls` before playback, keep `.m3u8` native.
-- Provide the Media3 media-session notification with the now-playing fields and
-  transport controls; previous/next gated on a steppable queue.
-- Honor queue sources and circular stepping; geo-restricted = no retry.
+The first Android port runs playback in a foreground `MediaSessionService`
+(Media3/ExoPlayer) — the Android-native mechanic for background audio plus
+lock-screen / notification controls, the counterpart to iOS's background-audio
+entitlement + remote-command center. It mirrors the **state model** and the
+**queue/stepping** core, with a divergent retry budget and no system-event or
+geo handling yet.
+
+- **Supported — five states.** A `PlayerState` enum (`idle`/`loading`/`playing`/
+  `paused`/`error`) mirrors the contract's 5-case set 1:1, driven by ExoPlayer
+  `Player.Listener` callbacks (`onPlaybackStateChanged`, `onIsPlayingChanged`,
+  `onPlayerError`). User-driven transitions (play/toggle/pause/stop, step) and
+  the play-rebuild rule are honored. `loading` is reported while buffering;
+  `stop` clears station, queue, and metadata back to `idle`.
+- **Supported — circular queue + stepping.** A real `(stations[])` queue with
+  de-duplication by id and circular wrap-around stepping (`% n`), gated on a
+  steppable queue (more than one station) both in the service `step()` and in the
+  UI (`canStepStations = queueSize > 1`). Previous/next map to step
+  backward/forward.
+- **Partial — retry rebuilds, but the budget and backoff diverge.** Retry
+  rebuilds the player item (`setMediaItems` + `prepare`, single-flight) — it does
+  not merely re-call play. **Divergence:** the budget is **2** attempts (not 3),
+  the backoff is a linear `attempt × 1.5 s` capped at 5 s (1.5 s, 3 s — not the
+  `min(30, 2^(n−1))` curve), and there is **no 5-minute healthy-reset timer** —
+  the counter resets whenever the player reaches `STATE_READY`. Aligning the
+  budget (3), the exponential backoff curve, and the healthy-reset window to the
+  contract is **Planned**.
+- **Supported — playlist resolution.** `.pls` and `.m3u` are fetched and parsed
+  to the underlying stream URL before playback (`StreamUrlResolver`); `.m3u8` is
+  left native — ExoPlayer plays HLS directly, so no hls.js-style shim is needed
+  (the Android counterpart to the web HLS path).
+- **Partial — now-playing surface.** The Media3 session publishes the
+  notification/lock-screen card with transport controls and the station title +
+  country-code subtitle. **Gap:** it does not yet publish the full now-playing
+  field set (live-stream flag, playback rate, queue index/count, track-cover
+  artwork via the system surface) — those are tracked in app state but not pushed
+  to `MediaMetadata`. Publishing the full field set is **Planned**.
+- **Planned — queue sources.** The queue is built from the visible station list
+  but carries no `source`/`sourceID` (browse/favorites/recents/stationList/
+  single) tagging; the source enum and list identity are **Planned** toward
+  parity.
+- **Planned — system-event transitions.** Audio interruption / audio-focus loss,
+  output-route-lost ("becoming noisy"), media-services-reset, and
+  network-restored auto-reconnect are **not yet wired** (no audio-focus,
+  becoming-noisy receiver, or connectivity callback in the service). These are
+  **Planned**; the native mechanics will be `AudioManager` audio-focus +
+  `ACTION_AUDIO_BECOMING_NOISY` + a `ConnectivityManager` network callback,
+  standing in for iOS's `AVAudioSession` interruption / route-change /
+  media-services-reset handlers.
+- **Planned — geo-restricted = no retry.** Not implemented: the Station model has
+  no `availableIn` field (its `geo` field is lat/long coordinates, unrelated), so
+  geo-restricted failures currently retry like any transient error. The
+  curated-region permanent-failure path is **Planned**.
 
 ## Open questions
 
-- **Listener-selectable stream quality (`best`/`data`/`low`).** No platform ships
-  a quality-tier selector today; the catalog publishes a single `streamUrl` per
-  station. If introduced, it needs a catalog schema (per-tier URLs), a persisted
-  preference, and a defined fallback when a tier is unavailable. Until decided it
-  is explicitly out of this contract.
+- **Listener-selectable stream quality (`best`/`data`).** **Resolved (schema) /
+  Planned (clients).** The catalog now ships per-variant URLs as `streams[]`
+  ([catalog-schema](catalog-schema.md)), and the preference + per-station
+  resolution + failure-fallback model is defined above under "Stream-quality
+  selection". What remains is implementation: the web player selection + Now
+  Playing toggle and iOS parity are not yet shipped. See
+  `design/decisions/001-stream-variants-and-catalog-collapse.md`.
 - **Pause-time session deactivation.** Whether to deactivate the audio session on
   a long pause (vs. keeping it active for fast resume) is an unresolved tradeoff;
   see Known deviations for the related shipped gap.
@@ -387,7 +485,9 @@ reactivate session, resume; state → playing
   retry scheduler (`scheduleStreamRetry`, `rebuildCurrentStreamItem`,
   `scheduleHealthyPlaybackRetryResetIfNeeded`), backoff
   (`defaultStreamRetryDelayNanoseconds`), session handling
-  (`configureAudioSession`/`deactivateAudioSession`, interruption / route-change /
+  (`prepareAudioSessionCategory` dormant-at-init, `configureAudioSession`/
+  `deactivateAudioSession`, `clearNowPlaying`, `startWakeKeepAlive`/
+  `stopWakeKeepAlive`, interruption / route-change /
   media-services-reset handlers), remote commands (`wireRemoteCommands`,
   `updateRemoteStationCommandAvailability`), now-playing (`updateNowPlaying`,
   `nowPlayingPlaybackState`), auto-reconnect
@@ -401,11 +501,14 @@ reactivate session, resume; state → playing
 
 ## Known deviations
 
-- **Audio session not deactivated on stop/pause/teardown (slice 5 A2).** Shipped
-  iOS code historically left `AVAudioSession` active across `pause()`,
-  `stopWakeKeepAlive()`, and `teardownPlayer()`; only interruption-began and (now)
-  `stop()` deactivate. The contract intends the session to be released when nothing
-  is playing. See
-  `rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice5.md` (A2) and the
-  remediation in `rrradio-ios/internal/audit/2026-05-25-fixes-prioritized.md`
-  (PR 3); the Now Playing close path is the slice 24 N6 surface of the same gap.
+- **Audio session deactivation (slice 5 A2 / slice 24 N6) — largely remediated.**
+  The audit flagged that shipped iOS code left `AVAudioSession` active across every
+  stop path; only interruption-began deactivated. At the reconciled commit this is
+  mostly fixed: `stop`, the now-playing-cleared path, and wake-keep-alive stop (when
+  idle) now deactivate, so the slice 24 N6 close-player surface releases the session.
+  `pause` still deliberately keeps the session active (fast lock-screen resume —
+  defensible per the audit), and `teardownPlayer` does not itself deactivate but is
+  only reached from callers that do. See
+  `rrradio-ios/internal/audit/2026-05-25-ios-code-review-slice5.md` (A2),
+  `…-slice24.md` (N6), and the remediation plan in
+  `rrradio-ios/internal/audit/2026-05-25-fixes-prioritized.md` (PR 3).

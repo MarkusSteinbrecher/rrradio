@@ -12,10 +12,10 @@
    --accent automatically restyles every glow. Values mirror the SwiftUI
    `RrradioTheme` palette used by the iOS app. */
 :root, [data-theme="dark"] {
-  --accent:  #ffff00;                       /* pure yellow */
-  --bg:      #3e3e39;
-  --bg-2:    #4e4e47;
-  --bg-3:    #5d5d55;
+  --accent:  #ffff00;                       /* pure yellow (RrradioTheme accent) */
+  --bg:      #1e1d19;                  /* RrradioTheme.bg  (dark) */
+  --bg-2:    #2f2e29;                  /* RrradioTheme.bg2 (dark) */
+  --bg-3:    #62615c;                  /* RrradioTheme.bg3 (dark) */
   --line:    rgba(244,244,242,0.08);
   --line-2:  rgba(244,244,242,0.14);
   --ink:     #f4f4f2;                  /* primary text */
@@ -25,14 +25,18 @@
   --row-glow:        linear-gradient(90deg, rgba(255,255,255,0.02), transparent 60%);
   --dial-overlay:    linear-gradient(180deg, rgba(255,255,255,0.015), transparent 30%, rgba(0,0,0,0.28));
   --live-on: #ffff00;
+  /* iOS RrradioTheme.cardFill — warm top→bottom gradient + card elevation
+     (RrradioCardShadowModifier: black @ 0.40 dark / 0.10 light, r5 y2). */
+  --card-fill:   linear-gradient(180deg, #292822, #25241e);
+  --card-shadow: 0 2px 5px rgba(0,0,0,0.40);
 }
 
 [data-theme="light"] {
   --accent:  #00a040;                  /* full green, visible on white */
-  --bg:      #f8f8f3;                  /* warm off-white, paired with the warm dark */
-  --bg-2:    #fffffb;
-  --bg-3:    #ecece4;
-  --line:    rgba(14,14,13,0.10);
+  --bg:      #f8f8f6;                  /* RrradioTheme.bg  (light) */
+  --bg-2:    #fffeff;                  /* RrradioTheme.bg2 (light) */
+  --bg-3:    #c2c1bf;                  /* RrradioTheme.bg3 (light) */
+  --line:    rgba(14,14,13,0.08);
   --line-2:  rgba(14,14,13,0.20);
   --ink:     #0e0e0d;
   --ink-2:   rgba(14,14,13,0.80);
@@ -41,15 +45,17 @@
   --row-glow:        linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
   --dial-overlay:    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
   --live-on: #00a040;
+  --card-fill:   linear-gradient(180deg, #fffefb, #fbfaf6);
+  --card-shadow: 0 2px 5px rgba(0,0,0,0.10);
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --accent:  #00a040;
-    --bg:      #f8f8f3;
-    --bg-2:    #fffffb;
-    --bg-3:    #ecece4;
-    --line:    rgba(14,14,13,0.10);
+    --bg:      #f8f8f6;
+    --bg-2:    #fffeff;
+    --bg-3:    #c2c1bf;
+    --line:    rgba(14,14,13,0.08);
     --line-2:  rgba(14,14,13,0.20);
     --ink:     #0e0e0d;
     --ink-2:   rgba(14,14,13,0.80);
@@ -58,6 +64,8 @@
     --row-glow:     linear-gradient(90deg, rgba(0,0,0,0.025), transparent 60%);
     --dial-overlay: linear-gradient(180deg, rgba(0,0,0,0.02), transparent 30%, rgba(0,0,0,0.10));
     --live-on: #00a040;
+    --card-fill:   linear-gradient(180deg, #fffefb, #fbfaf6);
+    --card-shadow: 0 2px 5px rgba(0,0,0,0.10);
   }
 }
 
@@ -147,8 +155,10 @@ html.theme-switching *::after {
   font-family: var(--sans);
 }
 
-/* Cap to a phone-shape on wider screens, like the handoff iOS frame */
-@media (min-width: 640px) {
+/* Cap to a phone-shape on wider screens, like the handoff iOS frame.
+   Only up to the desktop breakpoint — at ≥1024px the three-pane shell
+   below takes over and uncaps the width. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
   .app {
     max-width: 480px;
     margin: 0 auto;
@@ -157,9 +167,144 @@ html.theme-switching *::after {
   }
 }
 
+/* ─── Top nav (full-width: logo + search + actions) ───
+   Mirrors the iOS TopBrandRow: the wordmark lives here (left), the
+   search/funnel/gear toolbar fills the rest, and a 1px rule underneath
+   separates it from the page. Spans the full width above the body row. */
+.topnav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: calc(var(--safe-top) + 12px) 16px 10px;
+  background: var(--bg);
+  /* No rule beneath the brand/nav row (iOS parity): the only header
+     hairline sits under the page sub-header (.section-label), where iOS
+     draws its TopNavRule. Holds at every width — mobile and desktop. */
+}
+/* Search flexes to fill the row; the action buttons take their natural
+   width. This holds on mobile too — logo + search + filter + settings
+   share one row (see the ≤1023px block below). */
+.topnav > .search-wrap { flex: 1; min-width: 0; }
+.topnav > .toolbar { flex: 0 0 auto; }
+
+/* ─── Body row: nav rail + main content, below the top nav. ─── */
+.app-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── PSA banner (vintage-tuner announcement) ───
+   A "public service announcement" featuring the vintage tuner from the /ios
+   landing (captured to /radio-tuner.png — its FM/AM dial, needle, presets and
+   buttons intact, corners pre-rounded to transparency). The radio sits straight
+   on the page background (no shelf) with the announcement captioned beneath. A
+   flex-shrink:0 block at the top of the Browse page; main.ts's syncPromo()
+   shows it whenever Browse is active (see that fn). */
+.psa {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  /* No shelf — the tuner sits straight on the page background so the banner
+     blends in rather than reading as a dark box. Text colours are theme-aware
+     so the caption stays legible on the light theme too. */
+}
+.psa[hidden] { display: none; }
+
+.psa__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  max-width: 560px;
+  text-decoration: none;
+}
+.psa__radio {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
+}
+
+.psa__caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+.psa__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffb347;
+  text-shadow: 0 0 8px rgba(255, 150, 40, 0.4);
+}
+.psa__on {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff5a3c;
+  box-shadow: 0 0 6px #ff5a3c;
+  animation: psa-blink 1.8s ease-in-out infinite;
+}
+.psa__msg {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.psa__msg strong { color: var(--ink); font-weight: 600; }
+.psa__cta {
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffd27a;
+}
+.psa__link:hover .psa__cta { text-decoration: underline; }
+
+@keyframes psa-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .psa__on { animation: none; } }
+
+@media (max-width: 560px) {
+  .psa { padding: 12px 12px 14px; }
+}
+
+/* Section nav (Browse / Favorites / Library). On desktop it lives in the
+   top bar; on phones the bottom tab bar carries it, so it hides here. */
+.topnav-nav { display: none; }
+
+.main {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ─── Top bar ─── */
+/* The sidebar strip above now carries the safe-area top inset (mobile),
+   so the search/filter bar starts flush under it — the 14px gap to the
+   strip comes from the sidebar's own bottom padding. */
+/* The search/actions toolbar moved up into .topnav; the topbar now only
+   carries per-tab chrome (the library segmented control). It stays out
+   of the way — no vertical padding — when that chrome is hidden. */
 .topbar {
-  padding: calc(var(--safe-top) + 14px) 20px 14px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -308,9 +453,216 @@ html.theme-switching *::after {
 .filter-row > * { flex-shrink: 0; }
 .filter-row[hidden] { display: none; }
 
+/* ─── Top toolbar (search + filter funnel + settings gear) ─── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Mobile (≤1023px): the search bar was sharing one row with the wordmark
+   + filter + gear, leaving it only ~half the width. Drop it to its own
+   full-width row beneath them — wordmark left, actions right, search below.
+   Desktop (≥1024px) keeps the single-row layout (plenty of width). */
+@media (max-width: 1023.98px) {
+  /* Single row: logo + search + filter + settings. The search flexes to
+     fill the space between the wordmark and the action buttons (DOM order
+     already places it there), so the row stays one line and never wraps. */
+  .topnav { flex-wrap: nowrap; }
+  .topnav > .search-wrap { flex: 1; min-width: 0; }
+}
+.toolbar-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-2);
+  color: var(--ink-2);
+  position: relative;
+  transition: color 0.14s, border-color 0.14s, background 0.14s;
+}
+.toolbar-btn:hover { color: var(--ink); border-color: var(--line-2); }
+.toolbar-btn svg { width: 19px; height: 19px; }
+.toolbar-btn[hidden] { display: none; }
+/* Ko-fi support button: official cup logo (self-hosted), no toolbar ring —
+   just the image. The 40px .toolbar-btn box stays as an invisible tap target. */
+.topnav-kofi,
+.topnav-kofi:hover { border-color: transparent; background: transparent; }
+.topnav-kofi img { width: 24px; height: auto; display: block; }
+.toolbar-btn__dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.toolbar-btn__dot[hidden] { display: none; }
+
+/* Filter controls wrap, centered, inside the popup instead of scrolling. */
+#filter-sheet .filter-row {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 26px 22px;
+  overflow: visible;
+  padding: 20px 4px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* Settings sheet rows */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-size: 14px;
+  text-align: left;
+  transition: background 0.14s, border-color 0.14s;
+}
+.settings-row:hover { background: var(--bg-3); border-color: var(--line-2); }
+.settings-row__label { flex: 1; }
+.settings-row svg { width: 18px; height: 18px; color: var(--ink-3); flex-shrink: 0; }
+.settings-row__val { color: var(--ink-3); font-family: var(--mono); font-size: 12px; }
+a.settings-row { text-decoration: none; }
+
+/* Settings page: sections, segmented pills, toggle switches. */
+.settings-body { max-width: 560px; margin: 0 auto; }
+.settings-section { margin-bottom: 22px; }
+.settings-section__title {
+  margin: 0 4px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.settings-section__hint { margin: -2px 4px 10px; font-size: 12px; color: var(--ink-3); }
+
+.seg {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-2);
+}
+.seg__btn {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  transition: background 0.14s, color 0.14s;
+}
+.seg__btn:hover { color: var(--ink-2); }
+.seg__btn.is-active { background: var(--ink); color: var(--bg); }
+
+.settings-row--toggle .switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  transition: background 0.16s, border-color 0.16s;
+}
+.settings-row--toggle .switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink-2);
+  transition: transform 0.16s, background 0.16s;
+}
+.settings-row--toggle[aria-pressed='true'] .switch {
+  background: color-mix(in oklab, var(--accent) 75%, transparent);
+  border-color: transparent;
+}
+.settings-row--toggle[aria-pressed='true'] .switch::after {
+  transform: translateX(16px);
+  background: var(--bg);
+}
+
+/* Accent colour: a native swatch trimmed to sit like the other row
+   controls. The "Custom color" row only shows while Custom is selected. */
+.accent-row { cursor: default; margin-top: 8px; }
+.accent-row[hidden] { display: none; }
+.accent-picker {
+  inline-size: 46px;
+  block-size: 28px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+}
+.accent-picker::-webkit-color-swatch-wrapper { padding: 3px; }
+.accent-picker::-webkit-color-swatch { border: 0; border-radius: 5px; }
+.accent-picker::-moz-color-swatch { border: 0; border-radius: 5px; }
+
+/* ── Settings sheet: horizontal tab strip (Settings · About · Add · History) ──
+   Lives in the sheet head in place of the centered title; folds the
+   former separate About + Add sheets into one tabbed surface. */
+/* Keep the base 1fr/auto/1fr grid so the tab strip sits in the centred
+   column (matching the iOS sheet header) with the close button pinned
+   right. The strip stays horizontally scrollable if it ever overflows. */
+.sheet-head--tabs { gap: 12px; }
+.sheet-head--tabs .sheet-tabs { grid-column: 2; justify-self: center; min-width: 0; }
+.sheet-head--tabs .icon-btn { grid-column: 3; justify-self: end; }
+.sheet-tabs {
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sheet-tabs::-webkit-scrollbar { height: 0; }
+.sheet-tab {
+  flex: none;
+  padding: 7px 12px;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.14s, color 0.14s;
+}
+.sheet-tab:hover { color: var(--ink-2); background: var(--bg-2); }
+.sheet-tab.is-active { color: var(--bg); background: var(--ink); }
+
+.settings-panel[hidden] { display: none; }
+/* The relocation sources are emptied into the panels at boot; keep them
+   out of layout in case the move hasn't run yet. */
+.settings-src { display: none; }
+
 /* Each filter is a labelled cell: circular control on top, short
    text label below. Keeps the existing chip geometry intact and
    adds context without widening the chip. */
+/* `display: flex` below would otherwise beat the [hidden] attribute's
+   UA display:none — make hiding a cell (sort/quality on discovery) work. */
+.filter-cell[hidden] { display: none; }
 .filter-cell {
   display: flex;
   flex-direction: column;
@@ -411,44 +763,6 @@ html.theme-switching *::after {
 }
 .curated-toggle.is-active:hover { color: var(--bg); }
 
-/* Map-view toggle — same geometry + active style as curated. When
-   on, the unfiltered home view replaces its list section with the
-   Leaflet map. */
-.map-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.map-toggle svg { width: 16px; height: 16px; display: block; }
-.map-toggle:hover {
-  border-color: var(--line-2);
-  color: var(--ink-2);
-}
-.map-toggle.is-active {
-  color: var(--bg);
-  border-color: var(--ink);
-  background: var(--ink);
-}
-.map-toggle.is-active:hover { color: var(--bg); }
-.map-toggle:disabled {
-  cursor: default;
-  color: var(--ink-4);
-  border-color: var(--line);
-  background: transparent;
-  opacity: 0.5;
-}
-.map-toggle:disabled:hover {
-  border-color: var(--line);
-  color: var(--ink-4);
-}
 
 /* Genre + country filters. Always rendered as a 36×36 circle to
    match the other toggles in the row. The selected value lives in
@@ -588,6 +902,39 @@ html.theme-switching *::after {
   cursor: not-allowed;
 }
 .section-label__action svg { width: 18px; height: 18px; }
+/* Active accessory — the search field is open, or edit mode is on. */
+.section-label__action.is-active { color: var(--accent); background: var(--bg-2); }
+
+/* iOS LibraryPageStatusBar header (mobile Favorites): search (left) ·
+   centred title · +/trash (right). A 3-column grid keeps the title
+   optically centred no matter the side controls' widths. The left padding
+   lines the search accessory up with the cards' 10px outer margin; the
+   right padding pulls the trailing actions onto the same vertical rail as
+   the topnav gear (its 32px buttons sit 4px in from the gear's 40px one). */
+.section-label--header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  padding-left: 10px;
+  padding-right: 20px;
+}
+.section-label--header .section-label__lead {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.section-label--header .section-label__title { justify-self: center; }
+.section-label--header .section-label__actions { justify-self: end; }
+/* The list-detail / recents header drives the same 3-column grid; its older
+   centred-flex rules must not fight it. */
+.section-label--list-detail.section-label--header { justify-content: initial; }
+.section-label--header .section-label__title span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .section-label .count {
   font-variant-numeric: tabular-nums;
   color: var(--ink-4);
@@ -598,41 +945,133 @@ html.theme-switching *::after {
   margin-right: 8px;
 }
 
-/* ─── Library segmented control (Favorites / Recents toggle) ─── */
-.lib-seg {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg-2);
-}
-/* Topbar variant — stays in the sticky chrome above the scroll area
-   so the section selector is always reachable regardless of scroll. */
-.topbar-lib-seg { margin: 0; }
-.topbar-lib-seg[hidden] { display: none; }
-.lib-seg__btn {
-  flex: 1;
-  padding: 8px 14px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  background: transparent;
+/* Favorites edit mode — a red minus on each card removes that favorite
+   (iOS delete mode). The cards already carry the grip handle in reorder
+   mode; edit mode swaps that for the remove control. */
+.row-remove {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 50%;
+  background: #ff453a;
+  color: #fff;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  padding: 0;
+  transition: transform 0.12s ease;
 }
-.lib-seg__btn:hover { color: var(--ink-2); }
-.lib-seg__btn.is-active {
-  /* Inverted pill — pops against the search-bar's --bg-2 row above.
-     In dark mode this is near-white; in light mode it inverts to
-     near-black. Both read as a clear "this is selected" affordance. */
+.row-remove:active { transform: scale(0.9); }
+.row-remove svg { width: 15px; height: 15px; }
+
+/* ─── Browse multi-select: "add to Favorites" dock + row ticks ─── */
+/* Accent-tinted bar pinned above the station list (iOS BrowseSelectionDock):
+   cancel · "Adding to Favorites N" · Add N. Sits between the per-tab chrome
+   and the scrolling content, so a search re-render never disturbs it. */
+.select-dock {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--accent) 13%, var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+/* The cancel · "Adding to …" · Add N action row. A step strip (when the flow
+   came from the choose-list popup) rides above it as a sibling. */
+.select-dock__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.select-dock__cancel {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.select-dock__cancel svg { width: 15px; height: 15px; }
+.select-dock__label {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.select-dock__label b {
+  color: var(--ink);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.select-dock__count {
+  flex: 0 0 auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--accent);
   color: var(--bg);
-  background: var(--ink);
+  font: 700 11px/20px var(--mono);
+  text-align: center;
 }
+.select-dock__save {
+  flex: 0 0 auto;
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 19px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.select-dock__save:active { transform: scale(0.96); }
+.select-dock__save:disabled {
+  background: var(--bg-2);
+  color: var(--ink-4);
+  border: 1px solid var(--line);
+  cursor: not-allowed;
+}
+
+/* Per-row pick tick (replaces the heart/eq/add controls in select mode). */
+.row-tick {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: transparent;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.row-tick svg { width: 15px; height: 15px; }
+.row-tick.is-picked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+/* Already-favorited stations: filled with a muted tint, inert. */
+.row-tick.is-added {
+  background: var(--ink-4);
+  border-color: transparent;
+  color: var(--bg);
+}
+.row.is-added { opacity: 0.5; cursor: default; }
 
 /* ─── Station row ─── */
 .row {
@@ -664,6 +1103,51 @@ html.theme-switching *::after {
   background: var(--accent);
 }
 
+/* Mobile: station rows are real cards (iOS StationRow card parity, the
+   .standard / .favoritesListCard treatment) — a warm gradient fill +
+   elevation lifting each off the page, matching the Library-home cards,
+   across Browse, Favorites, Lists and Recents. Desktop (≥1024px) keeps
+   its own card-grid further below. */
+@media (max-width: 1023.98px) {
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* 10px side inset matches the iOS card outer margin (StationRow
+       .padding(.horizontal, 10)); the 8px top + the header's 10px bottom
+       give the 18px gap to the first card (iOS LibraryChrome.topRowGap). */
+    padding: 8px 10px;
+  }
+  .rows .row {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--card-fill);
+    box-shadow: var(--card-shadow);
+    padding: 12px 14px;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  /* The card fill replaces the flat tap/playing backgrounds; the playing
+     state uses an accent border, not the list's left edge-bar (which would
+     poke out of the rounded corner). */
+  .rows .row:active { background: var(--card-fill); }
+  .rows .row.is-playing {
+    background: var(--card-fill);
+    border-color: var(--accent);
+  }
+  .rows .row.is-playing::before { display: none; }
+
+  /* On Favorites + Library (home / list detail / recents), search is an
+     icon in the page header (the iOS search accessory), not an always-on
+     field in the brand row. Hide the field; the header search icon expands
+     it (body.search-open). With it hidden, push the funnel + gear right. */
+  body.tab-fav .topnav > .search-wrap,
+  body.tab-library .topnav > .search-wrap { display: none; }
+  body.tab-fav:not(.search-open) .topnav > .toolbar,
+  body.tab-library:not(.search-open) .topnav > .toolbar { margin-left: auto; }
+  body.tab-fav.search-open .topnav > .search-wrap,
+  body.tab-library.search-open .topnav > .search-wrap { display: flex; }
+}
+
 /* ─── Favicon (drawn letter-mark, 4 deterministic variants) ─── */
 .fav {
   width: 38px;
@@ -678,7 +1162,8 @@ html.theme-switching *::after {
   font-weight: 500;
   color: var(--ink-2);
   letter-spacing: -0.02em;
-  border-radius: 2px;
+  /* Station logos are circular, matching the iOS app. */
+  border-radius: 50%;
   position: relative;
   overflow: hidden;
 }
@@ -746,26 +1231,19 @@ html.theme-switching *::after {
   min-width: 0;
 }
 
-/* Capability stars — 1–3 little stars before the tags text. Each star
-   is a separate <span> so the count is visually obvious at a glance:
-   one star = stream-verified only, two = track info too, three = full
-   broadcaster API (track + on-air show schedule). Tinted accent so
-   they read as a quality mark, not as a tappable control. */
-.row-stars {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
-  flex-shrink: 0;
-  color: var(--accent);
-  opacity: 0.85;
+/* Library-feed now-playing subtitle (Favorites / Lists / Recents): the
+   current track ("artist — title") shown under the station name once the
+   cover poll resolves it. Sans + normal case, unlike the lowercase mono
+   genre tags it replaces. */
+.row-now {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
-.row-stars__star {
-  display: inline-grid;
-  place-items: center;
-  width: 11px;
-  height: 11px;
-}
-.row-stars__star svg { width: 11px; height: 11px; display: block; }
+.row-now[hidden] { display: none; }
 
 /* Geo-restriction badge — shown on rows whose curated `availableIn`
    excludes the visitor's country. Sits inside .row-tags between the
@@ -802,6 +1280,29 @@ html.theme-switching *::after {
   flex-shrink: 0;
 }
 
+/* Library-feed track cover (Favorites / Lists / Recents): the station's
+   current-track art, painted in place by the cover poll. Empty until art
+   lands — and stream-only stations never get any — so it collapses to
+   nothing and the row keeps its station-logo-only layout. */
+.row-cover {
+  display: none;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.row-cover.has-cover {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.row-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .row .eq { display: none; }
 .row.is-playing .eq { display: inline-flex; }
 
@@ -822,6 +1323,473 @@ html.theme-switching *::after {
 .heart.is-fav .heart--line { display: none; }
 .heart.is-fav .heart--fill { display: block; }
 .heart:active { transform: scale(0.85); }
+
+/* Add-to-list button — sits left of the heart in each row's right cluster. */
+.row-addlist {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  border-radius: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+.row-addlist svg { width: 16px; height: 16px; display: block; }
+.row-addlist:hover { color: var(--ink); }
+.row-addlist:active { transform: scale(0.85); }
+
+/* ── Named lists (gh #520) ── */
+/* Lists index — one tappable card per list. */
+.lists-index {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Match the Favorites feed's outer inset (.rows: 8px 10px) so list cards
+     line up with station cards. */
+  padding: 8px 10px;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+.list-item:first-child { border-top: 0; }
+.list-item:hover { background: var(--bg-2); }
+.list-item__icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--bg-2);
+  color: var(--ink-2);
+}
+.list-item__icon svg { width: 20px; height: 20px; }
+.list-item__info { flex: 1; min-width: 0; }
+.list-item__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-item__sub {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.list-item__del { flex-shrink: 0; }
+.list-item__del:hover { color: #ff8b6b; }
+
+/* Library-home rows: real cards (iOS LibraryHomeCardContent parity) — a
+   warm top→bottom gradient fill + elevation shadow, lifting them off the
+   page rather than the flat border-separated rows. Title over a strip of
+   station favicons; fitStrip() in main.ts collapses overflow into a
+   trailing "+N more" badge. */
+.list-item--lib {
+  align-items: center;
+  gap: 14px;
+  /* Match the Favorites card padding (.rows .row: 12px 14px). */
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card-fill);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+/* The card fill replaces the flat row separators + bg-2 hover. */
+.list-item--lib:hover {
+  background: var(--card-fill);
+  box-shadow: var(--card-shadow), var(--card-shadow);
+  transform: translateY(-1px);
+}
+.list-item--lib .list-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* The trailing controls (reorder grip, delete) stay vertically centred in the
+   card (inheriting .list-item--lib's align-items: center). The negative margin
+   nudges them onto the same vertical rail as the topnav gear + header actions —
+   the card's 14px padding would otherwise inset them past it. */
+.list-item--lib > .row-grip,
+.list-item--lib > .list-item__del {
+  margin-right: -5px;
+}
+.list-item__strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  overflow: hidden;
+}
+.list-item__strip .strip-ico { flex: 0 0 auto; }
+.list-item__more {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.list-item__empty {
+  font-size: 12px;
+  line-height: 36px;
+  color: var(--ink-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.section-label__back { margin-right: 2px; }
+
+/* Add-to-list sheet picker. */
+.list-picker {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.list-picker__empty {
+  color: var(--ink-3);
+  font-size: 13px;
+  padding: 10px 2px;
+}
+.list-picker__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 6px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.list-picker li:first-child .list-picker__btn { border-top: 0; }
+.list-picker__btn:hover { background: var(--bg-2); }
+.list-picker__check {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  opacity: 0;
+}
+.list-picker__btn.is-in .list-picker__check { opacity: 1; }
+.list-picker__btn.is-in .list-picker__name { color: var(--ink); font-weight: 600; }
+.list-picker__check svg { width: 18px; height: 18px; }
+.list-picker__name {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-picker__count {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+/* addNow: a list already holding the station is disabled and reads
+   "Already in list" with a muted check (iOS parity). */
+.list-picker__btn.is-already { opacity: 0.5; cursor: default; }
+.list-picker__btn.is-already .list-picker__check { opacity: 1; color: var(--ink-3); }
+.list-picker__btn.is-already .list-picker__count {
+  font-family: inherit;
+  font-size: 12px;
+}
+
+/* ─── Add-to-list popup (iOS AddListPopupCard) ───────────────────
+   Lives inside #list-sheet. A fixed footer (cancel + confirm) with a
+   scrollable middle: a "Create list" row that morphs into a focused
+   field, then the existing lists. pickStations adds a step strip up top. */
+.addlist {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.addlist-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 18px;
+  scrollbar-width: none;
+}
+.addlist-scroll::-webkit-scrollbar { width: 0; }
+
+/* Two-segment progress strip (shared with the select dock). */
+.addlist-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.addlist > .addlist-steps {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.addlist-step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+.addlist-step__badge {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 11px/1 var(--mono);
+  color: var(--ink-3);
+  border: 1px solid var(--line-2);
+}
+.addlist-step__badge svg { width: 13px; height: 13px; }
+.addlist-step.is-active .addlist-step__badge,
+.addlist-step.is-done .addlist-step__badge {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.addlist-step__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.addlist-step.is-active .addlist-step__label { color: var(--ink); }
+.addlist-steps__conn {
+  flex: 1;
+  height: 1px;
+  min-width: 12px;
+  background: var(--line-2);
+}
+.addlist-steps__conn.is-done { background: var(--accent); }
+
+/* "Create list" row — label morphs into a focused field once selected. */
+.addlist-create__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 6px;
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.addlist-create__icon { display: grid; place-items: center; }
+.addlist-create__icon svg { width: 18px; height: 18px; }
+.addlist-create__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+}
+.addlist-create__input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+}
+.addlist-create__input::placeholder { color: var(--ink-4); }
+.addlist-create__input:focus { outline: none; }
+.addlist-create__clear {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.addlist-create__clear svg { width: 13px; height: 13px; }
+.addlist-create__err {
+  padding: 0 8px 8px;
+  font-size: 12.5px;
+  color: rgb(255, 90, 90);
+}
+
+/* Footer: cancel (✕) + confirm ("Pick stations →" or ✓). */
+.addlist-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px calc(14px + var(--safe-bottom));
+  border-top: 1px solid var(--line);
+}
+.addlist-foot__cancel {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.addlist-foot__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+.addlist-foot__cancel svg { width: 16px; height: 16px; }
+.addlist-foot__confirm {
+  flex: 1;
+  height: 44px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.addlist-foot__confirm:active { transform: scale(0.97); }
+.addlist-foot__confirm:disabled {
+  background: var(--bg-2);
+  color: var(--ink-4);
+  border: 1px solid var(--line);
+  cursor: not-allowed;
+}
+.addlist-foot__confirm svg { width: 18px; height: 18px; }
+.addlist-foot__arrow { display: inline-grid; place-items: center; }
+
+/* ─── In-app list management (create / rename / delete) ──────────
+   In-app replacements for window.prompt / window.confirm so list
+   editing matches the rest of the app (and works under our CSP /
+   on mobile). Shared by the lists index, the list-detail header,
+   and the add-to-list sheet. */
+.list-name-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px 12px;
+}
+.list-name-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--mono);
+  /* 16px disables iOS Safari focus auto-zoom. */
+  font-size: 16px;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.list-name-form__input:focus { border-color: var(--accent); }
+.list-name-form__save,
+.list-name-form__cancel {
+  flex-shrink: 0;
+  padding: 9px 15px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s, color 0.15s, border-color 0.15s, background 0.15s;
+}
+.list-name-form__save {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+.list-name-form__save:active { transform: scale(0.96); }
+.list-name-form__cancel {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+}
+.list-name-form__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+
+/* Inline delete confirm — sits in the row's right edge / the detail
+   header's action slot. Destructive button uses the same coral the
+   custom-station delete uses, not a new red. */
+.list-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.list-confirm__q {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--ink-2);
+}
+.list-confirm__cancel,
+.list-confirm__delete {
+  flex-shrink: 0;
+  padding: 6px 13px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.list-confirm__cancel { color: var(--ink-2); }
+.list-confirm__cancel:hover { color: var(--ink); border-color: var(--line-2); }
+.list-confirm__delete {
+  color: #ff8b6b;
+  border-color: rgba(255, 90, 90, 0.45);
+  background: rgba(255, 90, 90, 0.08);
+}
+.list-confirm__delete:hover {
+  color: #fff;
+  background: rgba(255, 90, 90, 0.9);
+  border-color: rgba(255, 90, 90, 0.9);
+}
+
+/* A row mid-confirm isn't clickable and drops its hover affordance. */
+.list-item--confirming { cursor: default; }
+.list-item--confirming:hover { background: transparent; }
+.list-item--confirming .list-confirm { padding-right: 6px; }
+
+/* Rename header: the inline form replaces the title text; keep the
+   back chevron inline to its left. */
+.section-label--editing { align-items: center; }
+.section-label--editing .list-name-form { flex: 1; padding: 0; }
 
 /* ─── Drag-to-reorder (favorites only) ──────────────────────────
    Grip handle on the right edge of each fav row. Pointer-events
@@ -850,7 +1818,8 @@ html.theme-switching *::after {
    set --drag-y custom property. Siblings shift +/- one row height
    to make room for the drop slot — the gap visibly slides to where
    the row will land. */
-.row.is-dragging {
+.row.is-dragging,
+.list-item.is-dragging {
   z-index: 2;
   transform: translateY(var(--drag-y, 0));
   background: var(--bg-2);
@@ -863,14 +1832,20 @@ html.theme-switching *::after {
   user-select: none;
   -webkit-user-select: none;
 }
-.row.is-shifting-up {
+.row.is-shifting-up,
+.list-item.is-shifting-up {
   transform: translateY(calc(-1 * var(--row-h, 68px)));
   transition: transform 0.18s ease;
 }
-.row.is-shifting-down {
+.row.is-shifting-down,
+.list-item.is-shifting-down {
   transform: translateY(var(--row-h, 68px));
   transition: transform 0.18s ease;
 }
+
+/* Desktop grid reorder via native drag-and-drop (enableGridReorder): the whole
+   card is the drag handle (no visible grip); the dragged card fades in flight. */
+.is-drag-source { opacity: 0.4; }
 
 /* ─── EQ bars (4-bar, used in rows + mini) ─── */
 .eq {
@@ -901,26 +1876,62 @@ html.theme-switching *::after {
 /* ─── Mini player ─── */
 .mini {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  /* Left padding + gap match the row above (.row uses padding 14px 20px,
-   * gap 14px) so the album art lines up vertically with the row favicons.
-   * Right padding stays tighter — the skip + play buttons need less margin
-   * than a row's heart-only right edge. min-height pins the mini to the
-   * same height as a row so it doesn't flicker between heights as the
-   * track line shows / hides while skipping stations. */
-  padding: 10px 14px 10px 20px;
+  /* The bar surface is pinned; only .mini-slide (its content) moves on the
+   * swipe-to-close gesture, so the close zone behind it is revealed without
+   * the whole bar shifting. overflow:hidden clips the slid-away content. */
+  position: relative;
+  width: 100%;
   min-height: 66px;
   box-sizing: border-box;
   background: var(--bg-2);
   border-top: 1px solid var(--line);
-  cursor: pointer;
-  position: relative;
-  width: 100%;
+  overflow: hidden;
   text-align: left;
 }
 .mini[hidden] { display: none; }
+/* Sliding content layer. Left padding + gap match the row above (.row uses
+ * padding 14px 20px, gap 14px) so the album art lines up vertically with the
+ * row favicons. min-height pins it to a row's height so it doesn't flicker as
+ * the track line shows / hides while skipping. The transform follows the
+ * finger via --mini-dx; .is-animating adds the spring transition on release
+ * so the drag itself stays 1:1. */
+.mini-slide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 20px;
+  min-height: 66px;
+  box-sizing: border-box;
+  background: var(--bg-2);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  transform: translateX(var(--mini-dx, 0px));
+}
+.mini-slide.is-animating { transition: transform 0.2s ease; }
+/* Red close zone revealed behind the sliding content on the right edge. */
+.mini-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 76px;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: rgba(214, 69, 69, 0.55);
+  color: #fff;
+  cursor: pointer;
+}
+.mini-close[hidden] { display: none; }
+.mini-close svg { width: 22px; height: 22px; display: block; }
+
+/* Desktop "×" close in the mini bar's top-right corner (mobile uses the
+   swipe gesture above). Revealed in the ≥1024px block; stops playback and
+   dismisses the player via miniClose(). */
+.mini-close-x { display: none; }
+.mini-close-x svg { width: 14px; height: 14px; display: block; }
 /* Hide the mini-player while the Playing tab is active — Now Playing
    is its expanded counterpart, no need to show both. */
 body.tab-playing .mini { display: none; }
@@ -941,11 +1952,47 @@ body.is-playing .mini-progress { opacity: 0.7; }
   0%   { background-position: -40% 0; }
   100% { background-position: 140% 0; }
 }
+/* The logo/text/album block is its own button (opens Now Playing); the
+   transport + volume controls sit beside it. It owns the left-cluster
+   layout the bar used to have directly. */
+.mini-open {
+  flex: 1;
+  min-width: 0;
+  /* The swipe-to-close gesture is captured here; keep vertical scroll for
+     the browser and claim horizontal for the drag. */
+  touch-action: pan-y;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+/* Volume lives in the mini on desktop only — phones have a hardware
+   rocker. Hidden by default; the desktop block reveals it. The `.mini`
+   prefix lifts specificity above `.np-volume { display: flex }` (whose
+   styling the slider reuses), which is defined later in the file. */
+.mini .mini-volume { display: none; }
+
+/* Left slot: the station favicon (always — the station's identity). */
 .mini .fav { width: 38px; height: 38px; }
-/* When a track-level coverUrl is set, .fav holds the album art instead
- * of the station favicon. Same slot, same size — the swap is the "we
- * actually know what's playing" affordance. */
 .mini .fav img { width: 100%; height: 100%; object-fit: cover; }
+/* Right slot, before the controls: the current track's album cover art
+ * (iOS parity). A distinct square thumb, shown only when a track-level
+ * cover is known; hidden otherwise. */
+.mini-art {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-3);
+}
+.mini-art[hidden] { display: none; }
+.mini-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mini-info {
   flex: 1;
   min-width: 0;
@@ -986,6 +2033,7 @@ body.is-playing .mini-progress { opacity: 0.7; }
   background: var(--accent);
   animation: pulse 1.6s ease-in-out infinite;
 }
+.mini-prev,
 .mini-skip,
 .mini-toggle {
   width: 36px;
@@ -999,10 +2047,17 @@ body.is-playing .mini-progress { opacity: 0.7; }
   flex-shrink: 0;
   transition: transform 0.15s;
 }
+.mini-prev,
 .mini-skip { width: 32px; height: 32px; border: 0; color: var(--ink-2); }
+.mini-prev svg,
 .mini-skip svg { width: 14px; height: 14px; }
+.mini-prev:hover,
 .mini-skip:hover { color: var(--ink); }
+.mini-prev:active,
 .mini-skip:active { transform: scale(0.92); }
+/* Breathing room between the album art (end of .mini-open) and the
+   transport controls — the first control carries the extra gap. */
+.mini-prev { margin-left: 10px; }
 .mini-toggle svg { width: 12px; height: 12px; }
 .mini-toggle:active { transform: scale(0.92); }
 .mini-toggle .icon-pause { display: none; }
@@ -1035,22 +2090,29 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
   transition: color 0.15s;
 }
 .tab-btn svg { width: 20px; height: 20px; stroke-width: 1.5; }
-.tab-btn.active { color: var(--ink); }
+/* The active tab is accent-tinted (yellow on dark, green on light) with a
+   2px accent bar on the top edge — matching the iOS BottomTabBar, which
+   tints the selected glyph + label + indicator with the theme accent. The
+   desktop top-nav reuses this accent treatment but flips the bar to a
+   bottom underline (see the .topnav-nav override further down). */
+.tab-btn.active { color: var(--accent); }
 .tab-btn.active::before {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 24px;
-  height: 1px;
-  background: var(--ink);
+  width: 28px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
 }
-/* Topbar is quiet on Now Playing — search doesn't apply to a
-   single-station view. Wordmark + signal-meta + add-btn stay.
-   The Now Playing pane is reached via the mini-player; there is no
-   dedicated tab for it any more. */
-body.tab-playing .search-wrap { display: none; }
+/* The top nav is stable chrome — it stays identical on every destination,
+   including Now Playing. The search field is always present (typing on the
+   NP destination jumps back to Browse with results); only the funnel
+   reserves-but-hides its slot off the Browse tab (.slot-hidden) so the
+   centred group never reflows between tabs. */
+.toolbar-btn.slot-hidden { visibility: hidden; pointer-events: none; }
 
 /* ─── Now Playing screen ───
    Lives inside .stage as an overlay layer over .content. Its
@@ -1095,6 +2157,57 @@ body.tab-playing .search-wrap { display: none; }
 .np-back:active { transform: scale(0.92); }
 .np-back svg { width: 22px; height: 22px; display: block; }
 
+/* Browse-list collapse toggle — wide desktop only (shown via the ≥1400px
+   block). Anchored to the NP pane's top-left corner; the chevron points
+   left to collapse the browse list and flips to point right (→ "show
+   browse") once collapsed. */
+.np-collapse-browse {
+  display: none;
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  z-index: 6;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.np-collapse-browse:hover { color: var(--ink); border-color: var(--line-2); }
+.np-collapse-browse svg { width: 16px; height: 16px; display: block; }
+/* Expand arrows by default; swap to inward "contract" arrows once the
+   browse list is collapsed (player is already full width). */
+.np-collapse-browse .icon-contract { display: none; }
+body.browse-collapsed .np-collapse-browse .icon-expand { display: none; }
+body.browse-collapsed .np-collapse-browse .icon-contract { display: block; }
+
+/* Close the docked player (desktop) — mirrors the collapse toggle in the
+   opposite (top-right) corner. Hidden by default; shown via the ≥1024px
+   block while a station is docked and the player isn't already closed.
+   Audio continues; the mini-player carries transport + reopen. */
+.np-close {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  z-index: 6;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.np-close:hover { color: var(--ink); border-color: var(--line-2); }
+.np-close svg { width: 16px; height: 16px; display: block; }
+
 /* Mute toggle: swap volume / muted icon. Body class drives icon state. */
 #np-mute .icon-vol-mute { display: none; }
 body.is-muted #np-mute  { color: var(--accent); border-color: var(--accent); }
@@ -1128,18 +2241,34 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   align-items: center;
   text-align: center;
   gap: 10px;
-  padding-bottom: 22px;
+  padding-bottom: 0;
 }
+/* Station head (iOS stationBlock): logo · centered name · add-to-list (+) ·
+   favorite (♥). Full width so the name optically centers between them. */
 .np-station__head {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  width: 100%;
   min-width: 0;
 }
+.np-station__logo-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.np-station__logo-btn[hidden] { display: none; }
 .np-station__logo {
   width: 38px;
   height: 38px;
-  border-radius: 4px;
+  border-radius: 50%;
   border: 1px solid var(--line);
   background: var(--bg-2);
   object-fit: cover;
@@ -1148,18 +2277,57 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 }
 .np-station__logo[hidden] { display: none; }
 .np-name {
-  font-size: 32px;
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(20px, 4.4vw, 28px);
   font-weight: 500;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 1.1;
+  text-align: center;
   text-wrap: balance;
 }
-.np-tags {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  text-transform: lowercase;
+/* + (add to list) and ♥ (favorite) round buttons on the name row. */
+.np-head-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.np-head-btn:hover { color: var(--ink); border-color: var(--line-2); }
+.np-head-btn:active { transform: scale(0.92); }
+.np-head-btn svg { width: 18px; height: 18px; }
+.np-head-btn .heart--fill { display: none; }
+.np-head-btn.is-fav { color: var(--ink); border-color: var(--ink); }
+.np-head-btn.is-fav .heart--line { display: none; }
+.np-head-btn.is-fav .heart--fill { display: block; }
+/* Edge-to-edge hairline under the station head (iOS stationDivider).
+   Breaks out of .np-body's 24px side padding so it spans the full width. */
+.np-station-divider {
+  height: 1px;
+  width: calc(100% + 48px);
+  margin: 12px -24px 6px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+/* Below the desktop breakpoint the collapse chevron sits inline as the
+   leading item of the station head row (chevron · logo · name · actions)
+   instead of floating in the top-left corner. Sharing the row means a long
+   station name can never collide with it. (≥1024px keeps .np-back as the
+   absolute corner affordance — see its base rule.) */
+@media (max-width: 1023.98px) {
+  .np-back {
+    position: static;
+    flex-shrink: 0;
+    margin-left: -6px;
+  }
 }
 
 /* Optional "Now on · <Show>" pill — sits under .np-tags inside
@@ -1175,84 +2343,55 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   text-align: center;
 }
 .np-track[hidden] { display: none; }
+/* Album column header — hidden on mobile (the tab strip labels the pane);
+   revealed + aligned with the Schedule/Lyrics header in the wide layouts. */
+.np-track__head { display: none; }
 
-/* Pane tabs above the cover area — only visible when the station has
-   a schedule API. Two pill buttons:
-     · np-pane-tab--icon  — small circle, holds the cover/track icon
-     · np-pane-tab--label — wide pill, calendar icon + "Now on <program>" */
+/* Mode tabs (iOS parity): Album / Schedule / Lyrics — uppercase mono
+   labels that hug their content and centre as a group. The active tab
+   is inked with a short accent underline that sits on the full-width
+   hairline beneath the strip. Empty modes never render (JS hides their
+   buttons), so a station with no schedule / no lyrics simply shows
+   fewer tabs. */
 .np-pane-tabs {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 0 16px 12px;
+  align-items: flex-end;
+  gap: 26px;
+  padding: 0 16px;
+  margin-bottom: 16px;
   max-width: 100%;
   min-width: 0;
 }
 .np-pane-tabs[hidden] { display: none; }
 .np-pane-tab[hidden] { display: none; }
 .np-pane-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  position: relative;
+  border: 0;
   background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.np-pane-tab svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-  flex-shrink: 0;
-}
-.np-pane-tab:hover { border-color: var(--line-2); color: var(--ink-2); }
-.np-pane-tab.is-active {
-  color: var(--bg);
-  border-color: var(--ink);
-  background: var(--ink);
-}
-.np-pane-tab--icon {
-  width: 32px;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.np-pane-tab--label {
-  padding: 0 14px 0 12px;
-  /* allow the program name to truncate instead of pushing siblings out */
-  min-width: 0;
-  flex-shrink: 1;
-}
-.np-pane-tab__text {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  min-width: 0;
-}
-.np-pane-tab__pre {
+  padding: 6px 2px 12px;
   font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-3);
-  flex-shrink: 0;
-}
-.np-pane-tab__pre[hidden] { display: none; }
-.np-pane-tab__name {
-  font-family: var(--sans);
-  font-size: 12.5px;
-  font-style: italic;
-  color: var(--ink-2);
+  color: var(--ink-4);
+  cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+  transition: color 0.15s;
 }
-.np-pane-tab.is-active .np-pane-tab__pre,
-.np-pane-tab.is-active .np-pane-tab__name { color: var(--bg); }
+.np-pane-tab:hover { color: var(--ink-2); }
+.np-pane-tab.is-active { color: var(--ink); }
+.np-pane-tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--accent);
+}
 
 /* Program pane — replaces the cover area when the program tab is on. */
 .np-program-pane {
@@ -1291,6 +2430,28 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   touch-action: pan-y;
 }
 .np-lyrics-pane[hidden] { display: none; }
+/* iOS parity: track title + artist header above the lyrics body,
+   separated by a hairline; a source credit link sits below the body. */
+.np-lyrics-head {
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.np-lyrics-head[hidden] { display: none; }
+.np-lyrics-head__title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.np-lyrics-head__artist {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 3px;
+  line-height: 1.3;
+}
+.np-lyrics-head__artist[hidden] { display: none; }
 .np-lyrics-text {
   margin: 0;
   font-family: var(--sans);
@@ -1300,6 +2461,82 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+.np-lyrics-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.np-lyrics-source[hidden] { display: none; }
+.np-lyrics-source:hover { color: var(--ink); }
+.np-lyrics-source svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* Column header + empty-state — both only surface in the wide 4-column
+   Now Playing layout. The header is display:none until the wide @media
+   turns it on; the empty-state line respects its [hidden] attribute
+   (toggled by renderProgramPane / renderLyricsPane) and is only ever
+   un-hidden inside a force-shown column. */
+.np-col-head {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0 0 8px;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-pane-empty {
+  padding: 28px 8px;
+  font-size: 13px;
+  color: var(--ink-3);
+  text-align: center;
+}
+.np-pane-empty[hidden] { display: none; }
+/* iOS parity: current-show header + "Today · N broadcasts" caption
+   above the schedule rows. */
+.np-program-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  padding-bottom: 2px;
+}
+.np-program-head[hidden] { display: none; }
+.np-program-head__name {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.np-program-head__sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.3;
+}
+.np-program-head__sub[hidden] { display: none; }
+.np-program-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.np-program-meta[hidden] { display: none; }
 .np-program-list {
   display: flex;
   flex-direction: column;
@@ -1343,6 +2580,21 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-program-row.is-past { opacity: 0.5; }
 .np-program-row.is-live .np-program-row__title { color: var(--accent); }
 .np-program-row.is-live .np-program-row__time { color: var(--accent); }
+/* iOS parity: a LIVE capsule pinned to the right of the on-air row. */
+.np-program-row__live {
+  flex-shrink: 0;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 2px 7px 1px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
 
 .np-track__cover-wrap {
   position: relative;
@@ -1377,6 +2629,84 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   position: absolute;
 }
 .np-track__cover:not([hidden]) + .np-track__cover-fallback { display: none; }
+/* Tapping the artwork opens the station-info popup (iOS parity). */
+.np-track__cover-wrap { cursor: pointer; }
+.np-track__cover-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* Desktop: a large album, but sized by the vertical room the flex column
+   leaves so the on-air text + Open-in row below it stay visible instead of
+   being clipped by .np-body's overflow. The square is driven off its HEIGHT
+   (width follows via aspect-ratio), and flex-shrink lets it scale down on
+   shorter viewports while the text/links keep their space. The cover source
+   is 600×600 (coverArt.ts) and object-fit:contain never upscales, so it
+   stays crisp at any size. */
+@media (min-width: 1024px) {
+  .np-track { min-height: 0; }
+  .np-track__text,
+  .np-openin { flex-shrink: 0; }
+  .np-track__cover-wrap {
+    width: auto;
+    height: min(400px, 34vw);
+    flex-shrink: 1;
+    min-height: 0;
+  }
+  /* Single-pane (album-only) NP — no Schedule/Lyrics. The album is the focal
+     point, so centre it (the base .np-track layout) and size it generously off
+     the viewport height, with breathing room above and below. The grid modes
+     left-align their own album column; this only applies when neither is on.
+     Source is 600×600 (coverArt.ts) so it stays crisp at this size. */
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track {
+    padding-top: 22px;
+    padding-bottom: 26px;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track__cover-wrap {
+    /* Height-driven + flex-shrink so the square stays large on tall screens
+       but shrinks to fit shorter ones (e.g. a MacBook) — the on-air text and
+       the "Open in" row below it (flex-shrink:0) always stay visible instead
+       of being clipped by .np-body's overflow. */
+    width: auto;
+    height: min(600px, 56vh);
+    flex-shrink: 1;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+  }
+  /* Extra breathing room between the station name and the action icons. */
+  #np-add { margin-left: 12px; }
+}
+
+/* ─── Open in (iOS musicServiceSection): "Open in" + a row of brand marks ─── */
+.np-openin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding-top: 6px;
+}
+.np-openin[hidden] { display: none; }
+.np-openin__label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-openin__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.np-openin__btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  transition: transform 0.15s;
+}
+.np-openin__btn[hidden] { display: none; }
+.np-openin__btn:hover { transform: scale(1.08); }
+.np-openin__btn:active { transform: scale(0.94); }
+.np-openin__btn svg,
+.np-openin__btn img { width: 28px; height: 28px; display: block; object-fit: contain; }
 
 /* Wake-bed visual cue — silent bed is the active source, but the
    displayed station is the armed wake target. Dim the cover, the
@@ -1432,6 +2762,47 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   line-height: 1.3;
   text-wrap: balance;
 }
+/* iOS parity: artist → program → status, stacked beneath the song
+   title. Each line removes itself from flow when its data is absent. */
+.np-track__artist {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.np-track__artist[hidden] { display: none; }
+.np-track__program {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+  line-height: 1.3;
+}
+.np-track__program[hidden] { display: none; }
+.np-track__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-track__status[hidden] { display: none; }
+.np-track__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-track__status[data-state="playing"] .np-track__status-dot { background: var(--accent); }
+.np-track__status[data-state="loading"] .np-track__status-dot { background: var(--ink-2); }
+.np-track__status[data-state="error"] .np-track__status-dot { background: #ff8b6b; }
+.np-track__status[data-state="error"] { color: #ff8b6b; }
 /* On-air title row: centred title with a small "open-in" arrow
    pinned to the right edge. Tapping reveals text links to music
    services. Symmetric padding on the title reserves the trigger
@@ -1691,6 +3062,9 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
 /* ─── Now Playing controls ─── */
 .np-controls {
   flex-shrink: 0;
+  /* Full-bleed hairline separating the transport bar from the content above.
+     .np-controls spans the whole pane width, so the border runs edge to edge. */
+  border-top: 1px solid var(--line);
   padding: 18px 24px 14px;
   display: flex;
   flex-direction: column;
@@ -1798,6 +3172,189 @@ body.is-playing .np-play .icon-pause { display: block; }
 .np-play.is-loading .icon-pause     { display: none; }
 .np-play.is-loading .np-play__loader { display: flex; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Desktop volume slider — phones have a hardware rocker, the web NP
+   doesn't, so it carries its own. The accent-filled portion is driven
+   by a `--vol` custom property (0–100%) set by main.ts on input. */
+.np-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 0;
+}
+.np-volume__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.np-volume.is-muted .np-volume__icon { color: var(--ink-4); }
+.np-volume__slider {
+  flex: 1;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0,
+    var(--accent) var(--vol, 100%),
+    var(--line) var(--vol, 100%),
+    var(--line) 100%
+  );
+}
+.np-volume.is-muted .np-volume__slider {
+  background: linear-gradient(
+    to right,
+    var(--ink-4) 0,
+    var(--ink-4) var(--vol, 100%),
+    var(--line) var(--vol, 100%),
+    var(--line) 100%
+  );
+}
+.np-volume__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.np-volume__slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+}
+.np-volume__slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.np-volume__slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.np-volume.is-muted .np-volume__slider::-moz-range-progress { background: var(--ink-4); }
+.np-volume__slider:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.np-volume__value {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+/* Speaker icon doubles as the mute toggle (iOS folds mute into the slider). */
+.np-volume__mute {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.np-controls .np-volume { width: 100%; align-self: center; }
+@media (min-width: 1024px) {
+  /* Desktop stacks the transport over a centred volume slider: prev·play·next
+     in the top centre with the sleep timer trailing top-right, and the volume
+     slider on its own row directly beneath, centred under the play cluster. The
+     1fr side columns keep the play cluster optically centred regardless of the
+     sleep button's width. */
+  .np-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      'lead transport sleep'
+      'vol  vol       vol';
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 14px;
+  }
+  .np-row__spacer { display: none; }
+  .np-row .np-volume {
+    grid-area: vol;
+    justify-self: center;
+    width: 100%;
+    max-width: 220px;
+    padding: 0;
+  }
+  .np-row__group--transport { grid-area: transport; justify-self: center; }
+  #np-sleep { grid-area: sleep; justify-self: end; }
+  /* Breathing room beneath the transport buttons (no tabbar on desktop, so
+     they'd otherwise hug the bottom edge of the viewport). */
+  .np-controls { padding-bottom: 34px; }
+}
+/* Phones use the hardware volume rocker — and iOS Safari ignores
+   audio.volume entirely (it's read-only there), so the on-screen slider does
+   nothing on iPhone. Hide the whole volume row below desktop (the mute button
+   lives inside it); pause + the hardware buttons cover muting on mobile. */
+@media (max-width: 1023.98px) {
+  .np-controls .np-volume { display: none; }
+}
+
+/* ─── Station-info popup (iOS StationInfoPreviewOverlay) ───
+   Opened by tapping the station logo or album art. A centered card over a
+   dim scrim, carrying the stream details the old bottom strip expanded. */
+.np-info {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.np-info[hidden] { display: none; }
+.np-info__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.np-info__card {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 38px 18px 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+.np-info__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.np-info__close:hover { color: var(--ink); background: var(--bg-3); }
+.np-info__close svg { width: 18px; height: 18px; }
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
    cycle (24px) every 3.6s while playing. Dim and static otherwise. */
@@ -1934,21 +3491,6 @@ body.is-playing .np-bottom .live-dot  {
 }
 
 /* ─── Map (Browse home map view, Leaflet + CartoDB Dark Matter) ─── */
-.globe-wrap {
-  position: relative;
-  padding: 8px 12px 4px;
-  user-select: none;
-}
-.globe-map {
-  width: 100%;
-  height: 60vh;
-  min-height: 320px;
-  max-height: 720px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-}
 /* Leaflet container background fallback (matches our theme). */
 .leaflet-container {
   background: var(--bg-2) !important;
@@ -1990,68 +3532,6 @@ body.is-playing .np-bottom .live-dot  {
   border-top-color: var(--line) !important;
 }
 
-/* Markers (rendered via L.divIcon — class on the wrapper is
-   `map-pin-wrap`; we strip Leaflet's default white box and let our
-   inner .map-pin handle the visual.) */
-.map-pin-wrap {
-  background: transparent !important;
-  border: 0 !important;
-}
-.map-pin {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-.map-pin:hover {
-  transform: scale(1.1);
-}
-.map-pin--single .map-pin__dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
-  background-size: cover;
-  background-position: center;
-}
-.map-pin--single .map-pin__dot.is-image {
-  /* When the favicon swaps in, the dot becomes a thumbnail. Slightly
-     larger so the image is recognisable. */
-  width: 28px;
-  height: 28px;
-  background-color: var(--bg-2);
-}
-.map-pin--cluster {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--bg);
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 600;
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.globe-cluster-panel {
-  margin-top: 8px;
-  border-top: 1px solid var(--line);
-  padding-top: 8px;
-}
-.globe-cluster-panel__label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  padding: 8px 16px 4px;
-}
-
 /* "Load more" button — paginates Radio Browser results in
    PAGE_SIZE-step chunks. Mono cap-letter style matches section
    labels; full-width to read as a list-row affordance, not a CTA. */
@@ -2078,31 +3558,6 @@ body.is-playing .np-bottom .live-dot  {
 .load-more:disabled {
   cursor: default;
   color: var(--ink-3);
-}
-
-/* ─── Site visit counter (Browse footer) ─── */
-.site-counter {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-  padding: 32px 24px 24px;
-  color: var(--ink-4);
-  user-select: none;
-}
-.site-counter__num {
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-4);
-}
-.site-counter__label {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-4);
 }
 
 /* ─── Add Station sheet ─── */
@@ -2155,6 +3610,237 @@ body.is-playing .np-bottom .live-dot  {
   scrollbar-width: none; /* Firefox */
 }
 .sheet-body::-webkit-scrollbar { width: 0; }
+
+/* ─── Browse filter sheet (iOS BrowseFiltersSheet port) ─── */
+.sheet--filter .sheet-body { padding: 8px 6px 4px; }
+.bf-sections { display: flex; flex-direction: column; }
+
+.bf-section__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+}
+.bf-section__icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  color: var(--ink-3);
+}
+.bf-section__icon.is-on { color: var(--accent); }
+.bf-section__icon svg { width: 18px; height: 18px; }
+.bf-section__title { font-size: 15px; font-weight: 600; }
+.bf-section__badge {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+.bf-section__chev { margin-left: auto; color: var(--ink-3); display: grid; place-items: center; }
+.bf-section__chev svg { width: 16px; height: 16px; }
+.bf-section__body { padding-bottom: 6px; }
+
+.bf-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 20px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+}
+.bf-row__lead {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  flex-shrink: 0;
+  color: var(--ink-3);
+}
+.bf-row__flag { font-size: 17px; }
+.bf-row__label { font-size: 15px; flex: 1; min-width: 0; }
+.bf-row__check { width: 18px; color: var(--accent); opacity: 0; flex-shrink: 0; }
+.bf-row__check svg { width: 18px; height: 18px; display: block; }
+.bf-row[aria-pressed='true'] .bf-row__check { opacity: 1; }
+
+.bf-meter { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+.bf-meter__bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--ink-3);
+  opacity: 0.28;
+}
+.bf-meter__bar:nth-child(1) { height: 5px; }
+.bf-meter__bar:nth-child(2) { height: 8px; }
+.bf-meter__bar:nth-child(3) { height: 11px; }
+.bf-meter__bar:nth-child(4) { height: 14px; }
+.bf-meter__bar.is-on { opacity: 1; background: var(--ink-2); }
+.bf-row[aria-pressed='true'] .bf-meter__bar.is-on { background: var(--accent); }
+
+.bf-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 20px 8px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-3);
+}
+.bf-search svg { width: 18px; height: 18px; flex-shrink: 0; }
+.bf-search__input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-size: 15px;
+  font-family: inherit;
+}
+.bf-country-list { max-height: 240px; overflow-y: auto; scrollbar-width: none; }
+.bf-country-list::-webkit-scrollbar { width: 0; }
+
+/* Pinned "Map view" toggle (kept from the old filter row). */
+
+/* Pinned footer: Cancel · Clear · Show N stations. */
+.sheet-foot {
+  flex-shrink: 0;
+  border-top: 1px solid var(--line);
+}
+.bf-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px calc(12px + var(--safe-bottom));
+}
+.bf-cancel {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.bf-cancel svg { width: 15px; height: 15px; }
+.bf-clear {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.bf-clear[hidden] { display: none; }
+.bf-apply {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-3);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bf-apply.is-active {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--bg);
+}
+.bf-apply:disabled { cursor: default; }
+
+/* Results header row above a filtered/searched list (iOS BrowseSortRow):
+   back chevron · sort toggle · centered count. */
+.results-row {
+  /* Sticky so the back chevron + sort + count stay pinned at the top of the
+     list while the stations scroll underneath. sticky still establishes a
+     containing block for the absolutely-centred count. The opaque background
+     (matched to the page) hides rows passing beneath it. */
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 6px 0 4px;
+}
+.results-row__back,
+.results-row__sort {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.results-row__back svg,
+.results-row__sort svg { width: 18px; height: 18px; }
+.results-row__sort.is-active { color: var(--accent); }
+.results-row__sort:disabled { opacity: 0.35; cursor: default; }
+.results-row__count {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Clear the back + sort buttons on either side when the label is long. */
+  max-width: calc(100% - 120px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+
+/* Desktop: float the filter as an anchored popover card near the funnel,
+   instead of the full-screen slide-up sheet used on mobile (iOS popover). */
+@media (min-width: 1024px) {
+  .sheet--filter {
+    inset: auto;
+    top: calc(var(--safe-top) + 64px);
+    right: 16px;
+    width: 340px;
+    max-height: min(440px, calc(100vh - 120px));
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease, transform 0.16s ease;
+  }
+  .sheet--filter.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .sheet--filter .sheet-head { padding: 14px 16px; }
+}
 
 .add-form { display: flex; flex-direction: column; gap: 16px; }
 
@@ -2699,6 +4385,8 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   color: var(--ink-2);
   font-size: 14px;
   line-height: 1.55;
+  max-width: 560px;
+  margin: 0 auto;
 }
 /* Sheet opener — every slide-up sheet uses this pattern under the
  * mono header label: H2 "real name" in sans + optional one-line lede
@@ -2722,264 +4410,119 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   text-transform: uppercase;
   margin: 0 0 24px;
 }
-.about-section { margin-top: 22px; }
-.about-section h3 {
+/* ── About tab — mirrors iOS AboutContentView. Brand hero, nutshell,
+   then labelled groups with accent feature glyphs, pill link-buttons
+   and trailing inline links. Shares the app tokens; no bespoke colour. */
+.about-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.about-hero__logo { width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0; }
+.about-hero__logo--light { display: none; }
+[data-theme="light"] .about-hero__logo--dark { display: none; }
+[data-theme="light"] .about-hero__logo--light { display: block; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .about-hero__logo--dark { display: none; }
+  :root:not([data-theme]) .about-hero__logo--light { display: block; }
+}
+.about-hero__id { flex: 1; min-width: 0; }
+.about-hero__name { font-size: 20px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.about-hero__version { font-family: var(--mono); font-size: 12px; color: var(--ink-4); margin-top: 3px; }
+.about-share {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.about-share:hover { background: var(--bg-3); border-color: var(--line-2); }
+.about-share svg { width: 18px; height: 18px; }
+
+.about-nutshell { margin: 0 0 14px; font-size: 15px; color: var(--ink-3); line-height: 1.5; }
+
+.about-group { margin-top: 22px; }
+.about-group__title {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin: 0 0 8px;
-  font-weight: 500;
+  margin: 0 0 10px;
 }
-.about-section p { margin: 0 0 8px; }
-.about-section p.about-stars { margin: 0 0 4px; }
-.about-section p.about-stars + p:not(.about-stars) { margin-top: 8px; }
-.about-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.about-group__body { margin: 0 0 10px; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+
+/* Feature row: accent glyph + bold title + muted detail, with an
+   optional inline link continuing the sentence (iOS detailText). */
+.about-feature { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.about-feature__icon { flex-shrink: 0; width: 22px; height: 20px; margin-top: 1px; color: var(--accent); }
+.about-feature__text { min-width: 0; }
+.about-feature__title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.about-feature__detail { margin: 2px 0 0; font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+.about-feature__detail a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
 }
-.about-list li {
-  position: relative;
-  padding-left: 18px;
-  margin-bottom: 6px;
-}
-.about-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 6px;
-  height: 1px;
-  background: var(--ink-3);
-}
-/* Variant for the Features list — replaces the bullet dash with a
-   real glyph from the app, so the list visually mirrors what each
-   feature looks like in the UI. */
-.about-list--icons li {
+.about-feature__detail a:hover { border-bottom-color: var(--accent); }
+
+/* Pill link-button: icon + mono-caps label + trailing ↗. Outlined by
+   default; --filled paints the accent for the primary action. */
+.about-btn {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding-left: 0;
-  margin-bottom: 12px;
-  line-height: 1.45;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-2);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, filter 0.15s;
 }
-.about-list--icons li::before { content: none; }
-.about-icon {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  margin-top: 3px;
-  color: var(--ink-2);
+.about-btn:hover { background: var(--bg-3); border-color: var(--line-2); }
+.about-btn__icon { width: 18px; height: 18px; flex-shrink: 0; }
+.about-btn__label {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-.about-body a {
+.about-btn__ext { width: 13px; height: 13px; flex-shrink: 0; color: var(--ink-3); }
+.about-btn--filled { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.about-btn--filled:hover { background: var(--accent); border-color: var(--accent); filter: brightness(0.95); }
+.about-btn--filled .about-btn__ext { color: var(--bg); }
+
+/* Trailing inline link (Source, Credits): ink text + hairline underline. */
+.about-inline {
+  font-size: 13px;
+  font-weight: 600;
   color: var(--ink);
   text-decoration: none;
   border-bottom: 1px solid var(--line-2);
+  white-space: nowrap;
 }
-.about-body a:hover { border-bottom-color: var(--ink); }
-.about-body code {
-  font-family: var(--mono);
-  font-size: 12px;
-  padding: 1px 5px;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-}
+.about-inline:hover { border-bottom-color: var(--ink); }
 
-/* Pill-shaped action buttons inside About sections (View on GitHub,
-   Open an issue, Email). Same geometry as the np-station-link we had
-   briefly — kept here because they're a useful pattern. */
-.about-ctas {
+.about-credit {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
 }
-.about-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 16px;
-  margin-top: 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg-2);
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line); /* override the inline-link underline */
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-.about-ctas .about-cta { margin-top: 0; }
-.about-cta:hover {
-  border-color: var(--ink-3);
-  color: var(--ink);
-  background: var(--bg-3);
-}
-.about-cta svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.about-cta__logo { width: 18px; height: 18px; }
-.about-cta--ghost { background: transparent; }
-
-/* Platform-interest poll banner — sits at the top of the browse
-   view above the first section label. Visual language matches the
-   rest of the app: monospace eyebrow in --accent (same pattern as
-   .live-dot and is-playing rows), sans body in --ink, subtle bg-2
-   container with a 1px line, no heavy borders or glows. Auto-hides
-   once the user has voted (buildPollBanner returns null) and
-   animates out via .is-leaving after a successful vote. */
-.poll-banner {
-  position: relative;
-  margin: 10px 12px 4px;
-  padding: 14px 16px;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  transition: opacity 0.5s ease, transform 0.5s ease,
-              max-height 0.5s ease, margin 0.5s ease,
-              padding 0.5s ease, border-width 0.5s ease;
-  overflow: hidden;
-}
-.poll-banner.is-leaving {
-  opacity: 0;
-  transform: translateY(-4px);
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-width: 0;
-}
-.poll-banner__eyebrow {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.poll-banner__title {
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.3;
-  margin: 0 0 4px;
-  color: var(--ink);
-  font-weight: 500;
-}
-.poll-banner__subtitle {
-  margin: 0 0 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  line-height: 1.45;
-}
-.poll-banner__options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.poll-banner__btn {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 9px 14px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.05s;
-}
-.poll-banner__btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.poll-banner__btn:active { transform: translateY(1px); }
-.poll-banner__btn:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
-.poll-banner__thanks {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-top: 2px;
-}
-
-/* ─── Poll banner state gating ───
-   Pre-vote: only the prompt block is visible (title + subtitle +
-   choice buttons). Post-vote (.poll-banner--voted is set): only the
-   voted panel is visible (you-voted line + stats button).
-   Using class-gated CSS — not the [hidden] attribute — because the
-   voted block uses display:flex, and a class-level display rule wins
-   over the user-agent [hidden] { display: none } rule. */
-.poll-banner .poll-banner__voted { display: none; }
-.poll-banner--voted .poll-banner__prompt { display: none; }
-.poll-banner--voted {
-  padding: 12px 16px;
-}
-.poll-banner--voted .poll-banner__voted {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-}
-.poll-banner__voted {
-  /* layout-only fallback so the block keeps its shape if the parent
-     ever forgets the --voted class (defensive — should not happen
-     in normal use). */
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-}
-.poll-banner__voted-line {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--ink);
-  font-weight: 500;
-}
-.poll-banner__voted-choice { color: var(--accent); font-weight: 600; }
-.poll-banner__voted-note {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  flex: 1 1 100%;
-  order: 3;
-}
-.poll-banner__stats-btn {
-  appearance: none;
-  padding: 7px 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 12.5px;
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  margin-left: auto;
-}
-.poll-banner__stats-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.poll-banner__stats-btn:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-}
+.about-credit__desc { font-size: 13px; color: var(--ink-3); }
 
 .dash-empty {
   margin: 6px 0 0;
@@ -3048,3 +4591,577 @@ body.is-wake-edit .np-pane-tabs { display: none; }
     animation-iteration-count: infinite !important;
   }
 }
+
+/* ─── Desktop three-pane shell ─── */
+@media (min-width: 1024px) {
+  .app {
+    max-width: none;
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  /* No left rail anymore — the section nav moved into the top bar, so the
+     body is just the full-width content column under the top nav. */
+
+  /* Desktop top nav lays out as one flex row: wordmark + section nav on the
+     left, the search field flexing to fill the middle, the funnel/gear
+     toolbar on the right. (Base .topnav is already flex with search flex:1
+     and toolbar auto — we just reveal the nav and widen the row gap.) */
+  .topnav { gap: 16px; }
+  .topnav-nav {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 2px;
+    /* Centre the nav + search + actions as one group between the
+       left-pinned wordmark and the right edge. Auto margins on the outer
+       edges of the group (nav's left, toolbar's right) split the free
+       space evenly, so the group sits in the middle of the bar. */
+    margin-left: auto;
+    /* Decent gap between the nav and the search (on top of the 16px row gap). */
+    margin-right: 16px;
+  }
+  /* Search is capped (no longer fills the row); it sits between the nav and
+     the funnel/gear toolbar. */
+  .topnav > .search-wrap { flex: 0 1 360px; }
+  /* The funnel sits right next to the search field; the toolbar's right
+     auto-margin balances the wordmark's left slack to keep the group centred. */
+  .topnav > .toolbar { margin-right: auto; }
+  .topnav-nav .tab-btn {
+    flex: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 9px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-3);
+    transition: background 0.14s, color 0.14s;
+  }
+  .topnav-nav .tab-btn svg { width: 18px; height: 18px; }
+  /* Active item gets the iOS bottom-nav treatment — accent label + a 2px
+     accent bar — but here the bar sits as an underline: the base
+     .tab-btn.active::before is repositioned from the top edge to the
+     bottom. No pill background. */
+  .topnav-nav .tab-btn:hover { color: var(--ink-2); }
+  .topnav-nav .tab-btn.active { color: var(--accent); }
+  /* The accent underline tracks the label width (a touch wider each side),
+     not the whole icon+label button — so it reads as underlining the word.
+     Anchored to the label span; the button-level top-bar ::before that the
+     bottom nav uses is suppressed here. */
+  .topnav-nav .tab-btn span { position: relative; }
+  .topnav-nav .tab-btn.active::before { display: none; }
+  .topnav-nav .tab-btn.active span::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    bottom: -8px;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--accent);
+  }
+
+  .topbar-actions {
+    margin-top: auto;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-left: 8px;
+  }
+
+  .main { flex: 1; min-width: 0; }
+  /* No vertical padding: the toolbar moved to the full-width top nav, so
+     an empty topbar must not push the stage down (which would leave the
+     NP pane's left divider starting below the top-nav rule). The library
+     segmented control supplies its own spacing when it's visible. */
+  .topbar { padding: 0 24px; }
+
+  /* Now Playing is a full-area destination (the 'playing' tab), not a
+     docked column. .stage / .content / .np keep their base overlay rules:
+     .content fills the stage; .np slides over it when .np.open. Browse and
+     NP never share the width — the mini-player bridges them, and the
+     sidebar (outside .stage) stays visible on both. The back chevron
+     (.np-back) is the "leave NP" affordance on desktop too. */
+  .tabbar { display: none; }
+  /* The mini bridges to the NP destination; it shows whenever a station is
+     playing and you're not already on NP (base rule hides it on
+     .tab-playing). No desktop dock means no desktop-specific hiding. */
+
+  /* Desktop: a taller, fuller player bar that holds all the relevant
+     controls (transport + volume), centred as a cluster rather than spread
+     edge-to-edge. Bigger station logo + album art match the taller bar. */
+  .mini { min-height: 120px; }
+  /* The flex container is .mini-slide (not .mini), so centre the cluster and
+     match the taller bar here — otherwise the items hug the left edge. */
+  .mini-slide { justify-content: center; gap: 18px; min-height: 120px; }
+  .mini-open { flex: 0 1 auto; gap: 18px; }
+  .mini-info { flex: 0 1 auto; max-width: 440px; }
+  .mini-name { font-size: 15px; }
+  .mini-track { font-size: 12.5px; }
+  .mini .fav { width: 60px; height: 60px; }
+  .mini-art { width: 60px; height: 60px; border-radius: 6px; }
+  .mini-prev, .mini-skip { width: 40px; height: 40px; }
+  .mini-prev svg, .mini-skip svg { width: 16px; height: 16px; }
+  .mini-prev { margin-left: 24px; }
+  .mini-toggle { width: 46px; height: 46px; }
+  .mini-toggle svg { width: 15px; height: 15px; }
+  .mini .mini-volume { display: flex; flex: 0 0 auto; width: 150px; }
+  /* Desktop close affordances: a "×" in the mini bar's top-right corner, and
+     one mirrored at the Now Playing pane's top-right. Both stop playback and
+     dismiss the player (NP also bounces back to the list). The NP back chevron
+     (top-left) stays for "leave NP but keep listening". */
+  .mini-close-x {
+    display: grid;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 4;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, transform 0.12s;
+  }
+  .mini-close-x:hover { color: var(--ink); border-color: var(--line-2); }
+  .mini-close-x:active { transform: scale(0.92); }
+  body.has-station .np-close { display: grid; }
+
+  /* Single-column NP (album only, or album + tabbed pane below 1400px) on a
+     wide screen: cap and centre the *content* so it doesn't hug the left with
+     a sea of empty space. The body itself stays full-pane-width and the
+     station divider is excluded from the cap, so the hairline runs full-bleed
+     edge-to-edge across the whole pane — matching the ≥1400px 2-/3-column
+     grids, where the divider spans every column even with no Schedule/Lyrics. */
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body {
+    align-items: center;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body > :not(.np-station-divider) {
+    max-width: 760px;
+  }
+  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-pane-tabs {
+    justify-content: center;
+  }
+
+  /* Browse/Discovery results as a responsive card grid. */
+  .rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  /* iOS-style station card (FavoriteStationTile): round logo top-left,
+     heart top-right, name + tags below. Same warm-gradient fill +
+     elevation as the mobile cards (--card-fill / --card-shadow), just
+     laid out in a grid instead of a single column. */
+  .rows .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'logo .    cover aside'
+      'info info info  info';
+    align-content: start;
+    gap: 10px 8px;
+    padding: 12px;
+    min-height: 124px;
+    background: var(--card-fill);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  }
+  .rows .row > .fav { grid-area: logo; }
+  .rows .row > .row-info { grid-area: info; align-self: start; }
+  .rows .row > .row-right { grid-area: aside; align-self: start; }
+  /* Multi-select pick tick sits where the trailing controls would, top-right. */
+  .rows .row > .row-tick { grid-area: aside; align-self: start; justify-self: end; }
+  /* On the desktop card the track cover is a larger, prominent tile next to
+     the trailing controls (it stays collapsed until art lands). */
+  .rows .row > .row-cover { grid-area: cover; align-self: start; }
+  .rows .row > .row-cover.has-cover { width: 48px; height: 48px; border-radius: 6px; }
+  /* Desktop card grids (Favorites, list detail) reorder via whole-card drag —
+     no visible grip column, so the 4-column card layout above applies as-is. */
+  /* Pointer affordance — a subtle lift, since the mobile cards only have a
+     tap (:active) state. */
+  .rows .row:hover {
+    border-color: var(--line-2);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.34);
+    transform: translateY(-1px);
+  }
+  /* The card uses an accent border for the playing state, not the
+     list's left edge-bar (which would poke out of the rounded corner). */
+  .rows .row.is-playing { border-color: var(--accent); background: var(--card-fill); }
+  .rows .row.is-playing::before { display: none; }
+  /* Edit mode: the per-row remove sits as a red minus badge in the card's
+     top-left corner (the iOS jiggle-mode delete idiom) — the grid has no
+     inline slot for it the way the single-column mobile list does. */
+  .rows.rows--editing .row > .row-remove {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    z-index: 2;
+  }
+
+  /* Library home: the list-cards lay out in a multi-column grid like the
+     station feeds (Favorites / Lists / Recents) rather than one full-width
+     column. A wider min than the 240px station tiles — each card carries a
+     horizontal favicon strip that wants room to preview stations; fitStrip()
+     re-fits it to the column on render + resize, collapsing overflow into
+     the trailing "+N more" badge. */
+  .lists-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    padding: 10px 12px 16px;
+  }
+
+}
+
+/* ─── Browse discovery landing ─── */
+/* Section headers ("Browse by genre", "Browse by country", "Featured") use
+   the same bold-sans heading as the "Browse all stations" row
+   (.disc-browse-all__label) — every iOS section header is the same 19pt-heavy
+   style, so the small mono-caps label was the odd one out. */
+.disc-section-label {
+  padding: 18px 20px 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Genre / country chips: a single horizontally-scrolling row (one line,
+   scrollable) matching the iOS BrowseDiscoveryView chip carousels —
+   not a wrapping grid. */
+.disc-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 9px;
+  padding: 0 20px 6px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* No scroll-snap: snap-align:start auto-scrolls the first chip past the
+     20px left padding on load, jamming it against the rail edge (the same
+     bug the featured rail hit). Free-scroll keeps the leading gap. */
+}
+.disc-chips::-webkit-scrollbar { height: 0; }
+.disc-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--ink);
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background 0.14s, border-color 0.14s;
+}
+.disc-chip__name { white-space: nowrap; }
+/* Country-chip flag glyph — a touch larger than the label, like the iOS
+   18pt flag against the 15pt chip label. The chip's own 8px gap spaces it
+   from the name. */
+.disc-chip__flag { font-size: 15px; line-height: 1; }
+.disc-chip:hover { background: var(--bg-3); }
+.disc-chip__count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* Featured rail */
+.feat-rail {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 20px 6px;
+  scrollbar-width: none;
+}
+.feat-rail::-webkit-scrollbar { height: 0; }
+.feat-card {
+  position: relative;
+  flex: 0 0 312px;
+  /* Honour the 312px basis: without this a flex item's default
+     min-width:auto lets the nowrap name balloon the card past its basis. */
+  min-width: 0;
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--bg-2);
+  text-align: left;
+  color: var(--ink);
+  transition: border-color 0.14s, background 0.14s;
+}
+.feat-card:hover { border-color: var(--line-2); background: var(--bg-3); }
+/* Featured artwork is a rounded square (not the circular logo used
+   elsewhere), matching the iOS 74pt card art. */
+.feat-card__art {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+.feat-card__body {
+  min-width: 0;
+  flex: 1;
+}
+/* iOS HighlightCard badge pill: a 5px accent dot + a muted mono-caps label
+   (the accent's only remaining tint — no left stripe). */
+.feat-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 2px;
+}
+.feat-card__badge::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--feat-accent, var(--accent));
+}
+.feat-card__name {
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.feat-card__blurb {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Browse all — full-width tappable header row + a horizontal logo rail
+   (iOS BrowseDiscoveryView.browseAllSection). Replaces the old stacked-
+   avatar cluster footer. */
+.disc-browse-all {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 14px 20px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition: color 0.14s;
+}
+.disc-browse-all__label {
+  font-size: 17px;
+  font-weight: 700;
+}
+.disc-browse-all:hover .disc-browse-all__label { color: var(--accent); }
+.disc-browse-all__count {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.disc-browse-all__count::after { content: ' \203a'; }
+
+.disc-browse-all-rail {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  /* Top padding gives the :hover lift (translateY(-2px)) room — overflow-x:auto
+     forces overflow-y to clip, which would otherwise crop the raised logo. */
+  padding: 4px 20px 8px;
+  scrollbar-width: none;
+  /* No scroll-snap (see .disc-chips): it would eat the 20px left padding. */
+}
+.disc-browse-all-rail::-webkit-scrollbar { height: 0; }
+.disc-browse-all-logo {
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  line-height: 0;
+  transition: transform 0.12s;
+}
+.disc-browse-all-logo:hover { transform: translateY(-2px); }
+
+/* Back to discovery */
+.disc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 20px 2px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  transition: background 0.14s, color 0.14s;
+}
+.disc-back svg { width: 16px; height: 16px; }
+.disc-back:hover { color: var(--ink); background: var(--bg-3); }
+
+/* Sort button — flip the glyph for Z→A. */
+#sort-btn[data-sort='za'] svg { transform: scaleY(-1); }
+
+/* ─────────────────────────────────────────────────────────────
+   Wide desktop: in-window multi-column Now Playing (#521)
+   ─────────────────────────────────────────────────────────────
+   At ≥1400px the full-area Now Playing destination lays its panes side by
+   side instead of tab-switching. The column count tracks available
+   content (npLayoutMode):
+
+   · Album + one of Schedule / Lyrics  → 2 columns.
+   · Album + Schedule + Lyrics         → 3 columns.
+
+   The station header spans the top of the NP pane; the transport bar
+   spans the bottom (it's a sibling of .np-body). Below 1400px NP falls
+   back to the tabbed single-pane layout (mobile unchanged). Gated on
+   body.has-station and :not(.is-wake-edit) (the wake editor keeps its
+   single-pane layout). The .np-twocol / .np-threecol body classes are
+   set by syncNpTabs() from the viewport + available panes. */
+@media (min-width: 1400px) {
+  /* ── Album + switchable Schedule/Lyrics: the golden split ──
+     Album left, secondary pane right, ~38.2% / 61.8% (1 : 1.618). */
+  body.np-twocol:not(.is-wake-edit) .np-body {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.618fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    grid-template-areas:
+      'station station'
+      'divider divider'
+      'album   sectabs'
+      'album   secpane';
+    column-gap: 30px;
+  }
+  /* The strip is the Schedule/Lyrics switcher here; left-align it. */
+  body.np-twocol .np-pane-tabs {
+    grid-area: sectabs;
+    justify-content: flex-start;
+    padding: 0 0 10px;
+  }
+  /* The visible secondary pane (per npView) and the empty-state share the
+     one secpane cell; the hidden pane is display:none via base [hidden]. */
+  body.np-twocol .np-program-pane,
+  body.np-twocol .np-lyrics-pane,
+  body.np-twocol #np-secondary-empty { grid-area: secpane; }
+  body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+
+  /* ── Album + Schedule + Lyrics: 3 columns ── */
+  body.np-threecol:not(.is-wake-edit) .np-body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      'station station station'
+      'divider divider divider'
+      'album   program lyrics';
+    column-gap: 22px;
+  }
+  body.np-threecol .np-pane-tabs { display: none !important; }
+  body.np-threecol .np-program-pane { grid-area: program; }
+  body.np-threecol .np-lyrics-pane { grid-area: lyrics; }
+  body.np-threecol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+  body.np-threecol:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
+  body.np-threecol:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
+  /* Per-column headers only earn their keep when both columns are shown
+     at once (3-col); in 2-col the switcher already labels the column. */
+  body.np-threecol .np-col-head { display: block; }
+
+  /* ── Shared (both wide modes) ── */
+  body.has-station .np-station { grid-area: station; }
+  /* Full-width hairline under the station head: once .np-body becomes a grid
+     the divider is no longer in normal flow, so give it its own row + area.
+     Its base rule already breaks out of the 24px padding (full-bleed). */
+  body.has-station .np-station-divider { grid-area: divider; }
+  /* Centre logo · name · actions as one cluster instead of spreading them
+     edge-to-edge across the full-width station row. */
+  body.has-station .np-station__head { width: auto; gap: 14px; }
+  body.has-station .np-name { flex: 0 1 auto; }
+  /* Extra breathing room between the station row and the column headers
+     (Album / Schedule) — applied on the divider so both columns stay level. */
+  body.has-station .np-station-divider { margin-bottom: 24px; }
+  /* Left-align the album column so the art + header line up under "Album",
+     mirroring the left-aligned schedule column. Scoped to the actual grid
+     modes — the single-pane (album-only) view keeps the centered base layout
+     (see the album-only rule in the ≥1024px block). */
+  body.np-twocol .np-track,
+  body.np-threecol .np-track {
+    grid-area: album;
+    /* Stretch to the album cell (was `start`) so the cover has a definite
+       height budget to flex-shrink against — otherwise a content-sized column
+       overflows .np-body (overflow:hidden) and clips the on-air text on short
+       viewports. Content is centred within the album column — the "Album"
+       header, the art, and the on-air text all sit on the column's centre line. */
+    align-self: stretch;
+    align-items: center;
+    text-align: center;
+    min-height: 0;
+  }
+  /* The "Album" header: match the Schedule tab's type, plus space to the art.
+     Only earns its place beside a Schedule/Lyrics column (grid modes).
+     Centred over the album column (align-self) to sit above the centred art. */
+  body.np-twocol .np-track__head,
+  body.np-threecol .np-track__head {
+    display: block;
+    align-self: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 6px 0 0;
+    margin-bottom: 8px;
+  }
+  /* A true square that fills the available room without ever clipping the
+     on-air text below it. Height-driven (capped at the 600×600 native source,
+     scaled to the viewport) + flex-shrink so it gives way to the text/Open-in
+     rows on short viewports; max-width:100% keeps it inside the column (and,
+     via aspect-ratio, square) when the column is narrower than that height. */
+  body.np-twocol .np-track .np-track__cover-wrap,
+  body.np-threecol .np-track .np-track__cover-wrap {
+    width: auto;
+    height: min(600px, 56vh);
+    max-width: 100%;
+    flex-shrink: 1;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+  }
+  body.has-station .np-program-pane,
+  body.has-station .np-lyrics-pane {
+    min-height: 0;
+    overflow-y: auto;
+    /* Breathing room on the right so the schedule / lyrics don't run into
+       the screen edge. */
+    padding-right: clamp(24px, 4vw, 64px);
+  }
+}
+

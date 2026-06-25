@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 import { afterEach, describe, expect, it } from 'vitest';
-import { renderMiniPlayer, setMiniArt, type MiniRefs } from './render-mini';
+import { renderMiniPlayer, setMiniArt, setMiniCover, type MiniRefs } from './render-mini';
 import { MINI_FRAGMENT, setup } from './render-test-harness';
 import type { NowPlaying, Station, WakeTo } from './types';
 import { SILENT_BED_ID } from './np-display';
@@ -8,6 +8,7 @@ import { SILENT_BED_ID } from './np-display';
 const IDS = {
   mini: 'mini',
   miniFav: 'mini-fav',
+  miniArt: 'mini-art',
   miniName: 'mini-name',
   miniTrack: 'mini-track',
   miniMeta: 'mini-meta',
@@ -125,17 +126,6 @@ describe('setMiniArt', () => {
     expect(img?.referrerPolicy).toBe('no-referrer');
   });
 
-  it('prefers coverUrl over the station favicon when both are present', () => {
-    const refs = mountMini();
-    setMiniArt(
-      refs,
-      { ...fm4, favicon: 'https://example.com/fm4.png' },
-      'https://example.com/track-cover.jpg',
-    );
-    const img = refs.miniFav.querySelector('img');
-    expect(img?.src).toBe('https://example.com/track-cover.jpg');
-  });
-
   it('applies the deterministic broadcaster class', () => {
     const refs = mountMini();
     setMiniArt(refs, fm4);
@@ -148,5 +138,76 @@ describe('setMiniArt', () => {
     setMiniArt(refs, fm4);
     // Single child (the initials span).
     expect(refs.miniFav.children).toHaveLength(1);
+  });
+});
+
+describe('setMiniCover', () => {
+  it('hides the album slot when there is no cover', () => {
+    const refs = mountMini();
+    setMiniCover(refs, undefined);
+    expect(refs.miniArt.hidden).toBe(true);
+    expect(refs.miniArt.querySelector('img')).toBeNull();
+  });
+
+  it('shows the cover image when a coverUrl is present', () => {
+    const refs = mountMini();
+    setMiniCover(refs, 'https://example.com/track-cover.jpg');
+    expect(refs.miniArt.hidden).toBe(false);
+    const img = refs.miniArt.querySelector('img');
+    expect(img?.src).toBe('https://example.com/track-cover.jpg');
+    expect(img?.referrerPolicy).toBe('no-referrer');
+  });
+
+  it('clears a prior cover when called with no url', () => {
+    const refs = mountMini();
+    setMiniCover(refs, 'https://example.com/track-cover.jpg');
+    setMiniCover(refs, undefined);
+    expect(refs.miniArt.hidden).toBe(true);
+    expect(refs.miniArt.children).toHaveLength(0);
+  });
+});
+
+describe('renderMiniPlayer — station favicon + album cover slots', () => {
+  const withFavicon: Station = { ...fm4, favicon: 'https://example.com/fm4.png' };
+
+  it('keeps the station favicon on the left and shows the track cover on the right', () => {
+    const refs = mountMini();
+    renderMiniPlayer(
+      refs,
+      { station: withFavicon, state: 'playing', coverUrl: 'https://example.com/cover.jpg' },
+      null,
+    );
+    // Left slot = station favicon (never the cover).
+    expect(refs.miniFav.querySelector('img')?.src).toBe('https://example.com/fm4.png');
+    // Right slot = album cover, visible.
+    expect(refs.miniArt.hidden).toBe(false);
+    expect(refs.miniArt.querySelector('img')?.src).toBe('https://example.com/cover.jpg');
+  });
+
+  it('hides the album slot when the track has no cover', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: withFavicon, state: 'playing' }, null);
+    expect(refs.miniFav.querySelector('img')?.src).toBe('https://example.com/fm4.png');
+    expect(refs.miniArt.hidden).toBe(true);
+  });
+
+  it('does not show album cover during silent-bed wake playback', () => {
+    const refs = mountMini();
+    const wake: WakeTo = {
+      time: '07:30',
+      stationId: 'fm4',
+      station: withFavicon,
+      armedAt: 1_700_000_000_000,
+    };
+    renderMiniPlayer(
+      refs,
+      {
+        station: { id: SILENT_BED_ID, name: 'Silent bed', streamUrl: '/silence.m4a' },
+        state: 'playing',
+        coverUrl: 'https://example.com/cover.jpg',
+      },
+      wake,
+    );
+    expect(refs.miniArt.hidden).toBe(true);
   });
 });

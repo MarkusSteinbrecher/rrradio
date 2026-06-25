@@ -10,6 +10,38 @@ The native iOS app lives in <https://github.com/MarkusSteinbrecher/rrradio-ios>.
 
 See `docs/architecture.md` for the full file map of `data/`, `tools/`, and the rest.
 
+## Catalog collapse (stream variants)
+
+The same physical station often appears as several YAML rows — different
+bitrate/codec renditions of one broadcast (a curated `builtin-fm4` at 192k plus
+a bulk-imported `at-fm4-orf` at 128k). `build-catalog.mjs` runs a **collapse**
+pass (`tools/lib/catalog-dedupe.mjs`) that folds those rows into **one published
+station** carrying an ordered `streams[]` (best→worst), with `streamUrl` =
+the best variant. Both YAML rows stay in source as variant inputs; only the
+canonical publishes. The wire schema is in
+`docs/spec/contracts/catalog-schema.md` ("Stream quality model").
+
+- **Conservative by design.** Rows only collapse when they share an actual
+  stream path: an exact normalized stream URL, or a stream **fingerprint** (host
+  + path with bitrate/codec/`q<N>a` quality tokens stripped, channel-number
+  guard intact), scoped to one country. It deliberately does **not** merge on
+  "same brand name + same homepage" (that hides distinct sub-channels like
+  Radio Minor's jazz/rock/indie) nor trust the raw-pool `dedupe.json` grouping
+  (it over-merges across CDNs/countries). The cost: format-feed clusters that
+  share a name but not a path (GBH 89.7's feeds, SWR3) are left separate.
+- **Canonical pick** (which row keeps identity/metadata/favicon) is deterministic:
+  status `working` > `icy-only` > `stream-only`, then has `metadataUrl`, then a
+  local/curated favicon, then `featured`, then higher quality, then lexical id.
+- **Audit + overrides.** Every group is written to `public/dedup-report.json`.
+  Curators steer with `data/sources/catalog-dedupe-overrides.yaml` (catalog-id
+  keyed): `force-merge` to collapse a cluster the signals miss (the main lever —
+  e.g. recover GBH's feeds), `not-duplicate` to pin apart anything wrongly
+  merged.
+- **Gates.** `check-catalog` knows folded ids live in YAML but not JSON (via the
+  report) and validates every `streams[].url` against the HTTPS-only policy;
+  `check-duplicates` re-groups the *published* catalog and fails if two
+  same-station rows ever leak through.
+
 ## Native metadata capabilities
 
 `npm run catalog` also writes `public/station-capabilities.json`, a network-free companion to `public/stations.json`. Native clients use it to decide whether a station is worth background metadata work before opening a stream:
@@ -35,7 +67,7 @@ Those local files may include HTTP streams and are not the website publish contr
 
 ## Featured highlights (`highlights.json`)
 
-The "Featured by rrradio" rail on the Browse discovery surface (web + iOS + Android) is driven by an **editorial feed**, separate from the catalog. Like the catalog it's **data, not code**:
+The "Featured by rrradio" rail on the Browse discovery surface (rendered by the iOS app today; web/Android planned) is driven by an **editorial feed**, separate from the catalog. Like the catalog it's **data, not code**:
 
 - **Source of truth:** `data/highlights.yaml` — a short, ordered list of curated entries.
 - **Build artifact:** `public/highlights.json`, written by `tools/build-highlights.mjs` and served at `https://rrradio.org/highlights.json`.
@@ -52,12 +84,33 @@ Each entry **references a published catalog station by id** (the `id:` from `dat
 
 ```bash
 npm run highlights         # regenerate public/highlights.json from the YAML
-npm run check-highlights   # CI gate: JSON ↔ YAML in sync + every id published
+npm run check-highlights   # CI gate: JSON ↔ YAML in sync + every id published + runway audit
 ```
 
 `npm run highlights` also runs as part of `npm run catalog` and `npm run dev`. The committed `public/highlights.json` is what deploys (CI serves the artifact, not a fresh build), so **edit the YAML, run `npm run highlights`, and commit both**. `check-highlights` (wired into the CI `catalog` job) fails the build if you forget. The `version` field is a deterministic content hash — a cache-busting signal, not a timestamp — so the artifact is reproducible.
 
 **Delivery model:** clients fetch the file over HTTPS, cache the last good copy, and re-fetch on a throttle. An unknown `station` id is silently dropped client-side, and an empty feed hides the rail entirely — so the featured set changes with a web deploy, **no native release needed**. When the file is absent the rail simply stays hidden (the genre/country chips still render).
+
+### Weekly rotation ("Station of the week")
+
+The rotating slot is a **queue of windowed entries** at the top of `data/highlights.yaml`: one entry per week, `startsOn` Monday → `endsOn` Sunday, scheduled several weeks ahead. Clients hide entries outside their window, so the rail rotates **by itself** — no weekly commit, no deploy. A few evergreen (un-windowed) entries sit below the queue so the rail never thins out, and the current week's pick leads the rail because file order is render order.
+
+`check-highlights` (CI catalog job) audits the **runway** against today's date and fails when:
+
+- the queue's last `endsOn` is **less than 14 days away** — the rotation is about to lapse; or
+- any day in the **next 28 days** would show **fewer than 3** visible entries.
+
+When it goes red, that's the top-up signal: append the next weeks to the queue (stations not already featured, accurate one-line blurb), run `npm run highlights`, commit both files. Removing all date windows is the legitimate way to stop rotating — the audit only binds while windowed entries exist.
+
+### Label taxonomy
+
+Featured badges must be honest. Every `badge.label` is one of:
+
+1. **Descriptive of the station** — "Genre-less gem", "Late-night pick", "Seattle institution". Claims nothing about process; always safe.
+2. **True of the process** — "Station of the week" only on entries in the windowed rotation queue; "Hand-picked" (the maintainer picks, and says so); "New on rrradio" only for stations added within the last few weeks.
+3. **Backed by named data** — e.g. "Most played this month", only once derived from telemetry with numbers to show.
+
+No invented authority: there is no editorial team, so no "Editor's pick", no "Staff favourite", no implied voting. Nobody pays for placement.
 
 ## Linking a station to its Radio Browser record
 
@@ -318,7 +371,7 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `pause: <station name>` | state goes playing → paused (same station) |
 | `resume: <station name>` | state goes paused → loading (same station) |
 | `error: <station name>` | state enters error; title field carries the error message; deduped while error persists |
-| `report-broken: <station name>` | user taps "Report broken station"; title carries station id, stream host, platform, app version, and current playback reason when available |
+| `report-broken: <station name>` | user taps "Report broken station"; title carries station id, stream host, platform, app version, category, and current playback reason when available. The GC event mirrors the primary record in the Worker's D1 `broken_reports` table (receipts + status pipeline — `docs/spec/contracts/broken-reports.md`); the user's comment stays in D1 and never reaches GC |
 | `favorite: <station name>` | user adds a favorite |
 | `unfavorite: <station name>` | user removes a favorite |
 | `add-custom-station` | user submits the Add sheet |
@@ -554,18 +607,42 @@ Tokens are semantic rather than platform-specific: `surface`, `surfaceRaised`, `
 
 Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`. They do not alter `src/style.css`, the bundled catalog, or any native app repository. Use **Reset defaults** to clear local edits.
 
+## App Store web pages (`/support`, `/ios`)
+
+The iOS App Store listing is backed by two web URLs (issues #582 / #583; iOS tracker rrradio-ios #108):
+
+- `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). A self-contained single file copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves it at a clean extensionless URL. Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
+- `https://rrradio.org/ios` — **App Store Marketing URL**, now served by the richer "vintage tuner" landing (see below). It replaced the earlier lean `public/ios.html`, which was retired so `/ios` has a single canonical page; the old `/rrradio-ios/` route redirects there via `public/rrradio-ios/index.html`.
+
+`src/static-pages.test.ts` locks support.html's contact/report channels, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
+
 ## iOS app landing page
 
-The iOS app webpage is a standalone static Vite entry at `/rrradio-ios/`, with `/ios` as a local-dev alias. It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
+The iOS app webpage is a standalone static Vite entry at `/ios` (the richer "vintage tuner" landing — also the App Store Marketing URL). It is built from the design handoff in `internal/rrradio-ios app webpage design/design_handoff_landing_page/`, but the production-facing files live outside `internal/` so Vite can build them:
 
 ```
-rrradio-ios/index.html       — route HTML and page copy
-rrradio-ios/landing.css      — extracted handoff styling
-rrradio-ios/landing.js       — vintage tuner scroll/navigation wiring
-rrradio-ios/*.svg            — local logo assets
+ios/index.html       — route HTML and page copy
+ios/landing.css      — base/layout styling
+ios/tunein.css       — vintage tuner styling
+ios/tunein.js        — vintage tuner scroll/tuning + carousel wiring
+ios/*.svg, *.webp    — local logos + app screenshots
 ```
 
-The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The phone mockups currently use static placeholders; replace those with real app screenshots once the App Store page assets are ready.
+The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The old `/rrradio-ios/` URL redirects here via `public/rrradio-ios/index.html`.
+
+## Universal Links handoff (`apple-app-site-association`)
+
+`public/.well-known/apple-app-site-association` makes iOS hand off `https://rrradio.org/?play=<id>` / `?list=<id>` links to the installed app (issue #563; iOS entitlement in rrradio-ios #25). Vite copies the file verbatim into `dist/`, so GitHub Pages serves it at the apex. `src/aasa.test.ts` locks its shape (app ID, the `play`/`list` query constraints) so an edit that would break the handoff fails CI.
+
+The `?` query constraints are deliberate: only links carrying `play` or `list` hand off; a plain `https://rrradio.org/` stays in the browser, so the homepage / web player isn't hijacked.
+
+Serving gotchas (Apple is strict, and a future change could silently break this):
+
+- **Hidden-file deploy (the one that bit us):** `actions/upload-pages-artifact@v5` excludes dot-directories by default (`--exclude=.[^/]*`), so `dist/.well-known/` was silently dropped from the deployed tarball — the file passed CI and lived on `main`, but the live URL 404'd. `deploy.yml` sets `include-hidden-files: true` on that step; `src/aasa.test.ts` asserts it stays. Don't trust "it's committed + CI green" — confirm the live URL serves `200` after the *deploy job* (not just CI) finishes and the Pages CDN propagates (a couple of minutes).
+- **Content-Type:** GitHub Pages serves the extensionless file as `application/octet-stream`, **not** `application/json`. That's fine — since iOS 14 the device fetches the file via Apple's CDN (`https://app-site-association.cdn-apple.com/a/v1/rrradio.org`), which ingests the octet-stream origin and re-serves it as `application/json`. GitHub Pages can't set custom headers (no `_headers` support), so don't chase the content-type — verify via Apple's CDN copy instead.
+- **No redirects, no rewrites** on `/.well-known/*`. The site is multi-page (real 404s, no SPA catch-all), so unknown paths aren't rewritten to `index.html` today. If you ever add a catch-all/SPA fallback or move hosting, exempt `/.well-known/` or the handoff dies silently.
+- **No `.json` extension, no signing** — modern AASA is raw JSON.
+- Universal Links only fire from a *tapped* link (Messages, Mail, Safari long-press → Open), never from typing the URL into Safari's address bar.
 
 ## Admin dashboard
 

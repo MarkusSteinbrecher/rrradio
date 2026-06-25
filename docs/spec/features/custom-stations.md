@@ -1,9 +1,9 @@
 # Custom Stations Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -31,9 +31,10 @@ explicit catalog-submission email.
 Top to bottom, the Add Station surface is a form:
 
 1. **Name field** — single-line text input, placeholder "Name". Auto-capitalizes
-   words.
+   words. Keyboard "next" action moves focus to the Stream URL field.
 2. **Stream URL field** — single-line text input, placeholder "https://". URL
-   keyboard, no autocapitalization, no autocorrect.
+   keyboard, no autocapitalization, no autocorrect. Keyboard "done" action
+   dismisses the keyboard.
 3. **Stream-check status line** — appears only while checking or on failure:
    - Checking: a spinner + "Checking stream..."
    - Failed: the failure reason in red (e.g. "Stream URL must use https://.",
@@ -49,14 +50,15 @@ Top to bottom, the Add Station surface is a form:
      the current form differs from the last save; label flips to "Saved" after a
      successful save.
 5. **"Already in catalog" section** — appears when the entered URL matches one or
-   more published catalog stations. Lists up to 4 matching catalog station rows,
-   each playable and favoritable in place (so the user adds the catalog station
+   more published catalog stations. Lists up to 4 matching catalog station rows
+   (the app's standard station row, rendered full-width inside the form), each
+   playable and favoritable in place (so the user adds the catalog station
    instead of a private duplicate).
 6. **"Send to rrradio.org catalog" section** — appears when the stream check has
    passed and the URL is *not* already in the catalog. A "Send to rrradio.org
-   catalog" button (paperplane icon) with footer: "Opens Mail with a prefilled
-   catalog request. Your configured Mail account sends it; rrradio cannot read
-   your iCloud email address."
+   catalog" button (paperplane icon, full-width label) with footer: "Opens Mail
+   with a prefilled catalog request. Your configured Mail account sends it;
+   rrradio cannot read your iCloud email address."
 7. **"Already added" section** — appears when the URL matches a station already
    in the user's own library (custom / favorites / recents) but no catalog
    match exists. Lists up to 4 matching entries (name + monospaced URL).
@@ -65,6 +67,9 @@ Top to bottom, the Add Station surface is a form:
 9. **"Added stations" section** — the user's existing custom stations. Each row
    shows a local artwork glyph, the station name, the stream host (monospaced),
    an **edit** (pencil) button, and a **delete** (trash) button.
+
+The keyboard dismisses two ways: any scroll drag dismisses it immediately, and a
+tap anywhere outside the fields and controls unfocuses.
 
 ## States
 
@@ -87,13 +92,16 @@ prior async stream check; the label flip to "Saved" is the only saved-state cue.
 |---|---|---|---|
 | Type in Name field | — | Clears the saved-state cue (SAVE re-enables if stream is playable); clears the name-required red highlight once non-empty. | None. |
 | Type in Stream URL field | — | Clears saved-state cue; schedules a debounced stream check (450 ms) and a debounced catalog-duplicate check (200 ms). | Cancels any in-flight check. |
+| Keyboard "next" from Name field | Name field focused | Moves focus to the Stream URL field. | None. |
+| Keyboard "done" from Stream URL field | Stream URL field focused | Dismisses the keyboard. | None. |
+| Scroll-drag / tap outside fields | Keyboard up | Dismisses the keyboard (drag) / unfocuses (tap); child controls win hit-testing, so taps on rows/buttons act normally. | None. |
 | Stream-URL normalization | URL entered without scheme, or with stacked `https://https://…`, or `http://` after `https://` | Field is rewritten to a single canonical `https://host…`. Bare host gets `https://` prepended; a leading `http://` is left as-is (so it later fails the https-only guard with a clear message). | Re-triggers the check after the writeback (adds latency — see Known deviations). |
 | CLEAR | Form has name or URL text | Empties both fields, resets error/highlight/edit-target, sets check state to idle, cancels the in-flight check. | Does **not** stop a running test-stream playback. |
 | Tap test-stream (play) | Stream check passed; not already testing this URL | Plays the entered stream through the main player under a synthetic `custom-test-<uuid>` station id named by the entered name (or "Test station"). | Starts audio; mini-player shows the test station. |
 | Tap test-stream (pause) | The entered URL is the currently-playing test stream | Toggles/stops the test playback. | Stops/pauses audio. |
 | Tap SAVE | Stream check passed and form differs from last save | Builds a `custom-` station (or updates the one being edited) and adds it to the library auto-favorited; replaces any existing copies of that id across player/library; marks the form "Saved". | Persists custom + favorites stores; syncs to iCloud if enabled. |
 | Tap SAVE with empty/blank name | Stream check passed, name blank | Save aborts; the Name placeholder turns red (required-field highlight); no error row. | None. |
-| Tap "Send to rrradio.org catalog" | Stream check passed, URL not a catalog duplicate | Opens the OS Mail composer prefilled to `feedback@rrradio.org` with the station name + canonical URL in the body. Sent only if the user taps Send in Mail. | Hands off to Mail; nothing sent in-app. |
+| Tap "Send to rrradio.org catalog" | Stream check passed, URL not a catalog duplicate | Opens the OS Mail composer prefilled to `support@rrradio.org` with the station name + canonical URL in the body. Sent only if the user taps Send in Mail. | Hands off to Mail; nothing sent in-app. |
 | Tap a play control on an "Already in catalog" row | A catalog match is shown | Plays that catalog station. | Becomes the current station. |
 | Tap favorite on an "Already in catalog" row | A catalog match is shown | Adds that catalog station to favorites (the intended alternative to creating a duplicate). | Persists favorites; iCloud sync if enabled. |
 | Tap edit (pencil) on an Added-stations row | Row is a saved custom station | Loads that station into the form (name + URL), sets the edit target, marks the check state playable **without re-probing**. | Cancels in-flight check. |
@@ -146,8 +154,10 @@ prior async stream check; the label flip to "Saved" is the only saved-state cue.
 - **Save eligibility.** SAVE is enabled only when the check is `playable` and the
   current form (edit-target id + trimmed name + canonical URL) differs from the
   last saved signature; re-pressing without a change is a no-op ("Saved").
-- **Auto-favorite on save.** Saving a custom station inserts it at the top of
-  favorites; custom stations are kept as favorites.
+- **Auto-favorite on save.** Saving a custom station appends it to the end of
+  the custom-stations list and to favorites; custom stations are always kept as
+  favorites (a normalization pass re-adds any custom station missing from
+  favorites).
 - **Optional metadata on build.** The builder also accepts optional homepage
   (must be valid `http`/`https`), 2-letter uppercase country code, and
   comma-separated lowercase tags — validated and rejected with specific messages
@@ -165,7 +175,7 @@ prior async stream check; the label flip to "Saved" is the only saved-state cue.
 - [privacy-data-boundaries](../contracts/privacy-data-boundaries.md) — custom
   stream URLs are private user-entered data: never sent to analytics/telemetry,
   excluded from diagnostics export, and leave the device only via the user's own
-  iCloud (row 14) or the explicit catalog-submission `mailto:feedback@rrradio.org`
+  iCloud (row 14) or the explicit catalog-submission `mailto:support@rrradio.org`
   (row 13).
 
 ## Edge cases
@@ -258,26 +268,72 @@ Owned strings on this surface (English reference values):
 |---|---|---|---|
 | Add custom stream | Supported. | Reference. | Supported. |
 | HTTPS-only enforcement | Supported. | Reference. | Supported. |
-| Probe before save | Partial. | Reference. | Supported. |
-| Private/local-network (DNS-rebind/SSRF) guard | Supported where implemented. | Reference. | Supported. |
-| Catalog-duplicate detection | Supported where implemented. | Reference. | Supported. |
-| Library-duplicate detection ("already added") | Supported where implemented. | Reference. | Supported. |
-| Test-stream playback before save | Browser-dependent. | Supported. | Supported. |
-| Auto-favorite on save | Product-preferred behavior. | Supported. | Supported. |
-| Edit existing custom station | Supported. | Supported. | Supported. |
-| Destructive delete confirmation | Supported. | Reference. | Supported. |
+| Probe before save | Not planned. | Reference. | Supported (synchronous probe on save, not a live debounced check). |
+| Private/local-network (DNS-rebind/SSRF) guard | Not planned. | Reference. | Partial (synchronous literal/host check only; no DNS resolution, CGNAT/multicast/non-canonical-IPv4 coverage, or per-redirect re-validation). |
+| Catalog-duplicate detection | Not planned. | Reference. | Partial (duplicate stream URL is rejected with an error; no "Already in catalog" rows or favorite-the-catalog steering). |
+| Library-duplicate detection ("already added") | Not planned. | Reference. | Partial (covered by the same duplicate-URL rejection; no "Already added" list). |
+| Test-stream playback before save | Not planned. | Supported. | Planned. |
+| Auto-favorite on save | Not planned. | Supported. | Supported. |
+| Edit existing custom station | Not planned. | Supported. | Planned. |
+| Destructive delete confirmation | Not planned. | Reference. | Supported. |
 | `custom-` id prefix reservation | Supported. | Supported. | Supported. |
-| Submit to catalog (email) | Supported. | Supported via Mail composer. | Supported via mail intent. |
+| Submit to catalog (email) | Not planned. | Supported via Mail composer. | Planned (via `ACTION_SEND`/`mailto` intent). |
 | Local persistence | `localStorage`. | UserDefaults. | DataStore. |
-| Manual file export/import | Supported. | Planned/optional. | Supported through Android library backup. |
+| Manual file export/import | Supported. | Planned/optional. | Supported through SAF library backup export/import. |
 | Cloud/account sync | Not planned. | Optional CloudKit sync. | Not planned for first port. |
+
+**Web platform note.** The web Add Station surface is a minimal name + URL +
+optional homepage/country/tags form (`src/main.ts` `handleAddSubmit`, the
+`#add-form` markup) with no async stream check. It validates synchronously
+(name required, URL must parse as http/https, `http://` rejected for
+mixed-content, homepage/country format) and saves immediately — there is **no**
+reachability/audio-like probe, no SSRF/DNS-rebind guard, no catalog- or
+library-duplicate detection, no test-before-save, no edit flow, no
+"Send to catalog" email, and **no confirmation on delete** (the trash button
+removes the row immediately). Saving does **not** auto-favorite; it stores the
+station in `localStorage` (`rrradio.custom.v1`, inserted at the **top** of the
+list), pushes a recent, and starts playback. The web station object is not
+minted with a `stream-only` status. Custom stations are covered by the web
+favorites/custom backup export/import (`src/backup.ts`). These behaviors are
+the reconciled product intent for native; the web app does not implement them
+today.
 
 ## Android First-Port Requirement
 
-Android includes custom stations. The first aligned implementation probes
-streams before save, rejects duplicate stream URLs, auto-favorites saved custom
-stations, confirms deletion, and rejects private/local network targets unless a
-separate local-network feature is approved.
+Android includes custom stations. The first aligned implementation (Jetpack
+Compose `AddStationSheet` → `RrradioViewModel.addCustom` → `makeCustomStation` +
+`StreamProbe`) probes the stream once on save, rejects duplicate stream URLs,
+auto-favorites saved custom stations, and confirms deletion. The Add Station
+sheet currently exposes name, stream URL, homepage, country, and tags fields and
+saves through a single Save button — there is no debounced live check, status
+line, test-stream control, edit flow, "Already in catalog"/"Already added"
+sections, or "Send to catalog" surface yet; those are **Planned** toward iOS
+parity.
+
+Android-native mechanics and divergences from the iOS reference:
+
+- **Probe.** `StreamProbe.verify` runs once when Save is pressed (not a debounced
+  live check). It issues an OkHttp ranged `GET` (`Range: bytes=0-1023`) with no
+  explicit timeout or redirect cap, and treats the response as playable on a 2xx
+  with an `audio/*` content type, an allow-listed type, or a known stream file
+  extension. There is no ICY-header sniff and no per-redirect re-validation.
+- **Private/local-network guard.** `isPrivateOrLocalHost` is a synchronous check
+  on the URL host only: `localhost`, `*.local`, private/loopback/link-local IPv4
+  ranges, and `::1`/`fe80:`/`fc`/`fd` IPv6 literals. It does **not** resolve
+  hostnames via DNS (so the rebind hole is open), and does not cover CGNAT
+  (`100.64/10`), multicast, or non-canonical IPv4 literals (octal/hex). Full
+  SSRF/DNS-rebind parity is Planned.
+- **Duplicate detection.** A stream URL whose canonical form (`https`,
+  lower-cased host, default-port stripped, trailing-slash trimmed) matches an
+  existing custom or catalog station is **rejected** with "This stream already
+  exists as {name}.", rather than surfacing "Already in catalog" / "Already
+  added" rows. Surfacing-and-steering UI is Planned.
+- **Submit to catalog.** No mail handoff is wired yet; an `ACTION_SEND`/`mailto`
+  intent to `support@rrradio.org` is Planned (the Android equivalent of the iOS
+  Mail composer).
+- **Manual export/import.** Custom stations ride the SAF library-backup
+  export/import (`LibraryRepository.exportLibraryBackup`/`importLibraryBackup`),
+  the Android equivalent of an iCloud-free manual backup.
 
 ## Open questions
 
@@ -299,8 +355,10 @@ iOS source read for this spec:
 
 - `rrradio/Views/AddStationView.swift` — the Add Station form, field validation,
   debounced stream check + catalog-duplicate scan, save/test/clear/edit/delete
-  flows, `StreamCheckState`, `normalizedHTTPSStreamURLString`,
-  `catalogSubmissionMailURL`.
+  flows, keyboard-dismiss (`scrollDismissesKeyboard` + tap-to-unfocus) and
+  next/done submit-label focus order, `StreamCheckState`,
+  `normalizedHTTPSStreamURLString`, `catalogSubmissionMailURL`
+  (→ `mailto:support@rrradio.org`).
 - `rrradio/Library/StreamProbe.swift` — `probeStreamURL` (ranged HEAD-like probe,
   3-redirect cap, 8 s timeout), `responseLooksLikeAudioStream` (ICY +
   content-type allow-list), `isPublicHTTPSStreamURL` and the SSRF/DNS-rebind
@@ -315,6 +373,9 @@ iOS source read for this spec:
 - `rrradio/Library/Library.swift` — `addCustom` (auto-favorite, replace copies),
   `removeCustom` (purge from custom/favorites/recents/lists),
   `replaceStationEverywhere`, `customStations`, `isCustom`.
+- `rrradio/Player/AudioPlayer.swift` — `replaceStationEverywhere` (swaps the
+  saved station into the live player/queue) and `removeStationFromActiveQueue`
+  (pulls a deleted custom station from the active queue).
 - `rrradio/Views/SettingsView.swift` — the Settings tab strip hosting the
   `AddStationContentView` "Add Station" tab.
 
@@ -341,8 +402,8 @@ Shipped iOS code that diverges from the intent above is tracked in
   station sets the check state to `playable` unconditionally, so a stream that
   has since gone offline can be re-saved without a fresh reachability warning.
   (`internal/audit/2026-05-25-ios-code-review-slice22.md` §AS7)
-- **AS2 — catalog-submission `mailto:` (RESOLVED at `9336321`).** The submission
-  destination previously hardcoded a developer-personal Gmail address; migrated
-  to `feedback@rrradio.org`. Intent is the first-party inbox (see
+- **AS2 — catalog-submission `mailto:` (RESOLVED).** The submission destination
+  previously hardcoded a developer-personal Gmail address; migrated to the
+  first-party inbox `support@rrradio.org`. Intent is the first-party inbox (see
   [privacy-data-boundaries](../contracts/privacy-data-boundaries.md) row 13).
   (`internal/audit/2026-05-25-ios-code-review-slice22.md` §AS2)

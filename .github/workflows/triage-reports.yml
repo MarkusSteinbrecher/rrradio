@@ -1,0 +1,112 @@
+name: Triage broken-station reports
+
+# P2 of the broken-station report pipeline (issue #507). Reads
+# non-resolved reports from the stats Worker, probes each reported
+# station's stream (no-audio / interruptions) or favicon (wrong-logo),
+# and confirms a category when the probe fails OR enough independent
+# reports agree. Confirmed reports upsert ONE `broken-station` GitHub
+# issue per station; the Worker then flips those rows to `confirmed`
+# and stamps the issue number so closing the issue (handled by
+# resolve-reports.yml) resolves the reports and notifies the apps.
+#
+# Daily by default — broken-station reports trickle in, they don't
+# burst — plus manual dispatch with an optional dry run.
+#
+# Required repo secret:
+#   STATS_ADMIN_TOKEN — the Worker's ADMIN_TOKEN (read reports + apply
+#                       confirm/link). Same secret resolve-reports.yml
+#                       uses. GITHUB_TOKEN (auto) writes the issues.
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Probe + plan only, write nothing'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read # checkout (catalog + tooling)
+  issues: write # upsert broken-station issues
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Ensure issue labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Pre-create so the issue upsert never 422s on an unknown label.
+          gh label create broken-station --description "User-reported broken station (automated triage)" --color B60205 --force >/dev/null 2>&1 || true
+          for c in no-audio interruptions wrong-station wrong-logo wrong-info other; do
+            gh label create "$c" --description "Broken-station report category" --color D93F0B --force >/dev/null 2>&1 || true
+          done
+
+      - name: Triage reports
+        env:
+          STATS_ADMIN_TOKEN: ${{ secrets.STATS_ADMIN_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          # GITHUB_REPOSITORY / GITHUB_SERVER_URL / GITHUB_RUN_ID are
+          # provided automatically and used for the issue repo + run link.
+        run: |
+          if [ -z "$STATS_ADMIN_TOKEN" ]; then
+            echo "STATS_ADMIN_TOKEN secret is not set or empty — cannot read reports (see #517)." >&2
+            exit 1
+          fi
+          npm run triage-reports -- ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} --verbose
+
+      # A scheduled cron fails silently — nobody watches a 06:00 job. Surface
+      # any failure (empty/wrong token, network, etc.) as a tracking issue so a
+      # broken-on-arrival run can't accumulate unnoticed (#517). Manual dispatch
+      # runs are visible to the operator, so they don't file noise.
+      - name: File a tracking issue if the scheduled run failed
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create workflow-failure \
+            --description "A scheduled workflow failed and needs attention" \
+            --color B60205 --force >/dev/null 2>&1 || true
+          title="Scheduled workflow failing: $WORKFLOW"
+          {
+            echo "\`$WORKFLOW\` failed on its scheduled run."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Check the failing step's log, fix the cause, then dispatch the workflow manually to confirm. This issue auto-closes on the next successful run."
+          } > failure-body.md
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Failed again $(date -u +'%Y-%m-%d %H:%M UTC') — $RUN_URL"
+          else
+            gh issue create --label workflow-failure --title "$title" --body-file failure-body.md
+          fi
+
+      - name: Close the tracking issue after a successful run
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+        run: |
+          title="Scheduled workflow failing: $WORKFLOW"
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Recovered: succeeded $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

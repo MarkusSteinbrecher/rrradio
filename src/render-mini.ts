@@ -15,8 +15,11 @@ import type { NowPlaying, Station, WakeTo } from './types';
 export interface MiniRefs {
   /** The clickable mini-player root (hidden when no station selected). */
   mini: HTMLElement;
-  /** Favicon / cover-art / initials block. */
+  /** Station favicon / initials block (left — the station's identity). */
   miniFav: HTMLElement;
+  /** Album cover-art slot (right, before the controls). Hidden when the
+   *  track has no cover; a distinct element from the station favicon. */
+  miniArt: HTMLElement;
   /** Station name. */
   miniName: HTMLElement;
   /** Track line (artist · title) — hidden when no track is identified. */
@@ -25,12 +28,29 @@ export interface MiniRefs {
   miniMeta: HTMLElement;
 }
 
-/** Replace the art block with a fresh image (and an initials fallback
- *  when the image fails to load) for the given station. When `coverUrl`
- *  is supplied (a track has been identified), use it instead of the
- *  station favicon — the mini becomes a real player at that point.
- *  Falls back to favicon then initials if the cover fails to load. */
-export function setMiniArt(refs: MiniRefs, station: Station, coverUrl?: string): void {
+/** Append an `<img src>` into `container`, calling `onFail` (e.g. draw a
+ *  fallback or hide the slot) if the image errors. Shared by the favicon
+ *  and cover-art slots. */
+function loadImg(container: HTMLElement, src: string, onFail: () => void): void {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = '';
+  img.referrerPolicy = 'no-referrer';
+  img.addEventListener(
+    'error',
+    () => {
+      img.remove();
+      onFail();
+    },
+    { once: true },
+  );
+  container.append(img);
+}
+
+/** Draw the station favicon (or an initials / frequency fallback) into the
+ *  left art slot. Always the station's identity — the album cover art lives
+ *  in its own slot (`setMiniCover`), iOS-parity. */
+export function setMiniArt(refs: MiniRefs, station: Station): void {
   refs.miniFav.replaceChildren();
   refs.miniFav.className = faviconClass(station.id);
 
@@ -46,40 +66,30 @@ export function setMiniArt(refs: MiniRefs, station: Station, coverUrl?: string):
     }
   };
 
-  const loadImg = (src: string, onFail: () => void): void => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = '';
-    img.referrerPolicy = 'no-referrer';
-    img.addEventListener(
-      'error',
-      () => {
-        img.remove();
-        onFail();
-      },
-      { once: true },
-    );
-    refs.miniFav.append(img);
-  };
+  if (station.favicon) loadImg(refs.miniFav, station.favicon, drawInitials);
+  else drawInitials();
+}
 
-  if (coverUrl) {
-    // Cover → favicon → initials
-    loadImg(coverUrl, () => {
-      if (station.favicon) loadImg(station.favicon, drawInitials);
-      else drawInitials();
-    });
-  } else if (station.favicon) {
-    loadImg(station.favicon, drawInitials);
-  } else {
-    drawInitials();
+/** Fill the right-hand album slot with the current track's cover art, or
+ *  hide it when there's no track-level artwork. iOS parity: the album thumb
+ *  only appears once we actually know what's playing. Hides again if the
+ *  cover URL fails to load rather than leaving a broken/empty box. */
+export function setMiniCover(refs: MiniRefs, coverUrl?: string): void {
+  refs.miniArt.replaceChildren();
+  if (!coverUrl) {
+    refs.miniArt.hidden = true;
+    return;
   }
+  refs.miniArt.hidden = false;
+  loadImg(refs.miniArt, coverUrl, () => {
+    refs.miniArt.hidden = true;
+  });
 }
 
 /** Render the mini-player for the given playback + wake state. Hides
  *  the bar when no station is selected; otherwise sets name, meta,
- *  track line, art, and toggles `is-wake-bed` for the silent-bed dim
- *  style. The art slot prefers `np.coverUrl` (track-level art) over
- *  the station favicon when both exist. */
+ *  track line, the two art slots (station favicon left, track cover
+ *  right), and toggles `is-wake-bed` for the silent-bed dim style. */
 export function renderMiniPlayer(
   refs: MiniRefs,
   np: NowPlaying,
@@ -101,10 +111,11 @@ export function renderMiniPlayer(
     refs.miniTrack.textContent = '';
     refs.miniTrack.hidden = true;
   }
-  // Wake-bed playback substitutes the station and shouldn't show
-  // a real cover (the bed is silence). Pass undefined cover so the
-  // art falls back to the wake station's favicon.
+  // Left slot: always the station favicon. Right slot: the track-level
+  // cover when we have one — but never during silent-bed wake playback
+  // (the bed is silence, so there's no album art to show).
+  setMiniArt(refs, display);
   const cover = isWakeBedActive(np, armedWake) ? undefined : np.coverUrl;
-  setMiniArt(refs, display, cover);
+  setMiniCover(refs, cover);
   refs.mini.classList.toggle('is-wake-bed', isWakeBedActive(np, armedWake));
 }

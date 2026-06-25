@@ -1,9 +1,9 @@
 # Search Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -86,7 +86,10 @@ produce the result list; the community tier is appended.
 - **Tier 1′ (substring fallback):** when the index failed to open or query
   threw, OR divergence > 10%, the entire local match is a substring scan over
   `unique(catalog + custom + RadioBrowser)` using `stationMatches`. No FTS
-  ranking; preserves input order.
+  ranking; preserves input order. The divergence decision is **re-evaluated
+  whenever the catalog's station-ID set changes** (async, off-main): if a later
+  catalog state converges back under 10%, FTS is re-enabled and an active search
+  re-runs through Tier 1.
 - **Tier 2 (FTS-miss safety net):** with FTS active, a substring scan runs ONLY
   over catalog stations the FTS index did NOT return (`!ftsHitIDs.contains(id)`)
   — i.e. stations added to the live catalog since the bundled DB was built.
@@ -136,7 +139,7 @@ This is the network analogue of normalizer (B): it gives Radio Browser's
 | Mirror order | last-successful host first, else seed order; failover advances on bad status or error |
 | Search path | `/json/stations/search` |
 | Stats path | `/json/stats` (→ `{ "stations": Int }`) |
-| Region path | `/api/public/region` on the rrradio-stats Worker (NOT Radio Browser) — see operations.md |
+| Region path | `/api/public/region` on the rrradio-stats Worker (`https://stats.rrradio.org`, NOT Radio Browser) — see operations.md |
 | `User-Agent` | `rrradio-ios/<CFBundleShortVersionString>` (platform-specific UA string) |
 | Page size | 60 (client default); the Browse paginator requests 50 |
 
@@ -309,9 +312,11 @@ prefix, country/codec uppercasing, `schemaVersion` ride-along — owned by
   bm25 weights are the schema contract; a client reading a DB with a different
   column set must fall back to substring search.
 - **Divergence guard:** when the bundled index drifts > 10% from the live
-  catalog (`maximumDivergenceRatio`), the client abandons FTS for the session
-  and uses substring search — so a stale bundle degrades gracefully instead of
-  hiding new stations.
+  catalog (`maximumDivergenceRatio`), the client abandons FTS and uses substring
+  search — so a stale bundle degrades gracefully instead of hiding new stations.
+  The guard re-evaluates on every catalog station-ID change and can re-enable
+  FTS if the catalog later converges back under the threshold; it is not a
+  one-way latch for the session.
 - **Radio Browser API is external and unversioned.** Treat unknown JSON fields
   as ignorable; only the fields in the mapping table are consumed. New mirrors
   or a different host list is a client-config change, not a contract break.
@@ -325,7 +330,7 @@ prefix, country/codec uppercasing, `schemaVersion` ride-along — owned by
 | Empty / whitespace query | Search is a no-op; Browse shows the filtered catalog, RB paginator reset, no network call. |
 | FTS DB missing at launch | `bundled()` returns nil; all queries use substring fallback (Tier 1′). Diagnostic `search/fts unavailable` recorded. |
 | FTS query throws mid-session | Caught; that query falls back to substring over `unique(catalog+custom+RB)`. Diagnostic `search/fts failed`. |
-| FTS index diverged > 10% | Client uses substring fallback for the session. |
+| FTS index diverged > 10% | Client uses substring fallback; diagnostic `search/fts stale disabled` recorded. The guard re-evaluates on each catalog-ID change and re-enables FTS if drift falls back under 10%. A non-zero divergence still under the threshold keeps the index and logs `search/fts stale but usable`. |
 | Empty FTS MATCH (no alnum tokens) | Zero FTS hits, no error; substring tiers still run. |
 | Radio Browser mirror returns non-2xx or errors | Failover to next mirror after a jittered backoff (`75ms · 2^attempt + 0..75ms`, attempt clamped 0–4). |
 | All Radio Browser mirrors fail | Search throws upstream; the paginator catches it and sets `hasMore = false`. **No error UI or retry surfaces** — see Known deviations. |
@@ -337,18 +342,18 @@ prefix, country/codec uppercasing, `schemaVersion` ride-along — owned by
 
 | Obligation | Web | iOS | Android |
 |---|---|---|---|
-| Normalizer (A) char set: lowercase + letters + digits + `ä ö ü ß`, drop the rest | Reference (`src/format.ts`) | Match | Match |
-| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Must match result order | Reference | Must match |
-| Dedupe whole pipeline by station `id`, first-occurrence wins | Required | Required | Required |
-| Query-active suppresses alphabet/quality/favorite sort (relevance order kept) | Required | Reference | Required |
-| Country-filter + ≤2-char-query → skip RB network call | Required | Reference | Required |
-| RB request params (`order=votes`, `reverse=true`, `hidebroken=true`, loose-split `name`) | Required | Reference | Required |
-| RB HTTPS-only; coerce `http_resolved`/`url` scheme for the dedupe key | Required | Reference | Required |
-| RB dedupe by normalized stream URL; winner = `logo*1000+tags*100+clickcount` | Required | Reference | Required |
-| Map RB row → `Station` per the field table (`rb-` id, MP3 uppercased, `≤0 → nil`) | Required | Reference | Required |
-| Bundled/full-text index | Supported | Reference (`stations.fts5.db`) | Optional — may use in-memory substring if FTS too slow on device (browse.md) |
-| Graceful fallback when index missing/diverged | Required | Reference | Required |
-| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | If FTS used | Reference | If FTS used |
+| Normalizer (A) char set: lowercase + letters + digits + `ä ö ü ß`, drop the rest | Reference (`src/format.ts`) | Match | Supported — `normalizeForSearch` (`data/Search.kt`) matches the char set; an extra accent-folding pass (`normalizeForSearchFolded`: ß→ss, ø/æ/œ, NFD diacritic strip) runs alongside it |
+| Tier order: local FTS/substring → FTS-miss net → custom+RB local → RB community | Partial — no FTS; substring scan over built-ins + custom ("My stations"), then RB community appended | Reference | Partial — single local substring pass over custom + bundled catalog (`stationMatches` in the `RrradioViewModel` filter); no FTS and no RB community tier yet. RB community tier Planned |
+| Dedupe whole pipeline by station `id`, first-occurrence wins | Partial — dedupes RB pages by normalized stream URL + hides curated-collision rows; no whole-pipeline `id` dedupe | Required | Planned — single-source local list needs no cross-tier dedupe today; required once the RB community tier lands |
+| Query-active suppresses alphabet/quality/favorite sort (relevance order kept) | Required | Reference | Partial — the browse sort still applies during a query (no relevance order to preserve in a substring-only match); the un-queried 220-row cap is lifted while a query is active |
+| Country-filter + ≤2-char-query → skip RB network call | Planned — gate not implemented; a ≤2-char query with a country filter still fires the RB call | Reference | Not applicable today (no RB network call to gate); Planned with the RB community tier |
+| RB request params (`order=votes`, `reverse=true`, `hidebroken=true`, loose-split `name`) | Required | Reference | Planned — no Radio Browser client yet |
+| RB HTTPS-only; coerce `http_resolved`/`url` scheme for the dedupe key | Required | Reference | Planned — no Radio Browser client yet |
+| RB dedupe by normalized stream URL; winner = `logo*1000+tags*100+clickcount` | Required | Reference | Planned — no Radio Browser client yet |
+| Map RB row → `Station` per the field table (`rb-` id, MP3 uppercased, `≤0 → nil`) | Required | Reference | Planned — no Radio Browser client yet |
+| Bundled/full-text index | Not planned — web has no bundled index; local match is an in-memory substring scan over built-ins + custom | Reference (`stations.fts5.db`) | Partial — in-memory substring scan today; a bundled FTS index is Planned/optional if substring proves too slow on device (browse.md) |
+| Graceful fallback when index missing/diverged | Not applicable — no index to fall back from | Reference | Not applicable today (no index to fall back from); required if/when an FTS index is adopted |
+| FTS column weights name>tags>country>surface and name-tier→bm25→id ranking | Not applicable — FTS never used | Reference | Planned — applies only if an FTS index is adopted |
 
 ## Open questions
 
@@ -415,11 +420,16 @@ iOS source (the only place iOS mechanics are named):
   a geo-gated station universally available. Adjacent to search via the
   result-visibility path. See
   `internal/audit/2026-05-25-ios-code-review-slice11.md` (M2).
-- **Region endpoint on a developer-personal Worker subdomain** — the visitor-
-  country resolver (and other telemetry) routes user IPs to
-  `*.markussteinbrecher.workers.dev`. See
-  `internal/audit/2026-05-25-ios-code-review-slice11.md` (M3/M4) and the
-  privacy-boundary summary in `internal/audit/2026-05-25-audit-handover.md`.
+- **Region endpoint sends the visitor IP to the rrradio-stats Worker** — the
+  visitor-country resolver (and other telemetry) routes user IPs through the
+  rrradio-stats Worker so Cloudflare's edge can echo `CF-IPCountry`; the IP-
+  disclosure surface remains. At d241aa9 the Worker base is the production
+  `https://stats.rrradio.org`, NOT the developer-personal
+  `*.markussteinbrecher.workers.dev` subdomain the audit still describes — the
+  host moved since the audit was filed. See
+  `internal/audit/2026-05-25-ios-code-review-slice11.md` (M3/M4, now partly
+  stale on the host) and the privacy-boundary summary in
+  `internal/audit/2026-05-25-audit-handover.md`.
 - No malformed-JSON *silent-fail* exists in the search path: `JSONDecoder`
   failures in `RadioBrowserClient.search` throw and propagate to the
   failover/paginator (which then hits the silent B6 gap above), rather than

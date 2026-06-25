@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#3e3e39" />
+    <meta name="theme-color" content="#1e1d19" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="rrradio" />
@@ -203,30 +203,33 @@
       <!-- /#seo:recently-added -->
     </aside>
     <div class="app">
-      <!-- ============== TOP BAR ============== -->
-      <header class="topbar">
-        <div class="topbar-row">
-          <button type="button" class="wordmark" id="wordmark" aria-label="Go to home">
-            <img class="wordmark-logo wordmark-logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
-            <img class="wordmark-logo wordmark-logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
+      <!-- ====== TOP NAV — full-width: logo + search + actions (mirrors iOS TopBrandRow) ====== -->
+      <header class="topnav">
+        <button type="button" class="wordmark" id="wordmark" data-action="home" aria-label="Go to home">
+          <img class="wordmark-logo wordmark-logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
+          <img class="wordmark-logo wordmark-logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
+        </button>
+        <!-- Desktop section nav — Browse / Favorites / Library live in the top
+             bar (≥1024px). On mobile these hide; the bottom tab bar carries
+             them. Same data-tab values as the tab bar so one handler + the
+             active-state sync serve both surfaces. -->
+        <nav class="topnav-nav" aria-label="Sections">
+          <button type="button" class="tab-btn" data-tab="browse">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+            <span>Browse</span>
           </button>
-          <div class="topbar-actions">
-            <button type="button" class="add-btn" id="theme-btn" aria-label="Switch theme">
-              <svg class="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-              <svg class="icon-theme-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
-            </button>
-            <button type="button" class="add-btn" id="dashboard-btn" aria-label="Stats dashboard">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
-            </button>
-            <button type="button" class="add-btn" id="about-btn" aria-label="About rrradio">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
-            </button>
-            <button type="button" class="add-btn" id="add-btn" aria-label="Add custom station">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-            </button>
-          </div>
-        </div>
-
+          <button type="button" class="tab-btn" data-tab="fav">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+            <span>Favorites</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="library">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+            <span>Library</span>
+          </button>
+        </nav>
+        <!-- Search sits between the wordmark and the action buttons and
+             flexes to fill the row — on desktop and on mobile alike (logo +
+             search + filter + settings share one row). -->
         <div class="search-wrap" id="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           <input
@@ -241,60 +244,50 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
-
-        <div class="filter-row" id="filter-row">
-          <div class="filter-cell">
-            <button type="button" class="curated-toggle" id="curated-toggle" aria-pressed="false" aria-label="Show curated stations only">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17.2l-5.4 2.8 1.2-6L3.3 9.8l6.1-.7L12 3.5z"/></svg>
-            </button>
-            <span class="filter-cell__label">Curated</span>
-          </div>
-          <div class="filter-cell">
-            <button type="button" class="filter-chip is-active" id="mode-played" aria-pressed="true" aria-label="Show most played">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
-            </button>
-            <span class="filter-cell__label">Played</span>
-          </div>
-          <div class="filter-cell">
-            <button type="button" class="news-toggle" id="news-toggle" aria-pressed="false" aria-label="Show news stations only">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h12v12a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V6z"/><path d="M16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/><path d="M8 10h4"/><path d="M8 13h4"/><path d="M8 16h2"/></svg>
-            </button>
-            <span class="filter-cell__label">News</span>
-          </div>
-          <div class="filter-cell">
-            <label class="filter-wrap" aria-label="Filter by genre">
-              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-              <select class="filter-select" id="genre" aria-label="Filter by genre">
-                <option value="all">All genres</option>
-                <!-- Options populated at boot from src/genre-taxonomy.ts so
-                     the canonical chip list is the single source of truth.
-                     If JS hasn't run yet, only "All genres" is selectable —
-                     the page is still usable. -->
-              </select>
-              <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-            </label>
-            <span class="filter-cell__label">Genre</span>
-          </div>
-          <div class="filter-cell">
-            <label class="filter-wrap" aria-label="Filter by country">
-              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>
-              <select class="filter-select" id="country" aria-label="Filter by country">
-                <option value="all">All countries</option>
-              </select>
-              <svg class="filter-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-            </label>
-            <span class="filter-cell__label">Country</span>
-          </div>
-          <div class="filter-cell">
-            <button type="button" class="map-toggle" id="map-toggle" aria-pressed="false" aria-label="Show map view">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            </button>
-            <span class="filter-cell__label">Map</span>
-          </div>
+        <!-- Funnel travels with the search (centred group); the gear is a
+             standalone child pinned to the far right on every tab. -->
+        <div class="toolbar">
+          <button type="button" class="toolbar-btn" id="filter-btn" aria-label="Filters" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></svg>
+            <span class="toolbar-btn__dot" id="filter-dot" hidden></span>
+          </button>
         </div>
+        <a class="toolbar-btn topnav-kofi" id="kofi-link" href="https://ko-fi.com/rrradio" target="_blank" rel="noopener noreferrer" aria-label="Support rrradio on Ko-fi" title="Support rrradio on Ko-fi">
+          <img src="/kofi-cup.png" alt="Ko-fi" width="22" height="18" />
+        </a>
+        <button type="button" class="toolbar-btn topnav-gear" id="settings-btn" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </header>
+
+      <!-- ====== PSA BANNER — a "public service announcement" staged on the
+           vintage tuner from the /ios landing: the message glows on the
+           radio's dial. Links to /ios (new tab → playback keeps going).
+           Browse-only and shown on every load (no dismissal / close button);
+           main.ts's syncPromo() reveals it whenever Browse is the active tab.
+           The readout is real text (sized in container-query units so it
+           tracks the dial at any width); the radio photo is decorative. ====== -->
+      <aside class="psa" id="promo" hidden>
+        <a class="psa__link" id="promo-link" href="/ios" target="_blank" rel="noopener noreferrer"
+           aria-label="Public service announcement — we interrupt the program to announce a new look of the web app, and the iOS app now on the App Store. Check it out.">
+          <img class="psa__radio" src="/radio-tuner.png" alt="" />
+          <span class="psa__caption">
+            <span class="psa__label"><span class="psa__on" aria-hidden="true"></span>Public Service Announcement</span>
+            <span class="psa__msg"><strong>We interrupt the program</strong> to announce a new look of the web app, and the iOS app now on the App Store. <span class="psa__cta">Check it out →</span></span>
+          </span>
+        </a>
+      </aside>
+
+      <div class="app-body">
+      <div class="main">
+      <header class="topbar">
+
+        <!-- The Browse filter lives in #filter-sheet below (an iOS-style
+             draft sheet built by main.ts: collapsible multi-select Genre /
+             Country / Quality + News). Sort moved onto the results row;
+             Curated and Played were dropped. -->
 
         <div class="tab-status" id="tab-status" hidden></div>
-        <div class="lib-seg topbar-lib-seg" id="topbar-lib-seg" role="tablist" aria-label="Library section" hidden></div>
       </header>
 
       <!-- ============== STAGE: content + Now Playing ============== -->
@@ -302,191 +295,301 @@
         <main class="content" id="content"></main>
 
         <section class="np" id="np" aria-label="Now playing">
-          <button type="button" class="np-back" id="np-back" aria-label="Back to browse">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          <!-- Wide-desktop only: collapse the browse list to expand the
+               player from 2 to 3 columns. Diagonal "expand" arrows read
+               as a layout/size toggle (distinct from the left-nav chevron);
+               they swap to inward "contract" arrows once browse is hidden. -->
+          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Expand player to full width" aria-expanded="true">
+            <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10V4h6"/><path d="m4 4 6 6"/><path d="M20 10V4h-6"/><path d="m20 4-6 6"/><path d="M4 14v6h6"/><path d="m4 20 6-6"/><path d="M20 14v6h-6"/><path d="m20 20-6-6"/></svg>
+            <svg class="icon-contract" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v6H4"/><path d="M10 10 4 4"/><path d="M14 4v6h6"/><path d="m14 10 6-6"/><path d="M10 20v-6H4"/><path d="m10 14-6 6"/><path d="M14 20v-6h6"/><path d="m14 14 6 6"/></svg>
+          </button>
+          <!-- Desktop: close the player so browse fills the full width.
+               Audio keeps playing via the mini-player bar, which doubles as
+               the reopen affordance. -->
+          <button type="button" class="np-close" id="np-close" aria-label="Close player">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
           <div class="np-body">
+            <!-- Station head (iOS stationBlock parity): logo · centered name ·
+                 add-to-list (+) · favorite (♥), then a full-width hairline.
+                 Tapping the logo opens the station-info popup. -->
             <div class="np-station">
               <div class="np-station__head">
-                <img class="np-station__logo" id="np-station-logo" alt="" hidden />
+                <!-- Collapse chevron sits inline at the head of the row (below
+                     desktop) so it shares the logo's row and can't collide
+                     with a long station name. Absolute corner affordance on
+                     desktop (see .np-back CSS). -->
+                <button type="button" class="np-back" id="np-back" aria-label="Back to browse">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <button type="button" class="np-station__logo-btn" id="np-station-logo-btn" aria-label="Station info" hidden>
+                  <img class="np-station__logo" id="np-station-logo" alt="" hidden />
+                </button>
                 <div class="np-name" id="np-name">—</div>
+                <button type="button" class="np-head-btn" id="np-add" aria-label="Add to list">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                </button>
+                <button type="button" class="np-head-btn" id="np-fav" aria-label="Favorite">
+                  <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+                  <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+                </button>
               </div>
-              <div class="np-tags" id="np-tags"></div>
             </div>
+            <div class="np-station-divider" aria-hidden="true"></div>
 
+            <!-- Mode tabs (iOS parity): Album / Schedule / Lyrics. Album is
+                 always present; Schedule + Lyrics auto-hide when their data
+                 isn't available. The active tab is inked with a short accent
+                 underline that sits on the full-width hairline below the
+                 strip. In the wide 2-column layout the strip doubles as the
+                 Schedule/Lyrics switcher (the Album tab drops out — album is
+                 its own permanent column there); in 3-column it's hidden. -->
             <div class="np-pane-tabs" id="np-pane-tabs" hidden>
-              <button type="button" class="np-pane-tab np-pane-tab--icon is-active" id="np-pane-now" aria-label="Now playing" title="Now playing">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor" stroke="none"/><path d="m4 17 4.5-4.5L13 17l3-3 4 4"/></svg>
-              </button>
-              <button type="button" class="np-pane-tab np-pane-tab--label" id="np-pane-program" aria-label="Program" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
-                <span class="np-pane-tab__text">
-                  <span class="np-pane-tab__pre" id="np-program-pre">Now on</span>
-                  <span class="np-pane-tab__name" id="np-program-name">Program</span>
-                </span>
-              </button>
-              <button type="button" class="np-pane-tab np-pane-tab--icon" id="np-pane-lyrics" aria-label="Lyrics" title="Lyrics" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h11"/><path d="M4 10h16"/><path d="M4 14h11"/><path d="M4 18h16"/></svg>
-              </button>
+              <button type="button" class="np-pane-tab is-active" id="np-pane-now" aria-pressed="true">Album</button>
+              <button type="button" class="np-pane-tab" id="np-pane-program" aria-pressed="false" hidden>Schedule</button>
+              <button type="button" class="np-pane-tab" id="np-pane-lyrics" aria-pressed="false" hidden>Lyrics</button>
             </div>
 
             <div class="np-track" id="np-track-row">
-              <div class="np-track__cover-wrap">
+              <!-- Column header for the album, mirroring the Schedule/Lyrics
+                   switcher on the right. Wide layouts only (hidden on mobile,
+                   where the tab strip already labels the pane). -->
+              <div class="np-track__head" aria-hidden="true">Album</div>
+              <!-- Tapping the artwork opens the station-info popup (iOS parity). -->
+              <div class="np-track__cover-wrap" id="np-track-cover-wrap" role="button" tabindex="0" aria-label="Station info">
                 <img class="np-track__cover" id="np-track-cover" alt="" />
                 <span class="np-track__cover-fallback" id="np-track-cover-fallback" aria-hidden="true">··</span>
               </div>
               <div class="np-track__text">
                 <div class="np-track__label">On air</div>
-                <div class="np-track__title-row">
-                  <div class="np-track__title" id="np-track-title">—</div>
-                  <div class="np-track__open-in" id="np-track-open-in-wrap" hidden>
-                    <button type="button" class="np-track__open-in-btn" id="np-track-open-in" aria-label="Open in music app" aria-haspopup="true" aria-expanded="false">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/></svg>
-                    </button>
-                    <div class="np-track__open-in-popup" id="np-track-open-in-popup" role="menu" hidden>
-                      <a class="open-in-icon" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in Apple Music">
-                        <span>Apple Music</span>
-                      </a>
-                      <a class="open-in-icon" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in Spotify">
-                        <span>Spotify</span>
-                      </a>
-                      <a class="open-in-icon" id="np-track-youtube-music" href="#" target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Open in YouTube Music">
-                        <span>YouTube Music</span>
-                      </a>
-                    </div>
-                  </div>
+                <div class="np-track__title" id="np-track-title">—</div>
+                <!-- iOS parity: artist → program → status, beneath the song
+                     title. Each line hides itself when its data is absent. -->
+                <div class="np-track__artist" id="np-track-artist" hidden></div>
+                <div class="np-track__program" id="np-track-program" hidden></div>
+                <div class="np-track__status" id="np-track-status" data-state="idle" hidden>
+                  <span class="np-track__status-dot" aria-hidden="true"></span>
+                  <span class="np-track__status-text" id="np-track-status-text"></span>
+                </div>
+              </div>
+              <!-- Open in (iOS musicServiceSection parity): a visible row of
+                   brand marks, shown only once iTunes verifies the track
+                   resolves to a real song. -->
+              <div class="np-openin" id="np-track-open-in-wrap" hidden>
+                <span class="np-openin__label">Open in</span>
+                <div class="np-openin__row">
+                  <a class="np-openin__btn" id="np-track-apple-music" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in Apple Music">
+                    <img src="/brand/apple-music.svg" alt="" />
+                  </a>
+                  <a class="np-openin__btn" id="np-track-spotify" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in Spotify">
+                    <img src="/brand/spotify.svg" alt="" />
+                  </a>
+                  <a class="np-openin__btn" id="np-track-youtube-music" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in YouTube Music">
+                    <img src="/brand/youtube-music.svg" alt="" />
+                  </a>
                 </div>
               </div>
             </div>
 
             <div class="np-program-pane" id="np-program-pane" hidden>
+              <div class="np-col-head" aria-hidden="true">Schedule</div>
+              <!-- iOS parity: current show name + subtitle, then a
+                   "Today · N broadcasts" caption above the rows. -->
+              <div class="np-program-head" id="np-program-head" hidden>
+                <div class="np-program-head__name" id="np-program-head-name"></div>
+                <div class="np-program-head__sub" id="np-program-head-sub" hidden></div>
+              </div>
+              <div class="np-program-meta" id="np-program-meta" hidden>
+                <span>Today</span>
+                <span id="np-program-count"></span>
+              </div>
               <div class="np-program-list" id="np-program-list"></div>
+              <div class="np-pane-empty" id="np-program-empty" hidden>No on-air schedule for this station.</div>
             </div>
 
             <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
+              <div class="np-col-head" aria-hidden="true">Lyrics</div>
+              <!-- iOS parity: track title + artist header pinned above the
+                   scrolling lyrics body, with a source credit link below. -->
+              <div class="np-lyrics-head" id="np-lyrics-head" hidden>
+                <div class="np-lyrics-head__title" id="np-lyrics-title"></div>
+                <div class="np-lyrics-head__artist" id="np-lyrics-artist" hidden></div>
+              </div>
               <pre class="np-lyrics-text" id="np-lyrics-text"></pre>
+              <a class="np-lyrics-source" id="np-lyrics-source" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <span class="np-lyrics-source__text" id="np-lyrics-source-text"></span>
+              </a>
+              <div class="np-pane-empty" id="np-lyrics-empty" hidden>No lyrics for the current track.</div>
             </div>
 
-            <!-- Wake-edit pane — replaces the track row when the user
-                 taps the alarm icon at the bottom. Big clock above,
-                 arm/disarm button below. While armed, the button also
-                 shows the countdown so it does double duty as the
-                 "alarm armed" pill. Tapping the alarm icon again exits
-                 this pane; the wake (if armed) persists. -->
-            <div class="np-wake-pane" id="np-wake-pane" hidden>
-              <label class="np-wake-pane__clock-wrap" aria-label="Alarm time">
-                <input type="time" id="wake-time" class="np-wake-pane__clock" required aria-label="Wake time" />
-              </label>
-              <button type="button" class="np-wake-pane__arm" id="wake-arm-btn" aria-live="polite">
-                <span class="np-wake-pane__arm-label" id="wake-arm-label">Set</span>
-                <span class="np-wake-pane__arm-meta" id="wake-arm-meta" hidden></span>
-              </button>
-              <p class="np-wake-pane__caveat">
-                !!!Experimental!!! This feature unfortunately does not work reliably on all setups, since this is just a website. When you set an alarm, you should not close this page or stop the stream.
-              </p>
-            </div>
+            <!-- Wide 2-column layout only: shown when the second column has
+                 neither a schedule nor lyrics to offer (see syncNpTabs). -->
+            <div class="np-pane-empty" id="np-secondary-empty" hidden>No schedule or lyrics for this station.</div>
+
           </div>
 
           <div class="np-controls">
+            <!-- Desktop volume — above the transport (iOS AudioOutputRow
+                 order), capped to ~40% width so the slider lines up over the
+                 buttons instead of stretching. Phones have a hardware rocker;
+                 this is a desktop affordance. Tapping the speaker mutes;
+                 dragging to 0 mutes, dragging up from 0 unmutes. Level persists. -->
+            <!-- Transport (iOS controlsBlock parity, minus the iOS/Android-only
+                 wake alarm): prev · play · next centered, sleep timer trailing.
+                 On desktop the volume slider drops into this row's left column
+                 (left of play); on mobile volume is hidden and the leading
+                 spacer balances the trailing sleep button so the prev/play/next
+                 cluster stays optically centered. -->
             <div class="np-row">
-              <div class="np-row__group">
-                <button type="button" class="np-btn" id="np-fav" aria-label="Favorite">
-                  <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-                  <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+              <div class="np-volume" id="np-volume">
+                <button type="button" class="np-volume__mute" id="np-mute" aria-label="Mute">
+                  <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                 </button>
-                <button type="button" class="np-btn" id="np-mute" aria-label="Mute">
-                  <svg class="icon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                  <svg class="icon-vol-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+                <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
+                <span class="np-volume__value" id="np-volume-value" aria-hidden="true">100%</span>
+              </div>
+              <span class="np-row__spacer" aria-hidden="true"></span>
+              <div class="np-row__group np-row__group--transport">
+                <button type="button" class="np-btn" id="np-prev" aria-label="Previous station">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4.75" y="4.5" width="2" height="15" rx="0.5"/><path d="M19 4.5v15a.75.75 0 0 1-1.16.63l-10-7.5a.75.75 0 0 1 0-1.27l10-7.5A.75.75 0 0 1 19 4.5z"/></svg>
+                </button>
+                <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
+                  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
+                  <span class="np-play__loader" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </span>
+                </button>
+                <button type="button" class="np-btn" id="np-next" aria-label="Next station">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
                 </button>
               </div>
-              <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
-                <span class="np-play__loader" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                </span>
+              <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/><path d="M15.5 3.2h3.4l-3.4 3.4h3.4"/><path d="M19.6 8.2h2.4l-2.4 2.4h2.4"/></svg>
+                <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
               </button>
-              <div class="np-row__group">
-                <button type="button" class="np-btn" id="np-wake" aria-label="Wake to radio">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7 7 3.5"/><path d="M20.5 7 17 3.5"/><circle cx="12" cy="13.5" r="7"/><path d="M12 10v3.5l2.5 1.5"/><path d="m7 21.5 1.5-2"/><path d="m17 21.5-1.5-2"/></svg>
-                  <span class="np-btn__chip" id="np-wake-chip" hidden></span>
-                </button>
-                <button type="button" class="np-btn" id="np-sleep" aria-label="Sleep timer">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
-                  <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
+            </div>
+
+            <!-- Wake-to-radio is iOS/Android-only; its UI is removed from the
+                 web player. These elements stay (hidden, unreachable) because
+                 the wake scheduler + iOS silent-bed audio-session machinery
+                 still references them. Full teardown is tracked as follow-up. -->
+            <div class="np-wake-legacy" hidden aria-hidden="true">
+              <button type="button" id="np-wake" tabindex="-1">
+                <span id="np-wake-chip" hidden></span>
+              </button>
+              <div id="np-wake-pane" hidden>
+                <input type="time" id="wake-time" tabindex="-1" />
+                <button type="button" id="wake-arm-btn" tabindex="-1">
+                  <span id="wake-arm-label">Set</span>
+                  <span id="wake-arm-meta" hidden></span>
                 </button>
               </div>
             </div>
+          </div>
 
-            <div class="np-details" id="np-details" data-open="false">
-              <div class="np-details__inner">
-                <div class="np-meta">
-                  <div class="cell">
-                    <div class="k">Format</div>
-                    <div class="v" id="np-bitrate">—</div>
-                  </div>
-                  <div class="cell">
-                    <div class="k">Country</div>
-                    <div class="v" id="np-origin">—</div>
-                  </div>
-                  <div class="cell">
-                    <div class="k">Listeners</div>
-                    <div class="v" id="np-listeners">—</div>
-                  </div>
+          <!-- Station-info popup (iOS StationInfoPreviewOverlay parity) —
+               opened by tapping the station logo or the album art. Carries the
+               stream details the removed bottom strip used to expand: format /
+               country / listeners + stream & site links + report broken. -->
+          <div class="np-info" id="np-info" hidden>
+            <div class="np-info__scrim" id="np-info-scrim"></div>
+            <div class="np-info__card" role="dialog" aria-modal="true" aria-label="Station info">
+              <button type="button" class="np-info__close" id="np-info-close" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+              <div class="np-meta">
+                <div class="cell">
+                  <div class="k">Format</div>
+                  <div class="v" id="np-bitrate">—</div>
                 </div>
-
-                <div class="np-source">
-                  <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                    <span class="np-source__k">Stream</span>
-                    <span class="np-source__v" id="np-stream-host">—</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-                  </a>
-                  <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
-                    <span class="np-source__k">Site</span>
-                    <span class="np-source__v" id="np-home-host">—</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
-                  </a>
-                  <button type="button" class="np-source__row np-source__report" id="np-report-broken" hidden>
-                    <span class="np-source__k">Report</span>
-                    <span class="np-source__v" id="np-report-broken-label">Broken station</span>
-                    <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                  </button>
+                <div class="cell">
+                  <div class="k">Country</div>
+                  <div class="v" id="np-origin">—</div>
                 </div>
+                <div class="cell">
+                  <div class="k">Listeners</div>
+                  <div class="v" id="np-listeners">—</div>
+                </div>
+              </div>
+              <div class="np-source">
+                <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                  <span class="np-source__k">Stream</span>
+                  <span class="np-source__v" id="np-stream-host">—</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                </a>
+                <a class="np-source__row" id="np-home" href="#" target="_blank" rel="noopener noreferrer" hidden>
+                  <span class="np-source__k">Site</span>
+                  <span class="np-source__v" id="np-home-host">—</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/></svg>
+                </a>
+                <button type="button" class="np-source__row np-source__report" id="np-report-broken" hidden>
+                  <span class="np-source__k">Report</span>
+                  <span class="np-source__v" id="np-report-broken-label">Broken station</span>
+                  <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                </button>
               </div>
             </div>
-
-            <button type="button" class="np-bottom" id="np-details-toggle" aria-expanded="false" aria-controls="np-details">
-              <div class="live">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span id="np-live-text">Standby</span>
-              </div>
-              <div id="np-format">— · —</div>
-              <svg class="np-bottom__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-            </button>
           </div>
         </section>
       </div>
+      </div>
+      </div>
 
       <!-- ============== MINI PLAYER ============== -->
-      <button class="mini" id="mini" type="button" hidden aria-label="Open now playing">
+      <div class="mini" id="mini" hidden>
         <span class="mini-progress" aria-hidden="true"></span>
-        <span class="fav" id="mini-fav" aria-hidden="true"></span>
-        <span class="mini-info">
-          <span class="mini-name" id="mini-name">—</span>
-          <span class="mini-track" id="mini-track" hidden></span>
-          <span class="mini-meta">
-            <span class="live-dot" aria-hidden="true"></span>
-            <span id="mini-meta">STANDBY</span>
+        <!-- Swipe-to-close reveal (iOS parity): the sliding content moves left
+             to expose this red zone; tap the X (or fling past the threshold)
+             to stop playback and dismiss the bar. -->
+        <button class="mini-close" id="mini-close" type="button" aria-label="Close player" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <!-- Desktop has no swipe-to-close, so a visible "×" in the bar's
+             top-right corner stops playback and dismisses the player. Shown
+             only ≥1024px (mobile keeps the swipe gesture above). -->
+        <button class="mini-close-x" id="mini-close-x" type="button" aria-label="Close player">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <!-- Sliding content. Logo / text / album block — tap anywhere here to
+             open the Now Playing destination (iOS parity). The transport +
+             volume controls sit outside the open-button so a real range input
+             isn't nested in it. -->
+        <div class="mini-slide" id="mini-slide">
+        <button class="mini-open" id="mini-open" type="button" aria-label="Open now playing">
+          <span class="fav" id="mini-fav" aria-hidden="true"></span>
+          <span class="mini-info">
+            <span class="mini-name" id="mini-name">—</span>
+            <span class="mini-track" id="mini-track" hidden></span>
+            <span class="mini-meta">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span id="mini-meta">STANDBY</span>
+            </span>
           </span>
-        </span>
-        <span class="mini-skip" id="mini-skip" role="button" aria-label="Next favorite station">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
+          <!-- Album cover art (iOS parity) — the current track's artwork,
+               distinct from the station favicon on the left. Shown only when a
+               track-level cover is known; hidden otherwise. -->
+          <span class="mini-art" id="mini-art" hidden aria-hidden="true"></span>
+        </button>
+        <span class="mini-prev" id="mini-prev" role="button" aria-label="Previous favorite station">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4.75" y="4.5" width="2" height="15" rx="0.5"/><path d="M19 4.5v15a.75.75 0 0 1-1.16.63l-10-7.5a.75.75 0 0 1 0-1.27l10-7.5A.75.75 0 0 1 19 4.5z"/></svg>
         </span>
         <span class="mini-toggle" id="mini-toggle" role="button" aria-label="Play / pause">
           <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
           <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
         </span>
-      </button>
+        <span class="mini-skip" id="mini-skip" role="button" aria-label="Next favorite station">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
+        </span>
+        <!-- Desktop-only volume (phones use the hardware rocker). Shares
+             state with the Now Playing slider via applyVolumeUi. -->
+        <span class="np-volume mini-volume" id="mini-volume">
+          <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <input type="range" class="np-volume__slider" id="mini-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
+        </span>
+        </div>
+      </div>
 
       <!-- ============== TAB BAR ============== -->
       <nav class="tabbar" id="tabbar" aria-label="Sections">
@@ -494,8 +597,12 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
           Browse
         </button>
-        <button type="button" class="tab-btn" data-tab="library" id="tab-library">
+        <button type="button" class="tab-btn" data-tab="fav">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+          Favorites
+        </button>
+        <button type="button" class="tab-btn" data-tab="library" id="tab-library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
           Library
         </button>
       </nav>
@@ -505,16 +612,9 @@
            See npWake button at the bottom of the NP controls: tapping
            it toggles the wake pane in place of the regular track row. -->
 
-      <!-- ============== ADD STATION (slide-up sheet) ============== -->
-      <section class="sheet" id="add-sheet" aria-label="Add custom station" aria-hidden="true">
-        <header class="sheet-head">
-          <div class="np-label">Add station</div>
-          <button type="button" class="icon-btn" id="add-cancel" aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
-        </header>
-
-        <div class="sheet-body">
+      <!-- ============== ADD STATION (relocated into the Settings sheet's
+           "Add" tab at boot; see #add-src relocation in main.ts) ============== -->
+      <div class="settings-src" id="add-src" hidden>
           <h2 class="sheet-title">Custom stations</h2>
           <p class="sheet-lede">Add a stream we don't have yet — saved locally to this device</p>
           <form class="add-form" id="add-form" novalidate>
@@ -548,7 +648,22 @@
             <span>Your stations</span>
           </div>
           <ul class="custom-list" id="custom-list"></ul>
-        </div>
+      </div>
+
+      <!-- ============== ADD TO LIST (slide-up sheet) ============== -->
+      <!-- iOS AddListPopupCard parity. renderAddList() paints the body in one
+           of two modes: 'addNow' adds the known station to a chosen list and
+           saves on the ✓; 'pickStations' chooses/creates a list, then hands off
+           to the Browse select dock (step 2) to pick stations. The step strip
+           shows only in pickStations. -->
+      <section class="sheet sheet--addlist" id="list-sheet" aria-label="Add to list" aria-hidden="true">
+        <header class="sheet-head">
+          <div class="np-label" id="list-sheet-label">Add to list</div>
+          <button type="button" class="icon-btn" id="list-cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </header>
+        <div class="addlist" id="list-sheet-body"></div>
       </section>
 
       <!-- ============== DASHBOARD (slide-up sheet) ============== -->
@@ -562,24 +677,7 @@
 
         <div class="sheet-body dashboard-body">
           <h2 class="sheet-title">Listener stats</h2>
-          <p class="sheet-lede">Listening: last 7 days · poll: all-time · aggregate, anonymous</p>
-
-          <div class="dash-section">
-            <h3>Native-app poll <span class="dash-section__meta">all-time</span></h3>
-            <table class="dash-table" id="dash-poll-table">
-              <thead>
-                <tr>
-                  <th class="rank">#</th>
-                  <th class="country">Option</th>
-                  <th class="bar"></th>
-                  <th class="count">Votes</th>
-                  <th class="pct">%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <p class="dash-empty" id="dash-poll-empty" hidden>No votes yet — be the first.</p>
-          </div>
+          <p class="sheet-lede">Listening: last 7 days · aggregate, anonymous</p>
 
           <div class="dash-kpis">
             <div class="dash-kpi">
@@ -630,230 +728,243 @@
         </div>
       </section>
 
-      <!-- ============== ABOUT (slide-up sheet) ============== -->
-      <section class="sheet" id="about-sheet" aria-label="About rrradio" aria-hidden="true">
+      <!-- ============== ABOUT (relocated into the Settings sheet's
+           "About" tab at boot; see #about-src relocation in main.ts).
+           Mirrors the iOS AboutContentView: brand hero, nutshell, then
+           labelled groups (Features / Feedback / Legal / Source /
+           Credits). ============== -->
+      <div class="settings-src about-body" id="about-src" hidden>
+          <header class="about-hero">
+            <img class="about-hero__logo about-hero__logo--dark" src="/rrradio-logo-app-dark.svg" alt="" aria-hidden="true" />
+            <img class="about-hero__logo about-hero__logo--light" src="/rrradio-logo-app-light.svg" alt="" aria-hidden="true" />
+            <div class="about-hero__id">
+              <div class="about-hero__name">r r r a d i o . o r g</div>
+              <div class="about-hero__version" id="about-version">Version dev</div>
+            </div>
+            <button type="button" class="about-share" id="about-share" aria-label="Share" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+            </button>
+          </header>
+
+          <p class="about-nutshell">In a nutshell: internet radio app, no ads and no tracking. The stations are managed on rrradio.org, a non-profit open source project.</p>
+
+          <a class="about-btn" href="https://rrradio.org" target="_blank" rel="noopener noreferrer">
+            <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+            <span class="about-btn__label">Visit rrradio.org</span>
+            <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </a>
+
+          <!-- Permanent entry to the /ios landing (new look + iPhone app). The
+               PSA banner links here too, but it's dismissable — this keeps the
+               page always reachable. -->
+          <a class="about-btn" id="about-ios" href="/ios" target="_blank" rel="noopener noreferrer">
+            <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+            <span class="about-btn__label">iPhone app &amp; new look</span>
+            <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </a>
+
+          <section class="about-group">
+            <h3 class="about-group__title">Features</h3>
+            <div class="about-feature">
+              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <div class="about-feature__text">
+                <div class="about-feature__title">Browse &amp; search</div>
+                <p class="about-feature__detail">Search a global catalog of stations and filter by country, genre and stream quality.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+              <div class="about-feature__text">
+                <div class="about-feature__title">Favorites &amp; library</div>
+                <p class="about-feature__detail">Save favorites and build lists for quick access and skipping between stations.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <div class="about-feature__text">
+                <div class="about-feature__title">Sleep timer</div>
+                <p class="about-feature__detail">Auto-stop playback after the time you set.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <div class="about-feature__text">
+                <div class="about-feature__title">Now playing &amp; lyrics</div>
+                <p class="about-feature__detail">Current artist, title, cover art, lyrics, the on-air show for supported broadcasters, and Apple Music / Spotify / YouTube Music links when metadata is available.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <svg class="about-feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              <div class="about-feature__text">
+                <div class="about-feature__title">Custom streams</div>
+                <p class="about-feature__detail">Paste your own HTTPS stream URL; your private list stays on your device. If you have a station we missed, we would love to hear from you!</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="about-group">
+            <h3 class="about-group__title">Feedback</h3>
+            <p class="about-group__body">Found a bug, a broken station, or have an idea? Open an issue or send an email.</p>
+            <a class="about-btn about-btn--filled" href="https://github.com/MarkusSteinbrecher/rrradio/issues/new" target="_blank" rel="noopener noreferrer">
+              <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+              <span class="about-btn__label">Open an issue</span>
+              <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
+            <a class="about-btn" href="mailto:support@rrradio.org?subject=rrradio%20feedback">
+              <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <span class="about-btn__label">Email</span>
+              <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
+          </section>
+
+          <section class="about-group">
+            <h3 class="about-group__title">Legal</h3>
+            <p class="about-group__body">rrradio.org is a non-commercial, non-profit project.</p>
+            <a class="about-btn" href="/privacy.html">
+              <svg class="about-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="about-btn__label">Privacy policy (GDPR)</span>
+              <svg class="about-btn__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
+          </section>
+
+          <section class="about-group">
+            <h3 class="about-group__title">Source</h3>
+            <p class="about-group__body">rrradio is open source.</p>
+            <a class="about-inline" href="https://github.com/MarkusSteinbrecher/rrradio/" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          </section>
+
+          <section class="about-group">
+            <h3 class="about-group__title">Credits</h3>
+            <div class="about-credit">
+              <span class="about-credit__desc">Wider station catalog</span>
+              <a class="about-inline" href="https://www.radio-browser.info/" target="_blank" rel="noopener noreferrer">Radio Browser</a>
+            </div>
+            <div class="about-credit">
+              <span class="about-credit__desc">Synced lyrics</span>
+              <a class="about-inline" href="https://lrclib.net/" target="_blank" rel="noopener noreferrer">LRCLIB</a>
+            </div>
+            <div class="about-credit">
+              <span class="about-credit__desc">Plain-text lyrics</span>
+              <a class="about-inline" href="https://lyrics.ovh/" target="_blank" rel="noopener noreferrer">Lyrics.ovh</a>
+            </div>
+          </section>
+      </div>
+
+      <!-- ============== FILTERS (slide-up sheet) ============== -->
+      <section class="sheet sheet--filter" id="filter-sheet" aria-label="Filters" aria-hidden="true">
         <header class="sheet-head">
-          <div class="np-label">About</div>
-          <button type="button" class="icon-btn" id="about-close" aria-label="Close">
+          <div class="np-label">Create filter</div>
+          <button type="button" class="icon-btn" id="filter-close" aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </header>
+        <div class="sheet-body" id="filter-sheet-body">
+          <!-- Collapsible Genre / Country / Quality sections (mirrors the
+               iOS BrowseFiltersSheet) are built by main.ts into #bf-sections. -->
+          <div class="bf-sections" id="bf-sections"></div>
+        </div>
+        <footer class="sheet-foot bf-actions">
+          <button type="button" class="bf-cancel" id="bf-cancel" aria-label="Cancel">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          <button type="button" class="bf-clear" id="bf-clear" hidden>Clear</button>
+          <button type="button" class="bf-apply" id="bf-apply">Show stations</button>
+        </footer>
+      </section>
 
-        <div class="sheet-body about-body">
-          <h2 class="about-title">r r r a d i o . o r g </h2>
-          <p class="about-tagline">Minimal, ad-free internet radio in your browser.</p>
-
-          <div class="about-section">
-            <h3>Play</h3>
-            <p>
-              A simple player for live radio streams from around the world.
-              Designed to feel native on mobile — works on the lock screen,
-              survives backgrounding, supports bluetooth controls.
-            </p>
+      <!-- ============== SETTINGS (slide-up sheet) ============== -->
+      <section class="sheet" id="settings-sheet" aria-label="Settings" aria-hidden="true">
+        <header class="sheet-head sheet-head--tabs">
+          <div class="sheet-tabs" id="settings-tabs" role="tablist" aria-label="Settings sections">
+            <button type="button" class="sheet-tab is-active" role="tab" aria-selected="true" data-settings-tab="settings">Preferences</button>
+            <button type="button" class="sheet-tab" role="tab" aria-selected="false" data-settings-tab="about">About</button>
+            <button type="button" class="sheet-tab" role="tab" aria-selected="false" data-settings-tab="add">Add Station</button>
           </div>
-
-          <div class="about-section">
-            <h3>Features</h3>
-            <ul class="about-list about-list--icons">
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-                <span><strong>Browse &amp; search</strong> — curated stations (FM4, BBC 1–6, Ö1, FIP, RAI, Bayern, Grrif…) plus thousands more from Radio Browser, filterable by genre, country, or map.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-                <span><strong>Lock-screen controls</strong> — play, pause, and skip stations from the iOS / Android Now Playing widget, bluetooth headphones, AirPods squeeze, and CarPlay. Skip cycles through your favorites.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
-                <span><strong>Favorites &amp; recents</strong> — heart anything to save it. Drag favorites into your preferred dial order. Recently-played fills in automatically.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4 2 7"/><path d="M22 7l-3-3"/><circle cx="12" cy="13" r="8"/><path d="m12 8 1.5 4 4 0.5-3 2.7L15 19l-3-2-3 2 0.5-3.8-3-2.7 4-0.5z"/></svg>
-                <span><strong>Wake to radio</strong> — pick a station + time, leave the phone by the bed. A silent bed keeps the tab alive on lock; at wake time it plays your station at the phone's hardware volume.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg>
-                <span><strong>Sleep timer</strong> — auto-stop after 15, 30, 60, or 90 minutes.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                <span><strong>Now-playing track</strong> — current artist and title from station metadata, plus lyrics from LRCLIB / Lyrics.ovh when available.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 9h16"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>
-                <span><strong>On-air schedule</strong> — show name and the day's grid for major broadcasters (BBC, BR, ORF, HR).</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
-                <span><strong>Map view</strong> — a world globe of curated stations; tap a marker to play.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-                <span><strong>Three color themes</strong>, each in light or dark.</span>
-              </li>
-              <li>
-                <svg class="about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-                <span><strong>Add custom streams</strong> — paste a stream URL and it's saved to this browser.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="about-section">
-            <h3>Backup &amp; restore your favorites</h3>
-            <p>
-              Carry your favorites and custom stations to another device
-              without an account. On the Favorites tab, tap the
-              <svg class="about-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-              icon to download a small JSON file. Move it to the other
-              device however you like — AirDrop, USB, share sheet, email
-              to yourself — and tap the
-              <svg class="about-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>
-              icon there to import. The file lives on your device only —
-              no upload, no account.
-            </p>
-            <p>
-              Importing <em>adds</em> to whatever's already on the
-              device; it never deletes or replaces existing favorites.
-            </p>
-          </div>
-
-          <div class="about-section">
-            <h3>Free, no adds</h3>
-            <ul class="about-list">
-              <li>No signup. Nothing to log into.</li>
-              <li>No ads, no tracking pixels, no cookie banners.</li>
-              <li>Anonymous pageview counts only — no user IDs.</li>
-              <li>No app to install. It's a website.</li>
-            </ul>
-          </div>
-
-          <div class="about-section">
-            <h3>Catalog</h3>
-            <p>
-              Curated stations are hand-picked. Each one shows up to three
-              small stars next to its tags:
-            </p>
-            <p class="about-stars">⭐ we've verified the stream plays.</p>
-            <p class="about-stars">⭐⭐ we also surface the current track.</p>
-            <p class="about-stars">⭐⭐⭐ we also show the on-air program and a day's schedule.</p>
-            <p>
-              The wider catalog comes from
-              <a href="https://www.radio-browser.info/" target="_blank" rel="noopener noreferrer">Radio Browser</a>,
-              a community-maintained directory of internet radio stations
-              around the world. Thank you to the contributors there 🙏. You
-              can add your own stream via the + button — your private
-              list lives in this browser only.
-            </p>
-          </div>
-
-          <div class="about-section">
-            <h3>Program</h3>
-            <p>
-              For some broadcasters (BBC, BR, ORF, HR) we fetch the
-              on-air schedule alongside the stream. The current show
-              name appears next to the live cover; tap the calendar
-              icon to flip into the day's full grid — what's on now,
-              what's coming up, and what just finished.
-            </p>
-            <p>
-              Adding a new broadcaster's schedule means writing a
-              small fetcher in the source. The four wired today cover
-              most of the English- and German-language curated catalog.
-            </p>
-          </div>
-
-          <div class="about-section">
-            <h3>Lyrics</h3>
-            <p>
-              When a station broadcasts proper artist + track metadata,
-              we look up lyrics from
-              <a href="https://lrclib.net/" target="_blank" rel="noopener noreferrer">LRCLIB</a>
-              first, then
-              <a href="https://lyrics.ovh/" target="_blank" rel="noopener noreferrer">Lyrics.ovh</a>
-              as a fallback. Both are free, community-maintained, and
-              don't require signup. Thank you to the contributors there 🙏.
-              Tap the lyrics icon next to the live cover to flip into
-              the lyrics view; it appears only when something matches.
-              Coverage skews mainstream pop / rock — the lyrics tab
-              quietly disappears when there's nothing to show.
-            </p>
-          </div>
-
-          <div class="about-section">
-            <h3>Privacy</h3>
-            <p>
-              No cookies. Your favorites, theme choice, and recently-played
-              stations are stored on your device only (browser
-              <code>localStorage</code>) — they never leave your machine.
-            </p>
-            <p>
-              Anonymous pageview analytics provided by
-              <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a>.
-              No user IDs, no cross-site tracking, IPs are hashed and
-              discarded within hours.
-            </p>
-            <a class="about-cta about-cta--ghost" href="/privacy.html">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 10h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>
-              <span>Read the full privacy policy</span>
-            </a>
-          </div>
-
-          <div class="about-section">
-            <h3>Logos &amp; trademarks</h3>
-            <p>
-              rrradio is an independent directory — not affiliated with
-              or endorsed by the broadcasters it lists. Station names and
-              logos are trademarks of their respective owners, shown only
-              to help you identify a station and its stream. We use each
-              broadcaster's own artwork or freely-licensed images wherever
-              possible.
-            </p>
-            <p>
-              Own a station's brand and want its logo corrected or removed?
-              <a href="https://github.com/MarkusSteinbrecher/rrradio/issues/new" target="_blank" rel="noopener noreferrer">Open an issue</a>
-              or email us and we'll sort it promptly — more detail is on the
-              <a href="/privacy.html#logos">privacy page</a>.
-            </p>
-          </div>
-
-          <div class="about-section">
-            <h3>Source</h3>
-            <p>
-              Built with HTML, CSS, TypeScript and a healthy distrust of
-              dependencies.
-            </p>
-            <a class="about-cta" href="https://github.com/MarkusSteinbrecher/rrradio/" target="_blank" rel="noopener noreferrer">
-              <svg class="about-cta__logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
-              <span>View on GitHub</span>
-            </a>
-          </div>
-
-          <div class="about-section">
-            <h3>Feedback</h3>
-            <p>
-              Found a bug, a broken station, or have a feature idea? The
-              fastest way to reach the maintainer is to open an issue —
-              public, archived, no signup beyond a free GitHub account.
-              Email works too, if you prefer that.
-            </p>
-            <div class="about-ctas">
-              <a class="about-cta" href="https://github.com/MarkusSteinbrecher/rrradio/issues/new" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-                <span>Open an issue</span>
-              </a>
-              <a class="about-cta about-cta--ghost" href="mailto:redsukramst@gmail.com?subject=rrradio%20feedback">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-                <span>Email</span>
-              </a>
+          <button type="button" class="icon-btn" id="settings-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </header>
+        <div class="sheet-body">
+          <!-- ── Settings tab ── -->
+          <div class="settings-panel settings-body" role="tabpanel" data-settings-panel="settings">
+          <div class="settings-section">
+            <div class="settings-section__title">Theme</div>
+            <div class="seg" id="theme-seg" role="radiogroup" aria-label="Theme">
+              <button type="button" class="seg__btn" data-theme-choice="system" role="radio" aria-checked="false">System</button>
+              <button type="button" class="seg__btn" data-theme-choice="light" role="radio" aria-checked="false">Light</button>
+              <button type="button" class="seg__btn" data-theme-choice="dark" role="radio" aria-checked="false">Dark</button>
             </div>
           </div>
 
-          <div class="about-section">
-            <h3>Imprint</h3>
-            <p>
-              rrradio.org is a non-commercial side project.
-            </p>
+          <div class="settings-section">
+            <div class="settings-section__title">Accent color</div>
+            <p class="settings-section__hint">Tints the active tab, live badge and highlights. Set independently for the light and dark appearance.</p>
+            <div class="seg" id="accent-seg" role="radiogroup" aria-label="Accent color">
+              <button type="button" class="seg__btn" data-accent="standard" role="radio" aria-checked="false">Standard</button>
+              <button type="button" class="seg__btn" data-accent="custom" role="radio" aria-checked="false">Custom</button>
+            </div>
+            <label class="settings-row accent-row" id="accent-row" hidden>
+              <span class="settings-row__label">Custom color</span>
+              <input type="color" class="accent-picker" id="accent-picker" aria-label="Custom accent color">
+            </label>
           </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Landing page</div>
+            <div class="seg" id="landing-seg" role="radiogroup" aria-label="Opens on">
+              <button type="button" class="seg__btn" data-landing="browse" role="radio" aria-checked="false">Browse</button>
+              <button type="button" class="seg__btn" data-landing="fav" role="radio" aria-checked="false">Favorites</button>
+              <button type="button" class="seg__btn" data-landing="recent" role="radio" aria-checked="false">Recents</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Music services</div>
+            <p class="settings-section__hint">Links shown on the now-playing track when we can match the song.</p>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-apple" aria-pressed="true">
+              <span class="settings-row__label">Apple Music</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-spotify" aria-pressed="true">
+              <span class="settings-row__label">Spotify</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="settings-row settings-row--toggle" id="ms-youtube" aria-pressed="true">
+              <span class="settings-row__label">YouTube Music</span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">Your data</div>
+            <button type="button" class="settings-row" id="settings-backup">
+              <span class="settings-row__label">Back up everything</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </button>
+            <button type="button" class="settings-row" id="settings-restore">
+              <span class="settings-row__label">Restore from a backup file</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="m17 14-5-5-5 5"/><path d="M5 3h14"/></svg>
+            </button>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section__title">More</div>
+            <a class="settings-row" id="settings-privacy" href="/privacy.html">
+              <span class="settings-row__label">Privacy</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 10h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>
+            </a>
+            <button type="button" class="settings-row" id="settings-stats">
+              <span class="settings-row__label">Listener stats</span>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
+            </button>
+          </div>
+          </div>
+
+          <!-- ── About tab (filled from #about-src at boot) ── -->
+          <div class="settings-panel" role="tabpanel" data-settings-panel="about" hidden></div>
+
+          <!-- ── Add tab (filled from #add-src at boot) ── -->
+          <div class="settings-panel" role="tabpanel" data-settings-panel="add" hidden></div>
         </div>
       </section>
     </div>

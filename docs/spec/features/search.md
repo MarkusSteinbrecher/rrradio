@@ -1,9 +1,9 @@
 # Search Specification
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -81,6 +81,7 @@ Top to bottom, the search-relevant elements of the Browse surface:
 | Tap a result row | — | Plays that station; queues the currently visible window | Catalog stations push to recents |
 | Long-press a result row | Not in multi-select | Shows station info preview overlay | Released → preview dismisses |
 | Change country/genre/news filter | — | Query result set re-filters; Radio Browser re-fetches with derived tag/country | Display window resets |
+| Change stream-quality filter (low/medium/high buckets) | — | Query result set re-filters to matching buckets across every tier (local + community); Radio Browser query is *not* re-derived from it | Display window resets |
 | Enter multi-select / receive list-selection request | — | Search is cleared, filters reset (browse-owned) | — |
 | Leave Browse page | — | Debounce + filter tasks cancelled; Radio Browser paginator reset; info preview dismissed | Query lost on return |
 
@@ -106,10 +107,17 @@ Top to bottom, the search-relevant elements of the Browse surface:
   broad query doesn't pull the entire catalog into memory.
 - **Visible window paging: 25 rows.** The list renders only the first 25 results,
   growing by 25 each load-more hit before falling through to Radio Browser.
+- **Active browse filters gate every search tier.** Country, genre, news, and
+  stream-quality (low/medium/high buckets) filters are applied to FTS hits, the
+  substring safety net, custom + Radio Browser side matches, and the substring
+  fallback alike — a result must satisfy the filter on every path. A station with
+  unknown codec/bitrate scores the lowest quality bucket.
 - **Radio Browser fires only while a query is active**, and is suppressed when a
   country filter is active and the query is ≤2 normalized characters (contract:
   country-code short-circuit). It is a "more results" extension, never ambient
-  catalog enrichment.
+  catalog enrichment. Only the genre (or news) and country filters derive the
+  Radio Browser tag/country params; the quality filter narrows the merged result
+  set but is never sent to Radio Browser.
 - **Radio Browser page size: 50** (Browse paginator). Pagination stops when a
   page returns empty or a fetch fails.
 - The **count label** reflects the merged local+community total already in the
@@ -189,19 +197,20 @@ This surface owns four strings:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Free-text search field in Browse | Supported | Reference | Supported |
-| Debounced incremental results | Supported | Reference (180 ms) | Supported |
-| Submit commits immediately (bypass debounce) | Supported | Reference | Supported |
+| Debounced incremental results | Supported (300 ms) | Reference (180 ms) | Partial (live filter on every keystroke; no debounce) |
+| Submit commits immediately (bypass debounce) | Not planned (debounce only) | Reference | Not applicable (live filter, no commit step) |
 | Whitespace/punctuation-tolerant matching (`WDR5`↔`WDR 5`) | Supported | Reference | Supported |
-| Searchable surface: name + tags + country + broadcaster + URLs | Supported | Reference | Supported (name/tags/country baseline) |
-| Bundled full-text index path | Supported | Reference (`stations.fts5.db`) | Optional — substring if FTS too slow on device |
-| Graceful substring fallback when index missing/diverged | Required | Reference | Required |
-| Query-active suppresses alphabet/quality/favorite sort | Required | Reference | Required |
-| Radio Browser community results appended on load-more | Supported | Reference | Supported with cache-backed loading |
-| Country-filter + ≤2-char-query suppresses RB call | Required | Reference | Required |
-| Visible-window paging then RB pagination | Supported | Reference (25 then 50) | Supported |
-| Clear button resets field + query + RB paginator | Supported | Reference | Supported |
-| No-results unavailable view with guidance text | Supported | Reference | Supported |
-| Radio Browser failure surfaces no error/retry | Matches | Reference | Matches |
+| Searchable surface: name + tags + country + broadcaster + URLs | Partial (name/tags/country only) | Reference | Partial (name + tags + country code/display name; broadcaster + URLs not searched yet) |
+| Bundled full-text index path | Not planned (substring filter only) | Reference (`stations.fts5.db`) | Optional — substring if FTS too slow on device |
+| Graceful substring fallback when index missing/diverged | Supported (substring is the only path) | Reference | Supported (substring/normalize is the only path) |
+| Query-active suppresses alphabet/quality/favorite sort | Not applicable (no Browse sort control) | Reference | Planned (sort still applies while a query is active) |
+| Radio Browser community results appended on load-more | Supported | Reference | Planned (search is local catalog + custom only; no RB network tier) |
+| Country-filter + ≤2-char-query suppresses RB call | Not planned (no short-circuit) | Reference | Planned (no RB tier yet to short-circuit) |
+| Stream-quality (low/medium/high) filter gates every search tier | Not applicable (no quality filter) | Reference | Planned (quality is a sort cycle only; no quality-bucket filter on search) |
+| Visible-window paging then RB pagination | Supported (100 then 60) | Reference (25 then 50) | Partial (unfiltered browse capped at 220; an active query renders all local matches, no paging) |
+| Clear button resets field + query + RB paginator | Supported | Reference | Supported (resets field + query; no RB paginator) |
+| No-results unavailable view with guidance text | Supported (different copy) | Reference | Supported (different copy) |
+| Radio Browser failure surfaces no error/retry | Partial (initial fetch shows an "Off air" line; load-more silent) | Reference | Not applicable (no Radio Browser tier) |
 
 ## Open questions
 
@@ -229,11 +238,14 @@ iOS source (the only place iOS mechanics are named):
 - `rrradio/Search/Search.swift` — `normalizeForSearch`, `stationMatches`,
   `stationSearchSurface` (the searchable surface).
 - `rrradio/Search/CatalogStationSearch.swift` — tier orchestration
-  (`indexedStations`), FTS-miss safety net, filter gating, dedupe by id.
+  (`indexedStations`), FTS-miss safety net, `matchesBrowseFilters`
+  (country/genre/news/quality gating on every tier), dedupe by id.
 - `rrradio/Search/SearchIndex.swift` — bundled FTS5 open/query, ranking,
   divergence validation.
 - `rrradio/Search/StationFilters.swift` — genre `rbTag` mapping used to derive
   the Radio Browser tag param, country helpers.
+- `Shared/StationFeed.swift` — `BrowseFilter` (country/genre/news +
+  `qualityBuckets`), the filter object every search tier is gated by.
 - `rrradio/Views/FeedPages/State/RadioBrowserPaginator.swift` — pagination,
   cancellation key, `canonicalQuery` country-code short-circuit, silent failure.
 - `rrradio/Views/FeedPages/State/FeedPageState.swift` — `searchText` vs committed

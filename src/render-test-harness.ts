@@ -32,6 +32,7 @@ export const MINI_FRAGMENT = `
       <span id="mini-meta">STANDBY</span>
     </span>
   </span>
+  <span id="mini-art" hidden></span>
 </button>
 `;
 
@@ -41,12 +42,7 @@ export const MINI_FRAGMENT = `
 export const NP_FRAGMENT = `
 <section id="np">
   <div id="np-name">—</div>
-  <img id="np-station-logo" hidden alt="" />
-  <div id="np-tags"></div>
-  <button id="np-pane-program">
-    <span id="np-program-pre" hidden>Now on</span>
-    <span id="np-program-name">Program</span>
-  </button>
+  <button id="np-station-logo-btn" hidden><img id="np-station-logo" hidden alt="" /></button>
   <div id="np-track-row" hidden>
     <img id="np-track-cover" alt="" />
     <span id="np-track-cover-fallback">··</span>
@@ -56,18 +52,32 @@ export const NP_FRAGMENT = `
       <a id="np-track-apple-music" href="#"></a>
       <a id="np-track-youtube-music" href="#"></a>
     </div>
+    <div id="np-track-artist" hidden></div>
+    <div id="np-track-program" hidden></div>
+    <div id="np-track-status" data-state="idle" hidden>
+      <span id="np-track-status-text"></span>
+    </div>
   </div>
   <div id="np-bitrate">—</div>
   <div id="np-origin">—</div>
   <div id="np-listeners">—</div>
-  <div id="np-live-text">Standby</div>
-  <div id="np-format">— · —</div>
   <a id="np-stream" href="#" hidden>
     <span id="np-stream-host">—</span>
   </a>
   <a id="np-home" href="#" hidden>
     <span id="np-home-host">—</span>
   </a>
+  <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
+    <div class="np-lyrics-head" id="np-lyrics-head" hidden>
+      <div id="np-lyrics-title"></div>
+      <div id="np-lyrics-artist" hidden></div>
+    </div>
+    <pre id="np-lyrics-text"></pre>
+    <a id="np-lyrics-source" href="#" hidden>
+      <span id="np-lyrics-source-text"></span>
+    </a>
+    <div id="np-lyrics-empty" hidden>No lyrics for the current track.</div>
+  </div>
   <button id="np-report-broken" hidden></button>
   <button id="np-fav"></button>
   <button id="np-play"></button>

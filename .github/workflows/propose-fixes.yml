@@ -1,0 +1,117 @@
+name: Propose broken-station fixes
+
+# P3 of the broken-station report pipeline (issue #507). Reads the open
+# `broken-station` issues P2 upserts and turns each into a catalog-fix PR:
+# re-probes the stream (swap to a working https replacement, or mark it
+# `status: broken`), clears a dead favicon, or corrects the country when
+# Radio Browser disagrees. Anything it can't fix confidently becomes a
+# research comment on the issue instead of a guessed PR.
+#
+# A human reviews the diff and merges — that is the control point.
+# Merging closes the linked issue (the PR body carries `Closes #N`),
+# which fires resolve-reports.yml → the Worker resolves the reports →
+# the apps' receipt polling notifies the reporters.
+#
+# Daily, an hour after the P2 triage cron, so same-day confirmed issues
+# get a fix PR. The tool dedups against open fix PRs, so a daily cadence
+# never piles up duplicate PRs. Plus manual dispatch with an optional
+# dry run (the recommended safe first run).
+#
+# No Worker secret needed — P3 acts off the GitHub issues, not D1.
+# GITHUB_TOKEN writes the branch, PR, comments, and labels.
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # daily 07:00 UTC (P2 triage runs 06:00)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Plan only — probe + decide, open nothing'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # push the fix branch
+  pull-requests: write # open the catalog-fix PR
+  issues: write # research comments + label
+
+concurrency:
+  group: propose-fixes
+  cancel-in-progress: false
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Ensure the fix label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create broken-station-fix \
+            --description "Automated broken-station catalog fix awaiting review" \
+            --color 1D76DB --force >/dev/null 2>&1 || true
+
+      - name: Propose fixes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # GITHUB_REPOSITORY / GITHUB_SERVER_URL / GITHUB_RUN_ID are
+          # provided automatically (issue repo + run link).
+        run: |
+          npm run propose-station-fix -- ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} --verbose
+
+      # A scheduled cron fails silently — nobody watches a 07:00 job. Surface
+      # any failure as a tracking issue so a broken run can't accumulate
+      # unnoticed (#517). Manual dispatch runs are visible to the operator.
+      - name: File a tracking issue if the scheduled run failed
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create workflow-failure \
+            --description "A scheduled workflow failed and needs attention" \
+            --color B60205 --force >/dev/null 2>&1 || true
+          title="Scheduled workflow failing: $WORKFLOW"
+          {
+            echo "\`$WORKFLOW\` failed on its scheduled run."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Check the failing step's log, fix the cause, then dispatch the workflow manually to confirm. This issue auto-closes on the next successful run."
+          } > failure-body.md
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Failed again $(date -u +'%Y-%m-%d %H:%M UTC') — $RUN_URL"
+          else
+            gh issue create --label workflow-failure --title "$title" --body-file failure-body.md
+          fi
+
+      - name: Close the tracking issue after a successful run
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+        run: |
+          title="Scheduled workflow failing: $WORKFLOW"
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Recovered: succeeded $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

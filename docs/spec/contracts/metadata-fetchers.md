@@ -1,9 +1,9 @@
 # Metadata Fetchers Contract
 
 ```yaml
-status: draft
+status: review
 platforms: [web, ios, android]
-reconciled-against: 9336321
+reconciled-against: d241aa9
 ```
 
 ## Purpose
@@ -55,7 +55,7 @@ that callers run layers two transport fallbacks and a cover-art enrichment step:
 
 1. Resolved fetcher = primary registry fetcher **unless** `status == "icy-only"`
    (in which case the registry is skipped here and ICY runs as the explicit
-   step 3). If the resolved fetcher returns non-nil → use it.
+   step 2). If the resolved fetcher returns non-nil → use it.
 2. Else if `status == "icy-only"` → run generic ICY scrape.
 3. Else if `streamUrl` path extension is `m3u8` → run HLS timed-metadata
    (ID3) scrape.
@@ -112,9 +112,9 @@ upper-cased (see *Known deviations* M6).
 | `swiss-radio` | Radio Swiss (Classic/Jazz/Pop) | `metadataUrl` direct | JSON | title=`channel.playingnow.current.metadata.title`, artist=`.artist` (**no** title-case) | empty title |
 | `srr` | SRR live (program) | `metadataUrl` = `"{url}#{stationKey}"` | JSON | program-only: `raw`/`programName`=station `title`, `programSubtitle`=`schedule` | bad split / empty title |
 | `mr` | MR (XML name) | `metadataUrl` direct | XML | `<Name>` → split on ` - ` into artist/title (title-cased); single-part → title only | empty `<Name>` |
-| `br-radioplayer` | BR Radioplayer | `metadataUrl` via Worker proxy | JSON (lenient) | current track (time-windowed; else first): title=`title`, artist=`interpret`; falls back to current broadcast `headline`/`broadcastSeriesName` as program | no track and no broadcast headline |
+| `br-radioplayer` | BR Radioplayer | `metadataUrl` via Worker proxy | JSON (lenient) | current track (time-windowed; else first): title=`title`, artist=`interpret`; when the track has no artist, also surfaces the current broadcast `headline` as `programName` and `broadcastSeriesName` (when ≠ headline) as `programSubtitle`; with no track, falls back to broadcast `headline`/`broadcastSeriesName` as program-only | no track and no broadcast headline |
 | `bbc` | BBC | `{worker}/api/public/bbc/play/{service}` (`service`=last path of `metadataUrl`) | JSON | program-only: module `id=="live_play_area"` first item → `programName`=`titles.primary`, `programSubtitle`=`titles.secondary` | empty primary title |
-| `hr` | HR (program + ICY) | `metadataUrl` via Worker proxy (program); ICY in parallel | JSON + ICY | **ICY wins if present**; else current broadcast (time-windowed): `programName`=`title`, `programSubtitle`=`mit {hosts.name}` | no ICY and no current title |
+| `hr` | HR (program + ICY) | `metadataUrl` via Worker proxy (program); ICY in parallel | JSON + ICY | **ICY wins if present**; else current broadcast (`currentBroadcast==true`, else time-windowed): `programName`=`title`, `programSubtitle`=`mit {hosts.name}` | no ICY and no current title |
 | `antenne` | ANTENNE | `metadataUrl` = `"{apiUrl}#{mountpoint}"`; apiUrl via Worker proxy | JSON | matched mount, `class=="Music"`: title=`title`, artist=`artist` (title-cased) | non-Music class, empty title |
 | `grrif` | GRRIF | fixed `https://www.grrif.ch/live/covers.json` + cache-bust `_` (no `metadataUrl`) | JSON (array) | **last** entry: title=`Title`, artist=`Artist` (title-cased), cover=`URLCover` (skips `…/default.jpg`) | empty title |
 | `rb-bremen` | Radio Bremen | `metadataUrl` via Worker proxy | JSON | program-only: `programName`=`currentBroadcast.title`, `programSubtitle`=`.titleAddon` | empty title |
@@ -153,21 +153,33 @@ Cover resolution is **ordered**; the first non-nil wins:
    `/50x50/`, or the SRG `cdne-satr-prd-rsp-covers` `50/` path).
 2. **Station favicon** — the catalog `favicon` is the station-art source
    (per [`../features/metadata-artwork.md`](../features/metadata-artwork.md)).
-3. **iTunes Search** — `https://itunes.apple.com/search?term={artist title}&entity=song&limit=5&media=music`;
+   *Platform note:* on iOS this favicon fallback feeds the **system media
+   surface** (lock screen / Control Center artwork = provider cover ?? favicon);
+   the in-app now-playing artwork instead falls back to the animated rrradio
+   dot-matrix logo when no provider/iTunes cover resolves.
+3. **iTunes Search** — `https://itunes.apple.com/search?term={artist title}&entity=song&limit=5&media=music`
+   (`term` = `artist` + space + `title`, truncated to 100 chars);
    best match's `artworkUrl100` upgraded to `600x600bb`. Requires title ≥ 3
    chars and not `-`/`—`. Result cached (64-entry LRU).
-4. **MusicBrainz / Cover Art Archive** — *not implemented on iOS* (web-only step
-   in the shared chain; see *Platform obligations*).
-5. **Spotify** — *not implemented on iOS as a cover source*; iOS only links out
-   to Spotify search (see music-service links below).
+4. **MusicBrainz / Cover Art Archive** — *not implemented on iOS, and not
+   implemented on web either* (a forward-looking enrichment step in the shared
+   chain that no shipped platform currently runs; see *Platform obligations* and
+   *Open questions*).
+5. **Spotify** — *not implemented as a cover source on any platform*; both web
+   and iOS only link out to Spotify search (see music-service links below).
 
 ### iTunes Search dual role
 
 The same iTunes call returns `{hit, cover, appleMusicUrl}`:
 
-- `hit` (`resultCount > 0`) gates the **music-service buttons** — Apple Music /
+- `hit` is a **genuine artist/title match**, not raw `resultCount`: a hit
+  requires the best result's title (and, when metadata carries one, its artist)
+  to corroborate the query — with no artist, the iTunes track title must
+  *contain* the full query title. There is deliberately **no** "take the top
+  result" fallback. `hit` gates the **music-service buttons** — Apple Music /
   Spotify / YouTube Music links surface only when iTunes confirms the title is a
-  real searchable track (suppresses station IDs / news headlines).
+  real searchable track (suppresses station IDs / news headlines that iTunes
+  fuzzy-matches to unrelated songs).
 - `appleMusicUrl` (`trackViewUrl`) deep-links the Apple Music button to the
   exact song; Spotify/YouTube Music stay on search URLs.
 - Transport errors return `.miss` **without caching** (lets the next poll
@@ -277,26 +289,33 @@ iTunes high-res upgrade:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | MUST |
+| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | Partial (ORF by `metadata=="orf"` + FM4 stream-regex rewrite + Grrif + `icy-only`; no `audioapi.orf.at` host match, no general keyed table — full order planned) |
 | Same per-source field mapping & null-vs-error | MUST | MUST | Partial (Grrif + ORF/FM4 native; rest planned) |
-| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (basic parser exists) |
-| HLS ID3 timed-metadata scrape | SHOULD | MUST | Planned |
-| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | MUST (full chain incl. MusicBrainz) | provider → favicon → iTunes only | Partial (provider + iTunes) |
+| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (`icy-metaint` block read + ` - ` split + UTF-8/ISO-8859-1 decode; no-metaint scan budget is 32 KiB not 96 KiB, no metaint upper-bound check) |
+| HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Planned |
+| Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | Partial (provider/iTunes → favicon; no MusicBrainz, no Spotify cover) | provider → favicon → iTunes only | Partial (provider + iTunes upgrade with low-res detection; now-playing art falls back to station favicon; no MusicBrainz, no Spotify cover) |
 | Program schedule (ORF/FM4) | MUST | MUST | Partial (ORF current-program; full grids planned) |
 | Lyrics: LRCLIB → Lyrics.ovh | MUST | MUST | Planned |
-| Coarse-only failure diagnostics (no title/artist/URL) | MUST | MUST | MUST |
-| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | MUST | MUST | MUST |
+| Coarse-only failure diagnostics (no title/artist/URL) | MUST | MUST | MUST (honored: fetchers swallow failures silently — no title/artist/URL emitted) |
+| Honor `metadataStrategy: none` / `backgroundPollPriority: never` (no stream open) | Planned (fields not yet in catalog/web) | Planned (fields not yet in catalog/iOS) | Planned (fields not on the Android `Station` model; poller runs for every supported station regardless) |
 
-All platforms additionally MUST honor the capability hint layer
-(`metadataStrategy`, `backgroundPollPriority`, `hasProgram`/`hasSchedule`/
-`hasProviderCover`) defined in
-[`../features/metadata-artwork.md`](../features/metadata-artwork.md).
+The capability hint layer (`metadataStrategy`, `backgroundPollPriority`,
+`hasProgram`/`hasSchedule`/`hasProviderCover`) defined in
+[`../features/metadata-artwork.md`](../features/metadata-artwork.md) is the
+**forward-looking shared design**: once the catalog publishes those fields, all
+platforms MUST honor them. As of the reconciled commit none of these fields
+exist on the iOS `Station` model — only `hasScheduleData` is present, and even
+it is not yet consulted (routing still hardcodes the ORF/FM4 host check; see
+*Open questions*). iOS therefore polls every published station on its standard
+cadence regardless of strategy/priority hints.
 
 ## Open questions
 
 - **MusicBrainz / Cover Art Archive step**: the shared cover chain names it, but
-  iOS does not implement it. Is it a required platform obligation or a web-only
-  enhancement? (Marked web-only above pending decision.)
+  no shipped platform implements it — not iOS and not web (web's cover chain is
+  provider/iTunes cover → station favicon, with no MusicBrainz lookup). Is it a
+  required platform obligation or a future enhancement? (Marked as implemented
+  nowhere above, pending decision.)
 - **Schedule capability source of truth**: routing still hardcodes ORF/FM4. The
   catalog `hasScheduleData` field exists (iOS prep landed) but the catalog has
   not yet populated it; once published, routing should consult it instead of the
@@ -366,5 +385,10 @@ Resolved (recorded for traceability, not current deviations):
   `0x27`); **fixed** in PR3 (commit `0dcb233`) as a streaming state machine.
 - **M2** — MDR `startdate` used GMT instead of the broadcaster's Berlin day;
   **fixed** — the fetcher now injects `Europe/Berlin` `yyyyMMdd`.
+- **M3** — the lyrics cache was unbounded (grew for the app's lifetime);
+  **fixed** in PR5 — it is now a 256-entry FIFO cache (matches the lyrics-lookup
+  description above). *(The slice-6 audit table still lists M3 as Open; the fix
+  shipped under the execution-plan label "slice 6 M9", a numbering skew vs the
+  audit table where M9 is the Lyrics.ovh `+`-charset bug, which remains open.)*
 - **2026-05-18 #2.J** — `FavoriteNowPlayingStore.stop()` not cancelling in-flight
   fetches; **fixed**.

@@ -7,7 +7,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "node tools/build-catalog.mjs && node tools/build-highlights.mjs && node tools/extract-manual-source.mjs && node tools/dedupe-raw.mjs && node tools/build-sources.mjs && vite",
+    "dev": "node tools/build-catalog.mjs && node tools/build-discovery.mjs && node tools/build-highlights.mjs && node tools/extract-manual-source.mjs && node tools/dedupe-raw.mjs && node tools/build-sources.mjs && vite",
     "fetch-rb-raw": "node tools/fetch-rb-raw.mjs",
     "dedupe-raw": "node tools/dedupe-raw.mjs",
     "extract-manual-source": "node tools/extract-manual-source.mjs",
@@ -20,12 +20,14 @@
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium",
     "typecheck": "tsc --noEmit",
-    "catalog": "node tools/build-catalog.mjs && node tools/build-highlights.mjs && node tools/build-favicon-variants.mjs",
+    "catalog": "node tools/build-catalog.mjs && node tools/build-discovery.mjs && node tools/build-highlights.mjs && node tools/build-favicon-variants.mjs",
     "highlights": "node tools/build-highlights.mjs",
     "check-highlights": "node tools/check-highlights.mjs",
+    "spec-site": "python3 tools/spec-site/generate.py",
     "favicon-variants": "node tools/build-favicon-variants.mjs",
     "catalog:ios-local": "node tools/build-ios-local-catalog.mjs",
     "station-capabilities": "node tools/build-station-capabilities.mjs",
+    "station-profiles": "node tools/build-station-profiles.mjs",
     "catalog:fts": "node tools/build-catalog-fts.mjs",
     "probe": "node tools/probe-station.mjs",
     "probe:bytes": "python3 tools/audio-byte-probe.py",
@@ -45,6 +47,7 @@
     "build-rb-index": "node tools/build-rb-index.mjs",
     "improve-rb": "node tools/improve-rb.mjs",
     "logo-status": "node tools/logo-status.mjs",
+    "scout-logos": "node tools/browser-logo-scout.mjs",
     "probe-logos": "node tools/probe-logo-sizes.mjs",
     "clear-dead-favicons": "node tools/clear-dead-favicons.mjs",
     "rasterise-remote-svgs": "node tools/rasterise-remote-svgs.mjs",
@@ -64,6 +67,8 @@
     "curation-db:dedupe-report": "node tools/curation-db.mjs dedupe-report",
     "analyze": "node tools/health-probe.mjs",
     "backlog": "node tools/backlog.mjs",
+    "triage-reports": "node tools/triage-reports.mjs",
+    "propose-station-fix": "node tools/propose-station-fix.mjs",
     "import-ard": "node tools/import-ard.mjs",
     "backfill-geo": "node tools/backfill-geo.mjs",
     "wire-metadata": "node tools/wire-metadata.mjs",
@@ -79,12 +84,12 @@
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@types/leaflet": "^1.9.21",
-    "happy-dom": "^20.9.0",
-    "playwright": "^1.59.1",
-    "sharp": "^0.34.5",
+    "happy-dom": "^20.10.6",
+    "playwright": "^1.61.1",
+    "sharp": "^0.35.2",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
-    "vitest": "^4.1.5",
-    "yaml": "^2.8.3"
+    "vitest": "^4.1.9",
+    "yaml": "^2.9.0"
   }
 }

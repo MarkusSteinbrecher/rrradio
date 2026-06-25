@@ -125,7 +125,26 @@ const URL_NOISE_TOKENS = new Set([
 const GENERIC_PATH_WORDS = new Set([
   'live', 'livestream', 'stream', 'streams', 'streaming', 'radio', 'listen',
   'play', 'playing', 'audio', 'sound', 'proxy', 'src', 'source', 'broadcast', 'mount',
+  // Protocol / web-script / markup tokens — a shared script entrypoint whose
+  // real channel lives in a (dropped) query, e.g.
+  // `tx-bauerse.sharp-stream.com/http_live.php?i=<channel>`, otherwise
+  // fingerprints to `//host/http-live-php` and fuses Mix Megapol / NRJ /
+  // Rockklassiker into one false group. Treating these as generic makes such
+  // an entrypoint return '' (no fingerprint) so callers don't group on it.
+  'http', 'https', 'php', 'asp', 'aspx', 'jsp', 'cgi', 'axd', 'ashx', 'index',
 ]);
+
+/**
+ * Provider quality-variant suffix: ORS/ORF-style `q1a` / `q2a` (and bare
+ * `q1` / `q2`) tag a bitrate rendition of one feed — FM4 ships `fm4-q2a`
+ * (192k) and `fm4-q1a` (128k) of the *same* programme. Stripped from the
+ * fingerprint so those delivery variants collapse to one feed, exactly like
+ * the bitrate/codec tokens above. Deliberately narrow (`q` + digits + an
+ * optional single trailing letter) so it can never eat an arbitrary path id;
+ * the worst case is declining to fingerprint (→ '' → no grouping), never a
+ * false merge.
+ */
+const QUALITY_VARIANT_SUFFIX = /^q\d+[a-z]?$/;
 
 /**
  * High-confidence "same physical feed" key: the stream's host + path with
@@ -138,6 +157,8 @@ const GENERIC_PATH_WORDS = new Set([
  *   .../m/drs4news/aacp_32  ┘
  *   .../b1obb/hls/96/seglist.m3u8  ┐
  *   .../b1obb/hls/192/seglist.m3u8 ┘ → //br-radio.ard-mcdn.de/br/radio/b1obb
+ *   .../fm4-q2a  (192k) ┐
+ *   .../fm4-q1a  (128k) ┘ → //orf-live.ors-shoutcast.at/fm4
  *
  * Each path segment is split on `._-`; sub-tokens that are noise (above) or
  * a bare/`k`-suffixed number are dropped, the rest rejoined. Returns `''`
@@ -163,7 +184,7 @@ export function streamFingerprint(u) {
   for (const seg of pathname.toLowerCase().split('/').filter(Boolean)) {
     const sub = seg
       .split(/[._-]+/)
-      .filter((t) => t && !URL_NOISE_TOKENS.has(t) && !/^\d+k$/.test(t));
+      .filter((t) => t && !URL_NOISE_TOKENS.has(t) && !/^\d+k$/.test(t) && !QUALITY_VARIANT_SUFFIX.test(t));
     if (sub.length) kept.push(sub.join('-'));
   }
   if (!kept.length) return '';

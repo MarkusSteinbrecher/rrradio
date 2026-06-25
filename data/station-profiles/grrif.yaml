@@ -1,0 +1,101 @@
+id: grrif
+
+identity:
+  name: Grrif
+  shortName: Grrif
+  tagline: DéchiRRe ta RRoutine
+  positioning: Radio musicale, esprit rock, actualité décontractée, playlist éclectique
+  logo:
+    url: https://assets.radioplayer.org/756/7565020/600/600/lgrrif.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: BNJ Suisse SA
+  group: BNJ
+  foundedYear: 2012
+  headquarters: { city: Delémont, address: "Rue du Marché 3, 2800 Delémont", canton: JU }
+
+profile:
+  description: >-
+    Swiss French-language alternative music radio from the Jura — rock spirit,
+    a genuinely eclectic playlist (electro, indie, reggae, hip-hop, soul, jazz)
+    and no mainstream pop.
+  format: Alternative / eclectic
+  contentMix: { music: 0.95, talk: 0.05 }
+  targetAudience: younger alternative listeners across the Arc Jurassien
+  distinctive: >-
+    Crate-digger rotation crossing eras and genres within a single hour — the
+    opposite of a current-hits pop station. Went music-first in 2022.
+
+music:
+  genres: [alternative, rock, electro, indie, reggae, hip-hop, soul, jazz, funk]
+  languageShare: { fr: low, intl: high }
+  rotationStyle: eclectic
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://www.grrif.ch/recherche-de-titres/
+    tracks:
+      - { artist: Dennis Brown, title: Westbound Train }
+      - { artist: Beth Gibbons, title: Floating on a Moment }
+      - { artist: "Ol' Dirty Bastard", title: Brooklyn Zoo }
+      - { artist: The White Stripes, title: Apple Blossom }
+      - { artist: Gnarls Barkley, title: Crazy }
+      - { artist: The Cure, title: Close to Me }
+      - { artist: Nina Simone, title: Feeling Good }
+      - { artist: Sister Nancy, title: Bam Bam }
+      - { artist: Kavinsky, title: Nightcall }
+      - { artist: US3, title: Cantaloop }
+
+programming:
+  flagshipShows:
+    - { name: Sonar, when: "Fri 18:00 (rpt Sat 11:00)", note: "weekly music pick" }
+    - { name: Le Debrief, when: "Wed 18:00 (rpt Sun 19:00)", note: "cultural criticism" }
+  presenters: []   # mostly automated music since the 2022 restructuring
+  podcasts: [La Fête ou Rien, Hanté, Nature Morte, In Da Club, Persona Grata]
+  scheduleUrl: https://www.grrif.ch/grille/
+
+reach:
+  languages: [fr]
+  region: Arc Jurassien — Jura, Neuchâtel, Bernese Jura, Bienne region, Nord-Vaudois
+  geo: [47.366, 7.345]
+  fm: [97.5, 100.6, 91.9, 90.3, 106.2, 104.5, 103.5, 102.0]
+  dab: { present: true, since: 2014-04-16, region: Suisse romande }
+  audienceDaily: 26000   # 2022
+
+streams:
+  - { url: "https://grrif.ice.infomaniak.ch/grrif-128.aac", codec: aac, bitrate: 128, type: icecast }
+  - { url: "https://grrif.ice.infomaniak.ch/grrif-high.mp3", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://grrif.ice.infomaniak.ch/grrif-64.aac", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.grrif.ch/live/covers.json
+  type: json-covers
+  cors: true
+  coverArt: true
+  fetcher: grrif
+
+presence:
+  homepage: https://www.grrif.ch
+  socials:
+    youtube: "@grrifradio"
+    facebook: https://www.facebook.com/grrif
+    instagram: https://www.instagram.com/grrif
+  apps: { ios: true, android: true }
+  contact: { email: info@grrif.ch, tel: "+41 32 421 70 00" }
+  wikipedia: https://fr.wikipedia.org/wiki/GRRIF
+
+identifiers:
+  catalogId: builtin-grrif
+  wikidata: ""
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia
+    fm: grrif.ch/nous-ecouter
+    playlist: grrif.ch/live/covers.json
+    audienceDaily: fr.wikipedia
+  updatedAt: 2026-06-21

@@ -1,3 +1,19 @@
+/** One delivery variant of a station's single broadcast — a bitrate/codec
+ *  rendition of the *same* programme (FM4 192k vs 128k), grouped at build time
+ *  by `tools/lib/catalog-dedupe.mjs`. */
+export interface StreamVariant {
+  /** Stream endpoint for this variant. */
+  url: string;
+  /** Bitrate in kbps when known. */
+  bitrate?: number;
+  /** Codec when known, e.g. "MP3", "AAC". */
+  codec?: string;
+  /** Coarse listener-facing tier within this station: `best` (the default,
+   *  index 0), `data` (the lowest), `balanced` (anything between). Advisory —
+   *  clients may fall back to ordinal position when absent. */
+  tier?: 'best' | 'balanced' | 'data';
+}
+
 export interface Station {
   id: string;
   name: string;
@@ -18,6 +34,13 @@ export interface Station {
   /** Source broadcaster key from data/broadcasters.yaml when known. */
   broadcaster?: string;
   streamUrl: string;
+  /** Ordered best→worst delivery variants of THIS station's single broadcast
+   *  (different bitrate/codec renditions), grouped at build time by
+   *  `tools/lib/catalog-dedupe.mjs`. Present only when a station has more than
+   *  one variant; `streams[0].url === streamUrl` (the default/best). Absent ⇒
+   *  single-stream station (the common case). Additive & forward-compatible:
+   *  v1 clients and the bundled iOS snapshot ignore it and use `streamUrl`. */
+  streams?: StreamVariant[];
   /** Optional homepage URL for attribution / "more info" links */
   homepage?: string;
   /** Optional country code (ISO 3166-1 alpha-2) */
@@ -78,6 +101,9 @@ export interface Station {
   bitrate?: number;
   /** Audio codec when known, e.g. "MP3", "AAC" (Radio Browser codec field) */
   codec?: string;
+  /** Editorial "featured" flag from data/stations.yaml. Drives
+   *  featured-first ordering in Browse and the discovery "Browse all" list. */
+  featured?: boolean;
   /** Approximate listener count — derived from Radio Browser clickcount */
   listeners?: number;
   /** Display-only "FM" frequency. Real RB stations rarely have one, so we
@@ -117,8 +143,22 @@ export type PlayerState = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
 export interface NowPlaying {
   station: Station;
   state: PlayerState;
-  /** Best-effort current track title. Often unavailable on web. */
+  /** Best-effort current track title — the combined "Artist — Track"
+   *  display string used by the mini-player + Media Session metadata
+   *  + the open-in-music-app search query. The Now Playing album/lyrics
+   *  panes prefer the split `trackName` / `trackArtist` below so the
+   *  song and artist read as a two-line hierarchy (iOS parity). Often
+   *  unavailable on web. */
   trackTitle?: string;
+  /** Best-effort current song title without the artist (iOS parity:
+   *  the Album-pane + Lyrics-header primary line). Set from the
+   *  metadata fetcher's parsed `track`; absent for station IDs / talk. */
+  trackName?: string;
+  /** Best-effort current track artist (iOS parity: the Album-pane
+   *  subtitle + Lyrics-header artist line). Set from the metadata
+   *  fetcher's parsed `artist`; absent when the title carries no
+   *  "Artist - Track" split (news, station IDs, jingles). */
+  trackArtist?: string;
   /** Result of iTunes Search verification for the current track:
    *  `true` if iTunes returned a match (so it's plausibly a real
    *  song), `false` if iTunes returned 0 results (typical for news

@@ -15,27 +15,36 @@
  *   /api/favorites     — most-favorited stations (filter: "favorite: ")
  *
  * Public endpoints:
- *   POST /api/public/report-broken — anonymous structured station report
- *   GET  /api/public/poll          — native-app interest poll tallies,
- *                                    all-time (filter: "vote: ")
+ *   POST /api/public/report-broken — anonymous structured station report;
+ *                                    stored in D1, returns a receipt id
+ *   GET  /api/public/report-status — per-receipt report status polling
+ *                                    (?ids=a,b,c — see src/reports.ts)
  *   GET  /api/public/dashboard     — totals + top stations + locations
- *                                    + poll in one cache window, so the
- *                                    public stats sheet always shows a
- *                                    consistent snapshot. Plays/locations
- *                                    follow ?days=N; poll is all-time.
+ *                                    in one cache window, so the public
+ *                                    stats sheet always shows a
+ *                                    consistent snapshot (?days=N).
+ *
+ * Report triage (Bearer ADMIN_TOKEN, see src/reports.ts):
+ *   GET  /api/broken-reports        — recent report rows from D1
+ *   POST /api/admin/resolve-reports — mark reports resolved (called by
+ *                                     the issue-close GitHub Action)
  *
  * Range: ?days=N (1–90, default 7). Response cached 5 min in the
  * Cloudflare edge cache to be a polite GC API consumer.
  */
 
-export interface Env {
-  GOATCOUNTER_SITE: string;
-  GOATCOUNTER_TOKEN: string;
-  ADMIN_TOKEN: string;
-  ALLOWED_ORIGIN: string;
-}
+import type { Env } from './env';
+import { jsonResponse, noStoreJsonResponse } from './respond';
+import {
+  handleAdminReportsList,
+  handleReportBroken,
+  handleReportStatus,
+  handleResolveReports,
+  handleTriageReports,
+} from './reports';
 
-const CACHE_TTL_S = 300;
+export type { Env } from './env';
+
 /** Public endpoints cache 5 min at the edge. Short enough that the
  *  numbers visibly track what GoatCounter's own dashboard shows; long
  *  enough that we stay polite to GC's 4 req/s rate limit even under
@@ -112,31 +121,6 @@ function corsHeaders(origin: string, allowed: string): Record<string, string> {
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   };
-}
-
-function jsonResponse(body: unknown, status: number, headers: Record<string, string>): Response {
-  // Cache only successful responses; errors should be retryable
-  // immediately, not pinned at the edge for 5 minutes.
-  const cacheControl = status >= 200 && status < 400 ? `public, max-age=${CACHE_TTL_S}` : 'no-store';
-  return new Response(JSON.stringify(body, null, 2), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': cacheControl,
-      ...headers,
-    },
-  });
-}
-
-function noStoreJsonResponse(body: unknown, status: number, headers: Record<string, string>): Response {
-  return new Response(JSON.stringify(body, null, 2), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-      ...headers,
-    },
-  });
 }
 
 // 8s per upstream call. GoatCounter is normally <1s; anything slower is
@@ -244,13 +228,6 @@ async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
   return fetchHitsRange(rangeStart(daysBack), rangeEnd(), env);
 }
 
-// Poll counts span the lifetime of the project — votes don't expire
-// like listening behaviour does. This is the earliest plausible start
-// (well before the poll banner shipped) so a single GC call covers
-// every recorded vote. Bump if the project's GC history ever predates
-// this date; otherwise the literal is fine.
-const POLL_RANGE_START = '2024-01-01';
-
 // Canonical [oldest..today] list of YYYY-MM-DD day strings for a
 // `daysBack`-window, matching the window fetchAllHits passes to GC. The
 // last entry is today (UTC); the first is `daysBack - 1` days earlier.
@@ -328,88 +305,6 @@ function emptyList(days: number): ListResponse {
   return { items: [], total: 0, range_days: days };
 }
 
-function cleanField(value: unknown, max = 120): string {
-  if (typeof value !== 'string') return '';
-  return value.replace(/\s+/g, ' ').trim().slice(0, max);
-}
-
-function cleanHost(value: unknown): string {
-  if (typeof value !== 'string') return '';
-  try {
-    return new URL(value).host.slice(0, 120);
-  } catch {
-    return cleanField(value, 120);
-  }
-}
-
-function cleanReportedHost(data: Record<string, unknown>): string {
-  const host = cleanToken(data.streamHost, '', 120);
-  if (host) return host;
-  // Backward compatibility for older clients. New clients send only
-  // streamHost so query strings never reach this Worker.
-  return cleanHost(data.streamUrl);
-}
-
-function cleanToken(value: unknown, fallback: string, max = 40): string {
-  const cleaned = cleanField(value, max).replace(/[^a-z0-9._:-]/gi, '-');
-  return cleaned || fallback;
-}
-
-async function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
-  const params = new URLSearchParams({
-    p: path,
-    t: title,
-    e: '1',
-  });
-  const res = await fetch(`https://${env.GOATCOUNTER_SITE}/count?${params}`, {
-    headers: {
-      'User-Agent': 'rrradio-stats/1.0 (+https://rrradio.org)',
-      Accept: 'image/gif,*/*',
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`goatcounter count failed: ${res.status}`);
-  }
-}
-
-async function reportBrokenStation(req: Request, env: Env, headers: Record<string, string>): Promise<Response> {
-  const raw = await req.text();
-  if (raw.length > 4096) {
-    return noStoreJsonResponse({ error: 'payload too large' }, 413, headers);
-  }
-
-  let body: unknown;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    return noStoreJsonResponse({ error: 'invalid json' }, 400, headers);
-  }
-  const data = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
-  const stationId = cleanToken(data.stationId, '');
-  if (!stationId) {
-    return noStoreJsonResponse({ error: 'stationId required' }, 400, headers);
-  }
-
-  const stationName = cleanField(data.stationName, 90) || stationId;
-  const streamHost = cleanReportedHost(data);
-  const platform = cleanToken(data.platform, 'unknown', 24);
-  const appVersion = cleanField(data.appVersion, 48);
-  const reason = cleanField(data.reason, 160);
-  const source = cleanToken(data.source, 'manual', 24);
-
-  const title = [
-    `station=${stationId}`,
-    streamHost ? `host=${streamHost}` : '',
-    `platform=${platform}`,
-    appVersion ? `app=${appVersion}` : '',
-    reason ? `reason=${reason}` : '',
-    `source=${source}`,
-  ].filter(Boolean).join(' · ');
-
-  await recordGoatCounterEvent(`report-broken: ${stationName}`, title, env);
-  return noStoreJsonResponse({ ok: true }, 202, headers);
-}
-
 /** Generic /stats/<group> reader. Used for browsers, systems, sizes,
  *  locations (country), toprefs, etc. */
 async function fetchStatGroup(
@@ -458,11 +353,15 @@ export default {
           if (req.method !== 'POST') {
             return noStoreJsonResponse({ error: 'method not allowed' }, 405, publicCors);
           }
-          return await reportBrokenStation(req, env, publicCors);
+          return await handleReportBroken(req, env, publicCors);
         }
 
         if (req.method !== 'GET') {
           return jsonResponse({ error: 'method not allowed' }, 405, publicCors);
+        }
+
+        if (url.pathname === '/api/public/report-status') {
+          return await handleReportStatus(url, env, publicCors);
         }
 
         if (url.pathname === '/api/public/top-stations') {
@@ -570,71 +469,23 @@ export default {
           );
         }
 
-        // Public native-app interest poll counts. Picks `vote: <choice>`
-        // events from the GC hits buffer and returns per-choice tallies
-        // for the three published options. Edge-cached for an hour like
-        // the other public endpoints.
-        //
-        // ALL-TIME window — vote sentiment doesn't decay, so capping
-        // the poll to a `?days=N` window dropped legitimate votes off
-        // the back of the buffer. We fetch from POLL_RANGE_START to
-        // yesterday EOD and ignore the request's `days` parameter for
-        // counting purposes. (We still echo it in the response so
-        // existing clients that read it don't choke.)
-        if (url.pathname === '/api/public/poll') {
-          const hits = await fetchHitsRange(POLL_RANGE_START, rangeEnd(), env, {
-            daily: false,
-          });
-          const counts: Record<'ios' | 'android' | 'dont-care', number> = {
-            ios: 0,
-            android: 0,
-            'dont-care': 0,
-          };
-          let total = 0;
-          for (const h of hits) {
-            if (!h.path.startsWith('vote: ')) continue;
-            const label = h.path.slice('vote: '.length).trim();
-            if (label === 'ios' || label === 'android' || label === 'dont-care') {
-              counts[label] = h.count;
-              total += h.count;
-            }
-          }
-          return new Response(
-            JSON.stringify({ counts, total, range_days: days, all_time: true }),
-            {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Cache-Control': `public, max-age=${PUBLIC_CACHE_TTL_S}`,
-                ...publicCors,
-              },
-            },
-          );
-        }
-
         // Unified dashboard endpoint. Mirrors what GoatCounter's own
         // dashboard shows for the same window, plus rrradio-specific
-        // extras (top `play:` events, all-time poll). One Worker call,
-        // one cache key, so every device opening the sheet sees the
-        // same snapshot.
+        // extras (top `play:` events). One Worker call, one cache key,
+        // so every device opening the sheet sees the same snapshot.
         //
         // - listening window (top stations, totals, locations) uses
         //   the request's `?days=N` like the standalone endpoints.
-        // - poll counts are ALL-TIME (see /api/public/poll comment).
         if (url.pathname === '/api/public/dashboard') {
           const start = rangeStart(days);
           const end = rangeEnd();
           const trendDays = rangeDays(days);
 
-          // Four concurrent GC calls. Each tolerate() makes one slow or
+          // Three concurrent GC calls. Each tolerate() makes one slow or
           // flaky upstream degrade just its card instead of blanking the
           // whole sheet.
-          const [hits, voteHits, tot, locationsData] = await Promise.all([
+          const [hits, tot, locationsData] = await Promise.all([
             tolerate(() => fetchHitsRange(start, end, env), [] as GcHit[]),
-            tolerate(
-              () => fetchHitsRange(POLL_RANGE_START, end, env, { daily: false }),
-              [] as GcHit[],
-            ),
             tolerate(
               () => gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env),
               {} as GcTotals,
@@ -676,22 +527,6 @@ export default {
           locationItems.sort((a, b) => b.count - a.count);
           const locationsTotal = locationItems.reduce((s, i) => s + i.count, 0);
 
-          // Poll counts from the all-time vote hits.
-          const voteCounts: Record<'ios' | 'android' | 'dont-care', number> = {
-            ios: 0,
-            android: 0,
-            'dont-care': 0,
-          };
-          let voteTotal = 0;
-          for (const h of voteHits) {
-            if (!h.path.startsWith('vote: ')) continue;
-            const label = h.path.slice('vote: '.length).trim();
-            if (label === 'ios' || label === 'android' || label === 'dont-care') {
-              voteCounts[label] = h.count;
-              voteTotal += h.count;
-            }
-          }
-
           return new Response(
             JSON.stringify({
               generated_at: new Date().toISOString(),
@@ -709,11 +544,6 @@ export default {
               locations: {
                 items: locationItems,
                 total: locationsTotal,
-              },
-              poll: {
-                counts: voteCounts,
-                total: voteTotal,
-                all_time: true,
               },
             }),
             {
@@ -814,6 +644,36 @@ export default {
       }
     }
 
+    // POST admin routes. Token-guarded like the GET routes; the callers
+    // are the triage/issue-close GitHub Actions (or a human with curl),
+    // not the browser dashboard, so they sit outside the GET-only gate.
+    const adminPost: Record<
+      string,
+      (req: Request, env: Env, headers: Record<string, string>) => Promise<Response>
+    > = {
+      '/api/admin/resolve-reports': handleResolveReports,
+      '/api/admin/triage-reports': handleTriageReports,
+    };
+    const adminPostHandler = adminPost[url.pathname];
+    if (adminPostHandler) {
+      if (req.method !== 'POST') {
+        return noStoreJsonResponse({ error: 'method not allowed' }, 405, cors);
+      }
+      const bearer = req.headers.get('Authorization');
+      if (!env.ADMIN_TOKEN || bearer !== `Bearer ${env.ADMIN_TOKEN}`) {
+        return noStoreJsonResponse({ error: 'unauthorized' }, 401, cors);
+      }
+      try {
+        return await adminPostHandler(req, env, cors);
+      } catch (err) {
+        return noStoreJsonResponse(
+          { error: 'fetch failed', message: err instanceof Error ? err.message : String(err) },
+          502,
+          cors,
+        );
+      }
+    }
+
     if (req.method !== 'GET') {
       return jsonResponse({ error: 'method not allowed' }, 405, cors);
     }
@@ -821,6 +681,20 @@ export default {
     const auth = req.headers.get('Authorization');
     if (!env.ADMIN_TOKEN || auth !== `Bearer ${env.ADMIN_TOKEN}`) {
       return jsonResponse({ error: 'unauthorized' }, 401, cors);
+    }
+
+    // Report triage reads come from D1, not GoatCounter, and want live
+    // state — handled outside the cached GC switch below.
+    if (url.pathname === '/api/broken-reports') {
+      try {
+        return await handleAdminReportsList(url, env, cors);
+      } catch (err) {
+        return noStoreJsonResponse(
+          { error: 'fetch failed', message: err instanceof Error ? err.message : String(err) },
+          502,
+          cors,
+        );
+      }
     }
 
     try {

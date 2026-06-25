@@ -1,0 +1,105 @@
+id: radio-3i
+
+identity:
+  name: Radio 3i
+  shortName: 3i
+  tagline: "informazione · intrattenimento · integrazione"
+  positioning: the most listened-to private radio in Ticino
+  logo:
+    url: https://radio3i.ch/assets/images/app-logo.png
+    source: broadcaster
+
+organization:
+  type: commercial
+  owner: Gruppo Corriere del Ticino (via Timedia / mediaTI)
+  group: Corriere del Ticino
+  foundedYear: 1987
+  headquarters: { city: Melide, address: "Melide", canton: TI }   # founded in Mendrisio 1987
+
+profile:
+  description: >-
+    Ticino's most-listened private radio — Italian-language adult contemporary
+    mixing Italian pop with international hits, plus regional news and lively
+    talk shows, from the Corriere del Ticino media group.
+  format: Adult Contemporary
+  contentMix: { music: 0.7, talk: 0.3 }
+  targetAudience: Italian-speaking adults across Ticino
+  distinctive: >-
+    Deliberately high Italian-language music share (~50%), distinctly above a
+    generic European AC station — a defining Ticino trait. Guinness record in
+    2018 for a 100-hour broadcast.
+
+music:
+  genres: [adult contemporary, italian pop, pop, italian rap]
+  languageShare: { it: 0.5, intl: 0.5 }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://radio3i.ch/api/v1/liveMusic/getLiveMusicList/10
+    tracks:
+      - { artist: Gaia, title: Bossa Nostra }
+      - { artist: Vasco Rossi, title: Gioca con me }
+      - { artist: The Kolors, title: Rolling Stones }
+      - { artist: Diodato, title: "Un'altra estate" }
+      - { artist: "Damiano David", title: Born with a Broken Heart }
+      - { artist: Tom Jones, title: "It's Not Unusual" }
+      - { artist: Zaz, title: Champs-Élysées }
+      - { artist: Suzanne Vega, title: "Tom's Diner" }
+      - { artist: Los Lobos, title: La Bamba }
+      - { artist: Juanes, title: La Camisa Negra }
+
+programming:
+  flagshipShows:
+    - { name: "Prima che sia… giorno!", when: "Mon–Fri morning" }
+    - { name: LollyDay, when: "10:00–12:00", presenters: [Lolly Camèn] }
+    - { name: I Tre Tenori, when: "12:00–14:00", presenters: [Riccardo Pellegrini] }
+    - { name: DISERA, when: "18:40–22:00", presenters: [Patrizia Speroni] }
+  presenters: [Lolly Camèn, Riccardo Pellegrini, Patrizia Speroni, Sacha Dalcol, Ruben Bassi, Laura Zucchetti]
+  scheduleUrl: https://radio3i.ch/palinsesto
+
+reach:
+  languages: [it]
+  region: Canton Ticino (+ adjacent Como / Varese, Italy)
+  geo: [45.954, 8.948]
+  fm: [106.5, 106.8, 96.5]
+  dab: { present: true, since: 2017, region: Ticino + Mesolcina + Calanca }
+  audienceDaily: 63000   # ~9.5% share, 2015
+
+streams:
+  - { url: "https://vstream-cdn.ch/hls/radio3i.m3u8", codec: aac, type: hls-video }
+isVideo: true   # visual radio — HLS master carries 720p/360p/240p video variants
+
+nowPlaying:
+  endpoint: https://radio3i.ch/api/v1/liveMusic/getLiveDiretta
+  type: json
+  cors: true
+  coverArt: true
+  # also: getLiveMusicList/{N} history; getCoverByTrackName/{artist title};
+  # track JSON includes iTunes previewURL + appleMusicURL
+
+presence:
+  homepage: https://radio3i.ch
+  socials:
+    facebook: https://www.facebook.com/Radio3i
+    twitter: "@radio3i"
+  apps: { ios: "1090017251", android: ch.mediati.radio3iv2 }
+  wikipedia: https://it.wikipedia.org/wiki/Radio_3i
+
+identifiers:
+  catalogId: ch-radio3i
+  stationuuid: 0064bd20-d2bc-4d1f-808b-3e6b1bf63604
+  wikidata: ""
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: it.wikipedia
+    format: it.wikipedia
+    playlist: radio3i.ch/api/v1/liveMusic
+  updatedAt: 2026-06-21
+  notes: >-
+    `working` candidate — clean CORS-open now-playing JSON with cover art +
+    Apple Music links. CAVEAT: the stream is HLS *video* (visual radio), so an
+    audio-only player gets audio but the source carries video — flag for the
+    player.
