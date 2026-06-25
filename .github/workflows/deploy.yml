@@ -80,10 +80,10 @@ jobs:
     # Run inside the official Playwright image: Chromium and its system
     # libraries are baked in, so there's no `playwright install` download
     # step — which is what deadlocked on Node 24 (#448). The image tag
-    # MUST match the playwright version in package-lock.json (1.59.1) so
+    # MUST match the playwright version in package-lock.json (1.61.1) so
     # the pre-baked browser revision matches and nothing re-downloads.
     container:
-      image: mcr.microsoft.com/playwright:v1.59.1-noble
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
@@ -99,7 +99,7 @@ jobs:
           name: dist
           path: dist
       # No browser install: the image provides Chromium at
-      # $PLAYWRIGHT_BROWSERS_PATH (/ms-playwright) for playwright 1.59.1.
+      # $PLAYWRIGHT_BROWSERS_PATH (/ms-playwright) for playwright 1.61.1.
       - name: Smoke tests
         run: npm run test:e2e
       - uses: actions/upload-artifact@v7
