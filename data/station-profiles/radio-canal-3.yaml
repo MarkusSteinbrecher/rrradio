@@ -1,0 +1,116 @@
+id: radio-canal-3
+
+identity:
+  name: Radio Canal 3
+  shortName: Canal 3
+  tagline: null
+  positioning: Der lokale Radiosender für das Seeland — Pop und Hits rund um die Uhr
+  logo:
+    url: https://assets.radioplayer.org/756/756104/600/600/l459p7ou.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Gassmann Media AG (Groupe Gassmann / Fredy Bayard)
+  group: Gassmann
+  foundedYear: 1984
+  headquarters:
+    city: Biel/Bienne
+    address: "Robert-Walser-Platz 7, 2501 Biel/Bienne"
+    canton: BE
+
+profile:
+  description: >-
+    Private regional radio station serving the Biel/Bienne agglomeration and
+    Seeland since 1984 — mainstream pop and current hits in Swiss German, owned
+    by Gassmann Media AG alongside the Bieler Tagblatt and Journal du Jura.
+  format: Hot AC / Pop
+  contentMix: { music: 0.90, talk: 0.10 }
+  targetAudience: adults 25–54 in the Biel/Seeland region
+  distinctive: >-
+    Bilingual Biel's German-language voice since 1984. Originally broadcast two
+    frequencies (German + French); since 2023 German-only after the French
+    programme merged with Radio Jura Bernois (RJB). Part of the Gassmann Media
+    group alongside local newspapers and TeleBielingue.
+
+music:
+  genres: [pop, hot-ac, adult-contemporary]
+  languageShare: { de: low, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://canal3.playlist-api.deliver.media/graphql (DeliverMedia channel 654b5375dc08c5001a95ef40)
+    tracks:
+      - { artist: "Coldplay", title: "Higher Power" }
+      - { artist: "Amy MacDonald", title: "This Is The Life" }
+      - { artist: "Olly Murs feat. Rizzle Kicks", title: "Heart Skips a Beat" }
+      - { artist: "Remo Forrer", title: "Falling" }
+      - { artist: "The Rembrandts", title: "I'll Be There for You" }
+      - { artist: "Dua Lipa", title: "Houdini" }
+      - { artist: "Alvaro Soler", title: "Sofia" }
+  topArtists: []
+
+programming:
+  flagshipShows: []
+  presenters: []
+  podcasts: []
+  scheduleUrl: null
+
+reach:
+  languages: [de]   # Swiss German; French programme merged with RJB in July 2023
+  region: "Seeland — Biel/Bienne agglomeration, Grenchen, districts Nidau, Büren, Aarberg, La Neuveville, Erlach"
+  geo: [47.136, 7.243]
+  fm: []   # FM concession; specific frequencies not published on site
+  dab: { present: true, since: "2017-01", region: "Swissmediacast Channel 8B (Layer 3)" }
+  audienceDaily: 35580   # H1 2021
+
+streams:
+  - { url: "https://radio.upstream-cloud.ch/canal3allemand-192.aac", codec: aac, bitrate: 192, type: icecast }
+  - { url: "https://radio.upstream-cloud.ch/canal3allemand-128.aac", codec: aac, bitrate: 128, type: icecast }
+  - { url: "https://radio.upstream-cloud.ch/canal3allemand-192.mp3", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://canal3.playlist-api.deliver.media/graphql
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: null   # DeliverMedia — no rrradio fetcher wired yet; channel id: 654b5375dc08c5001a95ef40
+
+presence:
+  homepage: https://www.canal3.ch
+  socials:
+    facebook: https://www.facebook.com/canal3biel
+    instagram: https://www.instagram.com/radiocanal3
+  apps: { ios: true, android: true }   # via ajour.ch / Gassmann Media app
+  contact: { email: studio@canal3.ch, tel: "+41 79 342 22 22" }   # WhatsApp number from app
+  wikipedia: https://de.wikipedia.org/wiki/Canal_3
+  affiliations: [Radioplayer Switzerland]
+
+identifiers:
+  catalogId: ch-canal3-deutsch
+  stationuuid: f91aa755-2979-451e-a4fe-1393f5dd1ed8
+  rpuId: NzU2fjEwNA   # 756~104
+  wikidata: null
+
+meta:
+  status: fetcher-todo   # now-playing endpoint confirmed working + CORS-open; fetcher not yet wired
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Canal_3
+    owner: de.wikipedia.org/wiki/Canal_3 + gassmannmedia.ch
+    headquarters: gassmannmedia.ch (Robert-Walser-Platz 7, 2501 Biel/Bienne)
+    audienceDaily: de.wikipedia.org/wiki/Canal_3 (H1 2021)
+    dab: de.wikipedia.org/wiki/Canal_3 (Swissmediacast, Channel 8B, since Jan 2017)
+    streams: radio.upstream-cloud.ch ICY headers
+    nowPlaying: gassmann-ajour Firestore radioStreams collection + DeliverMedia introspection
+    socials: Firestore radioStreams document for canal3 (rHiIMPFnpY1597ZAoKim)
+    playlist: DeliverMedia graphql endpoint, sampled 2026-06-22
+  updatedAt: 2026-06-22
+  notes: >-
+    Now-playing via DeliverMedia GraphQL (CORS-open, cover art included). The
+    getsong URL (https://web.canal3.ch/de/getsong) is an SRP-format REST
+    endpoint that also works but is superseded by the real-time DeliverMedia
+    subscription. French stream merged into RJB in July 2023; German-only
+    since then. Homepage (canal3.ch / ajour.ch/canal3) is an Angular SPA
+    served by Cloudflare — JS assets block non-browser fetches.

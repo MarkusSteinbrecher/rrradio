@@ -1,0 +1,129 @@
+id: radiofr-fresh
+
+identity:
+  name: RadioFr. Fresh
+  shortName: Fresh
+  tagline: La nurserie des hits en DAB+ partout en suisse romande
+  positioning: La première radio nouveautés de Suisse romande en DAB+
+  logo:
+    url: https://assets.radioplayer.org/756/756147/600/600/l5uotg6p.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Radio Fribourg | Freiburg SA (MEDIAparc SA)
+  group: RadioFr.
+  foundedYear: 1988   # parent Radio Fribourg founded 1 May 1988; Fresh launch year unconfirmed
+  headquarters: { city: Villars-sur-Glâne, address: "Rue du Centre 18, CH-1752 Villars-sur-Glâne", canton: FR }
+
+profile:
+  description: >-
+    RadioFr. Fresh is the hits-first web/DAB+ channel of the RadioFr. group,
+    broadcasting the latest chart releases 24/7 across French-speaking
+    Switzerland. Its slogan calls it "la nurserie des hits" — the hits nursery
+    — underscoring a format built entirely on new releases and current chart
+    titles.
+  format: CHR / Current Hits (Pop, EDM, R&B)
+  contentMix: { music: 0.97, talk: 0.03 }
+  targetAudience: 15–35 French-speaking Swiss listeners seeking the newest chart hits
+  distinctive: >-
+    Internet-only origin (no FM allocation), first distributed purely via
+    DAB+ across all of Suisse romande. Tightly current-hits rotated — nearly
+    every track is a recent chart or viral hit. Morning show (Les Neuneus)
+    and Friday/Sunday club chart shows are the only hosted breaks.
+
+music:
+  genres: [pop, edm, hip-hop, r-and-b, dance, latin-pop]
+  languageShare: { intl: high, fr: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://api.frapp.ch/v1/audiostreams/15/billboards
+    tracks:
+      - { artist: "RITON / NIGHTCRAWLERS / MUFASA & HYPEMAN", title: "friday" }
+      - { artist: KYGO / KHALID / GRYFFIN, title: "save my love" }
+      - { artist: KPOP DEMON HUNTERS, title: "takedown" }
+      - { artist: MEDUZA, title: "piece of your heart" }
+      - { artist: ALEX WARREN, title: "fever dream" }
+      - { artist: "GIMS / THEODORA", title: "spa" }
+      - { artist: TAYLOR SWIFT, title: "the fate of ophelia" }
+      - { artist: TYLA, title: "chanel" }
+      - { artist: GORDO / REINIER ZONNEVELD, title: "loco loco" }
+      - { artist: LEWIS CAPALDI, title: "wish you the best" }
+      - { artist: "AYA NAKAMURA", title: "djadja" }
+      - { artist: "DAVID GUETTA / TEDDY SWIMS / TONES AND I", title: "gone gone gone" }
+  topArtists: [Taylor Swift, Bruno Mars, David Guetta, Kygo, Tyla, Shakira, Drake]
+
+programming:
+  flagshipShows:
+    - { name: Les Neuneus, when: "Mon–Fri 06:00–09:00", presenters: [Virginie, Rio], note: "morning show" }
+    - { name: Fresh Journée, when: "Mon–Fri 12:00–14:00", presenters: [Rio, Greg] }
+    - { name: Simon sur Fresh, when: "Mon–Fri 17:00–19:00", presenters: [Simon] }
+    - { name: Top Shazam, when: "Wed 17:30–18:00", presenters: [Greg], note: "Switzerland's most Shazamed songs" }
+    - { name: Clubbin' Chart, when: "Fri 19:00–21:00 / Sun 16:00–18:00", presenters: [Rio], note: "top 40 chart countdown" }
+    - { name: Dancefloor Express, when: "Daily 21:00–22:00", presenters: [Steph Blind Sensation] }
+    - { name: "Sugar Radio by Robin Schulz", when: "Daily 22:00–23:00", presenters: [Robin Schulz] }
+    - { name: Tomorrowland DJ Sets sur Fresh, when: "Daily 00:00–01:00" }
+  presenters: [Virginie, Rio, Greg, Simon, "Steph Blind Sensation", Robin Schulz]
+  podcasts: [Clubbin Chart, "BPM Radio", "Tomorrowland 2024", "So 90's"]
+  scheduleUrl: https://www.radiofr.ch/fresh/shows
+
+reach:
+  languages: [fr]
+  region: Suisse romande (all French-speaking cantons via DAB+)
+  geo: [46.948, 7.447]
+  fm: []
+  dab: { present: true, region: Suisse romande }
+
+streams:
+  - { url: "https://radiofresh.ice.infomaniak.ch/radiofresh.aac", codec: aac, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.frapp.ch/v1/audiostreams/15/nowplaying
+  type: json
+  cors: true
+  coverArt: true
+  # Response: data.data.attributes.{artist, title, cover}
+  # Cover is always the generic Fresh banner, not per-track art
+
+presence:
+  homepage: https://www.radiofr.ch/fresh
+  socials:
+    facebook: https://www.facebook.com/radiofrfribourg
+    instagram: https://www.instagram.com/radiofribourg
+    youtube: https://www.youtube.com/c/RadioFribourgFreiburgOfficielOffiziell
+    linkedin: https://www.linkedin.com/company/radiofr.
+  apps:
+    ios: https://apps.apple.com/ch/app/frapp/id1540087188?l=fr
+    android: https://play.google.com/store/apps/details?id=ch.mediaparc.frapp
+  contact:
+    tel: "+41 26 351 51 00"
+    email: radiofr@radiofr.ch
+  affiliations: [Radioplayer Suisse]
+
+identifiers:
+  catalogId: ch-radiofr-fresh
+  stationuuid: 69641b03-0907-45e1-888f-79fadb9fe6bf
+  rpuId: NzU2fjE0Nw
+  wikidata: ""
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia (parent Radio Fribourg)
+    tagline: radiofr.ch/fresh page NUXT payload
+    nowPlaying: extracted from page JS — axiosInstance.get(data.nowplaying_url) → api.frapp.ch/v1/audiostreams/15/nowplaying
+    playlist: api.frapp.ch/v1/audiostreams/15/billboards (2026-06-22)
+    headquarters: radiofr.ch/fr/contact
+    fm: none — Fresh is DAB+/internet only (no FM)
+    shows: radiofr.ch/fresh/shows
+  updatedAt: 2026-06-22
+  notes: >-
+    No FM frequencies — Fresh is a DAB+/internet-only channel of the RadioFr.
+    group. The now-playing API cover field always returns the generic Fresh
+    banner image, not per-track artwork. Parent broadcaster Radio Fribourg
+    founded 1988; Fresh launch year not confirmed from public sources.
+    The Frapp platform (api.frapp.ch) serves the now-playing data for all
+    RadioFr. web channels (audiostream IDs 1–15+), sharing the same API.

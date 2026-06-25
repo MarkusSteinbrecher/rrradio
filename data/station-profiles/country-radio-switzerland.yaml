@@ -1,0 +1,137 @@
+id: country-radio-switzerland
+
+identity:
+  name: Country Radio Switzerland
+  shortName: CRS
+  tagline: "THE BEST OF COUNTRY MUSIC, AND SO MUCH MORE!"
+  positioning: Switzerland's only country music radio — 24/7 country and related genres, volunteer-moderated
+  logo:
+    url: https://assets.radioplayer.org/756/756182/600/600/l458q8r9.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: RadioFreunde GmbH
+  group: independent
+  foundedYear: 2008
+  headquarters: { city: Zürich, address: "Rankstrasse 6, 8032 Zürich", canton: ZH }
+
+profile:
+  description: >-
+    Switzerland's only dedicated country music radio, on air since 1 December 2008.
+    A volunteer-moderated internet station covering Nashville Sound, Americana,
+    Bluegrass, Honky Tonk, Rockabilly, Western Swing, Cajun, Blues, and Gospel —
+    accessible via internet, Swisscom TV, and Swiss cable networks reaching
+    ~3 million households.
+  format: Country / Americana
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: German-speaking Swiss country fans, with French and English show strands
+  distinctive: >-
+    Unique in Switzerland as the sole dedicated country station; unusually broad
+    sub-genre palette from Bluegrass to Cajun to Gospel; Swiss Hour and Swiss
+    Country content alongside mainstream Nashville; volunteer hosts from CH and UK.
+
+music:
+  genres:
+    - country
+    - americana
+    - bluegrass
+    - honky-tonk
+    - rockabilly
+    - western-swing
+    - cajun
+    - country-rock
+    - tex-mex
+    - gospel
+    - blues
+  languageShare: { en: high, de: low, fr: low }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: ICY metadata — https://countryradioswitzerland.ice.infomaniak.ch/crs-128.mp3
+    tracks:
+      - { artist: Claudia C. Zimmermann, title: Country Saloon (show — no individual track exposed at sample time) }
+    notes: >-
+      ICY StreamTitle carries the show name ("Claudia C. Zimmermann - Country Saloon")
+      during live-moderated hours, not individual track titles. WordPress playlist page
+      (countryradio.ch/playlist/) is JS-rendered; no REST endpoint found that returns
+      track history without authentication. Individual track titles not sampled.
+
+programming:
+  flagshipShows:
+    - { name: "René's Country", when: "Wed 16:00–18:00, Sat 08:00–09:00, Sun 21:00–23:00", presenters: [René Hofmann], note: "traditional, bluegrass, western swing, honky tonk, Texas country" }
+    - { name: "The Bluegrass Hour", when: "Mon 15:00–16:00, Thu 09:00–10:00, Sun 19:00–20:00", presenters: [Kent Miller], note: "dedicated bluegrass, SBMA member" }
+    - { name: "Stomp & Creep (EN)", when: "Tue 13:00–14:00, Wed 09:00–10:00, Sat 20:00–21:00", presenters: [Chris Tanner], note: "rockabilly, psychobilly, 1950s, alternative country; English-language" }
+    - { name: "CRS Charts", when: "Wed 15:00–16:00, Sun 15:00–16:00", presenters: [Richard Fischbacher], note: "US singles + album charts, Americana + Texas regional charts" }
+    - { name: "Country Saloon (FR)", when: "Mon+Fri+Sat 14:00–15:00 (varies)", presenters: [Claudia Zimmermann], note: "French-language country show" }
+    - { name: "Gospel Train", when: "Sun 10:00–11:00", presenters: [René Hofmann], note: "Sunday gospel" }
+    - { name: "Special Corner", when: "Mon 09:00–10:00, Fri 17:00–18:00, Sun 17:00–18:00", note: "new releases in country, country-rock, americana" }
+    - { name: "Songwriter Special", when: "Mon 20:00–21:00 (monthly)", presenters: [Chris Regez], note: "singer-songwriter focus" }
+    - { name: "Bluestime", when: "Wed 20:00–21:00, Sat 21:00–22:00", presenters: [Larry Schmuki] }
+    - { name: "Let's Talk About", when: "Sat 10:00–11:00, Sun 14:00–15:00", presenters: [Hämpi Ruf, René Hofmann], note: "artist interviews; podcast/Mixcloud" }
+    - { name: "Southern Kitchen", when: "Mon 21:00–22:00, Wed 22:00–23:00, Fri 21:00–22:00", presenters: [Claudia Zimmermann], note: "traditional, modern, rock-influenced" }
+  presenters: [René Hofmann, Kent Miller, Chris Tanner, Richard Fischbacher, Claudia Zimmermann, Larry Schmuki, Chris Regez, Hämpi Ruf, Hansruedi Gräf]
+  scheduleUrl: https://www.countryradio.ch/programm/
+
+reach:
+  languages: [de, fr, en]
+  region: Switzerland (internet-only; cable in ~3 million CH households; Swisscom TV)
+  geo: [47.3744, 8.5210]   # Zürich headquarters
+  fm: []
+  dab: { present: false }
+  audienceDaily: null
+  audienceMonthly: 500000   # 2023 — de.wikipedia.org
+
+streams:
+  - { url: "https://countryradioswitzerland.ice.infomaniak.ch/crs-128.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://countryradioswitzerland.ice.infomaniak.ch/crs-64.mp3", codec: mp3, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://countryradioswitzerland.ice.infomaniak.ch/crs-128.mp3
+  type: icy
+  cors: true
+  coverArt: false
+  # ICY StreamTitle carries show-name during moderated hours; track titles when automated.
+  # Custom api.countryradio.ch REST API exists but requires auth — /playlist returns
+  # {"error":"Invalid request"} without credentials.
+
+presence:
+  homepage: https://www.countryradio.ch
+  socials:
+    facebook: https://www.facebook.com/CountryRadioSwitzerland
+    youtube: https://www.youtube.com/@countryradioswitzerland
+  apps:
+    ios: https://itunes.apple.com/ch/app/country-radio-switzerland/id739464921?mt=8
+    android: https://play.google.com/store/apps/details?id=ch.countryradio.crsmobile
+  contact: { email: info@countryradio.ch }
+  wikipedia: https://de.wikipedia.org/wiki/Country_Radio_Switzerland
+  affiliations: [Radioplayer Switzerland]
+
+identifiers:
+  catalogId: ch-country-radio-switzerland
+  stationuuid: 9d570191-0359-4398-af57-bc8d3e37b417
+  rpuId: NzU2fjE4Mg
+
+meta:
+  status: icy-only
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Country_Radio_Switzerland
+    owner: countryradio.ch/ueber-uns (RadioFreunde GmbH, since 2023)
+    tagline: countryradio.ch homepage
+    audienceMonthly: de.wikipedia.org/wiki/Country_Radio_Switzerland
+    streams: Icecast headers (confirmed 128 + 64 kbps; 320 kbps HTTP-only via stream.countryradio.ch redirect)
+    presenters: countryradio.ch/team
+    schedule: countryradio.ch/programm
+    logo: radioplayer.countryradio.ch (Radioplayer asset)
+    nowPlaying: ICY headers from Icecast; api.countryradio.ch requires auth
+    geo: Zürich HQ (Rankstrasse 6) — no FM transmitter; RB geo [46.948, 7.447] is Bern default
+  updatedAt: 2026-06-22
+  notes: >-
+    Internet-only station (no FM, no DAB); geo set to Zürich HQ coordinates, not Bern
+    Radio Browser default. RB entry geo [46.948, 7.447] is the generic CH centroid.
+    320 kbps stream exists but redirects to HTTP-only endpoint
+    (http://miniplainmaster.bcast.infomaniak.ch:8000/crs-320.mp3) — omitted as
+    HTTPS-only policy. Playlist page is WordPress/ProRadio JS-rendered;
+    api.countryradio.ch needs auth for track history.

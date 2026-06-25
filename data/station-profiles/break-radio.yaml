@@ -1,0 +1,99 @@
+id: break-radio
+
+identity:
+  name: Break Radio
+  shortName: Break Radio
+  tagline: "la radio hiphop en Valais"
+  positioning: Hip-hop and R&B internet radio from the Valais canton, Switzerland
+  logo:
+    url: https://assets.radioplayer.org/756/756207/600/600/lh7iu1yw.jpeg
+    source: radioplayer
+  brandColor: "#FFAA00"   # CSS --primary-500: rgb(255,170,0)
+
+organization:
+  type: commercial
+  owner: Radio Rhône SA
+  group: Radio Rhône SA (Rhône FM / Break Radio / Vertical Radio / Fréquence Broadway / Rhône TV)
+  headquarters: { city: Sion, address: "Chemin Saint-Hubert 5, 1950 Sion", canton: VS }
+
+profile:
+  description: >-
+    Break Radio is the hip-hop and R&B internet station from Valais, operated by Radio Rhône SA
+    alongside Rhône FM, Vertical Radio, and Fréquence Broadway. It streams a current-hits rotation
+    heavy on French-language rap and R&B, with mainstream English-language pop crossovers.
+  format: Hip-hop / R&B / rap (current rotation)
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: younger hip-hop and R&B fans in French-speaking Valais and online
+  distinctive: >-
+    Internet-only station in the Radio Rhône SA group, narrowcasting hip-hop and R&B to an
+    audience underserved by the flagship Rhône FM adult-hits format.
+
+music:
+  genres: [hip-hop, rap, R&B, trap, afropop]
+  languageShare: { fr: high, en: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://breakradio.ice.infomaniak.ch/breakradio-192.mp3.xspf
+    tracks:
+      - { artist: "JASON DERULO", title: "Want To Want Me" }
+      - { artist: "GIMS & THÉODORA", title: "SPA" }
+      - { artist: "IMEN ES FEAT. ALONZO", title: "1ère fois" }
+      - { artist: "TRIANGLE DES BERMUDES / L2B / MAUVAIS JO / MC YOSHI / KOKOSVOICE", title: "A l'aise" }
+      - { artist: "KEBLACK", title: "Aucune attache" }
+      - { artist: "THE KID LAROI & JUSTIN BIEBER", title: "Stay" }
+      - { artist: "LA RVFLEUZE", title: "PARLU" }
+      - { artist: "SOPRANO", title: "Tema Love" }
+  topArtists: [Gims, Keblack, Soprano, Imen Es, La Rvfleuze]
+
+reach:
+  languages: [fr]
+  region: Valais (online throughout Switzerland and internationally)
+  geo: [46.225, 7.352]   # Sion, VS — confirmed against address
+  fm: []
+  dab: { present: false }
+
+streams:
+  - { url: "https://breakradio.ice.infomaniak.ch/breakradio-192.mp3", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://breakradio.ice.infomaniak.ch/breakradio-192.mp3.xspf
+  type: icecast-xspf
+  cors: true
+  coverArt: false
+  # The website live player uses WebSocket (wss://ws.breakradio.ch) — not a REST endpoint.
+  # The XSPF gives artist – title from ICY metadata; no cover art.
+
+presence:
+  homepage: https://www.breakradio.ch/
+  socials:
+    instagram: https://www.instagram.com/breakradio_ch/
+  contact: { email: info@breakradio.ch, tel: "+41 27 327 20 20" }
+  affiliations: [Radioplayer CH]
+
+identifiers:
+  catalogId: ch-break-radio
+  stationuuid: 3cd03534-0100-4055-ab57-4d39c2ae52d0
+  rpuId: NzU2fjIwNw   # 756~207 in Radioplayer CH
+
+meta:
+  status: working
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    tagline: breakradio.ch og:description
+    owner: rhonefm.ch/contact → "Radio Rhône SA"; same address (Chemin Saint-Hubert 5, 1950 Sion) as breakradio.ch/contact
+    headquarters: breakradio.ch/contact page NUXT data
+    brandColor: breakradio.ch inline CSS — .break{--primary-500:255,170,0}
+    streams: breakradio.ice.infomaniak.ch ICY headers; 128/64 variants redirect to HTTP
+    nowPlaying: "XSPF endpoint tested with Origin: https://rrradio.org → CORS open"
+    playlist: XSPF sampled live 2026-06-22
+    instagram: instagram.com/breakradio_ch — 58 followers, 14 posts (2026-06-22)
+    geo: confirmed against address (1.09 km from Sion city center)
+  updatedAt: 2026-06-22
+  notes: >-
+    Internet-only (no FM, no DAB). Platform is shared iomedia AIO CMS running on
+    breakradio.ch / rhonefm.ch / verticalradio.ch / frequence-broadway.ch — the Nuxt PWA
+    manifest mistakenly declares "Rhône FM" as app name for all sites. The now-playing
+    websocket server is wss://ws.breakradio.ch (socket.io), not accessible as REST; use
+    the Icecast XSPF instead.

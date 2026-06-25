@@ -1,0 +1,118 @@
+id: diis-radio
+
+identity:
+  name: diis Radio
+  shortName: diis
+  tagline: Good Times Great Oldies
+  positioning: Swiss oldies, pop, Schlager, Latino and folk radio rooted in Valais
+  logo:
+    url: https://assets.radioplayer.org/756/756112/600/600/l459qj4o.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: diis Media GmbH
+  group: independent
+  foundedYear: 2014
+  headquarters: { city: Gamsen, address: "Grosshüs 7, 3900 Gamsen", canton: VS }
+
+profile:
+  description: >-
+    Valais-born internet and DAB+ station founded in 2014 by Patrick Studer, broadcasting
+    a curated mix of oldies, pop, Schlager, Latin, alpine and folk music with a "Good Times"
+    feel — emphasis on audio quality (WAV source files) and listener-friendly warmth.
+  format: Oldies / Schlager / Hot Mix
+  contentMix: { music: 0.95, talk: 0.05 }
+  targetAudience: German-speaking Swiss adults seeking classic hits and nostalgic music
+  distinctive: >-
+    Founded by a veteran Wallis broadcaster with roots in 1980s Radio Matterhorn; WAV-only
+    source material as a quality pledge; named shows in Wallis German dialect (Oldieladu,
+    Alpgaudi, Biscuits, IHDG); coverage via Swisscom TV and cable reaching ~3.2 million
+    Swiss households.
+
+music:
+  genres: [oldies, pop, Schlager, latin, alpine-folk, blues, jazz, country, Brazilian]
+  languageShare: { de: high, intl: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://onlineradiobox.com/ch/diisradio/playlist/
+    tracks:
+      - { artist: DJ Dave Nef, title: Tropical House }
+      - { artist: Kaoma, title: Lambada }
+      - { artist: Miami Soundmachine, title: Bad Boy }
+      - { artist: Pet Shop Boys, title: Go West }
+      - { artist: Bob Marley, title: Could You Be Loved }
+      - { artist: "Boney M.", title: Daddy Cool }
+      - { artist: Amy Winehouse, title: Back to Black }
+      - { artist: "20 Fingers feat. Roula", title: "Lick it (Club Mix)" }
+      - { artist: Sandra, title: Stop For A Minute }
+      - { artist: London Boys, title: London Nights }
+      - { artist: Snap, title: Ooops Up }
+  topArtists: [Kaoma, "Boney M.", "Bob Marley", "Pet Shop Boys", Sandra]
+
+programming:
+  flagshipShows:
+    - { name: Oldieladu, note: "classic oldies block" }
+    - { name: Alpgaudi, when: "Mon 09:00", note: "Wallis dialect — alpine/folk music" }
+    - { name: Latinostubeta, when: "Mon 20:00", presenters: [Patrick], note: "1 h of curated Latin music" }
+    - { name: Biscuits, when: "Mon 18:30", note: "dance & enjoyment melodies" }
+    - { name: IHDG, when: "Mon 00:00", note: "Ich ha di gäru — romantic/dreamy music" }
+    - { name: Tropical House, when: "Mon 14:00", presenters: ["DJ Dave Nef"] }
+    - { name: "Wir spielen, Sie wünschen", when: "Mon 19:00", presenters: [Paul Portmann], note: "listener-request show" }
+    - { name: Rockmäntag, when: "Mon 22:00", note: "rock from past and present" }
+    - { name: Looping, note: "80s/90s/00s mixed rotation — fills off-peak hours" }
+  scheduleUrl: https://www.diisradio.ch/programm
+
+reach:
+  languages: [de]
+  region: Valais / Wallis; DAB+ also Baden and greater Zurich area
+  geo: [46.294, 7.897]
+  fm: [95.7, 99.7, 95.1]   # FM licensed for short-term (max 30 days/year) events only
+  dab: { present: true, since: "2015-12-23", region: "Wallis/Valais; 9D Upper Wallis from 2025-12-01; also Baden/Zurich area" }
+
+streams:
+  - { url: "https://cast4.asurahosting.com/proxy/diisradi/stream", codec: mp3, bitrate: 256, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://cast4.asurahosting.com/proxy/diisradi/status-json.xsl
+  type: status-json
+  cors: false
+  coverArt: false
+  # No Access-Control-Allow-Origin returned; worker proxy required
+
+presence:
+  homepage: https://www.diisradio.ch
+  socials:
+    facebook: https://www.facebook.com/diisRadio
+    instagram: https://www.instagram.com/diisradio/
+    twitter: "@diisRadio"
+    tiktok: https://www.tiktok.com/@diisradio
+    linkedin: https://www.linkedin.com/company/28831074/
+  contact: { email: info@diis.ch, tel: "+41 56 543 22 09" }
+  affiliations: [Radioplayer, Digris, TuneIn, Swisscom TV, UPC Cablecom]
+
+identifiers:
+  rpuId: NzU2fjExMg
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: diisradio.ch/geschichte
+    owner: diisradio.ch/geschaeftsleitung + contact page
+    headquarters: diisradio.ch/contact
+    fm: diisradio.ch/empfang
+    dab: diisradio.ch/empfang
+    playlist: onlineradiobox.com/ch/diisradio/playlist/
+    shows: diisradio.ch/montag (Monday schedule)
+    tagline: icecast status-json + homepage
+    cable_reach: diisradio.ch/empfang
+    format: diisradio.ch/philosophie + Icecast genre field
+  updatedAt: 2026-06-22
+  notes: >-
+    Homepage http://www.diis.ch/console/ is a Radioplayer placeholder — real site is
+    diisradio.ch. Icecast status-json (cors: false) supplies now-playing title only, no
+    cover art; worker proxy needed. FM is short-term (up to 30 days/year) event licence
+    only. Station classified stream-only pending a fetcher stub for the status-json endpoint.

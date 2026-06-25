@@ -1,0 +1,133 @@
+id: radio-lfm
+
+identity:
+  name: Radio LFM
+  shortName: LFM
+  tagline: La radio musicale à Lausanne
+  positioning: La radio privée numéro 1 en Suisse romande
+  logo:
+    url: https://assets.radioplayer.org/756/7565002/600/600/l459qf1p.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Media One Group SA
+  group: Media One Group
+  headquarters: { city: Crissier, address: "Chemin de Mongevon 25, CH-1023 Crissier", canton: VD }
+
+profile:
+  description: >-
+    Swiss French-language pop radio serving Vaud and the Lake Geneva basin —
+    a tight Adult Contemporary rotation mixing French chanson, international
+    pop hits, and 80s/90s gold, anchored by live talk-drive shows throughout
+    the day and strong local news coverage.
+  format: Adult Contemporary / Pop
+  contentMix: { music: 0.75, talk: 0.25 }
+  targetAudience: 25–54 year-olds in Romandy, especially Vaud and the Geneva region
+  distinctive: >-
+    Top private radio in French-speaking Switzerland by reach; covers Lausanne
+    and the entire romand region via FM and DAB+; newsroom produces multiple
+    hourly bulletins; lineup balances French and international pop with a
+    significant classic-hits layer (80s/90s) alongside current chart titles.
+
+music:
+  genres: [pop, adult contemporary, chanson française, 80s, 90s, soft rock]
+  languageShare: { fr: high, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.lfm.ch/onair/lfm.json
+    tracks:
+      - { artist: Keane, title: Somewhere Only We Know }
+      - { artist: Alain Souchon, title: "L'Amour à la Machine" }
+      - { artist: Myles Smith, title: Gold }
+      - { artist: Madonna, title: Like a Virgin }
+      - { artist: Simply Red, title: Fairground }
+      - { artist: "Vitaa & Julien Doré", title: Viens On Essaie }
+      - { artist: Jacksons 5, title: Blame It on the Boogie }
+      - { artist: Stephan Eicher, title: Tu Ne Me Dois Rien }
+      - { artist: Bonnie Tyler, title: "It's a Heartache" }
+      - { artist: M. Pokora, title: Quand Même }
+      - { artist: Kelly Clarkson, title: Because of You }
+  topArtists: [Alain Souchon, Madonna, Simply Red, M. Pokora, Stephan Eicher, Keane, Bonnie Tyler]
+
+programming:
+  flagshipShows:
+    - { name: "Le 6/9 LFM", when: "Mon–Fri 06:00–09:00", presenters: [Evan Kangni, Guillaume Getaz, Julie Marti, Yann Lambiel], note: "morning drive" }
+    - { name: "Le 9/12 LFM", when: "Mon–Fri 09:00–12:00", presenters: [Valérie Ogier], note: "mid-morning" }
+    - { name: Vous d'Abord, when: "Mon–Fri 12:00–13:00", presenters: [Valérie Ogier, Jean-Marc Richard], note: "noon listener call-in" }
+    - { name: "Le 16/19 LFM", when: "Mon–Fri 16:00–19:00", presenters: [Sylvain Lavey], note: "afternoon drive" }
+    - { name: Double Face, note: "cultural interview magazine" }
+    - { name: "L'Info Trafiquée par Yann Lambiel", note: "satirical news commentary" }
+    - { name: "Les Plus Belles Chansons d'Hier et d'Aujourd'hui", when: "overnight + weekend daytime", note: "automated gold rotation" }
+  presenters: [Evan Kangni, Guillaume Getaz, Julie Marti, Yann Lambiel, Valérie Ogier, Sylvain Lavey, Jean-Marc Richard, Yann Rossier, Benjamin Smadja, Sophie Vassutine, Tom Monaci]
+  podcasts:
+    - "Le 6/9 LFM"
+    - "Le 9/12 LFM"
+    - "Vous d'Abord"
+    - "Le 16/19 LFM"
+    - "Double Face"
+    - "LFM Info — Le Journal"
+    - "L'Aventure par Guillaume Gétaz"
+    - "Ici c'est vous… par Sylvain Lavey"
+    - "100% Santé"
+    - "Un Beau Romand"
+  scheduleUrl: https://www.lfm.ch/emissions-programme/
+
+reach:
+  languages: [fr]
+  region: Suisse romande — Vaud, Genève, Fribourg romand, Valais romand
+  geo: [46.538, 6.562]   # Crissier HQ; catalog had [46.948, 7.447] (wrong — near Bern)
+  fm: [88.4, 103.3, 99.9, 89.1, 97.4, 99.5]
+  dab: { present: true, region: Suisse romande }
+
+streams:
+  - { url: "https://lausannefm.ice.infomaniak.ch/lausannefm-high.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://lausannefm.ice.infomaniak.ch/lausannefm-high.aac", codec: aac, bitrate: 127, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.lfm.ch/onair/lfm.json
+  type: json
+  cors: true
+  coverArt: true
+  # JSON keys: live[].interpret + live[].title (current); played[] (history); imageURL for cover art via mediaone-digital.ch
+  # Also: https://www.lfm.ch/cache/lfm_live.json gives current show/EPG only (no track data)
+
+presence:
+  homepage: https://www.lfm.ch
+  socials:
+    facebook: https://www.facebook.com/lfm.ch
+    instagram: https://www.instagram.com/lfmlaradio/
+  apps:
+    ios: https://itunes.apple.com/ch/app/lfm/id561934226?l=fr&mt=8
+    android: https://play.google.com/store/apps/details?id=ch.mediaone.androidLFM&hl=fr
+  podcasts: https://www.lfm.ch/podcasts/
+  contact: { email: sav@lfm.ch, tel: "+41 21 341 11 11" }
+  affiliations: [Radioplayer Suisse, Media One Group]
+
+identifiers:
+  catalogId: ch-lfm
+  stationuuid: 52d101dc-3a83-4e4e-8505-8b235065fb0b
+  rpuId: NzU2fjUwMDI
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    homepage: lfm.ch
+    address: lfm.ch/contacter-la-radio
+    group: mediaonegroup.ch
+    fm: lfm.ch/les-frequences
+    playlist: lfm.ch/onair/lfm.json (sampled live 2026-06-22)
+    streams: infomaniak icecast server headers + catalog
+    apps: lfm.ch homepage
+    rpuId: Swiss Radioplayer enrichment table
+    stationuuid: data/stations.yaml ch-lfm
+  updatedAt: 2026-06-22
+  notes: >-
+    Catalog geo [46.948, 7.447] is wrong (points near Bern); corrected to
+    Crissier HQ [46.538, 6.562]. now-playing endpoint lfm.ch/onair/lfm.json
+    is a shared Media One Group platform (same pattern as other MOG stations);
+    CORS fully open. A second cache file lfm.ch/cache/lfm_live.json gives
+    current show/EPG metadata (no track titles).

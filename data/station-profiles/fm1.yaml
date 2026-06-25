@@ -1,0 +1,124 @@
+id: fm1
+
+identity:
+  name: Radio FM1
+  shortName: FM1
+  tagline: Eifach gueti Musig
+  positioning: Der beste Musikmix — Hot AC für die Ostschweiz
+  logo:
+    url: https://assets.radioplayer.org/756/756122/600/600/m4a5uyaw.jpeg
+    source: radioplayer
+  brandColor: "#00B5DD"
+
+organization:
+  type: commercial
+  owner: CH Regionalmedien AG
+  group: CH Media
+  foundedYear: 2008
+  headquarters: { city: St. Gallen, address: "Fürstenlandstrasse 122, 9001 St. Gallen", canton: SG }
+
+profile:
+  description: >-
+    Eastern Switzerland's leading private commercial station — Hot AC
+    mainstream pop and rock targeting 20–45-year-olds across the cantons of
+    St. Gallen, Appenzell, Graubünden, Thurgau, and Liechtenstein. One of
+    the most-listened private stations in German-speaking Switzerland.
+  format: Hot AC
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: 20–45, German-speaking Ostschweiz and Liechtenstein
+  distinctive: >-
+    Dominates Eastern Switzerland with 204,000 daily listeners; combines
+    current chart hits and familiar pop/rock classics with light-hearted morning
+    entertainment and local traffic/weather. Emerged from the 2008 merger of
+    Radio Ri and Radio Aktuell.
+
+music:
+  genres: [pop, Hot AC, rock, dance, chart-hits]
+  languageShare: { de: low, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.radiofm1.ch/zuletzt-gespielt (playlist page) + https://api.streamabc.net/metadata/channel/79_wfx0nr28kbqa_scnx.json
+    tracks:
+      - { artist: Imagine Dragons, title: On Top Of The World }
+      - { artist: Nickless, title: As I Am }
+      - { artist: Alicia Keys, title: Girl On Fire }
+      - { artist: Alex Warren, title: Fever Dream }
+      - { artist: "Don Omar feat. Lucenzo", title: Danza Kuduro }
+      - { artist: Matt Simons, title: Open Up }
+      - { artist: "Glockenbach, Norma Jean Martine", title: Anthem }
+      - { artist: Irene Cara, title: Flashdance }
+      - { artist: Sienna Spiro, title: Die On This Hill }
+  topArtists: [Imagine Dragons, Alicia Keys, Don Omar]
+
+programming:
+  flagshipShows:
+    - { name: FM1 Wachmacher, when: "Mon–Fri 05:00–10:00", presenters: ["Katerina Mistakidis", "Morgen-Joe", "Nadja Hüppi"], note: "morning wake-up show" }
+    - { name: FM1 bei der Arbeit, when: "Mon–Fri 10:00–17:00", note: "daytime music & service" }
+    - { name: FM1 Feierabend, when: "Mon–Fri 17:00–20:00", note: "evening commute show" }
+    - { name: FM1 Hörercharts, note: "listener-voted top hits" }
+    - { name: Chällerfon, note: "recurring comedy segment" }
+  presenters:
+    - Katerina Mistakidis
+    - Morgen-Joe
+    - Nadja Hüppi
+    - Pamela Zimotti
+    - Dominik Karrer
+    - Beni Hofstetter
+    - Noah Hartmann
+    - Philipp Müller
+  scheduleUrl: https://www.radiofm1.ch/programm
+
+reach:
+  languages: [de]
+  region: "Cantons St. Gallen, Appenzell Innerrhoden, Appenzell Ausserrhoden, plus parts of Graubünden, Thurgau, Glarus, Schwyz, Zürich; also Liechtenstein"
+  geo: [47.4312, 9.3787]
+  fm: [92.9, 89.3, 99.7, 103.9, 87.8, 100.8, 93.7, 103.2, 99.2, 105.2, 99.1, 100.4, 92.7, 97.9]
+  dab: { present: true, region: Deutschschweiz }
+  audienceDaily: 204000   # H1 2025, Mon–Fri, German-speaking Switzerland, 15+
+
+streams:
+  - { url: "https://stream.streambase.ch/radiofm1/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.streamabc.net/metadata/channel/79_wfx0nr28kbqa_scnx.json
+  type: json
+  cors: true
+  coverArt: false
+  # fields: artist → "artist", title → "song"; no cover art in response (cover: "")
+  # channel key 79_wfx0nr28kbqa_scnx obtained from X-Quantumcast-Channelkey header on stream response
+
+presence:
+  homepage: https://www.radiofm1.ch
+  socials:
+    facebook: https://www.facebook.com/radiofm1/
+    instagram: https://www.instagram.com/radiofm1/
+    tiktok: "@fm1radio"
+  contact: { email: studio@radiofm1.ch }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_FM1
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-radio-fm1
+  stationuuid: 3786ca1c-bcbd-4c90-8ce2-6e363756b320
+  rpuId: NzU2fjEyMg
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_FM1
+    audienceDaily: de.wikipedia.org/wiki/Radio_FM1 (H1 2025)
+    fm: radiofm1.ch/service/frequenzen-135308419
+    nowPlayingEndpoint: X-Quantumcast-Channelkey header from stream.streambase.ch/radiofm1/mp3-192
+    channelKey: X-Quantumcast-Channelkey header on chmedia.streamabc.net stream response
+    brandColor: '"--brand-color" CSS variable in www.radiofm1.ch homepage'
+  updatedAt: 2026-06-22
+  notes: >-
+    The stream.streambase.ch URL is a redirect proxy; the actual stream is
+    served by chmedia.streamabc.net (streamabc/QuantumCast). The now-playing
+    channel key (79_wfx0nr28kbqa_scnx) was found via X-Quantumcast-Channelkey
+    response header. CH Media group covers multiple CH stations sharing the
+    same streamabc infrastructure. No native app published (iosAppId: null in
+    Apollo state).

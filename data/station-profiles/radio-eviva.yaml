@@ -1,0 +1,140 @@
+id: radio-eviva
+
+identity:
+  name: Radio EVIVA
+  shortName: Eviva
+  tagline: Der ErVolkssender
+  positioning: Der Schweizer Volksmusik-Sender — Ländler, Jodel, Blasmusik und Schlager seit 1992
+  logo:
+    url: https://assets.radioplayer.org/756/756139/600/600/l45aiwaq.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Regionalmedien AG
+  group: CH Media
+  foundedYear: 1992
+  headquarters: { city: Luzern, address: "Maihofstrasse 76, 6006 Luzern", canton: LU }
+
+profile:
+  description: >-
+    Switzerland's only radio station dedicated exclusively to Swiss folk music —
+    Ländler, Jodel, Blasmusik, and Schlager — with 80–90% pure Swiss Volksmusik
+    content. Listener-driven, with live wish concerts and specialty shows curated
+    by genre experts.
+  format: Swiss Volksmusik / Folk
+  contentMix: { music: 0.9, talk: 0.1 }
+  targetAudience: >-
+    Swiss German-speaking listeners who love traditional Alpine and folk music;
+    strong following in central Switzerland
+  distinctive: >-
+    Sole Swiss broadcaster dedicated entirely to Volksmusik. No FM license —
+    reaches its audience exclusively via DAB+, cable, satellite, and internet.
+    Offers specialist shows for every sub-genre (Jodel, Blasmusik, Ländler-Oldies)
+    and a member magazine (Eviva-Zytig). Membership program lets listeners
+    directly support the folk music genre.
+
+music:
+  genres: [Ländler, Jodel, Volksmusik, Blasmusik, Schlager, Alpine folk]
+  languageShare: { de: 1.0 }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: ICY metadata from https://stream.streambase.ch/reviva/mp3-192 (redirects to chmedia.streamabc.net)
+    tracks:
+      - { artist: "Schwyzerörgeli-Trio Vollgas", title: "Färnweh" }
+      - { artist: "Ländlerkönige", title: "Schottisch-Potpourri" }
+      - { artist: "Dominik Marty / Ernst Jakober", title: "Han es Dach überem Chopf" }
+      - { artist: "Schonegg-Quartett", title: "Aber dich gibt's nur einmal für mich" }
+      - { artist: "Chöpfäbärgler", title: "Las Perlitas" }
+      - { artist: "Hegner / Ott", title: "Der Tifig Sepp" }
+
+programming:
+  flagshipShows:
+    - { name: Ländlerabig, presenters: [Christian Stämpfli, Andi Betschart], note: "Evening Ländler show" }
+    - { name: Ländlerzmorge, presenters: [Christian Stämpfli, Andi Betschart], note: "Morning Ländler show" }
+    - { name: Jodeltrümpf, presenters: [Otti Spiess], note: "Specialist Jodel show" }
+    - { name: "Für d'Blasmusig-Familie", presenters: [Ursula Walti], note: "Brass band specialist" }
+    - { name: Folklore im Schaufenster, presenters: [Xaver Bühler, Pia Graf, Edith Rüttener], note: "Folklore showcase" }
+    - { name: Klassischer Blumenstrauss, presenters: [Turi Schellenberg], note: "Classical folk selections" }
+    - { name: "Ländleroldies — Weisch no?", presenters: [Heinz Städeli], note: "Folk classics archive" }
+    - { name: "Mit Volksmusig quer durs Alpeland", presenters: [Heinz Städeli], note: "Alpine folk journey" }
+    - { name: Schlagerparade, note: "Swiss Schlager parade" }
+  presenters:
+    - Christian Stämpfli
+    - Andi Betschart
+    - Nadine Wechsler
+    - Thomas Berger
+    - Daniel Küng
+    - Marcel Lustenberger
+    - Christian Eyer
+    - Heinz Städeli
+    - Otti Spiess
+    - Ursula Walti
+    - Xaver Bühler
+    - Turi Schellenberg
+    - Pia Graf
+    - Edith Rüttener
+  podcasts:
+    - Ländlerabig-Ländlerzmorgä
+    - Folklore im Schaufenster
+    - Für d Blasmusigfamilie
+    - Jodeltrümpf
+    - Klassischer Blumenstrauss
+    - Ländler Oldies
+    - Schlagerparade
+  scheduleUrl: https://www.eviva.ch/service/radioprogramm-152045969
+
+reach:
+  languages: [de]
+  region: German-speaking Switzerland; strong roots in central Switzerland (Zentralschweiz)
+  geo: [47.1449, 8.4343]
+  fm: []   # no FM license; UKW only briefly in August 2004 for special event in Lucerne
+  dab: { present: true, region: "Deutschschweiz (Kanal 7D, Northern Switzerland regional multiplex)" }
+  audienceDaily: 74000   # H1 2025, MoFr, DE-CH, 15+, 24h Mediapulse
+
+streams:
+  - { url: "https://stream.streambase.ch/reviva/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://stream.streambase.ch/reviva/mp3-192
+  type: icy
+  cors: true
+  coverArt: false
+  # ICY format: "ARTIST - TITLE" (all-caps). The stream 302-redirects to chmedia.streamabc.net
+  # which also returns Access-Control-Allow-Origin: *. The eviva.ch GraphQL endpoint
+  # (used by the Apollo SPA for richer now-playing + cover art) requires a browser session.
+
+presence:
+  homepage: https://www.eviva.ch
+  contact: { email: "eviva@eviva.ch", tel: "+41 41 825 44 11" }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Eviva
+  affiliations: [Radioplayer CH]
+
+identifiers:
+  catalogId: ch-radio-eviva
+  rpuId: NzU2fjEzOQ
+
+meta:
+  status: icy-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_Eviva
+    owner: de.wikipedia.org/wiki/Radio_Eviva (CH Media acquisition 2022)
+    audienceDaily: chmediawerbung.ch/de/marken/radio-eviva (H1 2025)
+    headquarters: eviva.ch footer Apollo state (Maihofstrasse 76, 6006 Luzern)
+    format: de.wikipedia.org/wiki/Radio_Eviva (80–90% Schweizer Volksmusik)
+    presenters: eviva.ch/ueber-uns/radiomacher
+    playlist: ICY metadata from stream.streambase.ch/reviva/mp3-192 (sampled 2026-06-22)
+    streams: eviva.ch Apollo state __APOLLO_STATE__ (onAirId eviva.eviva)
+    dab: de.wikipedia.org/wiki/Radio_Eviva (Kanal 7D)
+  updatedAt: 2026-06-22
+  notes: >-
+    No FM license — DAB+/cable/internet only. The eviva.ch SPA uses an Apollo GraphQL
+    endpoint for richer now-playing data (artist, title, cover art) but the endpoint is
+    not accessible without a browser session (needs-playwright for cover art + GraphQL).
+    ICY metadata from the stream provides artist+title with CORS open. Social media
+    profiles not exposed in the site's Apollo state (shareUrl null for Facebook, Instagram,
+    Twitter, TikTok). Station moved from Brunnen SZ to Luzern hub (co-located with Radio
+    Pilatus, Sunshine Radio, Radio Central) on 2025-03-25.

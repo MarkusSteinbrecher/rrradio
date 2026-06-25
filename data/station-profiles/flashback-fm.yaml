@@ -1,0 +1,129 @@
+id: flashback-fm
+
+identity:
+  name: FLASHBACK FM
+  shortName: Flashback FM
+  tagline: Am meisten 80er & die besten 90er Hits
+  positioning: Swiss German-language greatest-hits station — the most 80s and best 90s
+  logo:
+    url: https://assets.radioplayer.org/756/756130/600/600/l5uoouyg.png
+    source: radioplayer
+  brandColor: "#E8001E"
+
+organization:
+  type: commercial
+  owner: CH Regionalmedien AG
+  group: CH Media
+  foundedYear: null   # no verifiable founding year found on site or Wikipedia
+  headquarters: { city: Zürich, address: "Thurgauerstrasse 80, 8050 Zürich", canton: ZH }
+
+profile:
+  description: >-
+    Swiss national DAB+/stream station from CH Media spinning the greatest hits
+    of the 1980s and 1990s — the most 80s tracks of any Swiss radio, plus the best
+    90s. No FM transmitters; available across all of Deutschschweiz via DAB+ and app.
+  format: Gold / Greatest Hits (80s–90s)
+  contentMix: { music: 0.95, talk: 0.05 }
+  targetAudience: 35–55 German-speaking Swiss adults nostalgic for 1980s and 1990s pop
+  distinctive: >-
+    Narrowly focused decade window — almost exclusively 80s and 90s international pop
+    and rock, with listener "Musik-Jury" voting and artist-themed web sub-channels
+    (ABBA, Beatles, Bon Jovi, Queen, Tina Turner, etc.). DAB+-only broadcast,
+    no legacy FM footprint.
+
+music:
+  genres: [80s pop, 90s pop, classic rock, new wave, synth-pop, dance-pop]
+  languageShare: { intl: high, de: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: "flashbackfm.ch/zuletzt-gespielt/ + GraphQL AudioLiveData (streamName flashbackfm.ffm)"
+    tracks:
+      - { artist: Genesis, title: "Land of Confusion (1986)" }
+      - { artist: Rose Laurens, title: "Africa (1983)" }
+      - { artist: Bon Jovi, title: "Bed of Roses (1993)" }
+      - { artist: Murray Head, title: "One Night in Bangkok (1984)" }
+      - { artist: Steve Miller Band, title: "Abracadabra (1982)" }
+      - { artist: Pet Shop Boys, title: "Go West (1993)" }
+      - { artist: Bonnie Tyler, title: "Total Eclipse of the Heart (1982)" }
+      - { artist: Tracy Chapman, title: "Talkin' 'Bout a Revolution (1988)" }
+      - { artist: Mike & The Mechanics, title: "Over My Shoulder (1995)" }
+      - { artist: Madonna, title: "Material Girl (1984)" }
+  topArtists: [ABBA, The Beatles, Bon Jovi, Madonna, Queen, Tina Turner, Rolling Stones]
+
+programming:
+  flagshipShows:
+    - { name: Alles 80er am 8ti, when: "daily 20:00", note: "one hour of nonstop 80s music" }
+    - { name: Am meisten 80er & die besten 90er Hits, when: "nonstop", note: "main automated rotation" }
+  presenters:
+    - Nicole Marcuard
+    - Peter Stutz
+    - Nicole Bühler
+    - Dani Steigmeier
+    - Thomas Zesiger
+    - Philipp Sommerhalder
+    - Beni Hofstetter
+    - Noah Hartmann
+    - Nicola Bomio
+    - Roman Unternährer
+    - Manuel Wälti
+  scheduleUrl: https://www.flashbackfm.ch/sendungen/
+
+reach:
+  languages: [de]
+  region: Deutschschweiz (all German-speaking Switzerland)
+  geo: [47.4186, 8.5552]   # Zürich HQ; station is national, no single FM geo
+  fm: []
+  dab: { present: true, region: Deutschschweiz }
+  audienceDaily: null   # no published figure found
+
+streams:
+  - { url: "https://stream.streambase.ch/ffm/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.flashbackfm.ch/api/pub/gql/flashbackfm/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72"
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: ch-media
+
+presence:
+  homepage: https://www.flashbackfm.ch
+  socials:
+    facebook: https://www.facebook.com/flashbackfmch
+    instagram: https://www.instagram.com/flashbackfm_ch/
+    tiktok: https://www.tiktok.com/@flashbackfm_ch
+  apps:
+    ios: true    # App Store ID 1609582045
+    android: true    # com.chmedia.flashbackfm
+  contact: { email: studio@flashbackfm.ch, tel: "+41 44 448 24 24" }
+  affiliations: [Radioplayer CH]
+
+identifiers:
+  catalogId: null   # not yet in data/stations.yaml
+  rpuId: NzU2fjEzMA
+  wikidata: null   # no dedicated Wikipedia article found
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    tagline: flashbackfm.ch homepage
+    owner: flashbackfm.ch footer + Apollo __APOLLO_STATE__
+    headquarters: flashbackfm.ch/ueber-uns/kontakt
+    streams: Apollo __APOLLO_STATE__ audioPlayer.streams.18 (onAirId=flashbackfm.ffm)
+    nowPlaying: reverse-engineered from Apollo __APOLLO_STATE__ apiPath + radio-24.yaml/radiobern1.yaml precedent; CORS confirmed
+    presenters: flashbackfm.ch/team/
+    playlist: flashbackfm.ch/zuletzt-gespielt/ + GraphQL live response
+    apps: flashbackfm.ch/empfang/dab-und-mehr-145573284 (iOS ID 1609582045, Android com.chmedia.flashbackfm)
+    dab: flashbackfm.ch/empfang (nationwide Deutschschweiz confirmed, no FM)
+    socials: flashbackfm.ch homepage HTML source
+  updatedAt: 2026-06-22
+  notes: >-
+    DAB+-only national station — no FM frequencies. Stream at stream.streambase.ch/ffm
+    302-redirects to chmedia.streamabc.net (same CH Media CDN as Radio 24, Radio
+    Argovia etc.). GraphQL now-playing endpoint shares the AudioLiveData persisted-query
+    hash (f17ccec0…) used across the CH Media fleet; the ch-media fetcher can serve
+    this station with streamName=flashbackfm.ffm. status=fetcher-todo because the
+    ch-media fetcher wiring is not yet confirmed for this station id.

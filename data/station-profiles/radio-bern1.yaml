@@ -1,0 +1,125 @@
+id: radio-bern1
+
+identity:
+  name: RADIO BERN1
+  shortName: BERN1
+  tagline: Musig wo's bringt
+  positioning: Das beliebteste Privatradio in Bern — mainstream Hits für die ganze Region
+  logo:
+    url: https://assets.radioplayer.org/756/756102/600/600/l458ptou.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Media (CH Regionalmedien AG)   # pending transfer to Groupe Gassmann, eff. 2026-01-01
+  group: CH Media
+  foundedYear: 2013
+  headquarters: { city: Bern, address: "Dammweg 9, Postfach, 3001 Bern", canton: BE }
+
+profile:
+  description: >-
+    Bern's leading private radio station — launched April 2013 on the frequencies
+    of predecessor Capital FM, serving the Swiss Midland from Emmental to Murten.
+    Hot AC format, Bernese-dialect morning show, and 20+ themed web channels.
+  format: Hot AC
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: broad adult mainstream audience in the greater Bern region
+  distinctive: >-
+    Trimedial newsroom shared with TeleBärn; Bernese dialect identity ("Guete Morge
+    Bärn", "I love Bärn" channel); listener Musik-Jury shapes the playlist rotation.
+
+music:
+  genres: [pop, hot-ac, dance-pop, hits, gold]
+  languageShare: { de: low, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: >-
+      https://www.radiobern1.ch/api/pub/gql/radiobern/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72
+      (streamName radiobern.main) + www.radiobern1.ch/zuletzt-gespielt/
+    tracks:
+      - { artist: Billie Eilish, title: Birds Of A Feather }
+      - { artist: Toploader, title: Dancing In The Moonlight }
+      - { artist: James Arthur, title: Blindside }
+      - { artist: Purple Disco Machine feat. Eyelar, title: Dopamine }
+      - { artist: Lewis Capaldi, title: Survive }
+      - { artist: Noemi Beza, title: Hear Me }
+
+programming:
+  flagshipShows:
+    - { name: Guete Morge Bärn, when: "Mon–Fri 05:00–10:00", presenters: [Nicole Zaugg, Noé Freiburghaus, Lara Baumgartner, Tobi Flückiger], note: "main morning show in Bernese dialect" }
+    - { name: "@Work", when: "Mon–Fri 10:00–16:00", note: "no-repeat workday block" }
+    - { name: Ab i Fyrabe, when: "Mon–Fri from 16:00", note: "evening drive" }
+    - { name: Weekend, when: "Sat & Sun" }
+    - { name: "Radio Bern 1 – YB live", note: "BSC Young Boys match commentary" }
+    - { name: "Radio Bern 1 – SCB live", note: "SC Bern ice hockey commentary" }
+  presenters: [Nicole Zaugg, Noé Freiburghaus, Lara Baumgartner, Tobi Flückiger]
+  podcasts:
+    - BERN1 NEWS
+    - Chällerfon
+    - Guete Morge Bärn (Morgenshow)
+    - FAUTSCH ISCH RICHTIG
+    - BERN1 WETTER
+    - BERN1 VERKEHRS-SERVICE
+    - WEEKEND-TIPP
+  scheduleUrl: https://www.radiobern1.ch/programm/
+
+reach:
+  languages: [de]
+  region: >-
+    Canton Bern (city, Bern-Mittelland, Emmental, Bernese Oberland) + cantons
+    Fribourg and Solothurn; Laupen–Murten corridor
+  geo: [46.948, 7.447]
+  fm: [97.7, 98.4, 89.2, 98.9, 91.5]
+  dab: { present: true, region: "Bern, Fribourg, Solothurn + Zurich, Basel, Lucerne, Zug cities" }
+  audienceDaily: 106000   # H1 2025, Mon–Fri, 15+, D-CH, 24h
+
+streams:
+  - { url: "https://stream.streambase.ch/radiobern1/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.radiobern1.ch/api/pub/gql/radiobern/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72"
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: ch-media
+
+presence:
+  homepage: https://www.radiobern1.ch
+  socials:
+    facebook: https://www.facebook.com/radiobern1.ch
+    instagram: https://www.instagram.com/radio_bern1/
+  apps:
+    ios: "634363492"
+    android: com.ideamineradiobern
+  contact: { email: info@radiobern1.ch }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Bern_1
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-radio-bern1
+  stationuuid: 95142051-a845-4523-a11a-2521e9ba0971
+  rpuId: NzU2fjEwMg
+  wikidata: ""
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia (Radio_Bern_1)
+    owner: de.wikipedia — CH Media since 2021-03-01; Groupe Gassmann acquisition pending
+    fm: de.wikipedia (Radio_Bern_1)
+    audienceDaily: de.wikipedia — Mediapulse H1 2025
+    playlist: radiobern1.ch GraphQL (streamName radiobern.main) + /zuletzt-gespielt/
+    nowPlaying: reverse-engineered from window.app apiPath + radio-24.yaml precedent
+    streams: www.radiobern1.ch/__APOLLO_STATE__ ROOT_QUERY.audioPlayer.streams
+    presenters: de.wikipedia (Guete Morge Bärn moderators)
+  updatedAt: 2026-06-22
+  notes: >-
+    geo was [0,0] in catalog — corrected to Bern city centre. Ownership in
+    transition: CH Media sold to Groupe Gassmann (Bieler Tagblatt publisher),
+    effective 2026-01-01 pending BAKOM approval. GraphQL persisted-query hash
+    shared with the whole CH Media az-cdn.ch platform (same hash as radio-24).
+    streamName for now-playing is "radiobern.main" (not "radiobern1").
+    Stream URL 302-redirects to chmedia.streamabc.net — use the streambase URL.

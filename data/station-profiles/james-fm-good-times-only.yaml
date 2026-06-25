@@ -1,0 +1,140 @@
+id: james-fm-good-times-only
+
+identity:
+  name: JAMES FM - good times only
+  shortName: JAMES FM
+  tagline: good times only
+  positioning: >-
+    Music-first Swiss private radio — "MORE MUSIC. LESS TALK." — anchored in
+    classic and current pop/rock hits for the 40+ listener in Central Switzerland.
+  logo:
+    url: https://assets.radioplayer.org/756/756148/600/600/led809c6.png
+    source: radioplayer
+  brandColor: null   # not confirmed
+
+organization:
+  type: commercial
+  owner: Bespoke Media Group GmbH
+  group: independent / commercial
+  foundedYear: 2016
+  headquarters: { city: Hünenberg, canton: ZG }
+
+profile:
+  description: >-
+    Switzerland's independently-owned Hot AC station, live since 1 February 2016.
+    No major publisher, no state subsidies — just a crate of feel-good classics
+    and current pop/rock, light news on the hour (SRF bulletins since 2018), and
+    the stated promise: "good times only."
+  format: Hot AC (Adult Contemporary)
+  contentMix: { music: 0.95, talk: 0.05 }
+  targetAudience: adults aged 40+ in Central Switzerland and Greater Zurich
+  distinctive: >-
+    Switzerland's first private radio to enter a formal programming partnership
+    with SRG (2018). "FM" explicitly stands for "FOR MUSIC", not a frequency —
+    the station is DAB/stream only. Trademark-registered "good times only" brand.
+
+music:
+  genres: [pop, rock, soul, new wave, 80s, 90s, adult contemporary]
+  languageShare: { intl: high, de: low }
+  rotationStyle: gold   # strong classic-hits lean with current AC
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://onlineradiobox.com/ch/james/playlist/ (confirmed by XSPF live sample)
+    tracks:
+      - { artist: Kid Rock, title: "Picture ft. Sheryl Crow" }
+      - { artist: Kim Wilde, title: Cambodia }
+      - { artist: Five, title: Keep on Movin' }
+      - { artist: 2Raumwohnung, title: Wir werden sehen }
+      - { artist: Earth Wind & Fire, title: September }
+      - { artist: Bananarama, title: Venus }
+      - { artist: James Morrison, title: Undiscovered }
+      - { artist: Gabrielle, title: When a Woman }
+      - { artist: Dire Straits, title: Heavy Fuel }
+      - { artist: Tears For Fears, title: Pale Shelter }
+      - { artist: Stevie Wonder, title: You Are The Sunshine Of My Life }
+      - { artist: Talk Talk, title: "It's My Life" }
+      - { artist: Passenger, title: Hell Or High Water }
+      - { artist: Robbie Nevil, title: Dominoes }
+      - { artist: Dan Hartman, title: Relight My Fire }
+  topArtists:
+    - Earth Wind & Fire
+    - Dire Straits
+    - Stevie Wonder
+    - Kim Wilde
+    - Tears For Fears
+    - Talk Talk
+
+programming:
+  flagshipShows:
+    - { name: Lorenz Knecht, when: "daily 00:00–05:00 and 12:00–19:00", note: "station voice / automated" }
+    - { name: Silja Studer, when: "daily 05:00–12:00 and 19:00–00:00", note: "station voice / automated" }
+  presenters:
+    - Christian Beck
+    - Marco Castellaneta
+    - Marilena Dimai
+    - Michèle Fasler
+    - Lorenz Knecht
+    - Finn Rasmussen
+    - Nicole Simmen
+    - Silja Studer
+  podcasts: []
+  scheduleUrl: https://www.jamesfm.ch/programm/
+
+reach:
+  languages: [de]
+  region: Central Switzerland (Zentralschweiz) and Greater Zurich; nationwide via stream
+  geo: [47.162, 8.437]   # Hünenberg ZG approximate
+  fm: []   # no FM — DAB and stream only; "FM" = FOR MUSIC not frequency
+  dab:
+    present: true
+    since: 2016-07-01
+    region: "5D Zentralschweiz (since 2016-07-01), 9D Grossraum Zürich (since 2022-01-01)"
+
+streams:
+  - { url: "https://jamesfm.ice.infomaniak.ch/jamesfm.mp3", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://jamesfm.ice.infomaniak.ch/jamesfm.mp3.xspf
+  type: icecast-xspf
+  cors: true
+  coverArt: false
+  # secondary: WordPress ProRadio plugin exposes current-show (presenter name + timeslot)
+  # at https://www.jamesfm.ch/wp-json/proradio/v1/current-show (CORS open)
+
+presence:
+  homepage: https://www.jamesfm.ch
+  socials:
+    instagram: https://www.instagram.com/jamesfmradio
+    linkedin: https://www.linkedin.com/company/10437669
+  apps:
+    ios: https://apps.apple.com/ch/app/james-fm/id1071781738
+    android: https://play.google.com/store/apps/details?id=ch.radio.jamesfm
+  contact: { email: james@jamesfm.ch, tel: "+41 76 250 68 68" }
+  wikipedia: https://de.wikipedia.org/wiki/James_FM
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-james-fm
+  stationuuid: 031bfcdb-fc24-4514-bbb1-4dd1bba6e213
+  rpuId: NzU2fjE0OA
+  wikidata: null
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/James_FM
+    owner: jamesfm.ch/ueber-uns
+    dab: de.wikipedia.org/wiki/James_FM (channels 5D / 9D)
+    srgPartnership: jamesfm.ch/ueber-uns
+    playlist: onlineradiobox.com/ch/james/playlist/ + live XSPF sample
+    presenters: jamesfm.ch/team
+    streams: ICY headers + Icecast XSPF
+    cors: "curl -i -H 'Origin: https://rrradio.org' verified open"
+  updatedAt: 2026-06-22
+  notes: >-
+    No FM frequencies — "FM" is a brand abbreviation for "FOR MUSIC"; DAB-only
+    terrestrial. ProRadio WP plugin also exposes current presenter via
+    /wp-json/proradio/v1/current-show (CORS open, JSON) — no track metadata there.
+    Two Radio Browser UUIDs exist for this stream; 031bfcdb is the primary record.

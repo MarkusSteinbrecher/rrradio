@@ -1,0 +1,172 @@
+id: radio-central
+
+identity:
+  name: Radio Central
+  shortName: Central
+  tagline: Das Radio mit Herz aus der Zentralschweiz
+  positioning: >-
+    Switzerland's most-listened-to private radio in central Switzerland —
+    broadest music mix (pop, Mundart, country, Schlager, gold) with
+    deep regional news and live Schwingen coverage.
+  logo:
+    url: https://assets.radioplayer.org/756/756136/600/600/l45ad97z.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Media (CH Regionalmedien AG)
+  group: CH Media
+  foundedYear: 1990   # launched 3 November 1990 as "Radio Schwyz" from Ibach
+  headquarters: { city: Luzern, address: "Postfach 3740, 6002 Luzern", canton: LU }  # relocated 2025-03-25
+
+profile:
+  description: >-
+    The flagship private radio of central Switzerland, launched in 1990 as
+    "Radio Schwyz" and now reaching 192,000 listeners daily. Part of CH Media
+    since 2022, it serves the six Innerschweiz cantons plus Glarus with a broad
+    rotation of pop, Mundart, country, Schlager, and classic hits, anchored by
+    strong regional news and live Schwingfest coverage.
+  format: Hot AC / Gold / Mainstream — pop, Mundart, country, Schlager, classic hits
+  contentMix: { music: 0.80, talk: 0.20 }
+  targetAudience: >-
+    German-speaking adults 25–55 in Central Switzerland (LU, SZ, ZG, UR, OW, NW)
+    with strong affinity to Swiss regional culture (Schwingen, Ländler)
+  distinctive: >-
+    Broadest music mix among Swiss private stations by self-description; live
+    Schwingfest coverage of 20+ festivals per year; dedicated Ländler/Jodel
+    wish-concert block; Kafi Central lifestyle brand; highest average listening
+    duration among Swiss private stations (H2 2024).
+
+music:
+  genres: [pop, schlager, mundart, country, soft-rock, gold, classic-hits]
+  languageShare: { de: low, intl: high }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: >-
+      radiocentral.ch GraphQL AudioLiveData (endpoint …/AudioLiveData/
+      f17ccec05a8805563325a43a632e960a37892c72?streamName=radiocentral.radiocentral)
+      + ICY stream metadata + /zuletzt-gespielt SSR data
+    tracks:
+      - { artist: "John Travolta & Olivia Newton-John", title: "Summer Nights (1978)" }
+      - { artist: Tina Turner, title: "The Best (1989)" }
+      - { artist: Irene Cara, title: "Fame (1980)" }
+      - { artist: Big Mountain, title: "Baby, I Love Your Way (1994)" }
+      - { artist: Roberta Flack, title: "Killing Me Softly With His Song (1973)" }
+      - { artist: James Arthur, title: "Impossible (2010)" }
+  topArtists: [Tina Turner, Roberta Flack, Irene Cara, James Arthur, Big Mountain]
+
+programming:
+  flagshipShows:
+    - { name: "Güäte Morge Zentralschweiz", when: "Mon–Fri morning", note: "breakfast show" }
+    - { name: Central am Nachmittag, when: "Mon–Fri 14:00", presenters: [Nadine Wechsler], note: "afternoon drive" }
+    - { name: Central Gast, note: "interview show — 'spannende Gäste im Gespräch'" }
+    - { name: "Ländlerabig-Ländlerzmorgä", note: "Swiss Ländler/Jodel wish-concert; Wed 20:00–23:00, Sat 08:30–10:00" }
+    - { name: Music Night, note: "weekend music special" }
+    - { name: "Schwinger ganz persönlich", note: "Schwingen wrestler interview series" }
+    - { name: Central-Info Innerschweiz, note: "regional news, 5×/day" }
+  presenters:
+    - Christian Stämpfli
+    - Nadine Wechsler
+    - Christian Eyer
+    - Thomas Berger
+    - Sarah Bellwald
+    - Marcel Lustenberger
+    - Pius Vogel
+    - Evelyn Leemann
+  podcasts:
+    - Central-Info Innerschweiz
+    - "Nachrichten Ausserschwyz/ZH/GL/SG"
+    - Central Gast
+    - Ländlerabig-Ländlerzmorgä
+    - Wetterstudio
+    - Sportstudio
+    - Milchkafi
+    - Schwinger ganz persönlich
+    - "Ufs Gratwohl"
+  scheduleUrl: https://www.radiocentral.ch/sendungen
+
+reach:
+  languages: [de]
+  region: >-
+    Central Switzerland: cantons Lucerne (LU), Schwyz (SZ), Zug (ZG),
+    Uri (UR), Obwalden (OW), Nidwalden (NW); also large parts of Glarus.
+    UKW/FM scheduled for shutdown end of 2026; DAB+ covers all of Deutschschweiz.
+  geo: [47.05, 8.30]   # approximate centre of Innerschweiz coverage area; [0,0] in catalog
+  fm:
+    - 89.4   # Ausserschwyz / Zürichsee
+    - 90.5   # Schwyz inner, LU, OW/NW, Zug
+    - 91.1   # Ausserschwyz / Zürichsee
+    - 97.7   # Uri
+    - 99.0   # OW/NW
+    - 99.2   # Schwyz inner, Zug, Knonaueramt
+    - 100.1  # Luzern
+    - 101.8  # LU, OW/NW, Uri
+    - 102.2  # Uri
+    - 102.6  # Schwyz inner, Zug, Uri
+    - 103.0  # Uri
+  dab: { present: true, since: null, region: Deutschschweiz }
+  audienceDaily: 192000   # H1 2025 Mon–Fri, ages 15+
+
+streams:
+  - { url: "https://stream.streambase.ch/rcentral/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://stream.streambase.ch/rcentral/mp3-128", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.streambase.ch/rcentral/aac-64", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.radiocentral.ch/api/pub/gql/radiocentral/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72?variables=%7B%22streamName%22%3A%22radiocentral.radiocentral%22%7D"
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: ch-media
+
+presence:
+  homepage: https://www.radiocentral.ch
+  socials: {}   # Facebook/Instagram/Twitter/TikTok IDs all null in CH Media Apollo state for this domain
+  apps:
+    ios: "479870160"        # ch.radiocentral.radiocentral, v9.28, CarPlay support
+    android: ch.radio.radiocentral
+  contact:
+    tel: "+41 41 825 44 44"
+    email: redaktion@radiocentral.ch
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Central
+  affiliations: [Radioplayer, CH Media, dabplus.ch]
+
+identifiers:
+  catalogId: ch-radio-central
+  stationuuid: cf128157-674e-46e1-a1b4-9251ee8d3ab7
+  rpuId: NzU2fjEzNg   # decodes to 756~136
+  wikidata: Q1752746
+
+meta:
+  status: fetcher-todo   # GraphQL endpoint confirmed working + CORS-open; fetcher "ch-media" not yet wired
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia/Radio_Central (3 Nov 1990 as "Radio Schwyz")
+    owner: de.wikipedia, chmedia.ch (CH Media acquisition 2022-09-21, retroactive 2022-01-01)
+    headquarters: de.wikipedia (relocated to Luzern 2025-03-25)
+    tagline: radiocentral.ch SEO meta description
+    audienceDaily: de.wikipedia/Radio_Central (Mediapulse H1 2025, Mo–Fr, 15+)
+    format: de.wikipedia + chmediawerbung.ch
+    fm: radiocentral.ch/service/empfang-152047788 + de.wikipedia/Radio_Central
+    streams: radiocentral.ch/service/empfang-152047788 (stream.streambase.ch URLs)
+    nowPlaying.endpoint: window.app.apiPath ("radiocentral" slot) + audio.live GraphQL response verified 2026-06-22
+    nowPlaying.cors: "curl -H 'Origin: https://rrradio.org' → access-control-allow-origin: https://rrradio.org"
+    playlist: GraphQL AudioLiveData + ICY stream metadata + /zuletzt-gespielt SSR 2026-06-22
+    presenters: radiocentral.ch/ueber-uns/team (Apollo state AuthorTeaser objects)
+    apps.ios: itunes.apple.com lookup id=479870160
+    apps.android: radiocentral.ch/service/empfang-152047788 app links
+    wikidata: de.wikipedia.org/wiki/Radio_Central (wikibase_item)
+    logo: radioplayer.org via rpuId NzU2fjEzNg
+  updatedAt: 2026-06-22
+  notes: >-
+    geo [0,0] in catalog — replaced with approximate Innerschweiz centre [47.05, 8.30].
+    Playlist is clearly a classic-hits/gold rotation: tracks from 1973–2010 with year
+    suffixes in ICY/GraphQL titles. The station calls its format "breitesten Musikmix"
+    (broadest music mix) — pop, Mundart, country, Schlager, gold. FM scheduled for
+    UKW shutdown end-2026 (Glarus already unavailable from Jan 2025). GraphQL
+    persisted-query hash (f17ccec0…) is shared across the whole CH Media AZ platform
+    (same as radio-24, radio-bern1, radio-central-2). Stream URLs 302-redirect to
+    chmedia.streamabc.net — use the streambase.ch URLs. No social media accounts
+    configured in CH Media Apollo state for radiocentral domain (shareUrl: null).

@@ -1,0 +1,107 @@
+id: the-stage
+
+identity:
+  name: THE STAGE
+  shortName: THE STAGE
+  tagline: Home of Country | Rock | Americana
+  positioning: Swiss internet radio for Country, Rock, Rockabilly and Americana
+  logo:
+    url: https://assets.radioplayer.org/756/756198/600/600/mpf7gluk.jpeg
+    source: radioplayer
+
+organization:
+  type: internet
+  owner: Teak Media Group GmbH
+  group: driftFM
+  headquarters: { city: Chur, address: "Rathausgasse 8, CH-7000 Chur", canton: GR }
+
+profile:
+  description: >-
+    Swiss internet radio station broadcasting country, rock, Americana, rockabilly
+    and blues — the unofficial Swiss home of the Billboard Country Charts and
+    old-school rock'n'roll, streaming 24/7 from Chur.
+  format: Country / Rock / Americana
+  contentMix: { music: 0.90, talk: 0.10 }
+  targetAudience: Country and rock fans in Switzerland and the German-speaking world
+  distinctive: >-
+    Curated themed shows rather than pure auto-rotation — DJ Leo's rockabilly hour,
+    a weekly Billboard Country Countdown, Wolf Räbsamen's Country Rock Saloon and
+    René Maeder's rock-blues mix give the station a hosted feel rare for an internet-only outlet.
+
+music:
+  genres: [country, rock, americana, rockabilly, blues, singer-songwriter, 80s, classic-rock]
+  languageShare: { en: high, de: low }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://teakmedia.playlist-api.deliver.media/019b8b6f-5ea4-7573-addf-8e3e7f5363e2/playingnow
+    tracks:
+      - { artist: Lynyrd Skynyrd, title: Homegrown }
+      - { artist: Aaron Lewis, title: Am I The Only One }
+      - { artist: "Jelly Roll & Carín León", title: Lighter }
+      - { artist: Luke Combs, title: Tomorrow Me }
+      - { artist: Morgan Wallen, title: Dying Man }
+  topArtists: [Morgan Wallen, Luke Combs, Aaron Lewis, Lynyrd Skynyrd, Jelly Roll]
+
+programming:
+  flagshipShows:
+    - { name: "Rock'n'Roll Train", when: "Mon 14:00–15:00, Thu 20:00–21:00", presenters: [DJ Leo], note: "Rockabilly" }
+    - { name: Country Countdown, when: "Mon 10:00–12:00, Sat 14:00–16:00", note: "Top 30 der Billboard Country Charts" }
+    - { name: Wop Bop A Loo Bop, when: "Mon 19:00–22:00, Wed 14:00–17:00", presenters: [René Maeder], note: "Rock, Blues, Country & Singer/Songwriter" }
+    - { name: Wolfs Country Rock Saloon, when: "Tue 14:00–15:00, Thu 19:00–20:00", presenters: [Wolf Räbsamen], note: "Country — every two weeks" }
+    - { name: Songwriters Lounge, when: "Wed 19:00–20:00, Fri 11:00–12:00", presenters: [Peter Blatter], note: "Singer/Songwriter" }
+    - { name: Honky Tonk Hour, when: "Tue 19:00–20:00, Thu 09:00–10:00", note: "Country" }
+    - { name: Good Old 80s, when: "Wed 20:00–21:00", note: "80s" }
+    - { name: Night Drift, when: "Daily 00:00–06:00", note: "automated overnight mix" }
+  presenters: [DJ Leo, René Maeder, Wolf Räbsamen, Peter Blatter]
+  scheduleUrl: https://www.thestage.radio/shows-schedule/
+
+reach:
+  languages: [de, en]
+  region: Switzerland (national internet-only); primarily German-speaking audience
+  geo: [46.850, 9.533]   # Chur, GR — headquarters location; seed geo (46.948,7.447) is Radio Browser default for CH
+  dab: { present: false }
+
+streams:
+  - { url: "https://stream.teak.media/thestage/mp3_192", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://teakmedia.playlist-api.deliver.media/019b8b6f-5ea4-7573-addf-8e3e7f5363e2/playingnow
+  type: json
+  cors: true
+  coverArt: true
+
+presence:
+  homepage: https://www.thestage.radio
+  socials:
+    facebook: https://www.facebook.com/thestage.one
+    instagram: https://www.instagram.com/thestage_one
+    spotify: https://open.spotify.com/playlist/2UTbEF3riaYCp4ppHtzTeN
+  contact: { email: studio@drift.fm, tel: "+41 79 815 14 13" }
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-driftfm
+  stationuuid: 613afd76-188c-479b-9585-edddc1059a17
+  rpuId: NzU2fjE5OA
+
+meta:
+  status: working
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    owner: thestage.radio/impressum
+    tagline: thestage.radio homepage
+    shows: thestage.radio/shows-schedule
+    nowPlaying: teakmedia.playlist-api.deliver.media (discovered in homepage source)
+    tracks: teakmedia.playlist-api.deliver.media playingnow (sampled 2026-06-22)
+    streams: seed + stream.teak.media redirect to teakmedia-2.streaming.deliver.media
+    geo: headquarters (Chur) — seed geo 46.948,7.447 is Radio Browser CH default, not broadcaster-confirmed
+  updatedAt: 2026-06-22
+  notes: >-
+    drift.fm redirects to thestage.radio (301). THE STAGE and driftFM are sibling
+    brands under Teak Media Group; catalogId ch-driftfm holds the driftFM stream
+    (radio.co) but the enrichment table rpuId NzU2fjE5OA resolves to THE STAGE
+    (separate Teak Media stream). The now-playing API is CORS-open and serves
+    cover art via Azure Blob Storage signed URLs. No FM/DAB — internet-only.
+    Geo coordinates corrected to Chur (broadcaster HQ); seed geo was RB default.
