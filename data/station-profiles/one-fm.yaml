@@ -1,0 +1,107 @@
+id: one-fm
+
+identity:
+  name: One FM
+  shortName: One FM
+  tagline: La radio numéro 1 à Genève
+  positioning: "All the hits — Geneva's leading private hit-radio"
+  logo:
+    url: https://assets.radioplayer.org/756/7565005/600/600/l459piq0.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Media One Group (Antoine de Raemy)
+  group: Media One Group
+  foundedYear: 1996
+  headquarters: { city: Genève, address: "35 rue des Bains, 1205 Genève", canton: GE }
+
+profile:
+  description: >-
+    Geneva's leading private hit-radio — French-language, international
+    pop/dance chart hits ("All the hits") across the Arc Lémanique, with local
+    Geneva shows and a strong terroir/comedy strand.
+  format: Hot AC / dance-pop CHR
+  contentMix: { music: 0.8, talk: 0.2 }
+  targetAudience: Geneva / Lake Geneva adult mainstream
+  distinctive: >-
+    Positions as "la radio numéro 1 à Genève"; heavy international rotation with
+    a recurring French/French-DJ layer (Bob Sinclar, Naïka).
+
+music:
+  genres: [pop, dance, dance-pop, hits]
+  languageShare: { fr: 0.2, intl: 0.8 }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://www.mediaone-digital.ch/cache/onefm.json (live + played)
+    tracks:
+      - { artist: Janet Jackson, title: All For You }
+      - { artist: Damiano David, title: The First Time }
+      - { artist: Naïka, title: One Track Mind }
+      - { artist: "Charlie Puth & Selena Gomez", title: "We Don't Talk Anymore" }
+      - { artist: Bob Sinclar, title: "I Can't Wait" }
+      - { artist: Coldplay, title: We Pray }
+      - { artist: "Luiza & Bleu Soleil", title: Soleil Bleu }
+      - { artist: Flo Rida, title: Whistle }
+      - { artist: "Jennifer Lopez & David Guetta", title: Save Me Tonight }
+      - { artist: The Calling, title: Wherever You Will Go }
+
+programming:
+  flagshipShows:
+    - { name: "L'Equipe du Matin", when: "weekday morning", note: "morning show" }
+    - { name: "L'Happy Hour" }
+    - { name: One FM Comedy Club, note: "comedy" }
+  presenters: [Solène Revillard, Stéfane, Nur]
+  podcasts: ["T'as la ref?"]
+  scheduleUrl: https://www.onefm.ch/categories/emissions/
+
+reach:
+  languages: [fr]
+  region: Arc Lémanique (Geneva + Lausanne basin; some transmitters in France)
+  geo: [46.204, 6.143]   # Geneva
+  fm: [107.0]   # primary since 2001 (orig. 97.6)
+  dab: { present: true, region: Grand Geneva + Jura }
+
+streams:
+  - { url: "https://onefm.ice.infomaniak.ch/onefm-high.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://onefm.ice.infomaniak.ch/onefm-high.aac", codec: aac, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.mediaone-digital.ch/cache/onefm.json
+  type: json
+  cors: true
+  coverArt: true
+  # { live:[{interpret,title,playtime,imageURL,links.url(iTunes)}], played:[...] }
+
+presence:
+  homepage: https://www.onefm.ch
+  socials:
+    facebook: https://www.facebook.com/onefm.ch
+    instagram: https://www.instagram.com/onefm_ch/
+  apps: { ios: "540444819", android: ch.mediaone.androidOneFM }
+  wikipedia: https://fr.wikipedia.org/wiki/One_FM
+
+identifiers:
+  catalogId: ch-one-fm
+  stationuuid: 23184af4-6a87-4cb4-a47f-5936ffd0f673
+  rpuId: NzU2fjUwMDU
+  wikidata: Q2023979
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia
+    owner: onefm.ch + fr.wikipedia
+    playlist: mediaone-digital.ch/cache/onefm.json
+    nowPlaying: "captured via browser network inspection (JS-loaded)"
+  updatedAt: 2026-06-21
+  notes: >-
+    `working` candidate — CORS-open now-playing JSON with cover art + iTunes
+    links at mediaone-digital.ch/cache/onefm.json. This is a SHARED Media One
+    Group platform: cache/<station>.json should also cover Radio Lac, LFM,
+    Rouge and Yes FM — one fetcher for the whole group (worth a follow-up).
+    Catalog row ch-one-fm has geo [46.948, 7.447] (Bern) — wrong; should be
+    Geneva.

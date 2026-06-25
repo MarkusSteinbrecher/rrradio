@@ -1,0 +1,147 @@
+id: radio-berner-oberland
+
+identity:
+  name: Radio Berner Oberland
+  shortName: Radio BeO
+  tagline: Dini Region. Dini Musig. Dis Radio.
+  positioning: Regional private radio for the Bernese Oberland — local news, Swiss and international pop, community voice
+  logo:
+    url: https://www.radiobeo.ch/wp-content/themes/radiobeo/img/beo-logo-wrapp.png
+    source: broadcaster
+
+organization:
+  type: commercial
+  owner: Radio Berner Oberland AG
+  group: independent
+  foundedYear: 1987
+  headquarters:
+    city: Interlaken
+    address: "Aareckstrasse 6, 3800 Interlaken"
+    canton: BE
+
+profile:
+  description: >-
+    Radio BeO is the private regional radio station for the Bernese Oberland,
+    on air since 6 June 1987. It blends mainstream pop/rock hits with Volksmusik
+    (Swiss folk), extensive local news, regional sports coverage, and community
+    programming in Bernese German.
+  format: Adult Contemporary / Regional
+  contentMix: { music: 0.70, talk: 0.30 }
+  targetAudience: Adults 25–55 across the Bernese Oberland region
+  distinctive: >-
+    Strong community anchor: ~3,000 interviews and ~7,000 regional news items
+    produced annually. One of the few Swiss private stations that actively programmes
+    Volksmusik (BeO-Stubete) alongside mainstream pop. Listeners can call/WhatsApp
+    the studio during live shows.
+
+music:
+  genres: [pop, rock, adult contemporary, Volksmusik, Swiss folk]
+  languageShare: { de: low, intl: high }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: "https://www.radiobeo.ch/playlist/ (WP admin-ajax action=playlist_ajax HTML response)"
+    tracks:
+      - { artist: U2, title: Beautiful Day }
+      - { artist: Rolling Stones, title: 19th Nervous Breakdown }
+      - { artist: Naomi Lareine, title: Colorblind }
+      - { artist: Tina Turner, title: "What's Love Got to Do with It" }
+      - { artist: Train, title: Hey Soul Sister }
+      - { artist: "Youssou N'Dour & Neneh Cherry", title: 7 Seconds }
+      - { artist: Starship, title: We Built This City }
+      - { artist: Beatles, title: She Loves You }
+      - { artist: Lovebugs, title: Heartbreak City }
+      - { artist: Vanessa Williams, title: Save the Best for the Last }
+      - { artist: Sombr, title: Homewrecker }
+      - { artist: Ryan Paris, title: Dolce Vita }
+      - { artist: Christina Aguilera, title: Beautiful }
+      - { artist: Imagination, title: Just an Illusion }
+      - { artist: Iggi Kelly, title: Heard It All }
+      - { artist: Melanie C, title: Carolyna }
+      - { artist: Westlife, title: Uptown Girl }
+      - { artist: Ronan Keating, title: When You Say Nothing at All }
+      - { artist: Shawn Mendes, title: Stitches }
+      - { artist: Ten Sharp, title: You }
+
+programming:
+  flagshipShows:
+    - { name: BeO-Morge, when: weekday mornings, note: "morning drive show" }
+    - { name: BeO-Stubete, when: weekly, note: "Volksmusik / Swiss folk show" }
+    - { name: BeO-Sunntig, when: Sunday, note: "Sunday magazine show" }
+    - { name: BeO-bi-de-Lüt, when: weekly, note: "portrait interview series" }
+    - { name: BeO-Thema, when: weekly, note: "in-depth regional topic" }
+    - { name: BeO-Sunntigs-Sport, when: Sunday, note: "regional sports roundup" }
+    - { name: BeO-Nacht, when: "23:00–24:00 daily", note: "late-night automated music" }
+  podcasts:
+    - BeO-Thema
+    - BeO-Info
+    - "BeO-bi-de-Lüt"
+    - BeO-Sunntig
+    - BeO-Rot-Wyss-für-immer
+    - BeO-Sunntigs-Sport
+    - BeO-Monatsthema
+    - BeO-Strubelimutz
+    - BeO-KiBeO
+  scheduleUrl: https://www.radiobeo.ch/sendungen/
+
+reach:
+  languages: [de]
+  region: "Bernese Oberland (Interlaken, Thun, Grindelwald, Adelboden, Gstaad, Kandersteg, Brienz, Meiringen)"
+  geo: [46.686, 7.863]   # Interlaken
+  fm: [88.8, 94.9, 95.7, 95.8, 95.9, 96.8, 91.5]
+  dab: { present: true, since: 2017, region: "DAB+ Bern-Mittelland-Oberland (SwissMediaCast D03-BE/FR)" }
+  audienceDaily: 58640   # 1st half 2021, Mo–So, D-CH 15+
+
+streams:
+  - { url: "https://streaming.radiobeo.ch/beo/mp3_192/web", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://streaming.radiobeo.ch/beo/mp3_128/web", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.radiobeo.ch/wp-admin/admin-ajax.php (POST action=intervalUpdateOnAir)"
+  type: none
+  cors: false
+  coverArt: true
+  # Cover art served at https://www.radiobeo.ch/playout/covers/<id>.jpg (no CORS)
+  # Playlist history: POST action=playlist_ajax with playlist_date=YYYYMMDD → HTML
+
+presence:
+  homepage: https://www.radiobeo.ch
+  socials:
+    facebook: https://www.facebook.com/radiobeo/
+    instagram: https://www.instagram.com/radio_beo/
+  apps: { ios: true, android: true }
+  podcasts: https://www.radiobeo.ch/podcasts/
+  contact:
+    email: kontakt@radiobeo.ch
+    tel: "+41 33 888 88 10"
+  wikipedia: https://de.wikipedia.org/wiki/Radio_BeO
+  affiliations:
+    - Förderverein Radio BeO
+
+identifiers:
+  catalogId: ""
+  stationuuid: 6500ca13-51b8-4521-b35b-60bff718ef0a
+  rpuId: NzU2fjEyMA   # decodes to 756~120
+  wikidata: Q2125981
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_BeO + radiobeo.ch/unternehmen
+    fm: radiobeo.ch/empfang
+    dab: radiobeo.ch/unternehmen (2017) + radiobeo.ch/empfang (SwissMediaCast D03)
+    audienceDaily: de.wikipedia.org/wiki/Radio_BeO (1. Halbjahr 2021)
+    address: radiobeo.ch/kontakt
+    owner: de.wikipedia.org/wiki/Radio_BeO
+    playlistSample: radiobeo.ch/playlist via WP admin-ajax action=playlist_ajax
+    nowPlaying: scripts.js intervalUpdateOnAir (HTML endpoint, no JSON, no CORS)
+    stationuuid: radio-browser.info search
+    wikidata: wikidata.org Q2125981
+  updatedAt: 2026-06-21
+  notes: >-
+    Now-playing is WordPress HTML (POST admin-ajax.php action=intervalUpdateOnAir).
+    No CORS, no JSON API. Cover art at /playout/covers/<id>.jpg (no CORS).
+    A custom fetcher would need to scrape the HTML response and proxy it.
+    needs-fetcher: HTML-scraping fetcher for admin-ajax intervalUpdateOnAir endpoint.

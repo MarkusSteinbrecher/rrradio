@@ -1,0 +1,126 @@
+id: radio-basilisk
+
+identity:
+  name: Radio Basilisk
+  shortName: Basilisk
+  tagline: So starkt der Tag richtig!
+  positioning: Ihr Radio für Basel und Umgebung — 40 Joor die beschte Hits
+  logo:
+    url: https://cdn.radiosphere.io/images/83e4bf20-2bd5-4adc-9df0-912124b71675
+    source: radiosphere
+  brandColor: "#E60005"
+
+organization:
+  type: commercial
+  owner: Matthias Hagemann
+  group: independent
+  foundedYear: 1983
+  headquarters: { city: Basel, address: "Marktplatz 5, Postfach, 4001 Basel", canton: BS }
+
+profile:
+  description: >-
+    Basel's own local commercial hits station, on air since 1 November 1983 — one of
+    Switzerland's first private broadcasters. Plays mainstream pop and rock gold for the
+    Basel city region with a strong local identity and Basel-dialect on-air personality.
+  format: Adult Contemporary / Hot AC
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: Adults 25–55 in the Basel region (Basel-Stadt, Basel-Landschaft, Aargau border)
+  distinctive: >-
+    Deep local roots (Marktplatz, Basel dialect) combined with a mainstream hits rotation
+    spanning current chart entries and feel-good gold; one of Switzerland's oldest surviving
+    private radio stations.
+
+music:
+  genres: [pop, adult contemporary, rock, classic hits]
+  languageShare: { de: low, intl: high }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://radio-basilisk.api.radiosphere.io/channels/radio-basilisk/track-history
+    tracks:
+      - { artist: sombr, title: Homewrecker }
+      - { artist: Robbie Williams, title: Feel }
+      - { artist: The Weeknd, title: In Your Eyes }
+      - { artist: Adele, title: Set Fire to the Rain }
+      - { artist: Bruno Mars, title: I Just Might }
+      - { artist: Hurts, title: Wonderful Life }
+      - { artist: Noemi Beza, title: "You'll Find Me There" }
+      - { artist: Justin Bieber, title: Love Yourself }
+      - { artist: OneRepublic, title: Need Your Love }
+      - { artist: Cutting Crew, title: "(I Just) Died in Your Arms" }
+      - { artist: Joya Marleen, title: Next To You }
+      - { artist: Train, title: Drive By }
+      - { artist: Michael Schulte, title: 5am }
+      - { artist: Damiano David, title: Next Summer }
+      - { artist: Kylie Minogue, title: "Can't Get You Out of My Head" }
+  topArtists: [Robbie Williams, Adele, The Weeknd, Bruno Mars, Justin Bieber, Kylie Minogue]
+
+programming:
+  flagshipShows:
+    - { name: Basilisk Morgenshow, when: "Mon–Fri from 06:00", note: "main morning show" }
+    - { name: Der Feierabend bei Basilisk, when: "Mon–Fri evening", note: "evening drive show" }
+    - { name: Mit den besten Hits durch den Tag, when: "daytime", note: "daytime programming block" }
+  podcasts: [Penalty-Podcast, Papis-Podcast, Fasnachts-Podcast]
+  scheduleUrl: https://www.basilisk.ch/de/
+
+reach:
+  languages: [de]
+  region: Basel city region — Basel-Stadt, Basel-Landschaft, southern Aargau, upper Alsace border
+  geo: [47.5596, 7.5886]
+  fm: [107.6, 102.3, 106.9, 88.8, 93.2]
+  dab: { present: true, since: null, region: "Basel region" }
+  audienceDaily: 86080   # H1 2021, Mon–Sun, D-CH, 15+
+
+streams:
+  - { url: "https://radiobasilisk-64.ice.infomaniak.ch/radiobasilisk-64-128-2.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://radio-basilisk.api.radiosphere.io/channels/radio-basilisk/stream.mp3?quality=10", codec: mp3, bitrate: 320, type: icecast }
+  - { url: "https://radio-basilisk.api.radiosphere.io/channels/radio-basilisk/stream.mp3?quality=1", codec: mp3, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://radio-basilisk.api.radiosphere.io/channels/radio-basilisk/track-history
+  type: json
+  cors: true
+  coverArt: true
+
+presence:
+  homepage: https://www.basilisk.ch
+  socials:
+    facebook: https://facebook.com/radiobasilisk
+    instagram: https://www.instagram.com/radiobasilisk
+    twitter: https://www.twitter.com/Radio_Basilisk
+    linkedin: https://www.linkedin.com/company/radio-basilisk
+  apps:
+    ios: true
+    android: true
+  contact: { email: studio@basilisk.ch, tel: "+41 61 269 69 69" }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Basilisk
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-radio-basilisk
+  stationuuid: 9606b4de-0601-11e8-ae97-52543be04c81
+  rpuId: NzU2fjEwNw
+  wikidata: Q13142854
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_Basilisk
+    owner: de.wikipedia.org/wiki/Radio_Basilisk
+    fm: de.wikipedia.org/wiki/Radio_Basilisk
+    audienceDaily: de.wikipedia.org/wiki/Radio_Basilisk (H1 2021)
+    tracks: radio-basilisk.api.radiosphere.io/channels/radio-basilisk/track-history
+    apiHost: basilisk.ch/assets/config.json (appId 86441e94-f4ee-454c-89ff-52832b61c71a)
+    socials: basilisk.ch homepage
+    apps: basilisk.ch homepage (App Store id6466442423, Play id ch.basilisk.rs.app)
+    wikidata: de.wikipedia.org/wiki/Radio_Basilisk
+  updatedAt: 2026-06-21
+  notes: >-
+    Now-playing uses the Radiosphere CMS API at radio-basilisk.api.radiosphere.io;
+    track-history endpoint (limit=1) gives current track with artwork; CORS open to
+    any origin. A dedicated fetcher key ("radio-basilisk" / radiosphere) would
+    upgrade status from fetcher-todo to working. The /channels/radio-basilisk/on-air
+    path 404s — use /track-history?limit=1 instead. "Basilisk Night Track" entries
+    in the history are station jingles/idents (no artwork), not real song plays.
