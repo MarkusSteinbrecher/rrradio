@@ -1,0 +1,104 @@
+id: radio-lora
+
+identity:
+  name: Radio LoRa
+  shortName: LoRa
+  tagline: The Revolution Will Not Be Tweeted
+  positioning: Das freie Radio von Zürich — intercultural community radio
+  logo:
+    url: ""
+    source: ""
+
+organization:
+  type: community
+  owner: Verein Radio LoRa (non-profit)
+  group: independent / community
+  foundedYear: 1981
+  headquarters: { city: Zürich, address: "Militärstrasse 85a, 8004 Zürich", canton: ZH }
+
+profile:
+  description: >-
+    Switzerland's oldest community radio — 250+ volunteer hosts broadcasting
+    24/7, ad-free, eclectic music and political/cultural talk in 21 languages
+    from Zürich's Kreis 4.
+  format: Community / freeform
+  contentMix: { music: 0.5, talk: 0.5 }
+  targetAudience: >-
+    groups and individuals underrepresented in mainstream media; intercultural
+    Zürich (every third resident's daily life isn't only in Swiss German)
+  distinctive: >-
+    21 broadcast languages, explicitly political/feminist/anti-establishment,
+    strictly non-commercial. Born of Zürich's 1980s youth movement.
+
+music:
+  genres: [community, freeform, world, experimental, electronic, talk, political]
+  languageShare: { multilingual: true }
+  rotationStyle: freeform
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://www.lora.ch/radio/tracklist
+    tracks:
+      - { artist: Panda Lux, title: "—" }
+      - { artist: Lost in Lona, title: "—" }
+      - { artist: Bob Marley, title: "—" }
+      - { artist: Nina Simone, title: "—" }
+  notes: >-
+    Not a rotation station — music is curated per-show by volunteers; the live
+    signal is often spoken-word. The defining signal is the SHOW GRID + its
+    languages, not a now-playing artist.
+
+programming:
+  flagshipShows:
+    - { name: Die Hälfte des Äthers, note: "queer / feminist" }
+    - { name: Claim the Waves, note: "feminist music-politics" }
+    - { name: Dengê Kurdistan, note: "Kurdish" }
+    - { name: Canal Abierto, note: "Spanish" }
+    - { name: Radio L'ora italiana, note: "Italian" }
+    - { name: Arab Voices, note: "Arabic" }
+  presenters: ["~250 volunteer hosts"]
+  podcasts: [https://www.lora.ch/radio/audiothek]
+  scheduleUrl: https://www.lora.ch/radio/programm
+
+reach:
+  languages: [de, es, ku, tr, it, ar, fa, en]   # 21 total across the show grid
+  region: Greater Zürich
+  geo: [47.374, 8.522]
+  fm: [97.5]
+  dab: { present: true }
+
+streams:
+  - { url: "https://livestream.lora.ch/lora.mp3", codec: mp3, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://stream.lora.ch/status-json.xsl
+  type: status-json
+  cors: true
+  coverArt: false
+  # multi-mount Icecast — filter for the lora.mp3 mount; ICY metadata also present
+
+presence:
+  homepage: https://www.lora.ch
+  socials:
+    facebook: https://www.facebook.com/LoRa97.5
+    instagram: https://www.instagram.com/radiolora97.5
+    twitter: "@lora_radio"
+  contact: { email: mail@lora.ch, tel: "+41 44 567 24 00" }
+  wikipedia: https://de.wikipedia.org/wiki/Radio_LoRa
+  affiliations: [UNIKOM, AMARC, klipp+klang]
+
+identifiers:
+  catalogId: ch-radio-lora-97-5
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia
+    languages: lora.ch audiothek language filter
+    mission: lora.ch about (?language=en)
+  updatedAt: 2026-06-21
+  notes: >-
+    icy-only / working candidate (ICY title + Icecast status-json both supply
+    now-playing). Tag as community/freeform with secondary talk/world/
+    experimental/political/multilingual — do NOT pick a single commercial genre.
