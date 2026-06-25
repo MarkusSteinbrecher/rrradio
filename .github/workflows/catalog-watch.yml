@@ -27,7 +27,7 @@ jobs:
     # job used to die at the 6 h ceiling when the probes were sequential.
     timeout-minutes: 330
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           # Same pin as deploy.yml. A hardcoded node 22 here kept failing
