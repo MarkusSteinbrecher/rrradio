@@ -1,0 +1,110 @@
+id: 2go-ch
+
+identity:
+  name: Radio 2Go
+  shortName: 2Go
+  tagline: Schweizweit Freizeit
+  positioning: >-
+    Digital-only Swiss AC radio from Aargau — mellow pop, gold, and easy listening,
+    largely automated, targeting leisure listeners over 35
+  logo:
+    url: https://radio2go.fm/wp-content/uploads/2020/06/favicon.png
+    source: broadcaster-site
+
+organization:
+  type: commercial
+  owner: Reto Wettstein
+  group: ""
+  headquarters: { city: Brugg, canton: AG }
+  # One-room studio near Brugg train station (Wikipedia)
+
+profile:
+  description: >-
+    Radio 2Go is a Swiss internet and DAB+ station based in Brugg, Aargau, broadcasting
+    adult contemporary pop and gold tracks Switzerland-wide. The station operates without
+    an FM licence, positioning itself as a pure-digital broadcaster under the slogan
+    "Schweizweit Freizeit" (Switzerland-wide leisure).
+  format: Adult Contemporary / Easy Listening gold
+  contentMix: { music: 0.95, talk: 0.05 }
+  targetAudience: Adults 35+ interested in leisure and culture
+  distinctive: >-
+    One of Switzerland's deliberately FM-free stations, relying entirely on DAB+ and
+    online streaming. Founder Reto Wettstein publicly criticised the Swiss Federal
+    Council's decision to postpone the FM shutdown, calling it "market distortion"
+    disadvantaging pure-digital operators. Added a Liechtenstein edition (Jan 2025)
+    with a morning show.
+
+music:
+  genres: [adult contemporary, pop, easy listening, soft rock, oldies]
+  languageShare: { intl: high, de: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-21
+    source: https://api.broadcast.radio/api/nowplaying/2400
+    tracks:
+      - { artist: Rod Stewart, title: "Have I Told You Lately (with the Royal Philharmonic Orchestra)" }
+      - { artist: "Zucchero, Randy Crawford", title: Diamante }
+      - { artist: Carmen & Thompson, title: Time Moves On }
+      - { artist: Vaya Con Dios, title: "What's a Woman" }
+      - { artist: Carole King, title: "You've Got A Friend" }
+      - { artist: Katie Melua, title: Nine Million Bicycles }
+  topArtists: [Rod Stewart, Carole King, Katie Melua, Zucchero, Vaya Con Dios]
+
+programming:
+  flagshipShows:
+    - { name: Morgenshow, when: "Daily morning", note: "Liechtenstein edition only — hosted by Michel Erismann & Katja Langenbahn (since Jan 2025)" }
+  presenters: [Michel Erismann, Katja Langenbahn]   # Liechtenstein morning show only
+
+reach:
+  languages: [de]
+  region: >-
+    Northwest Switzerland (Aargau, Solothurn) and Southeast Switzerland;
+    Liechtenstein (Oberland, since January 2025)
+  geo: [47.48, 8.211]
+  fm: []   # deliberately no FM — pure DAB+ and online
+  dab: { present: true, region: "Aargau–Olten (Block 5D) + Südostschweiz; Liechtenstein Oberland (since 2025)" }
+
+streams:
+  - { url: "https://uksoutha.streaming.broadcast.radio:15830/radio2go", codec: aac, bitrate: 192, type: icecast }
+  - { url: "https://uksoutha.streaming.broadcast.radio:15830/32kAAC", codec: aac, bitrate: 36, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.broadcast.radio/api/nowplaying/2400
+  type: json
+  cors: true
+  coverArt: true
+  fetcher: ""   # not yet wired; endpoint uses broadcast.radio cms uuid 2400
+
+presence:
+  homepage: https://www.radio2go.fm/
+  socials:
+    facebook: https://www.facebook.com/Radio2Go.fm/
+    instagram: https://www.instagram.com/radio_2go/
+    twitter: https://x.com/Radio_2Go
+  affiliations: [UNIKOM]
+
+identifiers:
+  catalogId: ch-radio-2go
+  stationuuid: 56f7dd34-4213-4773-88ae-7337ed2ca422
+  rpuId: NzU2fjIwNA
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    headquarters: de.wikipedia.org/wiki/Radio_2Go
+    dab: de.wikipedia.org/wiki/Radio_2Go
+    tagline: og:description on radio2go.broadcast.radio
+    playlist: https://api.broadcast.radio/api/nowplaying/2400
+    affiliations: de.wikipedia.org/wiki/Radio_2Go
+    owner: de.wikipedia.org/wiki/Radio_2Go
+    presenters: de.wikipedia.org/wiki/Radio_2Go (Liechtenstein edition)
+    nowPlayingEndpoint: reverse-engineered from broadcast.radio cms uuid (meta cms:uuid=2400 in page source)
+  updatedAt: 2026-06-21
+  notes: >-
+    The broadcaster website (radio2go.fm) is protected by Cloudflare bot-check (JS challenge)
+    and returns 403 to curl/headless requests. All broadcaster-site data was obtained via
+    the broadcast.radio player page and de.wikipedia.org. The nowPlaying endpoint
+    (api.broadcast.radio/api/nowplaying/2400) is CORS-open, returns artist+title+cover art,
+    and is not yet wired as a fetcher. Status could be upgraded to fetcher-todo.
