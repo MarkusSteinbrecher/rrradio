@@ -3,11 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>rrradio — tune in</title>
-<meta name="description" content="rrradio is a minimal, free, ad-free internet radio app for iPhone and Apple Watch. Tune the dial to read it." />
+<title>rrradio · free internet radio for iPhone &amp; Apple Watch</title>
+<meta name="description" content="Free, ad-free internet radio for iPhone and Apple Watch. Thousands of live stations worldwide — no account, no ads, no tracking. Free on the App Store." />
+<link rel="canonical" href="https://rrradio.org/ios/" />
+<meta name="robots" content="index, follow" />
+<!-- CSP. script-src keeps 'unsafe-inline' in source so `npm run dev`
+     serves the inline JSON-LD SEO block below cleanly; the build
+     (tools/build-station-pages.mjs) rewrites this on dist/ios/index.html
+     to drop 'unsafe-inline' and pin a 'sha256-…' hash per inline script,
+     matching the home + station pages. -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
-  script-src 'self';
+  script-src 'self' 'unsafe-inline';
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data:;
   connect-src 'self';
@@ -22,6 +29,41 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="rrradio-logo-app-dark.svg" />
+<!-- Search-engine + share metadata. og:image reuses the site-wide
+     1200x630 card at /og-image.png (absolute URL required by scrapers). -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="rrradio" />
+<meta property="og:title" content="rrradio · free internet radio for iPhone &amp; Apple Watch" />
+<meta property="og:description" content="Free, ad-free internet radio for iPhone and Apple Watch. Thousands of live stations worldwide — no account, no ads, no tracking." />
+<meta property="og:url" content="https://rrradio.org/ios/" />
+<meta property="og:image" content="https://rrradio.org/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="rrradio — internet radio for iPhone and Apple Watch" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="rrradio · free internet radio for iPhone &amp; Apple Watch" />
+<meta name="twitter:description" content="Free, ad-free internet radio for iPhone and Apple Watch — no account, no ads, no tracking." />
+<meta name="twitter:image" content="https://rrradio.org/og-image.png" />
+<meta name="twitter:image:alt" content="rrradio — internet radio for iPhone and Apple Watch" />
+<!-- Structured data — eligible for Google rich results. MobileApplication
+     points crawlers at the App Store listing and marks the app free. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "rrradio",
+    "operatingSystem": "iOS, watchOS",
+    "applicationCategory": "MultimediaApplication",
+    "url": "https://rrradio.org/ios/",
+    "downloadUrl": "https://apps.apple.com/app/rrradio-org/id6767256355",
+    "installUrl": "https://apps.apple.com/app/rrradio-org/id6767256355",
+    "description": "Free, ad-free internet radio for iPhone and Apple Watch. Thousands of live stations worldwide — no account, no ads, no tracking.",
+    "image": "https://rrradio.org/og-image.png",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "isAccessibleForFree": true,
+    "publisher": { "@type": "Organization", "name": "rrradio", "url": "https://rrradio.org/" }
+  }
+</script>
 <link rel="stylesheet" href="./landing.css" />
 <link rel="stylesheet" href="./tunein.css" />
 </head>

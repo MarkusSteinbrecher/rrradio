@@ -477,6 +477,15 @@ const homepageHtml = replaceBlock(
 );
 writeFileSync(`${DIST}/index.html`, applyCspHashes(homepageHtml), 'utf8');
 
+// The /ios landing page is emitted by Vite (multi-page input), so it
+// skips the rewrite loop above. Run the same CSP hash sweep on it so its
+// inline JSON-LD SEO block ships without 'unsafe-inline', matching the
+// home + station pages.
+const iosPath = join(DIST, 'ios', 'index.html');
+if (existsSync(iosPath)) {
+  writeFileSync(iosPath, applyCspHashes(readFileSync(iosPath, 'utf8')), 'utf8');
+}
+
 // Dedicated recently-added landing page. Standalone HTML, no SPA shell
 // — Google can land users straight here from search and the page is
 // instantly useful + indexable on its own.
@@ -493,6 +502,7 @@ const today = new Date().toISOString().slice(0, 10);
 const sitemapEntries = [
   `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>`,
   `  <url><loc>${SITE}/recently-added/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`,
+  `  <url><loc>${SITE}/ios/</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>`,
   ...stations.map(
     (s) =>
       `  <url><loc>${SITE}/station/${s.id}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
