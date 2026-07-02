@@ -395,7 +395,7 @@ map's "<n> stations" are pluralizable.
 | Sort suppressed while a query is active | Not applicable. Web exposes no sort control, so there is nothing to suppress. | Reference. | Planned. The name/quality/favorite sort still applies under an active query today; query-driven relevance ordering and sort suppression are not yet implemented. |
 | Station info preview | Basic row details. | Supported from station rows (press-and-hold). | Supported with long-press row preview. |
 | Geo-restriction dim/badge on rows | Supported. | Supported. | Planned. |
-| Wide-layout multi-column grid | Not planned for current web. The layout caps to a single-column ~480px phone-width frame on wider screens; rows never lay out as a multi-column grid. | Supported (iPad + iPhone landscape). | Planned. |
+| Wide-layout multi-column grid | Not planned for current web. The layout caps to a single-column ~480px phone-width frame on wider screens; rows never lay out as a multi-column grid. | Supported (iPad + iPhone landscape). | Supported — tablet (sw600dp, any orientation) and phone landscape chunk rows into equal-width columns via the iOS fit formula (min row 360dp, gutter 8, max 3); tiles/app/library grids grow the same way. |
 
 ## Open questions
 
