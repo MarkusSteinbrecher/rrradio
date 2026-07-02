@@ -103,8 +103,10 @@ cases for how an already-paused or error state interacts.
 
 ## Business rules
 
-- **Preset cycle durations:** off, 30, 60, 90 minutes. The cycle is the model's
-  `cycle()` step set; on iOS no UI invokes it (see Interactions). It never
+- **Preset cycle durations (legacy):** off, 30, 60, 90 minutes — the model's
+  `cycle()` step set. No native UI invokes it (iOS never wired it; Android
+  removed its cycle 2026-07-02) — web's tap-cycle is the last consumer until
+  it adopts the duration input (see Open questions). It never
   includes a 15-minute preset (see Open questions for web parity).
 - **Settings default duration:** free-form. The Settings row accepts any
   `0:01`–`23:59` duration via a 24-hour time picker — it is *not* limited to the
@@ -210,9 +212,9 @@ Parameter/plural needs:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Supported. |
-| Preset / free-form durations | Partial (web cycle is `[0, 15, 30, 60]`; the canonical set is `[0, 30, 60, 90]` — alignment pending); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | Supported (cycle is the canonical `[0, 30, 60, 90]`, first tap jumps to the persisted default); no free-form sheet entry. |
-| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial (the Sleep button shows the *armed* duration as `<n>m`, fixed at arming, in the transport row and mini player; no live countdown, no sheet, no media-notification suffix). |
+| Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Removed (2026-07-02) — the moon control opens the duration sheet; no cycle UI or model helper remains. |
+| Preset / free-form durations | Partial (tap-cycle `[0, 15, 30, 60]`; the canonical interaction is the free-form picker — alignment pending); no free-form entry. | Reference — free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | Supported — free-form via the sleep sheet (hours:minutes input, seeded from the armed value or the persisted default) and a free-form Settings default. |
+| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial (the transport moon carries an armed chip and the mini player an armed moon glyph — both show the duration fixed at arming; no live countdown, no media-notification suffix). |
 | Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Partial (a ViewModel coroutine fires the pause via the foreground MediaSessionService, so it works while playback keeps the process alive; not yet backed by AlarmManager/exact-alarm, so it does not survive process death — Planned toward parity). |
 | Wake interaction | Silent-bed behavior. | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
 | Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; free-form hours:minutes entry, matching the iOS Settings picker). |
@@ -220,11 +222,13 @@ Parameter/plural needs:
 
 ## Android First-Port Requirement
 
-Android implements the preset sleep-timer cycle (the canonical `[0, 30, 60, 90]`,
-first tap from off jumping to the persisted default) with a default in Settings, and
-pauses via the foreground MediaSessionService when the timer fires. Toward iOS
-parity it still lacks the free-form duration wheel, the live countdown / sheet,
-and a media-notification "Sleep in <n>m" suffix; these are Planned. Background
+Android matches the iOS interaction: the moon control opens a **sleep sheet**
+with a free-form hours:minutes input (M3 time input — the stock analogue of
+the iOS wheel), a Set / Turn off footer, and an armed chip; the mini player
+shows an armed-only moon glyph. A free-form default lives in Settings and
+seeds the sheet. The preset tap-cycle was retired 2026-07-02. Toward iOS
+parity it still lacks a live countdown and a media-notification
+"Sleep in <n>m" suffix; these are Planned. Background
 firing currently rides a ViewModel coroutine plus the foreground service rather
 than `AlarmManager`/exact-alarm, so it does not survive process death — promoting
 it to an AlarmManager-backed schedule (the Android analogue of the iOS keep-alive
@@ -233,13 +237,15 @@ flow (see [Wake to radio](wake-to-radio.md)).
 
 ## Open questions
 
-- ~~**15-minute preset parity.**~~ **Resolved (sponsor, 2026-07-02):** the
-  cycle set is a hard cross-platform contract — the iOS model set
-  `[0, 30, 60, 90]` is canonical. Android aligned 2026-07-02; web drops its
-  15-minute step when next touched.
-- ~~**Free-form vs. preset entry.**~~ **Resolved (sponsor, 2026-07-02):**
-  preset-tap cycling remains the web/Android entry; the free-form wheel sheet
-  stays an iOS-only affordance and is not required for parity.
+- ~~**15-minute preset parity.** / **Free-form vs. preset entry.**~~
+  **Resolved (sponsor, 2026-07-02; revised the same day):** the **free-form
+  duration picker is the canonical sleep interaction** — the sleep control
+  opens a surface where the user picks any hours:minutes duration (the iOS
+  wheel sheet is the reference; Android ships a stock time-input sheet).
+  Preset cycling is retired as a user-facing affordance on native platforms
+  (the iOS `cycle()` set stays unwired dead code); web replaces its tap-cycle
+  with a duration input when next touched. The 15-minute question is moot —
+  every duration is reachable.
 - **Dropped sheet subtitle copy.** The `sleepTimerForStation` ("Sleep timer for
   {name}") and `sleepTimerMessage` ("Stop playback after a delay.") strings are
   still in the catalog but no longer rendered after the sheet restructure (the
