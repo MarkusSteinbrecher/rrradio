@@ -429,24 +429,29 @@ geo handling yet.
   steppable queue (more than one station) both in the service `step()` and in the
   UI (`canStepStations = queueSize > 1`). Previous/next map to step
   backward/forward.
-- **Partial — retry rebuilds, but the budget and backoff diverge.** Retry
-  rebuilds the player item (`setMediaItems` + `prepare`, single-flight) — it does
-  not merely re-call play. **Divergence:** the budget is **2** attempts (not 3),
-  the backoff is a linear `attempt × 1.5 s` capped at 5 s (1.5 s, 3 s — not the
-  `min(30, 2^(n−1))` curve), and there is **no 5-minute healthy-reset timer** —
-  the counter resets whenever the player reaches `STATE_READY`. Aligning the
-  budget (3), the exponential backoff curve, and the healthy-reset window to the
-  contract is **Planned**.
+- **Supported — retry rebuild with the contract budget and the variant ladder
+  (2026-07-02).** Retry rebuilds the player item (`setMediaItems` + `prepare`,
+  single-flight) with the contract's **3-attempt** budget and the
+  `min(30, 2^(n−1))` s exponential backoff, walking the stream-variant
+  failure-fallback plan (3 attempts per variant, immediate advance on
+  exhaustion, terminal error after the last variant). Pause from any surface
+  (in-app, notification, headset, focus loss) disarms a pending retry.
+  **Remaining divergence:** no 5-minute healthy-reset timer — the counter
+  resets whenever the player reaches `STATE_READY` (a more forgiving reset).
 - **Supported — playlist resolution.** `.pls` and `.m3u` are fetched and parsed
   to the underlying stream URL before playback (`StreamUrlResolver`); `.m3u8` is
   left native — ExoPlayer plays HLS directly, so no hls.js-style shim is needed
   (the Android counterpart to the web HLS path).
-- **Partial — now-playing surface.** The Media3 session publishes the
-  notification/lock-screen card with transport controls and the station title +
-  country-code subtitle. **Gap:** it does not yet publish the full now-playing
-  field set (live-stream flag, playback rate, queue index/count, track-cover
-  artwork via the system surface) — those are tracked in app state but not pushed
-  to `MediaMetadata`. Publishing the full field set is **Planned**.
+- **Supported — now-playing surface (2026-07-02/03).** The service registers
+  its session with the `MediaSessionService` machinery (a missing
+  `addSession` had left playback as a non-foreground service with no
+  notification), so the Media3 notification/lock-screen card posts, playback
+  survives task swipe-away, and transport controls work. The session player
+  decorates `MediaMetadata` with the lock-screen text mapping (title =
+  station + program + sleep suffix, subtitle = track or state phrase) and
+  artwork (resolved cover → favicon, ≤512 px / ≤5 MB loader cap, armed-sleep
+  moon badge). Live-stream flag, playback rate, and queue index/count come
+  natively from the Media3 player/timeline.
 - **Planned — queue sources.** The queue is built from the visible station list
   but carries no `source`/`sourceID` (browse/favorites/recents/stationList/
   single) tagging; the source enum and list identity are **Planned** toward
