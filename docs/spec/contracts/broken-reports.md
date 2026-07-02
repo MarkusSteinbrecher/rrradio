@@ -285,30 +285,30 @@ root resolved-toast. Receipts persist in `UserDefaults`. `BrokenStationReporter`
 is the POST integration point; the comment is hard-capped client-side and never
 enters the diagnostics breadcrumb.
 
-**Android** — currently sends the pre-#507 payload (no category sheet, no
-comment) from a single "Report broken station" button in the now-playing
-details, and treats the POST as fire-and-forget: a non-2xx response throws and
-surfaces an in-app failure message, the response body is never read
-(`reportId` is ignored), and no receipt is stored — so there is no status
-line, foreground poll, resolved toast, or email fallback yet. That is valid
-degraded mode (report counted, no follow-up). `BrokenStationReporter` is the
-POST integration point; only the station id/name + a status message reach the
-local diagnostics breadcrumb (never user-authored text). The receipt loop is
-planned toward iOS parity, with receipts persisting locally (DataStore /
-SharedPreferences) when adopted.
+**Android** — ships the full flow per the *Client report flow* section
+(2026-07-02): a category report sheet (six-value single-select +
+optional/`other`-required comment, capped at 500), `reportId` parsed into a
+DataStore receipt store (`rrradio.broken-receipts.v1`), an on-foreground
+batched status poll (`MainActivity.onStart`), the per-station status line in
+the station-info details, a resolved notice via the root Snackbar (dismissal
+marks seen; the seen flag persists), 90d/7d retention, and the `mailto:`
+fallback on POST failure. `BrokenStationReporter` is the POST/GET integration
+point; only the station id/name + category reach the local diagnostics
+breadcrumb (never user-authored text). Receipts are excluded from the SAF
+backup.
 
 ## Platform Matrix
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| POST a broken-station report | Supported | Reference | Supported (fire-and-forget; no receipt) |
-| Category single-select in the report sheet | Not planned (no sheet) | Reference | Planned |
-| Optional comment (`other` requires it) | Not planned | Reference | Planned |
-| Store the `reportId` receipt locally | Not planned | Reference | Planned |
-| Poll `report-status` on foreground | Not planned | Reference | Planned |
-| Per-station status line (received/confirmed/resolved) | Not planned | Reference | Planned |
-| Resolved notification (toast) | Not planned | Reference | Planned |
-| Email fallback on POST failure | Not planned | Supported | Planned |
+| POST a broken-station report | Supported | Reference | Supported |
+| Category single-select in the report sheet | Not planned (no sheet) | Reference | Supported |
+| Optional comment (`other` requires it) | Not planned | Reference | Supported |
+| Store the `reportId` receipt locally | Not planned | Reference | Supported (DataStore) |
+| Poll `report-status` on foreground | Not planned | Reference | Supported |
+| Per-station status line (received/confirmed/resolved) | Not planned | Reference | Supported |
+| Resolved notification (toast) | Not planned | Reference | Supported (root Snackbar; dismissal marks seen) |
+| Email fallback on POST failure | Not planned | Supported | Supported |
 
 ## Open questions
 
