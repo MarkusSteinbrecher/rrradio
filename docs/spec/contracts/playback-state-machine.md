@@ -136,8 +136,10 @@ selection (2026-07-02):** the best/data preference (`rrradio.quality-pref.v1`,
 device-local, excluded from backup), per-station resolution via the iOS
 `streamPlaybackPlan` port, re-play on preference change, and the station-info
 variant picker; stored library copies hydrate `streams[]` from the catalog by
-id. The failure-fallback ladder (advance to the next lower variant on retry)
-is deferred to the Android retry-scheduler refactor. The web player selection
+id. **Android also ships the failure-fallback ladder (2026-07-02):** the
+retry rebuild walks the plan with the per-variant backoff budget (3 attempts,
+immediate advance on exhaustion, terminal error only after the last variant),
+matching the iOS `AudioPlayer` semantics. The web player selection
 + Now Playing toggle and the iOS in-app wiring remain **Planned**. See
 `design/decisions/001-stream-variants-and-catalog-collapse.md`.
 
