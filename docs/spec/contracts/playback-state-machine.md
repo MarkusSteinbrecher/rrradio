@@ -442,7 +442,7 @@ geo handling yet.
   to the underlying stream URL before playback (`StreamUrlResolver`); `.m3u8` is
   left native — ExoPlayer plays HLS directly, so no hls.js-style shim is needed
   (the Android counterpart to the web HLS path).
-- **Supported — now-playing surface (2026-07-02/03).** The service registers
+- **Supported — now-playing surface (2026-07-02).** The service registers
   its session with the `MediaSessionService` machinery (a missing
   `addSession` had left playback as a non-foreground service with no
   notification), so the Media3 notification/lock-screen card posts, playback
