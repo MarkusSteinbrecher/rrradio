@@ -211,17 +211,17 @@ Parameter/plural needs:
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Supported. |
-| Preset / free-form durations | 15/30/60 presets (web cycle is `[0, 15, 30, 60]`); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | 15/30/60/90 presets (cycle is `[0, 15, 30, 60, 90]`, first tap jumps to the persisted default); no free-form entry. |
+| Preset / free-form durations | Partial (web cycle is `[0, 15, 30, 60]`; the canonical set is `[0, 30, 60, 90]` — alignment pending); no free-form entry. | Free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | Supported (cycle is the canonical `[0, 30, 60, 90]`, first tap jumps to the persisted default); no free-form sheet entry. |
 | Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial (the Sleep button shows the *armed* duration as `<n>m`, fixed at arming, in the transport row and mini player; no live countdown, no sheet, no media-notification suffix). |
 | Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Partial (a ViewModel coroutine fires the pause via the foreground MediaSessionService, so it works while playback keeps the process alive; not yet backed by AlarmManager/exact-alarm, so it does not survive process death — Planned toward parity). |
 | Wake interaction | Silent-bed behavior. | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
-| Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (preset default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; preset-restricted, not free-form). |
+| Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; free-form hours:minutes entry, matching the iOS Settings picker). |
 | Pause-not-stop on fire | Supported. | Reference. | Supported. |
 
 ## Android First-Port Requirement
 
-Android implements the preset sleep-timer cycle (`[0, 15, 30, 60, 90]`, first tap
-from off jumping to the persisted default) with a preset default in Settings, and
+Android implements the preset sleep-timer cycle (the canonical `[0, 30, 60, 90]`,
+first tap from off jumping to the persisted default) with a default in Settings, and
 pauses via the foreground MediaSessionService when the timer fires. Toward iOS
 parity it still lacks the free-form duration wheel, the live countdown / sheet,
 and a media-notification "Sleep in <n>m" suffix; these are Planned. Background
@@ -233,14 +233,13 @@ flow (see [Wake to radio](wake-to-radio.md)).
 
 ## Open questions
 
-- **15-minute preset parity.** The web app offers a 15-minute cycle option; the
-  iOS `cycle()` set is 30/60/90 only (and no iOS UI invokes it). iOS users reach
-  any duration, 15 included, via the free-form wheel. Decide whether the cycle
-  set is a hard cross-platform contract.
-- **Free-form vs. preset entry.** iOS surfaces an arbitrary hours:minutes wheel
-  in the sheet *and* a free-form 24h picker for the Settings default, while
-  web/Android lean on preset taps. Should arbitrary durations be a shared
-  capability or an iOS-only affordance?
+- ~~**15-minute preset parity.**~~ **Resolved (sponsor, 2026-07-02):** the
+  cycle set is a hard cross-platform contract — the iOS model set
+  `[0, 30, 60, 90]` is canonical. Android aligned 2026-07-02; web drops its
+  15-minute step when next touched.
+- ~~**Free-form vs. preset entry.**~~ **Resolved (sponsor, 2026-07-02):**
+  preset-tap cycling remains the web/Android entry; the free-form wheel sheet
+  stays an iOS-only affordance and is not required for parity.
 - **Dropped sheet subtitle copy.** The `sleepTimerForStation` ("Sleep timer for
   {name}") and `sleepTimerMessage` ("Stop playback after a delay.") strings are
   still in the catalog but no longer rendered after the sheet restructure (the
