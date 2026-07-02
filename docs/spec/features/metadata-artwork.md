@@ -295,11 +295,11 @@ before marking the station as fully parity-supported on native platforms.
 - **Lyrics on native:** iOS lyrics lookup and the Lyrics pane are implemented, yet
   the lyrics surface is still marked planned/partial parity in the cross-platform
   matrix — confirm the intended native rollout / update the matrix.
-- **In-app artwork fallback parity:** iOS Now Playing falls back to the dot-matrix
-  brand mark rather than the favicon, while the favicon is the documented
-  station-art source for rows and the lock screen. Should the favicon-as-art rule
-  also apply to the in-app Now Playing surface, or is the brand placeholder the
-  intended cross-platform fallback there?
+- **In-app artwork fallback parity — settled by practice (2026-07):** the
+  dot-matrix brand mark (see [design-language](../design-language.md)) is the
+  intended no-cover fallback on the in-app Now Playing surface; the favicon
+  remains the station-art source for rows and the lock screen. iOS and Android
+  both ship this split; web should follow when its Now Playing surface deepens.
 - **Localization of schedule/lock-screen literals** (see *Localization*) — when do
   the remaining hard-coded English strings (`Live` badge, "{n} broadcasts",
   state phrases, `Untitled`, the `Lyrics source:` prefix) get keyed?

@@ -18,6 +18,8 @@ mechanics into web or Android without an explicit platform note.
 **Shared behavior**
 
 - [Platforms](platforms.md) - shared contracts and platform differences.
+- [Design language](design-language.md) - color tokens, type roles, shape,
+  metrics, motion, and iconography; the visual skin every feature spec assumes.
 - [Data and sync](data-sync.md) - local storage, iCloud/CloudKit, and future
   cross-platform sync decisions.
 - [Playback](playback.md) - streaming, recovery, background audio, and media

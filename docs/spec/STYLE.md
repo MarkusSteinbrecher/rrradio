@@ -36,6 +36,11 @@ The spec has two tiers:
   the **Reference** section. If a behavior is iOS-only, say so with a platform
   note — never let iOS-only mechanics leak into a shared contract (see the
   README principle).
+- **Visual values live in [design-language.md](design-language.md)** — the
+  token palette, type roles, radii, metrics, motion, and icon mapping. Layout
+  sections give structure plus load-bearing sizes (row heights, artwork sizes)
+  and reference tokens by name (`bg2`, `ink3`, mono-caps label, card radius)
+  instead of restating hex values or durations.
 - Don't duplicate catalog/privacy/curation rules from `../operations.md` — link.
 - Keep it short *per claim*, exhaustive *in coverage*. A spec is done when every
   state and interaction is covered and nothing can be cut from any single claim.

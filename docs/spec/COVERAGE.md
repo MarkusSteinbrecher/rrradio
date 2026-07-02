@@ -55,6 +55,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | Doc | Status | Reconciled @ | Notes |
 |---|---|---|---|
 | platforms | review | 8fc085b | links all 9 contracts; adaptive-layout/landscape note still light (now-playing.md owns the split) |
+| design-language | draft | b36ac94 | `Views/RrradioUI.swift`, `Views/StationKit.swift` (`RrradioTheme`, `cardFill`), `Views/ThemeController.swift`, `Views/DotMatrixLogoView.swift`, `Views/ScrollEdgeBlur.swift` |
 | playback | review | d241aa9 | links `contracts/playback-state-machine.md` |
 | data-sync | review | 8fc085b | links `contracts/sync-merge.md` + `contracts/privacy-data-boundaries.md` |
 

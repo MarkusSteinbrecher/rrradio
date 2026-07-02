@@ -113,10 +113,10 @@ data. See [localization](../contracts/localization.md).
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Three-destination shell (Browse / Favorites / Library) | Supported (sidebar rail ≥1024px; bottom tab bar below). | Reference (bottom tab bar). | Supported (Lists / Browse / Favorites tab structure). |
+| Three-destination shell (Browse / Favorites / Library) | Supported (sidebar rail ≥1024px; bottom tab bar below). | Reference (bottom tab bar). | Supported (bottom tab bar, canonical order; root tab pager with swipe). |
 | Favorites as its own top-level destination | Supported. | Reference. | Supported. |
-| Library home (user lists + pinned Recents) | Supported; functional rows (icon · name · count) into existing detail views — no favicon-strips, per-card play button, now-playing indicator, or drag-reorder yet. | Reference (card navigator with favicon strips, per-card play, now-playing equalizer, long-press reorder). | Partial. |
-| Library inner page-swiper (Home · lists · Recents) | Not planned for current web (tap-in + back instead of a horizontal swiper). | Reference. | Planned. |
+| Library home (user lists + pinned Recents) | Supported; functional rows (icon · name · count) into existing detail views — no favicon-strips, per-card play button, now-playing indicator, or drag-reorder yet. | Reference (card navigator with favicon strips, per-card play, now-playing equalizer, long-press reorder). | Supported (card navigator with long-press reorder). |
+| Library inner page-swiper (Home · lists · Recents) | Not planned for current web (tap-in + back instead of a horizontal swiper). | Reference. | Supported (nested pager; top chrome pinned, updates at settle — deliberate Android adaptation). |
 | Recents under Library only | Supported. | Reference. | Supported. |
 | Landing-page targets | Partial (Browse / Favorites / Library). | Reference (… plus a specific list or a pinned station). | Partial. |
 | Collapsible nav rail | Supported (desktop sidebar collapses to icons). | Not applicable. | Not applicable. |
