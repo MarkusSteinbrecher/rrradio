@@ -457,10 +457,13 @@ geo handling yet.
   `ACTION_AUDIO_BECOMING_NOISY` + a `ConnectivityManager` network callback,
   standing in for iOS's `AVAudioSession` interruption / route-change /
   media-services-reset handlers.
-- **Planned — geo-restricted = no retry.** Not implemented: the Station model has
-  no `availableIn` field (its `geo` field is lat/long coordinates, unrelated), so
-  geo-restricted failures currently retry like any transient error. The
-  curated-region permanent-failure path is **Planned**.
+- **Supported — geo-restricted = no retry.** `Station.availableIn` is decoded
+  (normalized at use; an all-invalid list collapses to none), and a playback
+  failure on a station whose allow-list excludes the cached visitor region
+  skips the retry ladder entirely: the service cancels any pending retry and
+  enters `error` with the region-locked message. Unknown/unfetched region
+  fails open to the normal transient-retry path. Region via
+  `/api/public/region`, cached 24h in DataStore (`rrradio.region.v1`).
 
 ## Open questions
 

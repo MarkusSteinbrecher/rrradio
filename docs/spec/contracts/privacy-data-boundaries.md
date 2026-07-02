@@ -125,7 +125,7 @@ form (the *disclose* decision — see Open questions and boundary rule 9).
 
 | Field / Boundary | Type | Optional? | Meaning | Default |
 |---|---|---|---|---|
-| Region cache (`rrradio.region.v1`) | UserDefaults string + date | yes | Cached `CF-IPCountry` result | unset → unknown |
+| Region cache (`rrradio.region.v1`) | UserDefaults string + date (iOS) / DataStore string + epoch millis (Android) | yes | Cached `CF-IPCountry` result | unset → unknown |
 | Region cache TTL | duration | no | How long a region is reused | 24h |
 | Region resolution outcome | `unfetched` / `unknown` / `known(CC)` | no | Drives geo-badge UX | `unfetched` |
 | `isAvailable` semantics | fail-open | no | Unknown region ⇒ treat station as available | fail-open |
