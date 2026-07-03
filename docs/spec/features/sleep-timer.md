@@ -214,7 +214,7 @@ Parameter/plural needs:
 |---|---|---|---|
 | Timer cycle | Supported. | Model only (no UI invokes `cycle()`). | Removed (2026-07-02) — the moon control opens the duration sheet; no cycle UI or model helper remains. |
 | Preset / free-form durations | Partial (tap-cycle `[0, 15, 30, 60]`; the canonical interaction is the free-form picker — alignment pending); no free-form entry. | Reference — free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | Supported — free-form via the sleep sheet (hours:minutes input, seeded from the armed value or the persisted default) and a free-form Settings default. |
-| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Partial (the transport moon carries an armed chip and the mini player an armed moon glyph — both show the duration fixed at arming; no live countdown, no media-notification suffix). |
+| Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Supported (2026-07-03) — the transport moon chip shows the armed duration (`H:MM`, fixed at arming) and the mini player an armed moon glyph; the sheet header carries the live countdown capsule on the 30 s cadence; the media notification renders the "Sleep in <n>m" suffix (2026-07-02). |
 | Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Partial (a ViewModel coroutine fires the pause via the foreground MediaSessionService, so it works while playback keeps the process alive; not yet backed by AlarmManager/exact-alarm, so it does not survive process death — Planned toward parity). |
 | Wake interaction | Silent-bed behavior. | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
 | Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; free-form hours:minutes entry, matching the iOS Settings picker). |
@@ -226,9 +226,9 @@ Android matches the iOS interaction: the moon control opens a **sleep sheet**
 with a free-form hours:minutes input (M3 time input — the stock analogue of
 the iOS wheel), a Set / Turn off footer, and an armed chip; the mini player
 shows an armed-only moon glyph. A free-form default lives in Settings and
-seeds the sheet. The preset tap-cycle was retired 2026-07-02. Toward iOS
-parity it still lacks a live countdown and a media-notification
-"Sleep in <n>m" suffix; these are Planned. Background
+seeds the sheet. The preset tap-cycle was retired 2026-07-02. The
+media-notification "Sleep in <n>m" suffix shipped 2026-07-02; the in-sheet
+live countdown capsule and the `H:MM` armed chip shipped 2026-07-03. Background
 firing currently rides a ViewModel coroutine plus the foreground service rather
 than `AlarmManager`/exact-alarm, so it does not survive process death — promoting
 it to an AlarmManager-backed schedule (the Android analogue of the iOS keep-alive
