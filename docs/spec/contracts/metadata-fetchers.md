@@ -289,10 +289,10 @@ iTunes high-res upgrade:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | Partial (ORF by `metadata=="orf"` + FM4 stream-regex rewrite + Grrif + `icy-only`; no `audioapi.orf.at` host match, no general keyed table — full order planned) |
-| Same per-source field mapping & null-vs-error | MUST | MUST | Partial (Grrif + ORF/FM4 native; rest planned) |
-| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Partial (`icy-metaint` block read + ` - ` split + UTF-8/ISO-8859-1 decode; no-metaint scan budget is 32 KiB not 96 KiB, no metaint upper-bound check) |
-| HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Planned |
+| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | Supported (ORF by `metadata=="orf"` / FM4 stream-regex / `audioapi.orf.at` metadataUrl host, then the keyed broadcaster table, `icy-only` → generic ICY, `.m3u8` → HLS ID3) |
+| Same per-source field mapping & null-vs-error | MUST | MUST | Supported (the full keyed broadcaster set incl. the Worker-proxied hosts; null on no-track, error keeps last-good) |
+| Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Supported (`icy-metaint` in (0, 96 KiB] block read + ` - ` split + UTF-8/ISO-8859-1 decode; no-metaint scan capped at 96 KiB). Since 2026-07-04 the playing station reads ICY cues live from the player (`Player.Listener.onMetadata` → the shared apply/enrichment path); the fetch stays as the fallback for streams that never emit a cue and for row previews. |
+| HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Supported (2026-07-04) — the 96 KiB segment scrape (`TIT2`/`TPE1`, bare-title re-split) plus the live path: the playing station consumes the player's demuxed ID3 frames via `onMetadata`; the scrape remains the no-cue fallback and the row-preview transport. |
 | Cover chain: provider → favicon → iTunes (+ MusicBrainz/Spotify) | Partial (provider/iTunes → favicon; no MusicBrainz, no Spotify cover) | provider → favicon → iTunes only | Partial (provider + iTunes upgrade with low-res detection; now-playing art falls back to station favicon; no MusicBrainz, no Spotify cover) |
 | Program schedule (ORF/FM4) | MUST | MUST | Partial (ORF current-program; full grids planned) |
 | Lyrics: LRCLIB → Lyrics.ovh | MUST | MUST | Planned |
@@ -350,7 +350,7 @@ iOS source (the only place iOS mechanics are named):
 - `rrradio/Player/Metadata/MetadataPoller.swift` — 30 s poll loop; coarse failure diagnostics.
 - `rrradio/Player/Metadata/FavoriteNowPlayingStore.swift` — bulk enrichment, concurrency cap (6), and the combined `metadata(for:)` / `fetchMetadata(for:)` resolution pipeline.
 - `Shared/Station.swift` — `metadata`, `metadataUrl`, `status`, `favicon`, `hasScheduleData` fields.
-- `rrradio/Player/AudioPlayer.swift` — *iOS-only*: in-band `AVMetadataItem` timed-metadata path (foreground) layered alongside the poller; not part of the cross-platform fetcher contract.
+- `rrradio/Player/AudioPlayer.swift` — *iOS-only*: in-band `AVMetadataItem` timed-metadata path (foreground) layered alongside the poller; not part of the cross-platform fetcher contract. Android's analogue (2026-07-04) is `Player.Listener.onMetadata` in `RadioPlaybackService` (`metadata/InBandMetadata.kt`): ExoPlayer demuxes ICY cues *and* HLS ID3, both feed the same apply/enrichment path as the poll (last-writer-wins, null cues dropped), and the poll skips its ICY/HLS transport scrapes once a live cue has been seen for the current playback.
 
 ## Known deviations
 

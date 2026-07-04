@@ -260,11 +260,11 @@ deviations* M12). These are localization gaps, not intended behavior.
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Broadcaster fetchers | Reference proving ground. | Native parity for wired fetchers. | Partial; Grrif and ORF/FM4 are native. |
-| ICY metadata | Supported via fetch where CORS/proxy allows. | Supported through AV metadata and bounded fetch fallback. | Partial; basic ICY parser/fetcher exists. |
-| Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Partial; ORF current-program metadata exists, full schedule grids remain planned. |
-| Station logos | Supported. | Supported. | Partial; row/header rendering exists, full policy parity remains. |
-| Track cover art | Supported. | Supported. | Partial; broadcaster covers plus iTunes cover fallback are supported for fetched tracks. |
+| Broadcaster fetchers | Reference proving ground. | Native parity for wired fetchers. | Supported; the full keyed broadcaster set is native (incl. the Worker-proxied hosts). |
+| ICY metadata | Supported via fetch where CORS/proxy allows. | Supported through AV metadata and bounded fetch fallback. | Supported (2026-07-04) through live in-band player cues (`onMetadata`) and the bounded fetch fallback. |
+| Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Supported for wired broadcasters (ORF/FM4 day grid on the Schedule pane). |
+| Station logos | Supported. | Supported. | Supported (2026-07-04): favicon → initials plate on rows/headers/tiles, custom stations render the house glyph (rows, favorites tiles, app grid), the app grid keeps the full-bleed/no-plate favicon split, the in-app Now Playing hero falls back to the dot-matrix mark for missing *and* loading/failed covers (never a favicon or initials plate), and the media surface ships cover → favicon. |
+| Track cover art | Supported. | Supported. | Supported; broadcaster covers plus the iTunes upgrade/verification — the same provider → iTunes chain as iOS (no MusicBrainz/Spotify on either). |
 | Lyrics lookup | Supported. | Planned/partial native parity. | Planned. |
 | Music-service links (verified-gated) | Supported. | Supported (Apple Music deep link, Spotify/YT Music search). | Supported (2026-07-02): the "Open in" rail renders on Now Playing (portrait below the panes, landscape album column) gated on `trackVerified`, with per-service enable toggles (default ON), the Apple Music `trackViewUrl` deep link / Spotify + YT Music search URLs, the steady-height reservation, and verb-led accessibility labels. Buttons use the neutral-glyph + text fallback rendering (no brand assets bundled). |
 | Lock-screen / media-surface cover (downscaled) | Supported where browser allows. | Supported (≤512 px / ≤5 MB cap; sleep-timer moon badge). | Supported (2026-07-02): the Media3 session decorates its metadata with the lock-screen text mapping (title = station + program + sleep suffix, subtitle = track or state phrase) and pushes artwork (resolved cover → favicon) through a session bitmap loader with the ≤512 px / ≤5 MB cap and the armed-sleep moon badge (Canvas-drawn crescent) composited onto the art. On stop/error Android removes the media notification (platform lifecycle); the session metadata keeps the mapping. |
