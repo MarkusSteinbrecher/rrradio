@@ -280,9 +280,9 @@ copy); the dock selection-count badge remains a bare numeral.
 | Rename list | Supported (in-app inline rename in the list-detail header). | Supported (Home card edit-mode pencil → rename alert). | Supported (pencil on the list row and on the list-detail page → rename dialog; no edit-mode gate). |
 | Create from Browse multi-select | Not planned for current web (web creates a list from the per-row add-to-list sheet, not a Browse multi-select dock). | Supported (popup name entry + selection dock). | Supported (Browse "Add stations to list" enters select mode → bottom save bar → choose/create-list sheet; no two-step progress strip, top-pinned dock, or duplicate-name guard). |
 | Add stations to a list | Supported via the per-row list affordance on any station row → add-to-list sheet (toggle membership; create-and-add a new list inline). No top-pinned multi-select dock. | Supported. | Supported. |
-| Remove stations from a list | Partial; remove by toggling the station off in the add-to-list sheet — no in-list-detail per-row remove or undo toast. | Supported (with undo toast). | Partial (immediate per-row remove; no undo toast yet). |
-| Reorder lists | Not planned for current web. | Supported (interactive drag on Home; Recents pinned). | Supported with up/down controls. |
-| Reorder stations inside a list | Not planned for current web. | Supported (interactive drag). | Supported with up/down controls. |
+| Remove stations from a list | Partial; remove by toggling the station off in the add-to-list sheet — no in-list-detail per-row remove or undo toast. | Supported (with undo toast). | Supported (minus-badge delete mode; "Removed … · Undo" Snackbar restores at the original position). |
+| Reorder lists | Not planned for current web. | Supported (interactive drag on Home; Recents pinned). | Supported (long-press drag on Home cards, single-column; Recents pinned). |
+| Reorder stations inside a list | Not planned for current web. | Supported (interactive drag). | Supported (long-press lift-drag in every display mode; live single-column reorder, drop-commit in wide-canvas grids). |
 | Play list as queue | Not planned for current web (media-session prev/next steps the favorites list, not the open list). | Supported (circular skip). | Supported (circular skip-next/previous; queue scoped to the open list, surfaced via the foreground MediaSessionService / media3 player). |
 | Empty-list guidance | Supported ("Add stations with the list icon on any station row."). | Supported ("Add stations from Browse…"). | Supported. |
 | Cloud sync | Not applicable. | Supported through CloudKit. | Not applicable. |
@@ -290,26 +290,27 @@ copy); the dock selection-count badge remains a bare numeral.
 
 ## Android Current Status
 
-Android implements the core station-list model: list overview, create, rename,
-delete, Browse batch-add, station removal, list reorder, station reorder, local
-persistence (Jetpack DataStore), and queue-scoped circular playback surfaced
-through the foreground MediaSessionService. Native mechanics differ from the iOS
-reference in several places, all tracked toward parity:
+Android (as of 2026-07-04) implements the full station-list surface: the Home
+card navigator with the swipeable page carousel, create, rename (Home-card
+edit-mode pencil), delete, Browse batch-add, station removal (minus-badge
+delete mode with the "Removed … · Undo" Snackbar), long-press lift-drag
+reorder for lists and list stations (live single-column reorder; drop-commit
+in wide-canvas grids — no jiggle, per the Android product decision), the
+list/tiles/app display-mode selector shared with Favorites, per-row
+now-playing metadata (60 s poll while the feed is visible; the playing row
+prefers the live player snapshot), edit mode entered by long-press on a Home
+card (the same gesture that starts the drag; system cards dim and lock) or
+the status-bar trash toggle, local persistence (Jetpack DataStore), and
+queue-scoped circular playback through the foreground MediaSessionService.
 
-- **Reorder** uses explicit up/down arrow controls on each row, not the iOS
-  long-press interactive drag. Planned: Android-native drag/reorder ergonomics if
-  the controls feel too heavy.
-- **Remove from list** is an immediate per-row remove with no undo toast. Planned:
-  the undoable removal batch + "Removed … · Undo" toast.
+Remaining deltas from the iOS reference, tracked toward parity:
+
 - **Create-from-Browse** routes through a Browse "Add stations to list" select
   mode, a bottom save bar, and a choose-or-create-list sheet — without the iOS
   two-step progress strip, top-pinned dock, or case-insensitive duplicate-name
   guard. Planned: the two-step popup/dock affordance and the duplicate-name guard.
 - **Delete confirmation** prompts a confirm dialog for every list (empty lists are
-  not deleted immediately). The Home-card jiggle/edit-mode chrome, page swiper,
-  tuner status bar, and list-detail display-mode pill (list/tiles/icons) are not
-  ported; the lists tab is a flat scrollable list of summary rows. All Planned
-  toward parity.
+  not deleted immediately on Android).
 
 There is no CloudKit equivalent; lists stay device-local and ride the SAF JSON
 backup export/import for manual transfer.
