@@ -100,8 +100,17 @@ jobs:
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit refreshed reports
+      - name: Open refreshed-reports PR
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # `main` is protected and requires status checks, so this sweep
+          # cannot push to it directly — a direct push is rejected with
+          # GH006 before any check can run, which silently killed every
+          # run from 2026-06-22 to 2026-08-12 and froze the health record
+          # (and with it the broken-station demotion propose-fixes feeds
+          # on) at the last successful sweep. Same branch-and-PR shape the
+          # auto-curate step below already uses.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/stations.json \
@@ -110,14 +119,51 @@ jobs:
                   public/station-logo-status.json public/station-backlog.json
           if git diff --cached --quiet; then
             echo "All reports unchanged."
-          else
-            git commit -m "Catalog-watch: weekly health sweep + report refresh"
-            # --autostash: the tree may hold regenerated-but-uncommitted
-            # build outputs (favicon variants, highlights) — same parity
-            # as the old per-step commits, which also left them behind.
-            git pull --rebase --autostash origin main
-            git push origin main
+            exit 0
           fi
+
+          # Reuse the open report PR if last week's is still unmerged, so
+          # these large generated diffs don't stack up one branch a week.
+          OPEN_PR=$(gh pr list --label catalog-watch --state open --json number --jq '.[0].number // ""')
+          if [ -n "$OPEN_PR" ]; then
+            BRANCH=$(gh pr view "$OPEN_PR" --json headRefName --jq .headRefName)
+            git checkout -B "$BRANCH"
+          else
+            BRANCH="auto/catalog-watch-$(date -u +'%Y%m%d-%H%M')"
+            git checkout -b "$BRANCH"
+          fi
+
+          git commit -m "Catalog-watch: weekly health sweep + report refresh"
+          git push --force-with-lease origin "$BRANCH"
+
+          if [ -n "$OPEN_PR" ]; then
+            gh pr comment "$OPEN_PR" --body "Refreshed by the $(date -u +'%Y-%m-%d') sweep."
+          else
+            gh label create catalog-watch \
+              --description "Weekly catalog health sweep" \
+              --color 1D76DB --force >/dev/null 2>&1 || true
+            {
+              echo "Generated report artifacts from the weekly sweep —"
+              echo "\`public/stations.json\` plus the health / status / drift /"
+              echo "duplicate / logo / backlog records. No hand-written changes."
+              echo
+              echo "The diff is large and generated; the signal worth reading is"
+              echo "the tracking issue this run opens. The point of merging is"
+              echo "that \`public/station-health.json\` goes fresh again —"
+              echo "\`propose-fixes\` reads it to demote dead streams out of the"
+              echo "published catalog."
+            } > report-pr-body.md
+            gh pr create \
+              --title "Catalog-watch: weekly health sweep + report refresh" \
+              --label catalog-watch \
+              --body-file report-pr-body.md
+          fi
+
+          # Back to main so the auto-curate step below branches off main
+          # rather than off this report branch. auto-curate.mjs reads and
+          # writes data/stations.yaml only, so dropping the regenerated
+          # public/* artifacts here costs it nothing.
+          git checkout -f main
 
       - name: Auto-curate (Radio Browser → YAML stubs)
         id: curate
