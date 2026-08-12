@@ -10,9 +10,10 @@ name: Error watch
 #   runtime · promise · catalog · worker · stream
 # Plus per-station legacy `error: <name>` events.
 #
-# Required secret: ADMIN_TOKEN — same value as `wrangler secret put
-# ADMIN_TOKEN` on the Worker. Mirror it as a GitHub Actions secret in
-# repo settings before this workflow can run.
+# Required secret: STATS_ADMIN_TOKEN — the Worker's ADMIN_TOKEN (the
+# same value set with `wrangler secret put ADMIN_TOKEN`), mirrored as a
+# GitHub Actions secret. Same secret the triage/resolve workflows read;
+# keep the name in step with them (see #517).
 
 on:
   schedule:
@@ -42,12 +43,12 @@ jobs:
       - name: Fetch errors from worker
         id: fetch
         env:
-          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          ADMIN_TOKEN: ${{ secrets.STATS_ADMIN_TOKEN }}
           DAYS: ${{ github.event.inputs.days || '7' }}
         run: |
           set -euo pipefail
           if [ -z "${ADMIN_TOKEN:-}" ]; then
-            echo "::error::ADMIN_TOKEN secret is missing — add it in repo settings (same value as the Worker's ADMIN_TOKEN)."
+            echo "::error::STATS_ADMIN_TOKEN secret is missing or empty — set it in repo settings (same value as the Worker's ADMIN_TOKEN)."
             exit 1
           fi
           curl -fsS \
