@@ -111,10 +111,10 @@
     <div class="crumbs"><a href="/">rrradio.org</a> · privacy</div>
 
     <h1>Privacy</h1>
-    <div class="meta">Effective 2026-05-02 · Last updated 2026-06-15</div>
+    <div class="meta">Effective 2026-05-02 · Last updated 2026-08-11</div>
 
     <div class="tldr">
-      <p><strong>Short version.</strong> rrradio.org doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. Both the web and iOS apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
+      <p><strong>Short version.</strong> rrradio.org doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. The web, iOS and Android apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. <strong>The Android app has no account and no cloud sync at all</strong> — everything it saves stays on your phone, and the only way data leaves is a backup file you export yourself. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
     </div>
 
     <h2>Who runs this</h2>
@@ -137,6 +137,13 @@
     <p>The iOS app does not track sessions or send background analytics. If you tap "Report broken station", it sends the same anonymous structured report as the web app: station id/name, stream host, app version, and current playback error message when available. It does not include your name, email, device identifier, or Apple account.</p>
     <p>The iOS app can keep a small on-device diagnostic log so you can copy troubleshooting details from Settings. This is off by default. If you turn on "Collect Diagnostics", it stores the last 100 operational events for up to 14 days, such as catalog load status, playback state changes, stream host, station id, and sanitized error messages. It does not include full stream URLs, track titles, artist names, device identifiers, or Apple account data, and it is not sent anywhere unless you copy it yourself.</p>
 
+    <h2>What the Android app collects</h2>
+    <p>The Android app does not track sessions, show ads, or send background analytics, and it has no account. There is no advertising ID, no third-party analytics SDK, and no crash-reporting service.</p>
+    <p>If you tap "Report broken station", it sends the same anonymous structured report as the web and iOS apps: station id/name, stream host, app version, the category you picked, an optional comment you type, and the current playback error message when available. It does not include your name, email, device identifier, or Google account. The server returns a random receipt token so the app can later show you whether that report was resolved; checking status sends only those tokens.</p>
+    <p>On launch, the app asks our server which country your connection appears to come from, so stations a broadcaster has geo-restricted can be labelled accurately. Only your country is read, at the network edge, from the IP address your connection already carries; the answer is cached for 24 hours. If it cannot be determined, every station is simply treated as available.</p>
+    <p>The Android app can keep a small on-device diagnostic log so you can send troubleshooting details if you report a problem. This is <strong>off by default</strong>. If you turn on Diagnostics, it stores the last 200 operational events for up to 14 days, such as catalog load status, playback state changes, and sanitized error messages. Full URLs are stripped before anything is written, messages are truncated, and it does not include track titles, artist names, device identifiers, or Google account data. Nothing is sent anywhere unless you export the file and send it yourself.</p>
+    <p>Unlike the web app, the Android app searches only our own curated catalog, which is already on your device. <strong>What you type into search never leaves your phone.</strong></p>
+
     <h2>What stays on your device</h2>
     <p>The following are stored locally and never sent to any server we control:</p>
     <ul>
@@ -146,14 +153,26 @@
       <li>Theme preference, accent color, volume, sleep-timer settings, landing-page choice, favorites-view layout, language choice, wake-default preference, and car-mode preference. On iOS, if iCloud Sync is enabled, these app preferences are also stored in your private iCloud database.</li>
       <li>Wake alarm settings and any Shortcuts automation you create for scheduled playback.</li>
       <li>iOS listening history, if you enable it in Settings. The default retention is 90 days; you can choose 30 days, 1 year, or forever, export it, or clear it from the app.</li>
+      <li>Android listening history, if you enable it in Settings — it is off by default. The default retention is 90 days; you can choose 30 days, 1 year, or forever, and it is capped at the most recent 2,000 sessions. You can export it as a CSV file or clear it from the app.</li>
       <li>iOS diagnostics, only if you turn on Collect Diagnostics; capped to the last 100 events and 14 days.</li>
+      <li>Android diagnostics, only if you turn on Diagnostics; capped to the last 200 events and 14 days.</li>
     </ul>
-    <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage, with the iCloud Sync exception described above. Clearing your browser's site data (web) wipes the web copy. Deleting the iOS app wipes on-device data; synced iCloud data remains available for restore until you remove it from the app's iCloud Sync settings.</p>
+    <p>On the web this lives in your browser's <code>localStorage</code>; on iOS in the app's local storage, with the iCloud Sync exception described above; on Android in the app's own private storage. Clearing your browser's site data (web) wipes the web copy. Deleting the iOS app wipes on-device data; synced iCloud data remains available for restore until you remove it from the app's iCloud Sync settings.</p>
+    <p><strong>Android stores everything on the device and nowhere else.</strong> There is no account, no server-side copy, and no iCloud equivalent — so there is nothing for us to delete on request, and nothing to restore if you lose the phone. The app is also excluded from Android's automatic app-data backup, so its data is not copied to your Google Drive. The one way data leaves is a backup file you create yourself from Preferences: you choose where it is written and you hold it. Uninstalling the app removes everything it stored.</p>
     <p>The iOS wake-to-radio guide explains why reliable autoplay uses Apple's Shortcuts automation system: <a href="https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/wake-to-radio.md">Wake-to-radio reliability guide</a>.</p>
 
     <h2>Connections to broadcaster servers</h2>
     <p>When you play a station, your device opens an audio stream directly to that broadcaster's server (BR, WDR, BBC, SRG SSR, and so on — see the catalog for the full list). That server receives your IP address — the same as if you typed their stream URL into a browser yourself. We have no access to and no insight into what those broadcasters log. Their privacy policies apply to that connection, not ours.</p>
     <p>The same is true for now-playing metadata fetched directly from broadcasters whose APIs allow cross-origin requests (SRG SSR, MDR, SWR, FFH, Klassik Radio, laut.fm).</p>
+
+    <h2>Track information sent while you listen</h2>
+    <p>When a station broadcasts what it is currently playing, the app uses that artist and track title to fetch album art and lyrics. This means the <strong>name of the track you are listening to</strong> is sent to the following third parties, each time the track changes:</p>
+    <ul>
+      <li><strong>Apple's iTunes Search API</strong> (<code>itunes.apple.com</code>) — to find cover art and to confirm the text really is a song rather than a programme title or a jingle.</li>
+      <li><strong>LRCLIB</strong> (<code>lrclib.net</code>) and, if that finds nothing, <strong>Lyrics.ovh</strong> — to look up lyrics for the Lyrics panel.</li>
+    </ul>
+    <p>Only the artist and title text are sent. No identifier, station, account, or device information goes with them, and the requests are not linked to each other or to you. We do not receive or store these lookups; they go from your device to those services directly. Their own privacy policies govern what they log.</p>
+    <p>This only happens while audio is playing and only when a station actually publishes track information — many news and talk stations never trigger it. If you tap one of the "Open in" buttons for Apple Music, Spotify or YouTube Music, that opens the other app or website with the track as a search term, and from that point their policy applies. Those buttons can be switched off individually in Preferences.</p>
 
     <h2 id="logos">Logos and trademarks</h2>
     <p>rrradio.org is an independent directory. It is not affiliated with, endorsed by, or sponsored by any of the broadcasters, stations, or networks it lists. Station names and logos are the trademarks of their respective owners, and appear here only to help you identify a station and its stream — the same way a printed radio guide or an on-screen programme guide shows them.</p>
