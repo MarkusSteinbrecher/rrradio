@@ -1,17 +1,23 @@
-name: Catalog watch
+name: Catalog refresh (manual)
 
-# Weekly health sweep of the station catalog (docs/station-health.md).
-# Refreshes the catalog from Radio Browser, probes every published
-# station's stream + metadataUrl into the unified health record, checks
-# RB drift, duplicates, and logo state, surfaces curation candidates
-# from GoatCounter top-plays, and commits all refreshed report
-# artifacts in a single push (one downstream Pages deploy, not four).
-# When something needs attention, opens (or updates) a single tracking
-# issue labelled `catalog-watch`; when everything's clean, closes it.
+# Manual Radio Browser refresh + auto-curate entry point.
+#
+# The weekly health sweep that used to live here moved to
+# `station-probe.yml` per ADR 002 (design/decisions/002-catalog-quality-loop.md):
+# probing, drift and logo status now run daily in shards and write to the
+# orphan `health-data` branch, and the findings arrive as the weekly
+# `catalog-quality` digest instead of a log dump. Keeping the RB refresh
+# on a schedule was what made this job fail 12 of its last 15 runs — a
+# 2 h mirror-dependent step in front of everything else — so it is now
+# dispatch-only, run when a curator actually wants a fresh catalog.
+#
+# What it still does: refresh public/stations.json from Radio Browser,
+# check duplicates, surface curation candidates + backlog, open the
+# refreshed-reports PR, auto-curate top-played stations into YAML stubs,
+# and open (or close) a tracking issue labelled `catalog-watch` when the
+# duplicate / candidate signal needs a look.
 
 on:
-  schedule:
-    - cron: '0 7 * * 1' # Monday 07:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -22,10 +28,10 @@ permissions:
 jobs:
   watch:
     runs-on: ubuntu-latest
-    # The probe sweep is bounded (concurrency 24, 8 s timeouts → worst
-    # case ~2.2 h for 24k stations), but leave generous headroom — the
-    # job used to die at the 6 h ceiling when the probes were sequential.
-    timeout-minutes: 330
+    # The RB refresh is the long pole (~2 h, most of it favicon-variant
+    # regeneration). No probe sweep here any more — that lives in
+    # station-probe.yml — so the old 5.5 h ceiling is gone.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -44,30 +50,6 @@ jobs:
           # "Commit refreshed reports" step below.
           npm run catalog
 
-      - name: Probe station health
-        id: validate
-        run: |
-          set +e
-          npm run health -- --strict --concurrency 24 --quiet > validate.txt 2>&1
-          EXIT=$?
-          tail -c 64000 validate.txt
-          echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
-          if [ "$EXIT" -ne 0 ]; then
-            echo "has_issues=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Check Radio Browser drift
-        id: drift
-        run: |
-          set +e
-          npm run check-drift > drift.txt 2>&1
-          EXIT=$?
-          tail -c 16000 drift.txt
-          echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
-          if [ "$EXIT" -ne 0 ]; then
-            echo "has_issues=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Check for duplicate stations
         id: duplicates
         run: |
@@ -80,9 +62,6 @@ jobs:
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Refresh logo status
-        run: npm run logo-status -- --json-only
-
       - name: Show curation candidates
         run: npm run candidates 2>&1 | tee candidates.txt
 
@@ -94,9 +73,7 @@ jobs:
       - name: Combine outcomes
         id: combined
         run: |
-          if [ "${{ steps.validate.outputs.has_issues }}" = "true" ] \
-             || [ "${{ steps.drift.outputs.has_issues }}" = "true" ] \
-             || [ "${{ steps.duplicates.outputs.has_issues }}" = "true" ]; then
+          if [ "${{ steps.duplicates.outputs.has_issues }}" = "true" ]; then
             echo "has_issues=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -113,10 +90,12 @@ jobs:
           # auto-curate step below already uses.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # The health / status / drift / logo records are NOT committed
+          # here any more — station-probe.yml derives them onto the
+          # `health-data` branch (ADR 002), and deploy.yml overlays the
+          # record into dist/ from there.
           git add public/stations.json \
-                  public/station-health.json public/station-status.json \
-                  public/station-drift.json public/station-duplicates.json \
-                  public/station-logo-status.json public/station-backlog.json
+                  public/station-duplicates.json public/station-backlog.json
           if git diff --cached --quiet; then
             echo "All reports unchanged."
             exit 0
@@ -133,28 +112,27 @@ jobs:
             git checkout -b "$BRANCH"
           fi
 
-          git commit -m "Catalog-watch: weekly health sweep + report refresh"
+          git commit -m "Catalog refresh: Radio Browser catalog + duplicate / backlog reports"
           git push --force-with-lease origin "$BRANCH"
 
           if [ -n "$OPEN_PR" ]; then
             gh pr comment "$OPEN_PR" --body "Refreshed by the $(date -u +'%Y-%m-%d') sweep."
           else
             gh label create catalog-watch \
-              --description "Weekly catalog health sweep" \
+              --description "Manual catalog refresh" \
               --color 1D76DB --force >/dev/null 2>&1 || true
             {
-              echo "Generated report artifacts from the weekly sweep —"
-              echo "\`public/stations.json\` plus the health / status / drift /"
-              echo "duplicate / logo / backlog records. No hand-written changes."
+              echo "Generated artifacts from a manual catalog refresh —"
+              echo "\`public/stations.json\` plus the duplicate / backlog"
+              echo "records. No hand-written changes."
               echo
               echo "The diff is large and generated; the signal worth reading is"
-              echo "the tracking issue this run opens. The point of merging is"
-              echo "that \`public/station-health.json\` goes fresh again —"
-              echo "\`propose-fixes\` reads it to demote dead streams out of the"
-              echo "published catalog."
+              echo "the tracking issue this run opens. Station health is no"
+              echo "longer part of this diff — \`station-probe.yml\` refreshes it"
+              echo "daily onto the \`health-data\` branch (ADR 002)."
             } > report-pr-body.md
             gh pr create \
-              --title "Catalog-watch: weekly health sweep + report refresh" \
+              --title "Catalog refresh: Radio Browser catalog + reports" \
               --label catalog-watch \
               --body-file report-pr-body.md
           fi
@@ -204,7 +182,7 @@ jobs:
           git push origin "$BRANCH"
 
           {
-            echo "Imported by the weekly catalog-watch workflow."
+            echo "Imported by the manual catalog-refresh workflow."
             echo "Each entry is at \`status: stream-only\` — plays straightforwardly via ICY,"
             echo "no broadcaster-specific metadata fetcher wired yet."
             echo
@@ -236,25 +214,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh label create catalog-watch \
-            --description "Weekly station validation surfaced something to look at" \
+            --description "A manual catalog refresh surfaced something to look at" \
             --color B60205 --force >/dev/null 2>&1 || true
 
           {
             echo "Last run: $(date -u +'%Y-%m-%d %H:%M UTC')  ·  [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
             echo
-            echo "Full per-station verdicts: \`public/station-health.json\` · tracker Health tab"
-            echo
-            echo "### health probe"
-            echo
-            echo '```'
-            tail -c 32000 validate.txt
-            echo '```'
-            echo
-            echo "### check-drift"
-            echo
-            echo '```'
-            tail -c 16000 drift.txt
-            echo '```'
+            echo "Station health is not in this issue — it moved to the weekly"
+            echo "\`catalog-quality\` digest written by \`station-probe.yml\` (ADR 002)."
             echo
             echo "### check-duplicates"
             echo
@@ -275,7 +242,7 @@ jobs:
             gh issue comment "$NUM" --body "Re-checked $(date -u +'%Y-%m-%d %H:%M UTC') — still has issues. Body updated."
           else
             gh issue create \
-              --title "Catalog watch: stations need attention" \
+              --title "Catalog refresh: duplicates / candidates need attention" \
               --label catalog-watch \
               --body-file body.md
           fi
@@ -287,5 +254,5 @@ jobs:
         run: |
           NUM=$(gh issue list --label catalog-watch --state open --json number --jq '.[0].number // ""')
           if [ -n "$NUM" ]; then
-            gh issue close "$NUM" --comment "All stations OK as of $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+            gh issue close "$NUM" --comment "Catalog clean as of $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
           fi

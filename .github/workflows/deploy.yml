@@ -49,6 +49,19 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: 'true'
+      # The health record is no longer refreshed on `main` — the daily
+      # station-probe workflow writes it to the orphan `health-data`
+      # branch instead (ADR 002). Overlay it into dist/ so the tracker
+      # keeps reading a fresh /station-health.json. actions/checkout does
+      # a shallow single-ref fetch, so the branch has to be fetched
+      # explicitly. Bootstrap-safe and never fatal: before the branch
+      # exists (or if the fetch fails) the committed copy is served.
+      - name: Overlay health record from health-data
+        run: |
+          git fetch --depth 1 origin health-data \
+            && git show origin/health-data:station-health.json > dist/station-health.json \
+            && echo "health record from health-data" \
+            || echo "no health-data branch yet — serving the committed copy"
       # Pages artifact upload is only needed for the deploy job, which
       # gates on main+push. Skip it on PR runs to save artifact storage.
       - uses: actions/configure-pages@v6
