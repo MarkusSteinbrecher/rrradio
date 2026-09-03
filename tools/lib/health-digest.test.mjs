@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderDigest, renderMissingDigest, LIST_CAP } from './health-digest.mjs';
+import { renderDigest, renderMissingDigest, LIST_CAP, ACTIONS_CAP } from './health-digest.mjs';
 
 const NOW = '2026-09-10T06:00:00Z';
 
@@ -170,7 +170,8 @@ describe('renderDigest edge cases', () => {
     expect(md).toContain('### Recovered (0)');
     expect(md).toContain('### Hot-set stations failing now (0)');
     expect(md).toContain('| Availability (play-weighted) | n/a | — |');
-    expect(md.match(/^none$/gm)?.length).toBe(6); // 2 tier groups + 3 sections + freshness
+    expect(md).toContain('### Actions this week (0)');
+    expect(md.match(/^none$/gm)?.length).toBe(7); // 2 tier groups + 4 sections + freshness
   });
 
   it('survives a missing plan and a missing history', () => {
@@ -193,6 +194,85 @@ describe('renderDigest edge cases', () => {
     const md = renderDigest({ ...base, streaks: many, catalog: bigCatalog });
     expect(md).toContain('- …and 6 more'); // 45 bulk + tail-hard = 46 long-tail lines
     expect(md.split('\n').filter((l) => l.includes('bulk-')).length).toBe(LIST_CAP);
+  });
+});
+
+describe('renderDigest — actions this week', () => {
+  const streak = { o: 'bad', c: 'hard', n: 3, first: '2026-09-04', last: '2026-09-06', d: 'HTTP 404' };
+  const actionsLog = [
+    {
+      day: '2026-09-02', // before the window (starts 2026-09-03) — ignored
+      actions: [{ id: 'ancient', action: 'unpublish', auto: true, reason: 'old' }],
+      skipped: [{ id: 'x', why: 'cap' }],
+      circuitBreaker: false,
+    },
+    {
+      day: '2026-09-05',
+      actions: [
+        { id: 'tail-hard', action: 'unpublish', auto: true, tier: 'long-tail', streak, reason: 'HTTP 404 ×3 · 2026-09-02→2026-09-05' },
+        { id: 'hot-hard', action: 'review', auto: false, tier: 'curated', proposed: 'unpublish', streak, reason: 'HTTP 404 ×3 · 2026-09-02→2026-09-05' },
+      ],
+      skipped: [
+        { id: 's1', why: 'no-edge-opinion' },
+        { id: 's2', why: 'no-edge-opinion' },
+      ],
+      circuitBreaker: false,
+    },
+    {
+      day: '2026-09-06',
+      actions: [
+        // the same review re-proposed a day later: counted once, newest listed
+        { id: 'hot-hard', action: 'review', auto: false, tier: 'curated', proposed: 'unpublish', streak, reason: 'HTTP 404 ×4 · 2026-09-02→2026-09-06' },
+        { id: 'back', action: 'republish', auto: true, tier: 'unpublished', to: 'stream-only', reason: 'audio/mpeg ×3 · 2026-09-04→2026-09-06' },
+        { id: 'swapped', action: 'swap-url', auto: true, tier: 'long-tail', newUrl: 'https://n', reason: 'HTTP 404 ×3 · … · RB url_resolved probes ok' },
+      ],
+      skipped: [{ id: 's3', why: 'edge-disagrees' }],
+      circuitBreaker: false,
+    },
+    { day: '2026-09-08', actions: [], skipped: [{ id: 'a', why: 'circuit-breaker' }], circuitBreaker: true },
+  ];
+  const md = renderDigest({ ...base, actionsLog });
+  const s = section(md, 'Actions this week');
+
+  it('sits between Recovered and the hot-set section', () => {
+    expect(md.indexOf('### Recovered')).toBeLessThan(md.indexOf('### Actions this week'));
+    expect(md.indexOf('### Actions this week')).toBeLessThan(md.indexOf('### Hot-set stations failing now'));
+  });
+
+  it('counts unpublished / republished / swapped / awaiting review, once per station and action', () => {
+    expect(md).toContain('### Actions this week (4)');
+    expect(s).toContain('- unpublished 1 · republished 1 · swapped 1 · awaiting review 1');
+  });
+
+  it('tallies skipped by reason and names the circuit-breaker days', () => {
+    expect(s).toContain('- skipped: no-edge-opinion 2, circuit-breaker 1, edge-disagrees 1');
+    expect(s).toContain('- circuit breaker tripped on 2026-09-08');
+  });
+
+  it('lists id · action · reason, newest day first, ignoring days before the window', () => {
+    expect(s).toContain('- `hot-hard` · review (unpublish) · HTTP 404 ×4 · 2026-09-02→2026-09-06');
+    expect(s).toContain('- `tail-hard` · unpublish · HTTP 404 ×3 · 2026-09-02→2026-09-05');
+    expect(s).toContain('- `back` · republish · audio/mpeg ×3 · 2026-09-04→2026-09-06');
+    expect(s).toContain('- `swapped` · swap-url ·');
+    expect(s.indexOf('`back`')).toBeLessThan(s.indexOf('`tail-hard`'));
+    expect(s).not.toContain('ancient');
+    expect(s.split('\n').filter((l) => l.includes('`hot-hard`')).length).toBe(1);
+  });
+
+  it('caps the list at ACTIONS_CAP', () => {
+    const many = Array.from({ length: ACTIONS_CAP + 3 }, (_, i) => ({ id: `bulk-${i}`, action: 'unpublish', auto: true, reason: 'r' }));
+    const md2 = renderDigest({ ...base, actionsLog: [{ day: '2026-09-06', actions: many, skipped: [] }] });
+    const s2 = section(md2, 'Actions this week');
+    expect(s2.split('\n').filter((l) => l.includes('bulk-')).length).toBe(ACTIONS_CAP);
+    expect(s2).toContain('- …and 3 more');
+  });
+
+  it('renders "none" without a log, and a summary line when only skips happened', () => {
+    expect(section(renderDigest({ ...base, actionsLog: null }), 'Actions this week')).toContain('none');
+    const onlySkips = renderDigest({ ...base, actionsLog: [{ day: '2026-09-06', actions: [], skipped: [{ id: 'a', why: 'cap' }] }] });
+    const s3 = section(onlySkips, 'Actions this week');
+    expect(s3).toContain('- unpublished 0 · republished 0 · swapped 0 · awaiting review 0');
+    expect(s3).toContain('- skipped: cap 1');
   });
 });
 
