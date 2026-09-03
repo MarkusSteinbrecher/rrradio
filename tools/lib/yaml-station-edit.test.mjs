@@ -4,6 +4,10 @@ import {
   findStationBlock,
   setStationScalar,
   setStationTags,
+  getStationScalar,
+  removeStationScalar,
+  locateStationBlock,
+  editStationBlock,
 } from './yaml-station-edit.mjs';
 
 const SAMPLE = `- id: a-one
@@ -118,5 +122,67 @@ describe('setStationTags', () => {
   it('is a no-op when tags already match', () => {
     const r = setStationTags(SAMPLE, 'a-one', ['pop', 'rock']);
     expect(r.changed).toBe(false);
+  });
+});
+
+describe('getStationScalar', () => {
+  it('reads plain and quoted scalars through the YAML parser', () => {
+    expect(getStationScalar(SAMPLE, 'a-one', 'status')).toEqual({ found: true, value: 'working' });
+    expect(getStationScalar(SAMPLE, 'a-one', 'bitrate')).toEqual({ found: true, value: 128 });
+    const quoted = SAMPLE.replace('  country: GB', '  country: "GB"');
+    expect(getStationScalar(quoted, 'a-one', 'country').value).toBe('GB');
+  });
+  it('tells an absent field from an unknown station', () => {
+    expect(getStationScalar(SAMPLE, 'b-two', 'country')).toEqual({ found: true, value: undefined });
+    expect(getStationScalar(SAMPLE, 'nope', 'country')).toEqual({ found: false, value: undefined });
+  });
+  it('does not read a block list as a scalar', () => {
+    expect(getStationScalar(SAMPLE, 'a-one', 'tags').value).toBeUndefined();
+  });
+});
+
+describe('removeStationScalar', () => {
+  it('removes exactly one line from the right block', () => {
+    const r = removeStationScalar(SAMPLE, 'a-one', 'bitrate');
+    expect(r).toMatchObject({ changed: true, found: true });
+    expect(r.text).toBe(SAMPLE.replace('  bitrate: 128\n', ''));
+  });
+  it('is a no-op when the field is absent', () => {
+    expect(removeStationScalar(SAMPLE, 'b-two', 'bitrate')).toEqual({ text: SAMPLE, changed: false, found: true });
+  });
+  it('refuses to remove a key with block-style children', () => {
+    expect(removeStationScalar(SAMPLE, 'a-one', 'tags')).toEqual({ text: SAMPLE, changed: false, found: true });
+  });
+  it('reports found=false for an unknown station', () => {
+    expect(removeStationScalar(SAMPLE, 'nope', 'status').found).toBe(false);
+  });
+  it('removes the last line of the last block cleanly', () => {
+    const r = removeStationScalar(SAMPLE, 'b-two', 'status');
+    expect(r.text).toBe(SAMPLE.replace('  status: stream-only\n', ''));
+  });
+});
+
+describe('locateStationBlock / editStationBlock', () => {
+  it('finds the same bounds as findStationBlock, first and last block alike', () => {
+    const lines = SAMPLE.split('\n');
+    for (const id of ['a-one', 'b-two']) {
+      const { start, end } = locateStationBlock(SAMPLE, id);
+      const block = findStationBlock(lines, id);
+      expect(SAMPLE.slice(start, end)).toBe(lines.slice(block.start, block.end + 1).join('\n'));
+    }
+    expect(locateStationBlock(SAMPLE, 'a-one').start).toBe(0);
+  });
+  it('returns null for an unknown id and never matches an id prefix', () => {
+    expect(locateStationBlock(SAMPLE, 'nope')).toBeNull();
+    expect(locateStationBlock(SAMPLE, 'a-on')).toBeNull();
+    expect(editStationBlock(SAMPLE, 'nope', () => 'x')).toEqual({ text: SAMPLE, found: false });
+  });
+  it('edits one block and equals the whole-document edit', () => {
+    const viaBlock = editStationBlock(SAMPLE, 'a-one', (b) => setStationScalar(b, 'a-one', 'status', 'broken').text);
+    expect(viaBlock.found).toBe(true);
+    expect(viaBlock.text).toBe(setStationScalar(SAMPLE, 'a-one', 'status', 'broken').text);
+    const last = editStationBlock(SAMPLE, 'b-two', (b) => removeStationScalar(b, 'b-two', 'status').text);
+    expect(last.text).toBe(removeStationScalar(SAMPLE, 'b-two', 'status').text);
+    expect(editStationBlock(SAMPLE, 'a-one', (b) => b).text).toBe(SAMPLE);
   });
 });
