@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { emptyRecord, applyFacet } from './health-record.mjs';
+import { emptyRecord, applyFacet, pruneStations } from './health-record.mjs';
 import {
+  observedIds,
   latestByStationFacet,
   toFacetUpdates,
   computeStreaks,
@@ -208,6 +209,32 @@ describe('applyFacet through derived updates', () => {
     });
     expect(rec.stations.a.stream).toEqual({ v: 'ok', since: '2026-09-08', d: 'audio/mpeg' });
     expect(rec.runs.stream.lastRun).toBe('2026-09-09T06:00:00Z');
+  });
+});
+
+describe('observedIds', () => {
+  const catalog = [{ id: 'a' }, { id: 'b' }];
+
+  it('is the catalog plus plan.extra, ignoring malformed entries', () => {
+    const plan = { extra: [{ id: 'gone', tier: 'unpublished' }, null, { name: 'no id' }, { id: 'a' }] };
+    expect([...observedIds(catalog, plan)].sort()).toEqual(['a', 'b', 'gone']);
+  });
+
+  it('survives a missing plan or a plan without extra', () => {
+    expect([...observedIds(catalog, null)]).toEqual(['a', 'b']);
+    expect([...observedIds(catalog, { hot: [] })]).toEqual(['a', 'b']);
+  });
+
+  it('keeps a bot-unpublished station in the record when pruning', () => {
+    const record = emptyRecord();
+    const updates = new Map([
+      ['a', { v: 'ok', d: 'audio/mpeg' }],
+      ['gone', { v: 'ok', d: 'audio/mpeg' }],
+    ]);
+    applyFacet(record, 'stream', updates, { tool: 't', scope: 'rolling', at: NOW });
+    expect(pruneStations(structuredClone(record), observedIds(catalog, null))).toBe(1);
+    expect(pruneStations(record, observedIds(catalog, { extra: [{ id: 'gone' }] }))).toBe(0);
+    expect(Object.keys(record.stations).sort()).toEqual(['a', 'gone']);
   });
 });
 
