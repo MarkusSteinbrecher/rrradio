@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { readObservations } from './lib/observations.mjs';
 import { loadHealthFrom, saveHealthTo, applyFacet, pruneStations } from './lib/health-record.mjs';
 import {
+  observedIds,
   latestByStationFacet,
   toFacetUpdates,
   computeStreaks,
@@ -75,12 +76,14 @@ const catalog = Array.isArray(parsedCatalog) ? parsedCatalog : parsedCatalog.sta
 const planPath = join(dataDir, 'plan.json');
 const plan = existsSync(planPath) ? JSON.parse(readFileSync(planPath, 'utf8')) : null;
 
-const ids = new Set(catalog.map((s) => s.id));
-// The record, its run tallies and the metrics all describe the published
-// catalog, so they see only catalogued stations. Streaks describe the log
-// itself and keep every observed station — the log is already bounded by the
-// 90-day rollup, and phase-2 republish decisions need the history of a
-// station that is currently unpublished.
+// The record and its run tallies see catalogued stations plus the rows the
+// plan keeps observing while unpublished (plan.extra) — those stay in the
+// record instead of being pruned and re-created on republish. The metrics
+// describe the published catalog only (computeMetrics filters by catalog).
+// Streaks describe the log itself and keep every observed station — the log
+// is already bounded by the 90-day rollup, and republish decisions need the
+// history of a station that is currently unpublished.
+const ids = observedIds(catalog, plan);
 const latest = latestByStationFacet(rows.filter((row) => ids.has(row.id)));
 const streaks = computeStreaks(rows);
 const metrics = computeMetrics({ catalog, latest, plan, streaks, now });
