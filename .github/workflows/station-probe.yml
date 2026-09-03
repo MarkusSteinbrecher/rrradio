@@ -389,6 +389,11 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # No checkout here — nothing to build — so `gh` cannot infer the
+    # repository from a git remote and needs it spelled out. Without
+    # this the first run failed exactly here ("not a git repository").
+    env:
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Decide the run outcome
         id: outcome
