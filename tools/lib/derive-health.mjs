@@ -31,6 +31,22 @@ export const ICY_DETAILS = Object.freeze({
 });
 
 /**
+ * Ids the health record keeps: the published catalog plus every station the
+ * plan still observes while it is unpublished (`plan.extra`, ADR 002 phase
+ * 2). Without the extras a bot-unpublished station would be pruned the day
+ * after its unpublish and come back with a fresh `since` on republish.
+ *
+ * @param {CatalogStation[]} catalog
+ * @param {{extra?: {id?: string}[]}|null} plan
+ * @returns {Set<string>}
+ */
+export function observedIds(catalog, plan) {
+  const ids = new Set(catalog.map((s) => s.id));
+  for (const e of plan?.extra ?? []) if (e && typeof e.id === 'string') ids.add(e.id);
+  return ids;
+}
+
+/**
  * Latest observation per station per facet.
  *
  * "Latest" is by `at`; rows sharing a timestamp are resolved by file order

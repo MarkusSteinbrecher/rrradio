@@ -148,6 +148,8 @@ See `docs/curation-checklist.md` for the full per-activity playbook. The standar
 4. If broadcaster has a metadata API but no fetcher yet — add one in `src/builtins.ts` AND a discoverer in `tools/wire-metadata.mjs` (so future channels of the same family auto-wire).
 5. Bump status from `stream-only` → `icy-only` (ICY-only metadata) or `working` (full per-broadcaster fetcher with logo).
 
+**Bot-managed `broken` rows.** A row with `status: broken` **and** `brokenBy: station-probe` was unpublished by the catalog quality loop (ADR 002) and heals itself: it stays in the daily probe and is republished automatically after three good days. Leave those fields alone unless you are overriding the bot — then remove `brokenBy` (and set the status you want) and the loop stops touching the row. Curated-tier stations are never changed automatically; they arrive as a `catalog-review` PR. Details: `docs/station-health.md`, "The loop closes".
+
 ## Homepage liveness (`check-homepages`)
 
 A dead `homepage:` breaks twice: the link is broken for users, and it silently

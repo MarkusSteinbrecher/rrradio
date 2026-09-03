@@ -275,6 +275,8 @@ streaks.json                    {"<id>": {"o":"bad","c":"soft","n":3,"first":"�
 metrics.json                    latest metrics
 metrics-history.ndjson          one metrics row per derive run
 plan.json                       the most recent probe plan
+unpublished/<id>.json           snapshot of a bot-unpublished station's published row
+actions/YYYY-MM-DD.json         audit trail of every decide run (phase 2)
 ```
 
 **Why not `main`.** The old weekly sweep committed ~17 MB of regenerated
@@ -299,6 +301,76 @@ The tracker's URL is unchanged either way.
 
 Observations older than 90 days are deleted by `derive-health` once the
 streaks that depend on them are persisted.
+
+## The loop closes: decide + act (phase 2)
+
+Measurement alone changes nothing users see. Phase 2 turns the streaks into
+catalog changes, once a day at 06:00 UTC (`catalog-actions.yml`), an hour
+after the probe.
+
+### Lifecycle fields (YAML only)
+
+A bot unpublish rewrites the station's block in `data/stations.yaml`:
+
+```yaml
+  status: broken
+  brokenSince: 2026-09-06          # day of the action
+  brokenFrom: stream-only          # status restored on recovery
+  brokenBy: station-probe          # marks the row as bot-managed
+  brokenReason: "HTTP 404 ×3 · 2026-09-04→2026-09-06"
+```
+
+None of these reach `stations.json` (`broken` rows are not published). A
+republish restores `status: <brokenFrom>` and removes the four fields. The
+bot only ever touches rows carrying `brokenBy: station-probe` — a curator
+who sets `status: broken` by hand, or removes `brokenBy`, owns that row.
+
+### Snapshots
+
+31,427 of 31,461 publishable rows are Radio Browser-bound, so a republish
+cannot rebuild the row without RB. `apply-actions` therefore saves the
+published JSON row to `health-data/unpublished/<id>.json` when it
+unpublishes, and re-inserts exactly that row when it republishes. Bot-
+unpublished stations stay in the daily plan (`plan.json.extra`) so recovery
+is observed, not assumed.
+
+### Policy (`tools/lib/health-policy.mjs`)
+
+| # | Evidence | Long tail | Curated tier |
+|---|---|---|---|
+| 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or candidates > 2 % of published | no auto actions this run | same |
+| 2 | `bad` · `hard` · ≥ 3 distinct days | unpublish, automatic | proposal for review |
+| 3 | `bad` · `soft` · ≥ 5 distinct days | ask the Worker edge (`/api/admin/probe`); edge `bad` → unpublish; edge `ok` → skipped | proposal for review, edge answer attached |
+| 4 | fold canonical (variants collapse into the row) | skipped and named in the digest — no status flip passes `check-catalog`; re-point the fold first | same |
+| 4b | `highlights.yaml` entry | routed to review | — |
+| 5 | `brokenBy: station-probe` and `ok` · ≥ 3 days | republish, automatic | republish, automatic |
+| 6 | RB has a different https URL that probes `ok` | swap URL instead of unpublishing | proposal for review |
+| 7 | cap: 200 automatic actions per run, worst first | overflow waits | — |
+
+Curated tier = `working` / `icy-only` / `featured: true` / referenced from
+`data/highlights.yaml`. Every edge answer is appended to the observation log
+as a `v: "edge"` row, so second opinions are history too.
+
+### Two PRs, two labels
+
+- **`catalog-actions`** — long-tail actions. Opened by the `rrradio-bot`
+  GitHub App (PRs from the default `GITHUB_TOKEN` never receive checks) and
+  merged automatically once `web` / `worker` / `catalog` / `e2e` pass.
+  `apply-actions` runs `check-catalog` before the PR exists, so it is green
+  by construction.
+- **`catalog-review`** — curated-tier proposals, materialised as a diff so
+  the review is a normal PR review. Never auto-merged; not opened while one
+  is already open. What to do with one: open the stream in the app, read the
+  edge answer and the RB record in the body, then merge (accept), edit the
+  YAML on the branch (e.g. a hand-found replacement URL), or close (keep as
+  is — the proposal returns only if the evidence persists).
+
+### Dry run and override
+
+`gh workflow run catalog-actions.yml -f dry_run=true` decides and plans
+without opening or pushing anything; both would-be PR bodies land in the
+job summary. Locally: `npm run decide-actions -- --data <health-data checkout> --no-edge --no-rb`
+then `npm run apply-actions -- --actions actions.json --data <dir> --mode auto --dry-run`.
 
 ## CI wiring
 
@@ -339,6 +411,13 @@ probes, checks drift, refreshes logo status, or commits any health artifact.
 `check-homepages` stays manual/curator-paced for now (18.5k URLs, real
 network cost) — but when it runs, it leaves its verdicts in the record
 instead of only in a gitignored cache.
+
+`catalog-actions.yml` (daily 06:00 UTC + dispatch with `dry_run`) is the
+act half: App token → `decide-actions` → `apply-actions --mode auto` → PR
+labelled `catalog-actions` with auto-merge → `apply-actions --mode review` →
+PR labelled `catalog-review`. Snapshots and the actions audit trail go to
+`health-data` in one commit at the end. Scheduled failures upsert the same
+`workflow-failure` issue pattern.
 
 ## Reading it
 

@@ -22,15 +22,20 @@ export const SOFT_DAYS = 5;
 export const RECOVERED_DAYS = 2;
 /** Per-group cap; the rest is summarised as a count. */
 export const LIST_CAP = 40;
+/** Cap for the actions list — one screen of what the bot did this week. */
+export const ACTIONS_CAP = 20;
 
 /**
+ * @typedef {{day: string, actions?: object[], skipped?: Array<{id: string, why: string}>,
+ *            circuitBreaker?: boolean}} ActionsDay one `health-data/actions/<day>.json`
+ *
  * @param {{record: object, streaks: Record<string, Record<string, Streak>>,
  *          metrics: object, history?: object[]|null, plan?: object|null,
  *          catalog?: Array<{id: string, name?: string, status?: string}>,
- *          rows?: object[], days?: number, now: string}} input
+ *          rows?: object[], actionsLog?: ActionsDay[]|null, days?: number, now: string}} input
  * @returns {string} Markdown
  */
-export function renderDigest({ record, streaks, metrics, history, plan, catalog, rows, days = 7, now }) {
+export function renderDigest({ record, streaks, metrics, history, plan, catalog, rows, actionsLog, days = 7, now }) {
   const windowStart = new Date(Date.parse(now) - days * DAY_MS).toISOString().slice(0, 10);
   const names = new Map((catalog ?? []).map((s) => [s.id, s.name ?? s.id]));
   const statuses = new Map((catalog ?? []).map((s) => [s.id, s.status ?? null]));
@@ -72,6 +77,9 @@ export function renderDigest({ record, streaks, metrics, history, plan, catalog,
 
   out.push(`### Recovered (${recovered.length})`, '');
   out.push(...capped(recovered, ({ id, streak }) => `- \`${id}\` · ${names.get(id) ?? id} · ok for ${streak.n} days`), '');
+
+  // ─── actions this week (phase 2) ──────────────────────────────────
+  out.push(...actionsSection(actionsLog ?? [], windowStart), '');
 
   // ─── hot set failing right now ────────────────────────────────────
   const plays = plan?.plays ?? {};
@@ -153,6 +161,61 @@ function badDaysBefore(rows, windowStart) {
     map.get(row.id).push(day);
   }
   return map;
+}
+
+/**
+ * What the decide/act loop did inside the window, from the per-day audit
+ * files. A station is counted once per action even when the same proposal
+ * repeats on consecutive days (a review stays open until a human acts, so
+ * it is re-proposed daily); the newest occurrence is the one listed.
+ *
+ * @param {ActionsDay[]} actionsLog
+ * @param {string} windowStart `YYYY-MM-DD`
+ * @returns {string[]} Markdown lines
+ */
+function actionsSection(actionsLog, windowStart) {
+  const days = actionsLog
+    .filter((d) => typeof d?.day === 'string' && d.day >= windowStart)
+    .sort((a, b) => b.day.localeCompare(a.day)); // newest first
+  /** @type {Map<string, {day: string, id: string, action: string, reason: string}>} key id|action */
+  const seen = new Map();
+  const skippedBy = new Map();
+  const tripped = [];
+  for (const d of days) {
+    if (d.circuitBreaker === true) tripped.push(d.day);
+    for (const a of d.actions ?? []) {
+      if (!a?.id || !a?.action) continue;
+      const label = a.action === 'review' ? `review (${a.proposed ?? 'unpublish'})` : a.action;
+      const key = `${a.id}|${label}`;
+      if (!seen.has(key)) seen.set(key, { day: d.day, id: a.id, action: label, reason: a.reason ?? '' });
+    }
+    for (const sk of d.skipped ?? []) {
+      if (!sk?.why) continue;
+      skippedBy.set(sk.why, (skippedBy.get(sk.why) ?? 0) + 1);
+    }
+  }
+  const all = [...seen.values()];
+  const count = (pred) => all.filter(pred).length;
+  const unpublished = count((a) => a.action === 'unpublish');
+  const republished = count((a) => a.action === 'republish');
+  const swapped = count((a) => a.action === 'swap-url');
+  const awaiting = new Set(all.filter((a) => a.action.startsWith('review')).map((a) => a.id)).size;
+
+  const out = [`### Actions this week (${all.length})`, ''];
+  if (!all.length && !skippedBy.size && !tripped.length) return [...out, 'none'];
+  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · awaiting review ${awaiting}`);
+  if (skippedBy.size) {
+    const parts = [...skippedBy.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([why, n]) => `${why} ${n}`);
+    out.push(`- skipped: ${parts.join(', ')}`);
+  }
+  if (tripped.length) out.push(`- circuit breaker tripped on ${tripped.sort().join(', ')}`);
+  if (all.length) {
+    out.push('');
+    const shown = all.slice(0, ACTIONS_CAP).map((a) => `- \`${a.id}\` · ${a.action} · ${a.reason}`);
+    if (all.length > ACTIONS_CAP) shown.push(`- …and ${all.length - ACTIONS_CAP} more`);
+    out.push(...shown);
+  }
+  return out;
 }
 
 function capped(items, line) {
