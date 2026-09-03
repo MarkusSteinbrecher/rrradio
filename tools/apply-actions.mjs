@@ -94,7 +94,16 @@ for (const a of actions) {
 
 // ─── apply ───────────────────────────────────────────────────────────
 
-const result = applyActions({ yamlText, stations: stationsIn, actions, snapshots, day, mode: args.mode });
+// Fold canonicals from the dedup report: unpublishing one strands its
+// collapsed variants, so the actuator refuses even if a hand-written
+// actions file asks for it (the policy already skips them).
+const dedupPath = resolve('public/dedup-report.json');
+const foldCanonicals = new Set(
+  (existsSync(dedupPath) ? JSON.parse(readFileSync(dedupPath, 'utf8')).groups ?? [] : [])
+    .filter((g) => Array.isArray(g.members) && g.members.length > 1)
+    .map((g) => g.canonicalId),
+);
+const result = applyActions({ yamlText, stations: stationsIn, actions, snapshots, day, mode: args.mode, foldCanonicals });
 const summary = renderSummary({ ...result, mode: args.mode, day });
 
 process.stdout.write(summary);

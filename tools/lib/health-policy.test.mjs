@@ -127,12 +127,21 @@ describe('rule table', () => {
     expect(r.skipped).toEqual([]);
   });
 
-  it('4 · a long-tail fold canonical is rerouted to review', () => {
+  it('4 · a fold canonical is skipped, whatever its tier — no flip can pass check-catalog', () => {
     const r = decide(
-      scenario({ a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'HTTP 410' } }, { foldCanonicals: new Set(['a']) }),
+      scenario(
+        {
+          a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'HTTP 410' },
+          c: { streak: bad('hard', 3), tier: 'curated', detail: 'HTTP 404' },
+        },
+        { foldCanonicals: new Set(['a', 'c']) },
+      ),
     );
-    expect(byId(r, 'a')).toMatchObject({ action: 'review', auto: false, tier: 'long-tail', proposed: 'unpublish' });
-    expect(byId(r, 'a').reason).toBe('HTTP 410 ×3 · 2026-09-04→2026-09-06 · fold canonical');
+    expect(r.actions).toEqual([]);
+    expect(r.skipped).toEqual([
+      { id: 'a', why: 'fold-canonical' },
+      { id: 'c', why: 'fold-canonical' },
+    ]);
   });
 
   it('4 · a highlighted long-tail row is rerouted to review, soft included', () => {

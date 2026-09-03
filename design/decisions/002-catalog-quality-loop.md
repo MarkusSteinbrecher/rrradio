@@ -296,7 +296,8 @@ in `tools/lib/health-policy.mjs`. Rules, in this order:
 | 1 | **Circuit breaker**: `metrics.stream.bad ÷ (ok+warn+bad) > 0.15`, or candidates > 2 % of published | no auto actions this run; every candidate → `skipped: circuit-breaker` | same |
 | 2 | stream streak `bad`, `hard`, `n ≥ 3` | `unpublish`, auto | `review` (proposed unpublish) |
 | 3 | stream streak `bad`, `soft`, `n ≥ 5` | ask edge; edge `bad` → `unpublish` auto; edge `ok`/`warn` → `skipped: edge-disagrees`; no answer → `skipped: no-edge-opinion` | `review`, with the edge answer attached when available |
-| 4 | row is a fold canonical (`dedup-report.json` group with folded members) or referenced by `highlights.yaml` | → `review` instead of auto (check-catalog / check-highlights invariants) | — |
+| 4 | row is a fold canonical (`dedup-report.json` group with folded members) | `skipped: fold-canonical` — no status flip can pass `check-catalog` while variants fold into the row; the digest names it, a curator re-points the fold first | same |
+| 4b | row referenced by `highlights.yaml` | → `review` instead of auto (check-highlights) | — |
 | 5 | `brokenBy: station-probe` and stream streak `ok`, `n ≥ 3` | `republish`, auto | `republish`, auto |
 | 6 | any `unpublish`/`review` candidate that is RB-bound: RB `url_resolved` differs, is https, and probes `ok` via `lenientProbe` | `swap-url` auto (replaces the unpublish) | `swap-url` as `review` |
 | 7 | cap: at most `caps.auto` (default 200) auto actions per run, worst-first (hard before soft, older `first` first) | overflow → `skipped: cap` | — |
@@ -318,7 +319,7 @@ bounded (`--max-rb`), both non-fatal: a Worker or RB outage degrades to
     { "id": "…", "action": "swap-url", "auto": true, "tier": "long-tail", "newUrl": "https://…", "newCodec": "MP3", "streak": {…}, "reason": "…" },
     { "id": "…", "action": "review", "auto": false, "tier": "curated", "proposed": "unpublish", "streak": {…}, "edge": {…}, "reason": "…" }
   ],
-  "skipped": [ { "id": "…", "why": "edge-disagrees" | "no-edge-opinion" | "cap" | "circuit-breaker" } ] }
+  "skipped": [ { "id": "…", "why": "edge-disagrees" | "no-edge-opinion" | "fold-canonical" | "cap" | "circuit-breaker" } ] }
 ```
 
 The file is also written to `health-data/actions/YYYY-MM-DD.json` (audit trail).

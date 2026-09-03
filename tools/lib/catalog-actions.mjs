@@ -81,13 +81,17 @@ export function insertIndex(yamlOrder, stations, id) {
  * Unpublish: YAML `status: broken` + the four lifecycle fields, JSON row
  * removed and returned as the snapshot to persist.
  *
- * @param {{yamlText: string, stations: object[], action: {id: string, reason?: string}, day: string}} input
+ * @param {{yamlText: string, stations: object[], action: {id: string, reason?: string}, day: string,
+ *          foldCanonicals?: Set<string>}} input
  * @returns {{yamlText: string, stations: object[], snapshot: object}}
  */
-export function applyUnpublish({ yamlText, stations, action, day }) {
+export function applyUnpublish({ yamlText, stations, action, day, foldCanonicals }) {
   const id = action?.id;
   assertId(id);
   if (!DAY_RX.test(String(day))) throw new Error(`day must be YYYY-MM-DD, got ${JSON.stringify(day)}`);
+  // Belt to the policy's braces: removing a fold canonical strands its
+  // collapsed variants and check-catalog rejects the tree.
+  if (foldCanonicals?.has(id)) throw new Error('fold canonical — its collapsed variants need this row; re-point the fold first');
 
   const block = blockOf(yamlText, id);
   if (block === null) throw new Error('not in data/stations.yaml');
@@ -207,12 +211,12 @@ function kindOf(action) {
  *
  * @param {{yamlText: string, stations: object[], actions: object[],
  *          snapshots?: Record<string, object>|Map<string, object>,
- *          day: string, mode: 'auto'|'review'}} input
+ *          day: string, mode: 'auto'|'review', foldCanonicals?: Set<string>}} input
  * @returns {{yamlText: string, stations: object[], applied: object[],
  *            snapshotsWritten: Record<string, object>, snapshotsDeleted: string[],
  *            errors: {id: string, action: string|undefined, message: string}[]}}
  */
-export function applyActions({ yamlText, stations, actions, snapshots = {}, day, mode }) {
+export function applyActions({ yamlText, stations, actions, snapshots = {}, day, mode, foldCanonicals }) {
   if (mode !== 'auto' && mode !== 'review') throw new Error(`mode must be auto|review, got ${JSON.stringify(mode)}`);
   const wantAuto = mode === 'auto';
   const snapshotOf = snapshots instanceof Map ? (id) => snapshots.get(id) : (id) => snapshots?.[id];
@@ -244,7 +248,7 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
     try {
       if (kind === 'unpublish') {
         const before = findStation(stations, id);
-        const r = applyUnpublish({ yamlText, stations, action, day });
+        const r = applyUnpublish({ yamlText, stations, action, day, foldCanonicals });
         yamlText = r.yamlText;
         stations = r.stations;
         snapshotsWritten[id] = r.snapshot;

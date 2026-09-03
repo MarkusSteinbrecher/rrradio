@@ -150,6 +150,12 @@ describe('applyUnpublish', () => {
     expect(() => applyUnpublish({ yamlText: YAML, stations: stations(), action: { id: 'nope' }, day: DAY })).toThrow(/not in data\/stations.yaml/);
   });
 
+  it('refuses a fold canonical — its collapsed variants would be stranded', () => {
+    expect(() =>
+      applyUnpublish({ yamlText: YAML, stations: stations(), action: { id: 'a-one' }, day: DAY, foldCanonicals: new Set(['a-one']) }),
+    ).toThrow(/fold canonical/);
+  });
+
   it('refuses rows that are already broken — bot-set or curator-set', () => {
     expect(() => applyUnpublish({ yamlText: YAML, stations: stations(), action: { id: 'd-four' }, day: DAY })).toThrow(/already broken \(brokenBy: station-probe\)/);
     expect(() => applyUnpublish({ yamlText: YAML, stations: stations(), action: { id: 'e-five' }, day: DAY })).toThrow(/already broken \(curator-set\)/);

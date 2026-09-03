@@ -341,7 +341,8 @@ is observed, not assumed.
 | 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or candidates > 2 % of published | no auto actions this run | same |
 | 2 | `bad` · `hard` · ≥ 3 distinct days | unpublish, automatic | proposal for review |
 | 3 | `bad` · `soft` · ≥ 5 distinct days | ask the Worker edge (`/api/admin/probe`); edge `bad` → unpublish; edge `ok` → skipped | proposal for review, edge answer attached |
-| 4 | fold canonical or `highlights.yaml` entry | routed to review (gate invariants) | — |
+| 4 | fold canonical (variants collapse into the row) | skipped and named in the digest — no status flip passes `check-catalog`; re-point the fold first | same |
+| 4b | `highlights.yaml` entry | routed to review | — |
 | 5 | `brokenBy: station-probe` and `ok` · ≥ 3 days | republish, automatic | republish, automatic |
 | 6 | RB has a different https URL that probes `ok` | swap URL instead of unpublishing | proposal for review |
 | 7 | cap: 200 automatic actions per run, worst first | overflow waits | — |

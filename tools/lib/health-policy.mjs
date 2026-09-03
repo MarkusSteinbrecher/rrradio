@@ -9,8 +9,9 @@
  *   1 circuit breaker      too many bad / too many candidates → nothing is automatic
  *   2 hard streak ≥ 3      long tail: unpublish · curated: review
  *   3 soft streak ≥ 5      long tail: needs the edge to agree · curated: review
- *   4 fold canonical /     the long-tail row uses the curated column (a bot flip
- *     highlighted          would break check-catalog / check-highlights)
+ *   4 fold canonical       skipped (`fold-canonical`): no status flip can pass
+ *                          check-catalog while variants fold into the row
+ *     highlighted          the long-tail row uses the curated column
  *   5 ok streak ≥ 3 on a   republish, auto, whatever the tier
  *     bot-unpublished row
  *   6 RB swap              post-pass `applySwaps` — the CLI fetches RB + probes
@@ -203,10 +204,18 @@ export function decide({
 
   for (const { id, y, streak, tier } of unpublishCandidates) {
     const edgeAnswer = get(edge, id) ?? null;
-    // Rule 4: a long-tail row that other files depend on is decided like a
-    // curated one — a human resolves the fold / highlight along with it.
+    // Rule 4a: a fold canonical cannot be unpublished by a status flip at
+    // all — its collapsed variants would lose the row they fold into and
+    // check-catalog rejects the tree (rehearsed 2026-09-03). Not even a
+    // review PR can be green, so it is skipped and named in the digest;
+    // the curator re-points the fold or drops the variants first.
+    if (foldCanonicals.has(id)) {
+      skipped.push({ id, why: 'fold-canonical' });
+      continue;
+    }
+    // Rule 4b: a highlighted long-tail row is decided like a curated one —
+    // a human resolves the highlight along with it.
     const notes = [];
-    if (foldCanonicals.has(id)) notes.push('fold canonical');
     if (highlightIds.has(id)) notes.push('highlighted');
     const reviewOnly = tier === 'curated' || notes.length > 0;
     const base = { id, tier, from: y?.status ?? null, streak, edge: edgeAnswer };
