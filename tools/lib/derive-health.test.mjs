@@ -135,18 +135,27 @@ describe('computeMetrics', () => {
   ]);
 
   it('counts, weights by plays and reports the hot set', () => {
-    const plan = { hot: ['a', 'b'], plays: { a: 90, b: 10, gone: 1000 } };
+    // `d` has plays but no observation yet — unknown, not broken.
+    const plan = { hot: ['a', 'b'], plays: { a: 90, b: 10, d: 25, gone: 1000 } };
     expect(computeMetrics({ catalog, latest, plan, streaks: {}, now: NOW })).toEqual({
       at: NOW,
       published: 4,
       observed7d: 3,
       freshness: 0.75,
-      plays7d: 100,
+      plays7d: 125,
+      playsObserved: 100,
+      playsUnobserved: 25,
       playsOnOk: 90,
       availability: 0.9,
       stream: { ok: 1, warn: 1, bad: 1, hard: 1, soft: 0 },
       hotSet: { size: 2, bad: 1 },
     });
+  });
+
+  it('reports availability as null when played stations were never observed', () => {
+    const m = computeMetrics({ catalog, latest, plan: { hot: [], plays: { d: 40 } }, streaks: {}, now: NOW });
+    expect(m.availability).toBeNull();
+    expect(m.playsUnobserved).toBe(40);
   });
 
   it('reports availability as null when nothing was played', () => {

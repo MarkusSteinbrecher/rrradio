@@ -164,13 +164,16 @@ derive-health --data health-data/ [--catalog public/stations.json] [--record pub
 
 ```jsonc
 { "at":"…", "published":31197, "observed7d":31197, "freshness":1.0,
-  "plays7d":463, "playsOnOk":455, "availability":0.983,
+  "plays7d":463, "playsObserved":460, "playsUnobserved":3, "playsOnOk":455, "availability":0.989,
   "stream":{"ok":…, "warn":…, "bad":…, "hard":…, "soft":…},
   "hotSet":{"size":212,"bad":3} }
 ```
 
 `availability` = Σ plays of stations whose latest stream verdict is `ok` ÷ Σ plays
-(plays come from `plan.json`). When there are no plays it is `null`, not 1.
+of stations that have *any* stream observation (plays come from `plan.json`).
+A played station with no observation yet is unknown, not broken — it is
+reported as `playsUnobserved` rather than dragging the ratio down. When no
+played station has been observed the value is `null`, not 1.
 
 - Prunes stations no longer in the catalog; deletes observation files
   older than 90 days.

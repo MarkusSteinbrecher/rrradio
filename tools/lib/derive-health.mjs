@@ -168,13 +168,22 @@ export function computeMetrics({ catalog, latest, plan, now }) {
     if (row.o === 'bad' && row.c) stream[row.c] += 1;
   }
 
+  // Availability is play-weighted over stations we actually observed
+  // (any stream row, any age). A station with plays but no observation —
+  // a timed-out shard, a first run — is unknown, not broken; counting it
+  // as a failure would fake a collapse whenever a probe job is short.
+  // `playsUnobserved` keeps that gap visible instead of hiding it.
   const plays = plan?.plays ?? {};
   let plays7d = 0;
+  let playsObserved = 0;
   let playsOnOk = 0;
   for (const [id, count] of Object.entries(plays)) {
     if (!ids.has(id) || typeof count !== 'number') continue;
     plays7d += count;
-    if (latest.get(id)?.get('stream')?.o === 'ok') playsOnOk += count;
+    const o = latest.get(id)?.get('stream')?.o;
+    if (!o) continue;
+    playsObserved += count;
+    if (o === 'ok') playsOnOk += count;
   }
 
   const hot = (plan?.hot ?? []).filter((id) => ids.has(id));
@@ -186,8 +195,10 @@ export function computeMetrics({ catalog, latest, plan, now }) {
     observed7d,
     freshness: ids.size ? round4(observed7d / ids.size) : 0,
     plays7d,
+    playsObserved,
+    playsUnobserved: plays7d - playsObserved,
     playsOnOk,
-    availability: plays7d ? round4(playsOnOk / plays7d) : null,
+    availability: playsObserved ? round4(playsOnOk / playsObserved) : null,
     stream,
     hotSet: { size: hot.length, bad: hotBad },
   };
