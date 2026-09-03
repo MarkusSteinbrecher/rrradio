@@ -104,7 +104,9 @@ export async function renderOverview(root: HTMLElement): Promise<void> {
       continue;
     }
     const days = ageDays(run.lastRun);
-    const partial = run.scope !== 'full' ? ' (partial)' : '';
+    // 'rolling' is the derive-health scope (ADR 002): every station is
+    // observed within the week, so it is full coverage, not a partial pass.
+    const partial = run.scope === 'full' || run.scope === 'rolling' ? '' : ' (partial)';
     chipRow.append(
       el(
         'span',
