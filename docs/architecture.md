@@ -157,6 +157,11 @@ tools/
                          left the catalog and observations older than
                          90 days. `npm run derive-health`.
   health-digest.mjs    — decision-shaped weekly markdown from the
+  decide-actions.mjs   — streaks → actions.json (tools/lib/health-policy.mjs,
+                         tools/lib/edge-probe.mjs). ADR 002 phase 2.
+  apply-actions.mjs    — actions.json → stations.yaml + stations.json diff
+                         + health-data snapshots (tools/lib/catalog-actions.mjs);
+                         runs check-catalog before returning.
                          health-data branch: metrics with deltas, newly
                          failing, recovered, hot-set failures. Body of
                          the `catalog-quality` issue.
@@ -212,6 +217,12 @@ tools/
                          observations + derived record to the orphan
                          health-data branch) → digest (weekly
                          `catalog-quality` issue). ADR 002.
+  catalog-actions.yml  — daily 06:00 UTC, the act half of ADR 002:
+                         decide-actions (streaks + Worker edge second
+                         opinion + RB replacement lookup) → apply-actions
+                         → `catalog-actions` PR (long tail, auto-merge via
+                         the rrradio-bot App) and `catalog-review` PR
+                         (curated tier, human decision).
   catalog-watch.yml    — "Catalog refresh (manual)". Dispatch-only
                          Radio Browser refresh + duplicates +
                          candidates + backlog + auto-curate. No longer
