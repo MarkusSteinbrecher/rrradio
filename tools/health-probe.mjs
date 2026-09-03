@@ -9,26 +9,34 @@
  *   npm run health -- --cc DE            # one country
  *   npm run health -- --only de-dlf,fr-fip
  *   npm run health -- --limit 50         # smoke run
- *   npm run health -- --strict           # exit 2 if any stream is bad (CI)
+ *   npm run health -- --strict           # exit 2 if any stream is bad (local)
  *   npm run health -- --concurrency 24 --timeout 5000
+ *
+ * Sharded mode (ADR 002 — catalog quality loop):
+ *   node tools/health-probe.mjs --plan plan.json --shard 0 \
+ *        --observations obs-0.ndjson --no-record
  *
  * Writes:
  *   public/station-health.json   stream/https/icy/metadata/fetcher/program
  *                                facets via tools/lib/health-record.mjs
+ *                                (skipped with --no-record)
  *   public/station-status.json   admin-dashboard artifact — same row shape
  *                                analyze.mjs emitted, but problems-only
  *                                (full sweeps only; scoped runs skip it)
+ *   <observations>.ndjson        one append-only row per probed station
  *
  * Reads public/stations.json (the merged artifact) so RB-bound entries get
  * their resolved streamUrl — the audit-#68 class of false BROKEN.
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyLogoUrl } from './logo-quality.mjs';
 import { classifyError } from './lib/homepage-status.mjs';
 import { loadHealth, saveHealth, applyFacet, pruneStations } from './lib/health-record.mjs';
+import { createClassifiers, failureClass, toObservation } from './lib/probe-classify.mjs';
+import { appendObservations } from './lib/observations.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -43,7 +51,11 @@ const STATUS_PROBLEM_CAP = 1000;
 
 const args = parseArgs(process.argv.slice(2));
 function parseArgs(argv) {
-  const out = { concurrency: 16, timeout: 8000, strict: false, quiet: false, cc: null, only: null, limit: 0 };
+  const out = {
+    concurrency: 16, timeout: 8000, strict: false, quiet: false,
+    cc: null, only: null, limit: 0,
+    plan: null, shard: null, observations: null, record: true,
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--cc') out.cc = String(argv[++i] ?? '').toUpperCase();
@@ -51,53 +63,66 @@ function parseArgs(argv) {
     else if (a === '--limit') out.limit = Number(argv[++i]) || 0;
     else if (a === '--concurrency') out.concurrency = Math.max(1, Number(argv[++i]) || 16);
     else if (a === '--timeout') out.timeout = Math.max(1000, Number(argv[++i]) || 8000);
+    else if (a === '--plan') out.plan = String(argv[++i] ?? '');
+    else if (a === '--shard') out.shard = Number(argv[++i]);
+    else if (a === '--observations') out.observations = String(argv[++i] ?? '');
+    else if (a === '--no-record') out.record = false;
     else if (a === '--strict') out.strict = true;
     else if (a === '--quiet') out.quiet = true;
     else if (a === '--help' || a === '-h') {
-      console.log('usage: health-probe [--cc XX] [--only id,…] [--limit N] [--concurrency N] [--timeout MS] [--strict] [--quiet]');
+      console.log('usage: health-probe [--cc XX] [--only id,…] [--limit N] [--plan plan.json --shard i]');
+      console.log('                    [--observations path.ndjson] [--no-record]');
+      console.log('                    [--concurrency N] [--timeout MS] [--strict] [--quiet]');
       process.exit(0);
     } else {
       console.error(`health-probe: unknown argument "${a}"`);
       process.exit(1);
     }
   }
+  if (out.plan && (out.cc || out.only || out.limit > 0)) {
+    console.error('health-probe: --plan/--shard cannot be combined with --cc/--only/--limit');
+    process.exit(1);
+  }
+  if ((out.plan === null) !== (out.shard === null)) {
+    console.error('health-probe: --plan and --shard go together');
+    process.exit(1);
+  }
+  if (out.shard !== null && (!Number.isInteger(out.shard) || out.shard < 0)) {
+    console.error('health-probe: --shard must be a non-negative integer');
+    process.exit(1);
+  }
   return out;
 }
 
-// ─── fetcher manifest (same source of truth as analyze.mjs used) ────
+// ─── classification (verdicts: ok | warn | bad | na) ─────────────────
+// Pure logic lives in tools/lib/probe-classify.mjs; the fetcher manifest
+// (src/fetchers.json) is injected so it stays testable.
 
 const fetcherManifest = JSON.parse(readFileSync(join(root, 'src/fetchers.json'), 'utf8'));
-const KNOWN_FETCHERS = new Set(Object.keys(fetcherManifest.fetchers));
-const PROGRAM_CAPABLE = new Set(
-  Object.entries(fetcherManifest.fetchers).filter(([, v]) => v.program).map(([k]) => k),
-);
-const SELF_CONTAINED_FETCHERS = new Set(
-  Object.entries(fetcherManifest.fetchers).filter(([, v]) => v.selfContained).map(([k]) => k),
-);
-const WIREABLE_BROADCASTERS = new Set(fetcherManifest.wireableBroadcasters);
-
-// Some fetchers store a broadcaster slug in metadataUrl instead of a URL.
-const SLUG_NOT_URL = new Set(['bbc', 'ffh', 'laut-fm', 'npo', 'soma-fm']);
-// A few valid metadata feeds are plain text, XML, or HTML fragments.
-const NON_JSON_METADATA = new Set(['wdr', 'mr', 'rb-bremen', 'sr']);
-
-function isMetadataSlug(metadataUrl, metadataKey) {
-  return !!metadataKey && SLUG_NOT_URL.has(metadataKey) && !/^https?:\/\//i.test(metadataUrl);
-}
+const {
+  classifyStream,
+  classifyHttps,
+  classifyIcy,
+  classifyMetadataApi,
+  classifyFetcher,
+  classifyProgram,
+  isMetadataSlug,
+} = createClassifiers(fetcherManifest);
 
 // ─── probes ──────────────────────────────────────────────────────────
 
-function timed(promise) {
+function timed(promise, timeout) {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), args.timeout);
+  const timer = setTimeout(() => ctrl.abort(), timeout);
   return [promise(ctrl.signal), () => clearTimeout(timer)];
 }
 
-async function probeStream(url) {
-  if (!url) return { status: 'failed', errorToken: 'no-url' };
+async function probeStream(url, timeout) {
+  const t0 = Date.now();
+  if (!url) return { status: 'failed', errorToken: 'no-url', ms: 0 };
   const [p, done] = timed((signal) =>
     fetch(url, { signal, headers: { Origin: ORIGIN, 'Icy-MetaData': '1' } }),
-  );
+  timeout);
   try {
     const res = await p;
     const ct = (res.headers.get('content-type') ?? '').toLowerCase();
@@ -126,7 +151,7 @@ async function probeStream(url) {
       }
     }
     try { await res.body?.cancel(); } catch {}
-    return { status: res.status, contentType: ct, metaintAdvertised: !!metaint, icySeen };
+    return { status: res.status, contentType: ct, metaintAdvertised: !!metaint, icySeen, ms: Date.now() - t0 };
   } catch (err) {
     // undici rejects responses browsers accept (bare-LF status lines —
     // the regiocast/streamabc family). Re-check with the lenient
@@ -141,17 +166,18 @@ async function probeStream(url) {
           metaintAdvertised: !!lenient.icyMetaint,
           icySeen: false,
           lenientParse: true,
+          ms: Date.now() - t0,
         };
       }
     }
-    return { status: 'failed', errorToken: classifyError(err) };
+    return { status: 'failed', errorToken: classifyError(err), ms: Date.now() - t0 };
   } finally {
     done();
   }
 }
 
-async function probeMetadataUrl(url) {
-  const [p, done] = timed((signal) => fetch(url, { signal, headers: { Origin: ORIGIN } }));
+async function probeMetadataUrl(url, timeout) {
+  const [p, done] = timed((signal) => fetch(url, { signal, headers: { Origin: ORIGIN } }), timeout);
   try {
     const res = await p;
     const ct = (res.headers.get('content-type') ?? '').toLowerCase();
@@ -162,67 +188,6 @@ async function probeMetadataUrl(url) {
   } finally {
     done();
   }
-}
-
-// ─── classification (verdicts: ok | warn | bad | na) ─────────────────
-
-function classifyStream(probe) {
-  if (probe.status === 'failed') return { v: 'bad', d: probe.errorToken };
-  if (typeof probe.status === 'number' && probe.status >= 400) return { v: 'bad', d: `HTTP ${probe.status}` };
-  const ct = probe.contentType || '';
-  const audioLike = ct.startsWith('audio/') || ct.includes('mpegurl') || ct.includes('octet-stream');
-  if (!audioLike) return { v: 'warn', d: `content-type "${ct || '?'}"` };
-  return { v: 'ok', d: ct };
-}
-
-function classifyHttps(streamUrl) {
-  return /^https:\/\//i.test(streamUrl ?? '')
-    ? { v: 'ok' }
-    : { v: 'bad', d: 'http (mixed content)' };
-}
-
-function classifyIcy(probe, codec) {
-  if ((codec ?? '').toUpperCase() === 'HLS') return { v: 'na', d: 'HLS — metadata via manifest' };
-  if (probe.icySeen) return { v: 'ok', d: 'StreamTitle present' };
-  if (probe.metaintAdvertised) return { v: 'warn', d: 'icy-metaint advertised, no StreamTitle in 64 KB' };
-  return { v: 'bad', d: 'no ICY metadata' };
-}
-
-function classifyMetadataApi(metadataUrl, probe, metadataKey, broadcaster) {
-  if (!metadataUrl) {
-    if (metadataKey && SELF_CONTAINED_FETCHERS.has(metadataKey)) {
-      return { v: 'ok', d: `built into ${metadataKey} fetcher` };
-    }
-    if (broadcaster && WIREABLE_BROADCASTERS.has(broadcaster)) {
-      return { v: 'warn', d: 'auto-discoverable — run `npm run wire-metadata`' };
-    }
-    return { v: 'na', d: 'not declared' };
-  }
-  if (isMetadataSlug(metadataUrl, metadataKey)) {
-    return { v: 'ok', d: `slug=${metadataUrl} (proxied)` };
-  }
-  if (!probe || probe.status === 'failed') return { v: 'bad', d: probe?.errorToken ?? 'unreachable' };
-  if (typeof probe.status === 'number' && probe.status >= 400) return { v: 'bad', d: `HTTP ${probe.status}` };
-  if (!probe.contentType?.includes('json')) {
-    if (metadataKey && NON_JSON_METADATA.has(metadataKey)) {
-      return { v: 'ok', d: probe.contentType || 'non-json metadata' };
-    }
-    return { v: 'warn', d: `content-type "${probe.contentType || '?'}"` };
-  }
-  return { v: 'ok' };
-}
-
-function classifyFetcher(metadataKey) {
-  if (!metadataKey) return { v: 'na', d: 'generic' };
-  if (KNOWN_FETCHERS.has(metadataKey)) return { v: 'ok', d: metadataKey };
-  return { v: 'bad', d: `unknown key "${metadataKey}"` };
-}
-
-function classifyProgram(metadataKey) {
-  if (!metadataKey) return { v: 'na' };
-  return PROGRAM_CAPABLE.has(metadataKey)
-    ? { v: 'ok' }
-    : { v: 'warn', d: 'fetcher does not expose program info' };
 }
 
 // ─── target selection ────────────────────────────────────────────────
@@ -236,12 +201,33 @@ if (!Array.isArray(allStations)) {
 const published = allStations.filter((s) => PUBLISHABLE.has(s?.status));
 
 let targets = published;
-if (args.cc) targets = targets.filter((s) => String(s.country ?? '').toUpperCase() === args.cc);
-if (args.only) targets = targets.filter((s) => args.only.has(s.id));
-if (args.limit > 0) targets = targets.slice(0, args.limit);
+let scope;
+let fullSweep = false;
 
-const fullSweep = !args.cc && !args.only && !(args.limit > 0);
-const scope = fullSweep ? 'full' : args.cc ? `cc:${args.cc}` : 'partial';
+if (args.plan) {
+  // Sharded mode: the plan decides what this runner probes. Ids the plan
+  // knows and the catalog no longer does are skipped, not fatal — plan and
+  // catalog can be a commit apart.
+  const plan = JSON.parse(readFileSync(resolve(args.plan), 'utf8'));
+  const shardIds = plan?.targets?.[args.shard];
+  if (!Array.isArray(shardIds)) {
+    console.error(`health-probe: plan has no shard ${args.shard} (shards: ${plan?.targets?.length ?? 0})`);
+    process.exit(1);
+  }
+  const byId = new Map(published.map((s) => [s.id, s]));
+  const missing = shardIds.filter((id) => !byId.has(id));
+  targets = shardIds.map((id) => byId.get(id)).filter(Boolean);
+  if (missing.length > 0) {
+    console.log(`plan: ${missing.length} id(s) not in the published catalog, skipped (${missing.slice(0, 5).join(', ')}…)`);
+  }
+  scope = `shard:${args.shard}/${plan.targets.length}`;
+} else {
+  if (args.cc) targets = targets.filter((s) => String(s.country ?? '').toUpperCase() === args.cc);
+  if (args.only) targets = targets.filter((s) => args.only.has(s.id));
+  if (args.limit > 0) targets = targets.slice(0, args.limit);
+  fullSweep = !args.cc && !args.only && !(args.limit > 0);
+  scope = fullSweep ? 'full' : args.cc ? `cc:${args.cc}` : 'partial';
+}
 
 if (targets.length === 0) {
   console.error('health-probe: no stations match the given scope');
@@ -253,63 +239,125 @@ console.log(`health-probe: ${targets.length} station(s), scope=${scope}, concurr
 // ─── probe pool ──────────────────────────────────────────────────────
 
 const startedAt = Date.now();
-const rows = new Array(targets.length);
-let nextIndex = 0;
-let probedCount = 0;
 
-async function worker() {
-  for (;;) {
-    const i = nextIndex++;
-    if (i >= targets.length) return;
-    const s = targets[i];
-    const metadataKey = s.metadata ?? null;
-    const streamProbe = await probeStream(s.streamUrl);
-    const metaProbe =
-      s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey)
-        ? await probeMetadataUrl(s.metadataUrl)
-        : null;
-    rows[i] = {
-      station: s,
-      facets: {
-        stream: classifyStream(streamProbe),
-        https: classifyHttps(s.streamUrl),
-        icy: classifyIcy(streamProbe, s.codec),
-        metadata: classifyMetadataApi(s.metadataUrl, metaProbe, metadataKey, s.broadcaster),
-        fetcher: classifyFetcher(metadataKey),
-        program: classifyProgram(metadataKey),
-      },
-    };
-    probedCount += 1;
-    if (!args.quiet && probedCount % 500 === 0) {
-      const rate = probedCount / ((Date.now() - startedAt) / 1000);
-      const etaMin = Math.round((targets.length - probedCount) / rate / 60);
-      console.log(`  …${probedCount}/${targets.length} (${rate.toFixed(1)}/s, ~${etaMin} min left)`);
+/**
+ * Probe a list of stations with a bounded worker pool.
+ * @param {object[]} list stations
+ * @param {number} timeout per-request timeout in ms
+ * @returns {Promise<object[]>} rows aligned to `list`
+ */
+async function probePass(list, timeout) {
+  const out = new Array(list.length);
+  let nextIndex = 0;
+  let probedCount = 0;
+
+  async function worker() {
+    for (;;) {
+      const i = nextIndex++;
+      if (i >= list.length) return;
+      const s = list[i];
+      const metadataKey = s.metadata ?? null;
+      const streamProbe = await probeStream(s.streamUrl, timeout);
+      const metaProbe =
+        s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey)
+          ? await probeMetadataUrl(s.metadataUrl, timeout)
+          : null;
+      out[i] = {
+        station: s,
+        probe: streamProbe,
+        facets: {
+          stream: classifyStream(streamProbe),
+          https: classifyHttps(s.streamUrl),
+          icy: classifyIcy(streamProbe, s.codec),
+          metadata: classifyMetadataApi(s.metadataUrl, metaProbe, metadataKey, s.broadcaster),
+          fetcher: classifyFetcher(metadataKey),
+          program: classifyProgram(metadataKey),
+        },
+      };
+      probedCount += 1;
+      if (!args.quiet && probedCount % 500 === 0) {
+        const rate = probedCount / ((Date.now() - startedAt) / 1000);
+        const etaMin = Math.round((list.length - probedCount) / rate / 60);
+        console.log(`  …${probedCount}/${list.length} (${rate.toFixed(1)}/s, ~${etaMin} min left)`);
+      }
     }
   }
+
+  await Promise.all(Array.from({ length: Math.min(args.concurrency, list.length) }, worker));
+  return out;
 }
 
-await Promise.all(Array.from({ length: Math.min(args.concurrency, targets.length) }, worker));
+const rows = await probePass(targets, args.timeout);
+
+// ─── soft-failure retry (ADR 002) ────────────────────────────────────
+// `timeout` is the most common bad detail and the sponsor has caught the
+// probe calling working stations broken. Everything soft gets one more
+// chance at double the budget; the retry result replaces the first.
+
+const softIndexes = rows
+  .map((r, i) => (r.facets.stream.v === 'bad' && failureClass(r.facets.stream) === 'soft' ? i : -1))
+  .filter((i) => i >= 0);
+
+let retried = 0;
+let recovered = 0;
+if (softIndexes.length > 0) {
+  const retryTimeout = args.timeout * 2;
+  console.log(`retrying ${softIndexes.length} soft failure(s) at ${retryTimeout}ms…`);
+  const retryRows = await probePass(softIndexes.map((i) => rows[i].station), retryTimeout);
+  softIndexes.forEach((idx, k) => {
+    const row = retryRows[k];
+    row.retried = true;
+    if (row.facets.stream.v !== 'bad') recovered += 1;
+    rows[idx] = row;
+  });
+  retried = softIndexes.length;
+  console.log(`retried ${retried}, recovered ${recovered}`);
+}
+
+// ─── observations (append-only log) ──────────────────────────────────
+
+const at = new Date().toISOString();
+
+if (args.observations) {
+  const observations = rows.map((r) =>
+    toObservation({ station: r.station, facets: r.facets, probe: r.probe, at, retried: r.retried === true }),
+  );
+  appendObservations(resolve(args.observations), observations);
+  console.log(`appended ${observations.length} observation(s) to ${args.observations}`);
+}
 
 // ─── write the health record ─────────────────────────────────────────
 
-const at = new Date().toISOString();
-const record = loadHealth(root);
 const FACET_KEYS = ['stream', 'https', 'icy', 'metadata', 'fetcher', 'program'];
 const summaries = {};
-for (const facet of FACET_KEYS) {
-  const updates = new Map(rows.map((r) => [r.station.id, r.facets[facet]]));
-  summaries[facet] = applyFacet(record, facet, updates, { tool: 'health-probe', scope, at });
+
+if (args.record) {
+  const record = loadHealth(root);
+  for (const facet of FACET_KEYS) {
+    const updates = new Map(rows.map((r) => [r.station.id, r.facets[facet]]));
+    summaries[facet] = applyFacet(record, facet, updates, { tool: 'health-probe', scope, at });
+  }
+  if (fullSweep) {
+    const removed = pruneStations(record, new Set(published.map((s) => s.id)));
+    if (removed > 0) console.log(`pruned ${removed} station(s) no longer in the published catalog`);
+  }
+  saveHealth(root, record);
+  console.log(`wrote public/station-health.json (${summaries.stream.transitions} stream transition(s))`);
+} else {
+  // Sharded runs leave the record to the merge job (derive-health).
+  for (const facet of FACET_KEYS) summaries[facet] = tallyFacet(rows, facet);
+  console.log('--no-record — leaving public/station-health.json untouched');
 }
-if (fullSweep) {
-  const removed = pruneStations(record, new Set(published.map((s) => s.id)));
-  if (removed > 0) console.log(`pruned ${removed} station(s) no longer in the published catalog`);
+
+function tallyFacet(list, facet) {
+  const tally = { ok: 0, warn: 0, bad: 0, na: 0 };
+  for (const r of list) tally[r.facets[facet].v] += 1;
+  return { checked: list.length, transitions: 0, tally };
 }
-saveHealth(root, record);
-console.log(`wrote public/station-health.json (${summaries.stream.transitions} stream transition(s))`);
 
 // ─── dashboard artifact (full sweeps only) ───────────────────────────
 
-if (fullSweep) {
+if (fullSweep && args.record) {
   const problems = rows
     .filter((r) => Object.values(r.facets).some((f) => f.v === 'bad'))
     .sort((a, b) => {
@@ -350,7 +398,7 @@ if (fullSweep) {
   writeFileSync(outPath, JSON.stringify(status, null, 2) + '\n');
   console.log(`wrote public/station-status.json (${problems.length} problem station(s), cap ${STATUS_PROBLEM_CAP})`);
 } else {
-  console.log('scoped run — leaving public/station-status.json untouched');
+  console.log('scoped or unrecorded run — leaving public/station-status.json untouched');
 }
 
 function toState(facet) {
@@ -367,8 +415,14 @@ function logoState(favicon) {
 // ─── summary ─────────────────────────────────────────────────────────
 
 const t = summaries.stream.tally;
+const badRowsByClass = { hard: 0, soft: 0 };
+for (const r of rows) {
+  const cls = failureClass(r.facets.stream);
+  if (cls) badRowsByClass[cls] += 1;
+}
 console.log('');
-console.log(`stream:   ${t.ok} ok · ${t.warn} warn · ${t.bad} bad`);
+console.log(`stream:   ${t.ok} ok · ${t.warn} warn · ${t.bad} bad (${badRowsByClass.hard} hard, ${badRowsByClass.soft} soft)`);
+if (retried > 0) console.log(`retries:  ${retried} soft failure(s) re-probed, ${recovered} recovered`);
 const m = summaries.metadata.tally;
 console.log(`metadata: ${m.ok} ok · ${m.warn} warn · ${m.bad} bad · ${m.na} n/a`);
 
