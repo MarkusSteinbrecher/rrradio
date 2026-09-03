@@ -247,7 +247,8 @@ function renderFreshness(): void {
       chip.className = `health-chip ${freshnessClass(days)}`;
       const scope = run.scope === 'full' ? '' : ` · ${run.scope}`;
       chip.title = `${run.tool} · ${run.checked.toLocaleString()} station(s) · ${new Date(run.lastRun).toLocaleString()}${scope}`;
-      chip.textContent = `${FACET_LABEL[facet]} · ${days === 0 ? 'today' : `${days}d`}${run.scope === 'full' ? '' : ' (partial)'}`;
+      const full = run.scope === 'full' || run.scope === 'rolling'; // rolling = ADR 002 daily shards, weekly coverage
+      chip.textContent = `${FACET_LABEL[facet]} · ${days === 0 ? 'today' : `${days}d`}${full ? '' : ' (partial)'}`;
     }
     chips.push(chip);
   }

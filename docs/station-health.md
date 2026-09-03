@@ -1,10 +1,14 @@
 # Station health record
 
-`public/station-health.json` is the single, committed, per-station quality
-record for the catalog. Every automated check writes its verdict into this one
-artifact through `tools/lib/health-record.mjs`; the station tracker's Health
-tab and any future tooling read it from one place instead of stitching
-together five scattered report files.
+`station-health.json` is the single per-station quality record for the
+catalog. Every automated check writes its verdict into this one artifact
+through `tools/lib/health-record.mjs`; the station tracker's Health tab and
+any future tooling read it from one place instead of stitching together five
+scattered report files.
+
+Since ADR 002 the *live* copy lives on the orphan `health-data` branch, not in
+the source tree — see "Where the data lives" below. `public/station-health.json`
+stays committed as the bootstrap copy and as the local working file.
 
 ## Why it exists
 
@@ -86,11 +90,12 @@ The probe deliberately does **not** write the `logo` facet — `logo-status`
 owns it (it merges the real-pixel probe report and provenance fields that the
 stream probe knows nothing about).
 
-### Churn control (this file is committed)
+### Churn control (this file is committed — daily, on `health-data`)
 
 The repo already suffers from large committed artifacts churning every build
-(see the `git gc` note in CLAUDE.md). The health record is designed so the
-weekly refresh produces a *small* diff:
+(see the `git gc` note in CLAUDE.md). Moving the record to `health-data`
+takes that churn out of `main`, but the branch still accumulates a commit a
+day, so the design still matters — the daily refresh produces a *small* diff:
 
 1. Per-station rows change **only on verdict/detail transitions**. Re-probing
    24k stations that are all still `ok` touches zero station lines.
@@ -128,8 +133,80 @@ npm run health -- --concurrency 24 --timeout 5000
   dashboard grid was never going to render 24k rows.
 - Prints a summary tally plus the bad stations, not 24k table rows.
 
+In CI it runs from a plan instead of scanning the catalog itself:
+
+```
+npm run health -- --plan plan.json --shard 0 --observations obs-0.ndjson --no-record
+```
+
+- `--plan` + `--shard i` take the targets from the plan's shard `i`.
+- `--observations <path>` appends one row per probed station.
+- `--no-record` skips `public/station-health.json` and
+  `public/station-status.json` — `derive-health` writes the record instead.
+- `--strict` stays for local use; the workflow never passes it.
+
+Classification (`classifyStream`, `classifyIcy`, hard/soft `failureClass`)
+lives in `tools/lib/probe-classify.mjs` so it is testable and shared.
+
 `npm run validate-catalog` and `npm run analyze` remain as aliases for
 `npm run health` so docs, muscle memory and old issues keep working.
+
+## The rest of the loop
+
+### `tools/plan-probe.mjs` — who gets probed today
+
+```
+npm run plan-probe -- --out plan.json [--shards 6] [--day YYYY-MM-DD] [--offline] [--full]
+```
+
+Reads `public/stations.json`, `data/stations.yaml` (status, featured),
+`data/highlights.yaml`, and the stats Worker's top-stations. The Worker call
+failing is logged, not fatal (`--offline` skips it). Emits the day's `hot`
+set, `plays`, `rotation`, per-station `tiers` and the balanced `targets`
+arrays — one per shard.
+
+Tiering, because probing 31k streams daily is neither necessary nor kind:
+
+- **Curated tier** — status `working` or `icy-only`, `featured: true`, or
+  referenced from `data/highlights.yaml`. Probed daily, never changed
+  without review.
+- **Long tail** — everything else (bulk `stream-only` imports). Rotates
+  through 7 daily shards: `fnv1a32(id) % 7 === daysSinceEpochUTC(day) % 7`.
+- **Hot set** — curated tier ∪ every published station with plays in the
+  last 30 days. Probed daily. Play telemetry is concentrated: ~50 stations
+  carry almost all plays, so this is small and worth being strict about.
+
+`--full` targets every published station (manual full sweeps).
+
+### `tools/derive-health.mjs` — observations → record
+
+```
+npm run derive-health -- --data health-data/ [--catalog public/stations.json] [--record public/station-health.json] [--now ISO]
+```
+
+Reads every `observations/*.ndjson`. Per station and facet the latest row is
+the verdict, applied through `applyFacet` (tool `derive-health`, scope
+`rolling`, `checked` = stations observed in the last 7 days), so the `since`
+transition semantics are preserved. Also writes `streaks.json` (consecutive
+run of identical `(o, c)`, counting distinct UTC days only), `metrics.json`
+and `metrics-history.ndjson`. Prunes stations that left the catalog and
+observation files older than 90 days.
+
+`availability` in the metrics is play-weighted: Σ plays of stations whose
+latest stream verdict is `ok` ÷ Σ plays. With no plays it is `null`, not 1.
+
+### `tools/health-digest.mjs` — the weekly read
+
+```
+npm run health-digest -- --data health-data/ --out body.md [--days 7]
+```
+
+Decision-shaped markdown, in this order: the three metrics with
+week-over-week deltas; **newly failing** stations grouped curated /
+long-tail (hard streak ≥ 3 or soft streak ≥ 5, first day inside the window);
+**recovered** (ok streak ≥ 2 after a bad streak); **hot-set stations failing
+right now**; top failure details; per-facet freshness. No raw logs — the old
+tracking issue was a 21 KB log dump nobody read. Exits 0 always.
 
 ## Bootstrap / import
 
@@ -140,22 +217,127 @@ already exist (`station-status.json`, `station-drift.json`,
 `generatedAt` as that facet's `lastRun`. Honest staleness from day one: a
 facet imported from a month-old report *shows* as a month old in the tracker.
 
+## Observations: the append-only measurement log
+
+The probe no longer writes verdicts directly. It appends one NDJSON row per
+station probed, and the record is *derived* from those rows. History is what
+makes an automatic status flip defensible: a station that has been `hard`-bad
+for five consecutive days is a different thing from one that timed out once.
+
+```jsonc
+{"id":"de-dlf","at":"2026-09-04T05:12:03Z","v":"gha","f":"stream",
+ "o":"bad","c":"soft","s":null,"ct":null,"ms":8004,"d":"timeout","icy":"na","r":true}
+```
+
+| key | meaning |
+|---|---|
+| `id` | station id |
+| `at` | ISO-8601 UTC, second precision |
+| `v` | vantage: `gha` (GitHub Actions runner). Reserved: `edge`, `client` |
+| `f` | facet: `stream` (phase 1). Reserved: `logo` |
+| `o` | outcome `ok` \| `warn` \| `bad` |
+| `c` | class `hard` \| `soft` \| `null` (only set when `o` is `bad`) |
+| `s` | HTTP status or `null` |
+| `ct` | lower-cased content-type or `null` |
+| `ms` | wall time of the (final) attempt |
+| `d` | stable detail string — identical vocabulary to the record's `d` |
+| `icy` | `ok` \| `warn` \| `bad` \| `na` (stream rows only) |
+| `r` | `true` when the row is the result of the soft-failure retry |
+
+Keys are short on purpose: ~31k rows a week. Rows are append-only — a run
+never rewrites another run's rows.
+
+### Failure classes
+
+`timeout` was the top "bad" reason under the old single-fetch probe, and the
+sponsor repeatedly caught it calling working stations broken. So a bad stream
+verdict carries a class, and only the unambiguous ones count as hard:
+
+| class | details |
+|---|---|
+| `hard` | `HTTP 404`, `HTTP 410`, `dns`, `refused`, `no-url` |
+| `soft` | everything else that is bad: `timeout`, `HTTP 401/403/429`, `HTTP 5xx`, `reset`, `tls`, `network`, other 4xx |
+
+A `soft` failure is retried once in the same run with double the timeout
+(retries run after the first pass). `warn` (non-audio content-type) has no
+class.
+
+## Where the data lives
+
+The record and its observations live on **`health-data`**, an orphan,
+bot-only, unprotected branch:
+
+```
+README.md                       what this branch is, who writes it
+observations/YYYY-MM-DD.ndjson  one file per UTC day; runs append
+station-health.json             the derived record — schema v1, unchanged
+streaks.json                    {"<id>": {"o":"bad","c":"soft","n":3,"first":"…","last":"…"}}
+metrics.json                    latest metrics
+metrics-history.ndjson          one metrics row per derive run
+plan.json                       the most recent probe plan
+```
+
+**Why not `main`.** The old weekly sweep committed ~17 MB of regenerated
+report artifacts into a protected branch. A direct push is rejected with
+GH006 before any check can run, so the sweep had to open a PR — and that PR
+was a 135k-line generated diff nobody merged. The record froze at 2026-06-15
+on every facet, and `propose-fixes` (which reads it to demote dead streams)
+froze with it. Health data is high-churn machine output; it does not belong
+behind a review gate that exists to protect hand-written code.
+
+**How it reaches the app.** The `web` job in `deploy.yml` overlays it:
+
+```
+git fetch --depth 1 origin health-data
+git show origin/health-data:station-health.json > dist/station-health.json
+```
+
+`actions/checkout` does a shallow single-ref checkout, so the explicit fetch
+is required. The step is never fatal — before the branch exists, or if the
+fetch fails, the committed `public/station-health.json` is served instead.
+The tracker's URL is unchanged either way.
+
+Observations older than 90 days are deleted by `derive-health` once the
+streaks that depend on them are persisted.
+
 ## CI wiring
 
-`catalog-watch.yml` (weekly, Monday 07:00 UTC):
+`station-probe.yml` — daily 05:00 UTC, plus `workflow_dispatch` with `shards`
+and `full` inputs. Four jobs, `concurrency: station-probe` (serial, never
+cancelled — the merge job appends to a branch):
 
-- Node 24 (the Node 22 pin broke `npm ci` after the lockfile moved to npm 11
-  — that was the five-weeks-of-20-second-failures bug).
-- `health-probe --strict` replaces the separate validate + analyze steps;
-  commits `public/station-health.json` + `public/station-status.json`.
-- `check-drift` joins the weekly run (it previously ran in no workflow at
-  all), writing the `drift` facet.
-- `logo-status` joins the weekly run (network-free) so the `logo` facet and
-  the tracker's logo matrix stay fresh without manual runs.
-- duplicates / candidates / backlog / auto-curate steps unchanged.
+| Job | Budget | What it does |
+|---|---|---|
+| `plan` | 10 min | `plan-probe --out plan.json --shards N [--full]`; uploads `plan.json`; emits the `[0…N-1]` matrix |
+| `probe` | 25 min per shard | matrix, `fail-fast: false`, `continue-on-error`; `health-probe --plan plan.json --shard i --observations obs-i.ndjson --no-record --concurrency 24 --quiet`; uploads its rows with `if: always()` |
+| `merge` | 20 min | `if: always()`; appends every `obs-*.ndjson` into `health-data/observations/<day>.ndjson`, runs `logo-status` / `check-duplicates` (and `check-drift` on Mondays) non-fatally, runs `derive-health`, commits + pushes `health-data` with a rebase-retry |
+| `digest` | 15 min | Mondays and on dispatch: `health-digest --data health-data --out body.md`, upserts one issue labelled `catalog-quality`, closes the legacy `catalog-watch` issue |
+
+Notes on the shape, because each part is load-bearing:
+
+- **Bad stations are data, never a job failure.** The workflow never passes
+  `--strict`. Only `plan` failing (couldn't decide what to probe) or `merge`
+  failing (couldn't persist what we measured) means the tooling broke, and
+  only that upserts the `workflow-failure` issue. `probe` is
+  `continue-on-error` so a slow or crashed shard is not a red run — and its
+  upload is `if: always()` so half a shard of rows still lands.
+- **The merge job seeds `public/station-health.json` from `health-data`
+  before running the cheap facet writers**, so `logo-status` and
+  `check-duplicates` merge into the current record rather than writing one
+  that holds only their own facet.
+- **The merge job never commits to `main`'s tree.** It checks `main` out for
+  the tooling and `health-data` into `health-data/`, and every write goes to
+  the latter. On the very first run the branch doesn't exist yet, so the job
+  bootstraps it as an orphan with a README.
+- **Node comes from `.nvmrc`** in every job (the hardcoded Node 22 pin broke
+  `npm ci` for five weeks after the lockfile moved to npm 11).
+
+`catalog-watch.yml` is now "Catalog refresh (manual)": dispatch-only, RB
+refresh + duplicates + candidates + backlog + auto-curate. It no longer
+probes, checks drift, refreshes logo status, or commits any health artifact.
 
 `check-homepages` stays manual/curator-paced for now (18.5k URLs, real
-network cost) — but when it runs, it now leaves its verdicts in the record
+network cost) — but when it runs, it leaves its verdicts in the record
 instead of only in a gitignored cache.
 
 ## Reading it
@@ -163,6 +345,11 @@ instead of only in a gitignored cache.
 - **Station tracker → Health tab** (`/station-tracker.html`): per-facet
   freshness strip (fresh < 8 days, stale < 30, dead ≥ 30 / never), summary
   verdict counts, filterable per-station facet-pill table, worst-first sort.
+  It reads `/station-health.json` — which the deploy job overlays from
+  `health-data`, so the tab is at most a day stale without the tracker
+  knowing anything about the branch.
+- **The weekly digest issue** (label `catalog-quality`): what changed and
+  what is worth acting on, rather than the full record.
 - **Admin dashboard** keeps reading `station-status.json` (problems-only).
 - Anything else (scripts, agents) should read `station-health.json` rather
   than re-deriving health from the individual report files.
@@ -171,7 +358,12 @@ instead of only in a gitignored cache.
 
 - Only `tools/lib/health-record.mjs` writes the file. No other code touches
   it directly — that's what keeps the transition semantics and line-per-station
-  serialisation consistent.
+  serialisation consistent. `derive-health` is no exception: it turns
+  observation rows into facet verdicts and then goes through `applyFacet`
+  like every other writer.
+- Observation rows are append-only. A run adds rows; it never edits or
+  deletes another run's (only the 90-day rollup deletes, and only whole
+  files whose streaks are already persisted).
 - A facet writer reports a verdict for every station *in its scope*, `na`
   included; it never deletes facets outside its scope.
 - Details must be stable strings (no track titles, no timestamps, no counts
