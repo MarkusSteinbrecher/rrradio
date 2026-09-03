@@ -64,7 +64,9 @@ worker/
   src/index.ts        — Cloudflare Worker (GoatCounter proxy + BBC
                         proxy + broadcaster CORS proxy with allowlist +
                         anonymous broken-station reports).
-  src/index.test.ts   — 32 vitest cases (CORS / auth / allowlist / etc).
+  src/index.test.ts   — vitest cases (CORS / auth / allowlist / etc).
+  src/probe.ts        — GET /api/admin/probe: edge second opinion on a
+                        stream URL for the catalog quality loop (ADR 002).
 
 Native iOS lives in https://github.com/MarkusSteinbrecher/rrradio-ios.
 
