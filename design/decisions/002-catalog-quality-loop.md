@@ -225,3 +225,154 @@ observations ≥ 3 days apart.
 - The RB refresh no longer sits in front of the probe; its failures are its own.
 - Verdicts carry history (streaks), which is what makes automatic action
   defensible in phase 2.
+
+## Contracts (phase 2 — decide + act)
+
+Phase 1 is live (PR #679): daily observations on `health-data`, derived
+record, digest. Phase 2 closes the loop. Same rules: small ESM tools,
+pure logic in `tools/lib/*.mjs` with co-located tests, no network in tests.
+
+### Station lifecycle fields (YAML only — never published)
+
+A bot unpublish sets, on the station's block in `data/stations.yaml`:
+
+```yaml
+  status: broken
+  brokenSince: 2026-09-06          # day of the action
+  brokenFrom: stream-only          # status to restore on recovery
+  brokenBy: station-probe          # marks the row as bot-managed
+  brokenReason: "HTTP 404 ×3 · 2026-09-04→2026-09-06 · edge agrees"
+```
+
+A republish restores `status: <brokenFrom>` and removes the four
+`broken*` fields. Rows without `brokenBy: station-probe` (curator-set
+`broken`) are never touched by the bot.
+
+### Snapshots — `health-data/unpublished/<id>.json`
+
+The station's row from `public/stations.json` at unpublish time. 31,427 of
+31,461 publishable rows are RB-bound, so a republish cannot rebuild the row
+without Radio Browser; it re-inserts this snapshot instead. Deleted on
+republish. Written and read only by `apply-actions`.
+
+### Keep observing what we unpublished — `plan.json.extra`
+
+`plan-probe` adds `"extra": [{ "id", "name", "streamUrl", "codec", "tier": "unpublished" }]`
+for every YAML row with `brokenBy: station-probe` (streamUrl from the
+snapshot when present, else YAML). They are probed daily. `health-probe`
+resolves plan targets against the published catalog **∪** `plan.extra`.
+`derive-health` no longer prunes ids that appear in `plan.extra`.
+
+### Edge second opinion — Worker `GET /api/admin/probe?url=<https-url>`
+
+Bearer `ADMIN_TOKEN` (same guard as the other admin GETs). Fetches the URL
+with an 8 s `AbortSignal.timeout`, `Icy-MetaData: 1`, reads at most one
+body chunk, cancels, and answers with the probe vocabulary:
+
+```jsonc
+{ "url": "…", "s": 200, "ct": "audio/mpeg", "o": "ok", "c": null, "d": "audio/mpeg", "ms": 412 }
+```
+
+`o/c/d` follow `tools/lib/probe-classify.mjs` exactly (status ≥ 400 → bad
+`HTTP n`; fetch error → bad with `timeout | dns | refused | reset | tls | network`;
+non-audio content-type → warn). Only `http(s)` URLs; anything else → 400.
+Client: `tools/lib/edge-probe.mjs` `edgeProbe(url, { base, token, timeoutMs })`,
+`base` default `https://stats.rrradio.org`, token from `STATS_ADMIN_TOKEN`.
+Every edge answer is appended to today's observation file as a row with
+`v: "edge"`, so the second opinion is history, not a side channel.
+
+### `tools/decide-actions.mjs`
+
+```
+decide-actions --data health-data/ [--catalog public/stations.json] [--yaml data/stations.yaml]
+               [--out actions.json] [--now ISO] [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100]
+```
+
+Pure core `decide({ streaks, tiers, yamlById, publishedIds, foldCanonicals, highlightIds, edge, metrics, now, caps })`
+in `tools/lib/health-policy.mjs`. Rules, in this order:
+
+| # | Condition | Long tail | Curated tier |
+|---|---|---|---|
+| 1 | **Circuit breaker**: `metrics.stream.bad ÷ (ok+warn+bad) > 0.15`, or candidates > 2 % of published | no auto actions this run; every candidate → `skipped: circuit-breaker` | same |
+| 2 | stream streak `bad`, `hard`, `n ≥ 3` | `unpublish`, auto | `review` (proposed unpublish) |
+| 3 | stream streak `bad`, `soft`, `n ≥ 5` | ask edge; edge `bad` → `unpublish` auto; edge `ok`/`warn` → `skipped: edge-disagrees`; no answer → `skipped: no-edge-opinion` | `review`, with the edge answer attached when available |
+| 4 | row is a fold canonical (`dedup-report.json` group with folded members) or referenced by `highlights.yaml` | → `review` instead of auto (check-catalog / check-highlights invariants) | — |
+| 5 | `brokenBy: station-probe` and stream streak `ok`, `n ≥ 3` | `republish`, auto | `republish`, auto |
+| 6 | any `unpublish`/`review` candidate that is RB-bound: RB `url_resolved` differs, is https, and probes `ok` via `lenientProbe` | `swap-url` auto (replaces the unpublish) | `swap-url` as `review` |
+| 7 | cap: at most `caps.auto` (default 200) auto actions per run, worst-first (hard before soft, older `first` first) | overflow → `skipped: cap` | — |
+
+Tier comes from `plan.json.tiers`; a bot-unpublished row has tier `unpublished`.
+Edge questions are bounded (`--max-edge`, concurrency 4) and RB lookups
+bounded (`--max-rb`), both non-fatal: a Worker or RB outage degrades to
+`no-edge-opinion` / no swaps, never to a crash.
+
+`actions.json`:
+
+```jsonc
+{ "generatedAt": "…", "day": "2026-09-06", "circuitBreaker": false,
+  "actions": [
+    { "id": "de-xyz", "action": "unpublish", "auto": true, "tier": "long-tail", "from": "stream-only",
+      "streak": { "o": "bad", "c": "hard", "n": 3, "first": "2026-09-04", "last": "2026-09-06", "d": "HTTP 404" },
+      "edge": null, "reason": "HTTP 404 ×3 · 2026-09-04→2026-09-06" },
+    { "id": "…", "action": "republish", "auto": true, "tier": "unpublished", "to": "stream-only", "streak": {…}, "reason": "ok ×3 · …" },
+    { "id": "…", "action": "swap-url", "auto": true, "tier": "long-tail", "newUrl": "https://…", "newCodec": "MP3", "streak": {…}, "reason": "…" },
+    { "id": "…", "action": "review", "auto": false, "tier": "curated", "proposed": "unpublish", "streak": {…}, "edge": {…}, "reason": "…" }
+  ],
+  "skipped": [ { "id": "…", "why": "edge-disagrees" | "no-edge-opinion" | "cap" | "circuit-breaker" } ] }
+```
+
+The file is also written to `health-data/actions/YYYY-MM-DD.json` (audit trail).
+
+### `tools/apply-actions.mjs`
+
+```
+apply-actions --actions actions.json --data health-data/ --mode auto|review [--dry-run] [--summary-out body.md]
+```
+
+Pure core in `tools/lib/catalog-actions.mjs`. `--mode auto` applies
+`auto: true` actions; `--mode review` applies `auto: false` ones (the PR is
+the review surface, so the proposal is materialised as a diff). Per action:
+
+- **unpublish**: YAML via `tools/lib/yaml-station-edit.mjs` (`setStationScalar`
+  for `status` + the four `broken*` fields); `public/stations.json` via
+  `catalog-json-patch.removeStation`; snapshot written.
+- **republish**: YAML `status ← brokenFrom`, `broken*` removed (add
+  `removeStationScalar(yamlText, id, field)` to `yaml-station-edit.mjs`);
+  JSON row re-inserted from the snapshot right after the nearest preceding
+  YAML neighbour present in the JSON (the JSON follows YAML order modulo the
+  collapse); snapshot deleted.
+- **swap-url**: YAML `streamUrl` (+ `codec` when known); JSON via `patchStationFields`.
+- Re-stringify the JSON exactly as build-catalog does (`JSON.stringify(payload, null, 2) + '\n'`).
+- `--summary-out`: a Markdown PR body — counts, then one line per action
+  with id, name, reason; review PRs add "what to check" per proposal.
+- Finishes by running `node tools/check-catalog.mjs` and exits non-zero if
+  it fails (the PR must be green by construction).
+
+### `.github/workflows/catalog-actions.yml`
+
+Daily `0 6 * * *` (an hour after the probe) + `workflow_dispatch`
+(`dry_run` boolean). One job, 30 min:
+
+1. Mint a token with `actions/create-github-app-token@v2`
+   (`app-id: ${{ secrets.RRRADIO_BOT_APP_ID }}`, `private-key: ${{ secrets.RRRADIO_BOT_PRIVATE_KEY }}`).
+   PRs opened with it receive `pull_request` checks; the default
+   `GITHUB_TOKEN` never does (#656).
+2. Checkout `main` with that token; checkout `health-data` into `health-data/`; `npm ci`.
+3. `decide-actions` (env `STATS_ADMIN_TOKEN`). Commit + push the audit file
+   and the edge observation rows to `health-data` (same retry loop as
+   station-probe).
+4. `apply-actions --mode auto` → if the tree changed: branch
+   `bot/catalog-actions-<YYYYMMDD>`, commit, push, `gh pr create` labelled
+   `catalog-actions`, then `gh pr merge --auto --squash`. Required checks
+   run; branch protection is not strict, so no update-branch dance.
+5. `git checkout -f main`, `apply-actions --mode review` → if the tree
+   changed and no PR labelled `catalog-review` is open: branch
+   `bot/catalog-review-<YYYYMMDD>`, PR labelled `catalog-review`, **no**
+   auto-merge, body from `--summary-out`.
+6. `dry_run`: run 3 and both applies with `--dry-run`, open nothing, print
+   the would-be PR bodies to the job summary.
+7. `workflow-failure` upsert on scheduled failure, close on success
+   (`GH_REPO` set — the pattern from station-probe's report job).
+
+`health-digest` gains a section **Actions this week** (unpublished /
+republished / swapped / awaiting review, from `health-data/actions/*.json`).
