@@ -48,11 +48,20 @@ export function emptyRecord() {
  * @param {string} root repo root
  */
 export function loadHealth(root) {
-  const path = join(root, HEALTH_PATH);
+  return loadHealthFrom(join(root, HEALTH_PATH));
+}
+
+/**
+ * Same as loadHealth(), addressed by explicit path — the health record now
+ * also lives outside the source tree (ADR 002: on the `health-data`
+ * branch), so derive-health needs to point at a checkout of that branch.
+ * @param {string} path
+ */
+export function loadHealthFrom(path) {
   if (!existsSync(path)) return emptyRecord();
   const parsed = JSON.parse(readFileSync(path, 'utf8'));
   if (parsed?.version !== 1 || typeof parsed.stations !== 'object') {
-    throw new Error(`${HEALTH_PATH}: unrecognised shape (expected version 1)`);
+    throw new Error(`${path}: unrecognised shape (expected version 1)`);
   }
   parsed.runs ??= {};
   return parsed;
@@ -126,7 +135,15 @@ export function pruneStations(record, validIds) {
  * @param {object} record
  */
 export function saveHealth(root, record) {
-  const path = join(root, HEALTH_PATH);
+  saveHealthTo(join(root, HEALTH_PATH), record);
+}
+
+/**
+ * Same as saveHealth(), addressed by explicit path (see loadHealthFrom).
+ * @param {string} path
+ * @param {object} record
+ */
+export function saveHealthTo(path, record) {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, serialiseHealth(record));
 }
