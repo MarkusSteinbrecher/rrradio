@@ -140,15 +140,34 @@ tools/
                          stream/https/icy/metadata/fetcher/program facets
                          into public/station-health.json plus a
                          problems-only public/station-status.json for
-                         the dashboard. `npm run health` (aliases:
-                         validate-catalog, analyze). Spec:
-                         docs/station-health.md.
+                         the dashboard. In CI it runs sharded off a plan
+                         (--plan / --shard / --observations / --no-record)
+                         and emits NDJSON observation rows instead.
+                         `npm run health` (aliases: validate-catalog,
+                         analyze). Spec: docs/station-health.md.
+  plan-probe.mjs       — picks the day's probe targets (curated tier +
+                         hot set daily, 1/7 of the long tail on
+                         rotation) and splits them into balanced
+                         shards. Writes plan.json. `npm run plan-probe`.
+  derive-health.mjs    — folds the append-only observation rows on the
+                         health-data branch into the health record
+                         (through tools/lib/health-record.mjs), plus
+                         streaks.json / metrics.json /
+                         metrics-history.ndjson. Prunes stations that
+                         left the catalog and observations older than
+                         90 days. `npm run derive-health`.
+  health-digest.mjs    — decision-shaped weekly markdown from the
+                         health-data branch: metrics with deltas, newly
+                         failing, recovered, hot-set failures. Body of
+                         the `catalog-quality` issue.
+                         `npm run health-digest`.
   auto-curate.mjs      — promotes top-played non-curated names from
                          GoatCounter into stations.yaml at status:
                          stream-only after a Radio Browser lookup +
-                         stream probe. `npm run auto-curate`. Runs
-                         weekly via .github/workflows/catalog-watch.yml
-                         which opens a labelled PR with the additions.
+                         stream probe. `npm run auto-curate`. Runs via
+                         .github/workflows/catalog-watch.yml (manual
+                         dispatch), which opens a labelled PR with the
+                         additions.
   health-import.mjs    — one-shot bootstrap of the health record from
                          pre-existing report artifacts, keeping each
                          source's own generatedAt as that facet's
@@ -165,7 +184,7 @@ tools/
                          needs-https, stream-broken, no-rb-match,
                          already-curated). Writes
                          public/station-backlog.json. Refreshed
-                         weekly by catalog-watch. `npm run backlog`.
+                         by catalog-watch. `npm run backlog`.
   import-ard.mjs       — bulk-imports ARD canonical channels from
                          Radio Browser per a hand-curated channel
                          list per broadcaster (BR, WDR, NDR, MDR, SWR,
@@ -184,6 +203,30 @@ tools/
 ## Other
 
 ```
+.github/workflows/
+  deploy.yml           — CI + GitHub Pages publish. The web job also
+                         overlays station-health.json from the
+                         health-data branch into dist/ (never fatal).
+  station-probe.yml    — daily 05:00 UTC catalog quality loop:
+                         plan → probe (sharded matrix) → merge (commit
+                         observations + derived record to the orphan
+                         health-data branch) → digest (weekly
+                         `catalog-quality` issue). ADR 002.
+  catalog-watch.yml    — "Catalog refresh (manual)". Dispatch-only
+                         Radio Browser refresh + duplicates +
+                         candidates + backlog + auto-curate. No longer
+                         probes health (that moved to station-probe).
+  propose-fixes.yml    — daily broken-station fix PRs off the open
+                         `broken-station` issues.
+
+health-data branch     — orphan, bot-only, unprotected. Holds
+                         observations/YYYY-MM-DD.ndjson,
+                         station-health.json, streaks.json,
+                         metrics.json, metrics-history.ndjson,
+                         plan.json. Written only by station-probe.yml;
+                         read by deploy.yml. Never merged into main.
+                         See docs/station-health.md.
+
 worker/                — Cloudflare Worker that proxies broadcaster
                          APIs lacking CORS or with origin-gated access.
                          Public endpoints (no auth):
@@ -207,7 +250,7 @@ public/stations/       — bundled station logos. Path in YAML is
 public/stations.json       — generated. DO NOT hand-edit.
 public/station-capabilities.json — generated by catalog. Native clients read it to choose metadata polling strategy.
 public/station-capabilities-ios-local.json — generated by catalog:ios-local. Local-only native testing companion to stations-ios-local.json.
-public/station-health.json — the unified per-station health record (docs/station-health.md). Written only via tools/lib/health-record.mjs by health-probe, logo-status, check-drift, check-duplicates, check-homepages. Read by the tracker Health tab.
+public/station-health.json — the unified per-station health record (docs/station-health.md). Written only via tools/lib/health-record.mjs by derive-health, health-probe, logo-status, check-drift, check-duplicates, check-homepages. The committed copy is the bootstrap/local one; the live record is derived daily onto the health-data branch and overlaid into dist/ at deploy time. Read by the tracker Health tab.
 public/station-status.json — generated by health-probe (problems-only). Read by dashboard.
 public/station-backlog.json — generated by backlog. Read by dashboard.
 ```

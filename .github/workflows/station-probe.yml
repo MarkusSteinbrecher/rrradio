@@ -1,0 +1,441 @@
+name: Station probe
+
+# The measure + report half of the catalog quality loop
+# (design/decisions/002-catalog-quality-loop.md).
+#
+# Replaces the health sweep that used to live inside catalog-watch.yml.
+# That job was one runner probing 24k streams sequentially behind a
+# 2 h Radio Browser refresh, and it failed 12 of its last 15 runs —
+# pushes rejected by branch protection on `main`, RB mirror 502s, stale
+# report branches. The fix is to make the probe small, sharded, and to
+# take the data out of the source tree entirely:
+#
+#   plan   → picks today's targets (hot set daily + 1/7 of the long tail)
+#   probe  → matrix of shards, each with its own 25 min budget, each
+#            writing append-only NDJSON observation rows
+#   merge  → appends the rows to the `health-data` branch, derives the
+#            health record from them, commits + pushes to `health-data`
+#   digest → Mondays (and on dispatch): one issue labelled
+#            `catalog-quality` with the decision-shaped summary
+#
+# Dead stations are DATA, not a job failure. A red run means the tooling
+# broke — that (and only that) upserts a `workflow-failure` issue.
+#
+# Nothing here ever writes to `main`: the observations (~31k rows/week)
+# and the derived record live on the orphan `health-data` branch, which
+# has no protection and no Pages deploy behind it. deploy.yml overlays
+# `station-health.json` from that branch into `dist/` so the tracker
+# keeps reading `/station-health.json`.
+
+on:
+  schedule:
+    - cron: '0 5 * * *' # daily 05:00 UTC
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: 'How many probe shards to run in parallel'
+        type: string
+        default: '6'
+      full:
+        description: 'Probe every published station, not just today’s slice'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # push the health-data branch
+  issues: write # digest issue + workflow-failure issue
+
+# Serial, never cancelled: the merge job appends to a branch, so two
+# overlapping runs would race on the same day file.
+concurrency:
+  group: station-probe
+  cancel-in-progress: false
+
+jobs:
+  # ────────────────────────────────────────────────────────────
+  # Plan: who gets probed today, split into balanced shards.
+  # ────────────────────────────────────────────────────────────
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      shards: ${{ steps.matrix.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Plan today's probe
+        env:
+          SHARDS: ${{ inputs.shards || '6' }}
+          FULL: ${{ inputs.full || false }}
+        run: |
+          FULL_FLAG=""
+          if [ "$FULL" = "true" ]; then FULL_FLAG="--full"; fi
+          node tools/plan-probe.mjs --out plan.json --shards "$SHARDS" $FULL_FLAG
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: plan
+          path: plan.json
+          retention-days: 7
+
+      # The matrix is just [0 … shards-1]; the plan file carries the
+      # actual target lists, so the shard index is all a probe job needs.
+      - name: Build the shard matrix
+        id: matrix
+        env:
+          SHARDS: ${{ inputs.shards || '6' }}
+        run: |
+          echo "shards=$(jq -nc --argjson n "$SHARDS" '[range(0; $n)]')" >> "$GITHUB_OUTPUT"
+
+  # ────────────────────────────────────────────────────────────
+  # Probe: one job per shard. Bad streams are expected output, so a
+  # shard never fails the run — and a shard that blows its 25 min
+  # budget still uploads the rows it appended before the timeout.
+  # ────────────────────────────────────────────────────────────
+  probe:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: plan
+
+      - name: Probe shard ${{ matrix.shard }}
+        run: |
+          node tools/health-probe.mjs \
+            --plan plan.json \
+            --shard ${{ matrix.shard }} \
+            --observations obs-${{ matrix.shard }}.ndjson \
+            --no-record \
+            --concurrency 24 \
+            --quiet
+
+      # always(): a timed-out or crashed shard has still appended rows,
+      # and half a shard of observations is worth more than none.
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: obs-${{ matrix.shard }}
+          path: obs-${{ matrix.shard }}.ndjson
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # ────────────────────────────────────────────────────────────
+  # Merge: append the shards' rows to health-data, refresh the cheap
+  # network-free facets, derive the record, push. Never touches `main`.
+  # ────────────────────────────────────────────────────────────
+  merge:
+    needs: probe
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # The tooling comes from main …
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Does the health-data branch exist?
+        id: branch
+        run: |
+          if git ls-remote --exit-code --heads origin health-data >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # … the data from the health-data branch, side by side in health-data/.
+      - name: Check out health-data
+        if: steps.branch.outputs.exists == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: health-data
+          path: health-data
+
+      # First run only: the orphan branch doesn't exist yet. Create it
+      # with just a README so every later run takes the checkout path.
+      - name: Bootstrap the health-data branch
+        if: steps.branch.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git init -q health-data
+          git -C health-data checkout -q --orphan health-data
+          git -C health-data config user.name "github-actions[bot]"
+          git -C health-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cat > health-data/README.md <<'EOF'
+          # health-data
+
+          Bot-only orphan branch. **Do not merge this into `main`.**
+
+          It holds the catalog quality loop's measurements, kept out of the
+          source tree because they are large (~31k observation rows a week)
+          and churn daily — see
+          [ADR 002](https://github.com/MarkusSteinbrecher/rrradio/blob/main/design/decisions/002-catalog-quality-loop.md).
+
+          | Path | What it is |
+          |---|---|
+          | `observations/YYYY-MM-DD.ndjson` | append-only probe rows, one file per UTC day |
+          | `station-health.json` | the derived per-station health record (schema v1) |
+          | `streaks.json` | consecutive identical verdicts per station and facet |
+          | `metrics.json` | latest run metrics |
+          | `metrics-history.ndjson` | one metrics row per derive run |
+          | `plan.json` | the most recent probe plan |
+
+          Written by `.github/workflows/station-probe.yml`. Observations older
+          than 90 days are pruned by `tools/derive-health.mjs` once the streaks
+          that depend on them are persisted. `deploy.yml` copies
+          `station-health.json` from here into `dist/` so the station tracker
+          reads a fresh record.
+          EOF
+          git -C health-data add README.md
+          git -C health-data commit -q -m "health-data: bot-only branch for catalog quality observations (ADR 002)"
+          git -C health-data remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C health-data push -q origin health-data
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: obs-*
+          merge-multiple: true
+          path: obs
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: plan
+
+      - name: Append observations to the day file
+        id: append
+        run: |
+          mkdir -p health-data/observations
+          DAY=$(date -u +%F)
+          ROWS=0
+          for f in obs/obs-*.ndjson; do
+            [ -f "$f" ] || continue
+            # The shards already emit valid NDJSON, so a plain append is
+            # the whole merge — no parsing, no reordering.
+            cat "$f" >> "health-data/observations/$DAY.ndjson"
+            ROWS=$((ROWS + $(wc -l < "$f")))
+          done
+          echo "day=$DAY" >> "$GITHUB_OUTPUT"
+          echo "rows=$ROWS" >> "$GITHUB_OUTPUT"
+          echo "Appended $ROWS observation rows to observations/$DAY.ndjson"
+
+      - name: Carry the plan forward
+        run: cp -f plan.json health-data/plan.json
+
+      # The cheap facet writers below merge into whatever record already
+      # exists, so seed the working copy with the current one — otherwise
+      # they'd write a record holding nothing but their own facet.
+      - name: Seed the working record from health-data
+        run: |
+          if [ -f health-data/station-health.json ]; then
+            cp -f health-data/station-health.json public/station-health.json
+          fi
+
+      # Network-free (or cheap) facets, refreshed opportunistically. None
+      # of them is allowed to take the run down with it — a Radio Browser
+      # 502 is not a reason to lose today's observations.
+      - name: Refresh logo status
+        run: npm run logo-status -- --json-only || echo "logo-status failed — facet skipped this run"
+
+      - name: Check for duplicate stations
+        run: npm run check-duplicates || echo "check-duplicates reported collisions or failed — facet skipped this run"
+
+      - name: Check Radio Browser drift (Mondays)
+        run: |
+          if [ "$(date -u +%u)" != "1" ]; then
+            echo "Not Monday — skipping drift check."
+            exit 0
+          fi
+          npm run check-drift || echo "check-drift failed — facet skipped this run"
+
+      - name: Derive the health record
+        run: |
+          node tools/derive-health.mjs \
+            --data health-data \
+            --catalog public/stations.json \
+            --record public/station-health.json
+
+      - name: Publish the derived record onto health-data
+        run: cp -f public/station-health.json health-data/station-health.json
+
+      - name: Commit and push health-data
+        run: |
+          git -C health-data config user.name "github-actions[bot]"
+          git -C health-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C health-data add -A
+          if git -C health-data diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git -C health-data commit -q -m "probe: ${{ steps.append.outputs.day }} · ${{ steps.append.outputs.rows }} observation rows"
+          # The branch is unprotected and this workflow is serial, but a
+          # manual dispatch overlapping a cron can still land first.
+          for attempt in 1 2 3; do
+            git -C health-data pull --rebase -q origin health-data || true
+            if git -C health-data push -q origin health-data; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed — retrying."
+          done
+          echo "Could not push health-data after 3 attempts."
+          exit 1
+
+  # ────────────────────────────────────────────────────────────
+  # Digest: one long-lived issue, refreshed weekly. Decision-shaped —
+  # metrics with deltas, newly failing, recovered — never a log dump.
+  # ────────────────────────────────────────────────────────────
+  digest:
+    needs: merge
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Is today a digest day?
+        id: when
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$(date -u +%u)" = "1" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Not Monday and not a manual dispatch — no digest today."
+          fi
+
+      - if: steps.when.outputs.run == 'true'
+        uses: actions/checkout@v7
+
+      - if: steps.when.outputs.run == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: health-data
+          path: health-data
+
+      - if: steps.when.outputs.run == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - if: steps.when.outputs.run == 'true'
+        run: npm ci
+
+      - name: Build the digest
+        if: steps.when.outputs.run == 'true'
+        run: node tools/health-digest.mjs --data health-data --out body.md
+
+      - name: Upsert the digest issue
+        if: steps.when.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create catalog-quality \
+            --description "Weekly catalog quality digest (ADR 002)" \
+            --color 1D76DB --force >/dev/null 2>&1 || true
+
+          TITLE="Catalog quality: weekly digest"
+          NUM=$(gh issue list --label catalog-quality --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$TITLE"'")][0].number // ""')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file body.md
+            gh issue comment "$NUM" --body "Refreshed $(date -u +'%Y-%m-%d %H:%M UTC')."
+          else
+            gh issue create --title "$TITLE" --label catalog-quality --body-file body.md
+          fi
+
+      # One-time migration: the old weekly sweep's tracking issue is a
+      # 21 KB log dump that nothing refreshes any more. Harmless no-op
+      # once it has been closed.
+      - name: Retire the legacy catalog-watch issue
+        if: steps.when.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for NUM in $(gh issue list --label catalog-watch --state open --json number --jq '.[].number'); do
+            gh issue close "$NUM" --comment "Superseded by the catalog quality digest (label \`catalog-quality\`) — see ADR 002. The weekly log dump is replaced by a decision-shaped digest."
+          done
+
+  # ────────────────────────────────────────────────────────────
+  # A scheduled cron fails silently — nobody watches a 05:00 job. Same
+  # workflow-failure pattern as propose-fixes.yml (#517).
+  #
+  # `probe` is continue-on-error, so a shard that timed out reports
+  # success and is deliberately not a failure signal: dead streams and
+  # slow shards are data. Only `plan` (couldn't decide what to probe)
+  # and `merge` (couldn't persist what we measured) mean broken tooling.
+  # ────────────────────────────────────────────────────────────
+  report:
+    needs: [plan, probe, merge]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Decide the run outcome
+        id: outcome
+        run: |
+          if [ "${{ needs.plan.result }}" = "failure" ] || [ "${{ needs.merge.result }}" = "failure" ]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: File a tracking issue if the scheduled run failed
+        if: steps.outcome.outputs.failed == 'true' && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create workflow-failure \
+            --description "A scheduled workflow failed and needs attention" \
+            --color B60205 --force >/dev/null 2>&1 || true
+          title="Scheduled workflow failing: $WORKFLOW"
+          {
+            echo "\`$WORKFLOW\` failed on its scheduled run."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "This is a *tooling* failure — bad streams never fail this workflow. Check the failing step's log, fix the cause, then dispatch the workflow manually to confirm. This issue auto-closes on the next successful run."
+          } > failure-body.md
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Failed again $(date -u +'%Y-%m-%d %H:%M UTC') — $RUN_URL"
+          else
+            gh issue create --label workflow-failure --title "$title" --body-file failure-body.md
+          fi
+
+      - name: Close the tracking issue after a successful run
+        if: steps.outcome.outputs.failed != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+        run: |
+          title="Scheduled workflow failing: $WORKFLOW"
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Recovered: succeeded $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

@@ -130,7 +130,7 @@ Every YAML entry can optionally carry three fields that bind it to a Radio Brows
 
 When `stationuuid` is set, `build-catalog` fetches the record via `tools/rb-client.mjs` and uses it as the baseline. Per field, **local YAML wins → broadcaster fallback → RB baseline**. So the YAML stays small (curator-intent only) and `streamUrl`, `bitrate`, `codec`, `tags`, `geo` etc. come from upstream unless we explicitly override.
 
-`changeuuid` is the drift signal. RB bumps it whenever any field on the record is edited. `npm run check-drift` compares the stored value against live RB and writes `public/station-drift.json`; the catalog-watch workflow opens a PR when drift is found, the curator reviews the diff, updates the YAML (and bumps `changeuuid` + `reviewedAt`), merges.
+`changeuuid` is the drift signal. RB bumps it whenever any field on the record is edited. `npm run check-drift` compares the stored value against live RB and writes `public/station-drift.json`; the `station-probe` workflow runs it on Mondays and folds the `drift` facet into the health record on the `health-data` branch, where the weekly `catalog-quality` digest surfaces it. The curator reviews the diff, updates the YAML (and bumps `changeuuid` + `reviewedAt`), merges.
 
 `reviewedAt` is freeform documentation — the date the curator last verified this station's data. Updated only when human-confirmed.
 
@@ -143,7 +143,7 @@ Stations *without* a `stationuuid` (e.g. Grrif, anything RB doesn't index) keep 
 See `docs/curation-checklist.md` for the full per-activity playbook. The standard sequence for promoting a `stream-only` station toward `working`:
 
 1. `npm run wire-metadata` — auto-derives metadataUrl for known broadcasters (br, orf, bbc, hr). Run first, before manual research.
-2. `npm run health -- --only <id>` — confirms stream / icy / meta API / fetcher coverage and flags wireable-but-not-wired stations (writes the verdicts into `public/station-health.json`, see `docs/station-health.md`).
+2. `npm run health -- --only <id>` — confirms stream / icy / meta API / fetcher coverage and flags wireable-but-not-wired stations (writes the verdicts into `public/station-health.json`, see `docs/station-health.md`). For the catalog-wide picture, don't run a full sweep by hand: the `station-probe` workflow probes daily into the `health-data` branch and reports weekly in the `catalog-quality` digest issue.
 3. Improve station logos with the remote-logo scraper in `docs/logo-extraction.md`; only bundle curated PNGs in `public/stations/` when image quality matters and source/provenance is clear per `THIRD_PARTY_NOTICES.md`.
 4. If broadcaster has a metadata API but no fetcher yet — add one in `src/builtins.ts` AND a discoverer in `tools/wire-metadata.mjs` (so future channels of the same family auto-wire).
 5. Bump status from `stream-only` → `icy-only` (ICY-only metadata) or `working` (full per-broadcaster fetcher with logo).
