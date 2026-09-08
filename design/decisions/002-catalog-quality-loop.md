@@ -381,3 +381,40 @@ Daily `0 6 * * *` (an hour after the probe) + `workflow_dispatch`
 
 `health-digest` gains a section **Actions this week** (unpublished /
 republished / swapped / awaiting review, from `health-data/actions/*.json`).
+
+## Contracts (phase 3 — logos)
+
+Shipped 2026-09-08. Scope: the deterministic half of issue #685; the
+budgeted vision routine (judgement half) is a separate decision.
+
+- **Observation.** The daily probe fetches each targeted station's favicon
+  (local `stations/…` assets from disk, `https://` with a 64 KB range and a
+  browser UA; plain `http://` is never fetched — the app's CSP cannot show
+  it) and appends one `f: "logo"` row per station next to the stream row.
+  `o` = ok (`good` / `acceptable` / `vector`), warn (`poor` / `unknown`, or
+  the URL-heuristic tiers `generic` / `third-party` / `non-free-wiki`), bad
+  (`missing`, `http`, `unsupported-scheme`, `not-image`, or the shared probe
+  error tokens). Hard = the stream set plus `missing`, `http`,
+  `unsupported-scheme`, `not-image`. No `icy` key. Bot-unpublished rows
+  (`plan.extra`) get no logo row.
+- **Record.** `derive-health` writes the `logo` facet from the latest logo
+  row per station, exactly like `stream`; `streaks.json` carries a `logo`
+  streak per station with the same distinct-day semantics; `metrics.json`
+  gains `logo: {ok, warn, bad, hard, soft, structural}` and `hotSet.logoOk`.
+  `logo-status` runs with `--no-record` in CI (heuristic report only).
+- **Policy rule 8.** `logo` hard streak ≥ 3 distinct days → `clear-logo`
+  (automatic for the long tail, review for the curated tier or a
+  highlighted row). Never for `missing`. Its own breaker: non-structural
+  logo failures (`missing` / `http` excluded — they are ~28 % of the
+  catalog and say nothing about today) > 15 % of today's logo verdicts
+  skip every logo action
+  (`logo-circuit-breaker`) without touching stream actions; rule 1 tripping
+  skips logo candidates too. Ranked after every stream action under the
+  shared cap.
+- **Actuator.** Removes the six favicon fields from the YAML row, writes
+  `faviconBlocked: true` + `faviconBlockedBy: station-probe` +
+  `faviconBlockedReason`, drops every favicon field (variants included)
+  from the published JSON row. Refuses a row that is already blocked and
+  has nothing to clear. Same PR labels and gate as phase 2.
+- **Digest.** Actions line gains `logos cleared n`; "Hot-set logo coverage"
+  now reads the observed facet.

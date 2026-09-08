@@ -26,12 +26,18 @@ import {
   locateStationBlock,
   editStationBlock,
 } from './yaml-station-edit.mjs';
-import { findStation, patchStationFields, removeStation } from './catalog-json-patch.mjs';
+import { findStation, patchStationFields, removeStation, clearFaviconFields } from './catalog-json-patch.mjs';
 
 /** Value of `brokenBy` that marks a row as ours. */
 export const BOT = 'station-probe';
 /** The lifecycle fields an unpublish writes and a republish removes, in file order. */
 export const BROKEN_FIELDS = Object.freeze(['brokenSince', 'brokenFrom', 'brokenBy', 'brokenReason']);
+/** Favicon provenance fields a clear-logo removes (phase 3). */
+export const FAVICON_FIELDS = Object.freeze(['favicon', 'faviconSource', 'faviconSourceType', 'faviconSourceUrl', 'faviconLicense', 'faviconOk']);
+/** What a clear-logo writes instead, in file order. `faviconBlocked: true` is
+ *  the load-bearing one: without it the next catalog build re-adopts Radio
+ *  Browser's copy of the same dead URL (build-catalog.mjs). */
+export const FAVICON_BLOCK_FIELDS = Object.freeze(['faviconBlocked', 'faviconBlockedBy', 'faviconBlockedReason']);
 
 const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const DAY_RX = /^\d{4}-\d{2}-\d{2}$/;
@@ -199,6 +205,47 @@ export function applySwapUrl({ yamlText, stations, action }) {
   return { yamlText: next, stations };
 }
 
+/**
+ * Clear a favicon whose URL has been hard-dead for the policy's streak
+ * (phase 3 `clear-logo`). YAML: the six favicon fields go, `faviconBlocked:
+ * true` + who/why come in (so build-catalog stops falling back to the RB
+ * copy and a curator can see it was the bot). JSON: every favicon field
+ * (variants included) is dropped from the shipped row, so the app shows its
+ * placeholder instead of a broken image. Rows already blocked and without a
+ * favicon are refused as a no-op. `stations` is patched in place.
+ *
+ * @param {{yamlText: string, stations: object[], action: {id: string, reason?: string}, day: string}} input
+ * @returns {{yamlText: string, stations: object[], favicon: string|null}}
+ */
+export function applyClearLogo({ yamlText, stations, action, day }) {
+  const id = action?.id;
+  assertId(id);
+  if (!DAY_RX.test(day ?? '')) throw new Error(`day must be YYYY-MM-DD, got ${JSON.stringify(day ?? null)}`);
+
+  const block = blockOf(yamlText, id);
+  if (block === null) throw new Error('not in data/stations.yaml');
+  const row = findStation(stations, id);
+  if (!row) throw new Error('not in public/stations.json');
+  const yamlHas = FAVICON_FIELDS.some((f) => field(block, id, f) !== undefined);
+  const blocked = field(block, id, 'faviconBlocked') === true;
+  if (!yamlHas && !row.favicon && blocked) throw new Error('no favicon and already blocked');
+  const reason = String(action.reason ?? `cleared ${day}`).replace(/\s+/g, ' ').trim();
+
+  const next = editStationBlock(yamlText, id, (b) => {
+    let t = b;
+    for (const f of FAVICON_FIELDS) t = removeStationScalar(t, id, f).text;
+    // setStationScalar inserts right after the `- id:` header, so write
+    // the block fields last-to-first to end up in FAVICON_BLOCK_FIELDS order.
+    t = setStationScalar(t, id, 'faviconBlockedReason', reason).text;
+    t = setStationScalar(t, id, 'faviconBlockedBy', BOT).text;
+    t = setStationScalar(t, id, 'faviconBlocked', true).text;
+    return t;
+  }).text;
+  const favicon = row.favicon ?? null;
+  clearFaviconFields(stations, id);
+  return { yamlText: next, stations, favicon };
+}
+
 /** The concrete edit an action asks for — review rows carry it in `proposed`. */
 function kindOf(action) {
   return action?.action === 'review' ? action.proposed : action?.action;
@@ -244,6 +291,7 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
       edge: action.edge ?? null,
       from: null,
       to: null,
+      favicon: null,
     };
     try {
       if (kind === 'unpublish') {
@@ -284,6 +332,17 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
           newUrl: action.newUrl,
           stationuuid: row?.stationuuid ?? null,
         });
+      } else if (kind === 'clear-logo') {
+        const row = findStation(stations, id);
+        const r = applyClearLogo({ yamlText, stations, action, day });
+        yamlText = r.yamlText;
+        stations = r.stations;
+        Object.assign(entry, {
+          name: row?.name ?? id,
+          streamUrl: row?.streamUrl ?? null,
+          stationuuid: row?.stationuuid ?? null,
+          favicon: r.favicon,
+        });
       } else {
         throw new Error(`unknown action ${JSON.stringify(kind ?? null)}`);
       }
@@ -313,6 +372,9 @@ function whatToCheck(a) {
   if (a.action === 'republish') {
     return `open ${a.streamUrl ?? 'the stream'} and confirm it plays; ${edgeText(a.edge)}. Merge = back in the catalog as ${a.to ?? 'its previous status'}.`;
   }
+  if (a.action === 'clear-logo') {
+    return `open ${a.favicon ?? 'the logo URL'} in a browser. Merge = drop it (the app shows its placeholder until a new logo is curated), close = keep. To replace instead, set a new favicon on the branch and remove faviconBlocked.`;
+  }
   return 'inspect the diff.';
 }
 
@@ -335,7 +397,7 @@ export function renderSummary({ applied = [], errors = [], mode, day }) {
       ? `${applied.length} curated-tier proposal(s) from station-probe, materialised as a diff so the PR is the review. Nothing here merges on its own (ADR 002).`
       : `${applied.length} automatic long-tail action(s) from station-probe (ADR 002).`,
     '',
-    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · skipped ${errors.length}`,
+    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · clear-logo ${count('clear-logo')} · skipped ${errors.length}`,
     '',
   ];
   for (const a of applied) {

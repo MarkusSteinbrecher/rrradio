@@ -7,8 +7,10 @@ import {
   applyUnpublish,
   applyRepublish,
   applySwapUrl,
+  applyClearLogo,
   applyActions,
   renderSummary,
+  FAVICON_FIELDS,
 } from './catalog-actions.mjs';
 
 const DAY = '2026-09-06';
@@ -354,7 +356,7 @@ describe('renderSummary', () => {
     });
     const md = renderSummary({ ...r, mode: 'auto', day: DAY });
     expect(md).toContain(`## Catalog actions · ${DAY}`);
-    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · skipped 1');
+    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · clear-logo 0 · skipped 1');
     expect(countable(md)).toEqual([
       '- `b-two` · Two FM · unpublish · HTTP 404 ×3 · 2026-09-04→2026-09-06',
       '- `d-four` · Four FM · republish · ok ×3',
@@ -385,5 +387,85 @@ describe('renderSummary', () => {
     const j = lines.indexOf('- `b-two` · Two FM · swap-url · RB differs');
     expect(lines[j + 1]).toMatch(/play the new URL https:\/\/b.example\/new and the old one https:\/\/b.example\/two/);
     expect(lines[j + 1]).toContain('stationuuid 0000-b');
+  });
+});
+
+describe('applyClearLogo (phase 3)', () => {
+  const LOGO_YAML = `- id: l-one
+  broadcaster: independent
+  name: Logo FM
+  streamUrl: https://l.example/one
+  favicon: https://cdn.example/dead.png
+  faviconSource: radio-browser
+  faviconLicense: broadcaster
+  status: stream-only
+- id: l-two
+  broadcaster: independent
+  name: Two FM
+  streamUrl: https://l.example/two
+  status: stream-only
+- id: l-three
+  broadcaster: independent
+  name: Three FM
+  streamUrl: https://l.example/three
+  faviconBlocked: true
+  status: stream-only
+`;
+  const rows = () => [
+    { id: 'l-one', name: 'Logo FM', streamUrl: 'https://l.example/one', favicon: 'https://cdn.example/dead.png', favicons: { 76: 'favicons/x-76.png' }, faviconSource: 'radio-browser', faviconLicense: 'broadcaster', status: 'stream-only' },
+    { id: 'l-two', name: 'Two FM', streamUrl: 'https://l.example/two', favicon: 'https://rb.example/from-rb.png', status: 'stream-only' },
+    { id: 'l-three', name: 'Three FM', streamUrl: 'https://l.example/three', status: 'stream-only' },
+  ];
+  const action = { id: 'l-one', action: 'clear-logo', auto: true, tier: 'long-tail', reason: 'HTTP 404 ×3 · 2026-09-04→2026-09-06' };
+
+  it('strips every favicon field from both files and blocks the RB fallback', () => {
+    const list = rows();
+    const r = applyClearLogo({ yamlText: LOGO_YAML, stations: list, action, day: DAY });
+    expect(r.favicon).toBe('https://cdn.example/dead.png');
+    expect(r.yamlText).toContain(`- id: l-one
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: HTTP 404 ×3 · 2026-09-04→2026-09-06
+  broadcaster: independent
+  name: Logo FM
+  streamUrl: https://l.example/one
+  status: stream-only
+- id: l-two`);
+    for (const f of FAVICON_FIELDS) expect(list[0]).not.toHaveProperty(f);
+    expect(list[0]).not.toHaveProperty('favicons');
+    expect(list[0]).toMatchObject({ id: 'l-one', name: 'Logo FM', status: 'stream-only' });
+    expect(list[1].favicon).toBe('https://rb.example/from-rb.png'); // neighbour intact
+  });
+
+  it('blocks a row whose favicon only came from Radio Browser (nothing in YAML to remove)', () => {
+    const list = rows();
+    const r = applyClearLogo({ yamlText: LOGO_YAML, stations: list, action: { ...action, id: 'l-two' }, day: DAY });
+    expect(r.favicon).toBe('https://rb.example/from-rb.png');
+    expect(r.yamlText).toContain('- id: l-two\n  faviconBlocked: true\n  faviconBlockedBy: station-probe\n');
+    expect(list[1]).not.toHaveProperty('favicon');
+  });
+
+  it('refuses a no-op, unknown rows and a bad day', () => {
+    expect(() => applyClearLogo({ yamlText: LOGO_YAML, stations: rows(), action: { ...action, id: 'l-three' }, day: DAY })).toThrow(/already blocked/);
+    expect(() => applyClearLogo({ yamlText: LOGO_YAML, stations: rows(), action: { ...action, id: 'nope' }, day: DAY })).toThrow(/not in data/);
+    expect(() => applyClearLogo({ yamlText: LOGO_YAML, stations: rows().slice(1), action, day: DAY })).toThrow(/not in public/);
+    expect(() => applyClearLogo({ yamlText: LOGO_YAML, stations: rows(), action, day: 'today' })).toThrow(/day must be/);
+    expect(() => applyClearLogo({ yamlText: LOGO_YAML, stations: rows(), action: { ...action, id: '../x' }, day: DAY })).toThrow(/unsafe/);
+  });
+
+  it('is dispatched by applyActions in both modes and summarised', () => {
+    const auto = applyActions({ yamlText: LOGO_YAML, stations: rows(), actions: [action], day: DAY, mode: 'auto' });
+    expect(auto.errors).toEqual([]);
+    expect(auto.applied[0]).toMatchObject({ id: 'l-one', action: 'clear-logo', favicon: 'https://cdn.example/dead.png', name: 'Logo FM' });
+    const summary = renderSummary({ ...auto, mode: 'auto', day: DAY });
+    expect(summary).toContain('clear-logo 1 · skipped 0');
+    expect(summary).toContain('- `l-one` · Logo FM · clear-logo · HTTP 404 ×3');
+
+    const review = applyActions({
+      yamlText: LOGO_YAML, stations: rows(), day: DAY, mode: 'review',
+      actions: [{ ...action, action: 'review', auto: false, proposed: 'clear-logo', tier: 'curated' }],
+    });
+    expect(review.applied[0]).toMatchObject({ action: 'clear-logo', proposed: true });
+    expect(renderSummary({ ...review, mode: 'review', day: DAY })).toContain('What to check: open https://cdn.example/dead.png');
   });
 });

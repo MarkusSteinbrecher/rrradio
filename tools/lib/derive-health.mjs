@@ -77,7 +77,7 @@ export function latestByStationFacet(rows) {
  * empty map — never derive a verdict you did not observe.
  *
  * @param {Map<string, Map<string, Observation>>} latest
- * @param {'stream'|'icy'} facet
+ * @param {'stream'|'icy'|'logo'} facet
  * @returns {Map<string, {v: string, d: string|null}>}
  */
 export function toFacetUpdates(latest, facet) {
@@ -93,6 +93,13 @@ export function toFacetUpdates(latest, facet) {
       const row = facets.get('stream');
       const v = row?.icy;
       if (v && v in ICY_DETAILS) updates.set(id, { v, d: ICY_DETAILS[v] });
+      continue;
+    }
+    if (facet === 'logo') {
+      // Phase 3: the probe's own logo row (load + decode + size, with the
+      // URL heuristics folded in as warn). Same shape as the stream facet.
+      const row = facets.get('logo');
+      if (row) updates.set(id, { v: row.o, d: row.d ?? null });
       continue;
     }
     throw new Error(`toFacetUpdates: unsupported facet "${facet}"`);
@@ -174,10 +181,19 @@ export function computeMetrics({ catalog, latest, plan, now }) {
 
   let observed7d = 0;
   const stream = { ok: 0, warn: 0, bad: 0, hard: 0, soft: 0 };
+  // `structural` = missing / plain-http: deterministic catalog facts, not
+  // something a runner or CDN did today — the logo breaker leaves them out.
+  const logo = { ok: 0, warn: 0, bad: 0, hard: 0, soft: 0, structural: 0 };
   for (const id of ids) {
     const facets = latest.get(id);
     if (!facets) continue;
     if ([...facets.values()].some((row) => row.at >= cutoff)) observed7d += 1;
+    const logoRow = facets.get('logo');
+    if (logoRow) {
+      logo[logoRow.o] += 1;
+      if (logoRow.o === 'bad' && logoRow.c) logo[logoRow.c] += 1;
+      if (logoRow.o === 'bad' && (logoRow.d === 'missing' || logoRow.d === 'http')) logo.structural += 1;
+    }
     const row = facets.get('stream');
     if (!row) continue;
     stream[row.o] += 1;
@@ -204,6 +220,9 @@ export function computeMetrics({ catalog, latest, plan, now }) {
 
   const hot = (plan?.hot ?? []).filter((id) => ids.has(id));
   const hotBad = hot.filter((id) => latest.get(id)?.get('stream')?.o === 'bad').length;
+  // Phase 3 headline: hot-set stations whose logo loads, decodes and is
+  // big enough — a real observation, not a URL heuristic.
+  const hotLogoOk = hot.filter((id) => latest.get(id)?.get('logo')?.o === 'ok').length;
 
   return {
     at: now,
@@ -216,7 +235,8 @@ export function computeMetrics({ catalog, latest, plan, now }) {
     playsOnOk,
     availability: playsObserved ? round4(playsOnOk / playsObserved) : null,
     stream,
-    hotSet: { size: hot.length, bad: hotBad },
+    logo,
+    hotSet: { size: hot.length, bad: hotBad, logoOk: hotLogoOk },
   };
 }
 

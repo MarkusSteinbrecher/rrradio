@@ -159,5 +159,8 @@ describe('labels', () => {
     expect(logoDetailLabel(byId('de-dlf'))).toBe('Curated');
     expect(logoDetailLabel(byId('gb-heart'))).toBe('Missing');
     expect(logoDetailLabel(byId('xx-new'))).toBe('Not checked');
+    expect(logoDetailLabel({ ...byId('de-dlf'), logoDetail: 'acceptable' })).toBe('Good');
+    expect(logoDetailLabel({ ...byId('de-dlf'), logo: 'bad', logoDetail: 'HTTP 404' })).toBe('HTTP 404');
+    expect(logoDetailLabel({ ...byId('de-dlf'), logo: 'warn', logoDetail: 'poor' })).toBe('Too small');
   });
 });

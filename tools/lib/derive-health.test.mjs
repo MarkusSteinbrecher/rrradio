@@ -149,7 +149,8 @@ describe('computeMetrics', () => {
       playsOnOk: 90,
       availability: 0.9,
       stream: { ok: 1, warn: 1, bad: 1, hard: 1, soft: 0 },
-      hotSet: { size: 2, bad: 1 },
+      logo: { ok: 0, warn: 0, bad: 0, hard: 0, soft: 0, structural: 0 },
+      hotSet: { size: 2, bad: 1, logoOk: 0 },
     });
   });
 
@@ -167,7 +168,7 @@ describe('computeMetrics', () => {
 
   it('survives a missing plan', () => {
     const m = computeMetrics({ catalog, latest, plan: null, streaks: {}, now: NOW });
-    expect(m).toMatchObject({ availability: null, hotSet: { size: 0, bad: 0 } });
+    expect(m).toMatchObject({ availability: null, hotSet: { size: 0, bad: 0, logoOk: 0 } });
   });
 
   it('does not count observations older than 7 days as fresh', () => {

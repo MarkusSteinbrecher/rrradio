@@ -270,7 +270,9 @@ jobs:
       # of them is allowed to take the run down with it — a Radio Browser
       # 502 is not a reason to lose today's observations.
       - name: Refresh logo status
-        run: npm run logo-status -- --json-only || echo "logo-status failed — facet skipped this run"
+        # --no-record: since phase 3 the probe observes logos itself and
+        # derive-health writes the facet; this keeps the heuristic report only.
+        run: npm run logo-status -- --json-only --no-record || echo "logo-status failed — report skipped this run"
 
       - name: Check for duplicate stations
         run: npm run check-duplicates || echo "check-duplicates reported collisions or failed — facet skipped this run"

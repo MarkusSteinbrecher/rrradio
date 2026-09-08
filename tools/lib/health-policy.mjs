@@ -16,6 +16,10 @@
  *     bot-unpublished row
  *   6 RB swap              post-pass `applySwaps` — the CLI fetches RB + probes
  *   7 cap                  at most `caps.auto` auto actions, worst first
+ *   8 logo hard streak ≥ 3 long tail: clear-logo · curated: review (phase 3).
+ *                          `missing` has nothing to clear; a non-structural
+ *                          logo failure share > 15 % skips every logo action
+ *                          (`logo-circuit-breaker`)
  *
  * Every string in `reason` is built from the stable probe vocabulary, so the
  * same evidence always yields the same text (it is written into the YAML).
@@ -123,9 +127,27 @@ export function circuitBreakerReason(metrics, candidateCount, published) {
   return null;
 }
 
-/** Worst first: hard, then soft, then republish; older streaks first; id last. */
+/**
+ * Rule 8's own breaker: when most logos fail on the same day the runner
+ * (or a CDN) is the problem, not the catalog. Independent of rule 1 so a
+ * bad logo day never blocks stream actions and vice versa. Structural
+ * failures (`missing`, plain `http`) are a quarter of the catalog and say
+ * nothing about today, so they are left out of the share.
+ * @returns {string|null}
+ */
+export function logoCircuitBreakerReason(metrics) {
+  const l = metrics?.logo;
+  const total = (l?.ok ?? 0) + (l?.warn ?? 0) + (l?.bad ?? 0);
+  const failing = (l?.bad ?? 0) - (l?.structural ?? 0);
+  if (l && total > 0 && failing / total > BAD_SHARE_LIMIT) {
+    return `logo failure share ${(100 * failing / total).toFixed(1)}% > ${BAD_SHARE_LIMIT * 100}% (missing/http excluded)`;
+  }
+  return null;
+}
+
+/** Worst first: hard, then soft, then republish, then logos; older streaks first; id last. */
 function rank(a) {
-  const cls = a.action === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
+  const cls = a.action === 'clear-logo' ? 3 : a.action === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
   return [cls, a.streak.first, a.id];
 }
 function byRank(a, b) {
@@ -137,6 +159,7 @@ function byRank(a, b) {
 /**
  * @param {{streaks: Record<string, Record<string, Streak>>,
  *          latestDetail?: Map<string, string|null>|Record<string, string|null>,
+ *          latestLogoDetail?: Map<string, string|null>|Record<string, string|null>,
  *          tiers?: Record<string, string>,
  *          yamlById?: Map<string, YamlRow>|Record<string, YamlRow>,
  *          publishedIds: Set<string>, foldCanonicals?: Set<string>, highlightIds?: Set<string>,
@@ -149,6 +172,7 @@ function byRank(a, b) {
 export function decide({
   streaks = {},
   latestDetail,
+  latestLogoDetail,
   tiers = {},
   yamlById,
   publishedIds = new Set(),
@@ -184,11 +208,28 @@ export function decide({
     unpublishCandidates.push({ id, y, streak, tier: tierFor(id, tiers, y, highlightIds) });
   }
 
+  // ─── rule 8 candidates (phase 3) — thresholds only ────────────────
+  // Only hard logo failures ever act: a 403 from a CDN that dislikes the
+  // runner is what a soft logo failure looks like, and there is no edge
+  // second opinion for images. `missing` is bad-hard by vocabulary but has
+  // nothing to clear.
+  const logoCandidates = [];
+  for (const id of Object.keys(streaks).sort()) {
+    const l = streaks[id]?.logo;
+    if (!l || l.o !== 'bad' || l.c !== 'hard' || l.n < HARD_DAYS) continue;
+    if (!publishedIds.has(id)) continue;
+    const y = get(yamlById, id) ?? null;
+    if (isBotUnpublished(y)) continue;
+    const d = get(latestLogoDetail, id) ?? null;
+    if (d === 'missing') continue;
+    logoCandidates.push({ id, y, streak: { o: l.o, c: l.c ?? null, n: l.n, first: l.first, last: l.last, d }, tier: tierFor(id, tiers, y, highlightIds) });
+  }
+
   // ─── rule 1 ───────────────────────────────────────────────────────
   const published = publishedIds.size || metrics?.published || 0;
   const breaker = circuitBreakerReason(metrics, unpublishCandidates.length, published);
   if (breaker) {
-    const skipped = [...unpublishCandidates, ...republishCandidates]
+    const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates]
       .map(({ id }) => ({ id, why: 'circuit-breaker' }))
       .sort((a, b) => a.id.localeCompare(b.id));
     return { generatedAt, day, circuitBreaker: true, circuitBreakerReason: breaker, actions: [], skipped };
@@ -246,6 +287,21 @@ export function decide({
       streak,
       reason: reasonFor(streak, null),
     });
+  }
+
+  // ─── rule 8 ───────────────────────────────────────────────────────
+  const logoBreaker = logoCircuitBreakerReason(metrics);
+  for (const { id, streak, tier } of logoCandidates) {
+    if (logoBreaker) {
+      skipped.push({ id, why: 'logo-circuit-breaker' });
+      continue;
+    }
+    const base = { id, tier, streak, reason: reasonFor(streak, null) };
+    if (tier === 'curated' || highlightIds.has(id)) {
+      review.push({ ...base, action: 'review', auto: false, proposed: 'clear-logo' });
+    } else {
+      auto.push({ ...base, action: 'clear-logo', auto: true });
+    }
   }
 
   // ─── rule 7 ───────────────────────────────────────────────────────

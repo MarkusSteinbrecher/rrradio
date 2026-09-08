@@ -6,6 +6,7 @@ import {
   candidateSwapIds,
   circuitBreakerReason,
   reasonFor,
+  logoCircuitBreakerReason,
   DEFAULT_CAPS,
 } from './health-policy.mjs';
 
@@ -34,6 +35,7 @@ function scenario(spec, { pad = 1000, ...extra } = {}) {
   const yamlById = new Map();
   const publishedIds = new Set();
   const latestDetail = new Map();
+  const latestLogoDetail = new Map();
   const edge = new Map();
   for (const [id, s] of Object.entries(spec)) {
     streaks[id] = s.streak;
@@ -41,10 +43,11 @@ function scenario(spec, { pad = 1000, ...extra } = {}) {
     yamlById.set(id, { id, status: s.status ?? 'stream-only', ...(s.yaml ?? {}) });
     if (s.published !== false) publishedIds.add(id);
     if (s.detail) latestDetail.set(id, s.detail);
+    if (s.logoDetail) latestLogoDetail.set(id, s.logoDetail);
     if ('edge' in s) edge.set(id, s.edge);
   }
   for (let i = 0; i < pad; i += 1) publishedIds.add(`pad-${i}`);
-  return { streaks, latestDetail, tiers, yamlById, publishedIds, edge, metrics: METRICS, now: NOW, ...extra };
+  return { streaks, latestDetail, latestLogoDetail, tiers, yamlById, publishedIds, edge, metrics: METRICS, now: NOW, ...extra };
 }
 
 const byId = (result, id) => result.actions.find((a) => a.id === id);
@@ -385,5 +388,71 @@ describe('output shape and determinism', () => {
     expect(reasonFor({ o: 'bad', c: 'soft', n: 5, first: '2026-09-02', last: '2026-09-06', d: null }, null)).toBe(
       'soft ×5 · 2026-09-02→2026-09-06',
     );
+  });
+});
+
+describe('rule 8 · logos (phase 3)', () => {
+  const logoBad = (c, n, first = '2026-09-04', last = '2026-09-06') => ({ logo: { o: 'bad', c, n, first, last } });
+  const withStream = (logo) => ({ ...ok(3), ...logo });
+
+  it('hard logo streak ≥ 3, long tail → clear-logo, auto, ranked after stream actions', () => {
+    const r = decide(scenario({
+      z: { streak: withStream(logoBad('hard', 3)), tier: 'long-tail', logoDetail: 'HTTP 404' },
+      a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'dns' },
+    }));
+    expect(r.actions.map((x) => [x.id, x.action])).toEqual([['a', 'unpublish'], ['z', 'clear-logo']]);
+    expect(byId(r, 'z')).toMatchObject({
+      action: 'clear-logo',
+      auto: true,
+      tier: 'long-tail',
+      streak: { o: 'bad', c: 'hard', n: 3, d: 'HTTP 404' },
+      reason: 'HTTP 404 ×3 · 2026-09-04→2026-09-06',
+    });
+    expect(byId(r, 'z').edge).toBeUndefined();
+  });
+
+  it('curated or highlighted → review (proposed clear-logo)', () => {
+    const r = decide(scenario({
+      c: { streak: withStream(logoBad('hard', 4)), tier: 'curated', status: 'working', logoDetail: 'not-image' },
+      h: { streak: withStream(logoBad('hard', 4)), tier: 'long-tail', logoDetail: 'HTTP 410' },
+    }, { highlightIds: new Set(['h']) }));
+    expect(byId(r, 'c')).toMatchObject({ action: 'review', auto: false, proposed: 'clear-logo', tier: 'curated' });
+    expect(byId(r, 'h')).toMatchObject({ action: 'review', auto: false, proposed: 'clear-logo' });
+  });
+
+  it('never acts on soft logo failures, short streaks, missing logos, unpublished or bot-unpublished rows', () => {
+    const r = decide(scenario({
+      soft: { streak: withStream(logoBad('soft', 9)), tier: 'long-tail', logoDetail: 'HTTP 403' },
+      short: { streak: withStream(logoBad('hard', 2)), tier: 'long-tail', logoDetail: 'HTTP 404' },
+      none: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'missing' },
+      gone: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'HTTP 404', published: false },
+      bot: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'HTTP 404', status: 'broken', yaml: { brokenBy: 'station-probe' } },
+    }));
+    expect(r.actions.filter((a) => a.action === 'clear-logo' || a.proposed === 'clear-logo')).toEqual([]);
+  });
+
+  it('a bad logo day trips its own breaker and leaves stream actions alone', () => {
+    const metrics = { ...METRICS, logo: { ok: 50, warn: 10, bad: 40, hard: 40, soft: 0, structural: 0 } };
+    const r = decide(scenario({
+      z: { streak: withStream(logoBad('hard', 3)), tier: 'long-tail', logoDetail: 'HTTP 404' },
+      a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'dns' },
+    }, { metrics }));
+    expect(r.circuitBreaker).toBe(false);
+    expect(byId(r, 'a')).toMatchObject({ action: 'unpublish' });
+    expect(byId(r, 'z')).toBeUndefined();
+    expect(skippedWhy(r, 'z')).toBe('logo-circuit-breaker');
+    expect(logoCircuitBreakerReason(metrics)).toBe('logo failure share 40.0% > 15% (missing/http excluded)');
+    expect(logoCircuitBreakerReason({ logo: { ok: 90, warn: 5, bad: 5 } })).toBeNull();
+    // A quarter of the catalog has no logo or an http one — that is not a bad day.
+    expect(logoCircuitBreakerReason({ logo: { ok: 60, warn: 10, bad: 30, hard: 30, soft: 0, structural: 28 } })).toBeNull();
+    expect(logoCircuitBreakerReason({})).toBeNull();
+  });
+
+  it('rule 1 tripping skips logo candidates too', () => {
+    const r = decide(scenario({
+      z: { streak: withStream(logoBad('hard', 3)), tier: 'long-tail', logoDetail: 'HTTP 404' },
+    }, { metrics: { ...METRICS, stream: { ok: 100, warn: 0, bad: 900, hard: 900, soft: 0 } } }));
+    expect(r.circuitBreaker).toBe(true);
+    expect(skippedWhy(r, 'z')).toBe('circuit-breaker');
   });
 });

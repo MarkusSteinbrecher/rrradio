@@ -93,7 +93,7 @@ const metrics = computeMetrics({ catalog, latest, plan, streaks, now });
 const record = loadHealthFrom(recordPath);
 const runMeta = { tool: 'derive-health', scope: 'rolling', at: now };
 const applied = [];
-for (const facet of ['stream', 'icy']) {
+for (const facet of ['stream', 'icy', 'logo']) {
   const updates = toFacetUpdates(latest, facet);
   if (!updates.size) continue; // never invent a run for a facet with no rows
   const res = applyFacet(record, facet, updates, runMeta);
@@ -132,6 +132,7 @@ console.log(
     `${applied.join(', ') || 'no facets applied'}; ${pruned} pruned; ` +
     `freshness ${(metrics.freshness * 100).toFixed(1)}% (${metrics.observed7d}/${metrics.published}), ` +
     `availability ${availability}, stream ok/warn/bad ${metrics.stream.ok}/${metrics.stream.warn}/${metrics.stream.bad} ` +
-    `(${metrics.stream.hard} hard, ${metrics.stream.soft} soft), hot set ${metrics.hotSet.bad}/${metrics.hotSet.size} bad; ` +
+    `(${metrics.stream.hard} hard, ${metrics.stream.soft} soft), hot set ${metrics.hotSet.bad}/${metrics.hotSet.size} bad, ` +
+    `logo ok/warn/bad ${metrics.logo.ok}/${metrics.logo.warn}/${metrics.logo.bad} (hot set ${metrics.hotSet.logoOk}/${metrics.hotSet.size} ok); ` +
     `${rolledUp} observation file(s) older than ${cutoff} rolled up.`,
 );
