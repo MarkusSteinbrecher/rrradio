@@ -65,6 +65,7 @@ const nameKey = (name) => String(name ?? '').trim().toLowerCase();
  * several catalog entries lights up all of them — deliberately: we cannot
  * tell which one the listener played, and probing a few extra is cheap.
  *
+ * `escalate`: ids whose latest stream verdict is bad — probed daily until they resolve.
  * @param {{stations: object[], topStations?: {name: string, count?: number}[],
  *          highlightIds?: Set<string>}} input
  * @returns {{hot: string[], plays: Record<string, number>}} hot ids sorted
@@ -117,7 +118,7 @@ export function shardTargets(ids, shards) {
  *   `stations` are the published stations. `now` is injectable so tests can
  *   compare two plans byte for byte.
  */
-export function buildPlan({ stations, topStations = [], highlightIds = new Set(), extra = [], day, shards = 6, full = false, now }) {
+export function buildPlan({ stations, topStations = [], highlightIds = new Set(), extra = [], escalate = [], day, shards = 6, full = false, now }) {
   const { hot, plays } = resolveHotSet({ stations, topStations, highlightIds });
   const slot = rotationSlot(day);
 
@@ -135,7 +136,15 @@ export function buildPlan({ stations, topStations = [], highlightIds = new Set()
   const extras = normaliseExtra(extra, new Set(stations.map((s) => s.id)));
   for (const e of extras) tiers[e.id] = 'unpublished';
 
-  const base = full ? stations.map((s) => s.id) : [...hot, ...rotation];
+  // Escalation: a published station whose latest verdict is bad is probed
+  // every day until it resolves, not once a week. The policy counts
+  // distinct failing days, so without this a dead long-tail stream needed
+  // three weekly observations (~3 weeks) before it left the catalog;
+  // with it, three days — the same reaction time as the curated tier.
+  const published = new Set(stations.map((s) => s.id));
+  const escalated = [...new Set((Array.isArray(escalate) ? escalate : []).filter((id) => published.has(id)))].sort();
+
+  const base = full ? stations.map((s) => s.id) : [...hot, ...rotation, ...escalated];
   const targetIds = [...new Set([...base, ...extras.map((e) => e.id)])];
   targetIds.sort();
 
@@ -146,6 +155,7 @@ export function buildPlan({ stations, topStations = [], highlightIds = new Set()
     hot,
     plays,
     rotation: { slot, of: 7, count: rotation.length },
+    escalated,
     tiers,
     targets: shardTargets(targetIds, shards),
     extra: extras,

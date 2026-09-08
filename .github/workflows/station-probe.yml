@@ -68,6 +68,17 @@ jobs:
           cache: npm
       - run: npm ci
 
+      # Yesterday's verdicts and the unpublished snapshots feed the plan:
+      # failing stations are escalated to daily probing, bot-unpublished
+      # rows stay under observation. Optional — a missing branch (first
+      # ever run) just means no escalation today.
+      - name: Check out health-data
+        uses: actions/checkout@v7
+        continue-on-error: true
+        with:
+          ref: health-data
+          path: health-data
+
       - name: Plan today's probe
         env:
           SHARDS: ${{ inputs.shards || '6' }}
@@ -75,7 +86,9 @@ jobs:
         run: |
           FULL_FLAG=""
           if [ "$FULL" = "true" ]; then FULL_FLAG="--full"; fi
-          node tools/plan-probe.mjs --out plan.json --shards "$SHARDS" $FULL_FLAG
+          DATA_FLAG=""
+          if [ -f health-data/station-health.json ]; then DATA_FLAG="--data health-data"; fi
+          node tools/plan-probe.mjs --out plan.json --shards "$SHARDS" $FULL_FLAG $DATA_FLAG
 
       - uses: actions/upload-artifact@v7
         with:
