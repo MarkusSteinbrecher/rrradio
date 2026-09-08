@@ -113,6 +113,28 @@ function readSnapshot(id) {
   }
 }
 
+// ─── escalation: failing stations are probed daily ───────────────────
+// The derived record on health-data carries yesterday's verdicts. Every
+// published station currently `stream: bad` joins today's targets so the
+// policy's distinct-day streaks grow daily instead of weekly.
+
+const escalate = readFailingIds();
+
+function readFailingIds() {
+  if (!args.data) return [];
+  const p = join(resolve(args.data), 'station-health.json');
+  if (!existsSync(p)) return [];
+  try {
+    const record = JSON.parse(readFileSync(p, 'utf8'));
+    return Object.entries(record?.stations ?? {})
+      .filter(([, facets]) => facets?.stream?.v === 'bad')
+      .map(([id]) => id);
+  } catch (err) {
+    console.error(`plan-probe: could not read ${p} (${err.message}) — planning without escalation`);
+    return [];
+  }
+}
+
 // ─── play stats (best effort) ────────────────────────────────────────
 
 const topStations = args.offline ? [] : await fetchTopStations();
@@ -136,6 +158,7 @@ const plan = buildPlan({
   topStations,
   highlightIds,
   extra,
+  escalate,
   day: args.day,
   shards: args.shards,
   full: args.full,
@@ -153,6 +176,7 @@ console.log(
     `${stations.length} published (${curated} curated, ${highlightIds.size} highlighted), ` +
     `hot ${plan.hot.length} (${Object.keys(plan.plays).length} with plays), ` +
     `rotation ${plan.rotation.count}${args.full ? ', --full' : ''}, ` +
+    `${plan.escalated.length} failing escalated to daily, ` +
     `${plan.extra.length} unpublished kept under observation → ` +
     `${total} target(s) over ${plan.shards} shard(s) [${sizes}] → ${outPath}`,
 );

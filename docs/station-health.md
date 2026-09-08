@@ -165,6 +165,14 @@ failing is logged, not fatal (`--offline` skips it). Emits the day's `hot`
 set, `plays`, `rotation`, per-station `tiers` and the balanced `targets`
 arrays — one per shard.
 
+**Escalation.** Any published station whose latest stream verdict is `bad`
+(read from `health-data/station-health.json` when `--data` is given) joins
+the daily targets until it resolves (`plan.escalated`). The policy counts
+distinct failing days, so without this a dead long-tail stream needed three
+*weekly* observations before it left the catalog; with it, three days — the
+same reaction time as the curated tier. Around 2k extra probes a day at
+today's failure rate, well inside the shard budget.
+
 Tiering, because probing 31k streams daily is neither necessary nor kind:
 
 - **Curated tier** — status `working` or `icy-only`, `featured: true`, or

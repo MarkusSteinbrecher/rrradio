@@ -50,6 +50,10 @@ Bad stations are data, never a job failure. A red run means the tooling broke.
   through 7 daily shards. Eligible for automatic unpublish/republish (phase 2).
 - **Hot set** = curated tier ∪ every published station whose name matches
   a `play:` label in the stats Worker's top-stations (last 30 days). Probed daily.
+- **Escalated** = every published station whose latest stream verdict is
+  `bad`. Probed daily until it resolves, so distinct-day streaks grow at the
+  same pace for the long tail as for the curated tier (added 2026-09-08 —
+  without it a dead long-tail stream took ~3 weeks to reach 3 failing days).
 
 ### Failure classes
 

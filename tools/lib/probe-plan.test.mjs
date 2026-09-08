@@ -160,11 +160,13 @@ describe('buildPlan', () => {
       'hot',
       'plays',
       'rotation',
+      'escalated',
       'tiers',
       'targets',
       'extra',
     ]);
     expect(plan.extra).toEqual([]);
+    expect(plan.escalated).toEqual([]);
     expect(plan.day).toBe('2026-09-04');
     expect(plan.generatedAt).toBe(NOW);
     expect(plan.rotation).toEqual({ slot: rotationSlot('2026-09-04'), of: 7, count: plan.rotation.count });
@@ -186,6 +188,30 @@ describe('buildPlan', () => {
     expect(flat.length).toBe(expected.size);
     // Round-robin over a sorted list: each shard is itself sorted.
     for (const shard of plan.targets) expect(shard).toEqual([...shard].sort());
+  });
+
+  it('escalates failing published stations into the daily targets', () => {
+    const stations = [
+      { id: 'a-hot', name: 'Hot', status: 'working' },
+      { id: 'b-tail', name: 'Tail', status: 'stream-only' },
+      { id: 'c-tail', name: 'Tail 2', status: 'stream-only' },
+    ];
+    const day = '2026-09-08';
+    const notRotating = stations.filter((s) => s.status === 'stream-only' && !inRotation(s.id, day)).map((s) => s.id);
+    const plan = buildPlan({ stations, escalate: ['b-tail', 'c-tail', 'zz-gone'], day, shards: 1, now: 'x' });
+    const targets = plan.targets.flat();
+    // every failing published station is in today's targets, rotation or not
+    for (const id of notRotating) expect(targets).toContain(id);
+    expect(plan.escalated).toEqual(['b-tail', 'c-tail']); // sorted, unknown id dropped
+    // and it is not counted as hot — the hot set means "played / curated"
+    expect(plan.hot).toEqual(['a-hot']);
+  });
+
+  it('escalation is a no-op under --full and never duplicates ids', () => {
+    const stations = [{ id: 'a', name: 'A', status: 'stream-only' }, { id: 'b', name: 'B', status: 'stream-only' }];
+    const plan = buildPlan({ stations, escalate: ['a', 'a', 'b'], day: '2026-09-08', shards: 1, full: true, now: 'x' });
+    expect(plan.targets.flat()).toEqual(['a', 'b']);
+    expect(plan.escalated).toEqual(['a', 'b']);
   });
 
   it('--full targets every published station', () => {
