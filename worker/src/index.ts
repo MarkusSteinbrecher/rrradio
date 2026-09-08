@@ -29,12 +29,17 @@
  *   POST /api/admin/resolve-reports — mark reports resolved (called by
  *                                     the issue-close GitHub Action)
  *
+ * Catalog quality loop (Bearer ADMIN_TOKEN, see src/probe.ts, ADR 002):
+ *   GET  /api/admin/probe?url=…     — probe a stream URL from the edge;
+ *                                     second opinion before an unpublish
+ *
  * Range: ?days=N (1–90, default 7). Response cached 5 min in the
  * Cloudflare edge cache to be a polite GC API consumer.
  */
 
 import type { Env } from './env';
 import { jsonResponse, noStoreJsonResponse } from './respond';
+import { handleAdminProbe } from './probe';
 import {
   handleAdminReportsList,
   handleReportBroken,
@@ -681,6 +686,13 @@ export default {
     const auth = req.headers.get('Authorization');
     if (!env.ADMIN_TOKEN || auth !== `Bearer ${env.ADMIN_TOKEN}`) {
       return jsonResponse({ error: 'unauthorized' }, 401, cors);
+    }
+
+    // Edge second opinion for the catalog quality loop (ADR 002): probe a
+    // stream URL from Cloudflare's network. Live, never cached, never
+    // throws — the answer itself carries the verdict (see src/probe.ts).
+    if (url.pathname === '/api/admin/probe') {
+      return handleAdminProbe(url, (body, status) => noStoreJsonResponse(body, status, cors));
     }
 
     // Report triage reads come from D1, not GoatCounter, and want live

@@ -14,7 +14,7 @@
  * before opening the catalog-fix PR.
  */
 
-import { stringify } from 'yaml';
+import { parse as parseYaml, stringify } from 'yaml';
 
 const BLOCK_START_RX = /^- id: (.+)$/;
 
@@ -122,4 +122,88 @@ export function setStationTags(yamlText, stationId, tags) {
     lines.splice(block.start + 1, 0, ...newLines);
   }
   return { text: lines.join('\n'), changed: true, found: true };
+}
+
+/**
+ * Read a one-line scalar field from a station block. The raw value goes
+ * through the YAML parser so quoting (`"2026-05-04"` vs `2026-05-04`, both
+ * present in the file) does not leak into comparisons. Returns
+ * { found, value } — `found` is whether the *station* exists; `value` is
+ * undefined when the field is absent or not a one-line scalar.
+ */
+export function getStationScalar(yamlText, stationId, field) {
+  const lines = yamlText.split('\n');
+  const block = findStationBlock(lines, stationId);
+  if (!block) return { found: false, value: undefined };
+  const fieldRx = new RegExp(`^  ${field}: (.+)$`);
+  for (let i = block.start + 1; i <= block.end; i++) {
+    const m = fieldRx.exec(lines[i]);
+    if (m) return { found: true, value: parseYaml(m[1]) };
+  }
+  return { found: true, value: undefined };
+}
+
+/**
+ * Remove a one-line `  field: …` from a station block. Refuses (changed:
+ * false) to remove a key whose value continues on indented child lines
+ * (`tags:` block lists, `geo:`) — this editor only deals in scalars; use
+ * setStationTags for lists. Returns { text, changed, found } like
+ * setStationScalar.
+ */
+export function removeStationScalar(yamlText, stationId, field) {
+  const lines = yamlText.split('\n');
+  const block = findStationBlock(lines, stationId);
+  if (!block) return { text: yamlText, changed: false, found: false };
+
+  const fieldRx = new RegExp(`^  ${field}:( |$)`);
+  for (let i = block.start + 1; i <= block.end; i++) {
+    if (!fieldRx.test(lines[i])) continue;
+    if (i < block.end && /^    \S/.test(lines[i + 1])) {
+      // Block-style child lines follow — not a one-line scalar.
+      return { text: yamlText, changed: false, found: true };
+    }
+    lines.splice(i, 1);
+    return { text: lines.join('\n'), changed: true, found: true };
+  }
+  return { text: yamlText, changed: false, found: true };
+}
+
+/**
+ * Character offsets [start, end) of a station block; `end` is the `\n`
+ * before the next `- id:` header (or EOF), so the slice carries no trailing
+ * newline unless it is the last block. Null when the id is absent.
+ */
+export function locateStationBlock(yamlText, stationId) {
+  const header = `- id: ${stationId}\n`;
+  let start;
+  if (yamlText.startsWith(header)) start = 0;
+  else {
+    const at = yamlText.indexOf(`\n${header}`);
+    if (at < 0) return null;
+    start = at + 1;
+  }
+  const nextAt = yamlText.indexOf('\n- id: ', start + header.length - 1);
+  return { start, end: nextAt < 0 ? yamlText.length : nextAt };
+}
+
+/**
+ * Run an edit over a single station's block without splitting the whole
+ * document. stations.yaml is ~450k lines: one line walk per field is fine
+ * for a single fix, not for a bot applying up to 200 actions × five fields
+ * per run. This finds the block with native string search, hands `fn` just
+ * the block text — the line-based helpers above accept it as-is, since a
+ * block starts with its own `- id:` header — and splices the result back.
+ * Returns { text, found }.
+ *
+ * @param {string} yamlText
+ * @param {string} stationId
+ * @param {(blockText: string) => string} fn
+ */
+export function editStationBlock(yamlText, stationId, fn) {
+  const bounds = locateStationBlock(yamlText, stationId);
+  if (!bounds) return { text: yamlText, found: false };
+  const block = yamlText.slice(bounds.start, bounds.end);
+  const next = fn(block);
+  if (next === block) return { text: yamlText, found: true };
+  return { text: yamlText.slice(0, bounds.start) + next + yamlText.slice(bounds.end), found: true };
 }

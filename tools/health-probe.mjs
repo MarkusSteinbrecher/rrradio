@@ -214,11 +214,18 @@ if (args.plan) {
     console.error(`health-probe: plan has no shard ${args.shard} (shards: ${plan?.targets?.length ?? 0})`);
     process.exit(1);
   }
-  const byId = new Map(published.map((s) => [s.id, s]));
+  // Bot-unpublished rows (plan.extra, ADR 002 phase 2) are observed while
+  // out of the catalog. They carry only id/name/streamUrl/codec and classify
+  // like any other station (no metadataUrl → metadata facet n/a). Published
+  // rows are listed last so they win should an id ever appear in both.
+  const extra = (Array.isArray(plan?.extra) ? plan.extra : []).filter(
+    (e) => e && typeof e.id === 'string' && typeof e.streamUrl === 'string',
+  );
+  const byId = new Map([...extra, ...published].map((s) => [s.id, s]));
   const missing = shardIds.filter((id) => !byId.has(id));
   targets = shardIds.map((id) => byId.get(id)).filter(Boolean);
   if (missing.length > 0) {
-    console.log(`plan: ${missing.length} id(s) not in the published catalog, skipped (${missing.slice(0, 5).join(', ')}…)`);
+    console.log(`plan: ${missing.length} id(s) not in the published catalog or plan.extra, skipped (${missing.slice(0, 5).join(', ')}…)`);
   }
   scope = `shard:${args.shard}/${plan.targets.length}`;
 } else {

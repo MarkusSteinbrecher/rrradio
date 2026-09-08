@@ -1,0 +1,273 @@
+name: Catalog actions
+
+# The decide + act half of the catalog quality loop
+# (design/decisions/002-catalog-quality-loop.md, "Contracts (phase 2)").
+#
+# station-probe.yml measures; this workflow turns the measurements into
+# catalog changes, an hour later:
+#
+#   decide → tools/decide-actions.mjs reads the streaks on `health-data`,
+#            asks the Worker edge for a second opinion on soft failures,
+#            asks Radio Browser for a replacement URL, and writes
+#            actions.json (audited on health-data/actions/).
+#   act    → tools/apply-actions.mjs materialises the actions as a diff
+#            of data/stations.yaml + public/stations.json and runs
+#            check-catalog, so a PR is green by construction.
+#
+# Two PRs, two labels, on purpose:
+#   catalog-actions  long-tail stations — auto-merged once checks pass.
+#                    The policy has hysteresis (3 hard / 5 soft days, edge
+#                    agreement, a circuit breaker) and every unpublish
+#                    self-heals through the republish path, so a human
+#                    reviewing 200 dead RB imports a week earns nothing.
+#   catalog-review   curated tier (working / icy-only / featured /
+#                    highlighted) — never auto-merged. Skipped while one
+#                    is already open, so proposals don't stack.
+#
+# Why a GitHub App token: PRs opened with the default GITHUB_TOKEN never
+# receive `pull_request` checks (GitHub's recursion guard, #656), so they
+# could never satisfy branch protection, let alone auto-merge. The App is
+# installed on this repo only, with contents + pull-requests + issues.
+#
+# Nothing here pushes to `main`. Snapshots and the audit trail go to
+# `health-data`; catalog changes go through PRs.
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily 06:00 UTC — station-probe runs at 05:00
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Decide + plan only. Open nothing, push nothing.'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+# Serial and never cancelled: two overlapping runs would race on the
+# same bot branches and on health-data.
+concurrency:
+  group: catalog-actions
+  cancel-in-progress: false
+
+jobs:
+  act:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Mint the bot token
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.RRRADIO_BOT_APP_ID }}
+          private-key: ${{ secrets.RRRADIO_BOT_PRIVATE_KEY }}
+
+      # The tooling and the catalog come from main, checked out with the
+      # App token so the bot branches are pushed (and their PRs opened)
+      # as the App — that is what makes the checks run on them.
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ steps.app.outputs.token }}
+      - uses: actions/checkout@v7
+        with:
+          ref: health-data
+          path: health-data
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Configure git identity
+        run: |
+          for repo in . health-data; do
+            git -C "$repo" config user.name "rrradio-bot[bot]"
+            git -C "$repo" config user.email "rrradio-bot[bot]@users.noreply.github.com"
+          done
+
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh label create catalog-actions \
+            --description "Automatic long-tail station actions (ADR 002) — auto-merges when green" \
+            --color 0E8A16 --force >/dev/null 2>&1 || true
+          gh label create catalog-review \
+            --description "Curated-tier station proposals awaiting a human (ADR 002)" \
+            --color D93F0B --force >/dev/null 2>&1 || true
+
+      # ── decide ─────────────────────────────────────────────────────
+      - name: Decide actions
+        id: decide
+        env:
+          STATS_ADMIN_TOKEN: ${{ secrets.STATS_ADMIN_TOKEN }}
+        run: |
+          node tools/decide-actions.mjs --data health-data --out actions.json
+          echo "day=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
+      # ── act: long tail, auto-merged ─────────────────────────────────
+      - name: Apply automatic actions
+        id: auto
+        run: |
+          FLAG=""
+          if [ "$DRY_RUN" = "true" ]; then FLAG="--dry-run"; fi
+          node tools/apply-actions.mjs --actions actions.json --data health-data \
+            --mode auto --summary-out auto-body.md $FLAG
+          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open + auto-merge the catalog-actions PR
+        if: steps.auto.outputs.changed == 'true' && env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          DAY: ${{ steps.decide.outputs.day }}
+        run: |
+          BRANCH="bot/catalog-actions-$DAY"
+          COUNT=$(grep -cE '^- `' auto-body.md || echo 0)
+          git checkout -B "$BRANCH"
+          git add data/stations.yaml public/stations.json
+          git commit -q -m "catalog: automatic station actions $DAY ($COUNT station(s))"
+          git push -f origin "$BRANCH"
+          EXISTING=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // ""')
+          if [ -n "$EXISTING" ]; then
+            gh pr edit "$EXISTING" --body-file auto-body.md
+            NUM="$EXISTING"
+          else
+            gh pr create --label catalog-actions \
+              --title "Catalog actions $DAY: $COUNT station(s)" \
+              --body-file auto-body.md --head "$BRANCH" --base main
+            NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          fi
+          gh pr merge "$NUM" --auto --squash
+          echo "catalog-actions PR #$NUM — auto-merge armed."
+          git checkout -q -f main
+
+      # ── act: curated tier, human-reviewed ───────────────────────────
+      - name: Apply review proposals
+        id: review
+        run: |
+          git checkout -q -f main
+          FLAG=""
+          if [ "$DRY_RUN" = "true" ]; then FLAG="--dry-run"; fi
+          node tools/apply-actions.mjs --actions actions.json --data health-data \
+            --mode review --summary-out review-body.md $FLAG
+          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open the catalog-review PR
+        if: steps.review.outputs.changed == 'true' && env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          DAY: ${{ steps.decide.outputs.day }}
+        run: |
+          OPEN=$(gh pr list --label catalog-review --state open --json number --jq '.[0].number // ""')
+          if [ -n "$OPEN" ]; then
+            echo "catalog-review PR #$OPEN is still open — not stacking another. Proposals stay in health-data/actions/."
+            git checkout -q -f main
+            exit 0
+          fi
+          BRANCH="bot/catalog-review-$DAY"
+          COUNT=$(grep -cE '^- `' review-body.md || echo 0)
+          git checkout -B "$BRANCH"
+          git add data/stations.yaml public/stations.json
+          git commit -q -m "catalog: curated-tier proposals $DAY ($COUNT station(s)) — review before merging"
+          git push -f origin "$BRANCH"
+          gh pr create --label catalog-review \
+            --title "Catalog review $DAY: $COUNT curated station(s) need a decision" \
+            --body-file review-body.md --head "$BRANCH" --base main
+          git checkout -q -f main
+
+      - name: Dry-run summary
+        if: env.DRY_RUN == 'true'
+        run: |
+          {
+            echo "## Dry run — nothing opened, nothing pushed"
+            echo
+            echo "### Would open as catalog-actions"
+            echo
+            cat auto-body.md 2>/dev/null || echo "_no automatic actions_"
+            echo
+            echo "### Would open as catalog-review"
+            echo
+            cat review-body.md 2>/dev/null || echo "_no review proposals_"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── persist the audit trail + snapshots ─────────────────────────
+      # One commit for everything this run wrote to health-data: the
+      # actions file and edge observation rows from decide, and the
+      # unpublished/ snapshots from apply. Never in dry-run.
+      - name: Commit and push health-data
+        if: env.DRY_RUN != 'true'
+        env:
+          DAY: ${{ steps.decide.outputs.day }}
+        run: |
+          git -C health-data add -A
+          if git -C health-data diff --cached --quiet; then
+            echo "Nothing to commit on health-data."
+            exit 0
+          fi
+          git -C health-data commit -q -m "actions: $DAY"
+          for attempt in 1 2 3; do
+            git -C health-data pull --rebase -q origin health-data || true
+            if git -C health-data push -q origin health-data; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed — retrying."
+          done
+          echo "Could not push health-data after 3 attempts."
+          exit 1
+
+      # ── failure surfacing (pattern: station-probe.yml / #517) ───────
+      - name: File a tracking issue if the scheduled run failed
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create workflow-failure \
+            --description "A scheduled workflow failed and needs attention" \
+            --color B60205 --force >/dev/null 2>&1 || true
+          title="Scheduled workflow failing: $WORKFLOW"
+          {
+            echo "\`$WORKFLOW\` failed on its scheduled run."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Nothing was merged: catalog changes only ever land through PRs that pass checks. Check the failing step's log, fix the cause, then dispatch the workflow manually (dry run first) to confirm. This issue auto-closes on the next successful run."
+          } > failure-body.md
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Failed again $(date -u +'%Y-%m-%d %H:%M UTC') — $RUN_URL"
+          else
+            gh issue create --label workflow-failure --title "$title" --body-file failure-body.md
+          fi
+
+      - name: Close the tracking issue after a successful run
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ github.workflow }}
+        run: |
+          title="Scheduled workflow failing: $WORKFLOW"
+          num=$(gh issue list --label workflow-failure --state open \
+            --json number,title \
+            --jq '[.[] | select(.title=="'"$title"'")][0].number // ""')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Recovered: succeeded $(date -u +'%Y-%m-%d %H:%M UTC'). Closing."
+          fi

@@ -15,7 +15,7 @@
  * probe, it only shrinks the hot set to the curated tier.
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
@@ -32,16 +32,17 @@ const FETCH_TIMEOUT_MS = 15000;
 
 const args = parseArgs(process.argv.slice(2));
 function parseArgs(argv) {
-  const out = { out: null, shards: 6, day: new Date().toISOString().slice(0, 10), offline: false, full: false };
+  const out = { out: null, data: null, shards: 6, day: new Date().toISOString().slice(0, 10), offline: false, full: false };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--out') out.out = String(argv[++i] ?? '');
+    else if (a === '--data') out.data = String(argv[++i] ?? '');
     else if (a === '--shards') out.shards = Math.max(1, Number(argv[++i]) || 6);
     else if (a === '--day') out.day = String(argv[++i] ?? '');
     else if (a === '--offline') out.offline = true;
     else if (a === '--full') out.full = true;
     else if (a === '--help' || a === '-h') {
-      console.log('usage: plan-probe --out plan.json [--shards 6] [--day YYYY-MM-DD] [--offline] [--full]');
+      console.log('usage: plan-probe --out plan.json [--data health-data/] [--shards 6] [--day YYYY-MM-DD] [--offline] [--full]');
       process.exit(0);
     } else {
       console.error(`plan-probe: unknown argument "${a}"`);
@@ -87,6 +88,31 @@ const highlightIds = new Set(
   (Array.isArray(highlights) ? highlights : []).map((h) => h?.station).filter((id) => typeof id === 'string'),
 );
 
+// ─── bot-unpublished rows (ADR 002 phase 2) ──────────────────────────
+// Keep observing what station-probe unpublished so the republish rule has
+// history. For RB-bound rows the YAML `streamUrl` may be a placeholder; the
+// snapshot under <data>/unpublished/ holds the resolved URL that was live.
+
+const extra = [];
+for (const y of yamlById.values()) {
+  if (y.brokenBy !== 'station-probe') continue;
+  const snapshot = readSnapshot(y.id);
+  const streamUrl = snapshot?.streamUrl ?? y.streamUrl;
+  if (typeof streamUrl !== 'string' || !streamUrl) continue;
+  extra.push({ id: y.id, name: snapshot?.name ?? y.name, streamUrl, codec: snapshot?.codec ?? y.codec ?? null });
+}
+
+function readSnapshot(id) {
+  if (!args.data || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(id)) return null;
+  const p = join(resolve(args.data), 'unpublished', `${id}.json`);
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, 'utf8'));
+  } catch {
+    return null; // a corrupt snapshot degrades to the YAML URL, not a crash
+  }
+}
+
 // ─── play stats (best effort) ────────────────────────────────────────
 
 const topStations = args.offline ? [] : await fetchTopStations();
@@ -109,6 +135,7 @@ const plan = buildPlan({
   stations,
   topStations,
   highlightIds,
+  extra,
   day: args.day,
   shards: args.shards,
   full: args.full,
@@ -125,6 +152,7 @@ console.log(
   `plan-probe: day ${plan.day} (rotation slot ${plan.rotation.slot}/7), ` +
     `${stations.length} published (${curated} curated, ${highlightIds.size} highlighted), ` +
     `hot ${plan.hot.length} (${Object.keys(plan.plays).length} with plays), ` +
-    `rotation ${plan.rotation.count}${args.full ? ', --full' : ''} → ` +
+    `rotation ${plan.rotation.count}${args.full ? ', --full' : ''}, ` +
+    `${plan.extra.length} unpublished kept under observation → ` +
     `${total} target(s) over ${plan.shards} shard(s) [${sizes}] → ${outPath}`,
 );

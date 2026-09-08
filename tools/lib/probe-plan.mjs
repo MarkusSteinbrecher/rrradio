@@ -117,7 +117,7 @@ export function shardTargets(ids, shards) {
  *   `stations` are the published stations. `now` is injectable so tests can
  *   compare two plans byte for byte.
  */
-export function buildPlan({ stations, topStations = [], highlightIds = new Set(), day, shards = 6, full = false, now }) {
+export function buildPlan({ stations, topStations = [], highlightIds = new Set(), extra = [], day, shards = 6, full = false, now }) {
   const { hot, plays } = resolveHotSet({ stations, topStations, highlightIds });
   const slot = rotationSlot(day);
 
@@ -128,9 +128,15 @@ export function buildPlan({ stations, topStations = [], highlightIds = new Set()
     if (inRotation(s.id, day)) rotation.push(s.id);
   }
 
-  const targetIds = full
-    ? stations.map((s) => s.id)
-    : [...new Set([...hot, ...rotation])];
+  // Bot-unpublished rows keep being observed so the republish rule has
+  // history to act on (ADR 002 phase 2). They are few, so they join the
+  // daily targets directly — not the hot set, which feeds the hot-set
+  // metrics and the digest and means "published stations people play".
+  const extras = normaliseExtra(extra, new Set(stations.map((s) => s.id)));
+  for (const e of extras) tiers[e.id] = 'unpublished';
+
+  const base = full ? stations.map((s) => s.id) : [...hot, ...rotation];
+  const targetIds = [...new Set([...base, ...extras.map((e) => e.id)])];
   targetIds.sort();
 
   return {
@@ -142,5 +148,32 @@ export function buildPlan({ stations, topStations = [], highlightIds = new Set()
     rotation: { slot, of: 7, count: rotation.length },
     tiers,
     targets: shardTargets(targetIds, shards),
+    extra: extras,
   };
+}
+
+/**
+ * Plan rows for stations observed while unpublished: only what the probe
+ * needs, deduplicated, sorted, and never overlapping the published set (a
+ * row cannot be both). Entries without a URL are dropped — nothing to probe.
+ *
+ * @param {{id?: string, name?: string, streamUrl?: string, codec?: string|null}[]} extra
+ * @param {Set<string>} publishedIds
+ * @returns {{id: string, name: string, streamUrl: string, codec: string|null, tier: 'unpublished'}[]}
+ */
+export function normaliseExtra(extra, publishedIds) {
+  const byId = new Map();
+  for (const e of Array.isArray(extra) ? extra : []) {
+    if (!e || typeof e.id !== 'string' || !e.id) continue;
+    if (typeof e.streamUrl !== 'string' || !e.streamUrl) continue;
+    if (publishedIds.has(e.id) || byId.has(e.id)) continue;
+    byId.set(e.id, {
+      id: e.id,
+      name: typeof e.name === 'string' && e.name ? e.name : e.id,
+      streamUrl: e.streamUrl,
+      codec: typeof e.codec === 'string' && e.codec ? e.codec : null,
+      tier: 'unpublished',
+    });
+  }
+  return [...byId.values()].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 }

@@ -8,6 +8,7 @@ import {
   resolveHotSet,
   shardTargets,
   buildPlan,
+  normaliseExtra,
 } from './probe-plan.mjs';
 
 const NOW = '2026-09-04T04:00:00.000Z';
@@ -161,7 +162,9 @@ describe('buildPlan', () => {
       'rotation',
       'tiers',
       'targets',
+      'extra',
     ]);
+    expect(plan.extra).toEqual([]);
     expect(plan.day).toBe('2026-09-04');
     expect(plan.generatedAt).toBe(NOW);
     expect(plan.rotation).toEqual({ slot: rotationSlot('2026-09-04'), of: 7, count: plan.rotation.count });
@@ -203,5 +206,46 @@ describe('buildPlan', () => {
     expect(a.targets.flat()).not.toEqual(b.targets.flat());
     // The hot set is probed on both days.
     for (const id of a.hot) expect(b.targets.flat()).toContain(id);
+  });
+
+  describe('extra (bot-unpublished rows, ADR 002 phase 2)', () => {
+    const extra = [
+      { id: 'zz-gone', name: 'Gone FM', streamUrl: 'https://gone.example/s', codec: 'MP3' },
+      { id: 'aa-quiet', streamUrl: 'https://quiet.example/s' },
+      { id: 'no-url', name: 'No URL' },
+      { id: 'tail-0', name: 'Published too', streamUrl: 'https://dup.example/s' },
+      { id: 'zz-gone', streamUrl: 'https://twice.example/s' },
+      null,
+    ];
+
+    it('normalises to the ADR row shape, sorted, without published ids or url-less rows', () => {
+      const plan = buildPlan({ ...input, extra });
+      expect(plan.extra).toEqual([
+        { id: 'aa-quiet', name: 'aa-quiet', streamUrl: 'https://quiet.example/s', codec: null, tier: 'unpublished' },
+        { id: 'zz-gone', name: 'Gone FM', streamUrl: 'https://gone.example/s', codec: 'MP3', tier: 'unpublished' },
+      ]);
+      expect(normaliseExtra(undefined, new Set())).toEqual([]);
+    });
+
+    it('tiers them as unpublished and probes them every day, outside the hot set', () => {
+      for (const day of ['2026-09-04', '2026-09-05', '2026-09-06']) {
+        const plan = buildPlan({ ...input, extra, day });
+        const flat = plan.targets.flat();
+        expect(flat).toContain('zz-gone');
+        expect(flat).toContain('aa-quiet');
+        expect(flat).not.toContain('no-url');
+        expect(plan.hot).not.toContain('zz-gone');
+        expect(plan.tiers['zz-gone']).toBe('unpublished');
+        expect(plan.tiers['tail-0']).toBe('long-tail'); // the published row wins
+        expect(new Set(flat).size).toBe(flat.length);
+        for (const shard of plan.targets) expect(shard).toEqual([...shard].sort());
+      }
+    });
+
+    it('keeps them in a --full sweep too', () => {
+      const plan = buildPlan({ ...input, extra, full: true });
+      expect(plan.targets.flat()).toContain('zz-gone');
+      expect(plan.targets.flat()).toHaveLength(stations.length + 2);
+    });
   });
 });

@@ -11,7 +11,7 @@
  * a short digest naming what was missing.
  */
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readObservations, parseObservations } from './lib/observations.mjs';
@@ -83,14 +83,45 @@ try {
     rows = [];
   }
 
+  // Phase-2 audit trail: one JSON per decide run. Absent before the first
+  // catalog-actions run; a corrupt file is skipped, not fatal.
+  let actionsLog = [];
+  try {
+    const sinceDay = new Date(Date.parse(now) - args.days * 86_400_000).toISOString().slice(0, 10);
+    actionsLog = dataDir ? readActionsLog(dataDir, sinceDay) : [];
+  } catch {
+    actionsLog = [];
+  }
+
   // A digest without the record, the streaks or the metrics has nothing to
-  // say; missing plan / history / observations only thin it out.
+  // say; missing plan / history / observations / actions only thin it out.
   body =
     record && streaks && metrics
-      ? renderDigest({ record, streaks, metrics, history, plan, catalog, rows, days: args.days, now })
+      ? renderDigest({ record, streaks, metrics, history, plan, catalog, rows, actionsLog, days: args.days, now })
       : renderMissingDigest(missing, now);
 } catch (err) {
   body = renderMissingDigest([...missing, `unexpected: ${err.message}`], now);
+}
+
+/** `<data>/actions/YYYY-MM-DD.json` files from `sinceDay` on, oldest first. */
+function readActionsLog(dataDir, sinceDay) {
+  const dir = join(dataDir, 'actions');
+  if (!existsSync(dir)) return [];
+  const out = [];
+  for (const f of readdirSync(dir).filter((n) => /^\d{4}-\d{2}-\d{2}\.json$/.test(n) && n.slice(0, 10) >= sinceDay).sort()) {
+    try {
+      const parsed = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+      out.push({
+        day: parsed?.day ?? f.slice(0, 10),
+        actions: parsed?.actions ?? [],
+        skipped: parsed?.skipped ?? [],
+        circuitBreaker: parsed?.circuitBreaker === true,
+      });
+    } catch {
+      /* one bad audit file must not cost the digest */
+    }
+  }
+  return out;
 }
 
 if (args.out) {
