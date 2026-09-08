@@ -77,6 +77,11 @@ index.html            — single-page shell with PWA meta tags +
                         meta-CSP + meta Permissions-Policy +
                         the .np-wake-pane (inline wake editor).
 style/index.html      — local design-token editor at /style/.
+catalog-health.html   — public catalog-health dashboard at /catalog-health
+                        (src/health/: model.ts filters/sort/URL state,
+                        ui.ts, theme.ts, main.ts, health.css). Reads
+                        dashboard.json from the health-data branch, falls
+                        back to /catalog-health.json (deploy overlay).
 ios/                  — static iOS app landing page at /ios (the
                         "vintage tuner" App Store Marketing page;
                         old /rrradio-ios/ redirects here).
