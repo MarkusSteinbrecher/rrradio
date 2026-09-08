@@ -457,3 +457,38 @@ PR labelled `catalog-review`. Snapshots and the actions audit trail go to
   that wobble per probe).
 - Verdict vocabulary is closed: `ok | warn | bad | na`. New quality
   dimensions are new facets, not new verdicts.
+
+## Public dashboard: `/catalog-health`
+
+The public read of the loop — <https://rrradio.org/catalog-health> — shows
+that the catalog is managed, not just accumulated. Filters at the top
+(search, country, tier, status, stream, now-playing, logo, homepage, sort,
+"problems only") are URL params, so any view is a shareable link; the table
+lists every published station with its stream verdict (and failing streak),
+how now-playing arrives, logo and homepage state, and the day of the latest
+probe. The tiles above the filters are catalog-wide and never change with
+the filters.
+
+**Artifact.** `tools/build-health-dashboard.mjs` (`npm run health-dashboard
+-- --data health-data`) joins `stations.json` with the record, streaks, plan
+tiers and metrics history into `dashboard.json` — one array row per station
+under a `cols` header (`tools/lib/health-dashboard.mjs`, `COLS`), ~4.7 MB
+raw / ~0.7 MB gzipped. No favicon URLs (they were 1.8 MB alone); the station
+page carries the image. The merge job of `station-probe.yml` builds it after
+`derive-health` and commits it onto `health-data` with the rest.
+
+**Freshness without a deploy.** The page fetches the artifact from
+`raw.githubusercontent.com/…/health-data/dashboard.json` first (CORS `*`,
+gzip, 5-minute cache), so it shows the morning's probe as soon as the branch
+commit lands. `deploy.yml` overlays the same file into `dist/catalog-health.json`
+as the same-origin fallback. Locally: `npm run health-dashboard -- --data
+<health-data checkout> --out public/catalog-health.json` (gitignored) feeds
+`npm run dev` at <http://localhost:5173/catalog-health>.
+
+**Page.** `catalog-health.html` + `src/health/` (`model.ts` parse / filter /
+sort / URL state, unit-tested; `ui.ts` DOM, sparkline, proportion bar;
+`theme.ts` shares the app's `rrradio.theme` key; `health.css` the app palette).
+Strict CSP: no inline script or style, fonts via fonts.googleapis.com,
+`connect-src` limited to self + raw.githubusercontent.com. Verdicts are always
+a dot plus a word — the amber/red pair is not distinguishable for every reader
+by hue alone.

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1e1d19" />
+    <meta name="robots" content="index,follow" />
+    <!-- Same stance as the app (audit #75): policy ships as a meta tag
+         because GitHub Pages sets no headers. No inline script or style
+         anywhere on this page, so no hashes and no 'unsafe-inline'.
+         connect-src allows the live copy of the dashboard artifact on the
+         health-data branch (docs/station-health.md, "Public dashboard"). -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' https://fonts.googleapis.com;
+      img-src 'self' data:;
+      connect-src 'self' https://raw.githubusercontent.com;
+      font-src https://fonts.gstatic.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    " />
+    <title>Catalog health — rrradio</title>
+    <meta name="description" content="How healthy is the rrradio station catalog today? Every published station is probed automatically: stream, now-playing metadata, logo and homepage, with failing streams retired and recovered ones brought back." />
+    <link rel="canonical" href="https://rrradio.org/catalog-health" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="rrradio catalog health" />
+    <meta property="og:description" content="Every station in the rrradio catalog, checked automatically. Filter by country, tier, stream, now-playing, logo and homepage." />
+    <meta property="og:url" content="https://rrradio.org/catalog-health" />
+    <meta property="og:image" content="https://rrradio.org/og-image.png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/src/health/health.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="rrradio home">rrradio<em>.</em></a>
+      <span class="topbar__label">Catalog health</span>
+      <span class="topbar__spacer"></span>
+      <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch theme"></button>
+      <a class="topbar__link" href="/">Open the app<span aria-hidden="true"> →</span></a>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <h1 class="hero__title">Every station, checked every day.</h1>
+        <p class="hero__lede">
+          rrradio probes each published station automatically: curated stations daily, the long tail
+          weekly, and any failing stream daily until it recovers. Streams that fail three days in a row
+          leave the catalog on their own and return when they play again. This page is the live result.
+          <span id="lede-meta" class="hero__meta"></span>
+        </p>
+      </section>
+
+      <p id="load-status" class="load-status" aria-live="polite">Loading today’s probe…</p>
+
+      <section id="tiles" class="tiles" aria-label="Catalog metrics"></section>
+
+      <section id="filters" class="filters" aria-label="Filter stations"></section>
+
+      <p id="result-line" class="result-line" aria-live="polite"></p>
+
+      <div class="table-wrap">
+        <table class="health-table">
+          <thead>
+            <tr>
+              <th scope="col" class="cell cell--station">Station</th>
+              <th scope="col" class="cell cell--country" title="Country of the station">Country</th>
+              <th scope="col" class="cell cell--tier" title="Curated stations are probed daily; the long tail weekly">Tier</th>
+              <th scope="col" class="cell cell--stream" title="Does the stream URL answer with audio?">Stream</th>
+              <th scope="col" class="cell cell--np" title="How now-playing titles reach the player">Now playing</th>
+              <th scope="col" class="cell cell--logo" title="Is there a good, licensed logo?">Logo</th>
+              <th scope="col" class="cell cell--home" title="Does the station homepage still resolve?">Homepage</th>
+              <th scope="col" class="cell cell--checked" title="Day of the latest stream probe">Probed</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div id="more" class="more"></div>
+
+      <section class="legend" aria-label="How to read this page">
+        <h2 class="legend__title">How to read this</h2>
+        <dl class="legend__list">
+          <div class="legend__item">
+            <dt><span class="v v-ok"><i class="v__dot" aria-hidden="true"></i><span class="v__label">Stream</span></span></dt>
+            <dd>The stream URL answered with audio (MP3, AAC, HLS…). <span class="v v-warn"><i class="v__dot" aria-hidden="true"></i><span class="v__label">Odd reply</span></span> means it answered, but not with an audio content type. <span class="v v-bad"><i class="v__dot" aria-hidden="true"></i><span class="v__label">Failing</span></span> carries the reason and how many days in a row: <em>hard</em> failures (404, 410, DNS, refused) retire a long-tail station after 3 days, <em>soft</em> ones (timeouts, 403, 5xx) after 5 days and a second opinion from another vantage point.</dd>
+          </div>
+          <div class="legend__item">
+            <dt>Now playing</dt>
+            <dd><em>Broadcaster API</em>: a dedicated metadata source with artist, title and often cover art. <em>Stream titles</em>: inline ICY titles from the stream itself. <em>Silent</em>: titles are advertised but none arrived. <em>None</em>: no metadata source at all.</dd>
+          </div>
+          <div class="legend__item">
+            <dt>Logo</dt>
+            <dd><em>Good</em>: a reachable, properly licensed logo at a usable size. <em>Weak</em>: present but small, remote, or of unknown provenance. <em>Missing</em>: none, unreachable, or served over plain HTTP.</dd>
+          </div>
+          <div class="legend__item">
+            <dt>Tier</dt>
+            <dd><em>Curated</em> stations have a hand-checked stream and metadata and are probed every day; changes to them always go through a human review. The <em>long tail</em> is imported from <a href="https://www.radio-browser.info/" rel="noopener noreferrer" target="_blank">Radio Browser</a>, probed weekly, and managed automatically.</dd>
+          </div>
+          <div class="legend__item">
+            <dt>Problems only</dt>
+            <dd>Stations with a failing or odd stream, a dead homepage, or a missing logo.</dd>
+          </div>
+        </dl>
+        <p class="legend__foot">
+          Probes run from GitHub Actions at 05:00 UTC; the data behind this page lives on the
+          <a href="https://github.com/MarkusSteinbrecher/rrradio/tree/health-data" rel="noopener noreferrer" target="_blank">health-data</a>
+          branch and the method is documented in
+          <a href="https://github.com/MarkusSteinbrecher/rrradio/blob/main/docs/station-health.md" rel="noopener noreferrer" target="_blank">docs/station-health.md</a>.
+          Found a station that plays fine but shows as failing? <a href="https://github.com/MarkusSteinbrecher/rrradio/issues/new" rel="noopener noreferrer" target="_blank">Open an issue</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <a href="/">rrradio.org</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="https://github.com/MarkusSteinbrecher/rrradio" rel="noopener noreferrer" target="_blank">Source</a>
+    </footer>
+
+    <script type="module" src="/src/health/main.ts"></script>
+  </body>
+</html>

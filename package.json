@@ -37,6 +37,7 @@
     "check-drift": "node tools/check-drift.mjs",
     "health": "node tools/health-probe.mjs",
     "health-digest": "node tools/health-digest.mjs",
+    "health-dashboard": "node tools/build-health-dashboard.mjs",
     "health-import": "node tools/health-import.mjs",
     "derive-health": "node tools/derive-health.mjs",
     "decide-actions": "node tools/decide-actions.mjs",

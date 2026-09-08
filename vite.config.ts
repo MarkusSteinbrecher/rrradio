@@ -139,6 +139,7 @@ function localRouteAliasPlugin(): Plugin {
         // public/support.html App Store support page.
         if (req.url === '/ios') req.url = '/ios/';
         if (req.url === '/support') req.url = '/support.html';
+        if (req.url === '/catalog-health') req.url = '/catalog-health.html';
         next();
       });
     },
@@ -245,6 +246,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         stationTracker: resolve(__dirname, 'station-tracker.html'),
+        catalogHealth: resolve(__dirname, 'catalog-health.html'),
         style: resolve(__dirname, 'style/index.html'),
         ios: resolve(__dirname, 'ios/index.html'),
       },

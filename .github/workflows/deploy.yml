@@ -62,6 +62,15 @@ jobs:
             && git show origin/health-data:station-health.json > dist/station-health.json \
             && echo "health record from health-data" \
             || echo "no health-data branch yet — serving the committed copy"
+      # The public catalog-health page fetches dashboard.json straight from
+      # the health-data branch (fresh daily, no deploy needed); this copy
+      # is its same-origin fallback. Missing before the first probe run
+      # after the page shipped — the page then shows its loading error.
+      - name: Overlay catalog-health dashboard from health-data
+        run: |
+          git show origin/health-data:dashboard.json > dist/catalog-health.json 2>/dev/null \
+            && echo "dashboard artifact from health-data" \
+            || { rm -f dist/catalog-health.json; echo "no dashboard.json on health-data yet"; }
       # Pages artifact upload is only needed for the deploy job, which
       # gates on main+push. Skip it on PR runs to save artifact storage.
       - uses: actions/configure-pages@v6

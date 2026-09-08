@@ -293,6 +293,16 @@ jobs:
       - name: Publish the derived record onto health-data
         run: cp -f public/station-health.json health-data/station-health.json
 
+      # The public /catalog-health page reads this file straight from the
+      # branch, so it is fresh the moment the commit below lands.
+      - name: Build the public dashboard artifact
+        run: |
+          node tools/build-health-dashboard.mjs \
+            --data health-data \
+            --catalog public/stations.json \
+            --out health-data/dashboard.json \
+            || echo "build-health-dashboard failed — page keeps yesterday's copy"
+
       - name: Commit and push health-data
         run: |
           git -C health-data config user.name "github-actions[bot]"
