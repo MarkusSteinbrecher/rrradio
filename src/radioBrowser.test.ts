@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeStreamUrl } from './radioBrowser';
+import { normalizeStreamUrl, playableStreamUrl } from './radioBrowser';
 
 describe('normalizeStreamUrl', () => {
   it('forces https on http URLs (collapses RB http+https duplicates)', () => {
@@ -51,5 +51,31 @@ describe('normalizeStreamUrl', () => {
     const a = normalizeStreamUrl('http://stream.otvoreni.hr/otvoreni');
     const b = normalizeStreamUrl('https://stream.otvoreni.hr/otvoreni');
     expect(a).toBe(b);
+  });
+});
+
+describe('playableStreamUrl', () => {
+  it('upgrades plain-http records to https (the CSP refuses http media)', () => {
+    expect(playableStreamUrl('http://stream.live.vc.bbcmedia.co.uk/bbc_world_service')).toBe(
+      'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service',
+    );
+  });
+
+  it('changes nothing but the scheme', () => {
+    // (URL parsing lowercases the host, which is never significant.)
+    expect(playableStreamUrl('http://Host.Example.com:8000/Live/stream.mp3?x=1&y=2')).toBe(
+      'https://host.example.com:8000/Live/stream.mp3?x=1&y=2',
+    );
+    expect(playableStreamUrl('http://example.com:80/live')).toBe('https://example.com/live');
+  });
+
+  it('leaves https and other schemes alone', () => {
+    expect(playableStreamUrl('https://example.com/live')).toBe('https://example.com/live');
+    expect(playableStreamUrl('  https://example.com/live  ')).toBe('https://example.com/live');
+    expect(playableStreamUrl('rtsp://example.com/live')).toBe('rtsp://example.com/live');
+  });
+
+  it('falls back to a scheme swap on an unparsable http string', () => {
+    expect(playableStreamUrl('http://not a url')).toBe('https://not a url');
   });
 });

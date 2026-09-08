@@ -102,6 +102,33 @@ export function normalizeStreamUrl(url: string): string {
 }
 
 /**
+ * The URL the player is actually handed. The app's CSP allows
+ * `media-src https:` only (audit #75), so a plain-http record is refused
+ * by the browser before any request leaves — Chrome reports that as
+ * "NotSupportedError: Failed to load because no supported source was
+ * found", which looked like a dead stream. Radio Browser's most-voted
+ * record of all ("BBC World Service", 160k votes) is exactly such an
+ * http listing of a mount that answers fine over https.
+ *
+ * Only the scheme changes; host, port, path and query stay as listed.
+ * A record that is genuinely http-only fails either way, so upgrading
+ * can only turn refusals into plays. Same rule the catalog enforces
+ * (check-catalog, https-only) and playable-check applies before probing.
+ */
+export function playableStreamUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!/^http:\/\//i.test(trimmed)) return trimmed;
+  try {
+    const u = new URL(trimmed);
+    u.protocol = 'https:';
+    if (u.port === '80') u.port = '';
+    return u.toString();
+  } catch {
+    return trimmed.replace(/^http:/i, 'https:');
+  }
+}
+
+/**
  * Radio Browser is community-submitted, so the same station can appear
  * multiple times under distinct UUIDs (someone re-adds it to attach a
  * better logo, fix the country, etc.). Collapse entries that share the
@@ -215,7 +242,7 @@ class RadioBrowserClient {
     return {
       id: raw.stationuuid,
       name: raw.name.trim() || 'Unknown',
-      streamUrl: raw.url_resolved || raw.url,
+      streamUrl: playableStreamUrl(raw.url_resolved || raw.url),
       homepage: raw.homepage || undefined,
       country: raw.countrycode || undefined,
       tags,
