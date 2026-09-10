@@ -199,11 +199,12 @@ function actionsSection(actionsLog, windowStart) {
   const unpublished = count((a) => a.action === 'unpublish');
   const republished = count((a) => a.action === 'republish');
   const swapped = count((a) => a.action === 'swap-url');
+  const logosCleared = count((a) => a.action === 'clear-logo');
   const awaiting = new Set(all.filter((a) => a.action.startsWith('review')).map((a) => a.id)).size;
 
   const out = [`### Actions this week (${all.length})`, ''];
   if (!all.length && !skippedBy.size && !tripped.length) return [...out, 'none'];
-  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · awaiting review ${awaiting}`);
+  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · logos cleared ${logosCleared} · awaiting review ${awaiting}`);
   if (skippedBy.size) {
     const parts = [...skippedBy.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([why, n]) => `${why} ${n}`);
     out.push(`- skipped: ${parts.join(', ')}`);
@@ -230,8 +231,9 @@ function metricsTable(metrics, history, plan, record) {
   const rows = [
     ['Availability (play-weighted)', pct(metrics?.availability), deltaPp(metrics?.availability, prev?.availability)],
     ['Freshness (observed 7d ÷ published)', pct(metrics?.freshness), deltaPp(metrics?.freshness, prev?.freshness)],
-    // The logo facet has no probe yet (phase 1 is stream-only), so this reads
-    // "n/a" until logo observations exist — one word, on purpose.
+    // Phase 3: the logo facet comes from the probe's own load/decode/size
+    // observation (derive-health), so this is real coverage. Reads "n/a"
+    // only until the first logo observations exist.
     ['Hot-set logo coverage', logoCoverage(plan, record), '—'],
   ];
   return [

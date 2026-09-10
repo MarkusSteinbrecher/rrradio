@@ -37,6 +37,7 @@ import { classifyError } from './lib/homepage-status.mjs';
 import { loadHealth, saveHealth, applyFacet, pruneStations } from './lib/health-record.mjs';
 import { createClassifiers, failureClass, toObservation } from './lib/probe-classify.mjs';
 import { appendObservations } from './lib/observations.mjs';
+import { probeLogo, classifyLogo, toLogoObservation, logoFailureClass } from './lib/logo-probe.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -203,6 +204,9 @@ const published = allStations.filter((s) => PUBLISHABLE.has(s?.status));
 let targets = published;
 let scope;
 let fullSweep = false;
+// plan.extra rows (bot-unpublished, observed while out of the catalog)
+// carry no favicon, so they get no logo row rather than a false `missing`.
+let extraIds = new Set();
 
 if (args.plan) {
   // Sharded mode: the plan decides what this runner probes. Ids the plan
@@ -221,6 +225,7 @@ if (args.plan) {
   const extra = (Array.isArray(plan?.extra) ? plan.extra : []).filter(
     (e) => e && typeof e.id === 'string' && typeof e.streamUrl === 'string',
   );
+  extraIds = new Set(extra.map((e) => e.id));
   const byId = new Map([...extra, ...published].map((s) => [s.id, s]));
   const missing = shardIds.filter((id) => !byId.has(id));
   targets = shardIds.map((id) => byId.get(id)).filter(Boolean);
@@ -269,9 +274,13 @@ async function probePass(list, timeout) {
         s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey)
           ? await probeMetadataUrl(s.metadataUrl, timeout)
           : null;
+      // Phase 3: the logo is observed alongside the stream — load, decode,
+      // size — so the record's logo facet is a measurement, not a guess.
+      const logoProbe = extraIds.has(s.id) ? undefined : await probeLogo(s.favicon, { timeout, publicDir: join(root, 'public') });
       out[i] = {
         station: s,
         probe: streamProbe,
+        logoProbe,
         facets: {
           stream: classifyStream(streamProbe),
           https: classifyHttps(s.streamUrl),
@@ -279,6 +288,7 @@ async function probePass(list, timeout) {
           metadata: classifyMetadataApi(s.metadataUrl, metaProbe, metadataKey, s.broadcaster),
           fetcher: classifyFetcher(metadataKey),
           program: classifyProgram(metadataKey),
+          ...(extraIds.has(s.id) ? {} : { logo: classifyLogo(s.favicon, logoProbe) }),
         },
       };
       probedCount += 1;
@@ -329,8 +339,11 @@ if (args.observations) {
   const observations = rows.map((r) =>
     toObservation({ station: r.station, facets: r.facets, probe: r.probe, at, retried: r.retried === true }),
   );
-  appendObservations(resolve(args.observations), observations);
-  console.log(`appended ${observations.length} observation(s) to ${args.observations}`);
+  const logoObservations = rows
+    .filter((r) => r.facets.logo)
+    .map((r) => toLogoObservation({ station: r.station, verdict: r.facets.logo, probe: r.logoProbe ?? null, at }));
+  appendObservations(resolve(args.observations), [...observations, ...logoObservations]);
+  console.log(`appended ${observations.length} stream + ${logoObservations.length} logo observation(s) to ${args.observations}`);
 }
 
 // ─── write the health record ─────────────────────────────────────────
@@ -344,6 +357,10 @@ if (args.record) {
     const updates = new Map(rows.map((r) => [r.station.id, r.facets[facet]]));
     summaries[facet] = applyFacet(record, facet, updates, { tool: 'health-probe', scope, at });
   }
+  // Since phase 3 the probe owns the logo facet too (logo-status keeps its
+  // heuristic report under --no-record).
+  const logoUpdates = new Map(rows.filter((r) => r.facets.logo).map((r) => [r.station.id, r.facets.logo]));
+  if (logoUpdates.size) summaries.logo = applyFacet(record, 'logo', logoUpdates, { tool: 'health-probe', scope, at });
   if (fullSweep) {
     const removed = pruneStations(record, new Set(published.map((s) => s.id)));
     if (removed > 0) console.log(`pruned ${removed} station(s) no longer in the published catalog`);
@@ -353,6 +370,7 @@ if (args.record) {
 } else {
   // Sharded runs leave the record to the merge job (derive-health).
   for (const facet of FACET_KEYS) summaries[facet] = tallyFacet(rows, facet);
+  summaries.logo = tallyFacet(rows.filter((r) => r.facets.logo), 'logo');
   console.log('--no-record — leaving public/station-health.json untouched');
 }
 
@@ -432,6 +450,15 @@ console.log(`stream:   ${t.ok} ok · ${t.warn} warn · ${t.bad} bad (${badRowsBy
 if (retried > 0) console.log(`retries:  ${retried} soft failure(s) re-probed, ${recovered} recovered`);
 const m = summaries.metadata.tally;
 console.log(`metadata: ${m.ok} ok · ${m.warn} warn · ${m.bad} bad · ${m.na} n/a`);
+if (summaries.logo) {
+  const l = summaries.logo.tally;
+  const logoByClass = { hard: 0, soft: 0 };
+  for (const r of rows) {
+    const cls = r.facets.logo ? logoFailureClass(r.facets.logo) : null;
+    if (cls) logoByClass[cls] += 1;
+  }
+  console.log(`logo:     ${l.ok} ok · ${l.warn} warn · ${l.bad} bad (${logoByClass.hard} hard, ${logoByClass.soft} soft)`);
+}
 
 const badRows = rows.filter((r) => r.facets.stream.v === 'bad');
 if (badRows.length > 0) {

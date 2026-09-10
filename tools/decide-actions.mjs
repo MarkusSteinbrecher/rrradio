@@ -164,6 +164,14 @@ for (const [id, facets] of Object.entries(record?.stations ?? {})) {
   if (facets?.stream && 'd' in facets.stream) latestDetail.set(id, facets.stream.d ?? null);
 }
 
+// Same for the logo facet (phase 3 rule 8): `missing` must never become a
+// clear-logo, so the policy needs the detail behind the streak.
+/** @type {Map<string, string|null>} */
+const latestLogoDetail = new Map();
+for (const [id, facets] of Object.entries(record?.stations ?? {})) {
+  if (facets?.logo && 'd' in facets.logo) latestLogoDetail.set(id, facets.logo.d ?? null);
+}
+
 const streamUrlOf = (id) => publishedById.get(id)?.streamUrl ?? yamlById.get(id)?.streamUrl ?? null;
 
 // ─── edge second opinion (rule 3) ────────────────────────────────────
@@ -201,6 +209,7 @@ if (args.edge && !token) {
 let result = decide({
   streaks,
   latestDetail,
+  latestLogoDetail,
   tiers: plan.tiers ?? {},
   yamlById,
   publishedIds,

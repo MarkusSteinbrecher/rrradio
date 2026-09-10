@@ -24,6 +24,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
 const JSON_ONLY = process.argv.includes('--json-only');
+// Phase 3 (ADR 002): the daily probe observes logos for real and
+// derive-health owns the `logo` facet. --no-record keeps this tool's
+// report + heuristics without touching the health record.
+const NO_RECORD = process.argv.includes('--no-record');
 
 function loadStations() {
   const raw = JSON.parse(readFileSync(join(root, 'public/stations.json'), 'utf8'));
@@ -252,7 +256,9 @@ writeFileSync(outPath, JSON.stringify(report) + '\n');
 
 // Mirror into the unified health record (docs/station-health.md). The tier
 // is the stable detail; the free-text reason can wobble with probe sizes.
-{
+// Skipped under --no-record: since phase 3 the probe observes logos and
+// derive-health writes the facet from those observations.
+if (!NO_RECORD) {
   const updates = new Map(rows.map((row) => [row.id, { v: row.state, d: row.tier }]));
   const record = loadHealth(root);
   applyFacet(record, 'logo', updates, {

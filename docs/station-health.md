@@ -81,14 +81,19 @@ volume, then on a Node 22 / npm-11 lockfile mismatch).
 | `metadata` | `health-probe` | metadataUrl / built-in fetcher reachability (analyze.mjs semantics) |
 | `fetcher` | `health-probe` | ok = known key · bad = unknown key · na = generic |
 | `program` | `health-probe` | ok = program-capable fetcher · warn = fetcher without program info · na = no fetcher |
-| `logo` | `tools/logo-status.mjs` | state from URL heuristics + real-pixel probe merge (logo-quality semantics) |
+| `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) |
 | `homepage` | `tools/check-homepages.mjs` | ok · warn = blocked (401/403/429) · bad = dead / server-error / network error · na = no homepage |
 | `drift` | `tools/check-drift.mjs` | ok = changeuuid matches · warn = upstream changed / no baseline · bad = record gone upstream · na = not RB-bound |
 | `duplicate` | `tools/check-duplicates.mjs` | ok = clean · warn = review-tier group · bad = blocking collision |
 
-The probe deliberately does **not** write the `logo` facet — `logo-status`
-owns it (it merges the real-pixel probe report and provenance fields that the
-stream probe knows nothing about).
+Since phase 3 the probe observes logos itself (`tools/lib/logo-probe.mjs`:
+fetch the favicon with a 64 KB range, decode the header, bucket the size,
+fold the URL heuristics in as `warn`) and `derive-health` writes the facet
+from those observations. `tools/logo-status.mjs` keeps producing its
+heuristic report (`public/station-logo-status.json`) for the tracker and the
+curation tools, but runs with `--no-record` in CI so it no longer touches the
+facet. Before phase 3 it was the facet's owner — an unobserved station still
+carries its last `logo-status` verdict until the rotation reaches it.
 
 ### Churn control (this file is committed — daily, on `health-data`)
 
@@ -242,7 +247,7 @@ for five consecutive days is a different thing from one that timed out once.
 | `id` | station id |
 | `at` | ISO-8601 UTC, second precision |
 | `v` | vantage: `gha` (GitHub Actions runner). Reserved: `edge`, `client` |
-| `f` | facet: `stream` (phase 1). Reserved: `logo` |
+| `f` | facet: `stream` (phase 1) or `logo` (phase 3). Logo rows carry no `icy` key |
 | `o` | outcome `ok` \| `warn` \| `bad` |
 | `c` | class `hard` \| `soft` \| `null` (only set when `o` is `bad`) |
 | `s` | HTTP status or `null` |
@@ -333,6 +338,27 @@ republish restores `status: <brokenFrom>` and removes the four fields. The
 bot only ever touches rows carrying `brokenBy: station-probe` — a curator
 who sets `status: broken` by hand, or removes `brokenBy`, owns that row.
 
+### clear-logo (phase 3)
+
+A dead favicon is not a dead station, so the action is a field edit, not a
+status flip. The actuator removes `favicon`, `faviconSource`,
+`faviconSourceType`, `faviconSourceUrl`, `faviconLicense` and `faviconOk` from
+the YAML row and writes
+
+```yaml
+  faviconBlocked: true            # build-catalog: never fall back to the RB copy
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: "HTTP 404 ×3 · 2026-09-04→2026-09-06"
+```
+
+and drops every favicon field (variants included) from the published JSON
+row, so the app shows its placeholder instead of a broken image. Hard
+failures only — a 403 from a CDN that dislikes the runner is what a soft
+logo failure looks like, and there is no second vantage for images. A
+curator replaces the logo by setting a new `favicon` and removing
+`faviconBlocked`; the vision routine (issue #685, judgement half) is meant
+to do that with a budget.
+
 ### Snapshots
 
 31,427 of 31,461 publishable rows are Radio Browser-bound, so a republish
@@ -354,6 +380,7 @@ is observed, not assumed.
 | 5 | `brokenBy: station-probe` and `ok` · ≥ 3 days | republish, automatic | republish, automatic |
 | 6 | RB has a different https URL that probes `ok` | swap URL instead of unpublishing | proposal for review |
 | 7 | cap: 200 automatic actions per run, worst first | overflow waits | — |
+| 8 | `logo` · `bad` · `hard` · ≥ 3 distinct days (phase 3) — never for `missing`; a non-structural logo failure share > 15 % (missing / http excluded) skips every logo action (`logo-circuit-breaker`) | clear-logo, automatic | proposal for review |
 
 Curated tier = `working` / `icy-only` / `featured: true` / referenced from
 `data/highlights.yaml`. Every edge answer is appended to the observation log

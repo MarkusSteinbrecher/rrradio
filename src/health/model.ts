@@ -371,6 +371,20 @@ export function logoDetailLabel(row: HealthRow): string {
     'probe-error': 'Unreachable',
     generic: 'Generic',
     dead: 'Dead',
+    // Phase 3 probe vocabulary (tools/lib/logo-probe.mjs).
+    good: 'Good',
+    acceptable: 'Good',
+    vector: 'Vector',
+    poor: 'Too small',
+    unknown: 'Unreadable',
+    'not-image': 'Not an image',
+    'unsupported-scheme': 'Bad URL',
+    timeout: 'Timeout',
+    dns: 'DNS failure',
+    refused: 'Refused',
+    reset: 'Connection reset',
+    tls: 'TLS error',
+    network: 'Network error',
   };
   if (row.logo === '') return 'Not checked';
   return map[row.logoDetail] ?? row.logoDetail ?? row.logo;
