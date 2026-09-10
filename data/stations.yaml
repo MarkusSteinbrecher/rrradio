@@ -8180,6 +8180,10 @@
   country: DE
   status: icy-only
 - id: de-radio-arabella-muenchen
+  brokenSince: 2026-09-09
+  brokenFrom: icy-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×7 · 2026-09-03→2026-09-09
   favicon: "https://www.radioarabella.de/storage/thumbs/512x512/r:1658501906/788381.png"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://www.radioarabella.de/"
@@ -8204,7 +8208,7 @@
     - münchen
     - germany
   country: DE
-  status: icy-only
+  status: broken
 - id: de-radio-paloma
   favicon: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Radio_Paloma_Logo_2024.svg"
   faviconSource: wiki
