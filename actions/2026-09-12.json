@@ -1,0 +1,6373 @@
+{
+  "generatedAt": "2026-09-12T10:02:21.838Z",
+  "day": "2026-09-12",
+  "circuitBreaker": true,
+  "circuitBreakerReason": "1385 candidates > 2% of 30800 published",
+  "actions": [],
+  "skipped": [
+    {
+      "id": "ae-1580-empress-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ae-radio-mango-global",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "af-rrr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "af-ruki-vverkh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "af-sbs-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "af-station-7c6ca795",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ao-radio-bairro-de-angola",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ao-rna-canal-a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ao-rna-canal-a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-107-9-el-observador",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-binaural-rock-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-blu-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-fm-amanecer-92-5mhz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-fm-ayer-98-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-fm-latina-92-5-salta",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-la-conquista-del-pan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-laser-max-103-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-marcos-kappes",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-planet-music-villa-gesell-91-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-centro-99-3-general-pico",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-centro-99-3-general-pico",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-concierto-96-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-concierto-97-1-mhz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-patagonia-puerto-madryn-fm-105-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ar-radio-power-100-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-28radio-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-emap-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-garage-sounds",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-lo-fi-halloween-and-chill",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-lo-fi-halloween-and-chill",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-radio-max-merkur",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-splatoon-station-seven",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-splatoon-station-seven",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "at-styrialounge",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-107-1-safm-adelaide",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-774-abc-melbourne",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-90-1-nbc-fm-narwee-90-1-fm-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-92-3fm-4tvr-mareeba",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-a-league-live-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-classic-qld",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-extra-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-100-7-gippsland-vic-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-100-7-gippsland-vic-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-105-7-darwin-nt-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-105-7-darwin-nt-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-1233-newcastle-nsw-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-1233-newcastle-nsw-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-612-brisbane-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-612-brisbane-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-639-north-and-west-port-pirie-sa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-639-north-and-west-port-pirie-sa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-648-goldfields-kalgoorlie-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-648-goldfields-kalgoorlie-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-657-western-plains-dubbo-nsw-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-657-western-plains-dubbo-nsw-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-675-kimberley-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-675-kimberley-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-684-south-west-wa-busselton-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-684-south-west-wa-busselton-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-702-north-west-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-702-north-west-wa-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-720-perth-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-720-perth-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-783-alice-springs-nt-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-783-alice-springs-nt-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-801-far-north-queensland-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-801-far-north-queensland-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-891-adelaide-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-891-adelaide-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-91-7-gold-coast-qld-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-91-7-gold-coast-qld-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-91-7-northern-tasmania-launcesto",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-936-hobart-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-97-3-illawarra-nsw-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-97-7-goulburn-murray-vic-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-local-radio-97-7-goulburn-murray-vic-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-new-england-north-west-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-newsradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-rn-vic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-triple-j-sa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-triple-j-sa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-abc-triple-j-wa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-casey-radio-97-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-christmas-hope",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-coast-fm-warrnambool-95-3-fm-https",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-dance-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-edge-radio-hobart-99-3-fm-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-freocast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-freocast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit-100-3-94-7-mackay-and-the-whitsundays",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit-101-9-fraser-coast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit-106-5-karratha",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit-4rok-107-9mhz-fm-rockhampton-central-queensl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit-wheatbelt",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit101-3-central-coast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit102-3-105-1-mid-north-coast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit103-5-cairns",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit105-5-coffs-coast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit105-9-central-west",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit91-7-port-hedland",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit91-9-bendigo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit97-9-tablelands",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-hit99-5-sunraysia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-60s-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-70s-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-80s-new-wave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-90s-soft-pop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-aussie-pub-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-buddha",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-chill-pop-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-crooners-swooners",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-girl-power",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-guilty-pleasures",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-homegrown",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-indigenous",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-karaoke-stage",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-stress-free",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-listnr-yacht-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-massive-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-mix94-5-perth",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-myfm-perth",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-rnb-fridays-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-the-buzzz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-the-engineered-network",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-the-light-worship",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-thelight-christmas",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-thelight-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-thelight-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-thelight-worship",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-thelight-worship",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-102-3mhz-fm-townsville-qld-rock-sports-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-brisbane",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-bundy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-classic-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-fraser-coast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-geraldton-98-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-newcastle",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "au-triple-m-perth",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "az-radio-space-104fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "be-de-goeie-ouwe-tijd",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "be-t-is-vloms",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "bf-radio-legende",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "bg-danpen-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "bh-live-fm-bahrain",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "bo-radio-gente",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-alessandro-moreira",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-alessandro-moreira",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-bailao-misterious-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-cidade-fm-net",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-difusora-de-franca",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-dj-phill-ofc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-dp-pablo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-esportes-total",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-fyber",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-gold-web-32kb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-ice-mandrak-hr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-igcg-radioweb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-luz-102-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-luz-102-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-maringa-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-mpx-web-radio-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-mpx-web-radio-2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-principe-joinville",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-animenight",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-apolo-98-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-cidade-94-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-essencia-gospel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-fox-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-gazeta-bananal",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-like-brazil",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-maresia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-montense-flash-minas-102-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-nova-brasil-89-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-olavo-de-carvalho",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-paraitinga-105-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-patria-gaucha",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-scalla-musica-brasileira",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-scalla-musica-brasileira",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-sertaneja-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-sobradinho-am-1110",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-sociedade",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-sociedade",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-radio-ufmg-educativa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-terra-fm-goiania-104-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-underplay",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-unifm-94-5https-radiounifm-com-br",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-veneno",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-web-radio-clamor-da-terra",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "br-wrs-web-radio-so",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "builtin-abc-grandstand",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "builtin-abc-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "builtin-abc-melbourne",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "builtin-abc-sydney",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "builtin-npo-soul-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "by-gomel-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "by-radio-roks-by",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "by-radio-roks-by",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-103-9-cisn-country",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-620-ckcm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-650-ckga",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-840-cfsx",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-92-citi-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-96-5-the-breeze",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-altars-and-atmosphere-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cbc-radio-one-barrie-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cbc-radio-one-halifax-ns-mp3-stream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cbc-radio-one-ottawa-on-mp3-stream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfda-plaisir101-9-victoriaville-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfda-plaisir101-9-victoriaville-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfmk-96-3-big-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfmk-big-96-3-kingston-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfqr-600",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cfrc-101-9fm-queen-s-university-kingston-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-chsm-am-1250-steinbach-mb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-chsn-fm-sun-102-3-estevan-sk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ciau-fm-103-1-radisson-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ciau-fm-103-1-radisson-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cimj-106-1-magic-106-guelph-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cjbe-90-5-radio-anticosti-port-menier-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cjdv-107-5-dave-rocks-kitchener-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cjro-fm-107-7-carlsbad-springs-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckc455-91-9-cfre-radio-university-of-toronto-mis",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckdk-103-9-country-104-woodstock-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckgs-hit-country-105-5-beauce-saguenay-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckgs-hit-country-105-5-beauce-saguenay-qc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cklk-fm-88-5-the-lake-grimsby-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckng-fm-the-chuck-92-5-edmonton-ab-mp3-stream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckng-fresh-radio-92-5-edmonton-ab",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckqb-jump-106-9-ottawa-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-ckru-100-5-fresh-radio-peterborough-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-cktb-news-talk-610-st-catharines-on",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-energy-95-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-fm101-5-the-wolf",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-fm96",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-hair-band-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-hair-band-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-irish-radio-canada",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-jump-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-metal-shop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-metal-shop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-metal-shop-e6abc3fe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-musicbox4friends",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-punkrockradio-ca",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-punkrockradio-ca",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-q107",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-radio-classique-montreal-99-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-radioprogram",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-reggae-classics-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-riverwood-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-riverwood-radio-oldies",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-silentwave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-silentwave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-the-borderline-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-the-road-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-tripletail-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ca-umfm-101-5-cjum",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ch-adonia-kidsradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ch-ai-musicworld",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ch-driftfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ch-global-sport-vaud",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ch-radio-neue-hoffnung",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-beat-fm-la-radio-que-te-mueve-valle-aconcagua-98",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-ctm-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-105-5-fm-concepcion",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-105-5-fm-talca",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-89-5-fm-calama",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-94-9-fm-valparaiso",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-97-7-fm-la-serena",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-digital-99-1-fm-iquique",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-rt-noticias",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cl-senal-rec",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-908",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-921",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-921",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-930-e848a475",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-aisafm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-brtv-c202d338",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-brtv-cc120955",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-brtv-cc120955",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-btv-25551838",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-cctv-4-america-international",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-fm103-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-fm106-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-fm91-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-fm96-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-fm988",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-06a4c360",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-0861fee3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-104b2294",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-19d2c636",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-19d2c636",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-1a8885b0",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-1a8885b0",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-1c244b2a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-200ced17",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-2bccbc16",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-2c865904",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-2f383668",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-312a5df5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3908981f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3918c5ff",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3918c5ff",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3ca25f10",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3ca25f10",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3e193349",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3e193349",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-3e41dc10",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-5a714abd",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-5fd76e7d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-680542fa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-6e93aea2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-7f0d6d5c",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-7fb68cfc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-85f67071",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-85f67071",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-886fa935",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-89950ef1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-912abf36",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-922a8b2d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-955399fb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-9930862f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-9ad38310",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-a120e591",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-a120e591",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-a695339b",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-a695339b",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-ae5ad4ef",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-ae5ad4ef",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-bd786ad9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-bd786ad9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-bffd66cb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-c7ab7474",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-cda6ce7f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-d1ae2869",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-d8be8bae",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-d9366e27",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-df894c85",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-e07fb62f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-e2dd722a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-e541c9fc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-e541c9fc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-f1a9186a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-fb1af5a1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-station-ff8a49e4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cn-yo-fm-92-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-antena-de-los-andes-1520-am",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-antena-de-los-andes-1520-am",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-cristalina-estereo-101-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-cristalina-estereo-la-mesa-102-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-cristalina-estereo-neiva-101-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-cristalina-estereo-neiva-101-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-jt-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-la-caquetena-93-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-la-caquetena-93-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-la-voz-de-los-llaneros-106-3fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-madrigal-stereo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-puerto-berrio-stereo-89-4-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "co-san-sebastian-stereo-107-0-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cr-dabar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cr-dabar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cr-dabar-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cr-dabar-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cy-ccn",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cy-politis-107-6-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cy-politis-107-6-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cy-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-impuls",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-impuls-bc5b6165",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-radio-o106",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-radio-otava",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-radio-otava",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "cz-radio-punctum",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-95-5-charivari-munchen-lounge",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-akademieradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-anixe-hd",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-arabella-herzflimmern",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-artefaktor-radio-online",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-baden-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-ballermann-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-ballermann-radio-top-40",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-burgerfunk-dresden",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-campusradio-leipzig",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-carame-campusradio-merseburg",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-charivari-95-5-munchen-arbeitsmix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-charivari-munchen-lounge-music",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-chiarivari-italo-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-deutschrap",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-electro-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-feierwerk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-flashbass-fm-dein-sound-dein-style",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-gugglifox",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-gugglifox",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-hertz-87-9-campusradio-fur-bielefeld-mp3-hq",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-hitradio-antenne-1-in-the-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-k-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-karnevalsmusik",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-leipzig-international-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-leipzig-international-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-leipzig-jazz-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-leipzig-jazz-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-modern-talking-pc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-mother-earth-instrumental",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-mother-earth-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-mother-earth-klassik",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-mother-earth-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-myclubradio-mainstage",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-myclubradio-mainstage",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-partyvibe-drum-and-bass",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-partyvibe-psychedelic-trance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-101-madonna",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-arabella-muenchen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-ednil-random-music",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-ednil-teststream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-emergency",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-firat-fm-87-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-fratz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-imgdump",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-kartina",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-kartina",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-me",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-mittelweser",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-musikwelle-allgau",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-neue-hoffnung-aac-96-kbps",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-vidovdan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radio-vidovdan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radioemergency2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radioukwplus-leipzig",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-radioukwplus-leipzig",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-sunshine-live-party",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-sunshine-live-pride",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-triquency-hochschulradio-th-owl-lemgo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-welt-tv-1080p",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-worni-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-worni-fm-dd88cc92",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-xjazz-electronic-improvisation",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-xjazz-movin-grooves",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "de-xjazz-voices",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "dk-dr-p2-hls-96",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "dk-dr-p4-k-benhavn-hls-96",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "dk-femernfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "dk-mix-fm-gribskov-retro-nord",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "dk-nordic-lodge-copenhagen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "do-cibaena-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-conecta-2-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-conecta-2-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-hot-106",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-la-redonda-969",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-la-voz-del-tomebamba-1070-am",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-radio-11q-104-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ec-rnc-la-mundialista-103-3-fm-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ee-kaguraadio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ee-kaguraadio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ee-kiss-fm-pride",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ee-nikradofem",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-activate-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-afro-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-airmaxfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-aivaradioia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-aivaradioia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-alto-jalon-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-aragon-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-aragon-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-bakala-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-bside",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cadena-elite",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cadena-elite",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-ccmixes",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cope-albacete",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cope-gijon",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cope-sevilla",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-cope-tenerife",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-el-salto-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-free-techno",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-gum-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-happyfm-fuerteventura",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-ibiza-organica-484d0b55",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-interradio-tenerife",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-la-jungla-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-la-mega-costa-del-sol",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-motiva-party",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-oldies-radio-time",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-onda-espana",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-onda-valencia-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-pure-ibiza-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-90-320k",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-albolote",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-alhendin-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-despi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-estel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-estepona-costa-del-sol",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-flow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-kvrruf",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-salut-catalunya",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-salut-catalunya",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-radio-tirso-libertaria",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-sonaos-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-topcat-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-verbena-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "es-yumbo-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-rakkauden-wappuradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-rattoradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-unexplained-agency-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-radio-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-sami-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-suomi-kemi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-vega-aboland",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-vega-huvudstadsregionen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-yle-x3m",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fi-ylex",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-abc-lounge-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-abc-lounge-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-dans-le-club",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-efr12-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-f-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-f-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-f-hits-xtended",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-f-hits-xtended",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-forum-angers",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-forum-tours",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-happyness-radio-amiens",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-happyness-radio-amiens",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-helia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-kizrock-metal",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-kizrock-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-la-note-picking-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-m2-hit",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-mathis-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-maxi-france",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-open-sky-192kbps-mp3-oise",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-power-maxx",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-pulsradio-2000-64k-aac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-cap-a-cap",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-contact-vosges",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-occitania",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-sofa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-star",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-radio-tou-caen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-rcf-haute-normandie",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-rtl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-rtl2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-swigg",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-ultra-max",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "fr-vaucluse-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-bossa-nova-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-cafe-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-country-walks-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-edm-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-restaurant-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-scifi-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-seawaves-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-24-7-spa-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-air-gay-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-bexhill-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-blastfm-indie-radio-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-bostin-radio-worldwide",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-bostin-radio-worldwide",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-brown-student-community-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-bsj-fm-best-smooth-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-bvf",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-crop-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-derby-sound",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-discover-trance-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-eden-fm-107-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-essex-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-fuse-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-golden-decades-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-golden-decades-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-house-heads-uk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-laser-gold",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-lofi-hiphop-chillsky",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-lomond-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-mix-fm-glasgow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-mystery-train-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-nufc-talk-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-ocean-city-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-only-hits-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-orryy-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-party-vibe-radio-reggae",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-psychedelicized-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-radio-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-radio-warneford",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-retro-soul-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-retro-soul-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-rookwood-sound",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-rstv-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-shine-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-singh-naad",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-sister-midnight-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-sky-news-uk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-symteradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-techno-fm-channel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-the-british-home-front-radio-service",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-the-sound-lab",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-totally-wired-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-visitor-radio-bath",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gb-weald-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ge-red-wine-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gf-chwitiweb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gh-jesus-temple-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gh-meyah-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gh-yediem-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-105fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-1134",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-1134",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-99",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-99",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-agrinio-93-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-aquarius-fm-105-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-athens-voice-102-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-athens-voice-102-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-ble-93-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-blues-radio-greece",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-candia-93-6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-city-106-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-city-92",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-classic-love-97-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-cool-106-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-cosmotrance-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-e-103",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-euro-sky-100-4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-euro-sky-100-4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-groove-club",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-halkidiki-98-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-halkidiki-98-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-ikaria",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-kifissia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-kifissia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-love-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-love-trap",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-love-xmas",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-love-z",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-mavento",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-miuzeknonstop-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-mple-99-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-my-fm-89-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-my-fm-89-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-nemea-107-6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-news-1d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-nitro-102-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-nitro-102-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-nitro-radio-c88b1db0",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-onar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-psychedelic-freaks-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-pucca-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-radio-rebetis",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-radio-rebetis",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-rock-aces-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-rockha-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-smart-104-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-smart-104-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-soul-radio-gr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-soul-radio-gr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-spirto-web-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-spirto-web-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-station-5aaf6603",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-station-c1f049d4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-studio-19",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-technolocos-deep-web-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-vanilla-radio-deep-flavors-hd-320",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-venus-fm-105-1-greece",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "gr-x-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hn-blue-wave-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-ampupradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-radio-bnm-biograd-na-moru-94-0-100-5-mhz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-radio-bnm-biograd-na-moru-chill",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-radio-bnm-biograd-na-moru-off-air",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-radio-bnm-biograd-na-moru-pop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hr-radio-korzo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-gyor",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-jazzradio-hu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-magic-disco-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-magic-disco-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-periszkop-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-periszkop-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-radio-comedy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-deep",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-deep",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-hit-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-rise-fm-hit-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "hu-test-radio-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-101-5-cakrawala-fm-surabaya",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-95-9-smart-fm-jakarta",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-dengerin-musik-indonesia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-gobers-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-montini-106-fm-manado",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-motion-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-mtb-fm-surabaya",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-radio-indah-siar-cirebon",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-radio-rumah-oma",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-radioqu-bogor",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-radioqu-bogor",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-rmk-radio-ciamis",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-sonora-fm-palembang",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-suara-pasuruan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "id-youngsters-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-cork-city-community-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-deep-house-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-mpb-radio-1-00s-10s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-mpb-radio-1-mixmingle",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-mpb-radio-2-christmas",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-mpb-radio-2-easy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-mpb-radio-2-ulster",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-nova-classic-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-pacific-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-pacific-fm-relax",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-radio-nova",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-south-east-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-the-sound-of-ireland",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-west-limerick-102-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ie-west-side-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "il-radio-breslev-carmiel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "il-radio-breslev-carmiel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "il-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-agra",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-dharawad",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-fm-rainbow-trichy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-fm-rainbow-trichy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-gujarati",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-indore",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-jaipur",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-kadapa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-kochi-fm-rainbow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-kochi-fm-rainbow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-odia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-patna",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-rajkot",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-sasaram",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-sasaram",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-satara",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-srinagar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-telugu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-air-tiruchirapalli",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-airkannur",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-ajmer-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-akaramradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-akashvani-bathinda",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-akashvani-kozhikode",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-akashvanimangalore",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-all-india-radio-air-bilaspur",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-aural-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-aural-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-club-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-cmr-hindi-fm-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-cmr-tamil-hd-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-fm-rainbow-coimbatore",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-african",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-bible-information",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-chinese",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-daniel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-end-time-tamil",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-english",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-esther-rani",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-hebrew",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-kannada",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-konkani",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-malayalam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-manipuri",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-marathi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-nepali",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-paul",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-peter",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-punjabi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-tamil",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-tamil-kids",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-telugu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-hand-of-jesus-urdu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-jcbroadcast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-krpi-ferndale-1550-am",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-luminousradiomalayalam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-namaste-bollywood",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radio-baingan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radio-city-hip-hop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radio-dunia-odia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radio-macfast",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radiocityhiphop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-radiotarana",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-thayagam-tamil-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-the-better-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "in-vividh-bharati-vijayawada",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-80s-remix-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-mongrando-radio-italia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-anaunia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-anaunia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-crc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-crc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-energy-chill",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-energy-classic-italy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-ghemme",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-nerazzurra",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radio-punto-zero-d2bea5c3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "it-radiosimplythebest",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jm-jamaica-dancehall-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jm-roots-96-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--10",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--11",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--12",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--13",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--14",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp--9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-775-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-801",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-air-station-hibiki",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-b-fm791",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-ban-ban",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-bay-wave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-befm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-city",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-daraz-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-egao",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-10",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-11",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-12",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-13",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-14",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-15",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-16",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-17",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-18",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-18da9cc0",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-19",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-20",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-21",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-22",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-23",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-24",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-25",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-26",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-27",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-28",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-8",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-ccabed56",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-fm-naha",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-fm-naha",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-kawaguchi-856-studio-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-mot-com",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-n1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm-radio3-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm76-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-fm78-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-koco",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-radio-mix-kyoto-fm87-0",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-reds-wave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-tokyo-star-radio-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-vr-soundscape-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "jp-wi-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "kp-korean-central-broadcasting-station",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "kp-voice-of-korea",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "kr-mbc-fm4u",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "kz-love-radio-kazakhstan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lc-power-97-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lc-power-97-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lk-sky-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lk-wow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lk-wow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lt-cold-tear-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lt-patejago",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lt-radio-lenta",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lu-radio-larochette",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-european-hit-radio-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-european-hit-radio-darbam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-european-hit-radio-darbam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-european-hit-radio-fresh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-european-hit-radio-fresh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "lv-newdanceradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ly-tariq-al-salaf",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ma-radio-adwaa-mazika-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "maritima-fm-bo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mdr-mdr-sachsen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mdr-mdr-schlagerwelt",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mdr-mdr-thuringen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "me-radio-crne-gore-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "me-radio-crne-gore-2-r98",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mg-netpro-tv-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-club-radio-skopje",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-club-radio-skopje",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-samo-mk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-star-radio-boemi-skopje",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-star-radio-boemi-skopje",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-star-radio-mk-narodna-skopje-macedonia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mk-star-radio-mk-narodna-skopje-macedonia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ml-radio-miracle-fm-bougouni",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mu-oui-radio-rodrigues",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-alegria-mexicana-90-1-la-paz-90-1-fm-xhw-fm-prom",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-grupo-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-grupo--50289988",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-amor-cdmx",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-amor-queretaro-97-9-fm-xhqto-fm-grupo-acir-quere",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-el-kuino-96-1-la-piedad-96-1-fm-xhplpm-fm-grupo-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-el-viejon-91-7-el-salto-91-7-fm-xhccax-fm-grupo-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-fmtu-mty-online-www-mmradio-com-multimedios-radi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-globo-95-9-maravatio-95-9-fm-xhccbe-fm-maravatio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-inolvidable-jerez-90-7-fm-xhjrz-fm-grupo-radiofo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-kiss-fm-89-1-torreon-89-1-fm-xhetb-fm-grupo-hori",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-interesante-94-5-fm-guasave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-ke-buena-el-fuerte-98-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-ke-buena-monterrey-103-7-fm-xhfmtu-fm-multime",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-kebuena-88-9-guasave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-mejor-aguascalientes-93-7-fm-xhagt-fm-radio-u",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-poderosa-93-7-acapulco-93-7-fm-xhpa-fm-grupo-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-la-tremenda-103-9-fm-zacoalco",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-los40-martinez-89-9-fm-xhhu-fm-grupo-ms-multimed",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-los40-usa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-match-97-5-leon-97-5-fm-xhpq-fm-grupo-acir-leon-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-match-97-5-leon-97-5-fm-xhpq-fm-grupo-acir-leon--8a344d5e",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-match-culiacan-100-1-fm-xhcna-fm-grupo-acir-culi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-mix-106-5-queretaro-106-5-fm-xhgv-fm-grupo-acir-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-mix-cdmx",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-mix-leon-103-1-fm-xhxf-fm-grupo-acir-leon-guanaj",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-mix-san-luis-potosi-98-5-fm-xhqk-fm-grupo-acir-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-alergria-95-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-altiplano-tlaxcala-96-5-fm-xhtlax-fm-corac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-altiplano-tlaxcala-96-5-fm-xhtlax-fm-corac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-anahuac-1670-huixquilucan-1670-am-xeanah-a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-bemba-veracruz-online-www-radiobembaveracr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-calpulalpan-calpulalpan-94-3-fm-xhcal-fm-c",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-formula-106-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-formula-la-paz-97-5-fm-la-paz-baja-califor",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-ipn-95-7-cdmx-95-7-fm-xhipn-fm-ipn-institu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-mundo-89-3-merida-89-3-fm-xhmia-fm-merida-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-omega-ciudad-de-mexico-830-am-xeite-am-igl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-universidad-89-5-queretaro-89-5-fm-xhuaq-f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-radio-universidad-uaslp-matehuala-91-9-fm-xhuasm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-salsa-mexico-online-www-salsamexico-com-independ",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-stereorey-100-9-fm-aguascalientes-mexico-la-maxi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-tronica-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-tu-radio-inteligente-sonando-en-tu-corazon-desde",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-up-92-5-2-puebla-92-5-hd2-xhzm-fm-grupo-ultra-pu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-w-radio-98-5-tututepec-98-5-fm-xhpvts-fm-grupo-r",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "mx-xevt-104-1-villahermosa-104-1-fm-xhvt-fm-telerep",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "my-ai-fm-34089334",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "my-hitz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "my-mix-94-5-fm-malaysia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "my-myfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "my-pahang-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "na-energy-100-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ng-afrofusion-gospel-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ng-afrofusion-gospel-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ng-kcity-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ng-obong-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-apres-ski-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-apres-ski-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-armin-van-buuren",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-boemerangfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-classics-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-classics-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-classics-radio-1536kbps-hi-res-flac-stream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-classics-radio-1536kbps-hi-res-flac-stream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-clubstitute-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-dbc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-decibel-eurodance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-f-test",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-hitgolf-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-hitgolf-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-i-turn-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-in-tha-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-kink80s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-livesets-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-midvliet-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-news-internetradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-news-internetradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-nora-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-nostalgie-nl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-npo-campus-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-platinum-radio-hardstyle",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-platinum-radio-hardstyle",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-quality-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-538-nonstop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-794",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-794",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-exclusief",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-experience",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-golfbreker",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-hoeksche-waard",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-toekomst",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-uniek-rotterdam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-radio-weststellingwerf-centraal",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-red-light-jazz-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-samen1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-sky-radio-90-s-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-sky-radio-90-s-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-slam-rock-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-superfm-ijmuiden",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-wave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-wave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nl-zap-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "no-5000-bergen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-2xs-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-93-5-eagle-radio-the-true-alternative",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-awa-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-radio-universo-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-te-reo-irirangi-o-ngati-kahungunu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-the-cheese-flac",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "nz-tyfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pa-cht-fm-107-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pa-cht-fm-107-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pa-l-a-mega-98-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pe-radio-nacional-del-peru",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-axr-manila",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-axr-manila",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-cool-fm-bogo-cebu",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-dwpm-radyo-sais-trenta",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-dzgb-am-legazpi-city",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-fmr-radyo-partido-99-5-hd3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-jexie-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-mor-entertainment-57de316c",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-myx",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-ok-fm-legazpi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-pinoy-power-radio-media",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-rmn-dwnx-naga",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-sdtv-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-sdtv-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-teleradyo-serbisyo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-unbox-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ph-xfm-sagay",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pk-aladin-radio-network",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pk-radio-one-fm-91",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-2-krakow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-2-kultowe-polskie",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-2-party",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-2-wroclaw",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-bia-ystok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-bydgoszcz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-i-awa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-kielce",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-leszno",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-odz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-slaskie",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-trojmiasto",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eska-wroc-aw",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-eskarock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-monty-sounds-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-polskie-radio-nostalgia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-2-odz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-g-20",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-impreska",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-odz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-ostrow-kalisz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-poznan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-eska-zamosc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-koszalin-s-a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-koszalin-s-upsk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-marconi-pl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-praga",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-safira",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-safira-kanoe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radio-swinoujscie",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-radioradio-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-rmi-italo-disco-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-rock-radio-pl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-studio-kolobrzeg",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-vox-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pl-vox-poznan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pr-wkaq-580",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-80-s-rfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-cascais-fm-105-4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-on-the-radio-lisbon",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-on-the-radio-lisbon",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-qeom-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-radio-paralelo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-radio-paralelo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "pt-superfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "py-cuevas-fm-91-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "qa-qabayan-radio-94-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "re-music-intense-974",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-atlas21-atlas-fm-alba-iulia-99-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-blaj-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-fresh-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-napoca-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-crasna",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-gaga-csikszek",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-gaga-disco-classic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-gaga-gyergyoszek",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-gaga-haromszek",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-gaga-udvarhelyszek",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-liberty-multiplayer-phonk-remix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-magia-inimii-tale",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-napoca-rock-cluj-napoca",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-prahova",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-romanian-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-rot-romania",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-radio-test",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-rocker-inside",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-romantic-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-rve-cluj-radio-vocea-evangheliei-cluj-napoca-88-",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-sibiu-radio-sibiu-91-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-n-roll",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-and-groovy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-and-rave",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-champs-elysees",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-for-christmas",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-in-lounge",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-move",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-on-trend",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-oxford-street",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-smart-radio-smart-street",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-squad-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-targu-jiu-radio-rtj-97-8-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-tequila-romania-tv-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-timibanat-populara",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-underland-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-underland-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-untold-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-vocea-credintei",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ro-voces-campi-statia-oltenita",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-cafe-fd490f13",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-classic-38b35eae",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-dance-8e549881",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-ex-yu-bb1d8d18",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-folk-stars-d19af10d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-jazz-ce295dce",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-juzni-54858e6a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-kids-7fe1ef78",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s-pop-rock-481fe1a9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s4-16844f50",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-radio-s4-871a586b",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rs-s21-euro",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-100-6-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-100-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-20fa636d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-30-50",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-30623ca5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-50",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-50-70",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-bard-songs",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-boney-m",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-channel-119-laskoviy-may",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-deep-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-drum-bass",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-drum-bass",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-electronic",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-linkin-park",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-trance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-101-ru-victory-day",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-102-0-fm-4fed5713",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-102-2-fm-f86cdc37",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-102-9-fm-171db4e2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-103-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-104-8-fm-fe11e0ae",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-105-2-fm-4574a3cd",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-106-3-fm-f55b725d",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-107-0-fm-148ced2e",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-107-107-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-107-4-fm-d2d505bb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-128-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-18-c2ec5546",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-18-c2ec5546",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-24-kirtan-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-52-94-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-7-105-8-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-70-79",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-89-1-fm-25389991",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-90",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-90",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-90-0-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-90-2-fm-7a729e4c",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-90-fa4b3886",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-91-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-91-2-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-91-6-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-92-8-fm-f4fd9eb9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-93-0-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-93-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-95-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-96-0-fm-a428c992",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-98-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-after-party",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-after-party",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-alfa-fm-lounge",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-ano",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-asmr",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-bolshoye-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-chillsperience",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-core-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-discoteca-80",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-elf-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-elf-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-europarussia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-fm-03fb76cc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-fm-4e4e4941",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-fm-4e4e4941",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-fm-6b65778f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-fm-6b65778f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-glad-valakas",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-golden-70-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-karasevuy-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-lfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-lfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-lightradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-lofi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-lofi-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-mega-fm-arkhangelsk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-mirobyte",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-mix-102-7-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-modern-talking",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-never",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-new-hip-hop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-non-stop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-office",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-blue-system",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-blue-system",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-c-c-catch",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-c-c-catch",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-modern-talking",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-pcradio-modern-talking",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-piano-worship",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-queen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-classic-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-groznyy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-new-italo-disco",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-passazh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-pro-italo-disco",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-radio-vysotskiy",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-relax-fm-latino",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-relax-fm-latino",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-sol-fm-solikamsk-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-sol-fm-solikamsk-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-084a8b9f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-089358a2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-089358a2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-2d6a6dda",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-2d6a6dda",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-319a9100",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-3ffb2a52",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-4d24afae",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-68adb22e",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-81dcd080",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-82aa5afe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-82aa5afe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-831a5b33",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-831a5b33",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-8c0d3695",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-948c21a4",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-99302d5b",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-9bacc304",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-9c00087a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-9c00087a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-a5c0f5aa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-aa36a112",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-aab0fe3f",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-b17638ea",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-c673e498",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-c673e498",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-c89eb475",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-d05adc71",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-ddb6f7fa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-e99de1be",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-ea22fbf1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-f021636a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-f796d445",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-station-fdc4be9a",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-svoe-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-tatar-radiosi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-uralsound-fm-deep-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-vibe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-wave-anime-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-wow-hip-hop",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ru-wow-urban",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rw-bachwezi-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "rw-gendana-n-igihe-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sc-sbc-paradise-fm-seychelles-best-mix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sc-sbc-radyo-sesel",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-bandit-alternative",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-bandit-alternative",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-bandit-ballads",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-bandit-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-dagnys-jukebox",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-dansbandskanalen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-dansbandsradio-se",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-disco-54",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-gamla-favoritter",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-go-country",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-go-country",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-gold-fm-vaxjo-sweden",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-hitmix90-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-hitzfm-97-8-sommenbygd",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-julkanalen",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-lugna-favoriter",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-power-hit-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-power-street",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-radio-rainbow",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-retrohits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-rix-fm-fresh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-skargardsradion",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-soul-classics",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-star-70-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-star-80-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-star-80-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "se-star-90-s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sg-973fm-blasts-that-last-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "si-bam-bam-radio-all-shades-of-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "si-bam-bam-radio-all-shades-of-house",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sk-897",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sk-infovojna",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sk-infovojna-2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sk-radio-piestany",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sv-doremix-92-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sv-radio-legislativa-de-el-salvador",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "sy-radio-rozana",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "th-dpradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "th-mcot-chiangmai-fm10075",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "th-requestradio-dance",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "th-requestradio-phuachiwit",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tn-5ace1127",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tn-c87ff033",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-banaz-dost-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-burdur-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-coffee-project-radyo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-coffee-project-radyo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-dadas-fm-erzurum",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-deniz-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-diyarbak-r-cagr-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-diyarbak-r-cagr-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-ege-kampus",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-evrensel-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-f-rat-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-gurbetci-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-omur-radyo",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-power-66",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radio-5-legend",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radio-5-legend",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-24",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-34",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-caglar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-fenomen-2010-lar",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-gokturk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-gunes",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-liva",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-meydan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-modyan",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-radyo-tutku",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-szc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tr-tokat-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tw-station-0372c84b",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tw-taiwan-lounge-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tz-radio-ngamia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "tz-radio-ngamia",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua--31",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua--6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua--6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-fress-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-i-x-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-live-dy-chat-sound",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-loungefm-chill-out",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-radio-skovoroda",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-record-dance-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-station-7854411c",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ua-xradioua",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ug-mutundwe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ug-namaste-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-100-7-the-bay",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-100-9-fm-the-hill",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-101-3-kdwb",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-101-7-ksam",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-102-3-the-long-drive-yakima-wa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-102-5-jack-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-102-9-kblx-hd3-praise-bay-area",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-104-1-the-hawk",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-1560-the-franchise-2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-1560-the-franchise-2",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-2020-the-beacon",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-70-s-classics",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-88-5-wrkc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-92-7-jackfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-93-3-jake-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-96-5-koit",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-977-oldies",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-98-5-kfox-san-jose-california",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-99-7-now-kmvq-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-abc-news-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-abiding-radio-restream",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-afrobeats-jazz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-afrobeats-rising-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-alt99-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-american-road-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-americas-greatest-80s-hits",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-anerican-journal",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-animeamaze-internet-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-animeamaze-internet-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-atlanta-96-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-b3cks-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-big-machine-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-boystown-live-dance-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-boystown-live-dance-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-castle-blakk-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-castle-blakk-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cat-country-98-7-wyct",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cdu-columbus-alternative-underground",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cdu-columbus-alternative-underground",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cityradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cityradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-classical-california-kdfc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-classical-california-kdfc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-classical-kdfc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cledvibes-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cledvibes-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-country-axe-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-cubaradio80s",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-dee-rock-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-dna-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-doghouse-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-east-rutherford-police-and-fire",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-edmcolorado-com-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-edmcolorado-com-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-exitos-96-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-fairfax-county-police-fire-and-ems",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-fiesta-1510-am-93-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-findababe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-freshradio-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-fun-tower-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-fuzz-101",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-good-news-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-googeradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-greater-new-haven-police-department",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-green-lady-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-highway-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-holiday-music-channel-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-hot-107-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-hurricane-watch-net",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-hurricane-watch-net",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-i-hate-free-speech-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars-alex-jones-talk-stream-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars-alex-jones-talk-stream-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars-com-live-events",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars-the-war-room-with-owen-shroyer-acc-32-h",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-infowars-the-war-room-with-owen-shroyer-acc-32-h",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-jefferson-county-ny-police-fire-and-ems",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-jefferson-public-radio-rhythm-and-news",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-joe-harnett-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-k-94-7-wklw",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-k104",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-k104",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kabl-960",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kber-101-1-fm-ogden-ut",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kcyn-radio-moab",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-khvl",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kios",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kokc-news-talk-1520-oklahoma-city-ok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-krje-89-9-fm-northeast-iowa-christian-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-krpx-95-3-the-peak",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-krxf-92-9",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-krxo-104-5-hd2-oklahoma-city-ok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-krxo-hd3-exitos-96-5-oklahoma-city-ok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ksnb-sb-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktis-faith-900-900-am-minneapolis-mn",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktlt-98-1-the-phantom",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktop-fm-102-9-nash-icon-st-marys-ks",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktuh-org",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktuz-106-7-la-z-okarche-ok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ktuz-106-7-la-z-okarche-ok",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kusc",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kwhk-95-9-fm-hutchinson-ks",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kwsc-fm-91-9-the-cat-128k-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kwyg-wyoming-gospel-radio-98-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-kxix-94-1-power-94-sunriver-or",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-la-pantera-103-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-la-pantera-810",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-la-pantera-810",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-lofi-afrobeats-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-lounge24-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-madison-county-sheriff-fire-and-ems-anderson-pol",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-mayradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-minky-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-minky-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-moptop-radio-the-beatles-mp3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-morioh-cho-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-mundoradio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-new-york-city-area-noaa-weather-radio-kwo35",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-noaa-weather-radio-dallas-texas-kec56",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-nothing-but-oldies",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-nothing-but-oldies",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-oldies-funhouse-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-oldies-funhouse-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-olympia-s-classic-rock",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-oneida-herkimer-and-madison-counties-public-safe",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-onondaga-county-public-safety-vhf-syracuse-ny",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-pan-african-allstars-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-pittsburgh-police-fire-and-ems",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-planet-radio-106-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-plus-radio-klinci",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-plus-radio-narodna",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-q107-5",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-radio-latina-107-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-radio-nueva-vida-kmro",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-radio-retromix",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-radio-showbiz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-radio-singham",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-riderradiorocks-com",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-riderradiorocks-com",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-rivercom-chelan-douglas-county-dispatch",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-rockaway-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-scanner",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-smooth-r-b-105-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-smooth-r-b-105-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-solteros",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-sports-56-whbq",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-star-94-3",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-sunny-105-wtmr-db-and-103-9-wsor-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-the-jim-rome-show",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-tiki-bar-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-tillamook-county-police-ems-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-unified-arts-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-untidy-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-ventilla",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-vinyl-online-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-vinyl-times-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-vpm-music",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-war-room-with-owen-shroyer-infowars",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wcfa-101-5-cape-may",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wclo-1230-am-janesville-wi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wcrs-lp-columbus-community-radio-98-3-and-92-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wcrs-lp-columbus-community-radio-98-3-and-92-7",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wcts-live",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-whcr-90-3-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-whot-101-1-hot-101-youngstown-oh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wios",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wlpr-89-1-lakeshore-public-radio-lowell-in",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-worc-fm-nash-icon-98-9-webster-ma",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wpnc-fm-magic-95-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wpnc-fm-magic-95-9-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wrak-1400-am",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wrbx-rva-boombox",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wrct",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wrox-96x-96-1-exmore-va",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wrox-96x-96-1-exmore-va",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wtar-sports-radio-850-96-5-norfolk-va",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wtar-sports-radio-850-96-5-norfolk-va",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wtbq-radio-worth-listening-to",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wunh-91-3-university-of-new-hampshire-durham-nh",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wvcw",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-wvcw",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-yes-fm-worship",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-yesterday-usa-blue-network",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-yesterday-usa-red-network",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "us-zamrock-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uy-espacio-sport-91-5-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uy-radio-cristal-am-1470-las-piedras",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uy-radio-felicidad-uruguay",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uy-radio-patria",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uy-radio-rio-branco",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "uz-islom-uz",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ve-dj-carlos-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ve-imaginacion-96-1-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ve-minoradiodj",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ve-radio-2000",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ve-total-92-7-maturin",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-cand",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-kien-giang-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-kien-giang-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-kien-giang-tv",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-kien-giang-tv-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-kien-giang-tv-1",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-voh-am-610",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "vn-voh-fm-95-6",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "ye-sayun-radio",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-aganang-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-aganang-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-gagasi-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-inanda-fm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-izwi-lomzansi",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-metro-fm-south-africa",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "za-yfm",
+      "why": "circuit-breaker"
+    },
+    {
+      "id": "zw-nehanda-radio",
+      "why": "circuit-breaker"
+    }
+  ]
+}
