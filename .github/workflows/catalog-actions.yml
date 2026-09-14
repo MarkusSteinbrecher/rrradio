@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Mint the bot token
         id: app
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.RRRADIO_BOT_APP_ID }}
           private-key: ${{ secrets.RRRADIO_BOT_PRIVATE_KEY }}
