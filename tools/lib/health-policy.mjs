@@ -6,7 +6,10 @@
  * (`tools/decide-actions.mjs`) owns all I/O and the tests need no network.
  *
  * Rules, in order (the ADR's table — keep the numbering in sync):
- *   1 circuit breaker      too many bad / too many candidates → nothing is automatic
+ *   1 circuit breaker      too many bad today / too many *fresh* candidates
+ *                          (streaks that crossed their threshold today) →
+ *                          nothing is automatic. The backlog of older
+ *                          candidates never trips it — it drains at the cap
  *   2 hard streak ≥ 3      long tail: unpublish · curated: review
  *   3 soft streak ≥ 5      long tail: needs the edge to agree · curated: review
  *   4 fold canonical       skipped (`fold-canonical`): no status flip can pass
@@ -40,7 +43,12 @@ export const SOFT_DAYS = 5;
 export const OK_DAYS = 3;
 /** Rule 1: share of `bad` among the latest stream verdicts. */
 export const BAD_SHARE_LIMIT = 0.15;
-/** Rule 1: unpublish candidates as a share of the published catalog. */
+/** Rule 1: *fresh* unpublish candidates (crossed the threshold today) as a
+ *  share of the published catalog. Live lesson 2026-09-11→26: counting the
+ *  whole backlog (~1,600 escalated dead long-tail streams, 5 % of the
+ *  catalog) tripped the breaker every day for 16 days while the 200/day
+ *  cap could have drained it in a week. A runner failure shows up as a
+ *  spike of fresh candidates; a backlog is just work. */
 export const CANDIDATE_SHARE_LIMIT = 0.02;
 export const DEFAULT_CAPS = Object.freeze({ auto: 200 });
 /** The `brokenBy` marker that makes a YAML row bot-managed. */
@@ -112,19 +120,25 @@ export function candidateSwapIds(actions) {
 
 /**
  * Rule 1. Either trigger means "the runner, not the internet, is probably
- * broken": act on nothing, but say why.
+ * broken": act on nothing, but say why. `freshCount` is the number of
+ * candidates whose streak reached its threshold today, not the backlog.
  * @returns {string|null} a reason when tripped
  */
-export function circuitBreakerReason(metrics, candidateCount, published) {
+export function circuitBreakerReason(metrics, freshCount, published) {
   const s = metrics?.stream;
   const total = (s?.ok ?? 0) + (s?.warn ?? 0) + (s?.bad ?? 0);
   if (s && total > 0 && s.bad / total > BAD_SHARE_LIMIT) {
     return `bad share ${(100 * s.bad / total).toFixed(1)}% > ${BAD_SHARE_LIMIT * 100}%`;
   }
-  if (published > 0 && candidateCount / published > CANDIDATE_SHARE_LIMIT) {
-    return `${candidateCount} candidates > ${CANDIDATE_SHARE_LIMIT * 100}% of ${published} published`;
+  if (published > 0 && freshCount / published > CANDIDATE_SHARE_LIMIT) {
+    return `${freshCount} fresh candidates > ${CANDIDATE_SHARE_LIMIT * 100}% of ${published} published`;
   }
   return null;
+}
+
+/** A streak that reached its threshold today (one row per distinct day). */
+function isFresh(s) {
+  return s.c === 'hard' ? s.n === HARD_DAYS : s.n === SOFT_DAYS;
 }
 
 /**
@@ -205,7 +219,7 @@ export function decide({
     if (!publishedIds.has(id) || s.o !== 'bad') continue;
     const past = (s.c === 'hard' && s.n >= HARD_DAYS) || (s.c === 'soft' && s.n >= SOFT_DAYS);
     if (!past) continue;
-    unpublishCandidates.push({ id, y, streak, tier: tierFor(id, tiers, y, highlightIds) });
+    unpublishCandidates.push({ id, y, streak, tier: tierFor(id, tiers, y, highlightIds), fresh: isFresh(s) });
   }
 
   // ─── rule 8 candidates (phase 3) — thresholds only ────────────────
@@ -227,7 +241,7 @@ export function decide({
 
   // ─── rule 1 ───────────────────────────────────────────────────────
   const published = publishedIds.size || metrics?.published || 0;
-  const breaker = circuitBreakerReason(metrics, unpublishCandidates.length, published);
+  const breaker = circuitBreakerReason(metrics, unpublishCandidates.filter((c) => c.fresh).length, published);
   if (breaker) {
     const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates]
       .map(({ id }) => ({ id, why: 'circuit-breaker' }))

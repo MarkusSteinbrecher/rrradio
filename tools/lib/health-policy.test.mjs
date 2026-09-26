@@ -196,6 +196,21 @@ describe('rule table', () => {
 });
 
 describe('rule 1 — circuit breaker', () => {
+  it('a backlog of old candidates never trips it — only streaks that crossed the threshold today count', () => {
+    // 5 hard candidates on 100 published = 5 %, but only one reached
+    // HARD_DAYS today; the other four are backlog that drains at the cap.
+    const spec = {
+      fresh: { streak: bad('hard', 3), tier: 'long-tail', detail: 'HTTP 404' },
+      old1: { streak: bad('hard', 4, '2026-09-01'), tier: 'long-tail', detail: 'HTTP 404' },
+      old2: { streak: bad('hard', 9, '2026-08-28'), tier: 'long-tail', detail: 'dns' },
+      old3: { streak: bad('soft', 6, '2026-08-30'), tier: 'long-tail', detail: 'timeout', edge: EDGE_BAD },
+      old4: { streak: bad('hard', 12, '2026-08-25'), tier: 'long-tail', detail: 'refused' },
+    };
+    const r = decide(scenario(spec, { pad: 95 }));
+    expect(r.circuitBreaker).toBe(false);
+    expect(r.actions.filter((a) => a.action === 'unpublish').map((a) => a.id).sort()).toEqual(['fresh', 'old1', 'old2', 'old3', 'old4']);
+  });
+
   it('trips on a bad share above 15 % and skips every candidate, republish included', () => {
     const r = decide(
       scenario(
@@ -223,7 +238,7 @@ describe('rule 1 — circuit breaker', () => {
     for (let i = 0; i < 97; i += 1) spec[`fine${i}`] = { streak: ok(5), tier: 'long-tail' };
     const r = decide(scenario(spec, { pad: 0 })); // 3 of 100 published = 3 %
     expect(r.circuitBreaker).toBe(true);
-    expect(r.circuitBreakerReason).toBe('3 candidates > 2% of 100 published');
+    expect(r.circuitBreakerReason).toBe('3 fresh candidates > 2% of 100 published');
     expect(r.skipped.map((s) => s.id).sort()).toEqual(['s0', 's1', 's2']);
   });
 
