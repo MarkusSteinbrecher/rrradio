@@ -1423,6 +1423,30 @@ a.settings-row { text-decoration: none; }
 .list-item--lib > .list-item__del {
   margin-right: -5px;
 }
+/* Library-home card play control (iOS LibraryHomeCardContent parity):
+   plays the list as a queue; while the list is the active queue it swaps
+   the play glyph for the now-playing equalizer. */
+.list-item__play {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.list-item__play svg { width: 14px; height: 14px; margin-left: 2px; }
+.list-item__play:hover:not(:disabled) { border-color: var(--accent); }
+.list-item__play:active:not(:disabled) { transform: scale(0.94); }
+.list-item__play:disabled { opacity: 0.35; cursor: default; }
+.list-item__play .eq { display: none; }
+.list-item__play.is-active { border-color: var(--accent); }
+.list-item__play.is-active svg { display: none; }
+.list-item__play.is-active .eq { display: inline-flex; }
 .list-item__strip {
   display: flex;
   align-items: center;

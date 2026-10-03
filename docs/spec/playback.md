@@ -106,12 +106,16 @@ station. Live streams disable seek / skip-by-time controls.
 - Previous/next media controls should not jump to unrelated catalog stations
   when the user is in a curated list or station list.
 
-Web platform note: the web app does not yet implement this queue model. Its
-Media Session previous/next handlers always step through the user's favorites
-(circularly, jumping to the first/last favorite when the current station is not
-a favorite), regardless of the list, browse result, or recents the user is
-viewing. The browse/list/recents queues above are product intent for web, not
-shipped behavior (see Platform Matrix).
+Web platform note (`src/queue.ts`): the active queue is the context the station
+was started from — an open station list or Favorites (resolved live, so edits and
+reorders apply), or Recents / the Browse or search result (snapshotted at play
+time). Unlike the single-station rule above, a station started outside a known
+context (deep link, map, featured card) falls back to **Favorites**, as does a
+queue whose list was deleted or emptied (owner decision, #612/#613). Now Playing
+prev/next, the mini-player prev/next and the Media Session previous/next handlers
+all step this queue circularly; a station not in the queue jumps to the first
+(next) or last (previous) entry. Previous/next are not disabled for one-station
+queues; they no-op.
 
 ## Testing Expectations
 
@@ -135,7 +139,7 @@ Status words per the [README](README.md) status legend.
 | Lock-screen / system now-playing | Partial (browser-dependent). | Reference. | Supported. |
 | Headphone / Bluetooth transport | Partial (browser-dependent). | Reference. | Supported. |
 | Background playback | Partial. | Reference. | Supported. |
-| Active playback queue + circular stepping | Partial (favorites-only skip). | Reference. | Supported. |
+| Active playback queue + circular stepping | Supported (list / favorites / recents / browse-result queues; outside a known context falls back to favorites instead of a single-station queue). | Reference. | Supported. |
 | In-app car mode | Not applicable. | Supported. | Planned (no big-button car-route mode yet). |
 | Native vehicle integration | Not applicable. | Partial; CarPlay app implemented, entitlement-gated (issue #51). | Planned (Android Auto ↔ CarPlay; no `MediaLibraryService`/Auto metadata yet; open decision). |
 | Watch companion remote | Not applicable. | Supported. | Not applicable. |

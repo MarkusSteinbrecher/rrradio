@@ -35,6 +35,9 @@ src/
   fetchers.json       — fetcher manifest (single source of truth shared
                         between TS runtime and Node tooling, audit #68).
   telemetry.ts        — track() wrapper around GoatCounter's count API.
+  queue.ts            — active playback queue: resolveQueue (list /
+                        favorites / recents / results, favorites fallback)
+                        + circular stepQueue for prev/next.
   types.ts            — shared TypeScript types.
 
   Render layer (audit #77 follow-ups, refs-based for testability):

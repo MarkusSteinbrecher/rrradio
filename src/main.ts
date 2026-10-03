@@ -123,11 +123,13 @@ import {
   ICON_LIST_ADD,
   ICON_MINUS_CIRCLE,
   ICON_PENCIL,
+  ICON_PLAY,
   ICON_PLUS,
   ICON_RECENT,
   ICON_SEARCH,
   ICON_TRASH,
 } from './icons';
+import { isListQueue, resolveQueue, stepQueue, type QueueSource } from './queue';
 import {
   bootstrapTheme,
   applyTheme,
@@ -405,6 +407,9 @@ let $selectDock: HTMLElement | null = null;
 let lastListTab: ListTab = 'browse';
 // Which list is open in the Library detail view (null = the Library home).
 let openListId: string | null = null;
+// Where the current station was started from — previous/next step through
+// it (see ./queue). null = no known context → Favorites.
+let activeQueue: QueueSource | null = null;
 // Add-to-list popup (iOS AddListPopupCard). null when closed. 'addNow' adds the
 // known `station`; 'pickStations' chooses/creates a list then hands off to the
 // Browse select dock. `target` is the chosen existing list or a drafted new
@@ -615,6 +620,9 @@ interface RowOptions {
    *  slot showing the station's current-track art (iOS parity). Browse rows
    *  don't. */
   cover?: boolean;
+  /** Playback context a tap on this row starts — becomes the active queue
+   *  previous/next step through. Omitted → Favorites fallback. */
+  queue?: QueueSource;
 }
 
 function buildRow(
@@ -742,11 +750,11 @@ function buildRow(
     row.append(fav, info, right);
   }
 
-  row.addEventListener('click', () => onRowPlay(station));
+  row.addEventListener('click', () => onRowPlay(station, opts.queue));
   row.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onRowPlay(station);
+      onRowPlay(station, opts.queue);
     }
   });
 
@@ -2094,7 +2102,7 @@ function renderContent(): void {
         return;
       }
       const visible = ordered.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visible));
+      $content.append(rowsGrid(visible, { queue: { kind: 'results', stations: ordered } }));
       const remaining = ordered.length - visible.length;
       if (remaining > 0) {
         $content.append(homeShowMoreButton(remaining));
@@ -2117,16 +2125,17 @@ function renderContent(): void {
       });
       const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
       $content.append(resultsRow(myFiltered.length + results.length));
+      const searchQueue: QueueSource = { kind: 'results', stations: [...myFiltered, ...results] };
       if (myFiltered.length > 0) {
         $content.append(sectionLabel('My stations', myFiltered.length));
         const visibleMy = myFiltered.slice(0, homeViewLimit);
-        $content.append(rowsGrid(visibleMy));
+        $content.append(rowsGrid(visibleMy, { queue: searchQueue }));
         const remainingMy = myFiltered.length - visibleMy.length;
         if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
       }
       if (results.length > 0) {
         $content.append(sectionLabel('Results', results.length));
-        $content.append(rowsGrid(results));
+        $content.append(rowsGrid(results, { queue: searchQueue }));
         if (browseHasMore) {
           $content.append(loadMoreButton());
           pendingLoadMore = (): void => void loadMore();
@@ -2148,7 +2157,7 @@ function renderContent(): void {
     $content.append(resultsRow(all.length, 'All stations'));
     if (all.length > 0) {
       const visibleAll = all.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visibleAll));
+      $content.append(rowsGrid(visibleAll, { queue: { kind: 'results', stations: all } }));
       const remainingAll = all.length - visibleAll.length;
       if (remainingAll > 0) {
         $content.append(homeShowMoreButton(remainingAll));
@@ -2201,7 +2210,7 @@ function renderContent(): void {
       // Desktop lays favorites out as a card grid (iOS landscape tile view);
       // mobile keeps the single-column list. rowsGrid wraps in `.rows`, which
       // is a plain vertical stack on mobile and a card grid at ≥1024px.
-      const grid = rowsGrid(list, { cover: true });
+      const grid = rowsGrid(list, { cover: true, queue: { kind: 'favorites' } });
       $content.append(grid);
       armFavCovers(list);
       // Unfiltered list: edit mode reveals a per-row remove affordance (iOS
@@ -2248,7 +2257,7 @@ function renderContent(): void {
     } else {
       // Recents matches the Favorites layout: iOS-style cards on desktop
       // (single-column stack on mobile) with now-playing cover + track.
-      $content.append(rowsGrid(list, { cover: true }));
+      $content.append(rowsGrid(list, { cover: true, queue: { kind: 'recents', stations: list } }));
       armFavCovers(list);
     }
   }
@@ -2430,6 +2439,7 @@ function renderLibraryIndex(query: string): void {
   // and keep them in sync as the column width changes.
   bindStripResize();
   wrap.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+  syncLibraryCardsPlaying();
   // Reorder the user's lists — the pinned Recents row (.list-item--system) is
   // excluded, so it stays at the tail. Only on the unfiltered home with no
   // create / delete-confirm row in the way. Grip drag on mobile, DnD on
@@ -2563,6 +2573,48 @@ function buildRecentsRow(): HTMLElement {
   return row;
 }
 
+/** Library-home card play control (iOS LibraryHomeCardContent parity):
+ *  plays the list's first station queued against the list. While this list
+ *  is the active queue it shows the now-playing equalizer and toggles
+ *  play/pause instead. Disabled for an empty list. */
+function buildListPlayBtn(list: StationList): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-item__play';
+  btn.dataset.listId = list.id;
+  btn.innerHTML = ICON_PLAY;
+  btn.append(buildEq(false));
+  btn.disabled = list.stations.length === 0;
+  btn.setAttribute('aria-label', `Play ${list.name}`);
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const first = list.stations[0];
+    if (!first) return;
+    if (isListQueue(activeQueue, list.id) && list.stations.some((s) => s.id === currentNP.station.id)) {
+      handlePlayToggle();
+      return;
+    }
+    onRowPlay(first, { kind: 'list', listId: list.id });
+  });
+  return btn;
+}
+
+/** Reflect the active queue on the Library-home card play controls. */
+function syncLibraryCardsPlaying(): void {
+  const id = currentNP.station.id;
+  $content.querySelectorAll<HTMLButtonElement>('.list-item__play').forEach((btn) => {
+    const listId = btn.dataset.listId ?? '';
+    const active = !!id && isListQueue(activeQueue, listId);
+    btn.classList.toggle('is-active', active);
+    btn.querySelector('.eq')?.classList.toggle('paused', currentNP.state !== 'playing');
+    const name = btn.getAttribute('aria-label')?.replace(/^(Play|Pause) /, '') ?? '';
+    btn.setAttribute(
+      'aria-label',
+      `${active && currentNP.state === 'playing' ? 'Pause' : 'Play'} ${name}`,
+    );
+  });
+}
+
 function buildListIndexRow(list: StationList): HTMLElement {
   const row = document.createElement('div');
   row.className = 'list-item list-item--lib';
@@ -2578,6 +2630,7 @@ function buildListIndexRow(list: StationList): HTMLElement {
   info.append(name, buildIconStrip(list.stations, 'Empty list'));
 
   row.append(info);
+  if (!libEditing && listDeleteConfirmId !== list.id) row.append(buildListPlayBtn(list));
 
   // Delete-confirm mode: the row swaps its chevron + trash for an inline
   // "Delete list?" confirm and is no longer clickable.
@@ -2735,7 +2788,7 @@ function renderListDetail(list: StationList, query: string): void {
   }
   // List detail matches the Favorites layout: iOS-style cards on desktop,
   // single-column stack on mobile, with now-playing cover + track.
-  const grid = rowsGrid(stations, { cover: true });
+  const grid = rowsGrid(stations, { cover: true, queue: { kind: 'list', listId: list.id } });
   $content.append(grid);
   armFavCovers(stations);
   // Reorder the list's stations (full, unfiltered list only — a search
@@ -3146,7 +3199,11 @@ function homeShowMoreButton(remaining: number): HTMLButtonElement {
 // Actions
 // ─────────────────────────────────────────────────────────────
 
-function onRowPlay(station: Station): void {
+function onRowPlay(station: Station, queue?: QueueSource): void {
+  // The context this tap came from becomes the active queue for
+  // previous/next (no context → Favorites fallback).
+  activeQueue = queue ?? null;
+  syncLibraryCardsPlaying();
   // If already current and playing → pause; else play & record recent
   if (currentNP.station.id === station.id) {
     handlePlayToggle();
@@ -5035,14 +5092,14 @@ $miniToggle.addEventListener('click', (e) => {
 });
 
 // Mini-player prev/next — same gesture as the lock-screen previous/next
-// controls: cycle backward/forward through favorites.
+// controls: step through the active queue.
 $miniPrev.addEventListener('click', (e) => {
   e.stopPropagation();
-  skipFavorite(-1);
+  skipStation(-1);
 });
 $miniSkip.addEventListener('click', (e) => {
   e.stopPropagation();
-  skipFavorite(1);
+  skipStation(1);
 });
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
@@ -5077,10 +5134,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !$npInfo.hidden) closeStationInfo();
 });
 
-// ── Transport: previous / next — cycle through favorites, the same
+// ── Transport: previous / next — step through the active queue, the same
 // gesture as the mini-player + lock-screen prev/next controls. ──
-$npPrev.addEventListener('click', () => skipFavorite(-1));
-$npNext.addEventListener('click', () => skipFavorite(1));
+$npPrev.addEventListener('click', () => skipStation(-1));
+$npNext.addEventListener('click', () => skipStation(1));
 
 // ── Add the current station to a list (+ button on the name row). ──
 $npAdd.addEventListener('click', () => {
@@ -5262,6 +5319,7 @@ player.subscribe((np) => {
   renderMiniPlayer(np);
   renderNowPlaying(np);
   syncRowPlayingState();
+  syncLibraryCardsPlaying();
 
   // Telemetry: state transitions on the same station. Initial play is
   // already tracked by onRowPlay; here we capture pause/resume cycles
@@ -5380,32 +5438,27 @@ void runQuery();
 // Wake-to-radio left the web app (iOS-only now) — drop its stale keys.
 clearLegacyWakeKeys();
 
-// Lock-screen / Bluetooth / AirPods / CarPlay skip controls. Cycles
-// through the user's favorites — they're curated, stable, and small
-// enough to flip through like radio dial presets. If the currently-
-// playing station isn't in the favorites list, skip jumps to the
-// first (next) or last (prev) entry. No-op when the user has no
-// favorites yet.
-function skipFavorite(direction: 1 | -1): void {
-  const favs = getFavorites();
-  if (favs.length === 0) return;
-  const currentId = currentNP.station.id;
-  const currentIdx = favs.findIndex((s) => s.id === currentId);
-  const nextIdx =
-    currentIdx === -1
-      ? direction === 1
-        ? 0
-        : favs.length - 1
-      : (currentIdx + direction + favs.length) % favs.length;
-  const next = favs[nextIdx];
+// Previous/next — Now Playing, mini-player and the lock-screen /
+// Bluetooth / AirPods / CarPlay controls. Steps circularly through the
+// active queue: the open list, Favorites, Recents or the Browse/search
+// result the station was started from, falling back to Favorites
+// (./queue). No-op when the queue is empty or holds only this station.
+function skipStation(direction: 1 | -1): void {
+  const queue = resolveQueue(activeQueue, {
+    listStations: (id) => getList(id)?.stations,
+    favorites: getFavorites,
+  });
+  const next = stepQueue(queue, currentNP.station.id, direction);
   if (!next) return;
   void player.play(next);
   pushRecent(next);
   track(direction === 1 ? 'lock-skip-next' : 'lock-skip-prev', next.name);
+  // Keep the Recents sub-view and the Library home's Recents strip fresh.
+  if (activeTab === 'recent' || activeTab === 'library') renderContent();
 }
 player.setSkipHandlers(
-  () => skipFavorite(1),
-  () => skipFavorite(-1),
+  () => skipStation(1),
+  () => skipStation(-1),
 );
 
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
