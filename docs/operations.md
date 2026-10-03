@@ -384,7 +384,6 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `curated/<on\|off>` | user toggles curated-only filtering |
 | `map-view/<on\|off>` | user toggles the station map |
 | `theme/<system\|light\|dark>` | user changes theme |
-| `wake/arm` / `wake/disarm` / `wake/fire` / `wake/play-failed` | wake-to-radio lifecycle; title carries local fire timing or station name |
 | `backup-export` / `backup-import` | user exports/imports local favorites/custom stations; title carries counts only |
 | `open-in/show` / `open-spotify` / `open-apple-music` / `open-youtube-music` | user opens a music-service search from Now Playing; no track title is sent |
 | `lock-skip-next` / `lock-skip-prev` | user skips via Media Session controls; title carries the target station name |
@@ -403,8 +402,6 @@ Avoid adding events for high-frequency success paths such as every metadata poll
 | `rrradio.favorites.v2` | favorite station snapshots | until site data is cleared |
 | `rrradio.recents.v2` | 12 most recent station snapshots | capped at 12, until site data is cleared |
 | `rrradio.custom.v1` | custom station snapshots, including user-entered stream URLs | until deleted or site data is cleared |
-| `rrradio.wake.v1` | one armed wake-to-radio station/time snapshot | until fired, disarmed, or site data is cleared |
-| `rrradio.wake.lastTime.v1` | last wake time only | until site data is cleared |
 | theme / UI preference keys | non-sensitive UI choices | until site data is cleared |
 
 **iOS local storage**
