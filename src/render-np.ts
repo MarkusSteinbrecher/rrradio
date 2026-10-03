@@ -4,17 +4,16 @@
  * The biggest refs-based render in the app. Mirrors the mini-player
  * pattern: a `NowPlayingRefs` interface enumerates every element the
  * render writes to, and a small `NowPlayingContext` carries the
- * non-DOM dependencies (armed wake, favorite predicate, popup-clear
+ * non-DOM dependencies (favorite predicate, popup-clear
  * callback). main.ts wires production refs once at boot.
  */
 
 import { countryName } from './country';
-import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
 import { npStatusText } from './np-labels';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
 import type { LyricsResult } from './lyrics';
-import type { NowPlaying, WakeTo } from './types';
+import type { NowPlaying } from './types';
 
 export interface NowPlayingRefs {
   body: HTMLElement;
@@ -53,8 +52,6 @@ export interface NowPlayingRefs {
 }
 
 export interface NowPlayingContext {
-  /** Currently armed wake (if any) — drives the silent-bed masquerade. */
-  armedWake: WakeTo | null;
   /** Favorite predicate. main.ts wires this through to storage; tests
    *  pass a Set / stub so favorite-state can be asserted. */
   isFavorite: (id: string) => boolean;
@@ -69,12 +66,8 @@ export function renderNowPlaying(
   np: NowPlaying,
   ctx: NowPlayingContext,
 ): void {
-  const s = displayStation(np, ctx.armedWake);
-  const wakeBed = isWakeBedActive(np, ctx.armedWake);
+  const s = np.station;
   refs.npName.textContent = s.name || '—';
-  // is-wake-bed dims the cover/logo + overlays a small mute icon so
-  // it's visually obvious the audio is silent right now.
-  refs.body.classList.toggle('is-wake-bed', wakeBed);
 
   if (s.favicon) {
     if (refs.npStationLogo.getAttribute('src') !== s.favicon) {
@@ -108,8 +101,7 @@ export function renderNowPlaying(
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   // iOS-parity split: the album title shows just the song (`trackName`)
   // with the artist on its own line below. Fall back to the combined
-  // `trackTitle` when the metadata source didn't split them (e.g. the
-  // wake-bed masquerade passes a single display string).
+  // `trackTitle` when the metadata source didn't split them.
   const songTitle = (np.trackName ?? '').trim() || (np.trackTitle ?? '').trim();
   refs.npTrackTitle.textContent = hasTrack ? songTitle || '—' : '—';
 
@@ -200,8 +192,8 @@ export function renderNowPlaying(
     refs.npHome.hidden = true;
   }
 
-  refs.npReportBroken.hidden = !s.id || s.id === SILENT_BED_ID;
-  refs.npReportBroken.disabled = !s.id || s.id === SILENT_BED_ID;
+  refs.npReportBroken.hidden = !s.id;
+  refs.npReportBroken.disabled = !s.id;
 }
 
 /** Elements the lyrics pane writes to. The pane's *visibility* (and the

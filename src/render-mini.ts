@@ -7,10 +7,9 @@
  * resulting DOM. main.ts wires the production refs once at boot.
  */
 
-import { displayStation, isWakeBedActive } from './np-display';
 import { miniMetaText } from './np-labels';
 import { faviconClass, stationInitials } from './station-display';
-import type { NowPlaying, Station, WakeTo } from './types';
+import type { NowPlaying, Station } from './types';
 
 export interface MiniRefs {
   /** The clickable mini-player root (hidden when no station selected). */
@@ -86,20 +85,15 @@ export function setMiniCover(refs: MiniRefs, coverUrl?: string): void {
   });
 }
 
-/** Render the mini-player for the given playback + wake state. Hides
- *  the bar when no station is selected; otherwise sets name, meta,
- *  track line, the two art slots (station favicon left, track cover
- *  right), and toggles `is-wake-bed` for the silent-bed dim style. */
-export function renderMiniPlayer(
-  refs: MiniRefs,
-  np: NowPlaying,
-  armedWake: WakeTo | null,
-): void {
+/** Render the mini-player for the given playback state. Hides the bar
+ *  when no station is selected; otherwise sets name, meta, track line
+ *  and the two art slots (station favicon left, track cover right). */
+export function renderMiniPlayer(refs: MiniRefs, np: NowPlaying): void {
   if (!np.station.id) {
     refs.mini.hidden = true;
     return;
   }
-  const display = displayStation(np, armedWake);
+  const display = np.station;
   refs.mini.hidden = false;
   refs.miniName.textContent = display.name;
   refs.miniMeta.textContent = miniMetaText(np);
@@ -112,10 +106,7 @@ export function renderMiniPlayer(
     refs.miniTrack.hidden = true;
   }
   // Left slot: always the station favicon. Right slot: the track-level
-  // cover when we have one — but never during silent-bed wake playback
-  // (the bed is silence, so there's no album art to show).
+  // cover when we have one.
   setMiniArt(refs, display);
-  const cover = isWakeBedActive(np, armedWake) ? undefined : np.coverUrl;
-  setMiniCover(refs, cover);
-  refs.mini.classList.toggle('is-wake-bed', isWakeBedActive(np, armedWake));
+  setMiniCover(refs, np.coverUrl);
 }

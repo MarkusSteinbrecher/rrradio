@@ -1,6 +1,5 @@
-/** Animated linear volume fade from `from` to `to` over `durationMs`
- *  (rAF-driven, so it tracks the wall clock). Used by the sleep-timer
- *  fade-out (sleepFade.ts). Returns a cancel function. */
+/** Animated volume fade (sleep-timer fade-out, sleepFade.ts). RAF-driven so it tracks the wall clock, not
+ *  setTimeout drift. Returns a cancel function. */
 export function fadeVolume(
   setVolume: (v: number) => void,
   from: number,
