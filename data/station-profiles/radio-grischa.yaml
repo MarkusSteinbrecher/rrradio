@@ -1,0 +1,124 @@
+id: radio-grischa
+
+identity:
+  name: Radio Grischa
+  shortName: Grischa
+  tagline: Das Radio vu do
+  positioning: Das erste Privatradio Graubündens — aktueller Pop und regionale Nachrichten aus dem Südosten
+  logo:
+    url: https://assets.radioplayer.org/756/756108/600/600/m4cejas6.jpeg
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Somedia AG
+  group: Somedia
+  foundedYear: 1988
+  headquarters: { city: Chur, address: "Sommeraustrasse 32, 7007 Chur", canton: GR }
+
+profile:
+  description: >-
+    Graubünden's first private radio station, on air since 1988. Plays a current
+    pop/Hot AC rotation alongside strong regional news coverage for the cantons
+    of Graubünden, Glarus, and parts of St. Gallen.
+  format: Hot AC
+  contentMix: { music: 0.80, talk: 0.20 }
+  targetAudience: adult listeners across Graubünden and the eastern Swiss arc
+  distinctive: >-
+    Deeply embedded in the alpine southeast — weekly Romansh-language
+    segment (Minutas Rumantschas), agricultural features (Grischa goht go
+    puura), and a live studio webcam stream alongside the audio broadcast.
+    Backed by the Somedia regional media house.
+
+music:
+  genres: [pop, dance, Hot AC, R&B]
+  languageShare: { intl: high, de: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.radiogrischa.ch/sites/default/files/ftp/RSO4web.xml
+    tracks:
+      - { artist: Gabrielle, title: Rise }
+      - { artist: Joel Corry, title: "Head & Heart (feat. MNEK)" }
+      - { artist: Lewis Capaldi, title: Almost }
+      - { artist: Rudimental, title: "Sun Comes Up (feat. James Arthur)" }
+      - { artist: Justin Bieber, title: Love Yourself }
+      - { artist: Alex Warren, title: Fever Dream }
+      - { artist: Sido, title: "Astronaut (feat. Andreas Bourani)" }
+
+programming:
+  flagshipShows:
+    - { name: Info Kompakt, when: "Mon–Fri 17:05", note: "regional news and background from Südostschweiz" }
+    - { name: Grischa Talk, when: "Tue 06:00 (rpt various)", note: "in-depth regional interview series" }
+    - { name: Grischa Soundcheck, when: "Fri 09:40", note: "new music by local GR/GL/SG artists — Livio Biondini" }
+    - { name: Minutas Rumantschas, when: "weekly", note: "Romansh-language news and culture — Lucas Batista, Cristina Rantra" }
+    - { name: Grischa goht go puura, when: "Mon 08:00", note: "agricultural profiles across Graubünden" }
+    - { name: Spirit, when: "Sun 09:00 (rpt Mon 20:00)", note: "religious and ethical discussion" }
+    - { name: Sportmagazin, when: "weekly", note: "regional sports" }
+  presenters:
+    - Hanna Ambühl
+    - Katharina Balzer
+    - Lucas Batista
+    - Jessica Caprez
+    - Immanuel Giger
+    - Sara Marti
+    - Jessica Müller
+    - Livio Biondini
+  scheduleUrl: https://radiogrischa.ch/sendungen
+
+reach:
+  languages: [de, rm]
+  region: "Kanton Graubünden, Kanton Glarus, Sarganserland + Werdenberg (SG)"
+  geo: [46.8499, 9.5329]   # Chur, GR
+  fm: [89.60, 94.50, 95.10, 97.20, 99.20, 99.70, 100.20, 102.00, 105.00, 107.00]
+  dab: { present: true, region: "SMC channels 7A + 8C; SRG channel 12D" }
+  audienceDaily: 68720   # H2 2025, Mon–Fri, D-CH, 15+
+
+streams:
+  - { url: "https://stream.radiogrischa.ch/radiogrischa/mp3_128/swissradioplayer", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.radiogrischa.ch/radiogrischa/aac_96/hoerer", codec: aac, bitrate: 96, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.radiogrischa.ch/sites/default/files/ftp/RSO4web.xml
+  type: json   # WDDX XML (past/present/future song elements), polled every 5 s; no standard type enum match
+  cors: false
+  coverArt: false
+
+presence:
+  homepage: https://www.radiogrischa.ch
+  socials:
+    facebook: https://www.facebook.com/suedostschweiz
+    instagram: https://www.instagram.com/radiogrischa.official/
+  contact:
+    email: studio@radiogrischa.ch
+    tel: "+41 81 255 55 55"
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Grischa
+  affiliations: [Somedia, Radioplayer CH]
+
+identifiers:
+  catalogId: ch-radio-grischa
+  stationuuid: db6893f4-cead-4749-83e6-a1b1dfb6f61b
+  rpuId: NzU2fjEwOA
+
+meta:
+  status: fetcher-todo   # stream plays; XML now-playing endpoint found but needs proxy (no CORS) + WDDX parser
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_Grischa
+    owner: de.wikipedia.org/wiki/Radio_Grischa
+    audienceDaily: de.wikipedia.org/wiki/Radio_Grischa (H2 2025)
+    fm: radiogrischa.ch/empfang
+    dab: de.wikipedia.org/wiki/Radio_Grischa
+    nowPlayingEndpoint: radiogrischa.ch homepage drupal-settings-json (playlist_api key)
+    tracks: live sample from RSO4web.xml 2026-06-22
+    address: radiogrischa.ch/kontakt
+    presenters: radiogrischa.ch/team
+  updatedAt: 2026-06-22
+  notes: >-
+    Now-playing is a WDDX XML (past/present/future, refreshed every 5 s) at RSO4web.xml —
+    no CORS headers → worker proxy + XML parser needed; a separate RadioWebExport.xml
+    exposes the current moderator name. The site also streams a live studio webcam
+    (HLS at somedia-hls.streaming.deliver.media) but this is a visual-radio extra,
+    not the main audio stream. geo set to Chur (station HQ), not the seed's [46.948, 7.447]
+    (which falls near Bern — likely a placeholder from the enrichment table).

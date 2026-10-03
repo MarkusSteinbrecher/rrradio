@@ -517,16 +517,6 @@ const HOME_VIEW_PAGE_SIZE = 100;
 let homeViewLimit = HOME_VIEW_PAGE_SIZE;
 let lastViewSig = '';
 
-// Home-view "Worldwide" pagination — separate from filtered-browse
-// state because the home view shows the full curated catalog first
-// (no RB calls), and we only fetch RB top stations on demand when
-// the user clicks Load more. Persists across mode/filter switches
-// so the user doesn't lose loaded stations by tabbing away.
-let homeRbStations: Station[] = [];
-let homeRbOffset = 0;
-let homeRbHasMore = true;
-let homeRbLoading = false;
-
 // SVG icon constants live in ./icons (audit #77 — split large modules).
 
 // ─────────────────────────────────────────────────────────────
@@ -1009,31 +999,15 @@ function sectionLabel(
   return wrap;
 }
 
-
 /** Tabs that live under the Library nav button: the Library home and its
  *  Recents sub-view. (Favorites is its own top-level tab, not grouped here.) */
 function isLibraryTab(tab: Tab): boolean {
   return tab === 'library' || tab === 'recent';
 }
 
-// Played-stations data sources. Two fetches feed the Browse home view:
-//
-//   /api/public/top-stations  — names + play counts from GoatCounter
-//                               (edge-cached 1h, always current)
-//   public/station-backlog.json — names → Radio Browser-resolved stream
-//                                 URLs + favicons (regenerated weekly
-//                                 by catalog-watch). Lets us play a
-//                                 popular non-curated station without
-//                                 hitting Radio Browser at render time.
-//
-// The unfiltered Browse view shows the top 10 played, with built-in
-// matches preferred (real logos + curated metadata) and Radio
-// Browser-resolved stubs for the rest.
 // Default to a 7-day window to match the admin dashboard's headline
-// numbers. The Browse home view ("Most played") just wants top-N, the
-// dashboard wants the same window across all metrics.
+// numbers.
 const STATS_DAYS = 7;
-const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${STATS_DAYS}&limit=25`;
 // Public stats sheet uses a single batched endpoint so totals + top
 // stations + locations all come from the same in-Worker snapshot.
 // Splitting them across four endpoints with independent edge-cache
@@ -1041,107 +1015,6 @@ const TOP_STATIONS_URL = `${STATS_WORKER_BASE}/api/public/top-stations?days=${ST
 // "huge differences between devices" — each device could be reading
 // any combination of four different points in time.
 const DASHBOARD_URL = `${STATS_WORKER_BASE}/api/public/dashboard?days=${STATS_DAYS}`;
-
-interface BacklogEntry {
-  name: string;
-  plays: number;
-  alreadyCurated: boolean;
-  streamUrl?: string;
-  verdict: string;
-  favicon?: string;
-  broadcasterGuess?: string;
-}
-
-let topStationNames: string[] | undefined;
-let topStationsFetched = false;
-async function loadTopStations(): Promise<void> {
-  if (topStationsFetched) return;
-  topStationsFetched = true;
-  try {
-    const res = await fetch(TOP_STATIONS_URL);
-    if (!res.ok) {
-      reportWorkerError(new Error(`HTTP ${res.status}`), '/api/public/top-stations', res.status);
-      return;
-    }
-    const data = (await res.json()) as { items?: Array<{ name?: string }> };
-    const names = (data.items ?? [])
-      .map((i) => i.name)
-      .filter((n): n is string => typeof n === 'string' && n.length > 0);
-    if (names.length === 0) return;
-    topStationNames = names;
-    if (activeTab === 'browse') renderContent();
-  } catch (err) {
-    reportWorkerError(err, '/api/public/top-stations');
-  }
-}
-
-let backlogByName: Map<string, BacklogEntry> = new Map();
-let backlogFetched = false;
-async function loadBacklog(): Promise<void> {
-  if (backlogFetched) return;
-  backlogFetched = true;
-  try {
-    const res = await fetch(`${import.meta.env.BASE_URL}station-backlog.json`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) return;
-    const data = (await res.json()) as { items?: BacklogEntry[] };
-    const map = new Map<string, BacklogEntry>();
-    for (const item of data.items ?? []) {
-      if (item?.name) map.set(item.name.toLowerCase(), item);
-    }
-    backlogByName = map;
-    if (activeTab === 'browse') renderContent();
-  } catch {
-    /* silent: non-curated played stations just won't appear */
-  }
-}
-
-function slugForId(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-/** Played stations, mapped to playable Station objects, then backfilled
- *  with the full BUILTIN_STATIONS list so the home view scrolls through
- *  every curated row. Built-ins win over backlog entries (we have logos +
- *  curated metadata for them). Backlog entries with broken/no-RB-match
- *  verdicts are skipped — we can't actually play them, so don't surface
- *  them. Returns the full list; callers slice if they want a cap. */
-function playedStations(): Station[] {
-  const builtinByName = new Map<string, Station>();
-  for (const s of BUILTIN_STATIONS) builtinByName.set(s.name.toLowerCase(), s);
-  const seen = new Set<string>();
-  const ordered: Station[] = [];
-  for (const name of topStationNames ?? []) {
-    const lc = name.toLowerCase();
-    if (seen.has(lc)) continue;
-    const builtin = builtinByName.get(lc);
-    if (builtin) {
-      ordered.push(builtin);
-      seen.add(lc);
-      continue;
-    }
-    const backlog = backlogByName.get(lc);
-    if (backlog?.streamUrl && backlog.verdict !== 'stream-broken' && backlog.verdict !== 'no-rb-match') {
-      ordered.push({
-        id: `played-${slugForId(name)}`,
-        name,
-        streamUrl: backlog.streamUrl,
-        favicon: backlog.favicon,
-      });
-      seen.add(lc);
-    }
-  }
-  // Backfill with every other curated station so the unfiltered home view
-  // exposes the full catalog (sorted: top-played first, then YAML order).
-  for (const s of BUILTIN_STATIONS) {
-    if (!seen.has(s.name.toLowerCase())) {
-      ordered.push(s);
-      seen.add(s.name.toLowerCase());
-    }
-  }
-  return ordered;
-}
 
 // Schedule (program guide) state for the currently-open Now Playing
 // station. Fetched once when NP opens for stations whose broadcaster
@@ -1500,7 +1373,6 @@ $npBody.addEventListener('pointerup', (e) => {
 $npBody.addEventListener('pointercancel', () => {
   swipeActivePointer = null;
 });
-
 
 // Site visit counter (footer of Browse). Pulled from GoatCounter's
 // public counter endpoint — no auth, edge-cached 30 min by GC. We
@@ -2179,7 +2051,8 @@ function resultsRow(count: number, label?: string): HTMLElement {
 
   const countEl = document.createElement('span');
   countEl.className = 'results-row__count';
-  countEl.textContent = label ? `${label} · ${count}` : String(count);
+  const n = count.toLocaleString('en-US');
+  countEl.textContent = label ? `${label} · ${n}` : n;
 
   row.append(back, sort, countEl);
   return row;
@@ -2282,30 +2155,24 @@ function renderContent(): void {
       return;
     }
 
-    // ── Browse all (unfiltered, no query) — RB top + Worldwide ──
-    const refined = refine(lastBrowseStations, { textQuery: '', featuredFirst: true });
-    const worldwide = refine(homeRbStations, { textQuery: '', featuredFirst: false });
-    $content.append(resultsRow(refined.length, 'Top stations'));
-    if (refined.length > 0) {
-      const visibleHome = refined.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visibleHome));
-      const remainingHome = refined.length - visibleHome.length;
-      if (remainingHome > 0) $content.append(homeShowMoreButton(remainingHome));
-      if (browseHasMore) $content.append(loadMoreButton());
-      if (remainingHome > 0) {
+    // ── Browse all (unfiltered, no query) — the whole published catalog ──
+    // Featured first, then the catalog order (or the user's A–Z / Z–A
+    // sort); paged in place, no Radio Browser rows. Custom stations the
+    // user added ride along like they do in search.
+    const all = refine([...BUILTIN_STATIONS, ...getCustom()], { textQuery: '', featuredFirst: true });
+    $content.append(resultsRow(all.length, 'All stations'));
+    if (all.length > 0) {
+      const visibleAll = all.slice(0, homeViewLimit);
+      $content.append(rowsGrid(visibleAll));
+      const remainingAll = all.length - visibleAll.length;
+      if (remainingAll > 0) {
+        $content.append(homeShowMoreButton(remainingAll));
         pendingLoadMore = (): void => {
           homeViewLimit += HOME_VIEW_PAGE_SIZE;
           renderContent();
         };
-      } else if (browseHasMore) {
-        pendingLoadMore = (): void => void loadMore();
       }
     }
-    if (worldwide.length > 0) {
-      $content.append(sectionLabel('Worldwide', worldwide.length));
-      $content.append(rowsGrid(worldwide));
-    }
-    if (homeRbHasMore) $content.append(loadMoreHomeButton());
     maybeAutoFill();
     return;
   }
@@ -3198,11 +3065,14 @@ async function runQuery(): Promise<void> {
   browseLoadingMore = false;
   pendingLoadMore = null;
   const query = $search.value.trim();
-  // Radio Browser is fetched only for a text search or the unfiltered
-  // "Browse all" view. Local filters (genre / country / news / quality)
-  // match the catalog directly — no network — so the discovery landing
-  // and every filtered view skip RB entirely.
-  const needsRb = !inDiscovery() && (query.length > 0 || (browseAll && !hasActiveFilter()));
+  // Radio Browser is fetched only for a text search. "Browse all" and
+  // every filtered view (genre / country / news / quality) list the
+  // published catalog directly — no network. Sponsor decision 2026-09-08:
+  // the unfiltered list must only contain stations the daily probe has
+  // tested; live RB rows never enter the catalog or the health record,
+  // and RB's most-voted record (an http listing of BBC World Service)
+  // used to be the first thing a new visitor tapped — and it failed.
+  const needsRb = !inDiscovery() && query.length > 0;
   if (!needsRb) {
     if (myToken !== queryToken) return;
     lastBrowseStations = [];
@@ -3259,70 +3129,6 @@ async function loadMore(): Promise<void> {
     browseLoadingMore = false;
     renderContent();
   }
-}
-
-/** Normalised station-name key for dedupe across sources. RB's IDs
- *  (stationuuid) and our local IDs ('builtin-fm4', 'rb-bbc-...') don't
- *  overlap, and stream URLs differ across regional / protocol variants
- *  for the same logical station — so name is the most reliable signal
- *  that "BBC World Service" the curated entry and "BBC World Service"
- *  the RB record represent the same thing. */
-function stationNameKey(name: string): string {
-  return name.toLowerCase().trim().replace(/\s+/g, ' ');
-}
-
-/** Home-view Load more — fetches RB's top stations (sorted by
- *  clickcount globally) and appends them under a "Worldwide" section
- *  below the curated catalog. Each click pulls the next PAGE_SIZE.
- *  Anything sharing a name (case-insensitive) with a curated station
- *  or an already-loaded RB station is filtered out so the same row
- *  doesn't appear twice across the home view. */
-async function loadMoreHome(): Promise<void> {
-  if (homeRbLoading || !homeRbHasMore) return;
-  homeRbLoading = true;
-  renderContent();
-  try {
-    const more = await fetchStations(homeRbOffset);
-    // Dedupe against the full home view list (curated + GoatCounter
-    // backlog rows surfaced by playedStations()), not just BUILTIN.
-    // Otherwise non-curated played rows (REYFM-class) reappear in
-    // the Worldwide section.
-    const homeNames = new Set(playedStations().map((s) => stationNameKey(s.name)));
-    const seenNames = new Set(homeRbStations.map((s) => stationNameKey(s.name)));
-    const fresh = more.filter((s) => {
-      const key = stationNameKey(s.name);
-      if (homeNames.has(key) || seenNames.has(key)) return false;
-      seenNames.add(key); // dedupe within this batch too
-      return true;
-    });
-    homeRbStations = homeRbStations.concat(fresh);
-    homeRbOffset += PAGE_SIZE;
-    // Empty response means we've actually exhausted RB's catalog
-    // (or it errored). Anything else is fair game — RB applies its
-    // own dedupe-by-streamUrl which makes the literal page size fall
-    // below PAGE_SIZE on most calls, so we can't use that as a
-    // "hasMore" signal.
-    homeRbHasMore = more.length > 0;
-  } catch {
-    homeRbHasMore = false;
-  } finally {
-    homeRbLoading = false;
-    renderContent();
-  }
-}
-
-function loadMoreHomeButton(): HTMLButtonElement {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'load-more';
-  btn.disabled = homeRbLoading;
-  btn.textContent = homeRbLoading
-    ? 'Loading…'
-    : homeRbStations.length === 0
-      ? 'Show worldwide stations'
-      : 'Load more';
-  btn.addEventListener('click', () => void loadMoreHome());
-  return btn;
 }
 
 function loadMoreButton(): HTMLButtonElement {
@@ -5952,8 +5758,6 @@ void fetchUserRegion().then(() => {
   }
 }
 void runQuery();
-void loadTopStations();
-void loadBacklog();
 restoreWakeOnBoot();
 
 // Lock-screen / Bluetooth / AirPods / CarPlay skip controls. Cycles
