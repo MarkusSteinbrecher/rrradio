@@ -1,4 +1,4 @@
-/** Animated volume fade. RAF-driven so it tracks the wall clock, not
+/** Animated volume fade (sleep-timer fade-out, sleepFade.ts). RAF-driven so it tracks the wall clock, not
  *  setTimeout drift. Returns a cancel function. */
 export function fadeVolume(
   setVolume: (v: number) => void,

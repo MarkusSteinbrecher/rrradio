@@ -135,40 +135,45 @@ test.describe('cold-boot UI', () => {
     expect(errors).toEqual([]);
   });
 
-  // QUARANTINED: the wide-desktop "collapse browse → 3-col" feature is
-  // half-implemented on this branch — the #np-collapse-browse toggle is hidden
-  // (no rule reveals it) and, when shown, it overlaps the .np-back minimize
-  // chevron in the NP's top-left corner (both anchor there), so the control is
-  // unreachable. The 2-col wide layout itself works; only the 3-col collapse is
-  // unfinished. Re-enable once the toggle's placement/visibility is sorted.
-  // Tracked in #643. (Was already red on the branch before go-live.)
-  test.fixme('wide desktop: player is 2-col, browse collapse expands it to 3-col (#521)', async ({
+  test('list detail: trash is a remove-stations edit mode, not delete-list (#641)', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1680, height: 950 });
+    await page.addInitScript(() => {
+      if (localStorage.getItem('rrradio.lists.v1')) return; // seed once
+      localStorage.setItem(
+        'rrradio.lists.v1',
+        JSON.stringify([
+          {
+            id: 'l1',
+            name: 'Jazz',
+            createdAt: 1,
+            stations: [
+              { id: 'test-a', name: 'Station A', streamUrl: 'https://a.example/a.mp3' },
+              { id: 'test-b', name: 'Station B', streamUrl: 'https://b.example/b.mp3' },
+            ],
+          },
+        ]),
+      );
+    });
     await page.goto('/');
-    // Drop into the catalog and play a station with a known schedule.
-    await page.locator('#search').fill('BBC Radio 1');
-    const row = page.locator('#content .row').first();
-    await expect(row).toBeVisible({ timeout: 10_000 });
-    await page.route('**/*.{mp3,aac,m3u8,mp4}', (route) => route.abort());
-    await row.click();
-    await expect(page.locator('body')).toHaveClass(/has-station/);
+    await page.locator('.tab-btn[data-tab="library"]:visible').first().click();
+    await page.locator('.lists-index').getByText('Jazz').first().click();
+    await expect(page.locator('#content .row')).toHaveCount(2);
 
-    // Browse visible → 2 player columns: album + one switchable secondary.
-    // The 'now' pill is dropped (album is always its own column).
-    await expect(page.locator('body')).toHaveClass(/np-twocol/);
-    await expect(page.locator('#content')).toBeVisible();
-    await expect(page.locator('#np-track-row')).toBeVisible();
-    await expect(page.locator('#np-pane-now')).toBeHidden();
+    await page.locator('[aria-label="Remove stations"]').click();
+    await expect(page.locator('#content .row-remove')).toHaveCount(2);
+    await page.locator('.row-remove[aria-label="Remove Station A from Jazz"]').click();
+    // Stays in edit mode; the list itself survives.
+    await expect(page.locator('#content .row')).toHaveCount(1);
+    await expect(page.locator('#content .row-remove')).toHaveCount(1);
+    const stored = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem('rrradio.lists.v1') ?? '[]'),
+    );
+    expect(stored).toHaveLength(1);
+    expect(stored[0].stations.map((s: { id: string }) => s.id)).toEqual(['test-b']);
 
-    // Collapse the browse list → 3 columns (album · schedule · lyrics),
-    // list hidden, all panes shown at once.
-    await page.locator('#np-collapse-browse').click();
-    await expect(page.locator('body')).toHaveClass(/np-threecol/);
-    await expect(page.locator('#content')).toBeHidden();
-    await expect(page.locator('#np-program-pane')).toBeVisible();
-    await expect(page.locator('#np-lyrics-pane')).toBeVisible();
-    await expect(page.locator('#np-pane-tabs')).toBeHidden();
+    // Toggling the trash again leaves edit mode.
+    await page.locator('[aria-label="Remove stations"]').click();
+    await expect(page.locator('#content .row-remove')).toHaveCount(0);
   });
 });

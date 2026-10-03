@@ -351,7 +351,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; ICY plus broadcaster direct fetchers (GRRIF / ORF) supply artist / title / program, polled on a tick; no full fetcher parity yet. |
 | Cover art fallback | Partial; no-cover falls back to station favicon then initials, not the animated dot-matrix `rrr`. | Reference. | Partial; track cover art resolves (iTunes + broadcaster art) into the artwork frame and mini-player thumb, but the no-cover fallback is the station favicon then initials, not the animated dot-matrix `rrr` (planned). |
-| Previous/next station controls | Partial; in-view prev · play · next cluster plus mini-player skip and lock-screen/Bluetooth controls, all cycling the favorites list (no station-list queue). | Reference. | Supported for active playback queues. |
+| Previous/next station controls | Supported; Now Playing transport, mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported; an inline "Open in" row of brand marks under the track text. | Planned/partial native parity. | Planned. |
@@ -361,7 +361,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Station details surface | Platform-specific: no status strip / expandable panel. Tapping the station logo or the album art opens a station-info popup (iOS `StationInfoPreviewOverlay` parity) with Format / Country / Listeners, stream + site links, and Report broken station. The play-state line sits under the track text. | Reference (status-strip header + expandable panel). | Planned. |
 | Volume control | Desktop only (≥1024px): mute toggle + slider on its own row beneath the transport, level persisted. Hidden on phones (hardware rocker; iOS Safari ignores `audio.volume`). | System volume (hardware / Control Center). | System volume. |
 | Car mode | Not a dedicated web feature. | Supported. | Planned; the foreground MediaSessionService already surfaces a media notification with lock-screen/Bluetooth transport (the Android counterpart to background audio + lock-screen controls), but no Android Auto surface or dedicated car-mode layout yet. |
-| Report broken station | Partial; one-tap report POST from the station-info popup, no category picker / comment / receipt lifecycle. | Supported. | Partial; one-tap "Report broken station" POST from the Now Playing surface with a sent/failed status line, no category picker / comment / receipt lifecycle. |
+| Report broken station | Supported; the station-info Report row opens a category + comment sheet, with a receipt status line and an email fallback (#614). | Supported. | Partial; one-tap "Report broken station" POST from the Now Playing surface with a sent/failed status line, no category picker / comment / receipt lifecycle. |
 
 ## Native Port Notes
 

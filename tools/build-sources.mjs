@@ -96,6 +96,18 @@ for (const entry of catalog) {
     if (key && !catalogByStreamUrl.has(key)) catalogByStreamUrl.set(key, entry);
   }
 }
+// Legacy/aliased RB uuids (renames, pre-HTTPS records) declared via
+// `akaStationUuids` link back to the curated station too. Indexed after the
+// primary uuids so a station's own stationuuid always wins.
+const catalogByAkaUuid = new Map();
+for (const entry of catalog) {
+  if (!entry?.id || !Array.isArray(entry.akaStationUuids)) continue;
+  for (const uuid of entry.akaStationUuids) {
+    if (typeof uuid === 'string' && uuid && !catalogByStationUuid.has(uuid) && !catalogByAkaUuid.has(uuid)) {
+      catalogByAkaUuid.set(uuid, entry);
+    }
+  }
+}
 if (unclassified > 0) {
   console.warn(`build-sources: ${unclassified} catalog entries could not be classified`);
 }
@@ -142,6 +154,8 @@ function findCatalogMatch(candidate) {
   if (candidate.stationuuid) {
     const e = catalogByStationUuid.get(candidate.stationuuid);
     if (e) return { id: e.id, via: 'stationuuid' };
+    const aka = catalogByAkaUuid.get(candidate.stationuuid);
+    if (aka) return { id: aka.id, via: 'akaStationUuid' };
   }
   if (candidate.streamUrl) {
     const e = catalogByStreamUrl.get(normStreamUrl(candidate.streamUrl));

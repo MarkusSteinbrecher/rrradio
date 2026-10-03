@@ -115,7 +115,7 @@ data. See [localization](../contracts/localization.md).
 |---|---|---|---|
 | Three-destination shell (Browse / Favorites / Library) | Supported (sidebar rail ≥1024px; bottom tab bar below). | Reference (bottom tab bar). | Supported (bottom tab bar, canonical order; root tab pager with swipe). |
 | Favorites as its own top-level destination | Supported. | Reference. | Supported. |
-| Library home (user lists + pinned Recents) | Supported; functional rows (icon · name · count) into existing detail views — no favicon-strips, per-card play button, now-playing indicator, or drag-reorder yet. | Reference (card navigator with favicon strips, per-card play, now-playing equalizer, long-press reorder). | Supported (card navigator with long-press reorder). |
+| Library home (user lists + pinned Recents) | Supported; cards with favicon strips (+N more), a per-list play control that plays the list as a queue and shows the now-playing equalizer while that list is the active queue, and drag-reorder (Recents pinned). Recents has no play control; tapping a card favicon does not play. | Reference (card navigator with favicon strips, per-card play, now-playing equalizer, long-press reorder). | Supported (card navigator with long-press reorder). |
 | Library inner page-swiper (Home · lists · Recents) | Not planned for current web (tap-in + back instead of a horizontal swiper). | Reference. | Supported (nested pager; top chrome pinned, updates at settle — deliberate Android adaptation). |
 | Recents under Library only | Supported. | Reference. | Supported. |
 | Landing-page targets | Partial (Browse / Favorites / Library). | Reference (… plus a specific list or a pinned station). | Partial. |
@@ -123,8 +123,6 @@ data. See [localization](../contracts/localization.md).
 
 ## Open questions
 
-- Whether web brings the Library home to full iOS card fidelity (favicon strips,
-  per-card play, now-playing indicator, drag-reorder) or keeps the functional-row form.
 - Whether the web landing preference should gain the deeper iOS targets (a specific
   list, a pinned station).
 

@@ -30,6 +30,10 @@ Apple Music, Spotify, etc. are recorded in YAML with `status: not-public` so we 
 
 `tools/check-catalog.mjs` fails CI on any `http://` `streamUrl` not on a per-station allowlist. Opt out with `httpAllowed: true` in `data/stations.yaml` and a comment explaining why HTTPS isn't available. iOS routes those hosts via per-host `NSExceptionDomains` in `ios/project.yml` — App Review will reject `NSAllowsArbitraryLoads`. Web add-custom form rejects `http://` up-front (mixed-content blocks playback anyway).
 
+## No http-only pool on the web (2026-10-03, #495)
+
+The ~6k Radio Browser stations that only answer over plain `http://` stay out of the published catalog. **Decision: no blanket http exceptions; rescue is automatic instead.** #689 upgrades RB plain-http stream URLs to https whenever the https variant answers, and the daily probe (ADR 002) republishes a station once it passes three good days. `httpAllowed: true` stays a rare, hand-reviewed per-station opt-out. Web playback can't use http streams anyway (mixed content on an https page). Revisit only for the native apps, where per-host ATS exceptions are possible, and only per station.
+
 ## Strict CSP via `<meta>` + per-page sha256 hashes (audit #75)
 
 `index.html` ships with `'unsafe-inline'` in `script-src` so dev works; `tools/build-station-pages.mjs` rewrites every emitted page's meta-CSP to drop `'unsafe-inline'` and add `'sha256-<hash>'` entries for the inline JSON-LD blocks. Playwright e2e asserts the post-build form. **Never add `'unsafe-eval'`.** The dynamic-text DOM helpers (`statusLine` / `emptyState` in `src/empty.ts`) use `textContent` so an `Error.message` carrying markup can't smuggle DOM. URL safety lives in `src/url.ts` (http(s) allowlist).

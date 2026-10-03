@@ -135,7 +135,7 @@ export/import:
   favorites / custom / lists / recents; settings overwrite). It never wipes.
 - The backup file is the user-controlled sync/transfer mechanism.
 - Current backup scope (v3) is favorites, custom stations, station lists, recents,
-  and settings (theme, landing page, music-service toggles, sidebar/browse-collapsed).
+  and settings (theme, landing page, music-service toggles, sidebar-collapsed).
 - Clearing site data clears the local library.
 
 ## iOS Settings Backup File
