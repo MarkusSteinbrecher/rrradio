@@ -606,14 +606,15 @@ Tokens are semantic rather than platform-specific: `surface`, `surfaceRaised`, `
 
 Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`. They do not alter `src/style.css`, the bundled catalog, or any native app repository. Use **Reset defaults** to clear local edits.
 
-## App Store web pages (`/support`, `/ios`)
+## App Store web pages (`/support`, `/ios`, `/wake-to-radio`)
 
 The iOS App Store listing is backed by two web URLs (issues #582 / #583; iOS tracker rrradio-ios #108):
 
 - `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). A self-contained single file copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves it at a clean extensionless URL. Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
+- `public/wake-to-radio.html` → `https://rrradio.org/wake-to-radio` — the plain-language wake-alarm guide linked from the iOS app's **About → Wake to radio** (#624). Same self-contained, script-free pattern. `docs/wake-to-radio.md` stays as the technical/dev reference.
 - `https://rrradio.org/ios` — **App Store Marketing URL**, now served by the richer "vintage tuner" landing (see below). It replaced the earlier lean `public/ios.html`, which was retired so `/ios` has a single canonical page; the old `/rrradio-ios/` route redirects there via `public/rrradio-ios/index.html`.
 
-`src/static-pages.test.ts` locks support.html's contact/report channels, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
+`src/static-pages.test.ts` locks support.html's contact/report channels, the wake guide's canonical URL and non-technical copy, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html`, `/wake-to-radio` → `wake-to-radio.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
 
 ## iOS app landing page
 
