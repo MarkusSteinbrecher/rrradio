@@ -4,6 +4,7 @@ import {
   extractLabeledImages,
   commonPrefixTokens,
   matchChannelArt,
+  looksLikeChannelLabel,
 } from './channel-art-match.mjs';
 
 describe('labelFromFilename', () => {
@@ -91,5 +92,126 @@ describe('matchChannelArt — Radio Gong 96.3', () => {
 
   it('does not assign the Rock distractor to a chosen channel', () => {
     expect(matches.find((m) => m.url.includes('Rock'))).toBeUndefined();
+  });
+});
+
+// #463: the first broad sweep (#462, `--cc DE --min-family 3`) matched news
+// and programme photos whose caption names the station. Each case below
+// matched (fuzzy) before the label guard; none may match now.
+describe('looksLikeChannelLabel', () => {
+  it.each([
+    'Frau hört SWR1 Baden-Württemberg im Radio',
+    'Fußballfans des SC Freiburg. Symbolfoto.',
+    'ARD-Dialogaktion „Was Deutschland verbindet“ in Sachsen-Anhalt',
+    '(Foto: SR 1)',
+    'Weekend Warmup (Unsplash/ emmanuel)',
+    'Moderatorin im Studio',
+    'Bild: dpa',
+    'SWR3 Podcast',
+    'Logo © Radio Beispiel',
+    'Getty Images',
+    'die neue sendung am abend',
+    'Jetzt einschalten!',
+    // people / programme shots from the 2026-10-03 DE dry-run
+    'Die Moderator*innen von DASDING',
+    'susanne-schwarzbach-chefredakteurin-deutschlandfunk-100',
+    'SWR2 am Samstagnachmittag - Sendungsmotiv',
+    'Das 90s90s Team',
+    'NDR Fernsehen Mecklenburg-Vorpommern',
+  ])('rejects the caption %j', (label) => {
+    expect(looksLikeChannelLabel(label)).toBe(false);
+  });
+
+  it.each([
+    'Gong 96.3 Top 50',
+    'Gong 96.3 Weihnachts Hits',
+    'Gong 96.3 2000er Hits',
+    'Weihnachtshits -om',
+    'CHILL',
+    'bigFM Deutschrap',
+    'SWR1 Baden-Württemberg',
+    'SR 1',
+    'Hits der 80er',
+  ])('accepts the channel name %j', (label) => {
+    expect(looksLikeChannelLabel(label)).toBe(true);
+  });
+
+  it('rejects empty labels', () => {
+    expect(looksLikeChannelLabel('')).toBe(false);
+    expect(looksLikeChannelLabel(null)).toBe(false);
+  });
+});
+
+describe('matchChannelArt — photo-caption false positives (#463)', () => {
+  const cases = [
+    {
+      want: 'swr-swr1-baden-wurttemberg',
+      members: [
+        { id: 'swr-swr1-baden-wurttemberg', name: 'SWR1 Baden-Württemberg' },
+        { id: 'swr-swr1-rheinland-pfalz', name: 'SWR1 Rheinland-Pfalz' },
+        { id: 'swr-swr3', name: 'SWR3' },
+      ],
+      label: 'Frau hört SWR1 Baden-Württemberg im Radio',
+    },
+    {
+      want: 'de-swr-4-freiburg',
+      members: [
+        { id: 'de-swr-4-freiburg', name: 'SWR 4 Freiburg', shortName: 'Freiburg' },
+        { id: 'de-swr-4-stuttgart', name: 'SWR 4 Stuttgart', shortName: 'Stuttgart' },
+      ],
+      label: 'Fußballfans des SC Freiburg. Symbolfoto.',
+    },
+    {
+      want: 'mdr-mdr-sachsen-anhalt',
+      members: [
+        { id: 'mdr-mdr-sachsen-anhalt', name: 'MDR Sachsen-Anhalt' },
+        { id: 'mdr-mdr-sachsen', name: 'MDR Sachsen' },
+        { id: 'mdr-mdr-thuringen', name: 'MDR Thüringen' },
+      ],
+      label: 'ARD-Dialogaktion „Was Deutschland verbindet“ in Sachsen-Anhalt',
+    },
+    {
+      want: 'sr-sr1',
+      members: [
+        { id: 'sr-sr1', name: 'SR 1' },
+        { id: 'sr-sr2', name: 'SR 2 KulturRadio' },
+        { id: 'sr-sr3', name: 'SR 3 Saarlandwelle' },
+      ],
+      label: '(Foto: SR 1)',
+    },
+    {
+      want: 'de-dasding-weekend-warmup',
+      members: [
+        { id: 'de-dasding-weekend-warmup', name: 'DASDING Weekend WarmUp' },
+        { id: 'de-dasding-lautstark', name: 'DASDING Lautstark' },
+      ],
+      label: 'Weekend Warmup (Unsplash/ emmanuel)',
+    },
+  ];
+
+  it.each(cases)('does not give $want the photo captioned $label', ({ members, label }) => {
+    const { matches } = matchChannelArt({ members, candidates: [{ url: 'https://cdn.example/img/IMG_4711.jpg', label }] });
+    expect(matches).toEqual([]);
+  });
+
+  it('falls back to a channel-like filename when the alt text is a caption', () => {
+    const { matches } = matchChannelArt({
+      members: cases[0].members,
+      candidates: [{ url: 'https://swr.example/SWR1 Baden-Württemberg_600x600.ab12cd34.png', label: cases[0].label }],
+    });
+    expect(matches).toEqual([
+      expect.objectContaining({ id: 'swr-swr1-baden-wurttemberg', label: 'SWR1 Baden-Württemberg', exact: true }),
+    ]);
+  });
+
+  it('keeps an exact match even when its label fails the guard', () => {
+    const { matches } = matchChannelArt({
+      members: [
+        { id: 'studio', name: 'Radio X Studio' },
+        { id: 'rock', name: 'Radio X Rock' },
+      ],
+      candidates: [{ url: 'https://x.example/a.png', label: 'Radio X Studio' }],
+    });
+    expect(matches).toEqual([expect.objectContaining({ id: 'studio', exact: true })]);
   });
 });
