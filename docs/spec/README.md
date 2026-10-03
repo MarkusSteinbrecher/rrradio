@@ -141,7 +141,7 @@ targets iOS parity), not "Not planned".
 | Listening history (personal, opt-in, local) | Planned | Reference | Partial (opt-in local log; no dashboard) | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 | Localization / languages | Not planned (English-only; no i18n) | Supported (6 languages) | Planned | [Localization](contracts/localization.md) |
-| Broken-station reports | Partial (fire-and-forget POST; no receipts/category/comment) | Supported (sheet + receipts) | Partial (fire-and-forget POST; no receipts) | [Broken-station reports](contracts/broken-reports.md) |
+| Broken-station reports | Supported (sheet + receipts + status poll) | Supported (sheet + receipts) | Partial (fire-and-forget POST; no receipts) | [Broken-station reports](contracts/broken-reports.md) |
 | Siri / Shortcuts / Spotlight | Planned | Supported | Planned | [Siri & Shortcuts](features/siri-shortcuts.md) |
 | First-run / offline launch | Online-only (boot fetch; no offline/PWA) | Reference | Partial | [First run & offline](features/first-run-offline.md) |
 | Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Watch remote](features/watch-remote.md) |
