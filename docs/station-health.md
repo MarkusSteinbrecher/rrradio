@@ -132,7 +132,9 @@ npm run health -- --concurrency 24 --timeout 5000
   well under 2 h; the old sequential probes could not finish inside a CI job.
 - Writes the `stream/https/icy/metadata/fetcher/program` facets into the
   health record.
-- Still emits `public/station-status.json` for the admin dashboard, same
+- Still emits `public/station-status.json` (legacy — the admin dashboard
+  now reads `station-health.json` directly; only `health-import` still seeds
+  from it), same
   per-station shape as analyze.mjs produced, but **problems-only** (stations
   with at least one `bad` facet, capped at 1000) plus a `totals` block — the
   dashboard grid was never going to render 24k rows.
@@ -464,7 +466,11 @@ PR labelled `catalog-review`. Snapshots and the actions audit trail go to
   knowing anything about the branch.
 - **The weekly digest issue** (label `catalog-quality`): what changed and
   what is worth acting on, rather than the full record.
-- **Admin dashboard** keeps reading `station-status.json` (problems-only).
+- **Admin dashboard** (`/dashboard.html`) station-health card reads
+  `/station-health.json` too: a per-facet freshness header (last run +
+  bad/warn tally, same fresh/stale/dead thresholds as the tracker) and the
+  worst 200 stations failing stream / HTTPS / metadata / fetcher, each
+  linking to its tracker detail page.
 - Anything else (scripts, agents) should read `station-health.json` rather
   than re-deriving health from the individual report files.
 

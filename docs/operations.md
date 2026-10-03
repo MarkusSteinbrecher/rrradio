@@ -662,7 +662,7 @@ The browser never sees the GoatCounter API token. The Worker holds it as a Cloud
 
 Endpoints: `/api/totals`, `/api/top-stations`, `/api/errors`, `/api/reports`, `/api/tabs`, `/api/genres`, `/api/favorites`. All accept `?days=N` (1–90, default 7). Responses cached 5 min at the Cloudflare edge.
 
-The operational cards on the dashboard (Station catalog, Station backlog) render from static same-origin JSON and don't depend on the Worker. When GoatCounter is unreachable or the admin token is invalid, those cards still render — only the telemetry tiles show a fallback message. The per-source inventory lives on `station-tracker.html` (Sources tab), not here.
+The operational cards on the dashboard (Station health — from `/station-health.json`, see [station-health](station-health.md); Station backlog) render from static same-origin JSON and don't depend on the Worker. When GoatCounter is unreachable or the admin token is invalid, those cards still render — only the telemetry tiles show a fallback message. The per-source inventory lives on `station-tracker.html` (Sources tab), not here.
 
 To re-deploy the Worker after editing `src/index.ts`:
 

@@ -9,7 +9,7 @@ import { el, badge, sectionHeader } from './ui';
 
 const REPO = 'https://github.com/MarkusSteinbrecher/rrradio/blob/main';
 
-type Cadence = 'weekly CI' | 'per-commit CI' | 'manual' | 'dev chain';
+type Cadence = 'daily CI' | 'weekly CI' | 'per-commit CI' | 'manual' | 'dev chain';
 
 interface Step {
   title: string;
@@ -59,9 +59,9 @@ const STEPS: Step[] = [
   },
   {
     title: 'Import — promote candidates into the catalog YAML',
-    cadence: ['weekly CI', 'manual'],
+    cadence: ['manual'],
     what: [
-      'The weekly auto-curate step takes GoatCounter top-played stations that are not yet curated, looks them up in Radio Browser, probes the stream, and opens a PR with status: stream-only stubs.',
+      'The auto-curate step of the (now dispatch-only) catalog-refresh workflow takes GoatCounter top-played stations that are not yet curated, looks them up in Radio Browser, probes the stream, and opens a PR with status: stream-only stubs.',
       'Bulk imports of playable candidates go through npm run import-playable (curator-reviewed).',
       'Every entry binds to its Radio Browser record via stationuuid + changeuuid (the drift baseline) + reviewedAt.',
     ],
@@ -85,9 +85,9 @@ const STEPS: Step[] = [
   },
   {
     title: 'Logos — find, license-check, and bundle station art',
-    cadence: ['weekly CI', 'manual'],
+    cadence: ['daily CI', 'manual'],
     what: [
-      'npm run logo-status classifies every favicon (curated local / good remote / weak / generic / non-free wiki / missing) and queues the next action per station; it runs weekly in CI and feeds the logo facet.',
+      'npm run logo-status classifies every favicon (curated local / good remote / weak / generic / non-free wiki / missing) and queues the next action per station; it runs in the daily station-probe workflow as a report only — the logo facet itself comes from the probe’s own logo observations.',
       'Improvement batches run the scrapers: scrape-logos (broadcaster homepages), wiki-logos (Wikimedia Commons), harvest-logos (broadcaster APIs), migrate-nonfree-logos (off the non-free wikipedia namespace).',
       'Provenance and license are recorded per station (faviconSource, faviconSourceUrl, faviconLicense; THIRD_PARTY_NOTICES.md); npm run favicon-variants pre-sizes 76/128/152px WebP bundles.',
     ],
@@ -98,7 +98,7 @@ const STEPS: Step[] = [
   },
   {
     title: 'Publish — build the artifact the apps consume',
-    cadence: ['per-commit CI', 'weekly CI'],
+    cadence: ['per-commit CI', 'manual'],
     what: [
       'npm run catalog merges data/stations.yaml with the cached Radio Browser baseline and writes public/stations.json (committed, so Pages keeps serving even if a build fails). Only working / icy-only / stream-only entries publish.',
       'Per-commit gates block bad merges: check-catalog (YAML ↔ JSON sync, HTTPS-only), check-highlights, check-duplicates (uuid / stream collisions fail CI).',
@@ -111,16 +111,16 @@ const STEPS: Step[] = [
   },
   {
     title: 'Monitor — keep the published catalog honest',
-    cadence: ['weekly CI', 'manual'],
+    cadence: ['daily CI', 'weekly CI', 'manual'],
     what: [
-      'The weekly catalog-watch sweep (Mon 07:00 UTC) refreshes the catalog from Radio Browser, probes every published stream + metadata URL (npm run health), checks RB drift and duplicates, refreshes logo status and the curation backlog, and commits all report artifacts in one push.',
-      'Every check writes per-station verdicts into public/station-health.json — the unified health record this console reads. Verdicts carry the date they last changed; per-facet last-run lives in the record’s runs header (the freshness chips on Overview).',
-      'Homepage liveness (npm run check-homepages, ~18.5k URLs) stays curator-paced; results land in the record when it runs.',
-      'When something needs attention the sweep opens a single tracking issue labelled catalog-watch and closes it when clean. Runtime errors stream into the daily error-watch digest from GoatCounter.',
+      'Measure (station-probe, daily 05:00 UTC, ADR 002): plan-probe picks the day’s targets — the hot set (curated, featured, highlighted, recently played) plus 1/7 of the long tail, plus every station whose stream is currently bad — and a sharded matrix probes stream + logo, appending one observation row per station. Soft failures (timeouts, 403/429, 5xx) are retried once before they count; RB drift is checked on Mondays.',
+      'Derive: derive-health folds the observations into station-health.json (verdicts carry the date they last changed; per-facet last-run lives in the record’s runs header — the freshness chips on Overview), plus failing streaks and play-weighted metrics. All of it lives on the orphan health-data branch, never main; deploy.yml overlays /station-health.json, so this console is at most a day stale.',
+      'Decide + act (catalog-actions, daily 06:00 UTC): decide-actions turns hard (3-day) / soft (5-day) failing streaks — with an edge second opinion and an RB replacement lookup — into unpublish / repair actions. Long-tail changes ship as an auto-merged catalog-actions PR; curated-tier changes go to a catalog-review PR for a human.',
+      'Report: on Mondays the probe opens one catalog-quality digest issue — newly failing, recovered, hot-set failures, metrics deltas. A broken run (tooling, not dead stations) raises a workflow-failure issue. Homepage liveness (npm run check-homepages) stays curator-paced; runtime errors arrive via the daily error-watch digest.',
     ],
     io: [
-      ['input', 'public/stations.json, Radio Browser, station streams'],
-      ['output', 'public/station-health.json + station-status/-drift/-duplicates/-logo-status/-backlog.json, tracking issue'],
+      ['input', 'public/stations.json, data/*.yaml, play telemetry, station streams'],
+      ['output', 'health-data branch (observations, station-health.json, streaks, metrics, dashboard.json), catalog-actions / catalog-review PRs, catalog-quality digest'],
     ],
   },
 ];
@@ -157,7 +157,7 @@ const DOC_LINKS: [string, string][] = [
 ];
 
 function cadenceBadge(c: Cadence): HTMLElement {
-  const kind = c === 'weekly CI' ? 'info' : c === 'per-commit CI' ? 'success' : c === 'manual' ? 'muted' : 'warning';
+  const kind = c === 'weekly CI' || c === 'daily CI' ? 'info' : c === 'per-commit CI' ? 'success' : c === 'manual' ? 'muted' : 'warning';
   return badge(c, kind);
 }
 
