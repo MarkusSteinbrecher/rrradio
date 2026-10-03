@@ -487,6 +487,15 @@
                   <div class="v" id="np-listeners">—</div>
                 </div>
               </div>
+              <!-- Best / Data-saver stream toggle (ADR 001, #623). Only shown
+                   for stations that publish more than one stream variant. -->
+              <div class="np-quality" id="np-quality" hidden>
+                <div class="np-quality__k" id="np-quality-label">Stream quality</div>
+                <div class="seg np-quality__seg" id="np-quality-seg" role="radiogroup" aria-labelledby="np-quality-label">
+                  <button type="button" class="seg__btn" data-quality="best" role="radio" aria-checked="true">Best</button>
+                  <button type="button" class="seg__btn" data-quality="data" role="radio" aria-checked="false">Data saver</button>
+                </div>
+              </div>
               <div class="np-source">
                 <a class="np-source__row" id="np-stream" href="#" target="_blank" rel="noopener noreferrer" hidden>
                   <span class="np-source__k">Stream</span>

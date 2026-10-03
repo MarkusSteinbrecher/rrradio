@@ -64,10 +64,12 @@ All platforms must handle transient stream failure:
 Platform notes:
 
 - Web must treat `HTMLAudioElement` as unreliable after some failures and
-  rebuild source state. Today the web recovery is partial: a stall watchdog
-  detects a frozen `currentTime` and rebuilds the source, but there is no
-  capped/backed-off retry on `error` events and no connectivity monitor, so
-  the network-restore auto-reconnect is not yet wired (see Platform Matrix).
+  rebuild source state. Media `error` events, rejected `play()` loads, fatal
+  hls.js errors and the stall watchdog (frozen `currentTime`) all feed one
+  capped/backed-off retry ladder that rebuilds the source and walks the
+  station's stream variants before surfacing `error` (#95). There is still no
+  connectivity monitor, so the network-restore auto-reconnect is not yet wired
+  (see Platform Matrix).
 - iOS keeps AVPlayer item rebuilding, audio-session interruption handling,
   output-route-loss pause, and media-services-reset recovery as native reference
   behavior; a connectivity monitor drives the network-restore auto-reconnect.
@@ -133,7 +135,8 @@ Status words per the [README](README.md) status legend.
 |---|---|---|---|
 | Start / pause / resume / stop | Supported. | Reference. | Supported. |
 | Source rebuild on new station | Supported. | Reference. | Supported. |
-| Automatic retry (≤3, backoff) | Partial (stall watchdog only). | Reference. | Supported. |
+| Automatic retry (≤3, backoff) | Supported (per variant; falls back down `streams[]` before `error`). | Reference. | Supported. |
+| Stream-quality preference (best / data) | Supported (Now Playing station-info toggle). | Partial (in-app wiring tracked in rrradio-ios#130). | Supported. |
 | Geo-restriction = permanent (no retry) | Supported. | Reference. | Planned (any stream error retries up to the cap; no region-locked permanent-failure path yet). |
 | Network-restore auto-reconnect | Planned. | Reference. | Planned (no connectivity monitor; `ACCESS_NETWORK_STATE` is declared but unused). |
 | Lock-screen / system now-playing | Partial (browser-dependent). | Reference. | Supported. |
@@ -147,8 +150,8 @@ Status words per the [README](README.md) status legend.
 
 ## Open questions
 
-- Listener-selectable stream quality (`best` / `data` / `low`) — no platform
-  ships a tier selector; see [playback-state-machine](contracts/playback-state-machine.md).
+- A third `low` listener tier beyond `best` / `data` — see
+  [playback-state-machine](contracts/playback-state-machine.md).
 - Android Auto support for the first Android port.
 - Whether to deactivate the audio session on a long pause vs. keeping it active
   for instant resume — see Known deviations.

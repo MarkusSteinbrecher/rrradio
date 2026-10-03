@@ -4,7 +4,7 @@ import { reportCatalogError } from './errors';
 import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
-import type { Station } from './types';
+import type { Station, StreamVariant } from './types';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -1788,7 +1788,25 @@ function normaliseStation(raw: unknown): Station | null {
     status: r.status === 'working' || r.status === 'icy-only' || r.status === 'stream-only'
       ? r.status
       : undefined,
+    streams: normaliseStreams(r.streams),
   };
+}
+
+/** Keep `streams[]` (ADR 001) only when it carries ≥ 2 well-formed
+ *  variants; anything else plays `streamUrl` alone. */
+function normaliseStreams(raw: unknown): StreamVariant[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const out: StreamVariant[] = [];
+  for (const v of raw as Partial<StreamVariant>[]) {
+    if (!v || typeof v.url !== 'string' || !v.url) continue;
+    out.push({
+      url: v.url,
+      bitrate: typeof v.bitrate === 'number' ? v.bitrate : undefined,
+      codec: typeof v.codec === 'string' ? v.codec : undefined,
+      tier: v.tier === 'best' || v.tier === 'balanced' || v.tier === 'data' ? v.tier : undefined,
+    });
+  }
+  return out.length >= 2 ? out : undefined;
 }
 
 export function loadBuiltinStations(): Promise<Station[]> {

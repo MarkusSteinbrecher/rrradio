@@ -7,7 +7,10 @@ src/
   main.ts             — boot wiring + glue. Shrinks over time as DOM
                         renders get extracted into refs-based modules.
   player.ts           — AudioPlayer class (HTMLAudioElement, hls.js,
-                        MediaSession, reconnect watchdog).
+                        MediaSession, reconnect watchdog, the retry /
+                        stream-variant fallback ladder, setQualityPref()).
+  stream-select.ts    — pure variant selection: playbackPlan,
+                        selectVariant, retry backoff (ADR 001).
   stations.ts         — catalog + browse-filter helpers
                         (composeBrowseFilter etc.).
   storage.ts          — safe localStorage wrappers (privacy-mode safe)
