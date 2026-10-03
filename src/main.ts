@@ -140,7 +140,9 @@ import {
 } from './theme';
 import { bootstrapAccent, readAccent, setAccent, DEFAULT_ACCENT } from './accent';
 import { safeUrl, urlDisplay } from './url';
-import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
+import { fadeVolume } from './fade';
+import { SLEEP_FADE_MS, SleepFade } from './sleepFade';
+import { classifyStoredWake, formatCountdown, nextFireTime, WakeScheduler } from './wake';
 import type { NowPlaying, Station, WakeTo } from './types';
 
 // ─────────────────────────────────────────────────────────────
@@ -4138,6 +4140,7 @@ function pausePreservingWake(): void {
 // swaps to the silent bed. Outside of wake-armed context, behave
 // like player.toggle().
 function handlePlayToggle(): void {
+  cancelSleepFadeOnUserAction();
   const armed = wakeScheduler.current();
   if (armed && currentNP.station.id === SILENT_BED.id) {
     void player.play(armed.station);
@@ -4175,11 +4178,35 @@ function restoreWakeOnBoot(): void {
 
 wakeScheduler.onTick(syncWakeUi);
 
+// Sleep-timer fade-out (#103): the last SLEEP_FADE_MS of the timer ramp
+// the volume to 0, then a plain pause, then the volume is put back so the
+// next play isn't silent. Uses player.setVolume directly so the fade is
+// neither persisted nor reflected on the volume sliders.
+const sleepFade = new SleepFade({
+  getVolume: () => player.getVolume(),
+  setVolume: (v) => player.setVolume(v),
+  stop: () => {
+    player.pause();
+    sleepIndex = 0;
+    setSleep(0);
+  },
+});
+
+/** A manual action (play/pause, station change, volume drag) during the
+ *  fade means the listener is awake: cancel the fade + timer and restore
+ *  the volume. No-op outside the fade. */
+function cancelSleepFadeOnUserAction(): void {
+  if (!sleepFade.active) return;
+  sleepIndex = 0;
+  setSleep(0);
+}
+
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
     sleepTimer = undefined;
   }
+  sleepFade.cancel();
   if (minutes === 0) {
     $npSleep.classList.remove('is-fav');
     $npSleepChip.hidden = true;
@@ -4191,14 +4218,12 @@ function setSleep(minutes: number): void {
   $npSleepChip.hidden = false;
   $npSleepChip.textContent = `${minutes}m`;
   $npSleep.setAttribute('aria-label', `Sleep timer · ${minutes}m`);
+  // Start the fade SLEEP_FADE_MS before the deadline; the fade's own
+  // timer does the pause at the deadline.
   sleepTimer = window.setTimeout(() => {
-    // pausePreservingWake() instead of bare pause() so the sleep
-    // timer doesn't silently break an armed wake — iOS suspends a
-    // paused tab on lock, which kills the fire callback.
-    pausePreservingWake();
-    sleepIndex = 0;
-    setSleep(0);
-  }, minutes * 60 * 1000);
+    sleepTimer = undefined;
+    sleepFade.start();
+  }, Math.max(0, minutes * 60 * 1000 - SLEEP_FADE_MS));
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -5544,6 +5569,7 @@ function setVolume(v: number, persist = true): void {
 }
 
 function handleVolumeInput(slider: HTMLInputElement): void {
+  cancelSleepFadeOnUserAction();
   const v = Number(slider.value) / 100;
   // Dragging up from a muted state unmutes — the slider becoming the
   // primary control would otherwise feel broken.
@@ -5621,6 +5647,8 @@ player.subscribe((np) => {
       np = { ...np, errorMessage: `${label} — region-locked by the broadcaster.` };
     }
   }
+  // Switching station mid sleep-fade is a manual action: cancel the fade.
+  if (np.station.id !== currentNP.station.id) cancelSleepFadeOnUserAction();
   const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
   const stationChanged = np.station.id && np.station.id !== currentNP.station.id;
   currentNP = np;
