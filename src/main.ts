@@ -39,22 +39,19 @@ import {
 } from './highlights';
 import {
   addCustom,
+  clearLegacyWakeKeys,
   getCustom,
   getFavorites,
   getRecents,
-  getLastWakeTime,
   getString,
-  getWakeTo,
   isFavorite,
   pushRecent,
   removeCustom,
   reorderFavorites,
   setCustom,
   setFavorites,
-  setLastWakeTime,
   setRecents,
   setString,
-  setWakeTo,
   toggleFavorite,
 } from './storage';
 import type { BackupSettings } from './backup';
@@ -102,7 +99,6 @@ import {
 } from './errors';
 import { reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
-import { SILENT_BED_ID } from './np-display';
 import {
   type MiniRefs,
   renderMiniPlayer as renderMiniPlayerImpl,
@@ -141,8 +137,7 @@ import {
 } from './theme';
 import { bootstrapAccent, readAccent, setAccent, DEFAULT_ACCENT } from './accent';
 import { safeUrl, urlDisplay } from './url';
-import { classifyStoredWake, fadeVolume, formatCountdown, nextFireTime, WakeScheduler } from './wake';
-import type { NowPlaying, Station, WakeTo } from './types';
+import type { NowPlaying, Station } from './types';
 
 // ─────────────────────────────────────────────────────────────
 // Constants
@@ -331,15 +326,6 @@ const $npVolumeValue = document.getElementById('np-volume-value') as HTMLElement
 const $npInfo = document.getElementById('np-info') as HTMLElement;
 const $npInfoScrim = document.getElementById('np-info-scrim') as HTMLElement;
 const $npInfoClose = document.getElementById('np-info-close') as HTMLButtonElement;
-// Wake-to-radio lives in a hidden legacy container — its UI is removed from
-// the web player, but the scheduler + silent-bed machinery still drive these.
-const $npWake = document.getElementById('np-wake') as HTMLButtonElement;
-const $npWakeChip = document.getElementById('np-wake-chip') as HTMLElement;
-const $wakeTime = document.getElementById('wake-time') as HTMLInputElement;
-const $wakeArmBtn = document.getElementById('wake-arm-btn') as HTMLButtonElement;
-const $wakeArmLabel = document.getElementById('wake-arm-label') as HTMLElement;
-const $wakeArmMeta = document.getElementById('wake-arm-meta') as HTMLElement;
-const $wakePane = document.getElementById('np-wake-pane') as HTMLElement;
 
 const $addForm = document.getElementById('add-form') as HTMLFormElement;
 const $addError = document.getElementById('add-error') as HTMLElement;
@@ -845,7 +831,6 @@ function armFavCovers(stations: Station[]): void {
 // Render — Mini Player
 // ─────────────────────────────────────────────────────────────
 
-// displayStation + isWakeBedActive live in ./np-display (pure).
 // setMiniArt + renderMiniPlayer live in ./render-mini (refs-based).
 const MINI_REFS: MiniRefs = {
   mini: $mini,
@@ -857,7 +842,7 @@ const MINI_REFS: MiniRefs = {
 };
 
 function renderMiniPlayer(np: NowPlaying): void {
-  renderMiniPlayerImpl(MINI_REFS, np, wakeScheduler.current());
+  renderMiniPlayerImpl(MINI_REFS, np);
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -865,7 +850,7 @@ function renderMiniPlayer(np: NowPlaying): void {
 // ─────────────────────────────────────────────────────────────
 
 // renderNowPlaying lives in ./render-np (refs-based). The local
-// wrapper closes over the production refs, the wake scheduler, and
+// wrapper closes over the production refs and
 // the popup-cleanup callback so the rest of main.ts can call it
 // with just (np).
 const NP_REFS: NowPlayingRefs = {
@@ -901,7 +886,6 @@ const NP_REFS: NowPlayingRefs = {
 
 function renderNowPlaying(np: NowPlaying): void {
   renderNowPlayingImpl(NP_REFS, np, {
-    armedWake: wakeScheduler.current(),
     isFavorite,
     onClearOpenIn: () => {},
   });
@@ -3165,9 +3149,6 @@ function homeShowMoreButton(remaining: number): HTMLButtonElement {
 function onRowPlay(station: Station): void {
   // If already current and playing → pause; else play & record recent
   if (currentNP.station.id === station.id) {
-    // Wake-aware: a tap on the currently-playing row pauses, but if
-    // a wake is armed we swap to the silent bed instead so the wake
-    // doesn't get killed by the iOS lock-screen suspension.
     handlePlayToggle();
     return;
   }
@@ -3805,94 +3786,6 @@ function renderCustomList(): void {
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Wake-to-radio
-// ─────────────────────────────────────────────────────────────
-//
-// One armed wake-to setting at a time. The scheduler in wake.ts
-// handles the timing logic; everything below is glue:
-//   · syncWakeUi() reflects armed state on the bottom alarm icon and
-//     the Arm/Disarm button (which doubles as the "armed pill")
-//   · setWakePane() opens/closes the inline editor on Now Playing
-//   · armWakeFromSheet() persists, arms the scheduler
-//   · onWakeFire() switches station + fades up + notifies
-const wakeScheduler = new WakeScheduler();
-let countdownTickTimer: number | undefined;
-
-/** Show or hide the inline wake-edit pane on Now Playing. The pane
- *  replaces the regular track row when visible (CSS-driven via the
- *  body's `is-wake-edit` class). Wake state (armed / unarmed) is
- *  independent of pane visibility — toggling the pane just shows or
- *  hides the editor. */
-function setWakePane(open: boolean): void {
-  $body.classList.toggle('is-wake-edit', open);
-  $wakePane.hidden = !open;
-  // Mirror the open state on the alarm icon so the user gets clear
-  // feedback that tapping the icon actually did something.
-  syncWakeIconActive();
-  if (!open) return;
-
-  const armed = wakeScheduler.current();
-  // Default to: armed time → user's last-used wake time → 07:00.
-  // Persisting the last-used time means the user doesn't re-pick
-  // 23:00 every night just because they disarmed in the morning.
-  $wakeTime.value = armed?.time ?? getLastWakeTime() ?? '07:00';
-  syncWakeArmButton();
-  // Disable Arm when we don't have a station to arm against. The user
-  // has to play something first; the topbar wake icon's tooltip
-  // surfaces the same idea.
-  // Exclude the silent bed — if a previous wake fired and the station
-  // swap silently failed, currentNP.station is still SILENT_BED, and
-  // arming a wake that targets the silent bed produces silence at fire
-  // time. Treat SILENT_BED as "no station to arm against".
-  const npStation =
-    currentNP.station.id && currentNP.station.id !== SILENT_BED_ID
-      ? currentNP.station
-      : null;
-  const station = armed?.station ?? npStation;
-  $wakeArmBtn.disabled = !station && !armed;
-}
-
-/** Update the Set/Unset button so it doubles as the "armed pill":
- *    Unarmed → label "Set", no meta line
- *    Armed   → label "Unset", meta "07:00 · in 6h 12m"
- *  Called on pane open and after every arm/disarm/tick. */
-function syncWakeArmButton(): void {
-  const armed = wakeScheduler.current();
-  const isArmed = !!armed;
-  $wakeArmBtn.classList.toggle('is-armed', isArmed);
-  if (!isArmed || !armed) {
-    $wakeArmLabel.textContent = 'Set';
-    $wakeArmMeta.hidden = true;
-    $wakeArmMeta.textContent = '';
-    $wakeArmBtn.setAttribute('aria-label', 'Set wake-to-radio');
-    return;
-  }
-  const remain = nextFireTime(armed) - Date.now();
-  $wakeArmLabel.textContent = 'Unset';
-  $wakeArmMeta.textContent = `${armed.time} · ${formatCountdown(remain)}`;
-  $wakeArmMeta.hidden = false;
-  $wakeArmBtn.setAttribute(
-    'aria-label',
-    `Unset — wakes to ${armed.station.name} at ${armed.time}, ${formatCountdown(remain)}`,
-  );
-}
-
-/** Drive the green "active" tint on the bottom alarm icon. The icon
- *  is green whenever the wake-edit pane is open OR a wake is armed,
- *  so it's clear at a glance that the alarm surface is engaged. */
-function syncWakeIconActive(): void {
-  const armed = !!wakeScheduler.current();
-  const open = $body.classList.contains('is-wake-edit');
-  $npWake.classList.toggle('is-fav', armed || open);
-}
-
-/** Toggle the inline wake-edit pane. Wired to the alarm icon at the
- *  bottom of NP controls. */
-function toggleWakePane(): void {
-  setWakePane(!$body.classList.contains('is-wake-edit'));
-}
-
 /** Reflect the muted flag across the mute button + the volume slider's
  *  speaker icon, without re-toggling the audio element. */
 function reflectMuteUi(muted: boolean): void {
@@ -3902,279 +3795,16 @@ function reflectMuteUi(muted: boolean): void {
   $npMute.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
 }
 
-function setMuted(muted: boolean): void {
-  if (player.isMuted() !== muted) player.toggleMute();
-  reflectMuteUi(muted);
-}
-
-// Stub "station" for the silent audio bed. /silence.m4a is a tiny
-// AAC clip (4KB) that loops via audio.loop = true. Playing it keeps
-// the iOS audio session alive on locked screen — iOS treats a tab
-// producing silent samples the same as a tab producing audible
-// audio for tab-suspension purposes. Then at fire time we swap the
-// audio element's source to the wake station; because the session
-// has been continuously active, the swap doesn't need a fresh user
-// gesture and bypasses the autoplay block.
-const SILENT_BED: Station = {
-  id: SILENT_BED_ID,
-  name: 'Silent bed',
-  streamUrl: '/silence.m4a',
-};
-
-function armWakeFromSheet(): void {
-  const time = $wakeTime.value.trim();
-  const armed = wakeScheduler.current();
-  // Prefer the already-armed station so a re-open of the sheet to
-  // change time alone doesn't accidentally reset the target. Falls
-  // back to whatever's currently playing for a fresh arm.
-  // Exclude the silent bed — if a previous wake fired and the station
-  // swap silently failed, currentNP.station is still SILENT_BED, and
-  // arming a wake that targets the silent bed produces silence at fire
-  // time. Treat SILENT_BED as "no station to arm against".
-  const npStation =
-    currentNP.station.id && currentNP.station.id !== SILENT_BED_ID
-      ? currentNP.station
-      : null;
-  const station = armed?.station ?? npStation;
-  if (!time || !station) return;
-  const wake: WakeTo = {
-    time,
-    stationId: station.id,
-    station,
-    armedAt: Date.now(),
-  };
-  setWakeTo(wake);
-  setLastWakeTime(time);
-  wakeScheduler.arm(wake, onWakeFire);
-  syncWakeUi();
-  startCountdownTick();
-  ensureNotificationPermission();
-  // Telemetry: capture the actual values being stored + the resulting
-  // fire delta so the dashboard can flag when arm goes wrong (e.g.
-  // user reports "I set 22:02, pill says 23h" — was the time stored
-  // different, or was the bump rule wrong?).
-  const fireDelta = nextFireTime(wake) - wake.armedAt;
-  const fireMin = Math.round(fireDelta / 60_000);
-  track('wake/arm', `${time} → in ${fireMin}m`);
-  // Sheet stays open — the user just flipped the radio to "Armed" and
-  // wants to see the resulting state. They dismiss explicitly via the
-  // X or by tapping the alarm icon again.
-
-  // Critical: start the silent bed right now while the user gesture
-  // from the Arm tap is still in scope. The bed is a 1-second
-  // silent AAC clip looped via audio.loop = true. From here the
-  // audio element keeps producing samples through the night, the
-  // tab stays alive on lock, and the fire-time station swap stays
-  // within the same active media-playback session — no fresh
-  // gesture needed.
-  //
-  // ALSO: prime a sidecar audio element with the wake station URL
-  // inside the same gesture so it gets its own iOS user-activation
-  // token. At fire time, swap() adopts that primed element. The
-  // activation on the *main* element (the silent bed) appears to
-  // weaken on iOS over hours of idle audio, so a freshly-activated
-  // sidecar is the reliable path for the morning station swap.
-  void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
-    player.setTrackTitle(`Wake to ${wake.station.name} at ${wake.time}`, {
-      track: `Wake to ${wake.station.name} at ${wake.time}`,
-      artist: 'rrradio',
-    });
-  });
-  void player.prime(wake.station);
-}
-
-function disarmWake(persist = true): void {
-  // Capture the originally-armed station before clearing the
-  // scheduler — we restore it as currentNP below so the NP view
-  // doesn't lose the "I was listening to X" thread.
-  const armed = wakeScheduler.current();
-  wakeScheduler.disarm();
-  if (persist) setWakeTo(null);
-  stopCountdownTick();
-  syncWakeUi();
-  track('wake/disarm');
-
-  // If the silent bed is currently playing (i.e. user armed and then
-  // disarmed before fire time), restore the originally-armed station
-  // as currentNP without auto-playing. The NP view goes back to
-  // showing "B1 (paused)" instead of the silent bed, and the user
-  // can hit the play button to resume audio. Falls back to a clean
-  // idle stop if the armed wake had no station for some reason.
-  if (currentNP.station.id === SILENT_BED.id) {
-    if (armed?.station) {
-      player.setStation(armed.station);
-    } else {
-      player.stop();
-    }
-  }
-}
-
-function onWakeFire(wake: WakeTo): void {
-  // Swap from the silent bed to the wake station. Audio session has
-  // been active since arm time (silent bed looping), so the play()
-  // call is treated as continuation, not a fresh autoplay attempt.
-  setWakeTo(null);
-  stopCountdownTick();
-  // Drop the wake-edit pane (if it was left open) so the user lands
-  // on the regular Now Playing track row when they grab the phone —
-  // the alarm has done its job, the editor would just be in the way.
-  setWakePane(false);
-  // Make sure the NP screen itself is visible — if the user was
-  // browsing other tabs when the alarm fired, jump them to the
-  // wake station's NP view so they see what's playing.
-  openNp(true);
-  // Wake state has cleared in the scheduler — sync the chrome so the
-  // bottom alarm icon (and its chip) drop back to neutral. The wake
-  // station starts playing in the swap() below; the visible
-  // "alarm fired" cue is simply that the user's station is on the air.
-  syncWakeUi();
-  track('wake/fire', wake.station.name);
-  // Force-unmute defensively in case the user manually muted before
-  // sleeping. setMuted(true) wasn't called at arm in v2, but the
-  // mute button is still on the UI and the user might have hit it.
-  setMuted(false);
-  player.setVolume(0);
-  // swap() — not play() — so the iOS audio session that the silent
-  // bed kept alive overnight stays continuously active across the
-  // station switch. play() calls teardown() which does
-  // `audio.removeAttribute('src') + audio.load()`, and on iOS Safari
-  // that ends the session — making the next audio.play() a fresh
-  // autoplay attempt that fails with NotAllowedError. swap() prefers
-  // the sidecar primed at arm time (gesture-fresh activation) and
-  // falls back to in-place src swap when no prime is available.
-  void player.swap(wake.station).then(() => {
-    // If swap() landed in 'paused' state, the autoplay block bit us
-    // anyway. Surface to telemetry so we can see in the dashboard
-    // when the wake silently fails despite the prime + swap.
-    const settled = player.getCurrent();
-    if (settled.state === 'paused' || settled.state === 'error') {
-      track('wake/play-failed', `${wake.station.name} → ${settled.state}`);
-    }
-  });
-  // Linear fade from 0 → full over 30 seconds. RAF-driven so it
-  // tracks the wall clock, not setTimeout drift. Audible only on
-  // Android/desktop; iOS Safari forces audio.volume to 1 regardless,
-  // so iOS users wake at the phone's hardware volume immediately.
-  fadeVolume((v) => player.setVolume(v), 0, 1, 30_000);
-  // Notification: best-effort. Browsers limit when this works (must be
-  // visible OR have a service worker). We try and ignore failures.
-  try {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(`Wake to ${wake.station.name}`, {
-        body: `It's ${wake.time} — playing now.`,
-        silent: false,
-      });
-    }
-  } catch {
-    // ignore — audio is the alarm regardless
-  }
-}
-
-function ensureNotificationPermission(): void {
-  if (!('Notification' in window)) return;
-  if (Notification.permission === 'default') {
-    void Notification.requestPermission();
-  }
-}
-
-function startCountdownTick(): void {
-  stopCountdownTick();
-  syncWakeUi();
-  // Update once per minute. The countdown only displays minute
-  // resolution ("in 4h 12m"), so a faster cadence would be wasteful.
-  countdownTickTimer = window.setInterval(syncWakeUi, 60_000);
-}
-
-function stopCountdownTick(): void {
-  if (countdownTickTimer !== undefined) {
-    window.clearInterval(countdownTickTimer);
-    countdownTickTimer = undefined;
-  }
-}
-
-function syncWakeUi(): void {
-  const wake = wakeScheduler.current();
-  if (!wake) {
-    $npWakeChip.hidden = true;
-    $npWakeChip.textContent = '';
-    $npWake.setAttribute('aria-label', 'Wake to radio');
-  } else {
-    $npWakeChip.hidden = false;
-    $npWakeChip.textContent = wake.time;
-    $npWake.setAttribute('aria-label', `Wake to ${wake.station.name} at ${wake.time}`);
-  }
-  syncWakeIconActive();
-  // Keep the merged Arm/Disarm button in sync so its countdown ticks
-  // alongside the chip when the wake-edit pane is open.
-  syncWakeArmButton();
-}
-
-// Wake-aware stop. Pausing the audio element on iOS makes the tab
-// suspendable on lock, which would silently kill an armed wake. So
-// when wake is armed, "stop" means "swap to the silent bed" — audio
-// element keeps producing samples, tab stays alive, and the
-// fire-time swap to the wake station still works. Without an armed
-// wake we just pause normally.
-//
-// Used by the sleep-timer fire and by the user's own play/pause tap
-// while listening to a real station.
-function pausePreservingWake(): void {
-  if (wakeScheduler.current() && currentNP.station.id !== SILENT_BED.id) {
-    void player.play(SILENT_BED, { loop: true, silent: true }).then(() => {
-      const armed = wakeScheduler.current();
-      if (!armed) return;
-      player.setTrackTitle(`Wake to ${armed.station.name} at ${armed.time}`, {
-        track: `Wake to ${armed.station.name} at ${armed.time}`,
-        artist: 'rrradio',
-      });
-    });
-  } else {
-    player.pause();
-  }
-}
-
-// Play/pause click router. On the silent bed with a wake armed, the
-// "play" tap means "let me actually listen now" — swap to the wake
-// station. On a real station with a wake armed, the "pause" tap
-// swaps to the silent bed. Outside of wake-armed context, behave
-// like player.toggle().
+// Play/pause click router. Tap during loading = cancel the connection.
+// Without this the user is stuck waiting on a slow / dead stream with
+// no obvious way out short of opening another station.
 function handlePlayToggle(): void {
-  const armed = wakeScheduler.current();
-  if (armed && currentNP.station.id === SILENT_BED.id) {
-    void player.play(armed.station);
-    return;
-  }
-  // Tap during loading = cancel the connection. Without this the
-  // user is stuck waiting on a slow / dead stream with no obvious
-  // way out short of opening another station. pausePreservingWake
-  // halts the load (and swaps to the silent bed if a wake is
-  // armed, so the wake survives).
   if (currentNP.state === 'playing' || currentNP.state === 'loading') {
-    pausePreservingWake();
+    player.pause();
     return;
   }
   player.toggle();
 }
-
-// Restore any previously-armed wake on app load. If the stored fire
-// time has already passed (browser was closed across the wake window),
-// classifyStoredWake decides whether we still fire (within a 60s grace)
-// or silently clear — see src/wake.ts for the rule.
-function restoreWakeOnBoot(): void {
-  const stored = getWakeTo();
-  if (!stored) return;
-  const verdict = classifyStoredWake(stored);
-  if (verdict !== 'fire') {
-    setWakeTo(null);
-    syncWakeUi();
-    return;
-  }
-  wakeScheduler.arm(stored, onWakeFire);
-  syncWakeUi();
-  startCountdownTick();
-}
-
-wakeScheduler.onTick(syncWakeUi);
 
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
@@ -4193,10 +3823,7 @@ function setSleep(minutes: number): void {
   $npSleepChip.textContent = `${minutes}m`;
   $npSleep.setAttribute('aria-label', `Sleep timer · ${minutes}m`);
   sleepTimer = window.setTimeout(() => {
-    // pausePreservingWake() instead of bare pause() so the sleep
-    // timer doesn't silently break an armed wake — iOS suspends a
-    // paused tab on lock, which kills the fire callback.
-    pausePreservingWake();
+    player.pause();
     sleepIndex = 0;
     setSleep(0);
   }, minutes * 60 * 1000);
@@ -5186,42 +4813,6 @@ function decorateFavoriteRemoval(grid: HTMLElement, list: Station[]): void {
 }
 $dashboardClose.addEventListener('click', () => void openDashboardSheet(false));
 
-// Tap the alarm icon at the bottom of NP controls → toggle the
-// inline wake-edit pane. Second tap exits back to the regular track
-// row; the wake (if armed) persists.
-$npWake.addEventListener('click', toggleWakePane);
-
-// While armed, a change to the clock means "re-arm with this new
-// time" — that's the user's intent when they tap the clock to edit.
-// armWakeFromSheet() handles the disarm-then-arm via wakeScheduler.
-$wakeTime.addEventListener('change', () => {
-  if (wakeScheduler.current()) {
-    armWakeFromSheet();
-    syncWakeArmButton();
-  }
-});
-
-// Single Arm/Disarm button — toggles based on current armed state.
-$wakeArmBtn.addEventListener('click', () => {
-  if ($wakeArmBtn.disabled) return;
-  if (wakeScheduler.current()) {
-    disarmWake();
-  } else {
-    armWakeFromSheet();
-    // armWakeFromSheet bails silently if no station is playing AND no
-    // previous wake station is on file. Surface a one-off hint via
-    // the merged Arm/Disarm button so the user isn't left wondering
-    // why the tap did nothing.
-    if (!wakeScheduler.current()) {
-      $wakeArmLabel.textContent = 'Play a station first';
-      $wakeArmMeta.hidden = true;
-      $wakeArmMeta.textContent = '';
-      return;
-    }
-  }
-  syncWakeArmButton();
-});
-
 // Tapping anywhere on the mini-player bar opens the Now Playing destination
 // (iOS parity) — except the transport + volume controls, which keep their own
 // behavior. prev/toggle/skip already stop propagation; the closest() guard
@@ -5575,7 +5166,7 @@ function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): voi
 
 $npReportBroken.addEventListener('click', async () => {
   const station = currentNP.station;
-  if (!station.id || station.id === SILENT_BED_ID) return;
+  if (!station.id) return;
   setReportBrokenState('sending');
   try {
     await reportBrokenStation(station, currentNP.errorMessage);
@@ -5680,10 +5271,8 @@ player.subscribe((np) => {
   // when audio isn't actively playing. Per-station overrides win
   // (e.g. Grrif uses /live/covers.json); falls back to
   // ICY-over-fetch. Stops automatically when the station is
-  // unloaded (state goes back to idle, station.id becomes ''),
-  // and we deliberately skip the silent-bed station id since it
-  // points at a static file with no ICY metadata.
-  const key = np.station.id && np.station.id !== SILENT_BED.id ? np.station.id : '';
+  // unloaded (state goes back to idle, station.id becomes '').
+  const key = np.station.id;
   if (key !== lastIcyKey) {
     lastIcyKey = key;
     if (key) {
@@ -5759,7 +5348,8 @@ void fetchUserRegion().then(() => {
   }
 }
 void runQuery();
-restoreWakeOnBoot();
+// Wake-to-radio left the web app (iOS-only now) — drop its stale keys.
+clearLegacyWakeKeys();
 
 // Lock-screen / Bluetooth / AirPods / CarPlay skip controls. Cycles
 // through the user's favorites — they're curated, stable, and small

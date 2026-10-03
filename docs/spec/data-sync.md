@@ -47,7 +47,7 @@ does not restate either; it links to them.
 | Station lists | `localStorage`, export/import supported. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
 | Custom stations | `localStorage`, export/import supported. | Local plus optional CloudKit sync; export/import supported. | Local DataStore. |
 | Preferences | Local browser preferences. | Local plus optional CloudKit sync for the synced preference set; export/import supported. | Local-only for first port. |
-| Wake state | Local-only, one armed wake. | Local-only for the active wake intent; wake default-time, notification, and keep-alive preferences sync. | Local-only. |
+| Wake state | Not applicable (no web wake). | Local-only for the active wake intent; wake default-time, notification, and keep-alive preferences sync. | Local-only. |
 | Listening history | Not part of current web storage contract. | Local-only, opt-in, retention-controlled; closed sessions sync to the user's own iCloud (never to the backup file). | Local-only, off by default, opt-in. |
 | Diagnostics | Anonymous production events only. | Local opt-in diagnostic log. | Local opt-in diagnostic log, capped and exportable. |
 | Catalog cache | Browser/runtime cache. | Disk cache and bundled index fallback. | Cache-backed catalog loading; optional search index is deferred. |
