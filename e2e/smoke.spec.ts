@@ -134,4 +134,46 @@ test.describe('cold-boot UI', () => {
     await page.waitForTimeout(500);
     expect(errors).toEqual([]);
   });
+
+  test('list detail: trash is a remove-stations edit mode, not delete-list (#641)', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      if (localStorage.getItem('rrradio.lists.v1')) return; // seed once
+      localStorage.setItem(
+        'rrradio.lists.v1',
+        JSON.stringify([
+          {
+            id: 'l1',
+            name: 'Jazz',
+            createdAt: 1,
+            stations: [
+              { id: 'test-a', name: 'Station A', streamUrl: 'https://a.example/a.mp3' },
+              { id: 'test-b', name: 'Station B', streamUrl: 'https://b.example/b.mp3' },
+            ],
+          },
+        ]),
+      );
+    });
+    await page.goto('/');
+    await page.locator('.tab-btn[data-tab="library"]:visible').first().click();
+    await page.locator('.lists-index').getByText('Jazz').first().click();
+    await expect(page.locator('#content .row')).toHaveCount(2);
+
+    await page.locator('[aria-label="Remove stations"]').click();
+    await expect(page.locator('#content .row-remove')).toHaveCount(2);
+    await page.locator('.row-remove[aria-label="Remove Station A from Jazz"]').click();
+    // Stays in edit mode; the list itself survives.
+    await expect(page.locator('#content .row')).toHaveCount(1);
+    await expect(page.locator('#content .row-remove')).toHaveCount(1);
+    const stored = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem('rrradio.lists.v1') ?? '[]'),
+    );
+    expect(stored).toHaveLength(1);
+    expect(stored[0].stations.map((s: { id: string }) => s.id)).toEqual(['test-b']);
+
+    // Toggling the trash again leaves edit mode.
+    await page.locator('[aria-label="Remove stations"]').click();
+    await expect(page.locator('#content .row-remove')).toHaveCount(0);
+  });
 });

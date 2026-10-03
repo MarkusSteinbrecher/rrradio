@@ -70,6 +70,7 @@ import {
   getList,
   getLists,
   listContains,
+  removeFromList,
   renameList,
   reorderLists,
   reorderListStations,
@@ -450,6 +451,10 @@ let addListState: {
 let listCreateOpen = false; // inline "name your list" row in the lists index
 let listRenameOpen = false; // inline rename input in the list-detail header
 let listDeleteConfirmId: string | null = null; // inline "Delete list?" confirm
+// List-detail edit mode (#641): the header trash toggles a per-row remove
+// (−) affordance, mirroring Favorites' favEditing. Deleting the whole list
+// lives on the Library-home row control.
+let listEditing = false;
 // Browse filter — multi-select, mirroring the iOS BrowseFilter model.
 // Genre ids (from GENRES) and uppercase ISO country codes; News is the
 // in-filter toggle iOS keeps in the Genre section. When ANY of these (or
@@ -2308,6 +2313,7 @@ function resetListUiState(): void {
   listCreateOpen = false;
   listRenameOpen = false;
   listDeleteConfirmId = null;
+  listEditing = false;
 }
 
 /** Inline "name your list" form (input + confirm + cancel) — the in-app
@@ -2736,48 +2742,33 @@ function renderListDetail(list: StationList, query: string): void {
     input?.focus();
     input?.select();
   } else {
-    const actions: HTMLElement[] =
-      listDeleteConfirmId === list.id
-        ? [
-            buildDeleteConfirm(
-              () => {
-                deleteList(list.id);
-                track('list-delete');
-                openListId = null;
-                resetListUiState();
-                renderContent();
-              },
-              () => {
-                listDeleteConfirmId = null;
-                renderContent();
-              },
-            ),
-          ]
-        : [
-            listActionBtn(ICON_PENCIL, 'Rename list', () => {
-              listRenameOpen = true;
-              listDeleteConfirmId = null;
-              renderContent();
-            }),
-            listActionBtn(ICON_TRASH, 'Delete list', () => {
-              listDeleteConfirmId = list.id;
-              renderContent();
-            }),
-          ];
+    const trashBtn = listActionBtn(ICON_TRASH, 'Remove stations', () => {
+      listEditing = !listEditing;
+      renderContent();
+    });
+    if (listEditing) trashBtn.classList.add('is-active');
+    trashBtn.setAttribute('aria-pressed', String(listEditing));
+    const actions: HTMLElement[] = [
+      listActionBtn(ICON_PENCIL, 'Rename list', () => {
+        listRenameOpen = true;
+        listEditing = false;
+        renderContent();
+      }),
+      ...(list.stations.length > 0 ? [trashBtn] : []),
+    ];
     // The "+" enters Browse multi-select targeting this list — on both
     // breakpoints. Mobile additionally adopts the iOS status-bar layout
     // ([back · search] · name · actions); desktop keeps its back-prepended
-    // header and only gains the "+". The inline delete-confirm skips "+" so
-    // its buttons aren't crowded.
+    // header and only gains the "+".
     const wide = matchMedia('(min-width: 1024px)').matches;
-    const confirming = listDeleteConfirmId === list.id;
-    const fullActions = confirming
-      ? actions
-      : [
-          headerActionBtn(ICON_PLUS, 'Add stations to this list', () => enterListSelect(list)),
-          ...actions,
-        ];
-    if (!wide && !confirming) {
+    const fullActions = [
+      headerActionBtn(ICON_PLUS, 'Add stations to this list', () => {
+        listEditing = false;
+        enterListSelect(list);
+      }),
+      ...actions,
+    ];
+    if (!wide) {
       const label = sectionLabel(list.name, stations.length, fullActions, [
         back,
         headerSearchLead('Search this list'),
@@ -2793,6 +2784,7 @@ function renderListDetail(list: StationList, query: string): void {
   }
 
   if (list.stations.length === 0) {
+    listEditing = false;
     $content.append(
       emptyState(
         ICON_LIST,
@@ -2811,9 +2803,19 @@ function renderListDetail(list: StationList, query: string): void {
   const grid = rowsGrid(stations, { cover: true, queue: { kind: 'list', listId: list.id } });
   $content.append(grid);
   armFavCovers(stations);
-  // Reorder the list's stations (full, unfiltered list only — a search
-  // subset isn't the stored order). Grip drag on mobile, DnD on desktop.
-  if (!query) {
+  // Edit mode: per-row remove (−), like Favorites. Otherwise reorder the
+  // list's stations (full, unfiltered list only — a search subset isn't the
+  // stored order). Grip drag on mobile, DnD on desktop.
+  if (listEditing) {
+    decorateRowRemoval(grid, stations, (station) => ({
+      label: `Remove ${station.name} from ${list.name}`,
+      onRemove: () => {
+        removeFromList(list.id, station.id);
+        track('list-remove-station');
+        renderContent(); // stays in edit mode until the list empties
+      },
+    }));
+  } else if (!query) {
     enableReorder(grid, {
       itemSelector: ':scope > .row',
       idOf: (el) => el.dataset.id ?? '',
@@ -4873,19 +4875,35 @@ function toggleHeaderSearch(): void {
 
 /** Prepend a remove (−) button to each favorite card in edit mode. */
 function decorateFavoriteRemoval(grid: HTMLElement, list: Station[]): void {
+  decorateRowRemoval(grid, list, (station) => ({
+    label: `Remove ${station.name} from favorites`,
+    // un-favorites + re-renders (stays in edit mode)
+    onRemove: () => onToggleFav(station),
+  }));
+}
+
+/** Edit mode (iOS delete mode): prepend a red remove (−) button to each
+ *  row of `grid`, which renders `list` in order. Shared by Favorites and
+ *  list detail. */
+function decorateRowRemoval(
+  grid: HTMLElement,
+  list: Station[],
+  removal: (station: Station) => { label: string; onRemove: () => void },
+): void {
   grid.classList.add('rows--editing');
   const rows = grid.querySelectorAll<HTMLElement>(':scope > .row');
   rows.forEach((row, i) => {
     const station = list[i];
     if (!station) return;
+    const { label, onRemove } = removal(station);
     const rm = document.createElement('button');
     rm.type = 'button';
     rm.className = 'row-remove';
-    rm.setAttribute('aria-label', `Remove ${station.name} from favorites`);
+    rm.setAttribute('aria-label', label);
     rm.innerHTML = ICON_MINUS_CIRCLE;
     rm.addEventListener('click', (e) => {
       e.stopPropagation();
-      onToggleFav(station); // un-favorites + re-renders (stays in edit mode)
+      onRemove();
     });
     row.prepend(rm);
   });
