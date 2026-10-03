@@ -1,0 +1,144 @@
+id: radio-life-channel
+
+identity:
+  name: Radio Life Channel
+  shortName: Life Channel
+  tagline: Radio fürs Läbe
+  positioning: >-
+    24/7 christlich inspirierte Musik, Tagesimpulse, Good News und
+    konstruktiver Journalismus — Tiefgang für den Alltag.
+  logo:
+    url: https://assets.radioplayer.org/756/756132/600/600/m2ag7bk4.png
+    source: radioplayer
+
+organization:
+  type: community
+  owner: ERF Medien (Verein, ~40-member carrier association of churches and religious organisations)
+  group: ERF Medien
+  foundedYear: 2005   # launched 1 October 2005; ERF Medien Verein founded 1973
+  headquarters: { city: Pfäffikon ZH, address: "Witzbergstrasse 23, CH-8330 Pfäffikon ZH", canton: ZH }
+
+profile:
+  description: >-
+    Switzerland's first Christian radio, on-air since 1 October 2005.
+    Runs Contemporary Christian Music (CCM) and Swiss Christian pop back-to-back
+    with short daily devotionals, Good News segments, and faith-flavoured talk —
+    the whole thing underpinned by a donation model with ~10,500 supporters.
+  format: Contemporary Christian Music (CCM) / Christian Pop
+  contentMix: { music: 0.80, talk: 0.20 }
+  targetAudience: German-speaking Swiss listeners interested in faith, meaning, and value-oriented content
+  distinctive: >-
+    The only Swiss German-language radio dedicated entirely to Christian music and
+    faith content; no FM frequencies — DAB+ and streaming only. Swiss acts (Luca Hänni,
+    Benaja) mixed with international CCM in a mainstream pop/rock production style.
+
+music:
+  genres: [ccm, christian-pop, christian-rock, gospel, worship, swiss-pop]
+  languageShare: { de: 0.15, en: 0.85 }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://lifechannel.ch/wp-admin/admin-ajax.php (action=playlistdata)
+    tracks:
+      - { artist: Crystal Rome, title: Phoenix }
+      - { artist: Luca Hänni, title: Vertigo }
+      - { artist: Benaja, title: Es ist ok }
+      - { artist: The Walls Group, title: Perfect People }
+      - { artist: Booshle G., title: Best Life }
+      - { artist: The Young Escape, title: Good Life }
+      - { artist: Mary Mary, title: Survive }
+      - { artist: Telecast, title: Face To Face }
+      - { artist: Trella, title: What If? }
+      - { artist: Plumb, title: "Crazy About You (Dave Audé Radio Edit)" }
+      - { artist: John Michael Howell, title: The Wind }
+  topArtists: [Benaja, Luca Hänni, Crystal Rome, Mary Mary, Plumb]
+
+programming:
+  flagshipShows:
+    - { name: Tagesimpuls, when: daily, note: "short daily devotional — Ermutigung zum Tag" }
+    - { name: Glaubenssache, note: podcast — faith discussions }
+    - { name: relevant, note: podcast — weekly magazine format }
+    - { name: positiv, note: podcast — good news / constructive journalism }
+    - { name: Fenstergesprach, note: podcast — talk/interview }
+    - { name: endlich leben, note: podcast — life and meaning }
+    - { name: Heroes of Hope, note: podcast }
+    - { name: Psychohygiene, note: podcast — mental wellness }
+    - { name: 2 Minuten Bibel, note: short-form Bible podcast }
+    - { name: 11 Minuten Bibel, note: longer-form Bible podcast }
+  presenters:
+    - Christina Frehner
+    - Dodo Albrecht
+    - Julia Anliker
+    - Tabea Kobel
+    - Michelle Boss   # Co-Leitung Radio
+    - Simon Müller    # Co-Leitung Radio / Music director
+  podcasts:
+    - Glaubenssache
+    - Timeline
+    - 2 Minuten Bibel
+    - 11 Minuten Bibel
+    - Elternfragen
+    - Fenstergesprach
+    - endlich leben
+    - Heroes of Hope
+    - Psychohygiene
+    - Glaube kompakt
+    - relevant
+    - positiv
+    - vis-à-vis
+    - still leben
+    - glaubwürdig
+    - Glauben und Denken
+  scheduleUrl: https://lifechannel.ch/programm/tagesprogramm/
+
+reach:
+  languages: [de]
+  region: German-speaking Switzerland (Deutschschweiz)
+  geo: [47.363, 8.779]   # Pfäffikon ZH
+  fm: []   # no FM — DAB+ and streaming only
+  dab: { present: true, region: Deutschschweiz }
+  audienceDaily: 19920   # H1 2021, Mon–Sun, DE-CH, 15+; peak ~40000 cited 2016
+
+streams:
+  - { url: "https://stream1.lifechannel.ch/LIFECHANNEL", codec: mp3, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://lifechannel.ch/wp-admin/admin-ajax.php
+  type: json   # WordPress AJAX action=playlistdata; returns HTML fragment with artist/title/cover
+  cors: true   # Access-Control-Allow-Origin: *
+  coverArt: true   # cover images served from https://audio.lifechannel.ch/content/audio/cover/
+
+presence:
+  homepage: https://lifechannel.ch
+  socials:
+    facebook: https://www.facebook.com/RadioLifeChannel
+    instagram: https://www.instagram.com/lifechannel.ch/
+    youtube: https://www.youtube.com/lifechannelschweiz
+    spotify: https://open.spotify.com/user/online7
+  contact: { email: info@erf.ch, tel: "+41 44 953 35 35" }
+  wikipedia: https://de.wikipedia.org/wiki/Life_Channel
+  affiliations: [Radioplayer]
+
+identifiers:
+  rpuId: NzU2fjEzMg
+
+meta:
+  status: fetcher-todo   # playlist endpoint known and CORS-open but needs a custom fetcher (WordPress AJAX HTML fragment, not JSON)
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Life_Channel (launched 1 October 2005)
+    owner: erf-medien.ch/ueber-uns/ (Verein, ~40 member churches)
+    erffounded: erf-medien.ch/ueber-uns/ (1973)
+    audienceDaily: de.wikipedia.org/wiki/Life_Channel (H1 2021)
+    playlist: lifechannel.ch/wp-admin/admin-ajax.php action=playlistdata
+    team: lifechannel.ch/services/team/
+    reception: lifechannel.ch/services/empfang/ (DAB+, Swisscom TV, Sunrise TV, webradio)
+    icy: ICY headers stream1.lifechannel.ch/LIFECHANNEL (genre=christian, desc=Radio fürs Läbe)
+  updatedAt: 2026-06-22
+  notes: >-
+    No FM frequencies — DAB+ and online only. nowPlaying endpoint returns an HTML
+    fragment (not JSON); a dedicated fetcher is needed to parse artist/title/cover
+    from the WordPress AJAX response. Homepage at radio.lifechannel.ch 301s to
+    lifechannel.ch. Station is donation-funded; the Radioplayer homepage was the
+    seed URL (not the real site).

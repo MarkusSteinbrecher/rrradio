@@ -1,0 +1,136 @@
+id: radiofr-fribourg
+
+identity:
+  name: RadioFr. Fribourg
+  shortName: RadioFr.
+  tagline: Générateur de plaisir
+  positioning: La radio régionale du canton de Fribourg — musique pop, news locales, bonne humeur
+  logo:
+    url: https://assets.radioplayer.org/756/7565014/600/600/l459sx8g.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Radio Fribourg | Freiburg SA (MEDIAparc SA)
+  group: RadioFr.
+  foundedYear: 1988
+  headquarters: { city: Villars-sur-Glâne, address: "Rue du Centre 18, CH-1752 Villars-sur-Glâne", canton: FR }
+
+profile:
+  description: >-
+    RadioFr. Fribourg is the French-language regional radio for the canton of
+    Fribourg, on-air since 1 May 1988. A warm, personality-led Adult
+    Contemporary station mixing international pop, French and Francophone
+    hits, light rock and oldies — all wrapped around local news, sport,
+    and community programming.
+  format: Adult Contemporary / Hot AC
+  contentMix: { music: 0.70, talk: 0.30 }
+  targetAudience: French-speaking adults 25–55 in the canton of Fribourg
+  distinctive: >-
+    Sole broad-appeal French-language FM station native to the bilingual
+    Fribourg canton. Combines a mainstream pop-to-classic-hits rotation with
+    genuinely local programming — a Fribourg-made show grid, live Fribourg
+    sport coverage, and cultural niches (French chanson, religious slots,
+    regional language Intrè-No).
+
+music:
+  genres: [pop, adult-contemporary, french-pop, rock, oldies, latin-pop, dance]
+  languageShare: { intl: high, fr: low }
+  rotationStyle: mixed
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://api.frapp.ch/v1/audiostreams/1/billboards
+    tracks:
+      - { artist: "DJ SNAKE / JUSTIN BIEBER", title: "let me love you" }
+      - { artist: "ADELE CASTILLON", title: "été avec toi" }
+      - { artist: "GOSSIP", title: "heavy cross" }
+      - { artist: "DJ ANTOINE / PAOLO ORTELLI / JAY C", title: "sara perche ti amo" }
+      - { artist: "EMELI SANDE", title: "read all about it" }
+      - { artist: "MYLES SMITH", title: "stay (if you wanna dance)" }
+      - { artist: "NO DOUBT", title: "just a girl" }
+      - { artist: "KATSEYE", title: "gabriela" }
+      - { artist: "ENRIQUE IGLESIAS", title: "duele el corazon" }
+      - { artist: "PAUL KALKBRENNER / STROMAE", title: "que ce soit clair" }
+      - { artist: "AARON", title: "u-turn (lili)" }
+
+programming:
+  flagshipShows:
+    - { name: Le Grand Matin, when: "Mon–Fri 06:00–10:00", presenters: [Mike] }
+    - { name: Le Mag, when: "Mon–Fri 08:30–09:00", presenters: [Mike], note: "expert-advice segment (health, law, real estate, vet)" }
+    - { name: Le 10-16, when: "Mon–Fri 10:00–16:00", presenters: [Greg] }
+    - { name: Le 16-19, when: "Mon–Fri 16:00–19:00", presenters: [Virginie, Rio] }
+    - { name: Jardin Matin, when: "Sat/Sun 08:30–10:00", presenters: [Marion, Luc], note: "outdoor gardening broadcast" }
+    - { name: Fribourg fait maison, when: "Mon–Fri 18:00–18:26", presenters: [Karin Baumgartner, Gaël Longchamp], note: "local Fribourg magazine" }
+    - { name: "Intrè-No", when: "Mon–Fri 08:00–08:30", presenters: [André Piccand, Denis Romanens], note: "programme in the local Fribourgeois-Romand patois" }
+    - { name: Chantons Français, when: "Sun 09:00–11:00", presenters: [Jonathan], note: "French chanson" }
+    - { name: Le choc de l'Enclume, when: "Fri 22:00–23:00", presenters: [Vanessa, Guillaume] }
+    - { name: Fiesta Latino, when: "Sat 23:00–01:00", presenters: [Dj Rumba Stereo] }
+  presenters: [Mike, Greg, Virginie, Rio, Jonathan, Simon, Marion, Luc, Nadège, Vanessa, Guillaume, Maurizio, Thierry Savary, Karin Baumgartner, Gaël Longchamp, André Piccand, Denis Romanens]
+  podcasts: ["Le Mag", "Le Crush de Virginie", "Jardin Matin", "L'actu à ne pas rater", "Instant sport", "Jamais sans", "Culture en +", "Un jour une histoire"]
+  scheduleUrl: https://www.radiofr.ch/emissions
+
+reach:
+  languages: [fr]
+  region: Canton de Fribourg (Fribourg city, Broye, Veveyse, Gruyère, Sarine, Glâne)
+  geo: [46.948, 7.447]
+  fm: [88.4, 89.4, 92.9, 94.2, 95.0, 106.0, 106.1]
+  dab: { present: true, since: "2014-04-16", region: Suisse romande }
+
+streams:
+  - { url: "https://radiofribourg.ice.infomaniak.ch/radiofribourg-high.aac", codec: aac, bitrate: 64, type: icecast }
+  - { url: "https://radiofribourg.ice.infomaniak.ch/radiofribourg-high.mp3", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.frapp.ch/v1/audiostreams/1/nowplaying
+  type: json
+  cors: true
+  coverArt: true
+  # Response: data.attributes.{artist, title, cover}
+  # cover is station-level banner (fribourg_cover.png), not per-track art
+  # Track history available at: https://api.frapp.ch/v1/audiostreams/1/billboards
+
+presence:
+  homepage: https://www.radiofr.ch
+  socials:
+    facebook: https://www.facebook.com/radiofrfribourg
+    instagram: https://www.instagram.com/radiofribourg
+    youtube: https://www.youtube.com/c/RadioFribourgFreiburgOfficielOffiziell
+    linkedin: https://www.linkedin.com/company/radiofr.
+  apps:
+    ios: https://apps.apple.com/ch/app/frapp/id1540087188?l=fr
+    android: https://play.google.com/store/apps/details?id=ch.mediaparc.frapp
+  contact:
+    tel: "+41 26 351 51 00"
+    email: radiofr@radiofr.ch
+  wikipedia: https://fr.wikipedia.org/wiki/Radio_Fribourg
+  affiliations: [Radioplayer Suisse]
+
+identifiers:
+  catalogId: ch-radio-fribourg
+  stationuuid: e2af125a-58df-4264-9d82-589d96a7ab39
+  rpuId: NzU2fjUwMTQ
+  wikidata: ""
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia (1 May 1988)
+    tagline: fr.wikipedia (historical slogan "Générateur de plaisir")
+    fm: fr.wikipedia (complete frequency list per transmitter site)
+    dab: fr.wikipedia (since 16 April 2014)
+    headquarters: radiofr-fresh.yaml sibling profile (same legal entity)
+    playlist: api.frapp.ch/v1/audiostreams/1/billboards (2026-06-22)
+    nowPlaying: api.frapp.ch — frapp audiostream id=1 confirmed as RadioFr. Fribourg
+    shows: radiofr.ch/emissions (2026-06-22)
+    stationuuid: data/stations.yaml (ch-radio-fribourg)
+  updatedAt: 2026-06-22
+  notes: >-
+    The broadcaster's webapi.radiofr.ch/api routes require authentication; the
+    public Frapp API (api.frapp.ch/v1/audiostreams/1) is the correct now-playing
+    source and is CORS-open. Cover art field returns a static station banner,
+    not per-track artwork. The RadioFr. group also operates RadioFr. Freiburg
+    (German, audiostream id=2) and RadioFr. Fresh (DAB+ hits, id=15). The
+    Icecast XSPF (…/radiofribourg-high.aac.xspf) is a working fallback that is
+    also CORS-open.

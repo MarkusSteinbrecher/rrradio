@@ -1,0 +1,131 @@
+id: radio-central-2
+
+identity:
+  name: Radio Central 2
+  shortName: Central 2
+  tagline: Das Informationsradio
+  positioning: >-
+    Regional pop/hits/Schlager radio for the Aussenschwyz / Zurichsee /
+    Glarnerland area — a sister channel of Radio Central carrying the same
+    music and talk programming with its own regional news inserts.
+  logo:
+    url: https://assets.radioplayer.org/756/756137/600/600/l459q9to.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Media (CH Regionalmedien AG)
+  group: CH Media
+  foundedYear: 1990   # network launched 3 Nov 1990 as "Radio Schwyz"; Central 2 DAB/web channel derived from it
+  headquarters: { city: Luzern, address: "Maihofstrasse 76, 6004 Luzern", canton: LU }  # since 2025-03-25
+
+profile:
+  description: >-
+    The Aussenschwyz/ZH/SZ/SG/GL regional sister stream of Radio Central,
+    Switzerland's largest private broadcaster in central Switzerland (CH Media).
+    Carries the same mainstream German-Swiss rotation — pop, Mundart, country
+    and Schlager hits — with its own regional news inserts for the areas around
+    the upper Zurich Lake, Zürcher Oberland, and Canton Glarus.
+  format: Hot AC / Mainstream — pop, Mundart, country, Schlager
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: >-
+    Broad German-speaking adult audience in Aussenschwyz, upper Zurich Lake
+    area, Zürcher Oberland, and Glarnerland (ages 25–55)
+  distinctive: >-
+    Regional news service for ZH/SZ/SG/GL listeners riding the shared
+    Central network rotation; also on DAB+ as a distinct multiplex programme.
+
+music:
+  genres: [pop, schlager, mundart, country, soft-rock, gold]
+  languageShare: { de: low, intl: high }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: >-
+      radiocentral.ch GraphQL AudioLiveData
+      (endpoint …/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72?streamName=rcentralasz)
+      + /zuletzt-gespielt SSR data
+    tracks:
+      - { artist: Big Mountain, title: "Baby, I Love Your Way (1994)" }
+      - { artist: Eric Church, title: Talladega (2014) }
+      - { artist: Tina Turner, title: The Best (1989) }
+      - { artist: "John Travolta & Olivia Newton-John", title: Summer Nights (1978) }
+      - { artist: Irene Cara, title: Fame (1980) }
+      - { artist: James Arthur, title: Impossible (2010) }
+  topArtists: [Tina Turner, Eric Church, James Arthur, Big Mountain, Irene Cara]
+
+programming:
+  flagshipShows:
+    - { name: "Güäte Morge Zentralschweiz", when: "Mon–Fri morning", note: "breakfast show" }
+    - { name: Central am Nachmittag, when: "Mon–Fri 14:00", presenters: [Nadine Wechsler], note: "afternoon drive" }
+    - { name: "Nachrichten Ausserschwyz/ZH/GL/SG", note: "Central 2 specific regional news inserts" }
+    - { name: Ländlerabig-Ländlerzmorgä, note: "Swiss Ländler / folk music block" }
+  presenters:
+    - Roman Spirig
+    - Nadine Wechsler
+    - Christian Stämpfli
+    - Christian Eyer
+    - Thomas Berger
+    - Sarah Bellwald
+    - Marcel Lustenberger
+    - Pius Vogel
+    - Evelyn Leemann
+  scheduleUrl: https://www.radiocentral.ch/sendungen
+
+reach:
+  languages: [de]
+  region: >-
+    Aussenschwyz, upper Zurich Lake (ZH/SZ), Zürcher Oberland, Linthgebiet,
+    Canton Glarus — supplements main Radio Central which covers LU/SZ/ZG/UR/OW/NW
+  geo: [47.166, 8.934]   # approximate centre of coverage (upper Zurichsee / Linthgebiet)
+  fm: []   # no FM for Central 2; main channel FM not applicable to this sub-channel
+  dab: { present: true, region: "Deutschschweiz (DAB+ multiplex)" }
+  audienceDaily: 207000   # combined Radio Central network, H2 2025 (207k Mo–Fr, 15+, D-CH)
+
+streams:
+  - { url: "https://stream.streambase.ch/rcentralasz/mp3-192/direct/", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://stream.streambase.ch/rcentralasz/mp3-128/direct/", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.streambase.ch/rcentralasz/aac-64/direct/", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: "https://www.radiocentral.ch/api/pub/gql/radiocentral/AudioLiveData/f17ccec05a8805563325a43a632e960a37892c72?streamName=rcentralasz"
+  type: graphql
+  cors: true
+  coverArt: true
+  fetcher: ch-media
+
+presence:
+  homepage: https://www.radiocentral.ch
+  socials: {}   # Facebook/Instagram/Twitter/TikTok URLs return null in the CH Media Apollo API
+  contact: { tel: "+41 41 825 44 44", email: datenschutz@radiocentral.ch }
+  affiliations: [Radioplayer, CH Media]
+
+identifiers:
+  catalogId: ch-radio-central   # shared with main channel; no dedicated Central 2 catalog row yet
+  rpuId: NzU2fjEzNw   # decodes to 756~137
+
+meta:
+  status: fetcher-todo   # GraphQL endpoint confirmed working + CORS-open; fetcher "ch-media" not yet wired
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia / Radio_Central (network launch date)
+    owner: de.wikipedia, chmedia.ch (acquired 2022-09-21, retroactive from 2022-01-01)
+    headquarters: de.wikipedia (moved to Luzern Maihofquartier 2025-03-25)
+    audienceDaily: chmediawerbung.ch/de/marken/radio-central (H2 2025)
+    format: de.wikipedia (Pop, Mundart, Country, Schlager) + chmediawerbung.ch
+    reach.region: de.wikipedia Sendegebiet section
+    streams: radiocentral.ch/service/empfang-152047788
+    nowPlaying.endpoint: radiocentral.ch bundled JS + verified 2026-06-22
+    nowPlaying.cors: "curl -H 'Origin: https://rrradio.org' 2026-06-22 → access-control-allow-origin confirmed"
+    playlist: GraphQL AudioLiveData + /zuletzt-gespielt SSR 2026-06-22
+    presenters: radiocentral.ch/ueber-uns/team
+    logo: radioplayer.org rpuId 756~137
+  updatedAt: 2026-06-22
+  notes: >-
+    geo [0,0] in catalog — replaced with approximate coverage centre [47.166,
+    8.934]. Central 2 is a sub-channel (no FM), carries same rotation as main
+    Radio Central but with Aussenschwyz/ZH/SZ/SG/GL regional news inserts.
+    The GraphQL now-playing endpoint uses a persisted-query hash shared with
+    Radio 24 (same CH Media AZ platform) — CORS open, coverArt present.
+    audienceDaily is the combined network figure (Radio Central total).
