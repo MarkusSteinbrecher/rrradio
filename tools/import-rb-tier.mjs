@@ -185,7 +185,7 @@ function buildYamlEntry(station, id) {
   lines.push(`# Auto-imported from Radio Browser (2026-05-04)`);
   lines.push(`- id: ${id}`);
   lines.push(`  broadcaster: independent`);
-  lines.push(`  name: ${quoteYaml(station.name)}`);
+  lines.push(`  name: ${quoteYaml(String(station.name ?? '').trim())}`);
   lines.push(`  streamUrl: ${station.streamUrl}`);
   if (station.bitrate && station.bitrate > 0) lines.push(`  bitrate: ${station.bitrate}`);
   if (station.codec) lines.push(`  codec: ${station.codec.toUpperCase()}`);

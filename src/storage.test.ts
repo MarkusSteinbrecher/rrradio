@@ -39,13 +39,16 @@ vi.stubGlobal('localStorage', mem);
 const {
   getCustom,
   getFavorites,
+  getQualityPref,
   getRecents,
   getString,
   isCustom,
   isFavorite,
   pushRecent,
   removeKey,
+  clearLegacyWakeKeys,
   reorderFavorites,
+  setQualityPref,
   setRecents,
   setString,
   toggleFavorite,
@@ -232,6 +235,38 @@ describe('safe string wrappers', () => {
     mem.setItem('k', 'v');
     removeKey('k');
     expect(mem.getItem('k')).toBe(null);
+  });
+
+  it('clearLegacyWakeKeys drops the removed web wake-to-radio keys only', () => {
+    mem.setItem('rrradio.wake.v1', '{}');
+    mem.setItem('rrradio.wake.lastTime.v1', '07:00');
+    mem.setItem('rrradio.favorites.v2', '[]');
+    clearLegacyWakeKeys();
+    expect(mem.getItem('rrradio.wake.v1')).toBe(null);
+    expect(mem.getItem('rrradio.wake.lastTime.v1')).toBe(null);
+    expect(mem.getItem('rrradio.favorites.v2')).toBe('[]');
+  });
+});
+
+describe('quality preference', () => {
+  it('defaults to best when unset', () => {
+    expect(getQualityPref()).toBe('best');
+  });
+
+  it('round-trips data under rrradio.qualityPref.v1', () => {
+    setQualityPref('data');
+    expect(mem.getItem('rrradio.qualityPref.v1')).toBe('data');
+    expect(getQualityPref()).toBe('data');
+  });
+
+  it('reads an unknown stored value as best', () => {
+    mem.setItem('rrradio.qualityPref.v1', 'lossless');
+    expect(getQualityPref()).toBe('best');
+  });
+
+  it('reads best when storage throws', () => {
+    mem.failNextGet = true;
+    expect(getQualityPref()).toBe('best');
   });
 });
 

@@ -1,5 +1,7 @@
 # Wake To Radio On iOS
 
+> Technical reference. The user-facing guide is <https://rrradio.org/wake-to-radio> (`public/wake-to-radio.html`), linked from the iOS app's About screen.
+
 rrradio has three wake-to-radio paths on iPhone:
 
 - In-app wake alarm: rrradio keeps a timer while the app remains alive, and schedules a local notification fallback.

@@ -9,7 +9,7 @@
  * fall back to a disk cache when offline.
  *
  * Public surface:
- *   pickServer({ force?: boolean })           → string
+ *   pickServer({ force?: boolean, exclude?: string }) → string
  *   fetchByUuid(uuids: string[], opts?)       → RBStation[]
  *
  *   opts = {
@@ -55,7 +55,7 @@ async function discoverServers() {
  * we don't hammer the discovery endpoint. Pass `{ force: true }` to
  * force re-selection.
  */
-export async function pickServer({ force = false } = {}) {
+export async function pickServer({ force = false, exclude } = {}) {
   ensureCacheDir();
   if (!force && existsSync(SERVER_FILE)) {
     const age = Date.now() - statSync(SERVER_FILE).mtimeMs;
@@ -63,7 +63,10 @@ export async function pickServer({ force = false } = {}) {
       return readFileSync(SERVER_FILE, 'utf8').trim();
     }
   }
-  const servers = await discoverServers();
+  const all = await discoverServers();
+  // Prefer a different mirror than the one that just failed, if there is one.
+  const others = all.filter((s) => s !== exclude);
+  const servers = others.length > 0 ? others : all;
   if (servers.length === 0) throw new Error('rb-client: no mirrors returned');
   // Pick a random one; don't always hit the same mirror.
   const chosen = servers[Math.floor(Math.random() * servers.length)];
@@ -142,11 +145,27 @@ export async function fetchByUuid(uuids, opts = {}) {
     // Online + cache fresh but missing some uuids → fall through to refetch.
   }
 
-  const server = await pickServer();
+  let server = await pickServer();
   const collected = [];
   for (let i = 0; i < unique.length; i += CHUNK_SIZE) {
     const chunk = unique.slice(i, i + CHUNK_SIZE);
-    const list = await fetchChunk(server, chunk);
+    let list;
+    try {
+      list = await fetchChunk(server, chunk);
+    } catch (err) {
+      // Mirrors drop connections mid-run (ECONNRESET / "terminated" / 5xx).
+      // Retry the chunk once on a freshly picked mirror before giving up.
+      const failed = server;
+      server = await pickServer({ force: true, exclude: failed });
+      try {
+        list = await fetchChunk(server, chunk);
+      } catch (retryErr) {
+        throw new Error(
+          `rb-client: byuuid chunk ${i / CHUNK_SIZE + 1} failed on ${failed} (${errText(err)}) ` +
+            `and on retry mirror ${server} (${errText(retryErr)})`,
+        );
+      }
+    }
     collected.push(...list);
   }
 
@@ -160,6 +179,11 @@ export async function fetchByUuid(uuids, opts = {}) {
   saveCache(cacheFile, next);
 
   return reorder(unique, collected);
+}
+
+function errText(err) {
+  const cause = err?.cause?.code ?? err?.cause?.message;
+  return cause ? `${err.message}: ${cause}` : String(err?.message ?? err);
 }
 
 function reorder(uuids, list) {

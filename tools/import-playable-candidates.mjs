@@ -399,7 +399,7 @@ function makeId(row) {
 
 function buildYamlEntry(row, id) {
   const raw = row.raw;
-  const name = row.candidate.name || raw.name;
+  const name = String(row.candidate.name || raw.name || '').trim();
   const favicon = cleanFavicon(raw.favicon || row.candidate.favicon);
   const homepage = cleanHomepage(row.candidate.homepage || raw.homepage);
   const tags = normalizeTags(raw.tags);

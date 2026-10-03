@@ -64,6 +64,8 @@ export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3
 export const ICON_SHUFFLE = svg(
   '<path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/>',
 );
+/** Filled play triangle — Library-home card play control. */
+export const ICON_PLAY = svg('<path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/>', { fill: true });
 export const ICON_PLUS = svg('<path d="M12 5v14"/><path d="M5 12h14"/>');
 /** Minus-in-circle — the per-row remove affordance shown in favorites
  *  edit mode (the iOS delete-mode red circle). */

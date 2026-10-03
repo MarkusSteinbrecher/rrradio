@@ -384,10 +384,9 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `curated/<on\|off>` | user toggles curated-only filtering |
 | `map-view/<on\|off>` | user toggles the station map |
 | `theme/<system\|light\|dark>` | user changes theme |
-| `wake/arm` / `wake/disarm` / `wake/fire` / `wake/play-failed` | wake-to-radio lifecycle; title carries local fire timing or station name |
 | `backup-export` / `backup-import` | user exports/imports local favorites/custom stations; title carries counts only |
 | `open-in/show` / `open-spotify` / `open-apple-music` / `open-youtube-music` | user opens a music-service search from Now Playing; no track title is sent |
-| `lock-skip-next` / `lock-skip-prev` | user skips via Media Session controls; title carries the target station name |
+| `lock-skip-next` / `lock-skip-prev` | user skips via Now Playing, mini-player or Media Session prev/next; title carries the target station name |
 | `np-details/open` / `np-details/close` | user toggles the details panel on Now Playing |
 
 To add another event, call `track('event-name', 'optional title')` from the right hook point.
@@ -403,8 +402,6 @@ Avoid adding events for high-frequency success paths such as every metadata poll
 | `rrradio.favorites.v2` | favorite station snapshots | until site data is cleared |
 | `rrradio.recents.v2` | 12 most recent station snapshots | capped at 12, until site data is cleared |
 | `rrradio.custom.v1` | custom station snapshots, including user-entered stream URLs | until deleted or site data is cleared |
-| `rrradio.wake.v1` | one armed wake-to-radio station/time snapshot | until fired, disarmed, or site data is cleared |
-| `rrradio.wake.lastTime.v1` | last wake time only | until site data is cleared |
 | theme / UI preference keys | non-sensitive UI choices | until site data is cleared |
 
 **iOS local storage**
@@ -609,14 +606,15 @@ Tokens are semantic rather than platform-specific: `surface`, `surfaceRaised`, `
 
 Edits are stored only in browser `localStorage` under `rrradio.style-tokens.v1`. They do not alter `src/style.css`, the bundled catalog, or any native app repository. Use **Reset defaults** to clear local edits.
 
-## App Store web pages (`/support`, `/ios`)
+## App Store web pages (`/support`, `/ios`, `/wake-to-radio`)
 
 The iOS App Store listing is backed by two web URLs (issues #582 / #583; iOS tracker rrradio-ios #108):
 
 - `public/support.html` → `https://rrradio.org/support` — **App Store Support URL** (Guideline 1.5, a submission hard-gate). A self-contained single file copied verbatim into `dist/` (no Vite processing, no CSP-hash step — same pattern as `privacy.html`), so GitHub Pages serves it at a clean extensionless URL. Lists `support@rrradio.org` and the **public** issues tracker (the old placeholder pointed at the private `rrradio-ios` repo, which 404s for reviewers).
+- `public/wake-to-radio.html` → `https://rrradio.org/wake-to-radio` — the plain-language wake-alarm guide linked from the iOS app's **About → Wake to radio** (#624). Same self-contained, script-free pattern. `docs/wake-to-radio.md` stays as the technical/dev reference.
 - `https://rrradio.org/ios` — **App Store Marketing URL**, now served by the richer "vintage tuner" landing (see below). It replaced the earlier lean `public/ios.html`, which was retired so `/ios` has a single canonical page; the old `/rrradio-ios/` route redirects there via `public/rrradio-ios/index.html`.
 
-`src/static-pages.test.ts` locks support.html's contact/report channels, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
+`src/static-pages.test.ts` locks support.html's contact/report channels, the wake guide's canonical URL and non-technical copy, cross-links, and the no-script/no-tracker invariant. The `localRouteAliasPlugin` in `vite.config.ts` rewrites `/support` → `support.html`, `/wake-to-radio` → `wake-to-radio.html` and `/ios` → `/ios/` in dev so local serving matches GitHub Pages.
 
 ## iOS app landing page
 
