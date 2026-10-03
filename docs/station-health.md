@@ -372,7 +372,7 @@ is observed, not assumed.
 
 | # | Evidence | Long tail | Curated tier |
 |---|---|---|---|
-| 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or *fresh* candidates (streaks that reached their threshold today) > 2 % of published — the backlog never trips it, it drains at the cap | no auto actions this run | same |
+| 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or *fresh* candidates (streaks that crossed their threshold within the last 3 probe days) > 2 % of published — a spike holds it for three days, the older backlog never trips it and drains at the cap | no auto actions this run | same |
 | 2 | `bad` · `hard` · ≥ 3 distinct days | unpublish, automatic | proposal for review |
 | 3 | `bad` · `soft` · ≥ 5 distinct days | ask the Worker edge (`/api/admin/probe`); edge `bad` → unpublish; edge `ok` → skipped | proposal for review, edge answer attached |
 | 4 | fold canonical (variants collapse into the row) | skipped and named in the digest — no status flip passes `check-catalog`; re-point the fold first | same |
