@@ -81,7 +81,7 @@ volume, then on a Node 22 / npm-11 lockfile mismatch).
 | `metadata` | `health-probe` | metadataUrl / built-in fetcher reachability (analyze.mjs semantics) |
 | `fetcher` | `health-probe` | ok = known key · bad = unknown key · na = generic |
 | `program` | `health-probe` | ok = program-capable fetcher · warn = fetcher without program info · na = no fetcher |
-| `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) |
+| `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it; soft, never auto-cleared), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) |
 | `homepage` | `tools/check-homepages.mjs` | ok · warn = blocked (401/403/429) · bad = dead / server-error / network error · na = no homepage |
 | `drift` | `tools/check-drift.mjs` | ok = changeuuid matches · warn = upstream changed / no baseline · bad = record gone upstream · na = not RB-bound |
 | `duplicate` | `tools/check-duplicates.mjs` | ok = clean · warn = review-tier group · bad = blocking collision |
@@ -372,7 +372,7 @@ is observed, not assumed.
 
 | # | Evidence | Long tail | Curated tier |
 |---|---|---|---|
-| 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or candidates > 2 % of published | no auto actions this run | same |
+| 1 | **Circuit breaker**: bad share of today's stream verdicts > 15 %, or *fresh* candidates (streaks that crossed their threshold within the last 3 probe days) > 2 % of published — a spike holds it for three days, the older backlog never trips it and drains at the cap | no auto actions this run | same |
 | 2 | `bad` · `hard` · ≥ 3 distinct days | unpublish, automatic | proposal for review |
 | 3 | `bad` · `soft` · ≥ 5 distinct days | ask the Worker edge (`/api/admin/probe`); edge `bad` → unpublish; edge `ok` → skipped | proposal for review, edge answer attached |
 | 4 | fold canonical (variants collapse into the row) | skipped and named in the digest — no status flip passes `check-catalog`; re-point the fold first | same |

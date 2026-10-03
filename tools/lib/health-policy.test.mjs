@@ -196,6 +196,53 @@ describe('rule table', () => {
 });
 
 describe('rule 1 — circuit breaker', () => {
+  it('a backlog of old candidates never trips it — only streaks that crossed the threshold recently count', () => {
+    // 5 candidates on 100 published = 5 %, but only one crossed within
+    // FRESH_DAYS; the other four are backlog that drains at the cap.
+    const spec = {
+      fresh: { streak: bad('hard', 3), tier: 'long-tail', detail: 'HTTP 404' },
+      old1: { streak: bad('hard', 6, '2026-09-01'), tier: 'long-tail', detail: 'HTTP 404' },
+      old2: { streak: bad('hard', 9, '2026-08-28'), tier: 'long-tail', detail: 'dns' },
+      old3: { streak: bad('soft', 8, '2026-08-30'), tier: 'long-tail', detail: 'timeout', edge: EDGE_BAD },
+      old4: { streak: bad('hard', 12, '2026-08-25'), tier: 'long-tail', detail: 'refused' },
+    };
+    const r = decide(scenario(spec, { pad: 95 }));
+    expect(r.circuitBreaker).toBe(false);
+    expect(r.actions.filter((a) => a.action === 'unpublish').map((a) => a.id).sort()).toEqual(['fresh', 'old1', 'old2', 'old3', 'old4']);
+  });
+
+  it('a spike keeps the breaker held for FRESH_DAYS probe days, then drains as backlog', () => {
+    // 3 of 100 published crossed together: held on days 3, 4 and 5 of the
+    // streak (n − 3 < FRESH_DAYS), released on day 6.
+    const spike = (n) => {
+      const spec = {};
+      for (let i = 0; i < 3; i += 1) spec[`s${i}`] = { streak: bad('hard', n), tier: 'long-tail', detail: 'HTTP 404' };
+      return decide(scenario(spec, { pad: 97 }));
+    };
+    for (const n of [3, 4, 5]) expect(spike(n).circuitBreaker).toBe(true);
+    expect(spike(6).circuitBreaker).toBe(false);
+  });
+
+  it('a soft streak is fresh for FRESH_DAYS days past SOFT_DAYS', () => {
+    const spec = (n) => {
+      const out = {};
+      for (let i = 0; i < 3; i += 1) out[`s${i}`] = { streak: bad('soft', n), tier: 'long-tail', detail: 'timeout', edge: EDGE_BAD };
+      return decide(scenario(out, { pad: 97 }));
+    };
+    expect(spec(7).circuitBreaker).toBe(true);
+    expect(spec(8).circuitBreaker).toBe(false);
+  });
+
+  it('a streak last observed before yesterday is not fresh; one from yesterday is (a late probe)', () => {
+    const at = (last) => {
+      const out = {};
+      for (let i = 0; i < 3; i += 1) out[`s${i}`] = { streak: bad('hard', 3, '2026-09-01', last), tier: 'long-tail', detail: 'HTTP 404' };
+      return decide(scenario(out, { pad: 97 }));
+    };
+    expect(at('2026-09-05').circuitBreaker).toBe(true);
+    expect(at('2026-09-04').circuitBreaker).toBe(false);
+  });
+
   it('trips on a bad share above 15 % and skips every candidate, republish included', () => {
     const r = decide(
       scenario(
@@ -223,7 +270,7 @@ describe('rule 1 — circuit breaker', () => {
     for (let i = 0; i < 97; i += 1) spec[`fine${i}`] = { streak: ok(5), tier: 'long-tail' };
     const r = decide(scenario(spec, { pad: 0 })); // 3 of 100 published = 3 %
     expect(r.circuitBreaker).toBe(true);
-    expect(r.circuitBreakerReason).toBe('3 candidates > 2% of 100 published');
+    expect(r.circuitBreakerReason).toBe('3 fresh candidates > 2% of 100 published');
     expect(r.skipped.map((s) => s.id).sort()).toEqual(['s0', 's1', 's2']);
   });
 

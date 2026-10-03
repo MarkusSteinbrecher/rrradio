@@ -1,0 +1,126 @@
+id: frequence-broadway-radio
+
+identity:
+  name: Fréquence Broadway
+  shortName: Broadway
+  tagline: La radio de la comédie musicale
+  positioning: >-
+    Jazz, swing, soul and vocal standards — from Ella Fitzgerald and Frank
+    Sinatra to Michael Bublé and Diana Krall — broadcast from the Valais.
+  logo:
+    url: https://assets.radioplayer.org/756/756208/600/600/lh7ig401.png
+    source: radioplayer
+  brandColor: "#00165F"
+
+organization:
+  type: commercial
+  owner: Radio Rhône SA
+  group: Radio Rhône SA    # sibling stations: Rhône FM, Break Radio, Vertical Radio
+  headquarters: { city: Sion, address: "Chemin Saint-Hubert 5, 1950 Sion", canton: VS }
+
+profile:
+  description: >-
+    Internet-only Swiss radio from the Valais playing jazz standards, swing,
+    vocal soul and bossa nova around the clock — a rich mix of classic and
+    contemporary artists in the genre, from Nat King Cole to Kandace Springs.
+  format: Vocal jazz / swing standards
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: adult listeners who enjoy jazz, swing, big-band, soul and vocal standards
+  distinctive: >-
+    Tagline bills it as a "musical theatre" station, but the actual rotation
+    is a broad vocal-jazz/standards/swing/bossa nova format — no musicals
+    exclusivity. Internet-only; no FM or DAB transmitters identified.
+
+music:
+  genres: [jazz, swing, vocal standards, bossa nova, soul, big band]
+  languageShare: { fr: low, en: high, intl: medium }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://api.rhonefm.allinone.io/api/contents?locale=fr&site=2&type=music_tracks&status[]=2&orderByProperty=dateFrom&orderByDirection=DESC
+    tracks:
+      - { artist: "STACEY KENT", title: "O Barquinho" }
+      - { artist: "PATTI AUSTIN", title: "How High The Moon" }
+      - { artist: "CHARLIE HADEN QUARTET WEST FEAT. RUTH CAMERON", title: "Let's Call It A Day" }
+      - { artist: "DEAN MARTIN", title: "By The Time I Get To Phoenix" }
+      - { artist: "ELLA FITZGERALD", title: "The Man That Got Away" }
+      - { artist: "HARRY CONNICK JR.", title: "Anything Goes" }
+      - { artist: "DIANA KRALL", title: "How Can You Mend a Broken Heart" }
+      - { artist: "FRANK SINATRA", title: "Something's Gotta Give" }
+      - { artist: "NAT KING COLE", title: "It's Sand Man" }
+      - { artist: "MICHAEL BUBLÉ", title: "Crazy Little Thing Called Love" }
+      - { artist: "ELIS REGINA & ANTONIO CARLOS JOBIM", title: "Sô Tinha de Ser Com Vocé" }
+      - { artist: "TONY BENNETT & LADY GAGA", title: "Dream Dancing" }
+  topArtists:
+    - Frank Sinatra
+    - Diana Krall
+    - Harry Connick Jr.
+    - Ella Fitzgerald
+    - Nat King Cole
+    - Michael Bublé
+    - Stacey Kent
+    - Dean Martin
+    - Patti Austin
+    - Tony Bennett
+
+programming:
+  flagshipShows: []    # fully automated music rotation; no live show grid found
+  presenters: []
+  podcasts: []
+
+reach:
+  languages: [fr]
+  region: Valais (Switzerland); accessible worldwide via internet
+  geo: [46.234, 7.376]    # Sion, VS
+  fm: []
+  dab: { present: false }
+
+streams:
+  - { url: "https://frequencebroadway.ice.infomaniak.ch/frequencebroadway-128.mp3", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.rhonefm.allinone.io/api/contents?locale=fr&site=2&type=music_tracks&status[]=2&orderByProperty=dateFrom&orderByDirection=DESC&limit=1
+  type: json
+  cors: true
+  coverArt: true
+  # Cover URL pattern: https://api.rhonefm.allinone.io + aio:images[0].formats.normal_1_1.url
+  # Artist → item.artist, Title → item.title, via hydra:member[0]
+
+presence:
+  homepage: https://www.frequence-broadway.ch
+  socials:
+    facebook: https://www.facebook.com/rhonefminfo    # shared with the Rhône FM group
+    instagram: https://www.instagram.com/rhonefminfo
+    twitter: "@rhonefm"
+  contact:
+    email: info@frequence-broadway.ch
+    tel: "+41 27 327 20 20"
+  affiliations: [Radioplayer CH]
+
+identifiers:
+  rpuId: NzU2fjIwOA    # decodes to provider 756, station 208
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    owner: mytuner-radio.com station page + frequence-broadway.ch contact page NUXT data
+    homepage: mytuner-radio.com station page
+    address: frequence-broadway.ch/contact/ NUXT data
+    genres: playlist sampling via api.rhonefm.allinone.io (376k track history)
+    playlist: api.rhonefm.allinone.io music_tracks endpoint (site=2)
+    brandColor: frequence-broadway.ch __NUXT__ aK.themeColor
+    logo: Radioplayer asset CDN (from seed)
+    geo: Sion city centre coordinates
+    social: frequence-broadway.ch homepage footer
+  updatedAt: 2026-06-22
+  notes: >-
+    Internet-only station; no FM or DAB identified. Tagline says "comédie
+    musicale" but the actual format is broad vocal-jazz/standards/swing. The
+    now-playing API (api.rhonefm.allinone.io, site=2) is shared with the
+    entire Radio Rhône SA group (Rhône FM, Break Radio, Vertical Radio) — the
+    site=2 parameter scopes it to Fréquence Broadway. CORS open. Cover art
+    served via the allinone.io media CDN. A dedicated fetcher is needed to
+    wire cover art. ICY headers contain a typo URL (frequancebroadway.ch) —
+    the correct domain is frequence-broadway.ch.

@@ -1,0 +1,121 @@
+id: radio-erf-plus
+
+identity:
+  name: Radio ERF Plus
+  shortName: ERF Plus
+  tagline: Tut einfach gut
+  positioning: Das christliche 24-Stunden-Radioprogramm — Musik und geistliche Impulse für den Alltag
+  logo:
+    url: https://assets.radioplayer.org/756/756134/600/600/l459snv3.png
+    source: radioplayer
+
+organization:
+  type: internet
+  owner: ERF Medien e.V. (Germany) / ERF Medien Schweiz (CH distribution)
+  group: ERF Medien
+  foundedYear: 1959   # ERF Medien e.V. Wetzlar, Germany; Swiss association founded 1973
+  headquarters: { city: Pfäffikon ZH, address: "Witzbergstrasse 23, CH-8330 Pfäffikon ZH", canton: ZH }
+
+profile:
+  description: >-
+    Christian 24-hour radio from ERF Medien — a mix of contemporary Christian
+    music (German and English), daily devotionals, and faith-themed talk shows.
+    Broadcast in German-speaking Switzerland via DAB+ and internet streaming.
+  format: Christian AC / Inspirational Talk
+  contentMix: { music: 0.65, talk: 0.35 }
+  targetAudience: German-speaking Christians and faith-seeking adults across Switzerland and Germany
+  distinctive: >-
+    Combines a mainstream-adjacent Christian music rotation with daily spoken-word
+    devotionals (Anstoß, Wort zum Tag, Bibel heute) — listener-funded with no
+    advertising. Swiss DAB+ presence alongside the German broadcast reach.
+
+music:
+  genres: [contemporary christian, christian pop, gospel, christian worship, inspirational]
+  languageShare: { de: 0.7, en: 0.3 }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://api.erf.de/erfplus/v2/playlist.json
+    tracks:
+      - { artist: "Sarah Kaiser", title: "Damit wir klug werden" }
+      - { artist: "Karin Sonnenfroh", title: "Wenn du nach Hause kommst" }
+      - { artist: "Feiert Jesus!;Michael Janz", title: "Dir sei die Ehre" }
+      - { artist: "Jordan And Jessa", title: "In Christ Alone" }
+      - { artist: "Ararat", title: "Beflügelt" }
+      - { artist: "Lukas Linder", title: "Am Boden (nicht das Ende)" }
+      - { artist: "Simon Becker", title: "Alles geben" }
+      - { artist: "Arne Kopfermann", title: "Unendlich gross und weit" }
+      - { artist: "Aryn Michelle", title: "Seen Too Much To Not Believe" }
+      - { artist: "Fries", title: "Mein Ding" }
+
+programming:
+  flagshipShows:
+    - { name: Aufgeweckt, when: "Mon–Fri morning", note: "morning devotional + music, hosts incl. Miri Langenbach, Johannes Kolk, Christine Bangel" }
+    - { name: Gern Gehört, when: "Mon–Fri 09:00–10:00", note: "listener song-request show" }
+    - { name: Glaube + Denken, note: "faith and thinking talk format" }
+    - { name: Anstoß, note: "daily short impulse / devotional" }
+    - { name: Wort zum Tag, note: "daily Bible reflection" }
+    - { name: Bibel heute, note: "daily Bible reading and commentary" }
+    - { name: Das Gespräch, note: "interview / conversation format" }
+    - { name: ERF Gottesdienst, note: "Sunday church service from evangelical congregations" }
+  presenters: [Miri Langenbach, Johannes Kolk, Christine Bangel, Saskia Klingelhöfer, Tobias Schier, René Cornelius, Dajka Krentz]
+  scheduleUrl: https://www.erf.de/hoeren-sehen/erf-plus/programm/8296
+
+reach:
+  languages: [de]
+  region: >-
+    German-speaking Switzerland (DAB+); nationwide Germany (DAB+ channel 5C);
+    Austria; internet worldwide
+  geo: [47.366, 8.776]   # Pfäffikon ZH headquarters
+  fm: []   # no FM frequencies; DAB+ and internet only
+  dab: { present: true, region: "Deutschschweiz und Wallis (DAB+ channel 7D 194.064 MHz); Germany nationwide channel 5C" }
+
+streams:
+  - { url: "https://stream.erfplus.de/erf-1a64/mp3-128?ar-distributor=ffa5", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.erfplus.de/erf-1a64/aac-64?ar-distributor=ffa5", codec: aac, bitrate: 64, type: icecast }
+  - { url: "https://stream.erfplus.de/erf-1a64/aac-192?ar-distributor=ffa5", codec: aac, bitrate: 192, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://api.erf.de/erfplus/v2/live.json?authtoken=0420237339b4a856edc60058d639965812afde11
+  type: json
+  cors: true
+  coverArt: true
+  # playlist history: https://api.erf.de/erfplus/v2/playlist.json?authtoken=...
+  # Response structure: {live: {title, artist, cover, sample, affiliate.itunes, stream.{low,high}}}
+
+presence:
+  homepage: https://radio-erf-plus.ch
+  socials:
+    facebook: https://www.facebook.com/ERFMedienSchweiz/
+    instagram: https://www.instagram.com/erf_medien_schweiz/
+    youtube: https://www.youtube.com/@erfmedienCH
+  apps:
+    ios: https://apps.apple.com/de/app/erf-plus/id1182965099
+    android: https://play.google.com/store/apps/details?id=de.erf.erfplusradio
+  contact: { email: info@erf.ch, tel: "+41 (0)44 953 35 35" }
+  affiliations: [Radioplayer Switzerland]
+
+identifiers:
+  rpuId: NzU2fjEzNA
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    organization: erf-medien.ch, de.wikipedia.org/wiki/ERF_Medien_(Deutschland), de.wikipedia.org/wiki/ERF_Medien_(Schweiz)
+    tagline: radio-erf-plus.ch
+    streams: stream.erfplus.de (radiohost.de backend), verified live 2026-06-22
+    nowPlaying: api.erf.de/erfplus/v2/live.json (embedded in erf.de page source data-comp-props)
+    playlist: api.erf.de/erfplus/v2/playlist.json (same API, history endpoint)
+    dab: radio-erf-plus.ch/programm, erf.de/empfang
+    apps: radio-erf-plus.ch footer
+    foundedYear: de.wikipedia.org/wiki/ERF_Medien_(Deutschland) (ERF founded 1959), ERF Medien Schweiz 1973
+  updatedAt: 2026-06-22
+  notes: >-
+    Stream URL from seed (stream1.lifechannel.ch/ERFPLUS) returns 404 — real streams
+    are at stream.erfplus.de (radiohost.de backend). now-playing API found embedded
+    in erf.de page JS (data-comp-props); CORS open (*). No FM in Switzerland — DAB+
+    and internet only. socials are for ERF Medien Schweiz (the Swiss licensee), not
+    the German parent. Status fetcher-todo because a custom fetcher is needed to parse
+    the {live.title} field (format varies: "Song Title - Artist" or plain title).

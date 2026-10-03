@@ -1,0 +1,101 @@
+id: ellipticum
+
+identity:
+  name: ELLIPTICUM
+  shortName: Ellipticum
+  tagline: "we're coming"
+  positioning: >-
+    Internet radio and entertainment platform from Ticino — dance, pop and
+    electronic hits, 24/7 automated rotation.
+  logo:
+    url: https://assets.radioplayer.org/756/756183/600/600/m406h6wq.png
+    source: radioplayer
+  brandColor: "#ff0062"
+
+organization:
+  type: internet
+  owner: Content4media Sagl
+  group: independent
+  headquarters: { city: Lugano, address: "Via Probello 19, 6963 Lugano – Pregassona", canton: TI }
+
+profile:
+  description: >-
+    Ticino-based internet-only dance radio playing current hits and crossover
+    pop — Jennifer Lopez, Dua Lipa, Anyma, Vicetone — with a secondary
+    Ellipticmix channel featuring guest DJ mixes from names like Robin Schulz,
+    Tube & Berger and Outwork.
+  format: Dance / Current Pop
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: dance-music fans across Switzerland and Italy
+  distinctive: >-
+    Part of a larger Ticino entertainment venue brand (gaming, parking, LED
+    tower); Ellipticmix sub-channel carries curated DJ sets from touring
+    artists. The main rotation straddles mainstream dance-pop and progressive
+    house.
+
+music:
+  genres: [dance, pop, electronic, progressive-house, dance-pop]
+  languageShare: { intl: high, it: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://ellipticum.radio/utility-onair/ELLIPTCH/OnAir.txt
+    tracks:
+      - { artist: Nari & Milani, title: "I Got My Eye on You (Cristian Marchi & Paolo Sandrini Perfect)" }
+      - { artist: Jennifer Lopez, title: Play }
+      - { artist: Vicetone, title: Would You Love Me Anyway }
+      - { artist: Jessie J, title: H.A.P.P.Y }
+      - { artist: Dua Lipa, title: Dance the Night }
+      - { artist: Anyma feat. Joji, title: Beautiful }
+
+reach:
+  languages: [it, de, en]
+  region: Ticino / Switzerland (internet-only, no FM or DAB)
+  geo: [46.948, 7.447]
+  dab: { present: false }
+
+streams:
+  - { url: "https://live.ellipticum.radio/elli_ch.mp3", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://ellipticum.radio/utility-onair/ELLIPTCH/OnAir.txt
+  type: icy
+  cors: true
+  coverArt: true
+
+presence:
+  homepage: https://ellipticum.com
+  socials:
+    tiktok: https://www.tiktok.com/@ellipticum_official
+    instagram: https://www.instagram.com/ellipticum_official/
+    facebook: https://www.facebook.com/officialellipticum
+  apps: { ios: true, android: true }
+  contact: { email: info@c4media.ch }
+
+identifiers:
+  catalogId: ch-one-dance-ticino
+  rpuId: NzU2fjE4Mw
+
+meta:
+  status: working
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    owner: ellipticum.com/privacy-policy (Italian data-controller notice)
+    stream: ICY headers live.ellipticum.radio/elli_ch.mp3
+    nowPlaying: ellipticum.com HTML (data-qtmplayer-textfeed attribute)
+    coverArt: ellipticum.com HTML (data-qtmplayer-artwork attribute)
+    apps: ellipticum.com/download-app
+    logo: Radioplayer CH asset CDN (rpuId NzU2fjE4Mw = broadcaster 756, station 18)
+    brandColor: proradio-main-inline-css on ellipticum.com
+  updatedAt: 2026-06-22
+  notes: >-
+    Rebranded from "One Dance Ticino" (catalogId ch-one-dance-ticino still
+    points here). The homepage seed URL (onedancefm.ch) returns ECONNREFUSED —
+    the station migrated to ellipticum.com / ellipticum.radio. Now-playing
+    endpoint returns plain "ARTIST - TITLE" text (not JSON); coverArt endpoint
+    returns a co-updating JPEG — both CORS-open. The site advertises a second
+    channel (Ellipticmix) with DJ mixes but it operates on a separate page/player.
+    geo coordinates [46.948, 7.447] are the Radioplayer seed value (Bern area);
+    likely inherited from the old One Dance Ticino entry — real headquarters
+    are in Lugano (Ticino, TI). Founding year not disclosed publicly.
