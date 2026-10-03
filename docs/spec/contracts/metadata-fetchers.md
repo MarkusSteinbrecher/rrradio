@@ -109,6 +109,7 @@ upper-cased (see *Known deviations* M6).
 | `rbb-radioeins` | rbb radioeins | fixed `now_on_air.html` + cache-bust `_` | HTML | regex `<p class="artist">…</p><p class="songtitle">…</p>` → artist, title | no regex match / empty title |
 | `cro` | Český rozhlas | `metadataUrl` direct | JSON | title=`data.track`, artist=`data.interpret` (title-cased) | `data.status != "playing"`, empty track |
 | `srgssr-il` | SRG SSR Integration Layer | `metadataUrl` + `from`/`to` (now −3h/+1h) + `pageSize=3` | JSON | song `isPlayingNow==true` (else first): title=`title`, artist=`artist.name` with trailing `(XX)` stripped (title-cased) | no song / empty title |
+| `media-one` | Media One Group (One FM, Radio Lac, LFM, Rouge, Yes FM) | `https://www.mediaone-digital.ch/cache/{metadataUrl}.json` (`metadataUrl` = slug, e.g. `onefm`, `4`, `2402`; a full https URL is used as-is) | JSON | `live[0]`: title=`title`, artist=`interpret` (title-cased); cover=`imageFullURL` ‖ `imageURL`, dropped when it ends in `/nocover.png` | empty `live` or empty title |
 | `swiss-radio` | Radio Swiss (Classic/Jazz/Pop) | `metadataUrl` direct | JSON | title=`channel.playingnow.current.metadata.title`, artist=`.artist` (**no** title-case) | empty title |
 | `srr` | SRR live (program) | `metadataUrl` = `"{url}#{stationKey}"` | JSON | program-only: `raw`/`programName`=station `title`, `programSubtitle`=`schedule` | bad split / empty title |
 | `mr` | MR (XML name) | `metadataUrl` direct | XML | `<Name>` → split on ` - ` into artist/title (title-cased); single-part → title only | empty `<Name>` |
