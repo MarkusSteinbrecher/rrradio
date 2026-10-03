@@ -45,6 +45,7 @@ const {
   isFavorite,
   pushRecent,
   removeKey,
+  clearLegacyWakeKeys,
   reorderFavorites,
   setRecents,
   setString,
@@ -232,6 +233,16 @@ describe('safe string wrappers', () => {
     mem.setItem('k', 'v');
     removeKey('k');
     expect(mem.getItem('k')).toBe(null);
+  });
+
+  it('clearLegacyWakeKeys drops the removed web wake-to-radio keys only', () => {
+    mem.setItem('rrradio.wake.v1', '{}');
+    mem.setItem('rrradio.wake.lastTime.v1', '07:00');
+    mem.setItem('rrradio.favorites.v2', '[]');
+    clearLegacyWakeKeys();
+    expect(mem.getItem('rrradio.wake.v1')).toBe(null);
+    expect(mem.getItem('rrradio.wake.lastTime.v1')).toBe(null);
+    expect(mem.getItem('rrradio.favorites.v2')).toBe('[]');
   });
 });
 
