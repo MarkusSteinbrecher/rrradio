@@ -226,142 +226,271 @@ describe('AudioPlayer error path', () => {
   });
 });
 
-describe('AudioPlayer.swap', () => {
-  // The wake-to-radio fire path (src/main.ts onWakeFire) calls
-  // player.swap() to move from the silent bed to the wake station.
-  // On iOS Safari / Chrome (WebKit), audio.removeAttribute('src') +
-  // audio.load() ends the active media-playback session and the
-  // next play() gets autoplay-blocked. swap() avoids that — and
-  // when a primed sidecar is available, adopts it instead so the
-  // gesture-fresh activation token is what's used. See player.ts.
+describe('AudioPlayer retry ladder + stream variants (#95, #623)', () => {
+  const V: Station = {
+    id: 'v',
+    name: 'Variant FM',
+    streamUrl: 'https://example.com/v-192',
+    streams: [
+      { url: 'https://example.com/v-192', bitrate: 192, codec: 'MP3', tier: 'best' },
+      { url: 'https://example.com/v-128', bitrate: 128, codec: 'MP3', tier: 'data' },
+    ],
+  };
 
-  it('without prime, does not call audio.load() (preserves the iOS session)', async () => {
-    const audio = makeAudio();
-    const loadSpy = vi.spyOn(audio, 'load');
-    const player = new AudioPlayer(audio);
+  /** Fail the current load: the error event, then flush the microtasks
+   *  so any rebuild's play() promise settles. */
+  async function fail(audio: HTMLAudioElement): Promise<void> {
+    audio.dispatchEvent(new Event('error'));
+    await Promise.resolve();
+  }
 
-    await player.swap(B);
-    expect(loadSpy).not.toHaveBeenCalled();
-  });
-
-  it('does not removeAttribute("src") (only writes the new src)', async () => {
-    const audio = makeAudio();
-    audio.src = 'https://example.com/silent.m4a';
-    const removeSpy = vi.spyOn(audio, 'removeAttribute');
-    const player = new AudioPlayer(audio);
-
-    await player.swap(B);
-    // The new src should be set; the previous one should not have
-    // been explicitly removed via removeAttribute.
-    expect(audio.src).toBe('https://example.com/b');
-    for (const call of removeSpy.mock.calls) {
-      expect(call[0]).not.toBe('src');
+  /** Spend one variant's whole budget: initial failure + 3 retries. */
+  async function exhaustVariant(audio: HTMLAudioElement): Promise<void> {
+    for (const delay of [1000, 2000, 4000]) {
+      await fail(audio);
+      await vi.advanceTimersByTimeAsync(delay);
     }
-  });
+    await fail(audio);
+  }
 
-  it('emits a loading state for the swap target', async () => {
+  it('single-stream: retries with 1s/2s/4s backoff, then surfaces error', async () => {
     const audio = makeAudio();
     const player = new AudioPlayer(audio);
     const states = recordStates(player);
+    await player.play(A);
+    const playSpy = vi.mocked(audio.play);
+    expect(playSpy).toHaveBeenCalledTimes(1);
 
-    await player.swap(B);
-    expect(states.at(-1)).toMatchObject({ station: B, state: 'loading' });
+    await fail(audio);
+    expect(states.at(-1)).toMatchObject({
+      state: 'loading',
+      retry: { attempt: 1, maxAttempts: 3, planIndex: 0, planLength: 1 },
+    });
+    // Nothing rebuilds before the backoff elapses.
+    await vi.advanceTimersByTimeAsync(999);
+    expect(playSpy).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(playSpy).toHaveBeenCalledTimes(2);
+    expect(audio.src).toBe('https://example.com/a');
+
+    await fail(audio);
+    expect(states.at(-1)?.retry?.attempt).toBe(2);
+    await vi.advanceTimersByTimeAsync(2000);
+    await fail(audio);
+    expect(states.at(-1)?.retry?.attempt).toBe(3);
+    await vi.advanceTimersByTimeAsync(4000);
+    expect(playSpy).toHaveBeenCalledTimes(4);
+
+    await fail(audio);
+    await vi.advanceTimersByTimeAsync(700);
+    expect(states.at(-1)).toMatchObject({ state: 'error', errorMessage: 'Stream error' });
+    expect(states.at(-1)?.retry).toBeUndefined();
+    await vi.advanceTimersByTimeAsync(60_000);
+    expect(playSpy).toHaveBeenCalledTimes(4);
   });
 
-  it('disables loop on the audio element (silent bed loops; live stations do not)', async () => {
+  it('advances to the next variant once the first is spent, then plays on it', async () => {
     const audio = makeAudio();
-    audio.loop = true; // pretend silent bed is currently looping
     const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(V);
+    expect(audio.src).toBe('https://example.com/v-192');
+    expect(states.at(-1)?.variant?.bitrate).toBe(192);
 
-    await player.swap(B);
-    expect(audio.loop).toBe(false);
+    await exhaustVariant(audio);
+    expect(audio.src).toBe('https://example.com/v-128');
+    expect(states.at(-1)).toMatchObject({
+      state: 'loading',
+      variant: { bitrate: 128 },
+      retry: { attempt: 0, planIndex: 1, planLength: 2 },
+    });
+
+    audio.dispatchEvent(new Event('playing'));
+    await vi.advanceTimersByTimeAsync(700);
+    expect(states.at(-1)).toMatchObject({
+      station: { id: 'v' },
+      state: 'playing',
+      variant: { bitrate: 128 },
+    });
+    expect(states.at(-1)?.retry).toBeUndefined();
+    expect(player.currentVariant()).toMatchObject({
+      url: 'https://example.com/v-128',
+      planIndex: 1,
+    });
   });
 
-  it('treats NotAllowedError as paused (same shape as play())', async () => {
+  it('surfaces error only after the last variant is spent', async () => {
     const audio = makeAudio();
-    vi.spyOn(audio, 'play').mockRejectedValue(
-      new DOMException('autoplay blocked', 'NotAllowedError'),
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(V);
+    await exhaustVariant(audio);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(states.at(-1)?.state).toBe('loading');
+    await exhaustVariant(audio);
+    await vi.advanceTimersByTimeAsync(700);
+    expect(states.at(-1)?.state).toBe('error');
+  });
+
+  it('counts the error event + rejected play() of one load as a single failure', async () => {
+    const audio = makeAudio();
+    vi.mocked(audio.play).mockRejectedValueOnce(
+      new DOMException('no source', 'NotSupportedError'),
     );
     const player = new AudioPlayer(audio);
     const states = recordStates(player);
-
-    await player.swap(B);
-    vi.advanceTimersByTime(700);
-    expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
+    const pending = player.play(A);
+    audio.dispatchEvent(new Event('error'));
+    await pending;
+    expect(states.at(-1)?.retry?.attempt).toBe(1);
   });
 
-  it('treats AbortError as paused (same shape as play())', async () => {
+  it('pause during a backoff cancels the pending rebuild', async () => {
     const audio = makeAudio();
-    vi.spyOn(audio, 'play').mockRejectedValue(
-      new DOMException('interrupted by pause()', 'AbortError'),
-    );
     const player = new AudioPlayer(audio);
     const states = recordStates(player);
+    await player.play(A);
+    await fail(audio);
+    player.pause();
+    await vi.advanceTimersByTimeAsync(10_000);
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(1);
+    expect(states.at(-1)).toMatchObject({ state: 'paused' });
+    expect(states.at(-1)?.retry).toBeUndefined();
+  });
 
-    await player.swap(B);
-    vi.advanceTimersByTime(700);
-    expect(states.at(-1)).toMatchObject({ station: B, state: 'paused' });
-    expect(states.some((s) => s.state === 'error')).toBe(false);
+  it('a permanent (region-locked) failure skips the ladder', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    player.configure({ isPermanentFailure: () => true });
+    const states = recordStates(player);
+    await player.play(A);
+    await fail(audio);
+    await vi.advanceTimersByTimeAsync(700);
+    expect(states.at(-1)?.state).toBe('error');
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(1);
+  });
+
+  it('a stalled stream goes through the ladder instead of reconnecting forever', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+    audio.dispatchEvent(new Event('playing'));
+    await vi.advanceTimersByTimeAsync(700);
+    // currentTime never advances → watchdog trips after 4 ticks × 2s.
+    await vi.advanceTimersByTimeAsync(8000);
+    expect(states.at(-1)).toMatchObject({ state: 'loading', retry: { attempt: 1 } });
+  });
+
+  it('data preference starts on the data variant', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    player.configure({ qualityPref: 'data' });
+    await player.play(V);
+    expect(audio.src).toBe('https://example.com/v-128');
+    expect(player.getCurrent().variant?.tier).toBe('data');
+  });
+
+  it('hydrate() fills streams for a stored station copy', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    player.configure({ qualityPref: 'data', hydrate: (s) => (s.id === 'v' ? V : s) });
+    await player.play({ id: 'v', name: 'Variant FM', streamUrl: 'https://example.com/v-192' });
+    expect(audio.src).toBe('https://example.com/v-128');
+  });
+
+  it('changing the preference while playing re-plays on the new variant, keeping metadata', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(V);
+    audio.dispatchEvent(new Event('playing'));
+    await vi.advanceTimersByTimeAsync(700);
+    player.setTrackTitle('Artist — Song');
+
+    player.setQualityPref('data');
+    expect(audio.src).toBe('https://example.com/v-128');
+    expect(states.at(-1)).toMatchObject({
+      state: 'loading',
+      trackTitle: 'Artist — Song',
+      variant: { tier: 'data' },
+    });
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(2);
+  });
+
+  it('changing the preference on a single-stream station is a no-op', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    await player.play(A);
+    player.setQualityPref('data');
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(1);
+    expect(audio.src).toBe('https://example.com/a');
   });
 });
 
-describe('AudioPlayer.prime + swap (wake handoff)', () => {
-  it('prime() registers a sidecar element with the wake station URL', async () => {
+describe('AudioPlayer decode-error recovery (#666)', () => {
+  function fireMediaError(audio: HTMLAudioElement, code: number): void {
+    Object.defineProperty(audio, 'error', { configurable: true, get: () => ({ code }) });
+    audio.dispatchEvent(new Event('error'));
+  }
+
+  it('reconnects once on MEDIA_ERR_DECODE before the retry ladder', async () => {
     const audio = makeAudio();
     const player = new AudioPlayer(audio);
-    await player.prime(B);
-    // Internal — exposed via swap() behavior. After prime, swap(B)
-    // should use the sidecar (verified by the next test).
-    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).not.toBeNull();
-    expect((player as unknown as { primedStationId: string | null }).primedStationId).toBe('b');
+    const states = recordStates(player);
+    await player.play(A);
+    vi.advanceTimersByTime(700);
+    audio.dispatchEvent(new Event('playing'));
+    const playsBefore = vi.mocked(audio.play).mock.calls.length;
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+    // Immediate rebuild — no ladder backoff, no retry counted.
+    expect(vi.mocked(audio.play).mock.calls.length).toBe(playsBefore + 1);
+    expect(states.at(-1)).toMatchObject({ station: A, state: 'loading' });
+    expect(states.at(-1)?.retry).toBeUndefined();
   });
 
-  it('swap() with a matching prime adopts the sidecar (not the main element)', async () => {
+  it('a second decode error within the window goes to the retry ladder', async () => {
     const audio = makeAudio();
     const player = new AudioPlayer(audio);
-    await player.prime(B);
-    const sidecarBeforeSwap = (player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio;
-    await player.swap(B);
-    // Sidecar reference dropped after adoption.
-    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).toBeNull();
-    // The new this.audio is the sidecar.
-    const audioAfter = (player as unknown as { audio: HTMLAudioElement }).audio;
-    expect(audioAfter).toBe(sidecarBeforeSwap);
-    expect(audioAfter).not.toBe(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(5_000);
+    fireMediaError(audio, 3);
+
+    expect(states.at(-1)).toMatchObject({ state: 'loading', retry: { attempt: 1 } });
   });
 
-  it('swap() with a mismatched prime falls back to in-place src swap', async () => {
+  it('recovers directly again once the window has passed', async () => {
     const audio = makeAudio();
     const player = new AudioPlayer(audio);
-    await player.prime(A); // primed for A
-    await player.swap(B); // ...but swapping to B
-    // The main audio element is still the original — fallback path.
-    const audioAfter = (player as unknown as { audio: HTMLAudioElement }).audio;
-    expect(audioAfter).toBe(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(31_000);
+    fireMediaError(audio, 3);
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+    expect(states.at(-1)?.retry).toBeUndefined();
   });
 
-  it('prime() failure (sidecar.play rejects) drops the prime silently', async () => {
+  it('non-decode errors skip the recovery and enter the ladder', async () => {
     const audio = makeAudio();
     const player = new AudioPlayer(audio);
-    // Stub the global Audio constructor for this test so the sidecar
-    // .play() rejects.
-    const origAudio = globalThis.Audio;
-    globalThis.Audio = class extends origAudio {
-      override play() { return Promise.reject(new DOMException('blocked', 'NotAllowedError')); }
-    } as typeof Audio;
-    try {
-      await player.prime(B);
-    } finally {
-      globalThis.Audio = origAudio;
-    }
-    expect((player as unknown as { primedAudio: HTMLAudioElement | null }).primedAudio).toBeNull();
-  });
+    const states = recordStates(player);
+    await player.play(A);
 
-  it('two consecutive primes: second replaces first', async () => {
-    const audio = makeAudio();
-    const player = new AudioPlayer(audio);
-    await player.prime(A);
-    await player.prime(B);
-    expect((player as unknown as { primedStationId: string | null }).primedStationId).toBe('b');
+    fireMediaError(audio, 2);
+
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(1);
+    expect(states.at(-1)).toMatchObject({ state: 'loading', retry: { attempt: 1 } });
   });
 });

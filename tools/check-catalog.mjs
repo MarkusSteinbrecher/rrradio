@@ -74,6 +74,19 @@ if (sourceIssues.length > 0) {
   process.exit(2);
 }
 
+// Names: no leading/trailing whitespace or control characters (#435). They
+// break sorting, dedupe signatures and display on every client.
+// eslint-disable-next-line no-control-regex
+const CONTROL_CHARS = /[\u0000-\u001f\u007f]/;
+const nameIssues = yamlList
+  .filter((s) => s && typeof s.name === 'string' && (s.name !== s.name.trim() || CONTROL_CHARS.test(s.name)))
+  .map((s) => `${s.id ?? '?'}: name ${JSON.stringify(s.name)}`);
+if (nameIssues.length > 0) {
+  console.error(`${C.bad}check-catalog: ${nameIssues.length} station name(s) with stray whitespace/control chars:${C.reset}`);
+  for (const m of nameIssues.slice(0, 20)) console.error(`  ${m}`);
+  process.exit(2);
+}
+
 const jsonText = readFileSync(join(root, 'public/stations.json'), 'utf8');
 const json = JSON.parse(jsonText);
 const jsonStations = Array.isArray(json) ? json : json.stations;

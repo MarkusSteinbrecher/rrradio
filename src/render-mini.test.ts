@@ -2,8 +2,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { renderMiniPlayer, setMiniArt, setMiniCover, type MiniRefs } from './render-mini';
 import { MINI_FRAGMENT, setup } from './render-test-harness';
-import type { NowPlaying, Station, WakeTo } from './types';
-import { SILENT_BED_ID } from './np-display';
+import type { NowPlaying, Station } from './types';
 
 const IDS = {
   mini: 'mini',
@@ -34,13 +33,13 @@ describe('renderMiniPlayer', () => {
   it('hides the mini-player when no station is selected', () => {
     const refs = mountMini();
     const np: NowPlaying = { station: { id: '', name: '', streamUrl: '' }, state: 'idle' };
-    renderMiniPlayer(refs, np, null);
+    renderMiniPlayer(refs, np);
     expect(refs.mini.hidden).toBe(true);
   });
 
   it('un-hides + sets name + status on play', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'playing' }, null);
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
     expect(refs.mini.hidden).toBe(false);
     expect(refs.miniName.textContent).toBe('FM4');
     expect(refs.miniMeta.textContent).toBe('192 KBPS · LIVE');
@@ -48,34 +47,14 @@ describe('renderMiniPlayer', () => {
 
   it('shows TUNING… while loading', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'loading' }, null);
+    renderMiniPlayer(refs, { station: fm4, state: 'loading' });
     expect(refs.miniMeta.textContent).toBe('TUNING…');
   });
 
   it('shows PAUSED when paused', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'paused' }, null);
+    renderMiniPlayer(refs, { station: fm4, state: 'paused' });
     expect(refs.miniMeta.textContent).toBe('PAUSED');
-  });
-
-  it('substitutes the armed station name during silent-bed playback', () => {
-    const refs = mountMini();
-    const silentBed: Station = { id: SILENT_BED_ID, name: 'Silent bed', streamUrl: '/silence.m4a' };
-    const wake: WakeTo = {
-      time: '07:30',
-      stationId: 'fm4',
-      station: fm4,
-      armedAt: 1_700_000_000_000,
-    };
-    renderMiniPlayer(refs, { station: silentBed, state: 'playing' }, wake);
-    expect(refs.miniName.textContent).toBe('Wake up at 07:30');
-    expect(refs.mini.classList.contains('is-wake-bed')).toBe(true);
-  });
-
-  it('does NOT add is-wake-bed when not on silent bed', () => {
-    const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'playing' }, null);
-    expect(refs.mini.classList.contains('is-wake-bed')).toBe(false);
   });
 
   it('shows the track line when a trackTitle is present', () => {
@@ -83,7 +62,6 @@ describe('renderMiniPlayer', () => {
     renderMiniPlayer(
       refs,
       { station: fm4, state: 'playing', trackTitle: 'Aphex Twin · Xtal' },
-      null,
     );
     expect(refs.miniTrack.hidden).toBe(false);
     expect(refs.miniTrack.textContent).toBe('Aphex Twin · Xtal');
@@ -91,13 +69,13 @@ describe('renderMiniPlayer', () => {
 
   it('hides the track line when no trackTitle', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'playing' }, null);
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
     expect(refs.miniTrack.hidden).toBe(true);
   });
 
   it('hides the track line when trackTitle is whitespace', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: '   ' }, null);
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: '   ' });
     expect(refs.miniTrack.hidden).toBe(true);
   });
 });
@@ -175,7 +153,6 @@ describe('renderMiniPlayer — station favicon + album cover slots', () => {
     renderMiniPlayer(
       refs,
       { station: withFavicon, state: 'playing', coverUrl: 'https://example.com/cover.jpg' },
-      null,
     );
     // Left slot = station favicon (never the cover).
     expect(refs.miniFav.querySelector('img')?.src).toBe('https://example.com/fm4.png');
@@ -186,28 +163,8 @@ describe('renderMiniPlayer — station favicon + album cover slots', () => {
 
   it('hides the album slot when the track has no cover', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: withFavicon, state: 'playing' }, null);
+    renderMiniPlayer(refs, { station: withFavicon, state: 'playing' });
     expect(refs.miniFav.querySelector('img')?.src).toBe('https://example.com/fm4.png');
-    expect(refs.miniArt.hidden).toBe(true);
-  });
-
-  it('does not show album cover during silent-bed wake playback', () => {
-    const refs = mountMini();
-    const wake: WakeTo = {
-      time: '07:30',
-      stationId: 'fm4',
-      station: withFavicon,
-      armedAt: 1_700_000_000_000,
-    };
-    renderMiniPlayer(
-      refs,
-      {
-        station: { id: SILENT_BED_ID, name: 'Silent bed', streamUrl: '/silence.m4a' },
-        state: 'playing',
-        coverUrl: 'https://example.com/cover.jpg',
-      },
-      wake,
-    );
     expect(refs.miniArt.hidden).toBe(true);
   });
 });

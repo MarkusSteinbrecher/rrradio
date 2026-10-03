@@ -3,7 +3,7 @@
    Ported from design_handoff_rrradio/styles.css
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+@import './fonts.css';
 
 /* Theme tokens. Two palettes, dark default, switched via
    `data-theme="light"` on <html>. The toggle in main.ts persists the
@@ -1423,6 +1423,30 @@ a.settings-row { text-decoration: none; }
 .list-item--lib > .list-item__del {
   margin-right: -5px;
 }
+/* Library-home card play control (iOS LibraryHomeCardContent parity):
+   plays the list as a queue; while the list is the active queue it swaps
+   the play glyph for the now-playing equalizer. */
+.list-item__play {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.list-item__play svg { width: 14px; height: 14px; margin-left: 2px; }
+.list-item__play:hover:not(:disabled) { border-color: var(--accent); }
+.list-item__play:active:not(:disabled) { transform: scale(0.94); }
+.list-item__play:disabled { opacity: 0.35; cursor: default; }
+.list-item__play .eq { display: none; }
+.list-item__play.is-active { border-color: var(--accent); }
+.list-item__play.is-active svg { display: none; }
+.list-item__play.is-active .eq { display: inline-flex; }
 .list-item__strip {
   display: flex;
   align-items: center;
@@ -2157,36 +2181,7 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
 .np-back:active { transform: scale(0.92); }
 .np-back svg { width: 22px; height: 22px; display: block; }
 
-/* Browse-list collapse toggle — wide desktop only (shown via the ≥1400px
-   block). Anchored to the NP pane's top-left corner; the chevron points
-   left to collapse the browse list and flips to point right (→ "show
-   browse") once collapsed. */
-.np-collapse-browse {
-  display: none;
-  position: absolute;
-  top: 16px;
-  left: 14px;
-  z-index: 6;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--bg);
-  color: var(--ink-3);
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-.np-collapse-browse:hover { color: var(--ink); border-color: var(--line-2); }
-.np-collapse-browse svg { width: 16px; height: 16px; display: block; }
-/* Expand arrows by default; swap to inward "contract" arrows once the
-   browse list is collapsed (player is already full width). */
-.np-collapse-browse .icon-contract { display: none; }
-body.browse-collapsed .np-collapse-browse .icon-expand { display: none; }
-body.browse-collapsed .np-collapse-browse .icon-contract { display: block; }
-
-/* Close the docked player (desktop) — mirrors the collapse toggle in the
-   opposite (top-right) corner. Hidden by default; shown via the ≥1024px
+/* Close the player (desktop, top-right corner). Hidden by default; shown via the ≥1024px
    block while a station is docked and the player isn't already closed.
    Audio continues; the mini-player carries transport + reopen. */
 .np-close {
@@ -2478,24 +2473,8 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-lyrics-source:hover { color: var(--ink); }
 .np-lyrics-source svg { width: 12px; height: 12px; flex-shrink: 0; }
 
-/* Column header + empty-state — both only surface in the wide 4-column
-   Now Playing layout. The header is display:none until the wide @media
-   turns it on; the empty-state line respects its [hidden] attribute
-   (toggled by renderProgramPane / renderLyricsPane) and is only ever
-   un-hidden inside a force-shown column. */
-.np-col-head {
-  display: none;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 0 0 8px;
-  background: var(--bg);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
+/* Pane empty-state — respects its [hidden] attribute (toggled by
+   renderProgramPane / renderLyricsPane). */
 .np-pane-empty {
   padding: 28px 8px;
   font-size: 13px;
@@ -2654,11 +2633,11 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
      the viewport height, with breathing room above and below. The grid modes
      left-align their own album column; this only applies when neither is on.
      Source is 600×600 (coverArt.ts) so it stays crisp at this size. */
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track {
+  body.tab-playing:not(.np-twocol) .np-track {
     padding-top: 22px;
     padding-bottom: 26px;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track__cover-wrap {
+  body.tab-playing:not(.np-twocol) .np-track__cover-wrap {
     /* Height-driven + flex-shrink so the square stays large on tall screens
        but shrinks to fit shorter ones (e.g. a MacBook) — the on-air text and
        the "Open in" row below it (flex-shrink:0) always stay visible instead
@@ -2708,38 +2687,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-openin__btn svg,
 .np-openin__btn img { width: 28px; height: 28px; display: block; object-fit: contain; }
 
-/* Wake-bed visual cue — silent bed is the active source, but the
-   displayed station is the armed wake target. Dim the cover, the
-   small station logo, and the mini-player favicon so it reads as
-   "muted now, will wake up later", and overlay a subtle mute glyph
-   on the big cover so the meaning is unambiguous. */
-.is-wake-bed .np-track__cover,
-.is-wake-bed .np-station__logo {
-  opacity: 0.42;
-}
-/* On the silent bed the audio element is technically `playing`, so
-   body.is-playing flips the play→pause icon by default. But for the
-   user, "audio is silent" maps to "tap to play" — so override and
-   show the play glyph instead. The click handler then plays the
-   wake station. */
-body.is-wake-bed.is-playing .np-play .icon-play  { display: block; }
-body.is-wake-bed.is-playing .np-play .icon-pause { display: none; }
-body.is-wake-bed.is-playing .mini-toggle .icon-play  { display: block; }
-body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
-.is-wake-bed .np-track__cover-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><path d='M11 5 6 9H2v6h4l5 4V5z'/><line x1='22' y1='9' x2='16' y2='15'/><line x1='16' y1='9' x2='22' y2='15'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 32%;
-  opacity: 0.55;
-  mix-blend-mode: screen;
-}
-.mini.is-wake-bed .fav { opacity: 0.55; }
-.mini.is-wake-bed .mini-name { color: var(--ink-2); }
 .np-track__text {
   display: flex;
   flex-direction: column;
@@ -3007,6 +2954,25 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ─── Best / Data-saver stream toggle (ADR 001, #623) ─── */
+.np-quality {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+}
+.np-quality[hidden] { display: none; }
+.np-quality__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-quality__seg { padding: 3px; }
+.np-quality__seg .seg__btn { padding: 7px 10px; }
+
 /* ─── Source links (stream URL / homepage) ─── */
 .np-source {
   border-bottom: 1px solid var(--line);
@@ -3058,6 +3024,19 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   opacity: 0.7;
 }
 .np-source__row:hover .np-source__ext { color: var(--ink); opacity: 1; }
+/* Receipt status line ("Reported" state) + email fallback under the
+   Report row. */
+.np-source__status {
+  display: block;
+  padding: 0 2px 10px 74px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+.np-source__status[hidden] { display: none; }
+.np-source__status.is-resolved { color: var(--accent); }
+.np-source__mail { color: var(--ink-2); text-decoration: underline; }
+.np-source__mail:hover { color: var(--ink); }
 
 /* ─── Now Playing controls ─── */
 .np-controls {
@@ -3355,6 +3334,192 @@ body.is-playing .np-play .icon-pause { display: block; }
 }
 .np-info__close:hover { color: var(--ink); background: var(--bg-3); }
 .np-info__close svg { width: 18px; height: 18px; }
+
+/* ─── Keyboard-shortcut help (#101) ─── page-level twin of the
+   station-info popup: centered card over a dim scrim. */
+.kbd-help {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+.kbd-help[hidden] { display: none; }
+.kbd-help__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.kbd-help__card {
+  position: relative;
+  width: min(380px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px 20px 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+.kbd-help__card:focus { outline: none; }
+.kbd-help__title {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.kbd-help__list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  align-items: center;
+  margin: 0;
+}
+.kbd-help__list dt { display: flex; gap: 4px; justify-self: start; }
+.kbd-help__list dd { margin: 0; font-size: 13px; color: var(--ink-2); }
+.kbd-help__list kbd {
+  min-width: 26px;
+  padding: 3px 7px;
+  border: 1px solid var(--line-2);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  text-align: center;
+  color: var(--ink);
+}
+.kbd-help__hint {
+  margin: 16px 0 0;
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+/* Touch-only devices have no keyboard to speak of — drop the Settings row. */
+@media (hover: none) and (pointer: coarse) {
+  .settings-row--kbd { display: none; }
+}
+
+/* ─── Broken-station report sheet (#614, iOS BrokenStationReportSheet) ───
+   Same centered card + scrim as the station-info popup. */
+.np-report__card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 20px 18px;
+}
+.np-report__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.np-report__title svg { width: 20px; height: 20px; color: var(--ink-3); flex-shrink: 0; }
+.np-report__station {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-report__cats { margin: 0; padding: 0; border: 0; min-width: 0; }
+.np-report__legend {
+  width: 100%;
+  padding: 0 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.np-report__list {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.np-report__opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+.np-report__opt:first-child { border-top: 0; }
+.np-report__opt input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.np-report__opt:hover { background: var(--bg-2); }
+.np-report__comment-label {
+  margin-bottom: -8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-report__comment {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+.np-report__comment:focus { outline: none; border-color: var(--line-2); }
+.np-report__comment::placeholder { color: var(--ink-4); }
+.np-report__foot {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 4px;
+}
+.np-report__close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.np-report__close svg { width: 14px; height: 14px; }
+.np-report__close:hover { color: var(--ink); }
+.np-report__send {
+  height: 44px;
+  padding: 0 32px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.np-report__send:disabled {
+  background: var(--bg);
+  color: var(--ink-4);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: default;
+}
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
    cycle (24px) every 3.6s while playing. Dim and static otherwise. */
@@ -3803,7 +3968,21 @@ body.is-playing .np-bottom .live-dot  {
   color: var(--ink-3);
 }
 .results-row__back svg,
-.results-row__sort svg { width: 18px; height: 18px; }
+.results-row__sort svg,
+.results-row__surprise svg { width: 18px; height: 18px; }
+/* Surprise me (#97) in the results row: icon-only, pinned right. */
+.results-row__surprise {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 30px;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.results-row__surprise:hover { color: var(--ink); }
 .results-row__sort.is-active { color: var(--accent); }
 .results-row__sort:disabled { opacity: 0.35; cursor: default; }
 .results-row__count {
@@ -3880,8 +4059,8 @@ body.is-playing .np-bottom .live-dot  {
   transition: border-color 0.15s;
   /* Without border-box the .field input's width:100% + horizontal
      padding overflowed the parent on small screens — the iOS native
-     time spinner has its own min-width on top, which made the wake
-     time picker bleed past the sheet edge. */
+     time spinner has its own min-width on top, which made time
+     pickers bleed past the sheet edge. */
   box-sizing: border-box;
 }
 .field input::placeholder { color: var(--ink-4); }
@@ -3940,143 +4119,6 @@ body.is-playing .np-bottom .live-dot  {
 .btn-ghost[data-confirming="true"] {
   color: var(--ink);
   border-color: var(--ink);
-}
-
-/* ─── Wake-to-radio sheet + pill ─────────────────────────────────
-   The pill is the always-visible "alarm armed" indicator at the top.
-   The sheet is the editor. */
-/* Inline wake-edit pane — replaces the track row on the Now Playing
-   screen when body.is-wake-edit is set. Big clock on top, the arm/
-   disarm button below it (which doubles as the "armed · 07:00 · in
-   6h" pill while armed), caveat text at the bottom. Toggled by
-   tapping the alarm icon at the bottom of NP controls (np-wake). */
-.np-wake-pane {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "clock"
-    "arm"
-    "caveat";
-  gap: 12px;
-  align-items: stretch;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--bg-2);
-}
-.np-wake-pane[hidden] { display: none; }
-
-/* Hide the regular content panes when in wake-edit mode. */
-body.is-wake-edit .np-track,
-body.is-wake-edit .np-program-pane,
-body.is-wake-edit .np-lyrics-pane,
-body.is-wake-edit .np-pane-tabs { display: none; }
-
-.np-wake-pane__clock-wrap {
-  grid-area: clock;
-  display: grid;
-  place-items: center;
-  padding: 12px 0;
-  border-radius: 8px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  transition: border-color 120ms ease;
-}
-.np-wake-pane__clock-wrap:hover {
-  border-color: color-mix(in srgb, var(--ink) 35%, var(--line));
-}
-.np-wake-pane__clock {
-  appearance: none;
-  -webkit-appearance: none;
-  width: auto;
-  border: none;
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--mono);
-  font-size: clamp(36px, 11vw, 60px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-  /* `text` cursor on desktop signals "click to type" — the spinners
-     are stripped by `appearance: none` so the user otherwise has no
-     visual cue that the value is editable in place. iOS / Android
-     don't show cursors so this is a desktop-only affordance. */
-  cursor: text;
-  padding: 0;
-  min-width: 0;
-}
-.np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
-/* The native browser-supplied clock-picker glyph that sits to the
-   right of the value adds visual noise next to our big clock — we
-   already cue editability via the text cursor on desktop and the
-   native picker still pops on tap. Hide it on every WebKit-based
-   engine (Chrome, Safari, Edge). */
-.np-wake-pane__clock::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
-.np-wake-pane__clock:focus {
-  outline: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-
-/* Arm/Disarm button. Doubles as the "armed pill" — when armed it
-   stretches to a two-line layout: the time + countdown on the first
-   line, "Tap to disarm" on the second. Tap toggles arm state. */
-.np-wake-pane__arm {
-  grid-area: arm;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 14px 22px;
-  border-radius: 10px;
-  border: 1px solid var(--line-2);
-  background: var(--bg-2);
-  color: var(--ink);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease;
-}
-.np-wake-pane__arm:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.np-wake-pane__arm.is-armed {
-  background: var(--ink);
-  color: var(--bg);
-  border-color: var(--ink);
-}
-.np-wake-pane__arm-label {
-  display: block;
-}
-.np-wake-pane__arm-meta {
-  display: block;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  opacity: 0.9;
-}
-.np-wake-pane__arm-meta[hidden] { display: none; }
-
-.np-wake-pane__caveat {
-  grid-area: caveat;
-  margin: 0;
-  padding: 10px 12px;
-  border-left: 2px solid var(--line-2);
-  background: var(--bg-2);
-  font-size: 12px;
-  color: var(--ink-3);
-  line-height: 1.45;
-  border-radius: 0 6px 6px 0;
 }
 
 .sheet-divider {
@@ -4738,15 +4780,15 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      wide screen: cap and centre the *content* so it doesn't hug the left with
      a sea of empty space. The body itself stays full-pane-width and the
      station divider is excluded from the cap, so the hairline runs full-bleed
-     edge-to-edge across the whole pane — matching the ≥1400px 2-/3-column
-     grids, where the divider spans every column even with no Schedule/Lyrics. */
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body {
+     edge-to-edge across the whole pane — matching the ≥1400px 2-column
+     grid, where the divider spans every column even with no Schedule/Lyrics. */
+  body.tab-playing:not(.np-twocol) .np-body {
     align-items: center;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body > :not(.np-station-divider) {
+  body.tab-playing:not(.np-twocol) .np-body > :not(.np-station-divider) {
     max-width: 760px;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-pane-tabs {
+  body.tab-playing:not(.np-twocol) .np-pane-tabs {
     justify-content: center;
   }
 
@@ -4836,6 +4878,35 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   font-weight: 700;
   color: var(--ink);
 }
+/* Section header with a trailing control ("Browse by genre" · Surprise me). */
+.disc-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.disc-section-head .disc-section-label { flex: 1 1 auto; min-width: 0; }
+/* Compact, chip-styled shuffle control (#97) — quieter than the genre chips
+   (no fill) so it reads as an action, not another filter. */
+.disc-surprise {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 20px 4px 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.disc-surprise svg { width: 14px; height: 14px; }
+.disc-surprise:hover { background: var(--bg-2); color: var(--ink); }
 
 /* Genre / country chips: a single horizontally-scrolling row (one line,
    scrollable) matching the iOS BrowseDiscoveryView chip carousels —
@@ -5034,23 +5105,20 @@ body.is-wake-edit .np-pane-tabs { display: none; }
 /* ─────────────────────────────────────────────────────────────
    Wide desktop: in-window multi-column Now Playing (#521)
    ─────────────────────────────────────────────────────────────
-   At ≥1400px the full-area Now Playing destination lays its panes side by
-   side instead of tab-switching. The column count tracks available
-   content (npLayoutMode):
-
-   · Album + one of Schedule / Lyrics  → 2 columns.
-   · Album + Schedule + Lyrics         → 3 columns.
+   At ≥1400px, when a station has a Schedule and/or Lyrics pane, the
+   full-area Now Playing destination shows Album beside a switchable
+   Schedule/Lyrics column (npLayoutMode → 'twocol'). Album-only stations
+   keep the centred single column. (The 3-column mode was retired, #620.)
 
    The station header spans the top of the NP pane; the transport bar
    spans the bottom (it's a sibling of .np-body). Below 1400px NP falls
    back to the tabbed single-pane layout (mobile unchanged). Gated on
-   body.has-station and :not(.is-wake-edit) (the wake editor keeps its
-   single-pane layout). The .np-twocol / .np-threecol body classes are
-   set by syncNpTabs() from the viewport + available panes. */
+   body.has-station. The .np-twocol body class is set by syncNpTabs()
+   from the viewport + available panes. */
 @media (min-width: 1400px) {
   /* ── Album + switchable Schedule/Lyrics: the golden split ──
      Album left, secondary pane right, ~38.2% / 61.8% (1 : 1.618). */
-  body.np-twocol:not(.is-wake-edit) .np-body {
+  body.np-twocol .np-body {
     display: grid;
     grid-template-columns: minmax(240px, 0.618fr) minmax(0, 1fr);
     grid-template-rows: auto auto auto minmax(0, 1fr);
@@ -5072,30 +5140,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-twocol .np-program-pane,
   body.np-twocol .np-lyrics-pane,
   body.np-twocol #np-secondary-empty { grid-area: secpane; }
-  body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+  body.np-twocol .np-track[hidden] { display: flex; }
 
-  /* ── Album + Schedule + Lyrics: 3 columns ── */
-  body.np-threecol:not(.is-wake-edit) .np-body {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto auto minmax(0, 1fr);
-    grid-template-areas:
-      'station station station'
-      'divider divider divider'
-      'album   program lyrics';
-    column-gap: 22px;
-  }
-  body.np-threecol .np-pane-tabs { display: none !important; }
-  body.np-threecol .np-program-pane { grid-area: program; }
-  body.np-threecol .np-lyrics-pane { grid-area: lyrics; }
-  body.np-threecol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
-  body.np-threecol:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
-  body.np-threecol:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
-  /* Per-column headers only earn their keep when both columns are shown
-     at once (3-col); in 2-col the switcher already labels the column. */
-  body.np-threecol .np-col-head { display: block; }
-
-  /* ── Shared (both wide modes) ── */
+  /* ── Shared wide-mode rules ── */
   body.has-station .np-station { grid-area: station; }
   /* Full-width hairline under the station head: once .np-body becomes a grid
      the divider is no longer in normal flow, so give it its own row + area.
@@ -5112,8 +5159,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      mirroring the left-aligned schedule column. Scoped to the actual grid
      modes — the single-pane (album-only) view keeps the centered base layout
      (see the album-only rule in the ≥1024px block). */
-  body.np-twocol .np-track,
-  body.np-threecol .np-track {
+  body.np-twocol .np-track {
     grid-area: album;
     /* Stretch to the album cell (was `start`) so the cover has a definite
        height budget to flex-shrink against — otherwise a content-sized column
@@ -5128,8 +5174,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   /* The "Album" header: match the Schedule tab's type, plus space to the art.
      Only earns its place beside a Schedule/Lyrics column (grid modes).
      Centred over the album column (align-self) to sit above the centred art. */
-  body.np-twocol .np-track__head,
-  body.np-threecol .np-track__head {
+  body.np-twocol .np-track__head {
     display: block;
     align-self: center;
     font-family: var(--mono);
@@ -5146,8 +5191,7 @@ body.is-wake-edit .np-pane-tabs { display: none; }
      scaled to the viewport) + flex-shrink so it gives way to the text/Open-in
      rows on short viewports; max-width:100% keeps it inside the column (and,
      via aspect-ratio, square) when the column is narrower than that height. */
-  body.np-twocol .np-track .np-track__cover-wrap,
-  body.np-threecol .np-track .np-track__cover-wrap {
+  body.np-twocol .np-track .np-track__cover-wrap {
     width: auto;
     height: min(600px, 56vh);
     max-width: 100%;

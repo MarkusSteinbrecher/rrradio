@@ -378,6 +378,27 @@ rtr:
     via different BU prefixes — SRF/RSI/RTS still on their per-BU
     fetchers for now; consolidating would simplify (see follow-up issue).
 
+# ─────────────── Swiss commercial ───────────────
+media-one:
+  name: Media One Group
+  fullName: Media One Group SA
+  country: CH
+  homepage: https://www.mediaonegroup.ch
+  metadata: media-one
+  notes: |
+    French-speaking Geneva/Vaud commercial group: One FM + Radio Lac
+    (Geneva), LFM (Lausanne), Rouge (Crissier) and Yes FM. Now-playing via
+    a shared platform at www.mediaone-digital.ch/cache/<slug>.json (CORS *),
+    shape { live:[{interpret,title,imageURL/imageFullURL}], played:[...] };
+    missing art comes back as tracks/nocover.png. metadataUrl holds the
+    slug: onefm / radiolac / lfm for the flagships, numeric for the rest —
+    4 = Rouge (rougefm-high), 2104 = Yes FM, 2101-2103 = Kiss Collector /
+    Rock Star Radio / URBN, 24NN = shared webradio pool webradio00NN (One FM
+    New Hits 2401, Rock Oldies 2402, 90's 2406, 2K 2409, …). Mapping read
+    from the data= attributes of the onefm.ch / rouge.ch webradio players
+    (2026-10-03). The legacy rouge-latino / rouge-suisse / rouge-90 mounts
+    still stream but are no longer on rouge.ch and have no cache slug.
+
 # ─────────────── UK ───────────────
 
 bbc:

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-11T14:26:38.098Z",
-  "catalogTotal": 31499,
+  "generatedAt": "2026-10-03T15:24:31.942Z",
+  "catalogTotal": 31501,
   "unclassifiedCatalogEntries": 0,
   "sources": [
     {
@@ -10,15 +10,15 @@
       "kind": "radio-browser",
       "homepage": "https://www.radio-browser.info/",
       "description": "Community-maintained catalog of internet radio stations. Our primary upstream — every entry with a stationuuid is bound to an RB record and inherits stream/codec/bitrate/tags from it.",
-      "candidateCount": 55242,
-      "importedCount": 31478,
-      "availableCount": 15399,
+      "candidateCount": 55243,
+      "importedCount": 31480,
+      "availableCount": 15404,
       "dispositionTotals": {
-        "imported": 31478,
-        "duplicate": 14388,
-        "http-only": 5983,
+        "imported": 31480,
+        "duplicate": 14387,
+        "http-only": 5980,
         "broken": 3288,
-        "available": 105
+        "available": 108
       },
       "extra": {
         "countriesAnalyzed": 237,
@@ -51,11 +51,11 @@
       "kind": "manual",
       "homepage": null,
       "description": "Hand-added stations that don't (yet) come from any upstream catalog. Distinguished by the absence of a stationuuid AND no other RB signals. Sponsor-curated additions like M94.5 and Grrif live here.",
-      "candidateCount": 31,
-      "importedCount": 31,
+      "candidateCount": 33,
+      "importedCount": 33,
       "availableCount": 0,
       "dispositionTotals": {
-        "imported": 31
+        "imported": 33
       },
       "extra": {},
       "detailUrl": "/sources/manual.json"

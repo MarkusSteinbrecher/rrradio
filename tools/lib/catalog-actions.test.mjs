@@ -8,6 +8,8 @@ import {
   applyRepublish,
   applySwapUrl,
   applyClearLogo,
+  applyUpgradeLogo,
+  patchIosLocalFavicons,
   applyActions,
   renderSummary,
   FAVICON_FIELDS,
@@ -356,7 +358,7 @@ describe('renderSummary', () => {
     });
     const md = renderSummary({ ...r, mode: 'auto', day: DAY });
     expect(md).toContain(`## Catalog actions · ${DAY}`);
-    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · clear-logo 0 · skipped 1');
+    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · clear-logo 0 · upgrade-logo 0 · skipped 1');
     expect(countable(md)).toEqual([
       '- `b-two` · Two FM · unpublish · HTTP 404 ×3 · 2026-09-04→2026-09-06',
       '- `d-four` · Four FM · republish · ok ×3',
@@ -458,7 +460,7 @@ describe('applyClearLogo (phase 3)', () => {
     expect(auto.errors).toEqual([]);
     expect(auto.applied[0]).toMatchObject({ id: 'l-one', action: 'clear-logo', favicon: 'https://cdn.example/dead.png', name: 'Logo FM' });
     const summary = renderSummary({ ...auto, mode: 'auto', day: DAY });
-    expect(summary).toContain('clear-logo 1 · skipped 0');
+    expect(summary).toContain('clear-logo 1 · upgrade-logo 0 · skipped 0');
     expect(summary).toContain('- `l-one` · Logo FM · clear-logo · HTTP 404 ×3');
 
     const review = applyActions({
@@ -467,5 +469,98 @@ describe('applyClearLogo (phase 3)', () => {
     });
     expect(review.applied[0]).toMatchObject({ action: 'clear-logo', proposed: true });
     expect(renderSummary({ ...review, mode: 'review', day: DAY })).toContain('What to check: open https://cdn.example/dead.png');
+  });
+});
+
+describe('upgrade-logo (rule 8b, #701)', () => {
+  const YAML = `- id: u-yaml
+  broadcaster: independent
+  name: Yaml FM
+  streamUrl: https://u.example/one
+  favicon: http://reyfm.de/_nuxt/icon.png
+  faviconSource: broadcaster-site
+  status: stream-only
+- id: u-rb
+  broadcaster: independent
+  name: RB FM
+  streamUrl: https://u.example/two
+  status: stream-only
+`;
+  const rows = () => [
+    { id: 'u-yaml', name: 'Yaml FM', streamUrl: 'https://u.example/one', favicon: 'http://reyfm.de/_nuxt/icon.png', faviconSource: 'broadcaster-site', status: 'stream-only' },
+    { id: 'u-rb', name: 'RB FM', streamUrl: 'https://u.example/two', favicon: 'http://www.rtbf.be:80/favicon.ico', status: 'stream-only' },
+  ];
+  const action = { id: 'u-yaml', action: 'upgrade-logo', auto: true, tier: 'long-tail', favicon: 'http://reyfm.de/_nuxt/icon.png', newFavicon: 'https://reyfm.de/_nuxt/icon.png', reason: 'http ×1 · 2026-09-06→2026-09-06 · https twin loads' };
+
+  it('rewrites the YAML favicon in place and the JSON favicon, keeping provenance', () => {
+    const list = rows();
+    const r = applyUpgradeLogo({ yamlText: YAML, stations: list, action });
+    expect(r.favicon).toBe('http://reyfm.de/_nuxt/icon.png');
+    expect(r.yamlText).toBe(YAML.replace('favicon: http://reyfm.de', 'favicon: https://reyfm.de'));
+    expect(list[0]).toEqual({ ...rows()[0], favicon: 'https://reyfm.de/_nuxt/icon.png' });
+    expect(Object.keys(list[0])).toEqual(Object.keys(rows()[0])); // key order → minimal JSON diff
+  });
+
+  it('pins an RB-sourced favicon into the YAML (local YAML wins on the next build)', () => {
+    const list = rows();
+    const r = applyUpgradeLogo({ yamlText: YAML, stations: list, action: { ...action, id: 'u-rb', newFavicon: 'https://www.rtbf.be/favicon.ico' } });
+    expect(r.yamlText).toContain('- id: u-rb\n  favicon: https://www.rtbf.be/favicon.ico\n  broadcaster: independent');
+    expect(list[1].favicon).toBe('https://www.rtbf.be/favicon.ico');
+  });
+
+  it('refuses non-https targets, a favicon that changed since the probe, and unknown rows', () => {
+    expect(() => applyUpgradeLogo({ yamlText: YAML, stations: rows(), action: { ...action, newFavicon: 'http://reyfm.de/_nuxt/icon.png' } })).toThrow(/must be https/);
+    expect(() => applyUpgradeLogo({ yamlText: YAML, stations: rows(), action: { ...action, newFavicon: 'https://other.example/icon.png' } })).toThrow(/changed since the probe/);
+    const already = rows();
+    already[0].favicon = 'https://reyfm.de/_nuxt/icon.png';
+    expect(() => applyUpgradeLogo({ yamlText: YAML, stations: already, action })).toThrow(/already on that URL/);
+    expect(() => applyUpgradeLogo({ yamlText: YAML, stations: rows(), action: { ...action, id: 'nope' } })).toThrow(/not in data/);
+    expect(() => applyUpgradeLogo({ yamlText: YAML, stations: rows().slice(1), action })).toThrow(/not in public/);
+  });
+
+  it('refuses when the YAML favicon is not the published one', () => {
+    const yaml = YAML.replace('favicon: http://reyfm.de/_nuxt/icon.png', 'favicon: stations/yaml-fm.png');
+    expect(() => applyUpgradeLogo({ yamlText: yaml, stations: rows(), action })).toThrow(/YAML favicon differs/);
+  });
+
+  it('is dispatched by applyActions in both modes and summarised', () => {
+    const auto = applyActions({ yamlText: YAML, stations: rows(), actions: [action], day: DAY, mode: 'auto' });
+    expect(auto.errors).toEqual([]);
+    expect(auto.applied[0]).toMatchObject({ id: 'u-yaml', action: 'upgrade-logo', favicon: 'http://reyfm.de/_nuxt/icon.png', newFavicon: 'https://reyfm.de/_nuxt/icon.png' });
+    const summary = renderSummary({ ...auto, mode: 'auto', day: DAY });
+    expect(summary).toContain('clear-logo 0 · upgrade-logo 1 · skipped 0');
+    expect(summary).toContain('- `u-yaml` · Yaml FM · upgrade-logo · http ×1');
+
+    const review = applyActions({
+      yamlText: YAML, stations: rows(), day: DAY, mode: 'review',
+      actions: [{ ...action, action: 'review', auto: false, proposed: 'upgrade-logo', tier: 'curated' }],
+    });
+    expect(review.applied[0]).toMatchObject({ action: 'upgrade-logo', proposed: true });
+    expect(renderSummary({ ...review, mode: 'review', day: DAY })).toContain('What to check: open https://reyfm.de/_nuxt/icon.png');
+  });
+});
+
+describe('patchIosLocalFavicons (rule 8b, #701)', () => {
+  const ups = [{ id: 'u-rb', favicon: 'http://x.example/f.ico', newFavicon: 'https://x.example/f.ico' }];
+
+  it('gives matched rows the upgraded favicon, in builder key position', () => {
+    const ios = [
+      { id: 'rb-u-rb-1', name: 'RB FM', country: 'BE', tags: ['pop'], bitrate: 64, localMatchedCatalogId: 'u-rb' },
+      { id: 'rb-u-rb-2', name: 'RB FM 2', favicon: 'http://x.example/f.ico', localMatchedCatalogId: 'u-rb' },
+      { id: 'rb-u-rb-3', name: 'RB FM 3', favicon: 'https://own.example/logo.png', localMatchedCatalogId: 'u-rb' },
+      { id: 'rb-other', name: 'Other', localMatchedCatalogId: 'other' },
+    ];
+    expect(patchIosLocalFavicons(ios, ups)).toBe(2);
+    expect(Object.keys(ios[0])).toEqual(['id', 'name', 'country', 'tags', 'favicon', 'bitrate', 'localMatchedCatalogId']);
+    expect(ios[0].favicon).toBe('https://x.example/f.ico');
+    expect(ios[1].favicon).toBe('https://x.example/f.ico');
+    expect(ios[2].favicon).toBe('https://own.example/logo.png'); // its own icon is kept
+    expect(ios[3]).not.toHaveProperty('favicon');
+  });
+
+  it('is a no-op without upgrades', () => {
+    const ios = [{ id: 'a', localMatchedCatalogId: 'u-rb' }];
+    expect(patchIosLocalFavicons(ios, [])).toBe(0);
+    expect(ios[0]).toEqual({ id: 'a', localMatchedCatalogId: 'u-rb' });
   });
 });

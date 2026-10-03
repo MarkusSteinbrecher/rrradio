@@ -19,11 +19,16 @@
  *   5 ok streak ≥ 3 on a   republish, auto, whatever the tier
  *     bot-unpublished row
  *   6 RB swap              post-pass `applySwaps` — the CLI fetches RB + probes
- *   7 cap                  at most `caps.auto` auto actions, worst first
+ *   7 cap                  at most `caps.auto` auto actions, worst first;
+ *                          upgrade-logo has its own `caps.upgrade`
  *   8 logo hard streak ≥ 3 long tail: clear-logo · curated: review (phase 3).
  *                          `missing` has nothing to clear; a non-structural
  *                          logo failure share > 15 % skips every logo action
  *                          (`logo-circuit-breaker`)
+ *   8b logo `http` with a  long tail: upgrade-logo · curated: review (#701).
+ *      verified https twin The CLI probes the twin (`logoUpgrades`); the
+ *                          logo breaker does not apply — a twin that loads
+ *                          today is positive evidence, not a guess
  *
  * Every string in `reason` is built from the stable probe vocabulary, so the
  * same evidence always yields the same text (it is written into the YAML).
@@ -57,7 +62,12 @@ export const CANDIDATE_SHARE_LIMIT = 0.02;
  *  the cap from day 4). Live 2026-10-02: 68 of 1,739 candidates fresh, the
  *  trigger sits at 616. */
 export const FRESH_DAYS = 3;
-export const DEFAULT_CAPS = Object.freeze({ auto: 200 });
+/** `auto` caps the status flips, URL swaps and logo clears together;
+ *  `upgrade` caps rule 8b on its own. A verified http→https favicon rewrite
+ *  is the least risky edit the bot makes, and sharing the stream cap would
+ *  starve it behind any unpublish backlog (live 2026-10-03: 3,149 auto
+ *  candidates against a cap of 200). */
+export const DEFAULT_CAPS = Object.freeze({ auto: 200, upgrade: 200 });
 /** The `brokenBy` marker that makes a YAML row bot-managed. */
 export const BOT = 'station-probe';
 /** Status restored by a republish when the row carries no `brokenFrom`. */
@@ -114,6 +124,30 @@ export function candidateEdgeIds(streaks, tiers, yamlById, publishedIds) {
     if (!s || s.o !== 'bad' || s.c !== 'soft' || s.n < SOFT_DAYS) continue;
     if (!publishedIds.has(id) || isBotUnpublished(get(yamlById, id))) continue;
     out.push({ id, first: s.first });
+  }
+  return out.sort((a, b) => a.first.localeCompare(b.first) || a.id.localeCompare(b.id)).map((c) => c.id);
+}
+
+/**
+ * Rule 8b: published stations whose latest logo verdict is `http` — the
+ * listing is plain http, so the app cannot show it. The CLI probes each
+ * one's https twin and hands the ones that load to `decide` as
+ * `logoUpgrades`. Oldest streak first so a `--max-logo` cut keeps the
+ * longest-standing ones.
+ *
+ * @param {Record<string, Record<string, Streak>>} streaks
+ * @param {Map<string, string|null>|Record<string, string|null>} latestLogoDetail
+ * @param {Map<string, YamlRow>|Record<string, YamlRow>} yamlById
+ * @param {Set<string>} publishedIds
+ * @returns {string[]}
+ */
+export function candidateLogoUpgradeIds(streaks, latestLogoDetail, yamlById, publishedIds) {
+  const out = [];
+  for (const id of Object.keys(streaks ?? {})) {
+    const l = streaks[id]?.logo;
+    if (!l || l.o !== 'bad' || get(latestLogoDetail, id) !== 'http') continue;
+    if (!publishedIds.has(id) || isBotUnpublished(get(yamlById, id))) continue;
+    out.push({ id, first: l.first });
   }
   return out.sort((a, b) => a.first.localeCompare(b.first) || a.id.localeCompare(b.id)).map((c) => c.id);
 }
@@ -177,9 +211,11 @@ export function logoCircuitBreakerReason(metrics) {
   return null;
 }
 
-/** Worst first: hard, then soft, then republish, then logos; older streaks first; id last. */
+/** Worst first: hard, then soft, then republish, then logo clears, then logo
+ *  upgrades; older streaks first; id last. */
 function rank(a) {
-  const cls = a.action === 'clear-logo' ? 3 : a.action === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
+  const kind = a.action === 'review' ? a.proposed : a.action;
+  const cls = kind === 'upgrade-logo' ? 4 : kind === 'clear-logo' ? 3 : kind === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
   return [cls, a.streak.first, a.id];
 }
 function byRank(a, b) {
@@ -195,8 +231,10 @@ function byRank(a, b) {
  *          tiers?: Record<string, string>,
  *          yamlById?: Map<string, YamlRow>|Record<string, YamlRow>,
  *          publishedIds: Set<string>, foldCanonicals?: Set<string>, highlightIds?: Set<string>,
- *          edge?: Map<string, EdgeAnswer|null>, metrics?: object|null, now: string,
- *          caps?: {auto?: number}}} input
+ *          edge?: Map<string, EdgeAnswer|null>,
+ *          logoUpgrades?: Map<string, {favicon: string, newFavicon: string}>,
+ *          metrics?: object|null, now: string,
+ *          caps?: {auto?: number, upgrade?: number}}} input
  * @returns {{generatedAt: string, day: string, circuitBreaker: boolean,
  *            circuitBreakerReason: string|null, actions: Action[],
  *            skipped: Array<{id: string, why: string}>}}
@@ -211,11 +249,13 @@ export function decide({
   foldCanonicals = new Set(),
   highlightIds = new Set(),
   edge,
+  logoUpgrades,
   metrics = null,
   now,
   caps,
 }) {
   const autoCap = Math.max(0, Math.floor(caps?.auto ?? DEFAULT_CAPS.auto));
+  const upgradeCap = Math.max(0, Math.floor(caps?.upgrade ?? DEFAULT_CAPS.upgrade));
   const generatedAt = new Date(now).toISOString();
   const day = dayOf(now);
 
@@ -253,15 +293,34 @@ export function decide({
     const y = get(yamlById, id) ?? null;
     if (isBotUnpublished(y)) continue;
     const d = get(latestLogoDetail, id) ?? null;
-    if (d === 'missing') continue;
+    // `http` is soft by vocabulary, but rows written before 2026-09-26
+    // classed it hard and their streaks are still on file: never clear an
+    // http favicon — rule 8b upgrades it, or its https twin's own failure
+    // starts a fresh streak.
+    if (d === 'missing' || d === 'http') continue;
     logoCandidates.push({ id, y, streak: { o: l.o, c: l.c ?? null, n: l.n, first: l.first, last: l.last, d }, tier: tierFor(id, tiers, y, highlightIds) });
+  }
+
+  // ─── rule 8b candidates (#701) — the CLI already verified the twin ──
+  const upgradeCandidates = [];
+  const clearing = new Set(logoCandidates.map((c) => c.id));
+  for (const id of Object.keys(streaks).sort()) {
+    const up = get(logoUpgrades, id);
+    const l = streaks[id]?.logo;
+    if (!up || !l || l.o !== 'bad' || clearing.has(id)) continue;
+    if (typeof up.newFavicon !== 'string' || !/^https:\/\//i.test(up.newFavicon)) continue;
+    if (!publishedIds.has(id)) continue;
+    const y = get(yamlById, id) ?? null;
+    if (isBotUnpublished(y)) continue;
+    const streak = { o: l.o, c: l.c ?? null, n: l.n, first: l.first, last: l.last, d: get(latestLogoDetail, id) ?? null };
+    upgradeCandidates.push({ id, up, streak, tier: tierFor(id, tiers, y, highlightIds) });
   }
 
   // ─── rule 1 ───────────────────────────────────────────────────────
   const published = publishedIds.size || metrics?.published || 0;
   const breaker = circuitBreakerReason(metrics, unpublishCandidates.filter((c) => c.fresh).length, published);
   if (breaker) {
-    const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates]
+    const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates, ...upgradeCandidates]
       .map(({ id }) => ({ id, why: 'circuit-breaker' }))
       .sort((a, b) => a.id.localeCompare(b.id));
     return { generatedAt, day, circuitBreaker: true, circuitBreakerReason: breaker, actions: [], skipped };
@@ -336,11 +395,25 @@ export function decide({
     }
   }
 
+  // ─── rule 8b ──────────────────────────────────────────────────────
+  // No logo breaker here: the twin loaded and decoded this run, so a bad
+  // logo day cannot fake an upgrade the way it can fake a clear.
+  for (const { id, up, streak, tier } of upgradeCandidates) {
+    const base = { id, tier, favicon: up.favicon ?? null, newFavicon: up.newFavicon, streak, reason: reasonFor(streak, null, ['https twin loads']) };
+    if (tier === 'curated' || highlightIds.has(id)) {
+      review.push({ ...base, action: 'review', auto: false, proposed: 'upgrade-logo' });
+    } else {
+      auto.push({ ...base, action: 'upgrade-logo', auto: true });
+    }
+  }
+
   // ─── rule 7 ───────────────────────────────────────────────────────
   auto.sort(byRank);
   review.sort(byRank);
-  const kept = auto.slice(0, autoCap);
-  for (const a of auto.slice(autoCap)) skipped.push({ id: a.id, why: 'cap' });
+  const flips = auto.filter((a) => a.action !== 'upgrade-logo');
+  const upgrades = auto.filter((a) => a.action === 'upgrade-logo');
+  const kept = [...flips.slice(0, autoCap), ...upgrades.slice(0, upgradeCap)];
+  for (const a of [...flips.slice(autoCap), ...upgrades.slice(upgradeCap)]) skipped.push({ id: a.id, why: 'cap' });
   skipped.sort((a, b) => a.id.localeCompare(b.id) || a.why.localeCompare(b.why));
 
   return {
@@ -379,7 +452,7 @@ export function applySwaps(actions, swaps) {
 
 /** Fixed key order so the audit file diffs stay readable. */
 function orderKeys(actions) {
-  const ORDER = ['id', 'action', 'auto', 'tier', 'proposed', 'from', 'to', 'newUrl', 'newCodec', 'streak', 'edge', 'reason'];
+  const ORDER = ['id', 'action', 'auto', 'tier', 'proposed', 'from', 'to', 'newUrl', 'newCodec', 'favicon', 'newFavicon', 'streak', 'edge', 'reason'];
   return actions.map((a) => {
     const out = {};
     for (const k of ORDER) if (k in a) out[k] = a[k];

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { lookupCover, searchITunes, verifyTrack } from './coverArt';
+import { isPlaceholderTrackComponent, lookupCover, searchITunes, verifyTrack } from './coverArt';
 
 // Shared fixture: an iTunes Search hit with one usable artwork URL.
 const HIT_RESPONSE = {
@@ -85,6 +85,23 @@ describe('coverArt / searchITunes', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it.each(['Unknown', '  N/A ', 'unknown title', 'No Artist', '---', '***', '- - -'])(
+    'treats placeholder title %j as a miss without querying iTunes',
+    async (title) => {
+      const result = await searchITunes(undefined, title, new AbortController().signal);
+      expect(result).toEqual({ hit: false });
+      expect(fetchMock).not.toHaveBeenCalled();
+    },
+  );
+
+  it('drops a placeholder artist so a real title still matches on its own', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse(HIT_RESPONSE));
+    const result = await searchITunes('Unknown', 'Pyramid Song H', new AbortController().signal);
+    expect(result.hit).toBe(true);
+    const url = new URL(String(fetchMock.mock.calls[0]?.[0]));
+    expect(url.searchParams.get('term')).toBe('Pyramid Song H');
+  });
+
   it('does NOT cache aborted/network errors so the next poll can retry', async () => {
     fetchMock.mockRejectedValueOnce(new Error('aborted'));
     const signal = new AbortController().signal;
@@ -144,5 +161,14 @@ describe('coverArt / lookupCover (back-compat wrapper)', () => {
     expect(hit).toContain('/600x600bb.jpg');
     const miss = await lookupCover(undefined, 'No match G', signal);
     expect(miss).toBeUndefined();
+  });
+});
+
+describe('coverArt / isPlaceholderTrackComponent', () => {
+  it('matches whole-string placeholders only', () => {
+    expect(isPlaceholderTrackComponent('UNKNOWN')).toBe(true);
+    expect(isPlaceholderTrackComponent('Unknown Pleasures')).toBe(false);
+    expect(isPlaceholderTrackComponent('1999')).toBe(false);
+    expect(isPlaceholderTrackComponent('Été')).toBe(false);
   });
 });

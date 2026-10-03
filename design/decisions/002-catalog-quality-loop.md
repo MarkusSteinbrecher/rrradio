@@ -419,3 +419,22 @@ budgeted vision routine (judgement half) is a separate decision.
   has nothing to clear. Same PR labels and gate as phase 2.
 - **Digest.** Actions line gains `logos cleared n`; "Hot-set logo coverage"
   now reads the observed facet.
+
+### Amendment 2026-10-03 — rule 8b `upgrade-logo` (#701)
+
+- **Observation.** A plain-`http` favicon is fetched through its https twin
+  (scheme swapped, `:80` dropped). Twin fails → the row records the twin's
+  outcome (`HTTP 404`, `timeout`, …, with its usual hard/soft class). Twin
+  loads and decodes → `bad` / `http` / soft as before, now meaning "fix
+  available".
+- **Policy.** `decide-actions` probes the twin of every published station
+  whose latest logo verdict is `http` (`--max-logo 300`); a twin that loads
+  becomes `upgrade-logo` (auto long tail, review curated / highlighted).
+  Own cap `caps.upgrade` = 200, independent of the stream cap, ranked after
+  every other action. Rule 1 applies, the logo breaker does not. Rule 8
+  never clears an `http` logo (stale hard streaks predate 2026-09-26).
+- **Actuator.** YAML `favicon:` set to the twin (inserted when the URL came
+  from RB), JSON `favicon` replaced in place, matched rows in
+  `stations-ios-local.json` given the same favicon. Refused when the
+  published favicon changed since the probe.
+- **Digest.** Actions line gains `logos upgraded n`.

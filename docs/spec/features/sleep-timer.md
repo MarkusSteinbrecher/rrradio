@@ -118,6 +118,10 @@ cases for how an already-paused or error state interacts.
 - **Changing the timer replaces the previous timer** — there is never more than
   one pending pause.
 - **Turning the timer off cancels the pending pause.**
+- **Fade-out (web):** the last 20 s fade the volume to zero before the pause;
+  the volume is restored afterwards so the next play is not silent. Any manual
+  playback action during the fade cancels it. Native platforms pause abruptly
+  today.
 - **Firing pauses playback; it does not stop it.** The active station, queue,
   metadata, and now-playing context are preserved (a `playing`→`paused`
   transition, not `stop`/`idle`) — see
@@ -131,8 +135,9 @@ cases for how an already-paused or error state interacts.
 - **Chip vs. countdown:** the moon-control chip shows the *armed* duration
   (`H:MM`, fixed at arming); the sheet capsule shows the *live remaining* time.
 - **Wake-to-radio coexistence:** firing the sleep timer must preserve any
-  platform wake keep-alive contract (see [Wake to radio](wake-to-radio.md)); a
-  sleep pause is silent-bed compatible and must not tear down an armed wake.
+  platform wake keep-alive contract (see [Wake to radio](wake-to-radio.md)) and
+  must not tear down an armed wake. Web has no wake feature, so its sleep timer
+  simply pauses.
 
 ## Data dependencies
 
@@ -216,9 +221,10 @@ Parameter/plural needs:
 | Preset / free-form durations | Partial (tap-cycle `[0, 15, 30, 60]`; the canonical interaction is the free-form picker — alignment pending); no free-form entry. | Reference — free-form via wheel (sheet) and 24h picker (Settings default); cycle presets unwired. | Supported — free-form via the sleep sheet (hours:minutes input, seeded from the armed value or the persisted default) and a free-form Settings default. |
 | Visible remaining time | Partial (moon-control chip shows the *armed* duration as `<n>m`, fixed at arming; no live countdown, no sheet, no lock-screen suffix). | Supported (control chip + sheet countdown + lock screen). | Supported (2026-07-03) — the transport moon chip shows the armed duration (`H:MM`, fixed at arming) and the mini player an armed moon glyph; the sheet header carries the live countdown capsule on the 30 s cadence; the media notification renders the "Sleep in <n>m" suffix (2026-07-02). |
 | Background firing | Browser/OS dependent. | Supported while app/session remains eligible. | Partial (a ViewModel coroutine fires the pause via the foreground MediaSessionService, so it works while playback keeps the process alive; not yet backed by AlarmManager/exact-alarm, so it does not survive process death — Planned toward parity). |
-| Wake interaction | Silent-bed behavior. | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
+| Wake interaction | Not applicable (no web wake; plain pause). | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
 | Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; free-form hours:minutes entry, matching the iOS Settings picker). |
 | Pause-not-stop on fire | Supported. | Reference. | Supported. |
+| Fade-out before the pause | Supported (#103) — the volume ramps linearly to 0 over the last 20 s, then pauses and restores the pre-fade volume; play/pause, a station change, a volume drag or changing the timer during the fade cancels it (and the timer) and restores the volume at once. Inaudible on iOS Safari (read-only `audio.volume`); the pause still lands on time. | Not implemented (abrupt pause). | Not implemented (abrupt pause). |
 
 ## Android First-Port Requirement
 

@@ -13,8 +13,9 @@ import {
   type BnjLive,
   type ChMediaResponse,
 } from './chFetchers';
+import { mediaOneUrl, parseMediaOne, type MediaOneResponse } from './mediaOne';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
-import type { Station } from './types';
+import type { Station, StreamVariant } from './types';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -886,6 +887,24 @@ const fetchEnergyMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Media One Group (Geneva / Vaud commercial) — One FM, Radio Lac, LFM,
+// Rouge, Yes FM + webradios. Shared now-playing platform, CORS-open;
+// metadataUrl carries the slug. Parse lives in src/mediaOne.ts.
+// ============================================================
+
+const fetchMediaOneMetadata: MetadataFetcher = async (station, signal) => {
+  const url = mediaOneUrl(station.metadataUrl);
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    return parseMediaOne((await res.json()) as MediaOneResponse);
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -1706,6 +1725,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   srr: fetchSrrMetadata,
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,
+  'media-one': fetchMediaOneMetadata,
   azuracast: fetchAzuracastMetadata,
   swr: fetchSwrMetadata,
   streamabc: fetchStreamabcMetadata,
@@ -1843,7 +1863,25 @@ function normaliseStation(raw: unknown): Station | null {
     status: r.status === 'working' || r.status === 'icy-only' || r.status === 'stream-only'
       ? r.status
       : undefined,
+    streams: normaliseStreams(r.streams),
   };
+}
+
+/** Keep `streams[]` (ADR 001) only when it carries ≥ 2 well-formed
+ *  variants; anything else plays `streamUrl` alone. */
+function normaliseStreams(raw: unknown): StreamVariant[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const out: StreamVariant[] = [];
+  for (const v of raw as Partial<StreamVariant>[]) {
+    if (!v || typeof v.url !== 'string' || !v.url) continue;
+    out.push({
+      url: v.url,
+      bitrate: typeof v.bitrate === 'number' ? v.bitrate : undefined,
+      codec: typeof v.codec === 'string' ? v.codec : undefined,
+      tier: v.tier === 'best' || v.tier === 'balanced' || v.tier === 'data' ? v.tier : undefined,
+    });
+  }
+  return out.length >= 2 ? out : undefined;
 }
 
 export function loadBuiltinStations(): Promise<Station[]> {

@@ -241,7 +241,21 @@ describe('renderDigest — actions this week', () => {
 
   it('counts unpublished / republished / swapped / awaiting review, once per station and action', () => {
     expect(md).toContain('### Actions this week (4)');
-    expect(s).toContain('- unpublished 1 · republished 1 · swapped 1 · logos cleared 0 · awaiting review 1');
+    expect(s).toContain('- unpublished 1 · republished 1 · swapped 1 · logos cleared 0 · logos upgraded 0 · awaiting review 1');
+  });
+
+  it('counts logo clears and upgrades', () => {
+    const logoLog = [{
+      day: '2026-09-06',
+      actions: [
+        { id: 'l1', action: 'clear-logo', auto: true, tier: 'long-tail', reason: 'HTTP 404 ×3' },
+        { id: 'u1', action: 'upgrade-logo', auto: true, tier: 'long-tail', newFavicon: 'https://u1/logo.png', reason: 'http ×1 · https twin loads' },
+        { id: 'u2', action: 'upgrade-logo', auto: true, tier: 'long-tail', newFavicon: 'https://u2/logo.png', reason: 'http ×1 · https twin loads' },
+      ],
+      skipped: [],
+      circuitBreaker: false,
+    }];
+    expect(section(renderDigest({ ...base, actionsLog: logoLog }), 'Actions this week')).toContain('· logos cleared 1 · logos upgraded 2 ·');
   });
 
   it('tallies skipped by reason and names the circuit-breaker days', () => {
@@ -271,7 +285,7 @@ describe('renderDigest — actions this week', () => {
     expect(section(renderDigest({ ...base, actionsLog: null }), 'Actions this week')).toContain('none');
     const onlySkips = renderDigest({ ...base, actionsLog: [{ day: '2026-09-06', actions: [], skipped: [{ id: 'a', why: 'cap' }] }] });
     const s3 = section(onlySkips, 'Actions this week');
-    expect(s3).toContain('- unpublished 0 · republished 0 · swapped 0 · logos cleared 0 · awaiting review 0');
+    expect(s3).toContain('- unpublished 0 · republished 0 · swapped 0 · logos cleared 0 · logos upgraded 0 · awaiting review 0');
     expect(s3).toContain('- skipped: cap 1');
   });
 });

@@ -40,8 +40,8 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | favorites | review | d241aa9 | `Views/FeedPages/FavoritesPage.swift`, `Views/StationKit.swift`, `Library/Library.swift` |
 | station-lists | review | 8fc085b | `Library/Library.swift`, `Views/FeedPages/*`, `BrowseSelectionDock` |
 | custom-stations | review | d241aa9 | `Views/AddStationView.swift`, `Library/StreamProbe.swift`, `Library/CustomStationBuilder.swift` |
-| now-playing | review | d241aa9 | `Views/NowPlayingView.swift`, `MiniPlayerView`, `Player/Metadata/MusicServiceLinks.swift` |
-| metadata-artwork | review | d241aa9 | `Player/Metadata/*` |
+| now-playing | review | 8fc085b | `Views/NowPlayingView.swift`, `MiniPlayerView`, `Player/Metadata/MusicServiceLinks.swift` |
+| metadata-artwork | review | 8fc085b | `Player/Metadata/*` |
 | sleep-timer | review | d241aa9 | `Player/SleepTimer.swift` |
 | wake-to-radio | review | d241aa9 | `Player/WakeAlarm.swift` |
 | listening-history | review | d241aa9 | `Library/ListeningHistory.swift`, `Views/DashboardView.swift`, `Views/ListeningRaceChart.swift` |
@@ -90,6 +90,18 @@ now-playing were corrected and those docs re-stamped @ `8fc085b`. The other item
 in the "not implemented" list above (FTS search, a real playback queue, retry
 budget, i18n, listening-history feature, custom-station probe, offline/PWA, report
 receipts) still stand.
+
+**Update (2026-10-03, #533 / #532):** now-playing re-reconciled against iOS
+`2384de3` (status strip as the details-panel header, centered status, portrait
+type scale, details hide the track text + Open-in rail) and `67ff4c0` (Schedule
+pane gated on an actual schedule; landscape details parity), and its Web cells
+refreshed for the station-info popup, inline Open-in row, desktop volume row and
+the removal of wake-to-radio from web. metadata-artwork gained the iOS `c8d409f`
+cover rules (placeholder titles are a miss; clear stale art on a miss), now
+mirrored in web `src/coverArt.ts`. Both re-stamped @ `8fc085b`. Stale "Not
+planned" Web cells for list reorder and Browse multi-select in station-lists and
+browse were flipped to Supported (browse keeps its `d241aa9` stamp — only Web
+cells changed).
 
 ## Android reconciliation
 

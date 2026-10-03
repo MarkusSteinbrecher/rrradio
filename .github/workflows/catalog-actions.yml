@@ -119,7 +119,7 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then FLAG="--dry-run"; fi
           node tools/apply-actions.mjs --actions actions.json --data health-data \
             --mode auto --summary-out auto-body.md $FLAG
-          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json)" ]; then
+          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json public/stations-ios-local.json)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -134,7 +134,7 @@ jobs:
           BRANCH="bot/catalog-actions-$DAY"
           COUNT=$(grep -cE '^- `' auto-body.md || echo 0)
           git checkout -B "$BRANCH"
-          git add data/stations.yaml public/stations.json
+          git add data/stations.yaml public/stations.json public/stations-ios-local.json
           git commit -q -m "catalog: automatic station actions $DAY ($COUNT station(s))"
           git push -f origin "$BRANCH"
           EXISTING=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // ""')
@@ -160,7 +160,7 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then FLAG="--dry-run"; fi
           node tools/apply-actions.mjs --actions actions.json --data health-data \
             --mode review --summary-out review-body.md $FLAG
-          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json)" ]; then
+          if [ -n "$(git status --porcelain -- data/stations.yaml public/stations.json public/stations-ios-local.json)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -181,7 +181,7 @@ jobs:
           BRANCH="bot/catalog-review-$DAY"
           COUNT=$(grep -cE '^- `' review-body.md || echo 0)
           git checkout -B "$BRANCH"
-          git add data/stations.yaml public/stations.json
+          git add data/stations.yaml public/stations.json public/stations-ios-local.json
           git commit -q -m "catalog: curated-tier proposals $DAY ($COUNT station(s)) — review before merging"
           git push -f origin "$BRANCH"
           gh pr create --label catalog-review \

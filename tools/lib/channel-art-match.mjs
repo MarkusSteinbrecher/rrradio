@@ -12,6 +12,14 @@
 // Matching is deliberately conservative: a station is only assigned art when the
 // match is confident AND unambiguous. Unmatched stations fall back to the
 // brand/homepage logo elsewhere — we never guess.
+//
+// Two tiers: exact (collapsed discriminator equal) and fuzzy (containment /
+// token overlap). The fuzzy tier only considers labels that look like channel
+// names (`looksLikeChannelLabel`): on public-broadcaster pages a news photo
+// whose alt text mentions the station ("Frau hört SWR1 Baden-Württemberg im
+// Radio") is a real image with the name "in" the label, and used to win
+// (#463). When an alt label fails that guard, the image's filename label is
+// tried instead — filenames are far more reliable than alt on those pages.
 
 import { nameTokens } from './station-name-signature.mjs';
 
@@ -40,6 +48,52 @@ export function labelFromFilename(url) {
   base = base.replace(/[_\- ]?\d{2,4}\s*x\s*\d{2,4}\b/gi, ''); // WxH dimensions
   base = base.replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
   return base;
+}
+
+// Photo / caption / credit markers. Anywhere in a word: German compounds
+// ("Symbolfoto", "Pressefoto") and agency names. Whole words only: the ones
+// that are also ordinary word stems.
+// People and programme shots (presenters, editors, a show's key visual, the TV
+// sibling's logo) are the same failure: the station is named, but the image is
+// not its channel art (DE sweep 2026-10-03).
+const CAPTION_ANYWHERE = /foto|photo|unsplash|imago|getty|shutterstock|istock|symbolbild|pixabay|moderator|redakteur|sendungsmotiv/i;
+const CAPTION_WORDS = /(?:^|[^\p{L}\p{N}])(?:bild(?:er)?|dpa|picture|pictures|podcast|podcasts|studio|credit|copyright|team|motiv|fernsehen|interview)(?:$|[^\p{L}\p{N}])/iu;
+const CREDIT = /©|\(c\)/i;
+// Sentence punctuation: typographic or straight double quotes, guillemets,
+// ellipsis, ! / ?, and a full stop that ends a word (not "96.3").
+const SENTENCE = /[„“”"«»…!?]|\.(?:\s|$)/;
+const MAX_WORDS = 5;
+
+/**
+ * Does an image label read like a channel name rather than a photo caption?
+ * Gate for the fuzzy tier (#463); exact matches do not need it.
+ *
+ * Rejects caption / credit markers (`foto`, `bild`, `symbolfoto`, `podcast`,
+ * `unsplash`, `imago`, `getty`, `dpa`, `picture`, `studio`, `©` / `(c)`, …),
+ * sentence punctuation (`„ " . ! ? …`), more than five words, and mostly
+ * lowercase prose (three or more words, at least two thirds starting
+ * lowercase).
+ *
+ *   "Gong 96.3 Weihnachts Hits"                  -> true
+ *   "Frau hört SWR1 Baden-Württemberg im Radio"  -> false (six words)
+ *   "(Foto: SR 1)"                               -> false (caption marker)
+ *
+ * @param {string|null|undefined} label
+ * @returns {boolean}
+ */
+export function looksLikeChannelLabel(label) {
+  const text = String(label ?? '').trim();
+  if (!text) return false;
+  if (CAPTION_ANYWHERE.test(text) || CAPTION_WORDS.test(text) || CREDIT.test(text)) return false;
+  if (SENTENCE.test(text)) return false;
+  const words = text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w));
+  if (words.length > MAX_WORDS) return false;
+  // Words that start with a letter (after leading punctuation); "80er" and
+  // "96.3" are neither upper nor lower case.
+  const alpha = words.filter((w) => /^[^\p{L}\p{N}]*\p{L}/u.test(w));
+  const lower = alpha.filter((w) => /^[^\p{L}\p{N}]*\p{Ll}/u.test(w));
+  if (alpha.length >= 3 && lower.length * 3 >= alpha.length * 2) return false;
+  return true;
 }
 
 /**
@@ -110,10 +164,20 @@ export function matchChannelArt({ members, candidates, coreTokens }) {
   });
 
   // Discriminator per candidate: strip the family core prefix from the label.
+  // `channelLike` gates the fuzzy tier. A label that fails the guard gets a
+  // second variant from the filename when that one passes; both variants
+  // share the URL, so the 1:1 assignment still uses the image at most once.
   const candDiscr = candidates
-    .map((c) => {
-      const discr = stripPrefix(nameTokens(c.label), core);
-      return { url: c.url, label: c.label, tokens: discr, collapsed: discr.join('') };
+    .flatMap((c) => {
+      const variants = [{ label: c.label, channelLike: looksLikeChannelLabel(c.label) }];
+      if (!variants[0].channelLike) {
+        const fromFile = labelFromFilename(c.url);
+        if (fromFile && fromFile !== c.label && looksLikeChannelLabel(fromFile)) variants.push({ label: fromFile, channelLike: true });
+      }
+      return variants.map((v) => {
+        const discr = stripPrefix(nameTokens(v.label), core);
+        return { url: c.url, label: v.label, channelLike: v.channelLike, tokens: discr, collapsed: discr.join('') };
+      });
     })
     .filter((c) => c.collapsed.length > 0);
 
@@ -123,6 +187,7 @@ export function matchChannelArt({ members, candidates, coreTokens }) {
     if (!mem.collapsed) continue;
     for (const cand of candDiscr) {
       const { score, exact } = scorePair(mem, cand);
+      if (!exact && !cand.channelLike) continue; // photo caption, not a channel name (#463)
       if (score >= MIN_SCORE) pairs.push({ memId: mem.id, url: cand.url, label: cand.label, score, exact });
     }
   }
