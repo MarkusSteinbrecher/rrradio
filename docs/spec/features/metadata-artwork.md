@@ -3,7 +3,7 @@
 ```yaml
 status: review
 platforms: [web, ios, android]
-reconciled-against: d241aa9
+reconciled-against: 8fc085b
 ```
 
 ## Purpose
@@ -84,7 +84,7 @@ elements into an artwork column + program/lyrics column.
 | **Loaded (track known)** | Cover (track) or placeholder, title, artist; `Schedule` tab if program/schedule present; `Lyrics` tab if lyrics found; music-service rail once verified. | All panes; music-service links; schedule rows tappable. |
 | **Cover resolving** | Placeholder shown immediately; upgrades in place to the track cover when the lookup returns (no spinner over the art). | — |
 | **Schedule loading** | `Schedule` tab appears as soon as a schedule load starts; the pane shows a spinner while the day grid loads; program name/subtitle may already be shown. | Pane is visible. |
-| **No schedule** | Schedule pane shows `No schedule available` (when a program name exists but no grid, or the grid load failed). | — |
+| **No schedule** | No Schedule tab/pane when no grid is loaded or loading (even if a program name exists — it shows on the Album pane). `No schedule available` only appears for a loaded day with no broadcasts. | — |
 | **Lyrics not found / instrumental** | `Lyrics` tab is absent (pane only appears on a non-empty hit). | — |
 | **Verification miss (news/talk/station ID)** | Music-service rail hidden; cover stays on the placeholder. | — |
 | **Error** | Title = `Playback error`; subtitle = the error message; artwork = placeholder. | Retry via play/pause; report-broken. |
@@ -122,6 +122,19 @@ elements into an artwork column + program/lyrics column.
   [metadata-fetchers](../contracts/metadata-fetchers.md#cover-art-fallback-chain).
 - **iTunes cover upgrade resolution:** a 100×100 iTunes artwork URL is rewritten to
   600×600 before it becomes the in-app cover.
+- **Placeholder titles are a miss:** before querying iTunes, a title that is a
+  whole-string "no metadata" marker — `Unknown`, `Unknown Artist`, `Unknown
+  Title`, `Unknown Song`, `No Title`, `No Artist`, `N/A`, `---` (case-insensitive,
+  trimmed) — or is too short / only dashes is treated as a miss without a request,
+  so a title-only search can't latch onto an unrelated album. A placeholder
+  *artist* is dropped from the query so a real title still matches on its own.
+  Substring matches are unaffected ("Unknown Pleasures" is a real song). Web
+  additionally treats a title with no letters or digits at all (`***`, `- - -`)
+  as a placeholder.
+- **Clear stale art on a miss:** when the lookup misses (no confident iTunes
+  match) and the stream supplied no cover, the in-app artwork returns to the
+  no-cover placeholder — the previous track's cover is never left up over the
+  new track.
 - **Cover never blocks:** the placeholder renders immediately; the cover swaps in
   when resolved. No spinner over the artwork.
 - **Music-service rail gating:** buttons appear **only** when iTunes Search
@@ -210,8 +223,10 @@ elements into an artwork column + program/lyrics column.
   poller, not a substitute.
 - **Offline:** no fetches; the surface shows network phrasing and an offline tint,
   retaining the last station identity.
-- **Schedule fetch failure:** the Schedule pane falls back to `No schedule
-  available`; a current program name (if any) still shows.
+- **Schedule fetch failure / no schedule:** the Schedule pane is offered only
+  when a schedule is loaded or loading; with none, the pane is absent rather than
+  a `No schedule available` dead end, and a current program name (if any) still
+  shows on the Album pane.
 - **Lyrics provider down / instrumental track:** the Lyrics tab is simply absent;
   an instrumental result is cached as a definitive "no lyrics".
 - **Huge schedule:** the Today grid lists every broadcast for the live day and

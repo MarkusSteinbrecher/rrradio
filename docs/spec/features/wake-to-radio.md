@@ -233,7 +233,7 @@ formatting; "now"/"soon" are special-cased).
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| In-app timer | Supported while tab/session remains alive. | Supported while app remains alive. | Planned while process/service remains alive. |
+| In-app timer | Not exposed: the wake UI is removed from the web player (wake-to-radio is native-only). The dormant scheduler described under Web remains in code until its teardown. | Supported while app remains alive. | Planned while process/service remains alive. |
 | Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | Planned (a foreground service / near-silent playback bed while armed; Android-native equivalent of the iOS keep-alive). |
 | Local notification fallback | Partial (best-effort `Notification` fired at wake time only when the page is alive and permission granted; no scheduled/background fallback). | Supported (one-shot, fixed identifier). | Planned. |
 | Notification-tap → playback | Not planned (no notification-tap path; audio starts directly from the in-page timer). | Supported (queued, consumed on next active pass — see W1). | Planned. |
@@ -248,6 +248,12 @@ formatting; "now"/"soon" are special-cased).
 | Preference cloud sync | Not planned. | Supported for time + notify + keep-alive. | Not applicable. |
 
 ## Web
+
+**Wake-to-radio is no longer offered on web.** Its Now Playing entry (wake
+button + inline wake pane) has been removed from the web player; the elements
+remain hidden and unreachable only because the scheduler / silent-bed code still
+references them, and a full teardown is follow-up work. The remaining Web cells
+in the matrix and the description below record that dormant implementation.
 
 The web wake flow is browser-limited. It can work while the page and audio session
 remain eligible, but it must not promise alarm-clock reliability. The in-page
