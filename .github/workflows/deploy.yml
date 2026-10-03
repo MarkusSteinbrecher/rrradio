@@ -107,7 +107,7 @@ jobs:
     # Playwright hard-fails the run on a mismatch, so this tag has to move
     # in the same commit as any playwright bump — never in one of its own.
     container:
-      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
