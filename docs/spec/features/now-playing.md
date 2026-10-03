@@ -318,7 +318,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; ICY plus broadcaster direct fetchers (GRRIF / ORF) supply artist / title / program, polled on a tick; no full fetcher parity yet. |
 | Cover art fallback | Partial; no-cover falls back to station favicon then initials, not the animated dot-matrix `rrr`. | Reference. | Partial; track cover art resolves (iTunes + broadcaster art) into the artwork frame and mini-player thumb, but the no-cover fallback is the station favicon then initials, not the animated dot-matrix `rrr` (planned). |
-| Previous/next station controls | Partial; no in-view prev/next buttons. Mini-player skip + lock-screen/Bluetooth controls cycle the favorites list (no station-list queue). | Reference. | Supported for active playback queues. |
+| Previous/next station controls | Supported; Now Playing transport, mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported. | Planned/partial native parity. | Planned. |
@@ -326,7 +326,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Sleep-timer / wake-alarm entry | Partial; sleep-timer entry only (wake to radio is not a web feature). | Reference. | Partial; sleep-timer entry on the mini-player and transport row, but no wake-alarm entry yet (planned; would use AlarmManager exact-alarm + the foreground MediaSessionService). |
 | Landscape / split layout | Supported on wide desktop (≥1400px): a 2-column player (Album + a switchable Schedule/Lyrics column) expands to 3 columns (Album │ Schedule │ Lyrics) when the browse list is collapsed. No phone-landscape split. | Supported (iPad split + iPhone landscape). | Supported — aspect-selected (width > height) split matching the shipped iOS layout: 0.382 golden album column + hairline + the swipeable Schedule⇄Lyrics pane (full-width album when no side data); artwork clamps to the column (max 256, height-aware, floor 96); portrait cover cap 220 phone / 390 tablet. |
 | Car mode | Not a dedicated web feature. | Supported. | Planned; the foreground MediaSessionService already surfaces a media notification with lock-screen/Bluetooth transport (the Android counterpart to background audio + lock-screen controls), but no Android Auto surface or dedicated car-mode layout yet. |
-| Report broken station | Partial; one-tap report POST from the details panel, no category picker / comment / receipt lifecycle. | Supported. | Partial; one-tap "Report broken station" POST from the Now Playing surface with a sent/failed status line, no category picker / comment / receipt lifecycle. |
+| Report broken station | Supported; the station-info Report row opens a category + comment sheet, with a receipt status line and an email fallback (#614). | Supported. | Partial; one-tap "Report broken station" POST from the Now Playing surface with a sent/failed status line, no category picker / comment / receipt lifecycle. |
 
 ## Native Port Notes
 

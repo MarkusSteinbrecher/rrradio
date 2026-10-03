@@ -1,8 +1,10 @@
+import { isQualityPref, type QualityPref } from './stream-select';
 import type { Station } from './types';
 
 const FAVORITES_KEY = 'rrradio.favorites.v2';
 const RECENTS_KEY = 'rrradio.recents.v2';
 const CUSTOM_KEY = 'rrradio.custom.v1';
+const QUALITY_PREF_KEY = 'rrradio.qualityPref.v1';
 /** Keys left behind by the removed web wake-to-radio feature. */
 const LEGACY_WAKE_KEYS = ['rrradio.wake.v1', 'rrradio.wake.lastTime.v1'];
 const RECENTS_LIMIT = 12;
@@ -161,4 +163,15 @@ export function setCustom(list: Station[]): void {
  *  Wake-to-radio is iOS-only now; the web app no longer reads them. */
 export function clearLegacyWakeKeys(): void {
   for (const key of LEGACY_WAKE_KEYS) removeKey(key);
+}
+
+/** Global stream-quality preference (ADR 001): `best` (default) or
+ *  `data`. Device-local; unknown stored values read as `best`. */
+export function getQualityPref(): QualityPref {
+  const v = getString(QUALITY_PREF_KEY);
+  return isQualityPref(v) ? v : 'best';
+}
+
+export function setQualityPref(pref: QualityPref): void {
+  setString(QUALITY_PREF_KEY, pref);
 }

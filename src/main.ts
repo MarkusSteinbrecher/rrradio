@@ -53,6 +53,8 @@ import {
   setRecents,
   setString,
   toggleFavorite,
+  getQualityPref,
+  setQualityPref,
 } from './storage';
 import type { BackupSettings } from './backup';
 import {
@@ -71,6 +73,7 @@ import {
   getList,
   getLists,
   listContains,
+  removeFromList,
   renameList,
   reorderLists,
   reorderListStations,
@@ -97,7 +100,22 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
-import { reportBrokenStation } from './reportBroken';
+import {
+  addReceipt,
+  applyStatuses,
+  canSendReport,
+  idsToPoll,
+  loadReceipts,
+  pruneReceipts,
+  receiptForStation,
+  receiptStatusText,
+  REPORT_CATEGORIES,
+  resolvedToastText,
+  saveReceipts,
+  type ReportCategory,
+} from './brokenReports';
+import { fetchReportStatuses, reportBrokenStation } from './reportBroken';
+import { SHORTCUTS, shortcutFor, type ShortcutAction } from './shortcuts';
 import { fmtSharePct, normalizeForSearch } from './format';
 import {
   type MiniRefs,
@@ -124,11 +142,13 @@ import {
   ICON_LIST_ADD,
   ICON_MINUS_CIRCLE,
   ICON_PENCIL,
+  ICON_PLAY,
   ICON_PLUS,
   ICON_RECENT,
   ICON_SEARCH,
   ICON_TRASH,
 } from './icons';
+import { isListQueue, resolveQueue, stepQueue, type QueueSource } from './queue';
 import {
   bootstrapTheme,
   applyTheme,
@@ -137,6 +157,7 @@ import {
 } from './theme';
 import { bootstrapAccent, readAccent, setAccent, DEFAULT_ACCENT } from './accent';
 import { safeUrl, urlDisplay } from './url';
+import { SLEEP_FADE_MS, SleepFade } from './sleepFade';
 import type { NowPlaying, Station } from './types';
 
 // ─────────────────────────────────────────────────────────────
@@ -159,6 +180,18 @@ type ListTab = Exclude<Tab, 'playing'>;
 installGlobalErrorHandlers();
 
 const player = new AudioPlayer();
+player.configure({
+  qualityPref: getQualityPref(),
+  // Favorites / recents saved before stream variants shipped carry only
+  // `streamUrl`; pick up the catalog's `streams[]` by id (ADR 001).
+  hydrate: (s) => {
+    if (s.streams) return s;
+    const streams = stationById(s.id)?.streams;
+    return streams ? { ...s, streams } : s;
+  },
+  // Region-locked streams fail for good — don't walk the retry ladder.
+  isPermanentFailure: (s) => !isAvailableInUserRegion(s),
+});
 
 let coverEnrichToken = 0;
 let coverEnrichController: AbortController | undefined;
@@ -269,6 +302,8 @@ const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
 const $npStationLogoBtn = document.getElementById('np-station-logo-btn') as HTMLButtonElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
+const $npQuality = document.getElementById('np-quality') as HTMLElement;
+const $npQualitySeg = document.getElementById('np-quality-seg') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
 const $npPaneTabs = document.getElementById('np-pane-tabs') as HTMLElement;
@@ -292,7 +327,6 @@ const $npLyricsSource = document.getElementById('np-lyrics-source') as HTMLAncho
 const $npLyricsSourceText = document.getElementById('np-lyrics-source-text') as HTMLElement;
 const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
 const $npSecondaryEmpty = document.getElementById('np-secondary-empty') as HTMLElement;
-const $npCollapseBrowse = document.getElementById('np-collapse-browse') as HTMLButtonElement;
 const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
@@ -312,6 +346,15 @@ const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
 const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npReportBroken = document.getElementById('np-report-broken') as HTMLButtonElement;
 const $npReportBrokenLabel = document.getElementById('np-report-broken-label') as HTMLElement;
+const $npReportStatus = document.getElementById('np-report-status') as HTMLElement;
+const $npReportMail = document.getElementById('np-report-mail') as HTMLAnchorElement;
+const $npReport = document.getElementById('np-report') as HTMLElement;
+const $npReportScrim = document.getElementById('np-report-scrim') as HTMLElement;
+const $npReportForm = document.getElementById('np-report-form') as HTMLFormElement;
+const $npReportStation = document.getElementById('np-report-station') as HTMLElement;
+const $npReportComment = document.getElementById('np-report-comment') as HTMLTextAreaElement;
+const $npReportSend = document.getElementById('np-report-send') as HTMLButtonElement;
+const $npReportClose = document.getElementById('np-report-close') as HTMLButtonElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npAdd = document.getElementById('np-add') as HTMLButtonElement;
 const $npPrev = document.getElementById('np-prev') as HTMLButtonElement;
@@ -405,6 +448,9 @@ let $selectDock: HTMLElement | null = null;
 let lastListTab: ListTab = 'browse';
 // Which list is open in the Library detail view (null = the Library home).
 let openListId: string | null = null;
+// Where the current station was started from — previous/next step through
+// it (see ./queue). null = no known context → Favorites.
+let activeQueue: QueueSource | null = null;
 // Add-to-list popup (iOS AddListPopupCard). null when closed. 'addNow' adds the
 // known `station`; 'pickStations' chooses/creates a list then hands off to the
 // Browse select dock. `target` is the chosen existing list or a drafted new
@@ -422,6 +468,10 @@ let addListState: {
 let listCreateOpen = false; // inline "name your list" row in the lists index
 let listRenameOpen = false; // inline rename input in the list-detail header
 let listDeleteConfirmId: string | null = null; // inline "Delete list?" confirm
+// List-detail edit mode (#641): the header trash toggles a per-row remove
+// (−) affordance, mirroring Favorites' favEditing. Deleting the whole list
+// lives on the Library-home row control.
+let listEditing = false;
 // Browse filter — multi-select, mirroring the iOS BrowseFilter model.
 // Genre ids (from GENRES) and uppercase ISO country codes; News is the
 // in-filter toggle iOS keeps in the Genre section. When ANY of these (or
@@ -615,6 +665,9 @@ interface RowOptions {
    *  slot showing the station's current-track art (iOS parity). Browse rows
    *  don't. */
   cover?: boolean;
+  /** Playback context a tap on this row starts — becomes the active queue
+   *  previous/next step through. Omitted → Favorites fallback. */
+  queue?: QueueSource;
 }
 
 function buildRow(
@@ -742,11 +795,11 @@ function buildRow(
     row.append(fav, info, right);
   }
 
-  row.addEventListener('click', () => onRowPlay(station));
+  row.addEventListener('click', () => onRowPlay(station, opts.queue));
   row.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onRowPlay(station);
+      onRowPlay(station, opts.queue);
     }
   });
 
@@ -859,6 +912,8 @@ const NP_REFS: NowPlayingRefs = {
   npStationLogo: $npStationLogo,
   npStationLogoBtn: $npStationLogoBtn,
   npBitrate: $npBitrate,
+  npQuality: $npQuality,
+  npQualitySeg: $npQualitySeg,
   npOrigin: $npOrigin,
   npListeners: $npListeners,
   npTrackRow: $npTrackRow,
@@ -888,11 +943,12 @@ function renderNowPlaying(np: NowPlaying): void {
   renderNowPlayingImpl(NP_REFS, np, {
     isFavorite,
     onClearOpenIn: () => {},
+    qualityPref: player.getQualityPref(),
   });
   // The inline open-in row is always-visible (when verified), so reflect the
   // per-service Settings toggles on every render.
   syncMusicServiceLinks();
-  // Keep the wide-layout body classes (np-twocol/np-threecol) in sync as
+  // Keep the wide-layout body class (np-twocol) in sync as
   // the station loads/changes/stops — has-station has just been toggled
   // upstream, so the mode is current here.
   syncNpTabs();
@@ -1095,20 +1151,18 @@ function resetLyrics(): void {
   renderLyricsPane();
 }
 
-/** Now Playing wide-desktop layout mode. 'narrow' is the docked tabbed
- *  view (mobile + 1024–1400px desktop). At ≥1400px while a station is
- *  docked it's 'twocol' (Album + a switchable Schedule/Lyrics column,
- *  browse list still visible) or 'threecol' (browse collapsed → Album │
- *  Schedule │ Lyrics, all visible). */
+/** Now Playing wide-desktop layout mode. 'narrow' is the tabbed single
+ *  view (mobile, 1024–1400px desktop, and album-only stations). At ≥1400px
+ *  with a Schedule or Lyrics pane it's 'twocol' (Album + a switchable
+ *  Schedule/Lyrics column). The former 3-column mode is retired (#620). */
 const wideNpMq = matchMedia('(min-width: 1400px)');
-type NpLayout = 'narrow' | 'twocol' | 'threecol';
+type NpLayout = 'narrow' | 'twocol';
 function npLayoutMode(): NpLayout {
   if (!wideNpMq.matches || !currentNP.station.id) return 'narrow';
   // The wide NP is the golden split — album on the left, a switchable
   // Schedule/Lyrics column on the right (the pane-tab strip toggles which) —
   // whenever there's at least one secondary pane to show. Album-only
-  // stations stay single-column (centred). 3-column (all panes at once) is
-  // no longer auto-selected; the switchable 2-column split is the default.
+  // stations stay single-column (centred).
   const hasProgram = !!(npSchedule && npSchedule.length > 0);
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
   if (hasProgram || hasLyrics) return 'twocol';
@@ -1126,9 +1180,8 @@ function syncNpTabs(): void {
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
   const mode = npLayoutMode();
 
-  // Layout body classes drive the wide grid (CSS); both cleared on narrow.
+  // Layout body class drives the wide grid (CSS); cleared on narrow.
   $body.classList.toggle('np-twocol', mode === 'twocol');
-  $body.classList.toggle('np-threecol', mode === 'threecol');
 
   if (mode === 'twocol') {
     // Album owns column 1; the second column is Schedule OR Lyrics, so
@@ -1142,7 +1195,7 @@ function syncNpTabs(): void {
       npView = hasProgram ? 'program' : hasLyrics ? 'lyrics' : 'now';
     }
   } else {
-    // narrow + threecol: drop to 'now' if the active secondary is gone.
+    // narrow: drop to 'now' if the active secondary is gone.
     if (npView === 'program' && !hasProgram) npView = 'now';
     if (npView === 'lyrics' && !hasLyrics) npView = 'now';
   }
@@ -1163,8 +1216,8 @@ function syncNpTabs(): void {
   $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
 
   // Pane [hidden] flags. The narrow docked view obeys them directly; the
-  // wide grids override via CSS (3-col force-shows all panes; 2-col always
-  // shows album and shows whichever secondary matches npView). render-np
+  // wide 2-col grid overrides via CSS (always shows album, plus whichever
+  // secondary matches npView). render-np
   // writes content into npTrackRow but never touches its `hidden`. Track
   // also stays hidden with no station so we don't show an em-dashed shell.
   $npTrackRow.hidden = npView !== 'now' || !currentNP.station.id;
@@ -2094,7 +2147,7 @@ function renderContent(): void {
         return;
       }
       const visible = ordered.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visible));
+      $content.append(rowsGrid(visible, { queue: { kind: 'results', stations: ordered } }));
       const remaining = ordered.length - visible.length;
       if (remaining > 0) {
         $content.append(homeShowMoreButton(remaining));
@@ -2117,16 +2170,17 @@ function renderContent(): void {
       });
       const results = refine(lastBrowseStations, { textQuery: query, featuredFirst: false });
       $content.append(resultsRow(myFiltered.length + results.length));
+      const searchQueue: QueueSource = { kind: 'results', stations: [...myFiltered, ...results] };
       if (myFiltered.length > 0) {
         $content.append(sectionLabel('My stations', myFiltered.length));
         const visibleMy = myFiltered.slice(0, homeViewLimit);
-        $content.append(rowsGrid(visibleMy));
+        $content.append(rowsGrid(visibleMy, { queue: searchQueue }));
         const remainingMy = myFiltered.length - visibleMy.length;
         if (remainingMy > 0) $content.append(homeShowMoreButton(remainingMy));
       }
       if (results.length > 0) {
         $content.append(sectionLabel('Results', results.length));
-        $content.append(rowsGrid(results));
+        $content.append(rowsGrid(results, { queue: searchQueue }));
         if (browseHasMore) {
           $content.append(loadMoreButton());
           pendingLoadMore = (): void => void loadMore();
@@ -2148,7 +2202,7 @@ function renderContent(): void {
     $content.append(resultsRow(all.length, 'All stations'));
     if (all.length > 0) {
       const visibleAll = all.slice(0, homeViewLimit);
-      $content.append(rowsGrid(visibleAll));
+      $content.append(rowsGrid(visibleAll, { queue: { kind: 'results', stations: all } }));
       const remainingAll = all.length - visibleAll.length;
       if (remainingAll > 0) {
         $content.append(homeShowMoreButton(remainingAll));
@@ -2201,7 +2255,7 @@ function renderContent(): void {
       // Desktop lays favorites out as a card grid (iOS landscape tile view);
       // mobile keeps the single-column list. rowsGrid wraps in `.rows`, which
       // is a plain vertical stack on mobile and a card grid at ≥1024px.
-      const grid = rowsGrid(list, { cover: true });
+      const grid = rowsGrid(list, { cover: true, queue: { kind: 'favorites' } });
       $content.append(grid);
       armFavCovers(list);
       // Unfiltered list: edit mode reveals a per-row remove affordance (iOS
@@ -2248,7 +2302,7 @@ function renderContent(): void {
     } else {
       // Recents matches the Favorites layout: iOS-style cards on desktop
       // (single-column stack on mobile) with now-playing cover + track.
-      $content.append(rowsGrid(list, { cover: true }));
+      $content.append(rowsGrid(list, { cover: true, queue: { kind: 'recents', stations: list } }));
       armFavCovers(list);
     }
   }
@@ -2279,6 +2333,7 @@ function resetListUiState(): void {
   listCreateOpen = false;
   listRenameOpen = false;
   listDeleteConfirmId = null;
+  listEditing = false;
 }
 
 /** Inline "name your list" form (input + confirm + cancel) — the in-app
@@ -2430,6 +2485,7 @@ function renderLibraryIndex(query: string): void {
   // and keep them in sync as the column width changes.
   bindStripResize();
   wrap.querySelectorAll<HTMLElement>('.list-item__strip').forEach(fitStrip);
+  syncLibraryCardsPlaying();
   // Reorder the user's lists — the pinned Recents row (.list-item--system) is
   // excluded, so it stays at the tail. Only on the unfiltered home with no
   // create / delete-confirm row in the way. Grip drag on mobile, DnD on
@@ -2563,6 +2619,48 @@ function buildRecentsRow(): HTMLElement {
   return row;
 }
 
+/** Library-home card play control (iOS LibraryHomeCardContent parity):
+ *  plays the list's first station queued against the list. While this list
+ *  is the active queue it shows the now-playing equalizer and toggles
+ *  play/pause instead. Disabled for an empty list. */
+function buildListPlayBtn(list: StationList): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-item__play';
+  btn.dataset.listId = list.id;
+  btn.innerHTML = ICON_PLAY;
+  btn.append(buildEq(false));
+  btn.disabled = list.stations.length === 0;
+  btn.setAttribute('aria-label', `Play ${list.name}`);
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const first = list.stations[0];
+    if (!first) return;
+    if (isListQueue(activeQueue, list.id) && list.stations.some((s) => s.id === currentNP.station.id)) {
+      handlePlayToggle();
+      return;
+    }
+    onRowPlay(first, { kind: 'list', listId: list.id });
+  });
+  return btn;
+}
+
+/** Reflect the active queue on the Library-home card play controls. */
+function syncLibraryCardsPlaying(): void {
+  const id = currentNP.station.id;
+  $content.querySelectorAll<HTMLButtonElement>('.list-item__play').forEach((btn) => {
+    const listId = btn.dataset.listId ?? '';
+    const active = !!id && isListQueue(activeQueue, listId);
+    btn.classList.toggle('is-active', active);
+    btn.querySelector('.eq')?.classList.toggle('paused', currentNP.state !== 'playing');
+    const name = btn.getAttribute('aria-label')?.replace(/^(Play|Pause) /, '') ?? '';
+    btn.setAttribute(
+      'aria-label',
+      `${active && currentNP.state === 'playing' ? 'Pause' : 'Play'} ${name}`,
+    );
+  });
+}
+
 function buildListIndexRow(list: StationList): HTMLElement {
   const row = document.createElement('div');
   row.className = 'list-item list-item--lib';
@@ -2578,6 +2676,7 @@ function buildListIndexRow(list: StationList): HTMLElement {
   info.append(name, buildIconStrip(list.stations, 'Empty list'));
 
   row.append(info);
+  if (!libEditing && listDeleteConfirmId !== list.id) row.append(buildListPlayBtn(list));
 
   // Delete-confirm mode: the row swaps its chevron + trash for an inline
   // "Delete list?" confirm and is no longer clickable.
@@ -2663,48 +2762,33 @@ function renderListDetail(list: StationList, query: string): void {
     input?.focus();
     input?.select();
   } else {
-    const actions: HTMLElement[] =
-      listDeleteConfirmId === list.id
-        ? [
-            buildDeleteConfirm(
-              () => {
-                deleteList(list.id);
-                track('list-delete');
-                openListId = null;
-                resetListUiState();
-                renderContent();
-              },
-              () => {
-                listDeleteConfirmId = null;
-                renderContent();
-              },
-            ),
-          ]
-        : [
-            listActionBtn(ICON_PENCIL, 'Rename list', () => {
-              listRenameOpen = true;
-              listDeleteConfirmId = null;
-              renderContent();
-            }),
-            listActionBtn(ICON_TRASH, 'Delete list', () => {
-              listDeleteConfirmId = list.id;
-              renderContent();
-            }),
-          ];
+    const trashBtn = listActionBtn(ICON_TRASH, 'Remove stations', () => {
+      listEditing = !listEditing;
+      renderContent();
+    });
+    if (listEditing) trashBtn.classList.add('is-active');
+    trashBtn.setAttribute('aria-pressed', String(listEditing));
+    const actions: HTMLElement[] = [
+      listActionBtn(ICON_PENCIL, 'Rename list', () => {
+        listRenameOpen = true;
+        listEditing = false;
+        renderContent();
+      }),
+      ...(list.stations.length > 0 ? [trashBtn] : []),
+    ];
     // The "+" enters Browse multi-select targeting this list — on both
     // breakpoints. Mobile additionally adopts the iOS status-bar layout
     // ([back · search] · name · actions); desktop keeps its back-prepended
-    // header and only gains the "+". The inline delete-confirm skips "+" so
-    // its buttons aren't crowded.
+    // header and only gains the "+".
     const wide = matchMedia('(min-width: 1024px)').matches;
-    const confirming = listDeleteConfirmId === list.id;
-    const fullActions = confirming
-      ? actions
-      : [
-          headerActionBtn(ICON_PLUS, 'Add stations to this list', () => enterListSelect(list)),
-          ...actions,
-        ];
-    if (!wide && !confirming) {
+    const fullActions = [
+      headerActionBtn(ICON_PLUS, 'Add stations to this list', () => {
+        listEditing = false;
+        enterListSelect(list);
+      }),
+      ...actions,
+    ];
+    if (!wide) {
       const label = sectionLabel(list.name, stations.length, fullActions, [
         back,
         headerSearchLead('Search this list'),
@@ -2720,6 +2804,7 @@ function renderListDetail(list: StationList, query: string): void {
   }
 
   if (list.stations.length === 0) {
+    listEditing = false;
     $content.append(
       emptyState(
         ICON_LIST,
@@ -2735,12 +2820,22 @@ function renderListDetail(list: StationList, query: string): void {
   }
   // List detail matches the Favorites layout: iOS-style cards on desktop,
   // single-column stack on mobile, with now-playing cover + track.
-  const grid = rowsGrid(stations, { cover: true });
+  const grid = rowsGrid(stations, { cover: true, queue: { kind: 'list', listId: list.id } });
   $content.append(grid);
   armFavCovers(stations);
-  // Reorder the list's stations (full, unfiltered list only — a search
-  // subset isn't the stored order). Grip drag on mobile, DnD on desktop.
-  if (!query) {
+  // Edit mode: per-row remove (−), like Favorites. Otherwise reorder the
+  // list's stations (full, unfiltered list only — a search subset isn't the
+  // stored order). Grip drag on mobile, DnD on desktop.
+  if (listEditing) {
+    decorateRowRemoval(grid, stations, (station) => ({
+      label: `Remove ${station.name} from ${list.name}`,
+      onRemove: () => {
+        removeFromList(list.id, station.id);
+        track('list-remove-station');
+        renderContent(); // stays in edit mode until the list empties
+      },
+    }));
+  } else if (!query) {
     enableReorder(grid, {
       itemSelector: ':scope > .row',
       idOf: (el) => el.dataset.id ?? '',
@@ -3146,7 +3241,11 @@ function homeShowMoreButton(remaining: number): HTMLButtonElement {
 // Actions
 // ─────────────────────────────────────────────────────────────
 
-function onRowPlay(station: Station): void {
+function onRowPlay(station: Station, queue?: QueueSource): void {
+  // The context this tap came from becomes the active queue for
+  // previous/next (no context → Favorites fallback).
+  activeQueue = queue ?? null;
+  syncLibraryCardsPlaying();
   // If already current and playing → pause; else play & record recent
   if (currentNP.station.id === station.id) {
     handlePlayToggle();
@@ -3799,6 +3898,7 @@ function reflectMuteUi(muted: boolean): void {
 // Without this the user is stuck waiting on a slow / dead stream with
 // no obvious way out short of opening another station.
 function handlePlayToggle(): void {
+  cancelSleepFadeOnUserAction();
   if (currentNP.state === 'playing' || currentNP.state === 'loading') {
     player.pause();
     return;
@@ -3806,11 +3906,35 @@ function handlePlayToggle(): void {
   player.toggle();
 }
 
+// Sleep-timer fade-out (#103): the last SLEEP_FADE_MS of the timer ramp
+// the volume to 0, then a plain pause, then the volume is put back so the
+// next play isn't silent. Uses player.setVolume directly so the fade is
+// neither persisted nor reflected on the volume sliders.
+const sleepFade = new SleepFade({
+  getVolume: () => player.getVolume(),
+  setVolume: (v) => player.setVolume(v),
+  stop: () => {
+    player.pause();
+    sleepIndex = 0;
+    setSleep(0);
+  },
+});
+
+/** A manual action (play/pause, station change, volume drag) during the
+ *  fade means the listener is awake: cancel the fade + timer and restore
+ *  the volume. No-op outside the fade. */
+function cancelSleepFadeOnUserAction(): void {
+  if (!sleepFade.active) return;
+  sleepIndex = 0;
+  setSleep(0);
+}
+
 function setSleep(minutes: number): void {
   if (sleepTimer !== undefined) {
     window.clearTimeout(sleepTimer);
     sleepTimer = undefined;
   }
+  sleepFade.cancel();
   if (minutes === 0) {
     $npSleep.classList.remove('is-fav');
     $npSleepChip.hidden = true;
@@ -3822,11 +3946,12 @@ function setSleep(minutes: number): void {
   $npSleepChip.hidden = false;
   $npSleepChip.textContent = `${minutes}m`;
   $npSleep.setAttribute('aria-label', `Sleep timer · ${minutes}m`);
+  // Start the fade SLEEP_FADE_MS before the deadline; the fade's own
+  // timer does the pause at the deadline.
   sleepTimer = window.setTimeout(() => {
-    player.pause();
-    sleepIndex = 0;
-    setSleep(0);
-  }, minutes * 60 * 1000);
+    sleepTimer = undefined;
+    sleepFade.start();
+  }, Math.max(0, minutes * 60 * 1000 - SLEEP_FADE_MS));
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -3847,25 +3972,6 @@ function handleNavClick(e: Event): void {
 }
 $tabbar.addEventListener('click', handleNavClick);
 $topnavNav.addEventListener('click', handleNavClick);
-
-// Browse-list collapse toggle (wide desktop only, in the NP pane corner).
-// Collapsing the browse list hands the freed width to the player, which
-// expands from 2 columns (Album + Schedule/Lyrics) to 3 (Album │ Schedule
-// │ Lyrics). Persisted; only takes visual effect at ≥1400px (CSS-gated).
-const BROWSE_COLLAPSED_KEY = 'rrradio.browse-collapsed';
-function applyBrowseCollapsed(collapsed: boolean): void {
-  $body.classList.toggle('browse-collapsed', collapsed);
-  $npCollapseBrowse.setAttribute('aria-expanded', String(!collapsed));
-  $npCollapseBrowse.setAttribute('aria-label', collapsed ? 'Show browse list' : 'Hide browse list');
-  // twocol ⇄ threecol depends on this class — recompute.
-  syncNpTabs();
-}
-$npCollapseBrowse.addEventListener('click', () => {
-  const collapsed = !$body.classList.contains('browse-collapsed');
-  applyBrowseCollapsed(collapsed);
-  setString(BROWSE_COLLAPSED_KEY, collapsed ? '1' : '0');
-});
-applyBrowseCollapsed(getString(BROWSE_COLLAPSED_KEY) === '1');
 
 // Desktop "close player" (×, NP top-right): stop playback and dismiss the
 // player. miniClose() clears the station, which hides the mini bar and bounces
@@ -4375,6 +4481,20 @@ function syncMusicServiceLinks(): void {
   $npTrackYoutubeMusic.style.display = msEnabled('youtube') ? '' : 'none';
 }
 
+// Now Playing Best / Data-saver toggle (ADR 001, #623): persist the
+// global preference, re-play the current station on the chosen variant,
+// and repaint the active segment.
+$npQualitySeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-quality]');
+  const pref = btn?.dataset.quality;
+  if (pref !== 'best' && pref !== 'data') return;
+  if (pref === player.getQualityPref()) return;
+  setQualityPref(pref);
+  player.setQualityPref(pref);
+  renderNowPlaying(player.getCurrent());
+  track(`quality/${pref}`);
+});
+
 $themeSeg.addEventListener('click', (e) => {
   const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');
   if (!btn) return;
@@ -4481,7 +4601,6 @@ function collectSettings(): BackupSettings {
       spotify: msEnabled('spotify'),
       youtube: msEnabled('youtube'),
     },
-    browseCollapsed: getString(BROWSE_COLLAPSED_KEY) === '1',
   };
 }
 
@@ -4501,10 +4620,6 @@ function applySettings(s: BackupSettings): void {
     if (typeof ms.spotify === 'boolean') setString(MS_KEYS.spotify, ms.spotify ? '1' : '0');
     if (typeof ms.youtube === 'boolean') setString(MS_KEYS.youtube, ms.youtube ? '1' : '0');
     syncMusicServiceLinks();
-  }
-  if (typeof s.browseCollapsed === 'boolean') {
-    setString(BROWSE_COLLAPSED_KEY, s.browseCollapsed ? '1' : '0');
-    applyBrowseCollapsed(s.browseCollapsed);
   }
 }
 
@@ -4794,19 +4909,35 @@ function toggleHeaderSearch(): void {
 
 /** Prepend a remove (−) button to each favorite card in edit mode. */
 function decorateFavoriteRemoval(grid: HTMLElement, list: Station[]): void {
+  decorateRowRemoval(grid, list, (station) => ({
+    label: `Remove ${station.name} from favorites`,
+    // un-favorites + re-renders (stays in edit mode)
+    onRemove: () => onToggleFav(station),
+  }));
+}
+
+/** Edit mode (iOS delete mode): prepend a red remove (−) button to each
+ *  row of `grid`, which renders `list` in order. Shared by Favorites and
+ *  list detail. */
+function decorateRowRemoval(
+  grid: HTMLElement,
+  list: Station[],
+  removal: (station: Station) => { label: string; onRemove: () => void },
+): void {
   grid.classList.add('rows--editing');
   const rows = grid.querySelectorAll<HTMLElement>(':scope > .row');
   rows.forEach((row, i) => {
     const station = list[i];
     if (!station) return;
+    const { label, onRemove } = removal(station);
     const rm = document.createElement('button');
     rm.type = 'button';
     rm.className = 'row-remove';
-    rm.setAttribute('aria-label', `Remove ${station.name} from favorites`);
+    rm.setAttribute('aria-label', label);
     rm.innerHTML = ICON_MINUS_CIRCLE;
     rm.addEventListener('click', (e) => {
       e.stopPropagation();
-      onToggleFav(station); // un-favorites + re-renders (stays in edit mode)
+      onRemove();
     });
     row.prepend(rm);
   });
@@ -5009,14 +5140,14 @@ $miniToggle.addEventListener('click', (e) => {
 });
 
 // Mini-player prev/next — same gesture as the lock-screen previous/next
-// controls: cycle backward/forward through favorites.
+// controls: step through the active queue.
 $miniPrev.addEventListener('click', (e) => {
   e.stopPropagation();
-  skipFavorite(-1);
+  skipStation(-1);
 });
 $miniSkip.addEventListener('click', (e) => {
   e.stopPropagation();
-  skipFavorite(1);
+  skipStation(1);
 });
 
 $npPlay.addEventListener('click', () => handlePlayToggle());
@@ -5051,10 +5182,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !$npInfo.hidden) closeStationInfo();
 });
 
-// ── Transport: previous / next — cycle through favorites, the same
+// ── Transport: previous / next — step through the active queue, the same
 // gesture as the mini-player + lock-screen prev/next controls. ──
-$npPrev.addEventListener('click', () => skipFavorite(-1));
-$npNext.addEventListener('click', () => skipFavorite(1));
+$npPrev.addEventListener('click', () => skipStation(-1));
+$npNext.addEventListener('click', () => skipStation(1));
 
 // ── Add the current station to a list (+ button on the name row). ──
 $npAdd.addEventListener('click', () => {
@@ -5136,6 +5267,7 @@ function setVolume(v: number, persist = true): void {
 }
 
 function handleVolumeInput(slider: HTMLInputElement): void {
+  cancelSleepFadeOnUserAction();
   const v = Number(slider.value) / 100;
   // Dragging up from a muted state unmutes — the slider becoming the
   // primary control would otherwise feel broken.
@@ -5150,6 +5282,14 @@ $npVolumeSlider.addEventListener('input', () => handleVolumeInput($npVolumeSlide
 // Desktop mini-player slider — same behaviour, shared volume state.
 $miniVolumeSlider.addEventListener('input', () => handleVolumeInput($miniVolumeSlider));
 
+// ── Broken-station report (#614) ────────────────────────────────────
+// Report row in the station-info popup → report sheet (category + optional
+// comment) → POST → local receipt → per-station status line, refreshed by
+// an opportunistic status poll on load / tab foreground. Contract:
+// docs/spec/contracts/broken-reports.md.
+let reportReceipts = pruneReceipts(loadReceipts(), Date.now());
+saveReceipts(reportReceipts);
+
 function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): void {
   $npReportBroken.classList.toggle('is-sent', state === 'sent');
   $npReportBroken.classList.toggle('is-error', state === 'error');
@@ -5162,19 +5302,122 @@ function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): voi
         : state === 'error'
           ? 'Could not send'
           : 'Broken station';
+  // Failure offers the email fallback (iOS parity).
+  const s = currentNP.station;
+  $npReportMail.hidden = state !== 'error' || !s.id;
+  if (state === 'error' && s.id) {
+    const subject = `Broken station: ${s.name}`;
+    const body =
+      `The station "${s.name}" failed to play in rrradio.\n\n` +
+      `Station id: ${s.id}\nStream: ${s.streamUrl}\nState: ${currentNP.state}`;
+    $npReportMail.href =
+      `mailto:support@rrradio.org?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+  }
+  renderReportStatus();
 }
 
-$npReportBroken.addEventListener('click', async () => {
+/** Per-station status line from the latest receipt ("Reported" state). */
+function renderReportStatus(): void {
+  const id = currentNP.station.id;
+  const receipt = id ? receiptForStation(reportReceipts, id) : undefined;
+  $npReportStatus.hidden = !receipt;
+  $npReportStatus.textContent = receipt ? receiptStatusText(receipt) : '';
+  $npReportStatus.classList.toggle('is-resolved', receipt?.status === 'resolved');
+}
+
+function reportCategory(): ReportCategory | null {
+  const checked = $npReportForm.querySelector<HTMLInputElement>(
+    'input[name="np-report-category"]:checked',
+  );
+  const v = checked?.value;
+  return v && (REPORT_CATEGORIES as readonly string[]).includes(v) ? (v as ReportCategory) : null;
+}
+
+function syncReportSheet(): void {
+  const category = reportCategory();
+  $npReportComment.placeholder =
+    category === 'other' ? 'Describe the problem' : 'Comment (optional)';
+  $npReportSend.disabled = !canSendReport(category, $npReportComment.value);
+}
+
+function openReportSheet(): void {
   const station = currentNP.station;
   if (!station.id) return;
+  $npReportForm.reset();
+  $npReportStation.textContent = station.name;
+  syncReportSheet();
+  closeStationInfo();
+  $npReport.hidden = false;
+  $npReportForm.querySelector<HTMLInputElement>('input[name="np-report-category"]')?.focus();
+}
+
+function closeReportSheet(): void {
+  $npReport.hidden = true;
+}
+
+async function sendReport(): Promise<void> {
+  const station = currentNP.station;
+  const category = reportCategory();
+  const comment = $npReportComment.value;
+  if (!station.id || !canSendReport(category, comment) || !category) return;
+  closeReportSheet();
+  openStationInfo();
   setReportBrokenState('sending');
   try {
-    await reportBrokenStation(station, currentNP.errorMessage);
-    setReportBrokenState('sent');
+    const reportId = await reportBrokenStation(station, category, comment, currentNP.errorMessage);
+    if (reportId) {
+      reportReceipts = addReceipt(reportReceipts, {
+        id: reportId,
+        stationId: station.id,
+        stationName: station.name,
+        category,
+        sentAt: Date.now(),
+        status: 'received',
+        seen: false,
+      });
+      saveReceipts(reportReceipts);
+    }
+    if (currentNP.station.id === station.id) setReportBrokenState('sent');
   } catch (err) {
     reportWorkerError(err, '/api/public/report-broken');
-    setReportBrokenState('error');
+    if (currentNP.station.id === station.id) setReportBrokenState('error');
   }
+}
+
+$npReportBroken.addEventListener('click', openReportSheet);
+$npReportForm.addEventListener('change', syncReportSheet);
+$npReportComment.addEventListener('input', syncReportSheet);
+$npReportForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  void sendReport();
+});
+$npReportClose.addEventListener('click', closeReportSheet);
+$npReportScrim.addEventListener('click', closeReportSheet);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$npReport.hidden) closeReportSheet();
+});
+
+/** Opportunistic receipt poll (load + tab foreground, never on a timer).
+ *  Failures are silent; a newly resolved receipt shows a one-shot toast. */
+async function refreshReportReceipts(): Promise<void> {
+  reportReceipts = pruneReceipts(reportReceipts, Date.now());
+  const ids = idsToPoll(reportReceipts);
+  if (ids.length === 0) return;
+  const payload = await fetchReportStatuses(ids);
+  if (payload === null) return;
+  reportReceipts = applyStatuses(reportReceipts, payload, ids);
+  const unseen = reportReceipts.find((r) => r.status === 'resolved' && !r.seen);
+  if (unseen) {
+    showBackupToast(resolvedToastText(unseen), 'ok');
+    unseen.seen = true;
+  }
+  saveReceipts(reportReceipts);
+  renderReportStatus();
+}
+void refreshReportReceipts();
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') void refreshReportReceipts();
 });
 
 $npFav.addEventListener('click', () => {
@@ -5186,6 +5429,101 @@ $npFav.addEventListener('click', () => {
 $npSleep.addEventListener('click', () => {
   sleepIndex = (sleepIndex + 1) % SLEEP_CYCLE_MIN.length;
   setSleep(SLEEP_CYCLE_MIN[sleepIndex]);
+});
+
+// ── Keyboard shortcuts (#101) ───────────────────────────────────────
+// Routing rules live in src/shortcuts.ts (ignore typing / modified keys /
+// Space on a focused button / open sheets); each action calls the same
+// function as its on-screen control.
+const $kbdHelp = document.getElementById('kbd-help') as HTMLElement;
+const $kbdHelpList = document.getElementById('kbd-help-list') as HTMLElement;
+let kbdHelpReturnFocus: HTMLElement | null = null;
+
+function renderShortcutHelp(): void {
+  const rows: HTMLElement[] = [];
+  for (const sc of SHORTCUTS) {
+    const dt = document.createElement('dt');
+    sc.keys.forEach((k, i) => {
+      if (i > 0) dt.append(' ');
+      const kbd = document.createElement('kbd');
+      kbd.textContent = k;
+      dt.append(kbd);
+    });
+    const dd = document.createElement('dd');
+    dd.textContent = sc.label;
+    rows.push(dt, dd);
+  }
+  $kbdHelpList.replaceChildren(...rows);
+}
+
+function setShortcutHelp(open: boolean): void {
+  if (open === !$kbdHelp.hidden) return;
+  if (open) {
+    if (!$kbdHelpList.firstChild) renderShortcutHelp();
+    kbdHelpReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    $kbdHelp.hidden = false;
+    $kbdHelp.querySelector<HTMLElement>('.kbd-help__card')?.focus();
+  } else {
+    $kbdHelp.hidden = true;
+    kbdHelpReturnFocus?.focus();
+    kbdHelpReturnFocus = null;
+  }
+}
+
+function focusSearchShortcut(): void {
+  // Search lives on the list pages; from Now Playing (or wherever the
+  // field is collapsed/hidden) jump to Browse first.
+  if (activeTab === 'playing' || $search.offsetParent === null) setTab('browse');
+  $search.focus();
+  $search.select();
+}
+
+function runShortcut(action: ShortcutAction): void {
+  const station = currentNP.station;
+  switch (action) {
+    case 'toggle-play':
+      handlePlayToggle();
+      break;
+    case 'focus-search':
+      focusSearchShortcut();
+      break;
+    case 'toggle-favorite':
+      if (station.id) onToggleFav(station);
+      break;
+    case 'next':
+      skipStation(1);
+      break;
+    case 'previous':
+      skipStation(-1);
+      break;
+    case 'toggle-mute':
+      reflectMuteUi(player.toggleMute());
+      break;
+    case 'toggle-help':
+      setShortcutHelp($kbdHelp.hidden);
+      break;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$kbdHelp.hidden) {
+    setShortcutHelp(false);
+    return;
+  }
+  const action = shortcutFor(e, {
+    modalOpen: !$kbdHelp.hidden || !$npInfo.hidden || !!document.querySelector('.sheet.open'),
+    helpOpen: !$kbdHelp.hidden,
+  });
+  if (!action) return;
+  e.preventDefault();
+  runShortcut(action);
+  track(`shortcut/${action}`);
+});
+document.getElementById('kbd-help-close')?.addEventListener('click', () => setShortcutHelp(false));
+document.getElementById('kbd-help-scrim')?.addEventListener('click', () => setShortcutHelp(false));
+document.getElementById('settings-shortcuts')?.addEventListener('click', () => {
+  openSettingsSheet(false);
+  setShortcutHelp(true);
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -5213,6 +5551,8 @@ player.subscribe((np) => {
       np = { ...np, errorMessage: `${label} — region-locked by the broadcaster.` };
     }
   }
+  // Switching station mid sleep-fade is a manual action: cancel the fade.
+  if (np.station.id !== currentNP.station.id) cancelSleepFadeOnUserAction();
   const stationLost = !np.station.id && currentNP.station.id && activeTab === 'playing';
   const stationChanged = np.station.id && np.station.id !== currentNP.station.id;
   currentNP = np;
@@ -5233,6 +5573,7 @@ player.subscribe((np) => {
   renderMiniPlayer(np);
   renderNowPlaying(np);
   syncRowPlayingState();
+  syncLibraryCardsPlaying();
 
   // Telemetry: state transitions on the same station. Initial play is
   // already tracked by onRowPlay; here we capture pause/resume cycles
@@ -5351,32 +5692,27 @@ void runQuery();
 // Wake-to-radio left the web app (iOS-only now) — drop its stale keys.
 clearLegacyWakeKeys();
 
-// Lock-screen / Bluetooth / AirPods / CarPlay skip controls. Cycles
-// through the user's favorites — they're curated, stable, and small
-// enough to flip through like radio dial presets. If the currently-
-// playing station isn't in the favorites list, skip jumps to the
-// first (next) or last (prev) entry. No-op when the user has no
-// favorites yet.
-function skipFavorite(direction: 1 | -1): void {
-  const favs = getFavorites();
-  if (favs.length === 0) return;
-  const currentId = currentNP.station.id;
-  const currentIdx = favs.findIndex((s) => s.id === currentId);
-  const nextIdx =
-    currentIdx === -1
-      ? direction === 1
-        ? 0
-        : favs.length - 1
-      : (currentIdx + direction + favs.length) % favs.length;
-  const next = favs[nextIdx];
+// Previous/next — Now Playing, mini-player and the lock-screen /
+// Bluetooth / AirPods / CarPlay controls. Steps circularly through the
+// active queue: the open list, Favorites, Recents or the Browse/search
+// result the station was started from, falling back to Favorites
+// (./queue). No-op when the queue is empty or holds only this station.
+function skipStation(direction: 1 | -1): void {
+  const queue = resolveQueue(activeQueue, {
+    listStations: (id) => getList(id)?.stations,
+    favorites: getFavorites,
+  });
+  const next = stepQueue(queue, currentNP.station.id, direction);
   if (!next) return;
   void player.play(next);
   pushRecent(next);
   track(direction === 1 ? 'lock-skip-next' : 'lock-skip-prev', next.name);
+  // Keep the Recents sub-view and the Library home's Recents strip fresh.
+  if (activeTab === 'recent' || activeTab === 'library') renderContent();
 }
 player.setSkipHandlers(
-  () => skipFavorite(1),
-  () => skipFavorite(-1),
+  () => skipStation(1),
+  () => skipStation(-1),
 );
 
 /** Pre-rendered /station/<id>/ landing pages set window.__STATION_ID__
