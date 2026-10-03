@@ -296,7 +296,6 @@ const $npLyricsSource = document.getElementById('np-lyrics-source') as HTMLAncho
 const $npLyricsSourceText = document.getElementById('np-lyrics-source-text') as HTMLElement;
 const $npLyricsEmpty = document.getElementById('np-lyrics-empty') as HTMLElement;
 const $npSecondaryEmpty = document.getElementById('np-secondary-empty') as HTMLElement;
-const $npCollapseBrowse = document.getElementById('np-collapse-browse') as HTMLButtonElement;
 const $npClose = document.getElementById('np-close') as HTMLButtonElement;
 const $npTrackRow = document.getElementById('np-track-row') as HTMLElement;
 const $npTrackTitle = document.getElementById('np-track-title') as HTMLElement;
@@ -907,7 +906,7 @@ function renderNowPlaying(np: NowPlaying): void {
   // The inline open-in row is always-visible (when verified), so reflect the
   // per-service Settings toggles on every render.
   syncMusicServiceLinks();
-  // Keep the wide-layout body classes (np-twocol/np-threecol) in sync as
+  // Keep the wide-layout body class (np-twocol) in sync as
   // the station loads/changes/stops — has-station has just been toggled
   // upstream, so the mode is current here.
   syncNpTabs();
@@ -1110,20 +1109,18 @@ function resetLyrics(): void {
   renderLyricsPane();
 }
 
-/** Now Playing wide-desktop layout mode. 'narrow' is the docked tabbed
- *  view (mobile + 1024–1400px desktop). At ≥1400px while a station is
- *  docked it's 'twocol' (Album + a switchable Schedule/Lyrics column,
- *  browse list still visible) or 'threecol' (browse collapsed → Album │
- *  Schedule │ Lyrics, all visible). */
+/** Now Playing wide-desktop layout mode. 'narrow' is the tabbed single
+ *  view (mobile, 1024–1400px desktop, and album-only stations). At ≥1400px
+ *  with a Schedule or Lyrics pane it's 'twocol' (Album + a switchable
+ *  Schedule/Lyrics column). The former 3-column mode is retired (#620). */
 const wideNpMq = matchMedia('(min-width: 1400px)');
-type NpLayout = 'narrow' | 'twocol' | 'threecol';
+type NpLayout = 'narrow' | 'twocol';
 function npLayoutMode(): NpLayout {
   if (!wideNpMq.matches || !currentNP.station.id) return 'narrow';
   // The wide NP is the golden split — album on the left, a switchable
   // Schedule/Lyrics column on the right (the pane-tab strip toggles which) —
   // whenever there's at least one secondary pane to show. Album-only
-  // stations stay single-column (centred). 3-column (all panes at once) is
-  // no longer auto-selected; the switchable 2-column split is the default.
+  // stations stay single-column (centred).
   const hasProgram = !!(npSchedule && npSchedule.length > 0);
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
   if (hasProgram || hasLyrics) return 'twocol';
@@ -1141,9 +1138,8 @@ function syncNpTabs(): void {
   const hasLyrics = !!(npLyrics && (npLyrics.plain || npLyrics.synced));
   const mode = npLayoutMode();
 
-  // Layout body classes drive the wide grid (CSS); both cleared on narrow.
+  // Layout body class drives the wide grid (CSS); cleared on narrow.
   $body.classList.toggle('np-twocol', mode === 'twocol');
-  $body.classList.toggle('np-threecol', mode === 'threecol');
 
   if (mode === 'twocol') {
     // Album owns column 1; the second column is Schedule OR Lyrics, so
@@ -1157,7 +1153,7 @@ function syncNpTabs(): void {
       npView = hasProgram ? 'program' : hasLyrics ? 'lyrics' : 'now';
     }
   } else {
-    // narrow + threecol: drop to 'now' if the active secondary is gone.
+    // narrow: drop to 'now' if the active secondary is gone.
     if (npView === 'program' && !hasProgram) npView = 'now';
     if (npView === 'lyrics' && !hasLyrics) npView = 'now';
   }
@@ -1178,8 +1174,8 @@ function syncNpTabs(): void {
   $npPaneLyrics.setAttribute('aria-pressed', String(npView === 'lyrics'));
 
   // Pane [hidden] flags. The narrow docked view obeys them directly; the
-  // wide grids override via CSS (3-col force-shows all panes; 2-col always
-  // shows album and shows whichever secondary matches npView). render-np
+  // wide 2-col grid overrides via CSS (always shows album, plus whichever
+  // secondary matches npView). render-np
   // writes content into npTrackRow but never touches its `hidden`. Track
   // also stays hidden with no station so we don't show an em-dashed shell.
   $npTrackRow.hidden = npView !== 'now' || !currentNP.station.id;
@@ -4220,25 +4216,6 @@ function handleNavClick(e: Event): void {
 $tabbar.addEventListener('click', handleNavClick);
 $topnavNav.addEventListener('click', handleNavClick);
 
-// Browse-list collapse toggle (wide desktop only, in the NP pane corner).
-// Collapsing the browse list hands the freed width to the player, which
-// expands from 2 columns (Album + Schedule/Lyrics) to 3 (Album │ Schedule
-// │ Lyrics). Persisted; only takes visual effect at ≥1400px (CSS-gated).
-const BROWSE_COLLAPSED_KEY = 'rrradio.browse-collapsed';
-function applyBrowseCollapsed(collapsed: boolean): void {
-  $body.classList.toggle('browse-collapsed', collapsed);
-  $npCollapseBrowse.setAttribute('aria-expanded', String(!collapsed));
-  $npCollapseBrowse.setAttribute('aria-label', collapsed ? 'Show browse list' : 'Hide browse list');
-  // twocol ⇄ threecol depends on this class — recompute.
-  syncNpTabs();
-}
-$npCollapseBrowse.addEventListener('click', () => {
-  const collapsed = !$body.classList.contains('browse-collapsed');
-  applyBrowseCollapsed(collapsed);
-  setString(BROWSE_COLLAPSED_KEY, collapsed ? '1' : '0');
-});
-applyBrowseCollapsed(getString(BROWSE_COLLAPSED_KEY) === '1');
-
 // Desktop "close player" (×, NP top-right): stop playback and dismiss the
 // player. miniClose() clears the station, which hides the mini bar and bounces
 // the Playing tab back to the last list (updateNowPlaying's stationLost path).
@@ -4853,7 +4830,6 @@ function collectSettings(): BackupSettings {
       spotify: msEnabled('spotify'),
       youtube: msEnabled('youtube'),
     },
-    browseCollapsed: getString(BROWSE_COLLAPSED_KEY) === '1',
   };
 }
 
@@ -4873,10 +4849,6 @@ function applySettings(s: BackupSettings): void {
     if (typeof ms.spotify === 'boolean') setString(MS_KEYS.spotify, ms.spotify ? '1' : '0');
     if (typeof ms.youtube === 'boolean') setString(MS_KEYS.youtube, ms.youtube ? '1' : '0');
     syncMusicServiceLinks();
-  }
-  if (typeof s.browseCollapsed === 'boolean') {
-    setString(BROWSE_COLLAPSED_KEY, s.browseCollapsed ? '1' : '0');
-    applyBrowseCollapsed(s.browseCollapsed);
   }
 }
 
