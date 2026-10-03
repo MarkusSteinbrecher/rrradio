@@ -1,27 +1,27 @@
 {
   "$schema": "local iOS test metadata capabilities generated from public/stations-ios-local.json + src/fetchers.json",
-  "generatedAt": "2026-10-03T10:42:49.531Z",
+  "generatedAt": "2026-10-03T13:00:02.368Z",
   "sourceCatalog": "public/stations-ios-local.json",
   "sourceManifest": "src/fetchers.json",
   "counts": {
-    "stations": 38424,
+    "stations": 38427,
     "byStatus": {
-      "icy-only": 48,
-      "stream-only": 38213,
-      "working": 163
+      "icy-only": 47,
+      "stream-only": 38216,
+      "working": 164
     },
     "byMetadataStrategy": {
-      "api": 172,
-      "icy": 55,
+      "api": 173,
+      "icy": 54,
       "hls": 1,
-      "none": 38196
+      "none": 38199
     },
     "byBackgroundPollPriority": {
-      "normal": 172,
-      "low": 56,
-      "never": 38196
+      "normal": 173,
+      "low": 55,
+      "never": 38199
     },
-    "knownFetcherStations": 172,
+    "knownFetcherStations": 173,
     "unknownFetcherStations": 0
   },
   "stations": [
@@ -26305,7 +26305,7 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-au-hit-4rok-107-9mhz-fm-rockhampton-central-que-0719daa5",
+      "id": "rb-au-hit-96-9-goulburn-valley-50568f43",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -26316,7 +26316,7 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-au-hit-96-9-goulburn-valley-50568f43",
+      "id": "rb-au-hit-central-queensland-0639b26d",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -66554,15 +66554,15 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-ch-radio-maria-switzerland-23ee9e6c",
-      "status": "stream-only",
-      "metadataKey": null,
-      "metadataUrl": null,
-      "metadataStrategy": "none",
-      "backgroundPollPriority": "never",
-      "hasProgram": false,
+      "id": "rb-ch-radio-maria-switzerland-f56b1299",
+      "status": "working",
+      "metadataKey": "streamabc",
+      "metadataUrl": "https://api.streamabc.net/metadata/channel/108_d0ihxwoxywe_sok9.json",
+      "metadataStrategy": "api",
+      "backgroundPollPriority": "normal",
+      "hasProgram": true,
       "hasSchedule": false,
-      "hasProviderCover": false
+      "hasProviderCover": true
     },
     {
       "id": "rb-ch-radio-maxxima-fb056b8d",
@@ -126824,11 +126824,11 @@
     },
     {
       "id": "rb-de-radio-arabella-munchen-963beab0",
-      "status": "icy-only",
+      "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
-      "metadataStrategy": "icy",
-      "backgroundPollPriority": "low",
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
       "hasProgram": false,
       "hasSchedule": false,
       "hasProviderCover": false
@@ -185475,7 +185475,7 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-gb-house-heads-uk-90249f40",
+      "id": "rb-gb-house-heads-uk-c6037d27",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -261067,17 +261067,6 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-gr-005b0af4",
-      "status": "stream-only",
-      "metadataKey": null,
-      "metadataUrl": null,
-      "metadataStrategy": "none",
-      "backgroundPollPriority": "never",
-      "hasProgram": false,
-      "hasSchedule": false,
-      "hasProviderCover": false
-    },
-    {
       "id": "rb-mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-gr-50289988",
       "status": "stream-only",
       "metadataKey": null,
@@ -261156,6 +261145,17 @@
     },
     {
       "id": "rb-mx-amor-queretaro-97-9-fm-xhqto-fm-grupo-acir-q-8c046137",
+      "status": "stream-only",
+      "metadataKey": null,
+      "metadataUrl": null,
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
+      "hasProgram": false,
+      "hasSchedule": false,
+      "hasProviderCover": false
+    },
+    {
+      "id": "rb-mx-amor-san-luis-potosi-95-3-fm-xhnb-fm-grupo-a-0cb1c483",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -279591,7 +279591,7 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-nl-quality-fm-86313cf3",
+      "id": "rb-nl-quality-fm-a1bb4937",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -295629,17 +295629,6 @@
       "hasProviderCover": false
     },
     {
-      "id": "rb-pl-eska-2-krakow-c8785af1",
-      "status": "stream-only",
-      "metadataKey": null,
-      "metadataUrl": null,
-      "metadataStrategy": "none",
-      "backgroundPollPriority": "never",
-      "hasProgram": false,
-      "hasSchedule": false,
-      "hasProviderCover": false
-    },
-    {
       "id": "rb-pl-eska-2-party-92e98ea7",
       "status": "stream-only",
       "metadataKey": null,
@@ -297577,6 +297566,17 @@
     },
     {
       "id": "rb-pl-radio-emaus-eb1321f0",
+      "status": "stream-only",
+      "metadataKey": null,
+      "metadataUrl": null,
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
+      "hasProgram": false,
+      "hasSchedule": false,
+      "hasProviderCover": false
+    },
+    {
+      "id": "rb-pl-radio-eska-2-krakow-c161835a",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,
@@ -364962,6 +364962,17 @@
       "hasProviderCover": false
     },
     {
+      "id": "us-91x-xetra-fm",
+      "status": "stream-only",
+      "metadataKey": null,
+      "metadataUrl": null,
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
+      "hasProgram": false,
+      "hasSchedule": false,
+      "hasProviderCover": false
+    },
+    {
       "id": "rb-us-92-kqrs-57af7929",
       "status": "stream-only",
       "metadataKey": null,
@@ -406927,6 +406938,17 @@
       "hasProviderCover": false
     },
     {
+      "id": "us-weei-93-7",
+      "status": "stream-only",
+      "metadataKey": null,
+      "metadataUrl": null,
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
+      "hasProgram": false,
+      "hasSchedule": false,
+      "hasProviderCover": false
+    },
+    {
       "id": "rb-us-weft-90-1-east-central-illinois-community-ra-227d44b4",
       "status": "stream-only",
       "metadataKey": null,
@@ -412186,6 +412208,17 @@
     },
     {
       "id": "rb-us-wqxr-new-york-public-radio-operavore-stream-96153188",
+      "status": "stream-only",
+      "metadataKey": null,
+      "metadataUrl": null,
+      "metadataStrategy": "none",
+      "backgroundPollPriority": "never",
+      "hasProgram": false,
+      "hasSchedule": false,
+      "hasProviderCover": false
+    },
+    {
+      "id": "rb-us-wqxr-q2-new-york-public-radio-96098312",
       "status": "stream-only",
       "metadataKey": null,
       "metadataUrl": null,

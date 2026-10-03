@@ -9,7 +9,15 @@
  */
 
 import { stateLabel } from './player';
-import type { NowPlaying, Station } from './types';
+import type { NowPlaying, Station, StreamRetry } from './types';
+
+/** What the player is doing while an automatic retry runs (#95):
+ *  `Reconnecting 2/3`, or `Trying backup stream` right after the ladder
+ *  fell back to the next stream variant. */
+export function retryStatusText(retry: StreamRetry): string {
+  if (retry.attempt === 0) return 'Trying backup stream';
+  return `Reconnecting ${retry.attempt}/${retry.maxAttempts}`;
+}
 
 /** Short status line under the mini-player station name.
  *  e.g. `LIVE`, `192 KBPS · LIVE`, `TUNING…`, `PAUSED`,
@@ -17,9 +25,11 @@ import type { NowPlaying, Station } from './types';
 export function miniMetaText(np: NowPlaying): string {
   switch (np.state) {
     case 'loading':
-      return 'TUNING…';
-    case 'playing':
-      return np.station.bitrate ? `${np.station.bitrate} KBPS · LIVE` : 'LIVE';
+      return np.retry ? `${retryStatusText(np.retry).toUpperCase()}…` : 'TUNING…';
+    case 'playing': {
+      const bitrate = np.variant?.bitrate ?? np.station.bitrate;
+      return bitrate ? `${bitrate} KBPS · LIVE` : 'LIVE';
+    }
     case 'paused':
       return 'PAUSED';
     case 'error':
@@ -34,7 +44,7 @@ export function miniMetaText(np: NowPlaying): string {
 export function npLiveText(np: NowPlaying): string {
   switch (np.state) {
     case 'loading':
-      return 'Tuning';
+      return np.retry ? retryStatusText(np.retry) : 'Tuning';
     case 'playing':
       return 'Live · Streaming';
     case 'paused':
@@ -54,7 +64,7 @@ export function npLiveText(np: NowPlaying): string {
 export function npStatusText(np: NowPlaying): string {
   switch (np.state) {
     case 'loading':
-      return 'Tuning';
+      return np.retry ? retryStatusText(np.retry) : 'Tuning';
     case 'playing':
       return 'Live';
     case 'paused':

@@ -178,22 +178,23 @@ export interface NowPlaying {
   programName?: string;
   programSubtitle?: string;
   errorMessage?: string;
+  /** The catalog variant currently loaded (ADR 001). Absent for a
+   *  single-stream station; the chrome then shows the station's own
+   *  codec / bitrate. */
+  variant?: StreamVariant;
+  /** Set while an automatic retry is pending or in flight, so the chrome
+   *  can say "Reconnecting" / "Trying backup stream" instead of a bare
+   *  "Tuning". Cleared once the stream plays or the ladder gives up. */
+  retry?: StreamRetry;
 }
 
-/** A single armed wake-to-radio setting. v1 supports one at a time and
- *  no recurrence — once it fires (or the user disarms it), the entry
- *  is cleared. Time is local 24h "HH:MM"; we resolve to the next
- *  occurrence in JS so the same value works whether the user arms it
- *  in the morning or at night. */
-export interface WakeTo {
-  /** "HH:MM" 24h, local time. */
-  time: string;
-  /** Station to switch to + fade up at fire time. */
-  stationId: string;
-  /** Persisted snapshot of the station so the wake works even if
-   *  BUILTIN_STATIONS is still loading at fire time. */
-  station: Station;
-  /** Epoch ms when the alarm was armed — used to disambiguate "today"
-   *  vs "tomorrow" when the user arms a time that's already passed. */
-  armedAt: number;
+/** Automatic-retry progress for the current station (#95). */
+export interface StreamRetry {
+  /** 1-based retry attempt on the current variant; 0 right after the
+   *  ladder advanced to a fallback variant. */
+  attempt: number;
+  maxAttempts: number;
+  /** Position in the playback plan (0 = the preferred variant). */
+  planIndex: number;
+  planLength: number;
 }

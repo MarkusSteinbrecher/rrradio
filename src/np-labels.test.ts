@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { miniMetaText, npFormatText, npLiveText } from './np-labels';
+import { miniMetaText, npFormatText, npLiveText, npStatusText } from './np-labels';
 import type { NowPlaying, Station } from './types';
 
 const baseStation: Station = {
@@ -13,6 +13,8 @@ function np(overrides: Partial<NowPlaying> & { state: NowPlaying['state'] }): No
     station: { ...baseStation, ...(overrides.station ?? {}) },
     state: overrides.state,
     errorMessage: overrides.errorMessage,
+    retry: overrides.retry,
+    variant: overrides.variant,
   };
 }
 
@@ -93,5 +95,37 @@ describe('npFormatText', () => {
 
   it('neither → em dash', () => {
     expect(npFormatText(baseStation)).toBe('—');
+  });
+});
+
+describe('retry state (#95)', () => {
+  const retry = { attempt: 2, maxAttempts: 3, planIndex: 0, planLength: 2 };
+  const fallback = { attempt: 0, maxAttempts: 3, planIndex: 1, planLength: 2 };
+
+  it('says Reconnecting n/max while a retry is pending', () => {
+    expect(npStatusText(np({ state: 'loading', retry }))).toBe('Reconnecting 2/3');
+    expect(npLiveText(np({ state: 'loading', retry }))).toBe('Reconnecting 2/3');
+    expect(miniMetaText(np({ state: 'loading', retry }))).toBe('RECONNECTING 2/3…');
+  });
+
+  it('says Trying backup stream right after falling back to the next variant', () => {
+    expect(npStatusText(np({ state: 'loading', retry: fallback }))).toBe('Trying backup stream');
+    expect(miniMetaText(np({ state: 'loading', retry: fallback }))).toBe('TRYING BACKUP STREAM…');
+  });
+
+  it('plain loading still reads Tuning', () => {
+    expect(npStatusText(np({ state: 'loading' }))).toBe('Tuning');
+  });
+
+  it('mini meta shows the playing variant bitrate over the station default', () => {
+    expect(
+      miniMetaText(
+        np({
+          state: 'playing',
+          station: { ...baseStation, bitrate: 192 },
+          variant: { url: 'https://example.com/lo', bitrate: 64, tier: 'data' },
+        }),
+      ),
+    ).toBe('64 KBPS · LIVE');
   });
 });

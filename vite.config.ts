@@ -136,9 +136,11 @@ function localRouteAliasPlugin(): Plugin {
         // Mirror GitHub Pages' directory/extensionless serving so local dev
         // matches production. The iOS landing is a Vite multi-page entry built
         // to ios/index.html (served at /ios); /support is the static
-        // public/support.html App Store support page.
+        // public/support.html App Store support page; /wake-to-radio is the
+        // user-facing wake-alarm guide linked from the iOS About screen.
         if (req.url === '/ios') req.url = '/ios/';
         if (req.url === '/support') req.url = '/support.html';
+        if (req.url === '/wake-to-radio') req.url = '/wake-to-radio.html';
         if (req.url === '/catalog-health') req.url = '/catalog-health.html';
         next();
       });
