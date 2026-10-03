@@ -1,0 +1,110 @@
+id: ip-music
+
+identity:
+  name: IP music
+  shortName: IP music
+  tagline: "Hit & Classe"
+  positioning: Swiss internet radio — all the best hits, no talk (30–50 ans)
+  logo:
+    url: https://assets.radioplayer.org/756/75610008/600/600/l5uoii6r.png
+    source: radioplayer
+
+organization:
+  type: internet
+  owner: IP worldcom / Dany Hofmann
+  group: IP music (IP music + IP music SLOW + MaXXima)
+  headquarters: { city: Préverenges, address: "CP 43, 1028 Préverenges", canton: VD }
+
+profile:
+  description: >-
+    Swiss French-language internet radio broadcasting all the best hits with no talk,
+    targeting 30–50 year-old listeners. Part of a trio of digital stations (IP music,
+    IP music SLOW, MaXXima) operated by Audio Visual Factory / IP worldcom.
+  format: Adult Contemporary / Hot AC / 80s-pop
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: 30–50 year-old French-speaking Swiss listeners
+  distinctive: >-
+    100% music, no talk, no interruptions — pure playlist rotation mixing current
+    hits with 1980s pop, disco, and soul. The station explicitly brands itself
+    "Hit & Classe", running commercial rotation 24/7 without live presenters.
+
+music:
+  genres: [pop, rock, 80s, disco, adult-contemporary, soul, top40]
+  languageShare: { intl: high, fr: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.ipmusic.ch/playlist.php + https://live9.avf.ch/status-json.xsl
+    tracks:
+      - { artist: Chaka Khan, title: "Ain't Nobody (with Rufus)" }
+      - { artist: Mariah Carey, title: Without You }
+      - { artist: Ed Sheeran, title: BAD HABITS }
+      - { artist: David Lee Roth, title: California Girls }
+      - { artist: Barry White, title: "It's Ecstacy When You Lay Down Next To Me" }
+      - { artist: Véronique Sanson, title: "On M'Attends Là-Bas (Live)" }
+      - { artist: Gloria Gaynor, title: Never Can Say Goodbye }
+      - { artist: INXS, title: New Sensation }
+      - { artist: Maria Mena, title: Nevermind Me }
+  topArtists: [Chaka Khan, Mariah Carey, Gloria Gaynor, Ed Sheeran, Barry White, INXS]
+
+programming:
+  flagshipShows: []   # 100% automated music rotation — no live shows
+  presenters: []
+
+reach:
+  languages: [fr]
+  region: Switzerland (internet / DAB+)
+  geo: [46.527, 6.497]   # Préverenges, Vaud
+  fm: []
+  dab: { present: false }   # DAB+ nav commented out in page source; no active DAB confirmed
+  # audienceDaily: ~70000 claimed per the pub page ("70'000 auditeurs par émission") — unverified
+
+streams:
+  - { url: "https://live9.avf.ch/ipmusic256", codec: mp3, bitrate: 256, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusic320", codec: mp3, bitrate: 320, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicaacplus96", codec: aacp, bitrate: 96, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicaacplus128", codec: aacp, bitrate: 128, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicaacplus64", codec: aacp, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://live9.avf.ch/status-json.xsl
+  type: status-json
+  cors: true
+  coverArt: false
+  # Secondary: https://www.ipmusic.ch/playlist.php — JSON {currentsong, nextsong, lastsong}
+  # with albumcover field (cover art), but NO CORS headers (needs proxy or use Icecast endpoint)
+
+presence:
+  homepage: https://www.ipmusic.ch
+  socials:
+    facebook: https://www.facebook.com/radioipmusic/
+    instagram: https://www.instagram.com/ipmusicradio/
+  apps:
+    ios: true    # links to Radioplayer app on App Store
+    android: true
+  contact: { email: info@ipmusic.ch, tel: "+41 21 811 53 53" }
+  affiliations: [Radioplayer]
+
+identifiers:
+  rpuId: NzU2fjEwMDA4
+
+meta:
+  status: working
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    streams: live9.avf.ch/status-json.xsl (Icecast mounts)
+    teamBios: ipmusic.ch/ipmusic-pro.php
+    targetAudience: ipmusic.ch/ipmusic-pub.php
+    logo: radioplayer.org (seed)
+    headquarters: ipmusic.ch/ipmusic-pro.php contact section
+    playlist: ipmusic.ch/playlist.php + Icecast ICY title fields
+  updatedAt: 2026-06-22
+  notes: >-
+    Internet-only station; the DAB+ navigation in the page source is commented out — no
+    confirmed DAB+ broadcast. Backed by two companies: Audio Visual Factory (avf.ch,
+    runs the Icecast servers live7/live9.avf.ch) and IP worldcom (managed by Dany Hofmann
+    who also co-founded KTFM and MFM). The playlist.php endpoint returns cover art but
+    lacks CORS — use Icecast status-json for the now-playing title, or proxy playlist.php
+    for cover art. Sister stations on the same Icecast cluster: IP music SLOW, MaXXima,
+    Global FM, Global Sport, LFM, Funky24.

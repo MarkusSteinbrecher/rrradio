@@ -1,0 +1,170 @@
+id: radio-bern-rabe
+
+identity:
+  name: Radio Bern RaBe
+  shortName: RaBe
+  tagline: "Das Berner Kulturradio mit Musik und Themen die in anderen Medien zu kurz kommen."
+  positioning: >-
+    Free community radio from Bern — eclectic music and progressive talk,
+    ad-free, run by ~200 volunteers in 20+ languages.
+  logo:
+    url: https://assets.radioplayer.org/756/756141/600/600/l458naih.png
+    source: radioplayer
+  brandColor: "#00635F"
+
+organization:
+  type: community
+  owner: Verein Radio Bern RaBe (non-profit association)
+  group: independent / community
+  foundedYear: 1993   # association founded 1993-06-17; on-air from 1996-03-01
+  headquarters:
+    city: Bern
+    address: "Sulgenrain 28, 3007 Bern"   # moved to Marziliquartier in 2025
+    canton: BE
+
+profile:
+  description: >-
+    Bern's independent community radio — ~200 volunteer hosts broadcasting 24/7,
+    ad-free, mixing eclectic and alternative music with progressive news and
+    cultural talk across 20+ languages. Funded by ~1,000 members plus public fees.
+  format: Community / freeform + Alternative / eclectic
+  contentMix: { music: 0.65, talk: 0.35 }
+  targetAudience: >-
+    Bern residents interested in alternative and underground music, progressive
+    politics, and media voices underrepresented in mainstream outlets; multilingual
+    communities across the city.
+  distinctive: >-
+    Genuinely freeform rotation — music spans RATM and Daft Punk to reggae, hip-hop,
+    postpunk, Swiss acts and world music within a single shift. Daily news show
+    (RaBe-Info) with trained volunteer journalists; 20+ languages across the show
+    grid; fully ad-free and non-commercial since 1996.
+
+music:
+  genres:
+    - alternative
+    - rock
+    - hip-hop
+    - electronic
+    - reggae
+    - world
+    - postpunk
+    - Swiss indie
+    - soul
+    - jazz
+  languageShare: { de: high, multilingual: true }
+  rotationStyle: freeform
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://archiv.rabe.ch/api/tracks?sort=-started_at   # RAAR open API + ICY metadata
+    tracks:
+      - { artist: "Rage Against the Machine", title: "Killing in the Name" }
+      - { artist: "KNEECAP", title: "Carnival" }
+      - { artist: "Daft Punk", title: "Human After All" }
+      - { artist: "J. Cole", title: "Legacy" }
+      - { artist: "Revolting Puppets", title: "Save the economy" }
+      - { artist: "Fleetwood Mac", title: "Go Your Own Way" }
+      - { artist: "Creedence Clearwater Revival", title: "Fortunate Son" }
+      - { artist: "Biohazard", title: "Tales from the Hard Side" }
+      - { artist: "Nightmares On Wax", title: "True (ft. Sadie Walker)" }
+      - { artist: "Viagra Boys", title: "You N33d Me" }
+      - { artist: "Stiller Has", title: "Chole" }
+      - { artist: "Maz", title: "Conundrums" }
+  topArtists:
+    - Rage Against the Machine
+    - KNEECAP
+    - Stiller Has
+    - Daft Punk
+
+programming:
+  flagshipShows:
+    - { name: "RaBe-Info", when: "weekdays 18:00", presenters: ["Noah Pilloud", "Simone Keller", "Ursi Grimm", "Sarah Heinzmann"], note: "daily news magazine — politics, society, culture; in production since 1996" }
+    - { name: "der Morgen", when: "Mon–Fri 08:00–11:00", note: "morning show" }
+    - { name: "Klangbecken", when: "fill slots throughout the day", note: "automated music filler curated by musikredaktion@rabe.ch — ad-free rotation between shows" }
+    - { name: "Radio Punk", when: "Mon 16:00", note: "punk and hardcore" }
+    - { name: "Headbangers", when: "Wed 21:00", note: "metal" }
+    - { name: "QueerUp Radio", when: "Sun 19:00", note: "LGBTQ+ content" }
+    - { name: "Jazz am Sunntig", when: "Sun 10:00", note: "Sunday jazz" }
+    - { name: "BestBlues", when: "Sun 15:00", note: "blues" }
+    - { name: "Espaço Brasil", when: "Mon 19:00", note: "Portuguese-language / Brazilian" }
+    - { name: "Piazza Italia", when: "Sat 11:00", note: "Italian-language" }
+    - { name: "Hellas Radio", when: "recurring", note: "Greek-language" }
+    - { name: "Arabesque", when: "Wed 20:00", note: "Arabic-language" }
+    - { name: "Ukrainische Welle", when: "Thu 19:00", note: "Ukrainian" }
+    - { name: "Enlazados", when: "Tue 19:00", note: "Spanish-language" }
+    - { name: "RadioActivos", when: "Wed 19:00", note: "Spanish-language" }
+  presenters: ["~200 volunteer hosts"]
+  podcasts:
+    - https://podcasts.apple.com/ch/podcast/radio-rabe/id1653943288
+    - https://open.spotify.com/show/1YztxGTBY438i1Vua9fj89?si=feb7693d3a33445e
+  scheduleUrl: https://rabe.ch/programm/
+
+reach:
+  languages: [de, pt, it, el, ar, uk, es, fr, rm]   # 20 languages total across the show grid
+  region: Bern and greater Bern region (Kanton Bern)
+  geo: [46.9480, 7.4474]
+  fm: [95.6]   # via Fernsehturm Bern-Bantiger
+  dab: { present: true, region: "SMC-Layer Bern-Freiburg" }
+  # audienceDaily: not publicly confirmed
+
+streams:
+  - { url: "https://stream.rabe.ch/livestream/rabe-hd.mp3", codec: mp3, bitrate: 320, type: icecast }
+  - { url: "https://stream.rabe.ch/livestream/rabe-mid.mp3", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://stream.rabe.ch/livestream/rabe-low.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.rabe.ch/livestream/rabe-ultra-low.mp3", codec: mp3, bitrate: 48, type: icecast }
+  - { url: "https://stream.rabe.ch/livestream/rabe-high.opus", codec: opus, bitrate: 128, type: icecast }
+  - { url: "https://stream.rabe.ch/livestream/rabe-low.opus", codec: opus, bitrate: 96, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://songticker.rabe.ch/songticker/0.9.3/current.xml
+  type: json   # custom XML ticker (rabe.ch/schema/ticker.xsd) — artist + title + show name in XML
+  cors: true
+  coverArt: false
+  # Secondary endpoint: https://songticker.rabe.ch/libretime/live-info-v2.json (LibreTime, CORS-open)
+  # Track history: https://archiv.rabe.ch/api/tracks?sort=-started_at (RAAR JSON:API, CORS-open)
+
+presence:
+  homepage: https://rabe.ch
+  socials:
+    facebook: https://www.facebook.com/RadioRaBe/
+    instagram: https://www.instagram.com/radiorabe
+    youtube: https://www.youtube.com/channel/UCVnWoMqLjaenGhJo5EvV_pA
+    twitch: https://m.twitch.tv/radio_rabe/home
+    spotify: https://open.spotify.com/show/1YztxGTBY438i1Vua9fj89
+  apps:
+    ios: https://podcasts.apple.com/ch/podcast/radio-rabe/id1653943288
+  podcasts: https://podcasts.apple.com/ch/podcast/radio-rabe/id1653943288
+  contact:
+    email: rabe@rabe.ch
+    tel: "+41 31 330 99 90"
+  wikipedia: https://de.wikipedia.org/wiki/Radio_RaBe
+  affiliations: [AMARC, corall]
+
+identifiers:
+  rpuId: NzU2fjE0MQ
+  wikidata: Q2126251
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_RaBe
+    fm: de.wikipedia.org/wiki/Radio_RaBe
+    dab: de.wikipedia.org/wiki/Radio_RaBe
+    owner: rabe.ch/kontakt + Wikipedia
+    volunteers: rabe.ch/mitglied-werden
+    affiliations: de.wikipedia.org/wiki/Radio_RaBe
+    streams: stream.rabe.ch/status-json.xsl
+    nowPlayingEndpoint: rabe.ch/_next/static/chunks/2280-2647657a92c7172b.js (grepped)
+    tracks: songticker.rabe.ch + archiv.rabe.ch/api/tracks RAAR API
+    socials: rabe.ch/_next/static/chunks/app/(main)/layout JS bundle
+    wikidata: wikidata.org Special:Search
+    brandColor: archiv.rabe.ch CSS (rgba(0,99,95,1))
+  updatedAt: 2026-06-22
+  notes: >-
+    Homepage (http://radioplayer.rabe.ch/) is a Radioplayer placeholder; real
+    broadcaster site is rabe.ch. Three now-playing surfaces all CORS-open:
+    (1) songticker.rabe.ch XML ticker (current track + show), (2) LibreTime
+    live-info-v2.json (schedule + metadata), (3) archiv.rabe.ch RAAR JSON:API
+    (full track history since 2018). Station is freeform community radio — the
+    defining signal is the SHOW GRID with 20+ languages, not a single genre.

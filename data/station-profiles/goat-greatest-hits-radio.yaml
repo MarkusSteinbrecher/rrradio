@@ -1,0 +1,120 @@
+id: goat-greatest-hits-radio
+
+identity:
+  name: GOAT Greatest Hits Radio
+  shortName: GOAT Radio
+  tagline: Greatest Hits of All Time
+  positioning: >-
+    Swiss retro radio playing the best rock and pop hits of the 80s, 90s, and
+    2000s — 24/7, no subscription, CarPlay-ready.
+  logo:
+    url: https://assets.radioplayer.org/756/756191/600/600/ler6q1en.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Digital Media Distribution AG
+  group: 20 Minuten / TX Group
+  headquarters: { city: Zürich, canton: ZH }
+
+profile:
+  description: >-
+    GOAT Radio (Greatest Of All Time) is a Swiss internet and FM station from
+    the 20 Minuten universe, playing the definitive rock and pop classics of the
+    1980s, 1990s, and early 2000s — Bon Jovi, Roxette, Michael Jackson, The Cure,
+    Madonna and their era — without talk, news or commercials interruption.
+  format: Classic Hits / Gold (80s–90s–2000s pop-rock)
+  contentMix: { music: 0.98, talk: 0.02 }
+  targetAudience: Swiss adults 30–55 who grew up with 80s and 90s mainstream pop and rock
+  distinctive: >-
+    Pure rotation of certified greatest hits — no deep cuts, no current chart
+    music, no extended talk. Tight gold format in a Swiss digital/FM package
+    distributed by Digital Media Distribution AG (DMD2).
+
+music:
+  genres: [pop, rock, classic-hits, 80s, 90s, 2000s]
+  languageShare: { en: high, de: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://pub.dmd2.com/api/v1/stats/?channel=1&history=true
+    tracks:
+      - { artist: Steve Winwood, title: Valerie }
+      - { artist: Cock Robin, title: Just Around The Corner }
+      - { artist: Fine Young Cannibals, title: She Drives Me Crazy }
+      - { artist: Yes, title: Owner Of A Lonely Heart }
+      - { artist: Bon Jovi, title: You Give Love A Bad Name }
+      - { artist: Roy Orbison, title: You Got It }
+      - { artist: Billy Idol, title: "White Wedding (Pt. 1)" }
+      - { artist: Madonna, title: Beautiful Stranger }
+      - { artist: Europe, title: Carrie }
+      - { artist: Bob Marley & The Wailers, title: Could You Be Loved }
+      - { artist: The Cure, title: Friday I'm In Love }
+      - { artist: Bryan Adams, title: "(Everything I Do) I Do It For You" }
+      - { artist: Michael Jackson, title: "Beat It (Single Version)" }
+      - { artist: Roxette, title: The Look }
+      - { artist: Duran Duran, title: A View To A Kill }
+      - { artist: George Harrison, title: Got My Mind Set On You }
+      - { artist: Steely Dan, title: Rikki Don't Lose That Number }
+      - { artist: Bon Jovi, title: "Livin' On A Prayer" }
+      - { artist: The Cure, title: Boys Don't Cry }
+      - { artist: Tanita Tikaram, title: Twist in My Sobriety }
+  topArtists: [Bon Jovi, The Cure, Michael Jackson, Madonna, Roxette, Bryan Adams, Europe, Duran Duran]
+
+programming:
+  flagshipShows:
+    - { name: Music That Made Me, note: "interview series — Swiss personalities discuss songs that shaped their lives (20min.ch editorial)" }
+
+reach:
+  languages: [de, fr]
+  region: Switzerland (national DAB/internet; FM in and around Zürich)
+  geo: [46.948, 7.447]
+  fm: [105.0, 93.0]   # in und um Zürich (source: audio.20min.ch JS bundle meta description)
+  dab: { present: false }
+
+streams:
+  - { url: "https://20min.dmd2streaming.com/20minuten_radio_128.mp3", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://20min.dmd2streaming.com/20minuten_radio_64.aac", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://pub.dmd2.com/api/v1/stats/?channel=1
+  type: json
+  cors: true
+  coverArt: true
+  # response shape: { response: { track: { playing: { trackTitle, trackArtist, trackAlbumCover, ... } } } }
+  # history variant: ?channel=1&history=true → { response: { track: { history: [...] } } }
+
+presence:
+  homepage: https://20min.ch/radio
+  apps:
+    ios: https://apps.apple.com/ch/app/goat-radio/id6738387219
+    android: https://play.google.com/store/apps/details?id=ch.dmd.GoatRadio
+  wikipedia: null
+
+identifiers:
+  catalogId: ch-goat-radio
+  stationuuid: 4f6119c9-3e96-494d-8b79-696cd97f9a3d
+  rpuId: NzU2fjE5MQ
+  wikidata: null
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    format: playlist sampled from pub.dmd2.com/api/v1/stats/?channel=1&history=true (2026-06-22)
+    fm: audio.20min.ch JS bundle meta description string ("Frequenzen 105.0 und 93,0 in und um Zürich")
+    owner: apps.apple.com developer field + icy-server header ("Digital Media Distribution AG")
+    group: 20min.ch/impressum (TX Group AG publisher)
+    streams: icy headers + audio.20min.ch JS bundle
+    nowPlaying: audio.20min.ch JS bundle (pub.dmd2.com/api/v1/stats/?channel=1)
+    apps: audio.20min.ch JS bundle
+    logo: Radioplayer CH enrichment table (rpuId NzU2fjE5MQ)
+  updatedAt: 2026-06-22
+  notes: >-
+    Homepage audio.20min.ch is the Radioplayer/SPA shell; real editorial site is
+    20min.ch/radio. now-playing endpoint pub.dmd2.com/api/v1/stats/?channel=1 is
+    CORS-open (Access-Control-Allow-Origin: *) and returns cover art from Spotify
+    CDN. Status fetcher-todo: the DMD2 JSON endpoint is not yet wired as a named
+    fetcher in the rrradio catalog. FM frequencies 105.0 and 93.0 MHz are stated
+    for the Zürich area; no nationwide FM or DAB confirmed.

@@ -1,0 +1,153 @@
+id: radio-chablais
+
+identity:
+  name: Radio Chablais
+  shortName: Chablais
+  tagline: Suivez-nous, on vous suit
+  positioning: La radio régionale du Chablais, de la Riviera et du Pays-d'EnHaut
+  logo:
+    url: https://assets.radioplayer.org/756/7565018/600/600/l458lrnd.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Radio Chablais SA
+  group: independent
+  foundedYear: 1984
+  headquarters: { city: Monthey, address: "Rue des Fours 11A, CP 112, 1870 Monthey 1", canton: VS }
+
+profile:
+  description: >-
+    Regional French-language radio serving the Chablais, Riviera, and
+    Pays-d'EnHaut areas across the cantons of Valais and Vaud — a mix of
+    current pop hits, French chanson, regional news and sports, live events,
+    and local talk.
+  format: Hot AC / Regional
+  contentMix: { music: 0.70, talk: 0.30 }
+  targetAudience: French-speaking adults in the Chablais and Riviera regions
+  distinctive: >-
+    One of the few private regional stations straddling a cantonal border
+    (Valais/Vaud); strong local news and sports coverage alongside mainstream
+    pop and French-language music. Runs a family of themed web-radio spin-offs
+    (Urban, Rock'N'Blues, Folklore, Francophone, Funk, Flashback/Swiss Made)
+    under the same brand. Acquired the Vibration 108 web-radio group in 2017.
+
+music:
+  genres: [pop, hot-ac, chanson française, adult-contemporary]
+  languageShare: { fr: high, intl: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://radiochablais.ch/radio/titres-diffuses + https://radiochablais.ch/player-new/getlastsongs.php?id_radio=1
+    tracks:
+      - { artist: Julien Lieb, title: Le jeu }
+      - { artist: Avril Del Mar, title: Bayahibe }
+      - { artist: The Chainsmokers / Coldplay, title: Something Just Like This }
+      - { artist: Jean-Jacques Goldman, title: Quand la musique est bonne }
+      - { artist: Harry Styles, title: American Girls }
+      - { artist: Disiz / Theodora, title: Melodrama }
+  topArtists: [Jean-Jacques Goldman, Harry Styles, The Chainsmokers]
+
+programming:
+  flagshipShows:
+    - { name: Décollage, when: "Morning", note: "wake-up show" }
+    - { name: Double face, when: "09:00–12:00" }
+    - { name: Le Qu'ouïs-je, when: "Mon–Fri 11:00–11:30", presenters: [Axel Emery, Mélanie René] }
+    - { name: Plan large, when: "Variable", presenters: [Florian Barbey], note: "regional interviews on location" }
+    - { name: Entre vous et nous, when: "Mon 12:30–13:00", note: "regional specialist guests" }
+    - { name: Vade Retro Ananas, when: "Mon–Fri 16:00–19:00", presenters: [Loïc Vazquez] }
+    - { name: Ta journée en replay, when: "Nightly", note: "daily highlights replay" }
+  presenters:
+    - Caroline Kenklies
+    - Pierre Allet
+    - Coline Dubosson
+    - Axel Emery
+    - Mélanie René
+    - Johan Susan
+    - Bastien Thiébaud
+    - Loïc Vazquez
+    - Philippe
+    - Mathieu Bardin
+    - Christophe Corboud
+  podcasts:
+    - 17h mag
+    - 4ème de couverture
+    - Attends j't'explique
+    - Double face
+    - Entre vous et nous
+    - Interview artistes
+    - Le mot de la fin
+    - Les infos Radio Chablais
+    - Montre voir
+    - Plan large
+    - Radio Chablais en extérieur
+    - Réseau zéro
+  scheduleUrl: https://radiochablais.ch/radio/emissions
+
+reach:
+  languages: [fr]
+  region: "Chablais (VS/VD), Riviera, Pays-d'EnHaut"
+  geo: [46.255, 6.953]   # Monthey, VS
+  fm: []   # FM in Valais and Vaud; specific MHz not published on the station's website
+  dab: { present: true, region: "Suisse romande (canal 10B)" }
+
+streams:
+  - { url: "https://radiochablais.ice.infomaniak.ch/radiochablais-high.mp3", codec: mp3, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://radiochablais.ice.infomaniak.ch/radiochablais-high.mp3.xspf
+  type: icecast-xspf
+  cors: true
+  coverArt: false
+  # Note: broadcaster also has a richer HTML-fragment API at
+  # https://radiochablais.ch/player-new/getlastsongs.php?id_radio=1
+  # and https://radiochablais.ch/player/getsongonair.php?id_radio=1
+  # but these return HTML, not JSON, and lack CORS headers — worker proxy needed.
+
+presence:
+  homepage: https://radiochablais.ch/
+  socials:
+    facebook: https://www.facebook.com/radiochablais
+    instagram: https://www.instagram.com/radiochablais_officiel
+    youtube: https://www.youtube.com/radiochablais
+  apps:
+    ios: true    # App Store ID 1057101462
+    android: true    # ch.simnetsa.radiochablais
+  podcasts: https://radiochablais.ch/podcasts
+  contact:
+    email: info@radiochablais.ch
+    tel: "+41 24 47 33 111"
+  wikipedia: https://fr.wikipedia.org/wiki/Radio_Chablais
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-radio-chablais
+  stationuuid: 962abb2d-0601-11e8-ae97-52543be04c81
+  rpuId: NzU2fjUwMTg
+  wikidata: ""
+
+meta:
+  status: working
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: fr.wikipedia (1983 association, first broadcast 20 June 1984)
+    owner: fr.wikipedia
+    tagline: radiochablais.ch homepage
+    playlistSample: radiochablais.ch/radio/titres-diffuses + getlastsongs.php
+    nowPlaying: radiochablais.ice.infomaniak.ch XSPF (CORS open, no cover art)
+    dab: radiochablais.ch/radio/ecouter-chablais (canal 10B, Suisse romande)
+    apps: radiochablais.ch/radio/ecouter-chablais
+    headquarters: radiochablais.ch contact page
+  updatedAt: 2026-06-22
+  notes: >-
+    geo [0,0] in catalog — corrected to Monthey VS [46.255, 6.953].
+    FM frequencies not published as MHz values on the station's website (only
+    "Valais et Vaud" cantons stated); omitted until verified.
+    The XSPF endpoint is CORS-open and is the cheapest now-playing source;
+    the broadcaster's own PHP fragments (getlastsongs, getsongonair) are
+    richer (cover art filenames, last 4 tracks) but return HTML and have no
+    CORS headers — needs proxy fetcher.
+    Station operates a family of 15+ themed web-radio channels under the
+    same brand (Urban, Rock'N'Blues, Folklore, Francophone, Funk, Flashback,
+    Swiss Made, and the acquired Vibration 108 group).
