@@ -271,12 +271,21 @@ Status poll `…/report-status?ids=7f0c2b9e-…,11111111-1111-4111-8111-11111111
   outcome — "fixed" / "removed" / "couldn't reproduce it"), mark it seen, then
   let the receipt self-prune.
 
-**Web** — same endpoint. Currently sends the pre-#507 payload (no category
-sheet, no comment) from a single "Broken station" button in the now-playing
-details, and ignores the response body (`reportId` is never read); no receipt
-is stored, so there is no status line, polling, resolved toast, or email
-fallback. That remains valid (degraded mode — report counted, no follow-up).
-If web later adopts the receipt loop, receipts live in `localStorage`.
+**Web** — ships the client flow (#614): the "Report · Broken station" row in
+the station-info popup opens a report sheet (six-category single-select, none
+preselected; optional comment, required for `other`, capped at 500, trimmed and
+omitted when empty). `reportId` is parsed into a `localStorage` receipt store
+(`rrradio.brokenReports.receipts.v1`, same 90d / 7d retention). The receipt
+poll runs on page load and when the tab becomes visible again (one batched
+call, newest 50 ids; receipts over the cap are kept, not expired). The
+station-info popup shows the per-station status line under the Report row
+(iOS wording). A newly resolved receipt shows a one-shot toast with the
+station name and outcome, and is marked seen as soon as it is shown. A failed
+POST shows "Could not send" plus a `mailto:support@rrradio.org` link
+prefilled with the station name, id, stream URL and playback state.
+`src/brokenReports.ts` (store, merge, prune, wording) and
+`src/reportBroken.ts` (POST/GET) are the integration points. No telemetry or
+breadcrumb carries the comment.
 
 **iOS** — ships the full flow per the *Client report flow* section: the
 now-playing report sheet (six-category single-select + optional/`other`-required
@@ -302,13 +311,13 @@ backup.
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
 | POST a broken-station report | Supported | Reference | Supported |
-| Category single-select in the report sheet | Not planned (no sheet) | Reference | Supported |
-| Optional comment (`other` requires it) | Not planned | Reference | Supported |
-| Store the `reportId` receipt locally | Not planned | Reference | Supported (DataStore) |
-| Poll `report-status` on foreground | Not planned | Reference | Supported |
-| Per-station status line (received/confirmed/resolved) | Not planned | Reference | Supported |
-| Resolved notification (toast) | Not planned | Reference | Supported (root Snackbar; dismissal marks seen) |
-| Email fallback on POST failure | Not planned | Supported | Supported |
+| Category single-select in the report sheet | Supported | Reference | Supported |
+| Optional comment (`other` requires it) | Supported | Reference | Supported |
+| Store the `reportId` receipt locally | Supported (localStorage) | Reference | Supported (DataStore) |
+| Poll `report-status` on foreground | Supported (page load + tab visible) | Reference | Supported |
+| Per-station status line (received/confirmed/resolved) | Supported (station-info popup) | Reference | Supported |
+| Resolved notification (toast) | Supported (seen when shown) | Reference | Supported (root Snackbar; dismissal marks seen) |
+| Email fallback on POST failure | Supported | Supported | Supported |
 
 ## Open questions
 
@@ -354,9 +363,12 @@ backup.
 
 - iOS now ships the full client loop (sheet → receipt → poll → resolved toast),
   so the protocol is exercised end-to-end against the live server pipeline
-  (ingest → confirm → issue → resolve). Web still sends the pre-#507 payload and
-  has no category sheet or receipt UI; Android also sends the pre-#507 payload
+  (ingest → confirm → issue → resolve). Web ships the same loop (#614).
+  Android also sends the pre-#507 payload
   fire-and-forget (single report button, no category sheet, no receipt loop).
+- **Web marks a resolution seen when the toast is shown**, not on tap or after
+  ~7 s on screen. It reuses the shared ~4 s toast (no tap target), so a
+  resolution the user looked away from is not shown again.
 - **iOS does not chunk the status poll to the 50-id server cap:** it sends every
   held receipt id in one `report-status` call. A device holding >50 live
   receipts would have the overflow ignored by the server and then dropped

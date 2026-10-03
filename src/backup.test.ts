@@ -148,7 +148,7 @@ describe('parseBackup', () => {
         theme: 'dark',
         landing: 'fav',
         sidebarCollapsed: true,
-        browseCollapsed: 'nope', // wrong type → dropped
+        browseCollapsed: true, // retired key (#620) → dropped
         librarySection: 'bogus', // not an allowed value → dropped
         musicServices: { apple: false, evil: true }, // evil dropped
         injected: 'danger', // unknown key → dropped

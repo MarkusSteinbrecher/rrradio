@@ -60,6 +60,8 @@ export const ICON_CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
 /** Magnifying glass — the iOS LibraryPageStatusBar search accessory. */
 export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
 /** Plain plus — "add stations to favorites" header accessory. */
+/** Filled play triangle — Library-home card play control. */
+export const ICON_PLAY = svg('<path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/>', { fill: true });
 export const ICON_PLUS = svg('<path d="M12 5v14"/><path d="M5 12h14"/>');
 /** Minus-in-circle — the per-row remove affordance shown in favorites
  *  edit mode (the iOS delete-mode red circle). */

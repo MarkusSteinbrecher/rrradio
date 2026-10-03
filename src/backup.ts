@@ -36,7 +36,6 @@ export interface BackupSettings {
   landing?: string;
   musicServices?: { apple?: boolean; spotify?: boolean; youtube?: boolean };
   sidebarCollapsed?: boolean;
-  browseCollapsed?: boolean;
 }
 
 export interface BackupSnapshot {
@@ -163,7 +162,6 @@ function sanitizeSettings(raw: unknown): BackupSettings {
   }
   if (typeof r.landing === 'string') out.landing = r.landing;
   if (typeof r.sidebarCollapsed === 'boolean') out.sidebarCollapsed = r.sidebarCollapsed;
-  if (typeof r.browseCollapsed === 'boolean') out.browseCollapsed = r.browseCollapsed;
   if (typeof r.musicServices === 'object' && r.musicServices !== null) {
     const ms = r.musicServices as Record<string, unknown>;
     const picked: { apple?: boolean; spotify?: boolean; youtube?: boolean } = {};

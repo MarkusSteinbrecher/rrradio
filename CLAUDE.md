@@ -32,7 +32,7 @@ GitHub Pages via `.github/workflows/deploy.yml`. Pushes to `main` build and publ
 - **HTTPS-only catalog** (audit #71, CI-enforced via `tools/check-catalog.mjs`). Opt out per-station with `httpAllowed: true` + comment.
 - **Strict CSP** via `<meta>` + per-page sha256 hashes (audit #75). Never `'unsafe-inline'` in built pages, never `'unsafe-eval'` anywhere. See `design/decisions/decisions-log.md`.
 - **Privacy-preserving errors** (audit #76): all errors emit `error: <category>` events to GoatCounter; no stack traces, no PII. See `public/privacy.html`.
-- **iOS Safari**: autoplay is blocked until user gesture. Audio-session interruptions (calls, other apps) need explicit handling. See the wake-to-radio architecture in `design/decisions/decisions-log.md`.
+- **iOS Safari**: autoplay is blocked until user gesture. Audio-session interruptions (calls, other apps) need explicit handling. Wake-to-radio is iOS-only for this reason; the web app removed it (see the wake-to-radio entry in `design/decisions/decisions-log.md`).
 - **CORS**: many Shoutcast/Icecast streams omit CORS headers. `<audio>` playback works without CORS; `fetch` / Web Audio access needs them.
 - **ICY metadata**: browsers don't expose inline ICY from raw Icecast streams. Prefer stations with separate metadata endpoints; fall back to RB fields.
 - **Playlist files**: some stations 302-redirect or serve `.pls` / `.m3u` that need parsing to extract the actual stream URL.
@@ -67,7 +67,7 @@ Only the first three publish into the bundled catalog.
 - **Station health record** (unified per-station check verdicts, live copy on the `health-data` branch, tracker Health tab, daily `station-probe` workflow + weekly digest — ADR 002): `docs/station-health.md`
 - **Testing** (4 stacks, render harness, what's tested vs not): `docs/testing.md`
 - **Logo extraction:** `docs/logo-extraction.md` - scraper batches, review rules, generated artifacts
-- **Decisions:** `design/decisions/decisions-log.md` — catalog format, no backend, HTTPS-only, CSP, privacy errors, wake-to-radio, render harness
+- **Decisions:** `design/decisions/decisions-log.md` — catalog format, no backend, HTTPS-only, CSP, privacy errors, wake-to-radio (web removal), render harness
 - **Public station-adding guide:** `docs/adding-stations.md`
 - **Curation playbook:** `docs/curation-checklist.md`
 - **Live state:** `session-log.md` and GitHub issues

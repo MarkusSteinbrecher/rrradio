@@ -54,7 +54,7 @@ Current implementation shape:
 - `HTMLAudioElement` for MP3/AAC streams.
 - `hls.js` for HLS on non-Safari browsers.
 - Media Session API where the browser supports it.
-- `localStorage` for favorites, recents, custom stations, wake state, and UI
+- `localStorage` for favorites, recents, custom stations, and UI
   preferences.
 - Cloudflare Worker for allowlisted broadcaster proxying and public reports.
 
