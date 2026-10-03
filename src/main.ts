@@ -96,7 +96,21 @@ import {
   reportWorkerError,
   truncateErrorMessage,
 } from './errors';
-import { reportBrokenStation } from './reportBroken';
+import {
+  addReceipt,
+  applyStatuses,
+  canSendReport,
+  idsToPoll,
+  loadReceipts,
+  pruneReceipts,
+  receiptForStation,
+  receiptStatusText,
+  REPORT_CATEGORIES,
+  resolvedToastText,
+  saveReceipts,
+  type ReportCategory,
+} from './brokenReports';
+import { fetchReportStatuses, reportBrokenStation } from './reportBroken';
 import { fmtSharePct, normalizeForSearch } from './format';
 import {
   type MiniRefs,
@@ -313,6 +327,15 @@ const $npHome = document.getElementById('np-home') as HTMLAnchorElement;
 const $npHomeHost = document.getElementById('np-home-host') as HTMLElement;
 const $npReportBroken = document.getElementById('np-report-broken') as HTMLButtonElement;
 const $npReportBrokenLabel = document.getElementById('np-report-broken-label') as HTMLElement;
+const $npReportStatus = document.getElementById('np-report-status') as HTMLElement;
+const $npReportMail = document.getElementById('np-report-mail') as HTMLAnchorElement;
+const $npReport = document.getElementById('np-report') as HTMLElement;
+const $npReportScrim = document.getElementById('np-report-scrim') as HTMLElement;
+const $npReportForm = document.getElementById('np-report-form') as HTMLFormElement;
+const $npReportStation = document.getElementById('np-report-station') as HTMLElement;
+const $npReportComment = document.getElementById('np-report-comment') as HTMLTextAreaElement;
+const $npReportSend = document.getElementById('np-report-send') as HTMLButtonElement;
+const $npReportClose = document.getElementById('np-report-close') as HTMLButtonElement;
 const $npFav = document.getElementById('np-fav') as HTMLButtonElement;
 const $npAdd = document.getElementById('np-add') as HTMLButtonElement;
 const $npPrev = document.getElementById('np-prev') as HTMLButtonElement;
@@ -5206,6 +5229,14 @@ $npVolumeSlider.addEventListener('input', () => handleVolumeInput($npVolumeSlide
 // Desktop mini-player slider — same behaviour, shared volume state.
 $miniVolumeSlider.addEventListener('input', () => handleVolumeInput($miniVolumeSlider));
 
+// ── Broken-station report (#614) ────────────────────────────────────
+// Report row in the station-info popup → report sheet (category + optional
+// comment) → POST → local receipt → per-station status line, refreshed by
+// an opportunistic status poll on load / tab foreground. Contract:
+// docs/spec/contracts/broken-reports.md.
+let reportReceipts = pruneReceipts(loadReceipts(), Date.now());
+saveReceipts(reportReceipts);
+
 function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): void {
   $npReportBroken.classList.toggle('is-sent', state === 'sent');
   $npReportBroken.classList.toggle('is-error', state === 'error');
@@ -5218,19 +5249,122 @@ function setReportBrokenState(state: 'idle' | 'sending' | 'sent' | 'error'): voi
         : state === 'error'
           ? 'Could not send'
           : 'Broken station';
+  // Failure offers the email fallback (iOS parity).
+  const s = currentNP.station;
+  $npReportMail.hidden = state !== 'error' || !s.id;
+  if (state === 'error' && s.id) {
+    const subject = `Broken station: ${s.name}`;
+    const body =
+      `The station "${s.name}" failed to play in rrradio.\n\n` +
+      `Station id: ${s.id}\nStream: ${s.streamUrl}\nState: ${currentNP.state}`;
+    $npReportMail.href =
+      `mailto:support@rrradio.org?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+  }
+  renderReportStatus();
 }
 
-$npReportBroken.addEventListener('click', async () => {
+/** Per-station status line from the latest receipt ("Reported" state). */
+function renderReportStatus(): void {
+  const id = currentNP.station.id;
+  const receipt = id ? receiptForStation(reportReceipts, id) : undefined;
+  $npReportStatus.hidden = !receipt;
+  $npReportStatus.textContent = receipt ? receiptStatusText(receipt) : '';
+  $npReportStatus.classList.toggle('is-resolved', receipt?.status === 'resolved');
+}
+
+function reportCategory(): ReportCategory | null {
+  const checked = $npReportForm.querySelector<HTMLInputElement>(
+    'input[name="np-report-category"]:checked',
+  );
+  const v = checked?.value;
+  return v && (REPORT_CATEGORIES as readonly string[]).includes(v) ? (v as ReportCategory) : null;
+}
+
+function syncReportSheet(): void {
+  const category = reportCategory();
+  $npReportComment.placeholder =
+    category === 'other' ? 'Describe the problem' : 'Comment (optional)';
+  $npReportSend.disabled = !canSendReport(category, $npReportComment.value);
+}
+
+function openReportSheet(): void {
   const station = currentNP.station;
   if (!station.id) return;
+  $npReportForm.reset();
+  $npReportStation.textContent = station.name;
+  syncReportSheet();
+  closeStationInfo();
+  $npReport.hidden = false;
+  $npReportForm.querySelector<HTMLInputElement>('input[name="np-report-category"]')?.focus();
+}
+
+function closeReportSheet(): void {
+  $npReport.hidden = true;
+}
+
+async function sendReport(): Promise<void> {
+  const station = currentNP.station;
+  const category = reportCategory();
+  const comment = $npReportComment.value;
+  if (!station.id || !canSendReport(category, comment) || !category) return;
+  closeReportSheet();
+  openStationInfo();
   setReportBrokenState('sending');
   try {
-    await reportBrokenStation(station, currentNP.errorMessage);
-    setReportBrokenState('sent');
+    const reportId = await reportBrokenStation(station, category, comment, currentNP.errorMessage);
+    if (reportId) {
+      reportReceipts = addReceipt(reportReceipts, {
+        id: reportId,
+        stationId: station.id,
+        stationName: station.name,
+        category,
+        sentAt: Date.now(),
+        status: 'received',
+        seen: false,
+      });
+      saveReceipts(reportReceipts);
+    }
+    if (currentNP.station.id === station.id) setReportBrokenState('sent');
   } catch (err) {
     reportWorkerError(err, '/api/public/report-broken');
-    setReportBrokenState('error');
+    if (currentNP.station.id === station.id) setReportBrokenState('error');
   }
+}
+
+$npReportBroken.addEventListener('click', openReportSheet);
+$npReportForm.addEventListener('change', syncReportSheet);
+$npReportComment.addEventListener('input', syncReportSheet);
+$npReportForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  void sendReport();
+});
+$npReportClose.addEventListener('click', closeReportSheet);
+$npReportScrim.addEventListener('click', closeReportSheet);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$npReport.hidden) closeReportSheet();
+});
+
+/** Opportunistic receipt poll (load + tab foreground, never on a timer).
+ *  Failures are silent; a newly resolved receipt shows a one-shot toast. */
+async function refreshReportReceipts(): Promise<void> {
+  reportReceipts = pruneReceipts(reportReceipts, Date.now());
+  const ids = idsToPoll(reportReceipts);
+  if (ids.length === 0) return;
+  const payload = await fetchReportStatuses(ids);
+  if (payload === null) return;
+  reportReceipts = applyStatuses(reportReceipts, payload, ids);
+  const unseen = reportReceipts.find((r) => r.status === 'resolved' && !r.seen);
+  if (unseen) {
+    showBackupToast(resolvedToastText(unseen), 'ok');
+    unseen.seen = true;
+  }
+  saveReceipts(reportReceipts);
+  renderReportStatus();
+}
+void refreshReportReceipts();
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') void refreshReportReceipts();
 });
 
 $npFav.addEventListener('click', () => {

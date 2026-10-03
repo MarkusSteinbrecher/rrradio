@@ -3005,6 +3005,19 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   opacity: 0.7;
 }
 .np-source__row:hover .np-source__ext { color: var(--ink); opacity: 1; }
+/* Receipt status line ("Reported" state) + email fallback under the
+   Report row. */
+.np-source__status {
+  display: block;
+  padding: 0 2px 10px 74px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+.np-source__status[hidden] { display: none; }
+.np-source__status.is-resolved { color: var(--accent); }
+.np-source__mail { color: var(--ink-2); text-decoration: underline; }
+.np-source__mail:hover { color: var(--ink); }
 
 /* ─── Now Playing controls ─── */
 .np-controls {
@@ -3302,6 +3315,125 @@ body.is-playing .np-play .icon-pause { display: block; }
 }
 .np-info__close:hover { color: var(--ink); background: var(--bg-3); }
 .np-info__close svg { width: 18px; height: 18px; }
+
+/* ─── Broken-station report sheet (#614, iOS BrokenStationReportSheet) ───
+   Same centered card + scrim as the station-info popup. */
+.np-report__card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 20px 18px;
+}
+.np-report__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.np-report__title svg { width: 20px; height: 20px; color: var(--ink-3); flex-shrink: 0; }
+.np-report__station {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-report__cats { margin: 0; padding: 0; border: 0; min-width: 0; }
+.np-report__legend {
+  width: 100%;
+  padding: 0 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.np-report__list {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.np-report__opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+.np-report__opt:first-child { border-top: 0; }
+.np-report__opt input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.np-report__opt:hover { background: var(--bg-2); }
+.np-report__comment-label {
+  margin-bottom: -8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-report__comment {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+.np-report__comment:focus { outline: none; border-color: var(--line-2); }
+.np-report__comment::placeholder { color: var(--ink-4); }
+.np-report__foot {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 4px;
+}
+.np-report__close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.np-report__close svg { width: 14px; height: 14px; }
+.np-report__close:hover { color: var(--ink); }
+.np-report__send {
+  height: 44px;
+  padding: 0 32px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.np-report__send:disabled {
+  background: var(--bg);
+  color: var(--ink-4);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: default;
+}
 
 /* Streaming indicator — a single sine-wave hairline that drifts one
    cycle (24px) every 3.6s while playing. Dim and static otherwise. */
