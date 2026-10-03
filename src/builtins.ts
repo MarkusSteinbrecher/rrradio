@@ -3,6 +3,7 @@ import { STATS_BBC_PROXY, STATS_PROXY } from './config';
 import { reportCatalogError } from './errors';
 import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
+import { mediaOneUrl, parseMediaOne, type MediaOneResponse } from './mediaOne';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station } from './types';
 
@@ -834,6 +835,24 @@ const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Media One Group (Geneva / Vaud commercial) — One FM, Radio Lac, LFM,
+// Rouge, Yes FM + webradios. Shared now-playing platform, CORS-open;
+// metadataUrl carries the slug. Parse lives in src/mediaOne.ts.
+// ============================================================
+
+const fetchMediaOneMetadata: MetadataFetcher = async (station, signal) => {
+  const url = mediaOneUrl(station.metadataUrl);
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    return parseMediaOne((await res.json()) as MediaOneResponse);
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -1651,6 +1670,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   srr: fetchSrrMetadata,
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,
+  'media-one': fetchMediaOneMetadata,
   azuracast: fetchAzuracastMetadata,
   swr: fetchSwrMetadata,
   streamabc: fetchStreamabcMetadata,
