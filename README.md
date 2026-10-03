@@ -29,7 +29,7 @@ survives backgrounding, supports bluetooth controls.
 ## Features
 
 - 🔎 **Browse & search** — curated stations (FM4, BBC 1–6, Ö1, FIP, RAI, Bayern, Grrif…) plus thousands more from [Radio Browser](https://www.radio-browser.info/), filterable by genre, country, or map.
-- 🔒 **Lock-screen controls** — play, pause, and skip stations from the iOS / Android Now Playing widget, bluetooth headphones, AirPods squeeze, and CarPlay. Skip cycles through your favorites.
+- 🔒 **Lock-screen controls** — play, pause, and skip stations from the iOS / Android Now Playing widget, bluetooth headphones, AirPods squeeze, and CarPlay. Skip steps through the list, favorites or results you started from.
 - ❤️ **Favorites & recents** — heart anything to save it. Drag favorites into your preferred dial order. Recently-played fills in automatically.
 - ⏰ **Wake to radio** — pick a station + time, leave the phone by the bed. A silent bed keeps the tab alive on lock; at wake time it plays your station at the phone's hardware volume.
 - 🌙 **Sleep timer** — auto-stop after 15, 30, 60, or 90 minutes.

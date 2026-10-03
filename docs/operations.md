@@ -387,7 +387,7 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 | `wake/arm` / `wake/disarm` / `wake/fire` / `wake/play-failed` | wake-to-radio lifecycle; title carries local fire timing or station name |
 | `backup-export` / `backup-import` | user exports/imports local favorites/custom stations; title carries counts only |
 | `open-in/show` / `open-spotify` / `open-apple-music` / `open-youtube-music` | user opens a music-service search from Now Playing; no track title is sent |
-| `lock-skip-next` / `lock-skip-prev` | user skips via Media Session controls; title carries the target station name |
+| `lock-skip-next` / `lock-skip-prev` | user skips via Now Playing, mini-player or Media Session prev/next; title carries the target station name |
 | `np-details/open` / `np-details/close` | user toggles the details panel on Now Playing |
 
 To add another event, call `track('event-name', 'optional title')` from the right hook point.

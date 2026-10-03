@@ -318,7 +318,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; ICY plus broadcaster direct fetchers (GRRIF / ORF) supply artist / title / program, polled on a tick; no full fetcher parity yet. |
 | Cover art fallback | Partial; no-cover falls back to station favicon then initials, not the animated dot-matrix `rrr`. | Reference. | Partial; track cover art resolves (iTunes + broadcaster art) into the artwork frame and mini-player thumb, but the no-cover fallback is the station favicon then initials, not the animated dot-matrix `rrr` (planned). |
-| Previous/next station controls | Partial; no in-view prev/next buttons. Mini-player skip + lock-screen/Bluetooth controls cycle the favorites list (no station-list queue). | Reference. | Supported for active playback queues. |
+| Previous/next station controls | Supported; Now Playing transport, mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported. | Planned/partial native parity. | Planned. |
