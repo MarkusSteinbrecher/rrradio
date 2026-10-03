@@ -6,7 +6,11 @@
  * (`tools/decide-actions.mjs`) owns all I/O and the tests need no network.
  *
  * Rules, in order (the ADR's table — keep the numbering in sync):
- *   1 circuit breaker      too many bad / too many candidates → nothing is automatic
+ *   1 circuit breaker      too many bad today / too many *fresh* candidates
+ *                          (streaks that crossed their threshold within the
+ *                          last FRESH_DAYS probe days) → nothing is
+ *                          automatic. The older backlog never trips it — it
+ *                          drains at the cap
  *   2 hard streak ≥ 3      long tail: unpublish · curated: review
  *   3 soft streak ≥ 5      long tail: needs the edge to agree · curated: review
  *   4 fold canonical       skipped (`fold-canonical`): no status flip can pass
@@ -40,8 +44,19 @@ export const SOFT_DAYS = 5;
 export const OK_DAYS = 3;
 /** Rule 1: share of `bad` among the latest stream verdicts. */
 export const BAD_SHARE_LIMIT = 0.15;
-/** Rule 1: unpublish candidates as a share of the published catalog. */
+/** Rule 1: *fresh* unpublish candidates (see FRESH_DAYS) as a
+ *  share of the published catalog. Live lesson 2026-09-11→26: counting the
+ *  whole backlog (~1,600 escalated dead long-tail streams, 5 % of the
+ *  catalog) tripped the breaker every day for 16 days while the 200/day
+ *  cap could have drained it in a week. A runner failure shows up as a
+ *  spike of fresh candidates; a backlog is just work. */
 export const CANDIDATE_SHARE_LIMIT = 0.02;
+/** Rule 1: a candidate stays fresh for this many probe days after its streak
+ *  crosses the threshold, so a runner-failure spike holds the breaker for
+ *  days 3–5, not just the crossing day (exactly-today let the spike drain at
+ *  the cap from day 4). Live 2026-10-02: 68 of 1,739 candidates fresh, the
+ *  trigger sits at 616. */
+export const FRESH_DAYS = 3;
 export const DEFAULT_CAPS = Object.freeze({ auto: 200 });
 /** The `brokenBy` marker that makes a YAML row bot-managed. */
 export const BOT = 'station-probe';
@@ -112,19 +127,36 @@ export function candidateSwapIds(actions) {
 
 /**
  * Rule 1. Either trigger means "the runner, not the internet, is probably
- * broken": act on nothing, but say why.
+ * broken": act on nothing, but say why. `freshCount` is the number of
+ * candidates whose streak crossed its threshold recently, not the backlog.
  * @returns {string|null} a reason when tripped
  */
-export function circuitBreakerReason(metrics, candidateCount, published) {
+export function circuitBreakerReason(metrics, freshCount, published) {
   const s = metrics?.stream;
   const total = (s?.ok ?? 0) + (s?.warn ?? 0) + (s?.bad ?? 0);
   if (s && total > 0 && s.bad / total > BAD_SHARE_LIMIT) {
     return `bad share ${(100 * s.bad / total).toFixed(1)}% > ${BAD_SHARE_LIMIT * 100}%`;
   }
-  if (published > 0 && candidateCount / published > CANDIDATE_SHARE_LIMIT) {
-    return `${candidateCount} candidates > ${CANDIDATE_SHARE_LIMIT * 100}% of ${published} published`;
+  if (published > 0 && freshCount / published > CANDIDATE_SHARE_LIMIT) {
+    return `${freshCount} fresh candidates > ${CANDIDATE_SHARE_LIMIT * 100}% of ${published} published`;
   }
   return null;
+}
+
+/**
+ * A streak that crossed its threshold within the last FRESH_DAYS probe days
+ * (`n` counts distinct probed days) and was still observed yesterday or
+ * later — a station that has dropped out of the probe plan is stale evidence,
+ * not a spike. Yesterday counts so a late 05:00 probe cannot disarm the
+ * 06:00 breaker.
+ */
+function isFresh(s, day) {
+  const since = s.n - (s.c === 'hard' ? HARD_DAYS : SOFT_DAYS);
+  return since < FRESH_DAYS && daysBetween(s.last, day) <= 1;
+}
+
+function daysBetween(a, b) {
+  return Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000);
 }
 
 /**
@@ -205,7 +237,7 @@ export function decide({
     if (!publishedIds.has(id) || s.o !== 'bad') continue;
     const past = (s.c === 'hard' && s.n >= HARD_DAYS) || (s.c === 'soft' && s.n >= SOFT_DAYS);
     if (!past) continue;
-    unpublishCandidates.push({ id, y, streak, tier: tierFor(id, tiers, y, highlightIds) });
+    unpublishCandidates.push({ id, y, streak, tier: tierFor(id, tiers, y, highlightIds), fresh: isFresh(s, day) });
   }
 
   // ─── rule 8 candidates (phase 3) — thresholds only ────────────────
@@ -227,7 +259,7 @@ export function decide({
 
   // ─── rule 1 ───────────────────────────────────────────────────────
   const published = publishedIds.size || metrics?.published || 0;
-  const breaker = circuitBreakerReason(metrics, unpublishCandidates.length, published);
+  const breaker = circuitBreakerReason(metrics, unpublishCandidates.filter((c) => c.fresh).length, published);
   if (breaker) {
     const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates]
       .map(({ id }) => ({ id, why: 'circuit-breaker' }))

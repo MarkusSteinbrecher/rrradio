@@ -107,7 +107,7 @@ describe('classifyLogo', () => {
 describe('logoFailureClass', () => {
   it('splits hard from soft like the stream probe, plus the logo-only deterministic failures', () => {
     for (const d of LOGO_HARD_DETAILS) expect(logoFailureClass(d)).toBe('hard');
-    for (const d of ['timeout', 'HTTP 403', 'HTTP 503', 'reset', 'tls', 'network', 'nonsense', null]) expect(logoFailureClass(d)).toBe('soft');
+    for (const d of ['timeout', 'HTTP 403', 'HTTP 503', 'reset', 'tls', 'network', 'http', 'nonsense', null]) expect(logoFailureClass(d)).toBe('soft');
     expect(logoFailureClass({ v: 'bad', d: 'not-image' })).toBe('hard');
     expect(logoFailureClass({ v: 'ok', d: 'good' })).toBeNull();
   });

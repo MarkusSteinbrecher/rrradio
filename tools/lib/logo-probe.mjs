@@ -35,9 +35,12 @@ import { classifyError } from './homepage-status.mjs';
 import { classifyLogoUrl } from '../logo-quality.mjs';
 
 /** Bad logo details that mean "this will not fix itself". `missing` is
- *  hard too — but the policy has nothing to clear for it. */
+ *  hard too — but the policy has nothing to clear for it. Plain `http` is
+ *  deliberately soft: 1,500 catalog favicons are http listings that mostly
+ *  answer over https, so the right action is an upgrade, not a clear
+ *  (issue: upgrade-logo action). */
 export const LOGO_HARD_DETAILS = Object.freeze(
-  new Set(['HTTP 404', 'HTTP 410', 'dns', 'refused', 'missing', 'http', 'unsupported-scheme', 'not-image']),
+  new Set(['HTTP 404', 'HTTP 410', 'dns', 'refused', 'missing', 'unsupported-scheme', 'not-image']),
 );
 
 /** URL-heuristic tiers that downgrade a loading logo to warn, with the tier as detail. */

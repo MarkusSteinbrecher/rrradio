@@ -297,7 +297,7 @@ in `tools/lib/health-policy.mjs`. Rules, in this order:
 
 | # | Condition | Long tail | Curated tier |
 |---|---|---|---|
-| 1 | **Circuit breaker**: `metrics.stream.bad ÷ (ok+warn+bad) > 0.15`, or candidates > 2 % of published | no auto actions this run; every candidate → `skipped: circuit-breaker` | same |
+| 1 | **Circuit breaker**: `metrics.stream.bad ÷ (ok+warn+bad) > 0.15`, or *fresh* candidates (streak crossed its threshold within the last 3 probe days, last seen yesterday or later) > 2 % of published — amended 2026-09-26 after the whole-backlog count tripped it for 16 days straight; the 3-day window holds a runner-failure spike past its crossing day | no auto actions this run; every candidate → `skipped: circuit-breaker` | same |
 | 2 | stream streak `bad`, `hard`, `n ≥ 3` | `unpublish`, auto | `review` (proposed unpublish) |
 | 3 | stream streak `bad`, `soft`, `n ≥ 5` | ask edge; edge `bad` → `unpublish` auto; edge `ok`/`warn` → `skipped: edge-disagrees`; no answer → `skipped: no-edge-opinion` | `review`, with the edge answer attached when available |
 | 4 | row is a fold canonical (`dedup-report.json` group with folded members) | `skipped: fold-canonical` — no status flip can pass `check-catalog` while variants fold into the row; the digest names it, a curator re-points the fold first | same |
@@ -394,8 +394,9 @@ budgeted vision routine (judgement half) is a separate decision.
   `o` = ok (`good` / `acceptable` / `vector`), warn (`poor` / `unknown`, or
   the URL-heuristic tiers `generic` / `third-party` / `non-free-wiki`), bad
   (`missing`, `http`, `unsupported-scheme`, `not-image`, or the shared probe
-  error tokens). Hard = the stream set plus `missing`, `http`,
-  `unsupported-scheme`, `not-image`. No `icy` key. Bot-unpublished rows
+  error tokens). Hard = the stream set plus `missing`,
+  `unsupported-scheme`, `not-image`; plain `http` stays soft (an upgrade,
+  not a clear, is the fix). No `icy` key. Bot-unpublished rows
   (`plan.extra`) get no logo row.
 - **Record.** `derive-health` writes the `logo` facet from the latest logo
   row per station, exactly like `stream`; `streaks.json` carries a `logo`
