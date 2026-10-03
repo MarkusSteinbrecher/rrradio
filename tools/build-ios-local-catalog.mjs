@@ -15,7 +15,6 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parse as parseYaml } from 'yaml';
 import { writeStationCapabilities } from './build-station-capabilities.mjs';
 import { detectFamilies, familyBucketKey } from './lib/station-family.mjs';
 import { nameTokens } from './lib/station-name-signature.mjs';
@@ -26,7 +25,6 @@ const PUBLIC = join(ROOT, 'public');
 const OUT = join(PUBLIC, 'stations-ios-local.json');
 const CAPABILITIES_OUT = join(PUBLIC, 'station-capabilities-ios-local.json');
 const PUBLISHED_CATALOG = join(PUBLIC, 'stations.json');
-const STATIONS_YAML = join(ROOT, 'data', 'stations.yaml');
 const RB_CANDIDATES = join(PUBLIC, 'sources', 'radio-browser-candidates.json');
 const MANUAL_CANDIDATES = join(PUBLIC, 'sources', 'manual-candidates.json');
 const BYTE_PROBES = join(PUBLIC, 'sources', 'radio-browser-byte-probes.json');
@@ -147,36 +145,6 @@ function loadCatalogById() {
 }
 
 /**
- * Map legacy/aliased Radio Browser `stationuuid`s → their curated catalog
- * station. The uuid/streamUrl matcher in build-sources can only link a candidate
- * to the catalog when they share a stationuuid or stream URL — so RB records that
- * pre-date a broadcaster's HTTPS migration or a rename (different uuid, dead old
- * stream, drifted name) stay orphaned and render iconless here. `akaStationUuids`
- * in data/stations.yaml declares those legacy ids so this catalog can inherit the
- * curated station's per-channel art. Source of truth is the YAML (build-catalog
- * strips the field from the public stations.json).
- */
-function loadAkaCatalog(catalogById) {
-  const out = new Map();
-  let yamlList;
-  try {
-    yamlList = parseYaml(readFileSync(STATIONS_YAML, 'utf8'));
-  } catch {
-    return out;
-  }
-  if (!Array.isArray(yamlList)) return out;
-  for (const s of yamlList) {
-    if (!Array.isArray(s?.akaStationUuids)) continue;
-    const station = catalogById.get(s.id);
-    if (!station) continue;
-    for (const uuid of s.akaStationUuids) {
-      if (typeof uuid === 'string' && uuid && !out.has(uuid)) out.set(uuid, station);
-    }
-  }
-  return out;
-}
-
-/**
  * Per detected brand family, a representative "brand" favicon plus the family's
  * name-token core. Last-resort icon for an RB candidate that belongs to a
  * broadcaster we curate but matches no specific station and has no usable
@@ -249,7 +217,6 @@ const manualCandidates = readJson(MANUAL_CANDIDATES, { candidates: [] }).candida
 const rawByUuid = loadRawByUuid();
 const byteProbes = loadByteProbes();
 const catalogById = loadCatalogById();
-const akaCatalog = loadAkaCatalog(catalogById);
 const familyBrand = buildFamilyBrandIndex(catalogById);
 
 const stations = [];
@@ -269,7 +236,6 @@ const counts = {
   skippedNotPlayable: 0,
   faviconFromCatalog: 0,
   faviconFromRb: 0,
-  faviconFromAka: 0,
   faviconFromFamilyBrand: 0,
   faviconMissing: 0,
 };
@@ -311,10 +277,9 @@ for (const candidate of rbCandidates) {
   const matchedById = candidate.matchedCatalogId
     ? catalogById.get(candidate.matchedCatalogId)
     : undefined;
-  // Fall back to an `akaStationUuids` alias when the uuid/streamUrl matcher
-  // couldn't link this stale RB record to the curated station it really is.
-  const akaMatch = matchedById ? undefined : akaCatalog.get(candidate.stationuuid);
-  const matchedCatalog = matchedById ?? akaMatch;
+  // `akaStationUuids` aliases are resolved upstream in build-sources, so a stale
+  // RB record already carries its curated station's matchedCatalogId here.
+  const matchedCatalog = matchedById;
   const country = text(candidate.country || raw.countrycode).toUpperCase() || undefined;
   const homepage = cleanUrl(candidate.homepage || raw.homepage);
 
@@ -326,7 +291,7 @@ for (const candidate of rbCandidates) {
   let faviconSourceUrl = favicon ? matchedCatalog.faviconSourceUrl : undefined;
   let faviconLicense = favicon ? matchedCatalog.faviconLicense : undefined;
   let faviconOk = favicon ? matchedCatalog.faviconOk : undefined;
-  let faviconTier = favicon ? (akaMatch ? 'aka' : 'catalog') : null;
+  let faviconTier = favicon ? 'catalog' : null;
   if (!favicon) {
     const rbFav = cleanFavicon(raw.favicon || candidate.favicon);
     if (rbFav) {
@@ -370,7 +335,7 @@ for (const candidate of rbCandidates) {
     changeuuid: raw.changeuuid,
     localPlayableSource: source,
     localMatchedCatalogId: candidate.matchedCatalogId || matchedCatalog?.id || undefined,
-    localFaviconVia: faviconTier === 'aka' || faviconTier === 'family-brand' ? faviconTier : undefined,
+    localFaviconVia: faviconTier === 'family-brand' ? faviconTier : undefined,
     localDuplicateOf: candidate.duplicateOf || undefined,
   });
 
@@ -383,7 +348,6 @@ for (const candidate of rbCandidates) {
   if (streamUrl.startsWith('http://')) counts.httpStreams++;
   if (streamUrl.startsWith('https://')) counts.httpsStreams++;
   if (faviconTier === 'catalog') counts.faviconFromCatalog++;
-  else if (faviconTier === 'aka') counts.faviconFromAka++;
   else if (faviconTier === 'rb') counts.faviconFromRb++;
   else if (faviconTier === 'family-brand') counts.faviconFromFamilyBrand++;
   else counts.faviconMissing++;
@@ -475,6 +439,6 @@ console.log(`  duplicate source rows included via catalog match: ${counts.includ
 console.log(`  http streams: ${counts.httpStreams}`);
 console.log(`  https streams: ${counts.httpsStreams}`);
 console.log(
-  `  favicon: catalog=${counts.faviconFromCatalog}, aka=${counts.faviconFromAka}, ` +
+  `  favicon: catalog=${counts.faviconFromCatalog}, ` +
     `rb=${counts.faviconFromRb}, family-brand=${counts.faviconFromFamilyBrand}, missing=${counts.faviconMissing}`,
 );

@@ -23,6 +23,10 @@ describe('familyBucketKey', () => {
     expect(familyBucketKey(S('X', 'DE', 'https://laut.fm/some-station'))).toBe('');
     expect(familyBucketKey(S('X', 'US', 'https://zeno.fm/abc'))).toBe('');
   });
+  it('refuses aggregator subdomains but not look-alike hosts', () => {
+    expect(familyBucketKey(S('X', 'DE', 'https://stream.laut.fm/some-station'))).toBe('');
+    expect(familyBucketKey(S('X', 'DE', 'https://notlaut.fm/'))).toBe('DE|notlaut.fm');
+  });
 });
 
 describe('detectFamilies', () => {

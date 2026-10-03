@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T14:26:38.098Z",
+  "generatedAt": "2026-10-03T11:14:14.103Z",
   "source": {
     "id": "radio-browser",
     "name": "Radio Browser",
@@ -8,10 +8,10 @@
     "description": "Community-maintained catalog of internet radio stations. Our primary upstream — every entry with a stationuuid is bound to an RB record and inherits stream/codec/bitrate/tags from it."
   },
   "counts": {
-    "candidateTotal": 55242,
-    "imported": 31478,
-    "importedCandidateRows": 39843,
-    "available": 15399
+    "candidateTotal": 55243,
+    "imported": 31480,
+    "importedCandidateRows": 39845,
+    "available": 15398
   },
   "snapshotCountries": [
     "AD",
@@ -813,9 +813,9 @@
       "country": "CH",
       "total": 601,
       "candidatesIndexed": 601,
-      "imported": 288,
-      "importedRows": 360,
-      "available": 241,
+      "imported": 289,
+      "importedRows": 361,
+      "available": 240,
       "playable": 478,
       "broken": 123,
       "analyzed": true,
@@ -8873,6 +8873,13 @@
   ],
   "importedWithoutCountryAnalysis": [
     {
+      "catalogId": "de-radio-arabella-muenchen",
+      "stationuuid": "0c61e63e-22ad-4b2b-9b3a-10c2679d9ee7",
+      "name": "Radio Arabella München",
+      "country": "DE",
+      "streamUrl": "https://live.stream.radioarabella.de/radioarabella-muenchen/stream/mp3"
+    },
+    {
       "catalogId": "us-wojb-woodland-community-radio",
       "stationuuid": "c5c4d2f8-bfa8-4834-b21a-3559997596e1",
       "name": "WOJB | Woodland Community Radio",
@@ -8897,10 +8904,10 @@
   "candidatesUrl": "/sources/radio-browser-candidates.json",
   "rawSnapshotRoot": "data/sources/radio-browser/",
   "dedupe": {
-    "generatedAt": "2026-06-11T06:56:48.787Z",
+    "generatedAt": "2026-06-20T07:58:02.224Z",
     "totals": {
       "stationsConsidered": 55239,
-      "duplicateRows": 15121,
+      "duplicateRows": 15124,
       "groups": 8712,
       "overridesApplied": 0,
       "lockedGroups": 0,
@@ -8908,8 +8915,8 @@
     }
   },
   "families": {
-    "total": 3171,
-    "totalMembers": 14411,
+    "total": 3156,
+    "totalMembers": 14374,
     "list": [
       {
         "id": "AU|australiandigitalradio.com|australian digital network",
