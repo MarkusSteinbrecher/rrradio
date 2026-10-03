@@ -118,6 +118,10 @@ cases for how an already-paused or error state interacts.
 - **Changing the timer replaces the previous timer** — there is never more than
   one pending pause.
 - **Turning the timer off cancels the pending pause.**
+- **Fade-out (web):** the last 20 s fade the volume to zero before the pause;
+  the volume is restored afterwards so the next play is not silent. Any manual
+  playback action during the fade cancels it. Native platforms pause abruptly
+  today.
 - **Firing pauses playback; it does not stop it.** The active station, queue,
   metadata, and now-playing context are preserved (a `playing`→`paused`
   transition, not `stop`/`idle`) — see
@@ -220,6 +224,7 @@ Parameter/plural needs:
 | Wake interaction | Not applicable (no web wake; plain pause). | Keep-alive aware. | Planned — to be designed with the Android wake flow. |
 | Persisted default duration | Not planned (no Settings row; the cycle resets to off on each load — there is no stored default). | Supported (synced via iCloud). | Supported (default in a Settings "Sleep timer" section, persisted via DataStore under `rrradio.sleep-default-minutes.v1`, seeded to 30, included in the SAF library backup; free-form hours:minutes entry, matching the iOS Settings picker). |
 | Pause-not-stop on fire | Supported. | Reference. | Supported. |
+| Fade-out before the pause | Supported (#103) — the volume ramps linearly to 0 over the last 20 s, then pauses and restores the pre-fade volume; play/pause, a station change, a volume drag or changing the timer during the fade cancels it (and the timer) and restores the volume at once. Inaudible on iOS Safari (read-only `audio.volume`); the pause still lands on time. | Not implemented (abrupt pause). | Not implemented (abrupt pause). |
 
 ## Android First-Port Requirement
 
