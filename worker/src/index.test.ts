@@ -448,6 +448,20 @@ describe('proxy allowlist', () => {
     expect(res.status).toBe(200);
   });
 
+  it('forwards an Energy CH playouts URL and nothing else on energy.ch', async () => {
+    stubFetch(async () =>
+      new Response('[]', { status: 200, headers: { 'Content-Type': 'application/json' } }),
+    );
+    const ok = await call(
+      `/api/public/proxy?url=${encodeURIComponent('https://energy.ch/api/channels/bern/playouts')}`,
+    );
+    expect(ok.status).toBe(200);
+    const bad = await call(
+      `/api/public/proxy?url=${encodeURIComponent('https://energy.ch/api/channels/bern/playouts/../../x')}`,
+    );
+    expect(bad.status).toBe(403);
+  });
+
   it('rejects partial-match attempts (host but wrong path)', async () => {
     // hr1.de host with a path that is not under the allowed pattern.
     // Pattern requires the host root (`/`), which always matches; the
