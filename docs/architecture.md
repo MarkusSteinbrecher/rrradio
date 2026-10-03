@@ -9,7 +9,10 @@ src/
   player.ts           — AudioPlayer class (HTMLAudioElement, hls.js,
                         MediaSession, prime() sidecar for wake handoff,
                         swap() for in-place src swap, setStation() for
-                        context-only updates).
+                        context-only updates, the retry / stream-variant
+                        fallback ladder, setQualityPref()).
+  stream-select.ts    — pure variant selection: playbackPlan,
+                        selectVariant, retry backoff (ADR 001).
   stations.ts         — catalog + browse-filter helpers
                         (composeBrowseFilter etc.).
   storage.ts          — safe localStorage wrappers (privacy-mode safe)

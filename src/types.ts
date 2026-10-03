@@ -178,6 +178,25 @@ export interface NowPlaying {
   programName?: string;
   programSubtitle?: string;
   errorMessage?: string;
+  /** The catalog variant currently loaded (ADR 001). Absent for a
+   *  single-stream station; the chrome then shows the station's own
+   *  codec / bitrate. */
+  variant?: StreamVariant;
+  /** Set while an automatic retry is pending or in flight, so the chrome
+   *  can say "Reconnecting" / "Trying backup stream" instead of a bare
+   *  "Tuning". Cleared once the stream plays or the ladder gives up. */
+  retry?: StreamRetry;
+}
+
+/** Automatic-retry progress for the current station (#95). */
+export interface StreamRetry {
+  /** 1-based retry attempt on the current variant; 0 right after the
+   *  ladder advanced to a fallback variant. */
+  attempt: number;
+  maxAttempts: number;
+  /** Position in the playback plan (0 = the preferred variant). */
+  planIndex: number;
+  planLength: number;
 }
 
 /** A single armed wake-to-radio setting. v1 supports one at a time and

@@ -55,6 +55,8 @@ import {
   setString,
   setWakeTo,
   toggleFavorite,
+  getQualityPref,
+  setQualityPref,
 } from './storage';
 import type { BackupSettings } from './backup';
 import {
@@ -163,6 +165,18 @@ type ListTab = Exclude<Tab, 'playing'>;
 installGlobalErrorHandlers();
 
 const player = new AudioPlayer();
+player.configure({
+  qualityPref: getQualityPref(),
+  // Favorites / recents saved before stream variants shipped carry only
+  // `streamUrl`; pick up the catalog's `streams[]` by id (ADR 001).
+  hydrate: (s) => {
+    if (s.streams) return s;
+    const streams = stationById(s.id)?.streams;
+    return streams ? { ...s, streams } : s;
+  },
+  // Region-locked streams fail for good — don't walk the retry ladder.
+  isPermanentFailure: (s) => !isAvailableInUserRegion(s),
+});
 
 let coverEnrichToken = 0;
 let coverEnrichController: AbortController | undefined;
@@ -273,6 +287,8 @@ const $npName = document.getElementById('np-name') as HTMLElement;
 const $npStationLogo = document.getElementById('np-station-logo') as HTMLImageElement;
 const $npStationLogoBtn = document.getElementById('np-station-logo-btn') as HTMLButtonElement;
 const $npBitrate = document.getElementById('np-bitrate') as HTMLElement;
+const $npQuality = document.getElementById('np-quality') as HTMLElement;
+const $npQualitySeg = document.getElementById('np-quality-seg') as HTMLElement;
 const $npOrigin = document.getElementById('np-origin') as HTMLElement;
 const $npListeners = document.getElementById('np-listeners') as HTMLElement;
 const $npPaneTabs = document.getElementById('np-pane-tabs') as HTMLElement;
@@ -873,6 +889,8 @@ const NP_REFS: NowPlayingRefs = {
   npStationLogo: $npStationLogo,
   npStationLogoBtn: $npStationLogoBtn,
   npBitrate: $npBitrate,
+  npQuality: $npQuality,
+  npQualitySeg: $npQualitySeg,
   npOrigin: $npOrigin,
   npListeners: $npListeners,
   npTrackRow: $npTrackRow,
@@ -903,6 +921,7 @@ function renderNowPlaying(np: NowPlaying): void {
     armedWake: wakeScheduler.current(),
     isFavorite,
     onClearOpenIn: () => {},
+    qualityPref: player.getQualityPref(),
   });
   // The inline open-in row is always-visible (when verified), so reflect the
   // per-service Settings toggles on every render.
@@ -4746,6 +4765,20 @@ function syncMusicServiceLinks(): void {
   $npTrackSpotify.style.display = msEnabled('spotify') ? '' : 'none';
   $npTrackYoutubeMusic.style.display = msEnabled('youtube') ? '' : 'none';
 }
+
+// Now Playing Best / Data-saver toggle (ADR 001, #623): persist the
+// global preference, re-play the current station on the chosen variant,
+// and repaint the active segment.
+$npQualitySeg.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-quality]');
+  const pref = btn?.dataset.quality;
+  if (pref !== 'best' && pref !== 'data') return;
+  if (pref === player.getQualityPref()) return;
+  setQualityPref(pref);
+  player.setQualityPref(pref);
+  renderNowPlaying(player.getCurrent());
+  track(`quality/${pref}`);
+});
 
 $themeSeg.addEventListener('click', (e) => {
   const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.seg__btn');

@@ -1,3 +1,4 @@
+import { isQualityPref, type QualityPref } from './stream-select';
 import type { Station, WakeTo } from './types';
 
 const FAVORITES_KEY = 'rrradio.favorites.v2';
@@ -5,6 +6,7 @@ const RECENTS_KEY = 'rrradio.recents.v2';
 const CUSTOM_KEY = 'rrradio.custom.v1';
 const WAKE_KEY = 'rrradio.wake.v1';
 const WAKE_LAST_TIME_KEY = 'rrradio.wake.lastTime.v1';
+const QUALITY_PREF_KEY = 'rrradio.qualityPref.v1';
 const RECENTS_LIMIT = 12;
 
 /** Safe localStorage.getItem — returns null on quota / privacy-mode /
@@ -205,4 +207,15 @@ export function setLastWakeTime(time: string): void {
   } catch {
     // quota / privacy mode — ignore
   }
+}
+
+/** Global stream-quality preference (ADR 001): `best` (default) or
+ *  `data`. Device-local; unknown stored values read as `best`. */
+export function getQualityPref(): QualityPref {
+  const v = getString(QUALITY_PREF_KEY);
+  return isQualityPref(v) ? v : 'best';
+}
+
+export function setQualityPref(pref: QualityPref): void {
+  setString(QUALITY_PREF_KEY, pref);
 }

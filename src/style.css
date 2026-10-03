@@ -3007,6 +3007,25 @@ body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ─── Best / Data-saver stream toggle (ADR 001, #623) ─── */
+.np-quality {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+}
+.np-quality[hidden] { display: none; }
+.np-quality__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.np-quality__seg { padding: 3px; }
+.np-quality__seg .seg__btn { padding: 7px 10px; }
+
 /* ─── Source links (stream URL / homepage) ─── */
 .np-source {
   border-bottom: 1px solid var(--line);

@@ -1,5 +1,13 @@
 import Hls from 'hls.js';
-import type { NowPlaying, PlayerState, Station } from './types';
+import {
+  MAX_RETRY_ATTEMPTS,
+  hasStreamVariants,
+  playbackPlan,
+  retryDelayMs,
+  type PlanEntry,
+  type QualityPref,
+} from './stream-select';
+import type { NowPlaying, PlayerState, Station, StreamRetry, StreamVariant } from './types';
 
 type Listener = (state: NowPlaying) => void;
 
@@ -43,8 +51,11 @@ function isPlayCancellation(err: DOMException): boolean {
  *  - Media Session API (lock-screen + Bluetooth controls on mobile)
  *  - A simple state machine + subscribe() for UI updates
  *
- * Reconnection is intentionally minimal here — Phase 1 just surfaces errors.
- * Phase 4 should add exponential-backoff reconnect on `error`/`stalled`.
+ * Reconnection follows the Stream-retry policy in
+ * docs/spec/contracts/playback-state-machine.md: a failed / stalled
+ * stream is rebuilt with 1s/2s/4s backoff, and once a variant's budget
+ * is spent the player advances down the station's variant plan
+ * (`streams[]`, ADR 001) before surfacing `error` (#95, #623).
  */
 export class AudioPlayer {
   private audio: HTMLAudioElement;
@@ -68,21 +79,62 @@ export class AudioPlayer {
   private playGeneration = 0;
   private static readonly MIN_LOADING_MS = 600;
 
+  /** Variant-selection + retry-ladder state (see stream-select.ts). */
+  private qualityPref: QualityPref = 'best';
+  /** Fills in catalog fields (notably `streams[]`) for a station record
+   *  that came from storage — favorites / recents saved before variants
+   *  shipped carry only `streamUrl`. Identity by default. */
+  private hydrate: (s: Station) => Station = (s) => s;
+  /** Failures that retrying can't fix (region-locked streams): skip the
+   *  ladder and go straight to `error`. */
+  private isPermanentFailure: (s: Station) => boolean = () => false;
+  private plan: PlanEntry[] = [];
+  private planIndex = 0;
+  private retryAttempt = 0;
+  /** Automatic retry is armed by a non-silent play and disarmed by
+   *  pause / stop / exhaustion (Stream-retry policy, eligibility). */
+  private retryArmed = false;
+  private retryTimer: number | undefined;
+  private healthyTimer: number | undefined;
+  /** True from a failure (or a quality switch) until the rebuilt source
+   *  plays — teardown's own `pause` event must not read as a user pause. */
+  private rebuilding = false;
+  /** Bumped on every source load; a failure is counted once per load
+   *  even though the browser reports it twice (error event + rejected
+   *  play() promise). */
+  private loadSeq = 0;
+  private failedSeq = -1;
+  private static readonly HEALTHY_RESET_MS = 5 * 60 * 1000;
+
   /** `audio` is optional so tests can inject a controlled element with
    *  a mocked .play(). In normal use we construct a new HTMLAudioElement. */
   constructor(audio?: HTMLAudioElement) {
     this.audio = audio ?? new Audio();
     this.audio.preload = 'none';
-
-    this.audio.addEventListener('playing', () => this.update({ state: 'playing' }));
-    this.audio.addEventListener('pause', () => {
-      // Ignore the pause event that fires when we tear down the source
-      if (this.current.state !== 'idle') this.update({ state: 'paused' });
-    });
-    this.audio.addEventListener('waiting', () => this.update({ state: 'loading' }));
-    this.audio.addEventListener('error', () => this.handleAudioError(this.audio.error));
-
+    this.bindAudio(this.audio);
     this.setupMediaSession();
+  }
+
+  /** Wire the app-level hooks. main.ts calls this once at boot. */
+  configure(opts: {
+    qualityPref?: QualityPref;
+    hydrate?: (s: Station) => Station;
+    isPermanentFailure?: (s: Station) => boolean;
+  }): void {
+    if (opts.qualityPref) this.qualityPref = opts.qualityPref;
+    if (opts.hydrate) this.hydrate = opts.hydrate;
+    if (opts.isPermanentFailure) this.isPermanentFailure = opts.isPermanentFailure;
+  }
+
+  private bindAudio(el: HTMLAudioElement): void {
+    el.addEventListener('playing', () => this.onPlaying());
+    el.addEventListener('pause', () => {
+      // Ignore the pause event that fires when we tear down the source
+      // (station switch, retry rebuild, quality switch).
+      if (this.current.state !== 'idle' && !this.rebuilding) this.update({ state: 'paused' });
+    });
+    el.addEventListener('waiting', () => this.update({ state: 'loading' }));
+    el.addEventListener('error', () => this.handleAudioError(el.error));
   }
 
   subscribe(listener: Listener): () => void {
@@ -141,7 +193,7 @@ export class AudioPlayer {
     sidecar.preload = 'auto';
     sidecar.muted = true;
     sidecar.loop = false;
-    sidecar.src = station.streamUrl;
+    sidecar.src = playbackPlan(this.hydrate(station), this.qualityPref)[0].url;
     this.primedAudio = sidecar;
     this.primedStationId = station.id;
     try {
@@ -190,6 +242,10 @@ export class AudioPlayer {
       this.primedStationId = null;
       this.adoptAudioElement(sidecar);
       this.playGeneration += 1;
+      station = this.hydrate(station);
+      this.startPlan(station, false);
+      this.silentLoad = false;
+      const seq = ++this.loadSeq;
       this.update({
         station,
         state: 'loading',
@@ -197,12 +253,15 @@ export class AudioPlayer {
         trackVerified: undefined,
         coverUrl: undefined,
         errorMessage: undefined,
+        variant: this.plan[0]?.variant,
+        retry: undefined,
       });
       try {
         await this.audio.play();
         this.updateMediaSessionMetadata(station);
         this.startWatchdog();
       } catch (err) {
+        if (seq !== this.loadSeq) return;
         if (err instanceof DOMException && isPlayCancellation(err)) {
           // NotAllowedError: autoplay blocked, no gesture yet. AbortError:
           // the user (or app) called pause() before play() resolved —
@@ -210,7 +269,7 @@ export class AudioPlayer {
           this.update({ state: 'paused', errorMessage: undefined });
           return;
         }
-        this.update({ state: 'error', errorMessage: String(err) });
+        this.failCurrent(String(err), seq);
       }
       return;
     }
@@ -218,6 +277,7 @@ export class AudioPlayer {
     // No primed element — fall back to in-place src swap on the main
     // audio element. Same bookkeeping teardown() does, minus the
     // audio.removeAttribute + load that ends the iOS session.
+    this.cancelRetry();
     this.stopWatchdog();
     if (this.pendingLoadingExit !== undefined) {
       window.clearTimeout(this.pendingLoadingExit);
@@ -245,12 +305,7 @@ export class AudioPlayer {
     // arrow functions, so we add fresh ones to `next` and let the
     // `prev` listeners die with `prev` (no element → no events).
     this.audio = next;
-    next.addEventListener('playing', () => this.update({ state: 'playing' }));
-    next.addEventListener('pause', () => {
-      if (this.current.state !== 'idle') this.update({ state: 'paused' });
-    });
-    next.addEventListener('waiting', () => this.update({ state: 'loading' }));
-    next.addEventListener('error', () => this.handleAudioError(next.error));
+    this.bindAudio(next);
   }
 
   /** Set when the current station is a "silent" load (the wake-to
@@ -270,15 +325,26 @@ export class AudioPlayer {
       this.update({ state: 'paused', errorMessage: undefined });
       return;
     }
-    this.update({ state: 'error', errorMessage: audioErrorMessage(err) });
+    this.failCurrent(audioErrorMessage(err));
+  }
+
+  /** Resolve the variant plan for `station` and reset the retry budget. */
+  private startPlan(station: Station, silent: boolean): void {
+    this.cancelRetry();
+    this.plan = playbackPlan(station, this.qualityPref);
+    this.planIndex = 0;
+    this.retryAttempt = 0;
+    this.retryArmed = !silent;
   }
 
   private async playInternal(
     station: Station,
     opts: { loop: boolean; silent: boolean; sameStation: boolean },
   ): Promise<void> {
+    station = this.hydrate(station);
     this.silentLoad = opts.silent;
     this.playGeneration += 1;
+    this.startPlan(station, opts.silent);
     // Preserve trackTitle + coverUrl when re-playing the same station so
     // the on-air line and cover don't snap to "—" during the loading flash.
     // Reset them when switching stations. Routed through update() so the
@@ -294,19 +360,33 @@ export class AudioPlayer {
       trackVerified: opts.sameStation ? this.current.trackVerified : undefined,
       coverUrl: opts.sameStation ? this.current.coverUrl : undefined,
       errorMessage: undefined,
+      variant: this.plan[0]?.variant,
+      retry: undefined,
     });
-
-    const url = station.streamUrl;
-    const isHls = /\.m3u8(\?|$)/i.test(url);
 
     // loop is used by the wake-to silent bed so the same short audio
     // clip seamlessly cycles through the night, keeping the iOS audio
     // session alive without a streaming server. Live stations always
     // play unlooped.
     this.audio.loop = opts.loop;
+    await this.loadVariant();
+  }
+
+  /** Point the audio element at the current plan entry and play it.
+   *  Shared by the first load, retry rebuilds and quality switches. */
+  private async loadVariant(): Promise<void> {
+    const seq = ++this.loadSeq;
+    const station = this.current.station;
+    const url = this.plan[this.planIndex]?.url ?? station.streamUrl;
+    const isHls = /\.m3u8(\?|$)/i.test(url);
 
     if (isHls && !this.audio.canPlayType('application/vnd.apple.mpegurl') && Hls.isSupported()) {
       this.hls = new Hls();
+      // hls.js reports fatal network / media errors here, not on the
+      // <audio> element — route them into the same retry ladder.
+      this.hls.on(Hls.Events.ERROR, (_event, data) => {
+        if (data.fatal) this.failCurrent('Network error', seq);
+      });
       this.hls.loadSource(url);
       this.hls.attachMedia(this.audio);
     } else {
@@ -315,6 +395,7 @@ export class AudioPlayer {
 
     try {
       await this.audio.play();
+      if (seq !== this.loadSeq) return;
       this.updateMediaSessionMetadata(station);
       // The watchdog detects a stalled live stream by spotting a
       // currentTime that stops advancing. A looping clip (the silent
@@ -322,8 +403,11 @@ export class AudioPlayer {
       // watchdog can't distinguish from a stall — left enabled it
       // forces a reconnect every ~8s, flickering the play button on
       // desktop. Skip the watchdog for looped audio.
-      if (!opts.loop) this.startWatchdog();
+      if (!this.audio.loop) this.startWatchdog();
     } catch (err) {
+      // A newer load (station switch, retry rebuild) superseded this
+      // one; its own play() owns the state now.
+      if (seq !== this.loadSeq) return;
       // NotAllowedError: SPA auto-loads a station from the URL on a
       // /station/<id>/ page reload before any user gesture; browser
       // refuses autoplay. AbortError: the user (or app) called pause()
@@ -333,32 +417,170 @@ export class AudioPlayer {
       // stream URL is already set up on the audio element so the
       // user just hits play to resume.
       if (err instanceof DOMException && isPlayCancellation(err)) {
-        this.update({ state: 'paused', errorMessage: undefined });
+        this.rebuilding = false;
+        this.update({ state: 'paused', errorMessage: undefined, retry: undefined });
         return;
       }
       // Silent loads (the wake-to silent bed) shouldn't surface a load
       // error in the NP chrome — the wake still fires via setTimeout,
       // and the only loss is iOS audio-session keepalive. Treat as
       // paused so the user sees the wake-bed masquerade, no error.
-      if (opts.silent) {
+      if (this.silentLoad) {
         this.update({ state: 'paused', errorMessage: undefined });
         return;
       }
-      this.update({ state: 'error', errorMessage: String(err) });
+      this.failCurrent(String(err), seq);
     }
   }
 
+  /** A load failed or stalled. Walk the retry ladder: back off and
+   *  rebuild the same variant up to MAX_RETRY_ATTEMPTS times, then
+   *  advance to the next variant in the plan, and only surface `error`
+   *  once the last variant is spent. Counted once per load (`seq`). */
+  private failCurrent(message: string, seq: number = this.loadSeq): void {
+    if (seq !== this.loadSeq || seq === this.failedSeq) return;
+    this.failedSeq = seq;
+    this.stopWatchdog();
+    this.clearHealthyTimer();
+    const station = this.current.station;
+    if (!station.id || !this.retryArmed || this.isPermanentFailure(station)) {
+      this.giveUp(message);
+      return;
+    }
+    this.retryAttempt += 1;
+    if (this.retryAttempt > MAX_RETRY_ATTEMPTS) {
+      if (this.planIndex + 1 >= this.plan.length) {
+        this.giveUp(message);
+        return;
+      }
+      // This variant's budget is spent — fall back to the next one now.
+      this.planIndex += 1;
+      this.retryAttempt = 0;
+      this.rebuilding = true;
+      this.update({
+        state: 'loading',
+        variant: this.plan[this.planIndex].variant,
+        retry: this.retryInfo(),
+      });
+      this.rebuild();
+      return;
+    }
+    this.rebuilding = true;
+    this.update({ state: 'loading', retry: this.retryInfo() });
+    this.retryTimer = window.setTimeout(() => {
+      this.retryTimer = undefined;
+      this.rebuild();
+    }, retryDelayMs(this.retryAttempt));
+  }
+
+  private giveUp(message: string): void {
+    this.retryArmed = false;
+    this.cancelRetry();
+    this.update({ state: 'error', errorMessage: message, retry: undefined });
+  }
+
+  private retryInfo(): StreamRetry {
+    return {
+      attempt: this.retryAttempt,
+      maxAttempts: MAX_RETRY_ATTEMPTS,
+      planIndex: this.planIndex,
+      planLength: this.plan.length,
+    };
+  }
+
+  /** Tear the source down and load the current plan entry afresh — a
+   *  rebuild, not a bare play(), per the Stream-retry policy. */
+  private rebuild(): void {
+    this.rebuilding = true;
+    this.teardownSource();
+    void this.loadVariant();
+  }
+
+  private onPlaying(): void {
+    this.rebuilding = false;
+    this.update({ state: 'playing', retry: undefined });
+    // Budget reset: after 5 minutes of healthy playback a later hiccup
+    // gets a fresh set of attempts.
+    this.clearHealthyTimer();
+    this.healthyTimer = window.setTimeout(() => {
+      this.healthyTimer = undefined;
+      this.retryAttempt = 0;
+    }, AudioPlayer.HEALTHY_RESET_MS);
+  }
+
+  /** Cancel a pending retry rebuild + the healthy-reset timer. Leaves
+   *  the armed flag alone (play() re-arms, pause()/stop() disarm). */
+  private cancelRetry(): void {
+    if (this.retryTimer !== undefined) {
+      window.clearTimeout(this.retryTimer);
+      this.retryTimer = undefined;
+    }
+    this.clearHealthyTimer();
+    this.rebuilding = false;
+  }
+
+  private clearHealthyTimer(): void {
+    if (this.healthyTimer !== undefined) {
+      window.clearTimeout(this.healthyTimer);
+      this.healthyTimer = undefined;
+    }
+  }
+
+  /** Change the global best / data preference. Re-plays the current
+   *  station on the newly chosen variant when it is playing or loading
+   *  and the start variant actually differs; otherwise the next play()
+   *  picks it up. */
+  setQualityPref(pref: QualityPref): void {
+    if (pref === this.qualityPref) return;
+    this.qualityPref = pref;
+    const station = this.current.station;
+    if (!station.id || !hasStreamVariants(station)) return;
+    const prevUrl = this.plan[this.planIndex]?.url;
+    this.plan = playbackPlan(station, pref);
+    this.planIndex = 0;
+    const next = this.plan[0];
+    if (next.url === prevUrl) return;
+    if (this.current.state === 'playing' || this.current.state === 'loading') {
+      this.cancelRetry();
+      this.retryAttempt = 0;
+      this.update({ state: 'loading', variant: next.variant, retry: undefined });
+      this.rebuild();
+    } else {
+      this.update({ variant: next.variant });
+    }
+  }
+
+  getQualityPref(): QualityPref {
+    return this.qualityPref;
+  }
+
+  /** The variant currently loaded: its URL, position in the playback
+   *  plan, and catalog record (absent for a single-stream station). */
+  currentVariant(): { url: string; planIndex: number; variant?: StreamVariant } | null {
+    const entry = this.plan[this.planIndex];
+    if (!entry) return null;
+    return { url: entry.url, planIndex: this.planIndex, variant: entry.variant };
+  }
+
   pause(): void {
+    const wasRebuilding = this.rebuilding;
+    this.retryArmed = false;
+    this.cancelRetry();
     this.audio.pause();
     this.stopWatchdog();
+    // Paused mid-retry: the element may already be paused (no event), so
+    // set the state explicitly.
+    if (wasRebuilding) this.update({ state: 'paused', retry: undefined });
   }
 
   /** Stop playback completely and reset to idle. Tears down the audio
    *  source and clears the current-station record so the next caller
    *  starts from a clean slate. */
   stop(): void {
+    this.retryArmed = false;
     this.teardown();
     this.dropPrimed();
+    this.plan = [];
     this.update({
       station: { id: '', name: '', streamUrl: '' },
       state: 'idle',
@@ -366,6 +588,8 @@ export class AudioPlayer {
       trackVerified: undefined,
       coverUrl: undefined,
       errorMessage: undefined,
+      variant: undefined,
+      retry: undefined,
     });
   }
 
@@ -376,8 +600,12 @@ export class AudioPlayer {
    *  view doesn't lose the "I was listening to X" thread. The user
    *  taps the play button (or a row) to actually resume audio. */
   setStation(station: Station): void {
+    this.retryArmed = false;
     this.teardown();
     this.dropPrimed();
+    station = this.hydrate(station);
+    this.plan = playbackPlan(station, this.qualityPref);
+    this.planIndex = 0;
     this.update({
       station,
       state: 'paused',
@@ -385,6 +613,8 @@ export class AudioPlayer {
       trackVerified: undefined,
       coverUrl: undefined,
       errorMessage: undefined,
+      variant: this.plan[0]?.variant,
+      retry: undefined,
     });
   }
 
@@ -414,6 +644,13 @@ export class AudioPlayer {
   }
 
   private teardown(): void {
+    this.cancelRetry();
+    this.teardownSource();
+  }
+
+  /** Release the current source (hls instance + element src) without
+   *  touching retry bookkeeping — used by teardown() and rebuild(). */
+  private teardownSource(): void {
     this.stopWatchdog();
     // Drop any deferred-loading-exit timer carried over from the previous
     // session. Belt-and-suspenders: update() also cancels it on the next
@@ -470,10 +707,9 @@ export class AudioPlayer {
     this.stallTicks += 1;
     if (this.stallTicks >= AudioPlayer.STALL_TICK_THRESHOLD) {
       // Connection is dead but the audio element hasn't fired an
-      // error. Reconnect from scratch to recover.
+      // error. Hand it to the retry ladder, which rebuilds the source.
       this.stallTicks = 0;
-      const station = this.current.station;
-      if (station.id) void this.play(station);
+      this.failCurrent('Stream stalled');
     }
   }
 

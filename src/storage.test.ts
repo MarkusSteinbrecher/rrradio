@@ -39,6 +39,7 @@ vi.stubGlobal('localStorage', mem);
 const {
   getCustom,
   getFavorites,
+  getQualityPref,
   getRecents,
   getString,
   isCustom,
@@ -46,6 +47,7 @@ const {
   pushRecent,
   removeKey,
   reorderFavorites,
+  setQualityPref,
   setRecents,
   setString,
   toggleFavorite,
@@ -232,6 +234,28 @@ describe('safe string wrappers', () => {
     mem.setItem('k', 'v');
     removeKey('k');
     expect(mem.getItem('k')).toBe(null);
+  });
+});
+
+describe('quality preference', () => {
+  it('defaults to best when unset', () => {
+    expect(getQualityPref()).toBe('best');
+  });
+
+  it('round-trips data under rrradio.qualityPref.v1', () => {
+    setQualityPref('data');
+    expect(mem.getItem('rrradio.qualityPref.v1')).toBe('data');
+    expect(getQualityPref()).toBe('data');
+  });
+
+  it('reads an unknown stored value as best', () => {
+    mem.setItem('rrradio.qualityPref.v1', 'lossless');
+    expect(getQualityPref()).toBe('best');
+  });
+
+  it('reads best when storage throws', () => {
+    mem.failNextGet = true;
+    expect(getQualityPref()).toBe('best');
   });
 });
 
