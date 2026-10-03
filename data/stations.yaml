@@ -3542,6 +3542,10 @@
   country: FR
   status: stream-only
 - id: fr-rtl
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   stationuuid: 9606c2cd-0601-11e8-ae97-52543be04c81
   changeuuid: 8596e78a-79e5-4357-b643-57abbe92f7f3
   reviewedAt: 2026-04-29
@@ -3561,8 +3565,12 @@
   faviconSource: broadcaster-site
   homepage: https://www.rtl.fr/
   country: FR
-  status: stream-only
+  status: broken
 - id: fr-rtl2
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   stationuuid: a5a6b881-2900-11e8-91bf-52543be04c81
   changeuuid: aeeed16a-e426-4120-be4b-b8a860f0a365
   reviewedAt: 2026-04-29
@@ -3582,7 +3590,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.rtl2.fr/
   country: FR
-  status: stream-only
+  status: broken
 - id: fr-skyrock
   stationuuid: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
   changeuuid: 143d89dc-aaac-4a50-b0cd-9a9357432198
@@ -9568,6 +9576,10 @@
   country: DE
   status: stream-only
 - id: de-charivari-munchen-lounge-music
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   stationuuid: e0419c41-b016-11e9-acb2-52543be04c81
   changeuuid: 27491595-01a0-46bc-8358-caab22968d43
   reviewedAt: 2026-05-04
@@ -9585,7 +9597,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.charivari.de/
   country: DE
-  status: stream-only
+  status: broken
 - id: de-deutsche-welle-radio
   favicon: "https://dw.com/images/icons/favicon-180x180.png"
   faviconSource: broadcaster-site
@@ -9963,6 +9975,10 @@
   country: CA
   status: stream-only
 - id: ca-q107
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   favicon: "https://q107.com/wp-content/uploads/sites/12/2017/12/cropped-favicon_q107_square_transparent.png?w=180"
   faviconSource: broadcaster-api
   faviconLicense: broadcaster-implicit
@@ -9981,7 +9997,7 @@
     - canada
   homepage: https://www.q107.com/
   country: CA
-  status: stream-only
+  status: broken
 - id: ca-boom-973
   favicon: "https://media-cdn.socastsrm.com/uploads/station/772/home_screen_logo-5d8ca8cea1a1f.png"
   faviconSource: radio-browser
@@ -12297,6 +12313,10 @@
   country: IE
   status: stream-only
 - id: ie-radio-nova
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   favicon: "https://nova.ie/wp-content/uploads/2024/11/schema-logo.png"
   faviconSource: broadcaster-site
   stationuuid: 406dbb8a-a581-11e9-a787-52543be04c81
@@ -12315,7 +12335,7 @@
     - ireland
   homepage: https://www.nova.ie/
   country: IE
-  status: stream-only
+  status: broken
 - id: ie-98fm-dublin
   favicon: "https://www.98fm.com/i/android-icon-192x192.png"
   faviconSource: broadcaster-site
@@ -27416,6 +27436,10 @@
   changeuuid: 14240282-b1a0-4144-9dc4-2c460bdd8416
   reviewedAt: 2026-05-04
 - id: de-radio-fratz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   favicon: "https://radio-fratz.de/wp-content/uploads/2026/05/cropped-lono_old_tr-180x180.png"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -27425,7 +27449,7 @@
   codec: MP3
   homepage: https://www.radio-fratz.de/
   country: DE
-  status: stream-only
+  status: broken
   stationuuid: b97c3b7a-64f9-44d4-905b-239a2ef67b3c
   changeuuid: 72454673-b28a-4c87-83e5-09a3b8bc6040
   reviewedAt: 2026-05-04
@@ -30546,6 +30570,10 @@
   changeuuid: c7055bff-0b55-4041-ae21-07b163839ebf
   reviewedAt: 2026-05-04
 - id: de-radio-101-madonna
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   tags: [pop music]
   favicon: "https://101.ru/touch-icon-iphone-retina.png"
   faviconSource: broadcaster-site
@@ -30556,7 +30584,7 @@
   codec: AAC+
   homepage: https://101.ru/
   country: DE
-  status: stream-only
+  status: broken
   stationuuid: 98c35027-03aa-4bcd-b517-0528be782947
   changeuuid: c7562f9a-5301-4c05-9cef-b4c137e84307
   reviewedAt: 2026-05-04
@@ -53211,6 +53239,10 @@
   changeuuid: 5af2340a-c3c8-4091-9343-20302aa404fb
   reviewedAt: 2026-05-04
 - id: us-cat-country-98-7-wyct
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: Cat Country 98.7 (WYCT)
   streamUrl: https://adxc-live.streamguys1.com/catcountry987
@@ -53220,7 +53252,7 @@
   faviconSource: radio-browser
   homepage: https://catcountry987.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: f114b1ad-13fc-4075-a0db-49d8b6bf5d4e
   changeuuid: 3868092b-6d52-482b-8fd2-2079cb0775ea
   reviewedAt: 2026-05-04
@@ -60533,6 +60565,10 @@
   changeuuid: 4f3fb474-dbbd-4a90-ad12-11bd37efaa41
   reviewedAt: 2026-05-04
 - id: us-la-pantera-810
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [regional mexican]
   broadcaster: independent
   name: La Pantera 810
@@ -60543,7 +60579,7 @@
   faviconSource: radio-browser
   homepage: https://www.lapantera810.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 8e55c40b-0a50-4b3f-8cab-425e161ac037
   changeuuid: 0a8aa020-c6af-4b9d-801c-5dbf35a29b45
   reviewedAt: 2026-05-04
@@ -62683,6 +62719,10 @@
   changeuuid: 36eed82a-4219-4a22-9c9b-1a880fbd57c0
   reviewedAt: 2026-05-04
 - id: us-doghouse-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   tags: [psychobilly]
   broadcaster: independent
   name: Doghouse Radio
@@ -62693,7 +62733,7 @@
   faviconSource: broadcaster-site
   homepage: https://yesca.st/thedoghouse/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 6d709aa0-faa9-449c-bb0a-0bd45774d4e9
   changeuuid: 221d2578-1b49-47f3-b8b7-ab32a45cac64
   reviewedAt: 2026-05-04
@@ -63067,6 +63107,10 @@
   changeuuid: 1a03b39f-92c9-4743-b54b-8de16ae05e35
   reviewedAt: 2026-05-04
 - id: us-nothing-but-oldies
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [50s, 60s, 70s, oldies]
   broadcaster: independent
   name: Nothing But Oldies
@@ -63077,7 +63121,7 @@
   faviconSource: broadcaster-site
   homepage: http://nothingbutoldies.com/index.html
   country: US
-  status: stream-only
+  status: broken
   stationuuid: c0489ea4-5b4c-4b63-a79f-f964c9a29f5e
   changeuuid: d5e012e5-8e1f-41bd-bd1d-617c75529c9d
   reviewedAt: 2026-05-04
@@ -72776,6 +72820,10 @@
   changeuuid: c0fa96e7-3510-4ec1-a97a-f2dad34df00f
   reviewedAt: 2026-05-04
 - id: us-the-jim-rome-show
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: The Jim Rome Show
   streamUrl: https://19313.live.streamtheworld.com/JIM_ROMEAAC.aac
@@ -72785,7 +72833,7 @@
   faviconSource: radio-browser
   homepage: https://jimrome.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 47d63abc-a989-4182-878f-f95761f21f1e
   changeuuid: ba9d7636-9e78-4302-abb0-590b022c04e1
   reviewedAt: 2026-05-04
@@ -73288,6 +73336,10 @@
   changeuuid: 295c7d3e-2cab-4ce9-b9d6-5d846fbfa4b4
   reviewedAt: 2026-05-04
 - id: us-exitos-96-5-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [banda, grupera, music, regional mexican, retro]
   broadcaster: independent
   name: Éxitos 96.5 FM
@@ -73298,7 +73350,7 @@
   faviconSource: broadcaster-site
   homepage: https://unidosok.com/okc/exitos/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 59d6615c-833c-44cd-bbec-7b7b01b0805b
   changeuuid: b860252d-0f6c-4d6b-a51f-c18a194e56e1
   reviewedAt: 2026-05-04
@@ -79318,6 +79370,10 @@
   changeuuid: 6509e069-5620-4aec-a595-c321cceca5eb
   reviewedAt: 2026-05-04
 - id: us-la-pantera-103-9-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [banda, entretenimiento, grupera, information, radio hablada, regional mexican]
   broadcaster: independent
   name: La Pantera 103.9 FM
@@ -79328,7 +79384,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.lapantera1039.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 0c92db8c-a01a-4e04-a5f6-047c84faf43d
   changeuuid: 356e7c57-3ee3-486d-ae99-544e4a295dac
   reviewedAt: 2026-05-04
@@ -80677,6 +80733,10 @@
   changeuuid: 6143d906-2c88-4b1e-92fa-ddb131099c1b
   reviewedAt: 2026-05-04
 - id: us-102-3-the-long-drive-yakima-wa
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   favicon: "https://static.xx.fbcdn.net/rsrc.php/yH/r/a0cO3e6g_yJ.webp"
   faviconSource: broadcaster-site
   faviconBlocked: true
@@ -80688,7 +80748,7 @@
   codec: AAC
   homepage: https://www.facebook.com/photo/?fbid=122101518596786938&set=a.122101518656786938
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 653399b9-4abd-48e8-9f0e-228c26076e29
   changeuuid: 9fd76501-5d93-4696-9d10-5edd5d3e6464
   reviewedAt: 2026-05-04
@@ -82285,6 +82345,10 @@
   changeuuid: 0a856553-75b3-43d9-8448-21d56d606cc3
   reviewedAt: 2026-05-04
 - id: us-kios
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: kios
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/KIOSFM.mp3?uuid=wnbt1dnka
@@ -82295,7 +82359,7 @@
   faviconLicense: broadcaster-implicit
   homepage: http://www.kios.org/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 53e59f1a-22a2-4286-a974-40f217da9eb8
   changeuuid: b485cc61-0c27-433d-99bb-da6424e34471
   reviewedAt: 2026-05-04
@@ -83639,6 +83703,10 @@
   changeuuid: c8df81c1-0338-4b9f-9b67-c49bae04d352
   reviewedAt: 2026-05-04
 - id: us-k-94-7-wklw
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: K 94.7 WKLW
   streamUrl: https://19003.live.streamtheworld.com/WKLWFMAAC.aac
@@ -83648,7 +83716,7 @@
   faviconSource: broadcaster-site
   homepage: https://wklw.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 8682be09-3b12-4dec-89b8-08c5a74f3807
   changeuuid: 44f71874-c788-43eb-a4be-8b06ed62c398
   reviewedAt: 2026-05-04
@@ -87537,6 +87605,10 @@
   changeuuid: cc2524af-39ec-4769-b074-43aeb0c23bb4
   reviewedAt: 2026-05-04
 - id: us-wcts-live
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [christian]
   broadcaster: independent
   name: WCTS Live
@@ -87549,7 +87621,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://wctsradio.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 36d2ccd4-eafc-4084-b365-f78ac35b99f4
   changeuuid: 4e0f1ae1-33a5-499e-bd6b-344777838572
   reviewedAt: 2026-05-04
@@ -88107,6 +88179,10 @@
   changeuuid: a9925cd5-2685-41d4-b911-0f2eeabf364a
   reviewedAt: 2026-05-04
 - id: us-castle-blakk-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: Castle Blakk Radio
   streamUrl: https://streaming.live365.com/a10252
@@ -88116,11 +88192,15 @@
   faviconSource: broadcaster-site
   homepage: http://www.castleblakkradio.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: caa5c7fd-3204-476c-9501-07a5ebeba51e
   changeuuid: 6ca94f6c-b6be-4e5d-ba66-6767b777da90
   reviewedAt: 2026-05-04
 - id: us-cdu-columbus-alternative-underground
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [alternative / indie, alternative rock]
   broadcaster: independent
   name: CDU - Columbus Alternative Underground
@@ -88131,7 +88211,7 @@
   faviconSource: broadcaster-site
   homepage: http://spoolfork.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 4f507a77-cbe5-4f6b-9823-afdd75a9686f
   changeuuid: ed2fe693-286b-4a01-91da-4a747b2a9fb7
   reviewedAt: 2026-05-04
@@ -89071,6 +89151,10 @@
   changeuuid: 0a31ee8a-22a3-406d-ad91-a1f033fc0fc0
   reviewedAt: 2026-05-04
 - id: us-plus-radio-klinci
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   tags: [kids]
   broadcaster: independent
   name: Plus Radio Klinci
@@ -89082,7 +89166,7 @@
   faviconSource: broadcaster-site
   homepage: https://plusradio.us/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 29dd1040-cc41-49fb-8deb-eaf51ae06b74
   changeuuid: 51badfa4-e34a-40a1-8234-fea3626a4d43
   reviewedAt: 2026-05-04
@@ -90353,6 +90437,10 @@
   changeuuid: 88f79396-43ad-4487-aa64-bcd593a9c9cf
   reviewedAt: 2026-05-04
 - id: us-cledvibes-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Cledvibes Radio
   streamUrl: https://s11.citrus3.com:8288/stream
@@ -90362,7 +90450,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.cledvibesradio.com/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: d6f936a0-7c83-4203-bb3e-bc199f8b371c
   changeuuid: 7ef4201c-d26e-471a-93b4-b4477d771756
   reviewedAt: 2026-05-04
@@ -91769,6 +91857,10 @@
   changeuuid: 70aace95-778f-4408-a28a-90fccb28c351
   reviewedAt: 2026-05-04
 - id: us-vpm-music
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: VPM Music
   streamUrl: https://22203.live.streamtheworld.com/WCVEHD2_SC
@@ -91780,7 +91872,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.vpm.org/
   country: US
-  status: stream-only
+  status: broken
   stationuuid: 5b48ac10-5518-41b7-a62f-cb8faf7032fd
   changeuuid: e36ec0be-6615-4eff-95cf-b5aea9b66dd6
   reviewedAt: 2026-05-04
@@ -92424,6 +92516,10 @@
   changeuuid: f2442dde-8410-46ae-aaf4-1848309384b9
   reviewedAt: 2026-05-04
 - id: gb-sky-news-uk
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: sky news UK
   streamUrl: https://tunein.cdnstream1.com/3688_96.mp3?aw_0_1st.skey=1718490659&aw_0_1st.abtest=&aw_0_1st.stationId=s2583&aw_0_1st.premium=false&source=TuneIn&aw_0_1st.platform=tunein&aw_0_1st.genre_id=g255&aw_0_1st.class=talk&aw_0_1st.ads_partner_alias=ce.Other&aw_0_azn.planguage=en
@@ -92433,7 +92529,7 @@
   faviconSource: broadcaster-site
   homepage: https://news.sky.com/
   country: GB
-  status: stream-only
+  status: broken
   stationuuid: 512e876e-806b-4a61-8a57-f15e39b64907
   changeuuid: 12422947-d548-411a-948a-d6e03a7c5465
   reviewedAt: 2026-05-04
@@ -99759,6 +99855,10 @@
   changeuuid: d1915f1a-6fba-4f78-b79c-1195ecbfc72c
   reviewedAt: 2026-05-04
 - id: gb-air-gay-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: Air Gay Radio
   streamUrl: https://ecmanager.pro-fhi.net:2655/stream
@@ -99768,7 +99868,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.airgayradio.net/
   country: GB
-  status: stream-only
+  status: broken
   stationuuid: 30590797-ad95-4c3e-98d6-93f76419032b
   changeuuid: 9068aad1-e0d1-4c68-865c-bed19d9bacf6
   reviewedAt: 2026-05-04
@@ -101308,6 +101408,10 @@
   changeuuid: 6f22b398-6306-4ec5-b719-6e98f90a3eca
   reviewedAt: 2026-05-04
 - id: gb-eden-fm-107-5
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Eden Fm 107.5
   streamUrl: https://eu4.fastcast4u.com/proxy/edenfmlt?mp=/1
@@ -101317,7 +101421,7 @@
   faviconSource: radio-browser
   homepage: http://www.edenfm.co.uk/
   country: GB
-  status: stream-only
+  status: broken
   stationuuid: 13e826d0-62ac-478e-9447-2c35a1b94bff
   changeuuid: 877eff34-0e1e-4fdc-b4ed-d45f746042ff
   reviewedAt: 2026-05-04
@@ -102696,6 +102800,10 @@
   changeuuid: c7c5f1e4-a540-43cd-984e-e6c571795bda
   reviewedAt: 2026-05-04
 - id: gb-shine-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Shine Radio
   streamUrl: https://listen-petersfield.sharp-stream.com/petersfield.aac
@@ -102705,7 +102813,7 @@
   faviconSource: broadcaster-site
   homepage: https://shineradio.uk/
   country: GB
-  status: stream-only
+  status: broken
   stationuuid: 351f1709-0c4f-4058-baf1-b63114f75a4d
   changeuuid: 2ad282e4-dbc7-4560-8864-9462135d0cab
   reviewedAt: 2026-05-04
@@ -103527,6 +103635,10 @@
   changeuuid: 85a4e6b0-f927-4f37-af8e-937d69f46ec2
   reviewedAt: 2026-05-04
 - id: gb-weald-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [pop]
   broadcaster: independent
   name: Weald Radio
@@ -103536,7 +103648,7 @@
   faviconSource: radio-browser
   homepage: https://www.wealdradio.co.uk/
   country: GB
-  status: stream-only
+  status: broken
   stationuuid: 10f6f8f2-00c8-48d3-ada4-f7bd2298a8bb
   changeuuid: 56452f82-e799-44cf-b595-db62e67e21de
   reviewedAt: 2026-05-04
@@ -104242,6 +104354,10 @@
   changeuuid: 3d7ed7a2-c63f-4054-b496-2f6c3de8defc
   reviewedAt: 2026-05-04
 - id: fr-abc-lounge-jazz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: ABC Lounge Jazz
   streamUrl: https://eu1.fastcast4u.com/proxy/kpmxz/stream
@@ -104251,7 +104367,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.abc-lounge.com/
   country: FR
-  status: stream-only
+  status: broken
   stationuuid: 9261257f-c8a0-4dba-8cb5-a0746f3323dc
   changeuuid: 68835402-45c5-4f88-8b29-083f54473ed0
   reviewedAt: 2026-05-04
@@ -114050,6 +114166,10 @@
   changeuuid: ecfcb60b-9869-4d32-b7a3-44dabe556985
   reviewedAt: 2026-05-04
 - id: fr-power-maxx
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: POWER MAXX
   streamUrl: https://sr3.publicssl.net/srv/7016/stream
@@ -114059,7 +114179,7 @@
   faviconSource: broadcaster-site
   homepage: https://onlineradiobox.com/fr/powermaxx/?lang=en&p=5
   country: FR
-  status: stream-only
+  status: broken
   stationuuid: 7d97725c-0537-4903-a398-d779714594e3
   changeuuid: 4704a31f-89d1-4830-9c1a-3607eb7074fd
   reviewedAt: 2026-05-04
@@ -114268,6 +114388,10 @@
   changeuuid: db058752-e3ed-40ee-bc3c-f55d6212d257
   reviewedAt: 2026-05-04
 - id: fr-radio-tou-caen
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [caen]
   broadcaster: independent
   name: RADIO TOU'CAEN
@@ -114278,7 +114402,7 @@
   faviconSource: broadcaster-site
   homepage: https://radio-toucaen.fr/
   country: FR
-  status: stream-only
+  status: broken
   stationuuid: e498daad-0139-46a4-8e44-56851c030997
   changeuuid: 28a1f0e2-d387-4d39-83a3-4c004cf9c419
   reviewedAt: 2026-05-04
@@ -114505,6 +114629,10 @@
   changeuuid: e4ce9a42-1700-4583-8436-89d119239dc9
   reviewedAt: 2026-05-04
 - id: fr-mathis-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [pop rock hip hop]
   broadcaster: independent
   name: MATHIS FM
@@ -114516,7 +114644,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://laut.fm/mathisfm57
   country: FR
-  status: stream-only
+  status: broken
   stationuuid: 13ff2bf0-91d9-4d09-b567-aa15ed26f364
   changeuuid: 59ab0a9d-13a4-4782-9ae3-f34f2622c038
   reviewedAt: 2026-05-04
@@ -117765,6 +117893,10 @@
   changeuuid: 75bee174-123e-47ff-8b31-95c0b4a3abc7
   reviewedAt: 2026-05-04
 - id: it-radio-nerazzurra
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [milano, sport, talk]
   broadcaster: independent
   name: Radio Nerazzurra
@@ -117774,7 +117906,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.radionerazzurra.it/
   country: IT
-  status: stream-only
+  status: broken
   stationuuid: 30bfedec-2c67-11ea-aa0c-52543be04c81
   changeuuid: 732ccc2e-4c69-45c3-aa16-bf611870b9c1
   reviewedAt: 2026-05-04
@@ -123610,6 +123742,10 @@
   changeuuid: add2d4ca-849f-4a43-a9c1-9a3f1083b37b
   reviewedAt: 2026-05-04
 - id: es-aragon-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   tags: [aragon]
   favicon: "https://www.cartv.es/theme/cartv-2017/images/radio/mainheader/logo-aragonradio.png"
   faviconSource: radio-browser
@@ -123620,7 +123756,7 @@
   codec: AAC
   homepage: http://www.aragonradio.es/
   country: ES
-  status: stream-only
+  status: broken
   stationuuid: a9f9ca2a-78b2-11ea-8a3b-52543be04c81
   changeuuid: ef15c2af-7f2a-4264-83d9-2999405cbc9d
   reviewedAt: 2026-05-04
@@ -127361,6 +127497,10 @@
   changeuuid: c43bc977-ed1f-492e-865e-8b9a8b054dd8
   reviewedAt: 2026-05-04
 - id: es-interradio-tenerife
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   tags: [entrevistas, magazines, música, tertulias]
   favicon: "https://interradiotenerife.es/wp-content/uploads/2020/03/Logo-2020-Horizontalok.jpg"
   faviconSource: broadcaster-site
@@ -127371,7 +127511,7 @@
   codec: MP3
   homepage: https://interradiotenerife.es/
   country: ES
-  status: stream-only
+  status: broken
   stationuuid: dca4c334-6b27-4767-b366-3e1f93ab48a7
   changeuuid: 371ec569-ea94-469f-87d7-37b12b9a38bd
   reviewedAt: 2026-05-04
@@ -129107,6 +129247,10 @@
   changeuuid: 46a6806e-5aca-4de8-8b81-d901e8bc6e1c
   reviewedAt: 2026-05-04
 - id: es-afro-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   favicon: "https://www.mybio.es/uploads/main/3b0cb37ed785ae6a72eea88c5086df19.png"
   faviconSource: broadcaster-site
   tags: [afro, afro house, afro-latin music, afro-pop, afrobeat, afrobeats]
@@ -129116,7 +129260,7 @@
   codec: MP3
   homepage: https://afro.radio/
   country: ES
-  status: stream-only
+  status: broken
   stationuuid: fa908357-5f0e-4f9d-a011-4f42cc73a5d4
   changeuuid: 372ddc83-aabf-4a81-b7aa-d7669b5a8be7
   reviewedAt: 2026-05-04
@@ -130748,6 +130892,10 @@
   changeuuid: a9de9764-919f-42a1-ba9b-764f87deae2a
   reviewedAt: 2026-05-04
 - id: es-radio-kvrruf
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Radio Kvrruf
   streamUrl: https://radio.latina.red/radiokurruf.mp3?_=1
@@ -130757,7 +130905,7 @@
   faviconSource: broadcaster-site
   homepage: https://radiokurruf.org/
   country: ES
-  status: stream-only
+  status: broken
   stationuuid: 18220c0b-e99b-42fc-890f-cf4b22f2c00a
   changeuuid: 1f22857c-7ea1-4378-897e-ec75b28d5fa5
   reviewedAt: 2026-05-04
@@ -131995,6 +132143,10 @@
   changeuuid: 6cb0000d-e588-4348-aa0b-9362ca0b6e03
   reviewedAt: 2026-05-04
 - id: nl-npo-campus-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [campus, pop, talent]
   broadcaster: independent
   name: NPO Campus Radio
@@ -132005,7 +132157,7 @@
   faviconSource: radio-browser
   homepage: https://www.npocampus.nl/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: a9db9b61-4d1b-4ac2-ac7c-c1232d076a32
   changeuuid: 1cc0d761-d88a-46db-bbeb-c04a42b7eb80
   reviewedAt: 2026-05-04
@@ -132644,6 +132796,10 @@
   changeuuid: 81af7e38-28c9-49d0-b661-be447355f253
   reviewedAt: 2026-05-04
 - id: nl-platinum-radio-hardstyle
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Platinum Radio HardStyle
   streamUrl: https://live.platinumradio.nl:8030/radio.mp3
@@ -132653,7 +132809,7 @@
   faviconSource: broadcaster-site
   homepage: https://platinumradio.nl/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: ad22ad75-21a8-4e08-8fb7-451efd761d75
   changeuuid: b6ceeb81-bfce-4fbb-bd8e-22349b228c28
   reviewedAt: 2026-05-04
@@ -132958,6 +133114,10 @@
   changeuuid: 12e868e3-d38d-4b4e-980f-0667a57eabbf
   reviewedAt: 2026-05-04
 - id: nl-decibel-eurodance
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Decibel Eurodance
   streamUrl: https://stream.decibel.nl/02.mp3
@@ -132968,7 +133128,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.decibel.nl/decibeleurodance/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: e2569ee0-1f70-4829-b9f7-dc4e268397f0
   changeuuid: 270afd95-2b1c-41d2-8e26-0b94075a411b
   reviewedAt: 2026-05-04
@@ -135206,6 +135366,10 @@
   changeuuid: f79819ea-f4c0-413a-8b47-fafa7f6e84c1
   reviewedAt: 2026-05-04
 - id: nl-quality-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [ballads, easy listening, soft pop]
   broadcaster: independent
   name: Quality FM
@@ -135216,7 +135380,7 @@
   faviconSource: radio-browser
   homepage: https://qualityfm.nl/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: a1bb4937-8e56-425d-bd72-e2a37d4b9897
   changeuuid: 39fcb876-bf65-4e07-9d41-4efa34159144
   reviewedAt: 2026-05-04
@@ -136830,6 +136994,10 @@
   changeuuid: 198b9408-6d05-4013-9c0f-061aa9cff9d5
   reviewedAt: 2026-05-04
 - id: nl-nora-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   favicon: "https://norafm.nl/wp-content/uploads/2024/01/cropped-NFM2-180x180.jpg"
   faviconSource: broadcaster-site
   faviconBlocked: true
@@ -136841,7 +137009,7 @@
   codec: MP3
   homepage: https://norafm.nl/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: 740dde51-17b0-4f13-9b27-1b5b1e78b6ab
   changeuuid: c3340aea-5a54-44c4-a787-f83909d95b8b
   reviewedAt: 2026-05-04
@@ -138029,6 +138197,10 @@
   changeuuid: 69c43578-7234-43be-a0f3-e28fc83defee
   reviewedAt: 2026-05-04
 - id: nl-radio-toekomst
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: Radio Toekomst
   streamUrl: https://stream.radiotoekomst.nl/radiotoekomst.mp3
@@ -138036,7 +138208,7 @@
   codec: MP3
   homepage: https://radio-toekomst.nl/
   country: NL
-  status: stream-only
+  status: broken
   stationuuid: 467189d9-4a73-4c15-bbce-87f581bcc03b
   changeuuid: 5fafd517-75f4-42e3-9cfd-f61242df5ad7
   reviewedAt: 2026-05-04
@@ -138518,6 +138690,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-wroc-aw
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [dance, pop]
   broadcaster: independent
   name: Eska Wrocław
@@ -138527,7 +138703,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.eska.pl/wroclaw/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 38996cf5-f44c-470e-b7d7-59ea9fa8c298
   changeuuid: 7b2e7c27-208e-43fd-af2a-d283dd5b7dd0
   reviewedAt: "2026-05-04"
@@ -138669,6 +138845,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-odz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [pop]
   broadcaster: independent
   name: ESKA Łódź
@@ -138678,7 +138858,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.eska.pl/lodz/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: a754e456-2068-4161-80b2-c5cd223e85ab
   changeuuid: 0a24b325-d6d9-47cb-9f2c-c23dd83696ed
   reviewedAt: "2026-05-04"
@@ -138835,6 +139015,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-slaskie
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Eska Śląskie
   streamUrl: https://radio.stream.smcdn.pl/timeradio-p/2220-1.aac/playlist.m3u8
@@ -138844,7 +139028,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.eska.pl/slaskie/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 0f2ce34e-114f-4971-bca9-7609f3460c7a
   changeuuid: 6d7be8e9-124a-46f5-9fa6-c030da6d8616
   reviewedAt: "2026-05-04"
@@ -138867,6 +139051,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eskarock
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: EskaROCK
   streamUrl: https://radio.stream.smcdn.pl/icradio-p/5380-1.aac/playlist.m3u8
@@ -138875,7 +139063,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.eskarock.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 25390b62-ae1e-400d-aa68-ec248fbd20cb
   changeuuid: 7a097258-0567-49f8-82db-664bcbde3083
   reviewedAt: "2026-05-04"
@@ -139046,6 +139234,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-2-kultowe-polskie
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [music]
   broadcaster: independent
   name: "ESKA 2 KULTOWE  POLSKIE "
@@ -139055,7 +139247,7 @@
   faviconSource: broadcaster-site
   homepage: https://dwa.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 2ac13bac-b3f2-48f5-8f27-072ace84c34d
   changeuuid: b7ca204e-a4ce-4aa4-8ae1-2eb137e04699
   reviewedAt: "2026-05-04"
@@ -139147,6 +139339,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-trojmiasto
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   favicon: "https://www.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://www.eska.pl/"
@@ -139158,7 +139354,7 @@
   streamUrl: https://radio.stream.smcdn.pl/icradio-p/2170-1.aac/playlist.m3u8
   codec: UNKNOWN
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: b58c54a9-ec79-4e89-8099-3a54d7a78581
   changeuuid: ece0ccf4-6e61-44da-a9c3-d80c9cf8fdcb
   reviewedAt: "2026-05-04"
@@ -140840,6 +141036,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-vox-poznan
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: "VOX POZNAŃ "
   streamUrl: https://radio.stream.smcdn.pl/icradio-p/3140-1.aac/playlist.m3u8
@@ -140848,7 +141048,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.voxfm.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 1add425f-d5f1-45c8-ba26-7b485bee9795
   changeuuid: 52f379b5-a92c-4d26-aa09-2552bffdbacb
   reviewedAt: "2026-05-04"
@@ -141371,6 +141571,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-leszno
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Eska Leszno
   streamUrl: https://radio.stream.smcdn.pl/icradio-p/2080-1.aac/playlist.m3u8
@@ -141379,13 +141583,17 @@
   faviconSource: broadcaster-site
   homepage: https://www.eska.pl/leszno/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: b0e6ff02-641a-4bad-97e0-2824a7b966f5
   changeuuid: 8d898cb5-d701-4f4d-b962-500033b3db0d
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-eska-2-odz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [dance, pop]
   favicon: "https://player2.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
@@ -141395,7 +141603,7 @@
   codec: UNKNOWN
   homepage: https://player2.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 4fac7e83-1c36-498c-8d06-f96b5c41789e
   changeuuid: ae01592d-ddd8-47e3-aec3-1c4a129448e8
   reviewedAt: "2026-05-04"
@@ -141681,6 +141889,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-2-krakow
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Eska 2 Krakow
   streamUrl: https://radio.stream.smcdn.pl/timeradio-p/1070-1.aac/playlist.m3u8
@@ -141690,7 +141902,7 @@
   faviconSource: broadcaster-site
   homepage: https://player2.eska.pl/?stream_uid=ra-VfDi-47o8-jR9g
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: c8785af1-1014-4af1-bcd3-1f35e42d9a18
   changeuuid: fbe358de-edb9-4a56-9f84-b2dbbc795c7e
   reviewedAt: "2026-05-04"
@@ -141780,6 +141992,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-2-party
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [music]
   broadcaster: independent
   name: ESKA 2 PARTY
@@ -141789,7 +142005,7 @@
   faviconSource: broadcaster-site
   homepage: https://dwa.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 92e98ea7-f3c8-45ca-a6b1-d67ffae9f066
   changeuuid: 58f07376-f32a-47dd-bc13-1e9ce083f800
   reviewedAt: "2026-05-04"
@@ -142687,6 +142903,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-eska-poznan
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [dance, pop]
   favicon: "https://www.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
@@ -142696,7 +142916,7 @@
   codec: UNKNOWN
   homepage: https://www.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 2c5cf7f3-77a7-476c-9293-8d57e105b17f
   changeuuid: 654e83c2-c12d-4673-b11e-0e4d59cf692a
   reviewedAt: "2026-05-04"
@@ -142780,6 +143000,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-eska-kielce
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   favicon: "https://kielce.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -142788,7 +143012,7 @@
   codec: UNKNOWN
   homepage: https://kielce.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 5eea676d-723f-4067-92b3-a12f3c444261
   changeuuid: 193b284f-7573-42f3-98a6-fc0e64864319
   reviewedAt: "2026-05-04"
@@ -143714,6 +143938,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-eska-g-20
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [dance, pop]
   favicon: "https://www.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
@@ -143723,7 +143951,7 @@
   codec: UNKNOWN
   homepage: https://www.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: fd914a83-4a54-4869-8618-91d47cd07be8
   changeuuid: 0adef617-b3f3-4249-9a07-9b079f64ce77
   reviewedAt: "2026-05-04"
@@ -143861,6 +144089,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-radio-eska-ostrow-kalisz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [dance, pop]
   favicon: "https://www.eska.pl/web-app-manifest-512x512.png"
   faviconSource: broadcaster-site
@@ -143870,7 +144102,7 @@
   codec: UNKNOWN
   homepage: https://www.eska.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: e715b5bf-5bf1-4950-aaec-3ca217d77f43
   changeuuid: 40ca12e9-6fd2-4790-b3d9-9b47d1b0aa55
   reviewedAt: "2026-05-04"
@@ -150879,6 +151111,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-80s-new-wave
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [1980s, "80's", 80s, pop]
   broadcaster: independent
   name: LiSTNR - 80s New Wave
@@ -150889,7 +151125,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/80s-new-wave
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: e96086c0-ae22-4e98-8f54-38c8680cdd40
   changeuuid: 5f8326e9-c8ae-40ba-94be-193231035de0
   reviewedAt: "2026-05-04"
@@ -151056,6 +151292,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-triple-m-102-3mhz-fm-townsville-qld-rock-sports-
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic rock, comedy, news, rock, sport, weather]
   broadcaster: independent
   name: Triple-M 102.3MHz FM Townsville QLD Rock Sports and Comedy 20220701
@@ -151066,7 +151306,7 @@
   faviconSource: radio-browser
   homepage: https://www.triplem.com.au/townsville
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: f400ee71-90bf-44fa-a49c-5ab5211da52b
   changeuuid: 9107d4c4-5ff1-4030-8105-bc082f56f8af
   reviewedAt: "2026-05-04"
@@ -151149,6 +151389,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-yacht-rock
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic, easy listening]
   broadcaster: independent
   name: LiSTNR - Yacht Rock
@@ -151159,7 +151403,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/yacht-rock
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: aa8fedb1-e62f-4bc1-b848-503a27406a68
   changeuuid: 47a1e0f7-f534-4f15-8650-a6f8138fafea
   reviewedAt: "2026-05-04"
@@ -151297,6 +151541,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-60s-hits
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [1960s, "60's", 60s, easy listening]
   broadcaster: independent
   name: LiSTNR - 60s Hits
@@ -151307,7 +151555,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/60s-hits
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 514247bf-182b-4fe4-b37e-013e58024eb8
   changeuuid: 6e7f63fc-48db-49c3-a0c4-237b11bf82c6
   reviewedAt: "2026-05-04"
@@ -151350,6 +151598,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-triple-m-brisbane
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic rock, modern rock, rock]
   favicon: "https://triplem.listnr.com/wp-content/uploads/2024/04/mmm-brisbane.jpg"
   faviconSource: radio-browser
@@ -151360,7 +151612,7 @@
   codec: AAC
   homepage: https://www.triplem.com.au/brisbane
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 8e19306c-27eb-406f-8ccc-dc3146e0ae1f
   changeuuid: f9d8b1cd-30a7-4383-89e8-533b63bb8a5c
   reviewedAt: "2026-05-04"
@@ -151478,6 +151730,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-aussie-pub-rock
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [1970s, 1980s, 70s, 80s, australian music, classics, local, pub rock]
   broadcaster: independent
   name: LiSTNR - Aussie Pub Rock
@@ -151488,7 +151744,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/mushroom-50
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: b17c5a84-8a9a-462b-a8db-ad1d96c9e9d5
   changeuuid: 490d4540-b2ee-4893-a598-fdb431f2c846
   reviewedAt: "2026-05-04"
@@ -151601,6 +151857,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-107-1-safm-adelaide
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary, pop]
   broadcaster: independent
   name: "107.1 SAFM Adelaide"
@@ -151613,7 +151873,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://www.hit.com.au/adelaide/
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: fe7bf393-8d75-4db6-949b-4f9e7f00cd49
   changeuuid: b629ac4d-990b-40ce-a76f-94bc53a75074
   reviewedAt: "2026-05-04"
@@ -151637,6 +151897,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-dance-hits
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [dance, dance music]
   broadcaster: independent
   name: Dance Hits
@@ -151647,13 +151911,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/dance
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: d45994e0-136c-459a-a0ad-84cb4d46a8c3
   changeuuid: cce35568-13c8-44a6-a391-9e484377070b
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-girl-power
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [pop music]
   broadcaster: independent
   name: LiSTNR - Girl Power
@@ -151664,7 +151932,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/girl-power
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 2e14a16d-6743-4931-90a0-389376977997
   changeuuid: 42c49a74-daae-45c7-a7b7-e82a0a419cce
   reviewedAt: "2026-05-04"
@@ -151778,6 +152046,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-70s-hits
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [1970s, "70's", 70s, easy listening]
   broadcaster: independent
   name: LiSTNR - 70s Hits
@@ -151787,13 +152059,17 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/70s-hits
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: d774a152-b267-44a8-a48c-5e2f63414e38
   changeuuid: 6f4bfab7-8cc2-410c-bf35-3eeaa0f4dffb
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-90s-soft-pop
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [1990s, "90's", 90s, pop]
   broadcaster: independent
   name: LiSTNR - 90s Soft Pop
@@ -151804,7 +152080,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/90s-soft-pop
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 9484a8e5-552b-4ee1-b11c-2db16b879928
   changeuuid: e88419bf-007c-4d8b-8d55-980d1b3b1848
   reviewedAt: "2026-05-04"
@@ -151828,6 +152104,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-chill-pop-hits
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [easy listening, soft pop]
   broadcaster: independent
   name: LiSTNR - Chill Pop Hits
@@ -151838,7 +152118,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/chill-pop-hits
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 75194db5-6483-402e-8252-6fdb6b4f5ed1
   changeuuid: de5c6654-1bc5-46e8-b4c6-a4a5a82d9c57
   reviewedAt: "2026-05-04"
@@ -152289,6 +152569,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-mix94-5-perth
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: Mix94.5 Perth
@@ -152299,7 +152583,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/perth
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 7804fe49-ac0a-44a6-8af1-2d093f880aed
   changeuuid: 009918fe-98e7-4022-b33b-0df4abc9f622
   reviewedAt: "2026-05-04"
@@ -152447,6 +152731,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-triple-m-newcastle
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Triple M Newcastle
   streamUrl: https://wz2liw.scahw.com.au/live/2kko_128.stream/playlist.m3u8
@@ -152456,7 +152744,7 @@
   faviconSource: radio-browser
   homepage: https://www.triplem.com.au/newcastle
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 3b8cfbcf-211d-4826-ab7d-abe79519ea33
   changeuuid: 59f8351d-b51b-44a3-8261-c403db472ef1
   reviewedAt: "2026-05-04"
@@ -152534,6 +152822,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-crooners-swooners
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic, jazz]
   broadcaster: independent
   name: "LiSTNR - Crooners & Swooners"
@@ -152543,7 +152835,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/crooners-and-swooners
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: d5366c19-e89e-4af2-8b3c-0aebec8e9267
   changeuuid: 4715bca3-677a-4b5d-a339-cc388c5b1e51
   reviewedAt: "2026-05-04"
@@ -152601,6 +152893,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-4rok-107-9mhz-fm-rockhampton-central-queensl
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   favicon: "https://hit.listnr.com/wp-content/uploads/2024/04/hit-brandmark-1024x1024.png"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://hit.listnr.com/stations/"
@@ -152614,7 +152910,7 @@
   codec: AAC
   homepage: https://wz4liw.scahw.com.au/live/4rok_128.stream/playlist.m3u8?
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 0719daa5-385c-42e7-8944-24ac158d6c75
   changeuuid: 6dc7ff80-99b1-43be-942a-349a5c755410
   reviewedAt: "2026-05-04"
@@ -152764,6 +153060,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-buddha
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [easy listening]
   broadcaster: independent
   name: LiSTNR - Buddha
@@ -152774,7 +153074,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/buddha
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: b1f0cacd-b7ef-47a4-be00-32c23f1bc0d8
   changeuuid: e3f07a96-18e0-46d8-84d1-8e7930b0181b
   reviewedAt: "2026-05-04"
@@ -152880,6 +153180,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-101-9-fraser-coast
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [hits you love from then to now]
   broadcaster: independent
   name: hit 101.9 Fraser Coast
@@ -152890,7 +153194,7 @@
   faviconSource: radio-browser
   homepage: https://www.play.listnr.com/station/hit-frasercoast
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 9ea06b8a-f7d6-4695-9d41-17a901e2d2af
   changeuuid: 466df779-cbb4-4aa2-98a8-ac9aef1a1249
   reviewedAt: "2026-05-04"
@@ -153284,6 +153588,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-guilty-pleasures
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [music]
   broadcaster: independent
   name: LiSTNR - Guilty Pleasures
@@ -153294,7 +153602,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/guilty-pleasures
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 7866d8c0-418b-4eb8-b245-8f6d7f75c9ff
   changeuuid: db72ec39-8a3a-4b14-abab-b3959f4003fa
   reviewedAt: "2026-05-04"
@@ -153753,6 +154061,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-indigenous
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [australian music, hip-hop, indigenous, rnb]
   broadcaster: independent
   name: LiSTNR - Indigenous
@@ -153763,7 +154075,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/indigenous
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 7fe32f0c-4d6a-476c-9b51-7c2e2aba3b25
   changeuuid: 00c66303-4738-4fb7-bb31-6ea92b92aca6
   reviewedAt: "2026-05-04"
@@ -153980,6 +154292,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit91-9-bendigo
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit91.9 Bendigo
@@ -153990,7 +154306,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/bendigo
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: ca189f16-c5a0-4da1-9d95-ccfa9c1d3d69
   changeuuid: 795b4e86-0f11-4732-83ec-6de62d9dd4d2
   reviewedAt: "2026-05-04"
@@ -154285,6 +154601,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-homegrown
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [australian music, pop, rock]
   broadcaster: independent
   name: LiSTNR - Homegrown
@@ -154295,7 +154615,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/homegrown
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 76f8ff38-a456-4375-8e30-83c6d2f4694a
   changeuuid: b5eff173-4c88-4b60-8562-a969840dfcf7
   reviewedAt: "2026-05-04"
@@ -154390,6 +154710,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-100-3-94-7-mackay-and-the-whitsundays
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: "hit 100.3 & 94.7 Mackay and the Whitsundays"
@@ -154400,7 +154724,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/mackay
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 1f21fa5a-2e35-4677-b690-e0205453a210
   changeuuid: 50b8447c-abfb-4ac7-80d9-269707af7494
   reviewedAt: "2026-05-04"
@@ -154876,6 +155200,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-wheatbelt
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit Wheatbelt
@@ -154886,13 +155214,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/wheatbelt
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 0f35fa3a-100f-40b7-8728-ac6769993c92
   changeuuid: fe776264-94f4-421f-95f9-6efc3ce331a9
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit102-3-105-1-mid-north-coast
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: "hit102.3 & 105.1 Mid North Coast"
@@ -154903,13 +155235,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/midnorthcoast
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: e09c35fa-197a-4c0b-92d6-b9041ff7ed63
   changeuuid: c62b647e-7f4f-4780-b133-7f5b3a1adac6
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit105-5-coffs-coast
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit105.5 Coffs Coast
@@ -154920,7 +155256,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/coffs
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 2f0ec1f7-1550-4adf-b95f-593236417925
   changeuuid: 5f14de18-1df2-4c52-9bad-a67f1bdb4bcb
   reviewedAt: "2026-05-04"
@@ -155103,6 +155439,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit-106-5-karratha
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit 106.5 Karratha
@@ -155113,7 +155453,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/karratha
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 6a51911c-3e48-453c-a1e7-5c8989bb8968
   changeuuid: d4d06e13-6094-4e06-a451-77fe6389cc46
   reviewedAt: "2026-05-04"
@@ -155141,6 +155481,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit105-9-central-west
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit105.9 Central West
@@ -155151,13 +155495,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/centralwest
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 24e3f07d-d59f-4650-9527-8299ec8ba8a0
   changeuuid: 360c4a85-206b-4a75-a2d0-cac208df4faf
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-stress-free
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [easy listening, electronic dance music]
   broadcaster: independent
   name: LiSTNR - Stress Free
@@ -155168,7 +155516,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/stress-free
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 52c3078f-027b-42ef-93ab-f7b307b61fa3
   changeuuid: b0a72e7d-42d0-496f-8fe4-323f41cd9f40
   reviewedAt: "2026-05-04"
@@ -155359,6 +155707,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-listnr-karaoke-stage
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [pop music]
   broadcaster: independent
   name: LiSTNR - Karaoke Stage
@@ -155368,7 +155720,7 @@
   faviconSource: radio-browser
   homepage: https://play.listnr.com/station/karaoke-stage
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 4ebccd81-310a-4b3c-a1d3-be8702db50fb
   changeuuid: c89d68c9-70a9-4019-b29c-b2ce53faa9ac
   reviewedAt: "2026-05-04"
@@ -155497,6 +155849,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit101-3-central-coast
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [adult contemporary]
   favicon: "https://hit.listnr.com/wp-content/uploads/2024/04/cropped-hit-favicon.png"
   faviconSource: radio-browser
@@ -155507,13 +155863,17 @@
   codec: AAC
   homepage: https://www.hit.com.au/centralcoast
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 81fab755-33e5-4058-9c3a-2593e639ef97
   changeuuid: 800d71e2-10f3-468a-bdcf-e34dd86f85b8
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit103-5-cairns
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit103.5 Cairns
@@ -155524,13 +155884,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/cairns
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 632f0948-b629-4b73-906e-e0e66657b413
   changeuuid: 3bf6d866-0315-42d4-a2b8-f9250b7ade68
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit91-7-port-hedland
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit91.7 Port Hedland
@@ -155541,13 +155905,17 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/porthedland
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 4e7be5ca-43a5-4a52-8b1d-fdfa2712746f
   changeuuid: 1c79d3fd-1090-427d-b9ca-ed5feb0444cd
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit99-5-sunraysia
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   favicon: "https://hit.listnr.com/wp-content/uploads/2024/04/cropped-hit-favicon.png"
   faviconSource: radio-browser
@@ -155558,7 +155926,7 @@
   codec: AAC+
   homepage: https://www.hit.com.au/sunraysia
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 76479bb7-e1a7-40c7-8dc9-bcb2ba67e75d
   changeuuid: ad6b1182-2915-4a5f-8ffa-e3cfb373b8d8
   reviewedAt: "2026-05-04"
@@ -155859,6 +156227,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-hit97-9-tablelands
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×26 · 2026-09-08→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: hit97.9 Tablelands
@@ -155869,7 +156241,7 @@
   faviconSource: radio-browser
   homepage: https://www.hit.com.au/tablelands
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: a12d23f7-a848-428d-ad4b-fb8f44b437f8
   changeuuid: 83f66c2c-f27e-476f-a7a8-a55f6273a966
   reviewedAt: "2026-05-04"
@@ -156218,6 +156590,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-triple-m-geraldton-98-1
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Triple M Geraldton 98.1
   streamUrl: https://wz6liw.scahw.com.au/live/6bay_128.stream/playlist.m3u8
@@ -156227,7 +156603,7 @@
   faviconSource: radio-browser
   homepage: https://triplem.listnr.com/geraldton/
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: 5a1efd49-603f-4023-baa4-e3e9588dd112
   changeuuid: 7b72d77e-dba7-47e9-887d-11aca241f65d
   reviewedAt: "2026-05-04"
@@ -156720,6 +157096,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: au-coast-fm-warrnambool-95-3-fm-https
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [contemporary hits radio]
   broadcaster: independent
   name: Coast FM - Warrnambool - 95.3 FM (HTTPS)
@@ -156730,7 +157110,7 @@
   faviconSource: broadcaster-site
   homepage: https://coast.com.au/
   country: AU
-  status: stream-only
+  status: broken
   stationuuid: cb006e1a-4e8d-470b-bac8-cdca6f170fbb
   changeuuid: d825ada3-e252-4c0e-9458-c40c8b27ad9b
   reviewedAt: "2026-05-04"
@@ -162235,6 +162615,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-radio-5-legend
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   favicon: "https://radiocom.80.yayin.com.tr/images/favicon.ico"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -162244,7 +162628,7 @@
   codec: AAC+
   homepage: https://radiocom.80.yayin.com.tr/
   country: TR
-  status: stream-only
+  status: broken
   stationuuid: b4d477b5-fc04-4841-9822-549a9c519ff3
   changeuuid: 5a19c41c-9866-4613-b6e8-0ba041b41a83
   reviewedAt: "2026-05-04"
@@ -162659,6 +163043,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: tr-radyo-liva
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: RADYO LİVA
   streamUrl: https://yayin.radyoliva.com:3068/stream
@@ -162666,7 +163054,7 @@
   codec: AAC+
   homepage: https://yayin.radyoliva.com:3068/stream
   country: TR
-  status: stream-only
+  status: broken
   stationuuid: 41b114b6-5da8-4deb-bc5a-61ffdfa5c7f1
   changeuuid: dc5cb2a6-33a5-4cf4-8524-103632cea590
   reviewedAt: "2026-05-04"
@@ -163619,6 +164007,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: id-95-9-smart-fm-jakarta
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [entertainment, hits, news]
   broadcaster: independent
   name: "95.9 smart FM jakarta"
@@ -163629,7 +164021,7 @@
   faviconSource: radio-browser
   homepage: http://radiosmartfm.com/
   country: ID
-  status: stream-only
+  status: broken
   stationuuid: 14257686-118d-4a31-ac31-601075190c77
   changeuuid: f0de7ea5-790a-4bc0-878b-f6c3f681da6f
   reviewedAt: "2026-05-04"
@@ -172173,6 +172565,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-rmn-dwnx-naga
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [classical]
   broadcaster: independent
   name: RMN DWNX Naga
@@ -172182,7 +172578,7 @@
   faviconSource: broadcaster-api
   faviconLicense: broadcaster-implicit
   country: PH
-  status: stream-only
+  status: broken
   stationuuid: 5eaab036-b8eb-4d13-a2a8-5da84b1cd263
   changeuuid: cdc2b22e-e687-4190-b033-36db4b7cf76d
   reviewedAt: "2026-05-04"
@@ -172346,6 +172742,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-dwpm-radyo-sais-trenta
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: DWPM Radyo Sais Trenta
   streamUrl: https://playerservices.streamtheworld.com/api/livestream-redirect/DZMMAAC.aac
@@ -172358,7 +172758,7 @@
   faviconLicense: public-domain
   homepage: https://news.abs-cbn.com/
   country: PH
-  status: stream-only
+  status: broken
   stationuuid: 1486683f-9eb7-46e3-8e90-d569792c4369
   changeuuid: aff24ff5-13f2-405f-95b1-e94932cebc3e
   reviewedAt: "2026-05-04"
@@ -173866,6 +174266,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-fmr-radyo-partido-99-5-hd3
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [news, talk]
   broadcaster: independent
   name: FMR Radyo Partido 99.5 - HD3
@@ -173876,7 +174280,7 @@
   faviconSource: wiki
   homepage: https://www.facebook.com/FMRadioPhils?mibextid=ZbWKwL
   country: PH
-  status: stream-only
+  status: broken
   stationuuid: fd73e894-65da-479a-8461-f1d92392ffd6
   changeuuid: ff0cc766-9d76-4601-aeb2-8361401733f9
   reviewedAt: "2026-05-04"
@@ -178902,6 +179306,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ro-radio-gaga-disco-classic
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   faviconBlocked: true
   tags: [disco]
   broadcaster: independent
@@ -178911,7 +179319,7 @@
   codec: MP3
   homepage: https://www.radiogaga.ro/
   country: RO
-  status: stream-only
+  status: broken
   stationuuid: d3608647-cc42-4433-9b06-b305dddd4128
   changeuuid: 5fdc5ed0-bf0a-4da6-9b92-d6ecf36c4faf
   reviewedAt: "2026-05-04"
@@ -180075,6 +180483,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ro-squad-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   tags: [alternative, news, pop rock]
   broadcaster: independent
   name: Squad Radio
@@ -180085,7 +180497,7 @@
   faviconSource: broadcaster-site
   homepage: https://squadradio.online/
   country: RO
-  status: stream-only
+  status: broken
   stationuuid: fa81981e-9fee-4c71-879c-cc7611c76397
   changeuuid: 17eafcfe-64ab-465c-8d95-32bb882d290d
   reviewedAt: "2026-05-04"
@@ -180641,6 +181053,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ro-targu-jiu-radio-rtj-97-8-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [local, local news, music]
   broadcaster: independent
   name: Târgu Jiu Radio - RTJ 97.8 FM
@@ -180651,7 +181067,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.radiotargujiu.ro/
   country: RO
-  status: stream-only
+  status: broken
   stationuuid: d8152a96-a840-4426-9f6b-e014523d7385
   changeuuid: 04d6b219-d69c-440e-973d-09fe369eda64
   reviewedAt: "2026-05-04"
@@ -185269,6 +185685,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pt-80-s-rfm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   tags: ["80's", "the best of 80's"]
   broadcaster: independent
   name: "80'S RFM"
@@ -185281,7 +185701,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://rfm.sapo.pt/
   country: PT
-  status: stream-only
+  status: broken
   stationuuid: 32261346-3238-4017-b9de-61d86b4bbb31
   changeuuid: 33ff1b72-e979-4881-879c-016006a6634f
   reviewedAt: "2026-05-04"
@@ -188914,6 +189334,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ie-nova-classic-rock
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [blues rock, classic rock, pop rock]
   broadcaster: independent
   name: Nova Classic Rock
@@ -188924,7 +189348,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.nova.ie/
   country: IE
-  status: stream-only
+  status: broken
   stationuuid: 5677bcd5-d83a-40d3-80d0-9378c0615ce6
   changeuuid: 7b9e6d92-c686-4351-b86f-020d4242d337
   reviewedAt: "2026-05-04"
@@ -189392,6 +189816,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ie-south-east-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [adult contemporary]
   broadcaster: independent
   name: South East Radio
@@ -189402,7 +189830,7 @@
   faviconSource: radio-browser
   homepage: https://www.southeastradio.ie/
   country: IE
-  status: stream-only
+  status: broken
   stationuuid: f81d5a73-e2b2-4550-8acb-6db1fd57b98a
   changeuuid: 42e7cca1-6fe5-43c3-a0f7-b0639e76cc6e
   reviewedAt: "2026-05-04"
@@ -197637,6 +198065,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: br-radio-patria-gaucha
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   favicon: "https://public-rf-upload.minhawebradio.net/160647/mobileicon/c638eeea16c8e48a084fad6d635d9fe0.png"
   faviconSource: broadcaster-site
   faviconBlocked: true
@@ -197648,7 +198080,7 @@
   codec: MP3
   homepage: "https://radiopatriagaucha.com.br/"
   country: BR
-  status: stream-only
+  status: broken
   stationuuid: 97d4e916-c5b2-480a-905e-0dd2aafd3c8b
   changeuuid: fb11026e-9664-4a7a-9592-c855090f9524
   reviewedAt: "2026-05-04"
@@ -198336,6 +198768,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: br-radio-fox-rock
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic rock, music, rock]
   broadcaster: independent
   name: Rádio Fox Rock
@@ -198346,7 +198782,7 @@
   faviconSource: radio-browser
   homepage: "https://radiofoxrock.com.br/"
   country: BR
-  status: stream-only
+  status: broken
   stationuuid: 665415ec-48bf-4e67-b21c-15299f9a3ed1
   changeuuid: 94af005b-3f11-4e06-804b-198e17f7353d
   reviewedAt: "2026-05-04"
@@ -210923,6 +211359,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-mix-san-luis-potosi-98-5-fm-xhqk-fm-grupo-acir-s
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [2000s, 2010s, 80s, 90s, 90s y más, "98.5", 98.5 fm, acir]
   broadcaster: independent
   name: "MIX San Luis Potosí - 98.5 FM - XHQK-FM - Grupo ACIR - San Luis Potosí, SL"
@@ -210933,7 +211373,7 @@
   faviconSource: broadcaster-site
   homepage: "https://www.iheart.com/live/mix-985-8089/"
   country: MX
-  status: stream-only
+  status: broken
   stationuuid: a2222b20-fff7-4c94-99d0-dbe257e9722f
   changeuuid: e8af4ea0-4dec-4aa8-8b83-b626648a4b04
   reviewedAt: "2026-05-04"
@@ -211306,6 +211746,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-amor-95-3-san-luis-potosi-95-3-fm-xhnb-fm-grupo-
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [95.3 fm, acir, amor, amor sólo música romántica, balada, balada en español, balada pop, balada romántica]
   favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Grupo_ACIR_Logo.webp/330px-Grupo_ACIR_Logo.webp.png"
   faviconSource: wiki
@@ -211316,7 +211760,7 @@
   codec: AAC+
   homepage: "https://amorfm.mx/"
   country: MX
-  status: stream-only
+  status: broken
   stationuuid: 005b0af4-f122-4649-ad7d-320a78d7f7d1
   changeuuid: 262d34ea-9a23-4830-bf9c-c454f9d5d55e
   reviewedAt: "2026-05-04"
@@ -220014,6 +220458,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-la-ke-buena-el-fuerte-98-5-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   tags: [ap grupo radio, banda, banda norteña, cumbias, grupera, grupero, la ke buena, mariachi]
   broadcaster: independent
   name: La Ke Buena El Fuerte 98.5 FM
@@ -220024,7 +220472,7 @@
   faviconSource: radio-browser
   homepage: "https://apgruporadio.com/"
   country: MX
-  status: stream-only
+  status: broken
   stationuuid: f5ec77f8-bd53-40a6-9069-978f88e99445
   changeuuid: fafab395-5d8e-4145-9d01-c40013dcc1e4
   reviewedAt: "2026-05-04"
@@ -223133,6 +223581,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-la-poderosa-93-7-acapulco-93-7-fm-xhpa-fm-grupo-
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [93.7 fm, entretenimiento, español, estación, fm, grupo radio comunicación, la poderosa, mexican music]
   broadcaster: independent
   name: "LA PODEROSA 93.7 (Acapulco) - 93.7 FM - XHPA-FM - Grupo Radio Comunicación - Acapulco, Guerrero"
@@ -223143,7 +223595,7 @@
   faviconSource: broadcaster-site
   homepage: "https://gruporadiocomunicacion.com/la-poderosa-93-7-fm/"
   country: MX
-  status: stream-only
+  status: broken
   stationuuid: b3f4822a-5c52-49b9-9aab-7c0db9384b00
   changeuuid: 7ceae5ad-6885-4959-906a-48495b2c5e10
   reviewedAt: "2026-05-04"
@@ -225310,6 +225762,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ua-loungefm-chill-out
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [chillout, chillout+lounge]
   broadcaster: independent
   name: LoungeFm Chill Out
@@ -225320,7 +225776,7 @@
   faviconSource: broadcaster-site
   homepage: https://loungefm.com.ua/chill
   country: UA
-  status: stream-only
+  status: broken
   stationuuid: a854e4eb-78b0-4b48-a7d2-c20845da886c
   changeuuid: e9c023a1-fdbc-4b5e-b5a2-91e8d6ebf6c2
   reviewedAt: "2026-05-04"
@@ -225871,6 +226327,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ua--6
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [320 kbit/s, https, mp3, music, regional news, regional radio]
   broadcaster: independent
   name: Гуцульське радіо
@@ -225881,7 +226341,7 @@
   faviconSource: broadcaster-site
   homepage: https://hutsul.radio.fm/
   country: UA
-  status: stream-only
+  status: broken
   stationuuid: f8752550-7d50-4f6e-a7c0-652a7b908625
   changeuuid: 778b4368-1b33-4f57-b1ed-c9ff109ebd9e
   reviewedAt: "2026-05-04"
@@ -229824,6 +230284,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hu-gyor
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [classical]
   broadcaster: independent
   name: Győr+
@@ -229831,7 +230295,7 @@
   bitrate: 128
   codec: MP3
   country: HU
-  status: stream-only
+  status: broken
   stationuuid: dd72afd8-5613-427f-93bb-44ccf26f55d4
   changeuuid: 46eb3ce0-4635-4ea9-8538-122e7b160650
   reviewedAt: "2026-05-04"
@@ -230154,6 +230618,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hu-rise-fm-deep
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [dance, deep house, house]
   broadcaster: independent
   name: Rise FM Deep
@@ -230164,13 +230632,17 @@
   faviconSource: broadcaster-site
   homepage: https://risefm.hu/
   country: HU
-  status: stream-only
+  status: broken
   stationuuid: 28b16157-a0a0-4f6b-b9eb-f0143212783b
   changeuuid: 362d373d-1d41-4353-993b-11b174e53c96
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hu-rise-fm-hit-house
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [dance, house]
   broadcaster: independent
   name: Rise FM Hit House
@@ -230181,7 +230653,7 @@
   faviconSource: broadcaster-site
   homepage: https://risefm.hu/
   country: HU
-  status: stream-only
+  status: broken
   stationuuid: 52664d85-94f2-4a12-aa8f-c7fae6ccf2da
   changeuuid: 4714ce10-9d0d-4dcc-911a-d3f05d1eb00c
   reviewedAt: "2026-05-04"
@@ -230303,6 +230775,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hu-test-radio-station
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   tags: [talk]
   broadcaster: independent
   name: Test Radio Station
@@ -230310,7 +230786,7 @@
   codec: UNKNOWN
   homepage: https://videos.prd.dlivecdn.com/dlive/live.m3u8
   country: HU
-  status: stream-only
+  status: broken
   stationuuid: 6b97af80-6dd8-4d88-a824-62fca94d8fdc
   changeuuid: 70fccb45-0e5c-435c-8c1f-4db0a326788e
   reviewedAt: "2026-05-04"
@@ -235291,6 +235767,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-radio-bnm-biograd-na-moru-chill
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   tags: [chill]
   broadcaster: independent
   name: Radio BnM - Biograd na moru - CHILL
@@ -235304,13 +235784,17 @@
   faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
-  status: stream-only
+  status: broken
   stationuuid: a90c6b9a-3119-4fbe-9f14-2a520e56dc41
   changeuuid: 8549afb7-5913-463c-b00f-e8c27858d2f6
   reviewedAt: "2026-05-04"
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hr-radio-bnm-biograd-na-moru-94-0-100-5-mhz
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   tags: [live radio]
   broadcaster: independent
   name: "Radio BnM - Biograd na moru 94,0; 100,5 MHz"
@@ -235324,7 +235808,7 @@
   faviconLicense: broadcaster-implicit
   homepage: https://radio-bnm.hr/
   country: HR
-  status: stream-only
+  status: broken
   stationuuid: 3b407f3c-e31a-42bc-827d-df56cbbe818a
   changeuuid: 22fdee8e-594d-40c4-9e2b-8b964fa25550
   reviewedAt: "2026-05-04"
@@ -236969,6 +237453,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-hair-band-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   favicon: "https://metalshoprocks.torontocast.stream/wp-content/uploads/2020/05/HAIR_BAND_RADIO_LOGO_Small.jpg"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -236978,7 +237466,7 @@
   codec: MP3
   homepage: "https://metalshoprocks.torontocast.stream/listen-hair-band-radio/"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: c4069ab4-9f76-4e2a-b991-0d5b81cd4579
   changeuuid: aed7cb12-64d1-4931-b203-5ec49e6472ca
   reviewedAt: "2026-05-04"
@@ -237244,6 +237732,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-metal-shop
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: Metal Shop
   streamUrl: https://quincy.torontocast.com:1505/stream?x=1733539450407
@@ -237253,7 +237745,7 @@
   faviconSource: broadcaster-site
   homepage: "https://metalshoprocks.torontocast.stream/listen-metal-shop/"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: ba65b1bb-3a20-48bb-9cee-7d627491e35a
   changeuuid: b386a8c2-232a-4919-a235-0155da499fe0
   reviewedAt: "2026-05-04"
@@ -239374,6 +239866,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-cbc-radio-one-halifax-ns-mp3-stream
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [features, news, publiic radio]
   broadcaster: independent
   name: "CBC Radio One - Halifax, NS (MP3 stream)"
@@ -239384,7 +239880,7 @@
   faviconSource: wiki
   homepage: "https://www.cbc.ca/news/canada/nova-scotia"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: 84924e50-0be6-4b4b-a4e8-b6151840e226
   changeuuid: 8fc576e7-d283-4407-84c9-d1571710fe8f
   reviewedAt: "2026-05-04"
@@ -240559,7 +241055,7 @@
   tags: [features, news, public radio]
   broadcaster: independent
   name: "CBC Radio One - Barrie, ON"
-  streamUrl: https://29243.live.streamtheworld.com/CBCOFM_CBC_SC
+  streamUrl: https://26733.live.streamtheworld.com/CBCOFM_CBC_SC
   bitrate: 128
   codec: MP3
   favicon: "https://subscriptions.cbc.ca/newsletter_static/images/1581433263108-cbc-radio-one.png"
@@ -243445,6 +243941,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-chsm-am-1250-steinbach-mb
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [easy listening, old standards]
   broadcaster: independent
   name: "CHSM \" AM 1250\" Steinbach, MB"
@@ -243455,7 +243955,7 @@
   faviconSource: broadcaster-site
   homepage: "https://www.steinbachonline.com/am1250"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: 8a7d71f3-8675-4d04-b8c7-234bca82d866
   changeuuid: b2671e04-5333-4656-91eb-41a20747a5f4
   reviewedAt: "2026-05-04"
@@ -243600,6 +244100,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-ckgs-hit-country-105-5-beauce-saguenay-qc
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [country, francophone country]
   favicon: "https://hc1053.mesregions.ca/wp-content/uploads/sites/22/2024/12/hit-fav.png"
   faviconSource: radio-browser
@@ -243610,7 +244114,7 @@
   codec: MP3
   homepage: "https://hitcountry.com/hit-country-1053/"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: 99e7a69c-72f7-4c9d-b976-50b9325f7fef
   changeuuid: d303a890-2e9d-4b9a-a96f-a20e477babd0
   reviewedAt: "2026-05-04"
@@ -245362,6 +245866,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-cklk-fm-88-5-the-lake-grimsby-on
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   tags: [classic hits, oldies]
   broadcaster: independent
   name: "CKLK-FM \"88.5 The Lake\" Grimsby, ON"
@@ -245370,7 +245878,7 @@
   codec: AAC+
   homepage: "https://885thelake.fm/"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: b2bbacb0-97aa-416d-be38-ebf0ff896b49
   changeuuid: f54d62c6-ee26-4cdb-a930-0e20f5333ed0
   reviewedAt: "2026-05-04"
@@ -247025,6 +247533,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-riverwood-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   tags: ["00's", "80's", "90's", country, rock, various]
   broadcaster: independent
   name: Riverwood Radio
@@ -247034,7 +247546,7 @@
   faviconSource: broadcaster-site
   homepage: "https://riverwood-radio.online/"
   country: CA
-  status: stream-only
+  status: broken
   stationuuid: dbd16432-a8ba-4c90-aaec-63941ce50eee
   changeuuid: 4fed99e4-a127-4420-b9bf-b2127e523242
   reviewedAt: "2026-05-04"
@@ -248768,6 +249280,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: lt-radio-lenta
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   favicon: "https://secure.gravatar.com/avatar/426fb6e62e8d2d1ad664767a67141da0a157bd604ec8cb18b5dde52d38656f44?s=96&amp;d=mm&amp;r=g"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -248777,7 +249293,7 @@
   homepage: https://nashalenta.com/
   country: Lithuania
   countryCode: LT
-  status: stream-only
+  status: broken
   stationuuid: 4e057766-080f-4839-bafe-5518bc124e1e
   changeuuid: 42811978-b122-4749-ba27-49c24fc71dd5
   reviewedAt: "2026-05-11"
@@ -251056,6 +251572,10 @@
 
 # RB import 2026-05-11 (DO sweep)
 - id: do-cibaena-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   stationuuid: 90110f22-5824-4290-ab9b-9353fd17c9f5
   changeuuid: d510a41d-6725-4272-8f29-3f85b2f23c6d
   reviewedAt: 2026-05-11
@@ -251066,7 +251586,7 @@
   tags: [merengue bachata]
   homepage: https://cibaenafm.blogspot.com/
   country: DO
-  status: stream-only
+  status: broken
 
 # RB import 2026-05-11 (DO sweep)
 - id: do-disco-89-88-9-fm
@@ -251652,6 +252172,10 @@
 
 # Auto-imported from Radio Browser sweep (TH, 2026-05-11)
 - id: th-requestradio-phuachiwit
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: "RequestRadio เพื่อชีวิต"
   streamUrl: "https://cast.requestradio.in.th:830/stream/"
@@ -251662,7 +252186,7 @@
   homepage: "https://www.requestradio.in.th/forlife"
   tags: [pop,thai]
   country: TH
-  status: stream-only
+  status: broken
   stationuuid: 9a29a5f2-a60d-4eb0-8345-6454a10a53fb
   changeuuid: c265be83-3e4e-4fc6-b50f-4cd1f7ed23c9
   reviewedAt: "2026-05-11"
@@ -258353,10 +258877,14 @@
   changeuuid: 90aefee8-9118-401b-b986-e478eef20d48
   reviewedAt: "2026-05-11"
 - id: af-ruki-vverkh
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   name: РУКИ ВВЕРХ
   country: AF
   broadcaster: independent
-  status: stream-only
+  status: broken
   streamUrl: "https://ic6.101.ru:8000/stream/pro/aac/64/163"
   bitrate: 64
   codec: AAC+
@@ -259215,6 +259743,10 @@
   status: stream-only
 
 - id: lk-wow
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   name: "WoW රේඩියෝ"
   country: LK
   broadcaster: independent
@@ -259228,7 +259760,7 @@
   stationuuid: 7b7bd2c6-2feb-42bc-8a20-c0a1d6f79049
   changeuuid: 43627f32-3c87-4254-9583-f493cb7ee971
   reviewedAt: 2026-05-11
-  status: stream-only
+  status: broken
 
 - id: lk-siyatha-fm
   name: Siyatha Fm
@@ -261742,6 +262274,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: vn-voh-fm-95-6
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: "VOH FM 95.6"
   streamUrl: https://strm.voh.com.vn/radio/channel1/playlist.m3u8
@@ -261750,7 +262286,7 @@
   faviconSource: broadcaster-site
   homepage: "https://voh.com.vn/radio-kenh-fm-956-fm956mhz.html"
   country: VN
-  status: stream-only
+  status: broken
   stationuuid: a8a5e275-8d1c-4cb4-ac18-460660393359
   changeuuid: 8b5872de-94ab-45f6-8401-07b7a43f330a
   reviewedAt: "2026-05-11"
@@ -261790,6 +262326,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: vn-voh-am-610
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   favicon: "https://voh.com.vn/images/logo-voh-share.jpg"
   faviconSource: broadcaster-site
   broadcaster: independent
@@ -261798,7 +262338,7 @@
   codec: AAC
   homepage: "https://voh.com.vn/radio-kenh-am-610-am610khz.html"
   country: VN
-  status: stream-only
+  status: broken
   stationuuid: 518278ac-4ad3-4917-9ee8-243df197ec08
   changeuuid: 3b8d52c2-4554-46b7-be4c-ef896c7fafcd
   reviewedAt: "2026-05-11"
@@ -266541,6 +267081,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: pa-l-a-mega-98-1-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   broadcaster: independent
   name: L.A. Mega 98.1 FM
   streamUrl: https://www.streaming507.net:8152/stream
@@ -266550,7 +267094,7 @@
   faviconSource: broadcaster-site
   homepage: "https://lamegapanama.com/"
   country: PA
-  status: stream-only
+  status: broken
   stationuuid: d6fe71f3-899b-4b72-8e88-fee0d3a2e76f
   changeuuid: 8d646c70-7b62-4b0e-ac38-ceb0a5c08bb8
   reviewedAt: "2026-05-11"
@@ -267200,6 +267744,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: gh-meyah-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   broadcaster: independent
   name: Meyah Radio
   streamUrl: https://radio.steprotech.com:8120/radio.mp3
@@ -267212,7 +267760,7 @@
     lat: 6.6925715417695315
     lng: -1.6204811436245838
   country: GH
-  status: stream-only
+  status: broken
   stationuuid: 30c88d94-14e2-43f4-b265-e75218ccde9b
   changeuuid: 3d190bb9-a276-4a3f-8bc3-3c81f794d672
   reviewedAt: "2026-05-11"
@@ -267887,6 +268435,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: ao-radio-bairro-de-angola
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×26 · 2026-09-08→2026-10-03
   faviconBlocked: true
   broadcaster: independent
   name: Radio Bairro de Angola
@@ -267896,7 +268448,7 @@
   tags: [variety]
   homepage: "https://player.xradios.com.br/player-home-page/6794"
   country: AO
-  status: stream-only
+  status: broken
   stationuuid: 8762cad0-5b45-4685-9c09-68de818a3ec1
   changeuuid: 69551051-a1d9-4ab0-81d5-2592129d4204
   reviewedAt: "2026-05-11"
@@ -273532,6 +274084,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-101-ru-deep-house
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   favicon: "https://cdn0.101.ru/proxy/vardata/modules/channel/image/18e59e661597a41b54918781ff5f292e.png"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://101.ru/personal/?sname=deephouse"
@@ -273545,7 +274101,7 @@
   homepage: "https://deephouse.101.ru/"
   country: RU
   geo: [55.5379, 37.5664]
-  status: stream-only
+  status: broken
   stationuuid: 676dafe0-13d8-4caf-aced-bfd5fbf78a1c
   changeuuid: 93515c72-27b1-4e43-86e8-71aeec871192
   reviewedAt: 2026-05-21
@@ -287105,6 +287661,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-radio-dunia-odia
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Radio Dunia Odia
@@ -287115,7 +287675,7 @@
   faviconSource: radio-browser
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 43c446cd-41ef-4181-b5b9-e4f2b4acec0a
   changeuuid: 43ab53e8-b021-4635-b813-dbe5e15ea89a
   reviewedAt: 2026-05-21
@@ -288426,6 +288986,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-air-jaipur
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: AIR Jaipur
@@ -288435,7 +288999,7 @@
   homepage: "https://prasarbharati.gov.in/homepage-air/"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 98f7a72e-9c21-4db7-a3d5-f616f6a7cb15
   changeuuid: 93b531d4-3a16-4b5f-944b-f4e762108827
   reviewedAt: 2026-05-21
@@ -296015,6 +296579,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-hand-of-jesus-punjabi
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Hand Of Jesus - PUNJABI"
@@ -296025,7 +296593,7 @@
   homepage: "https://handofjesus.in/radio/christian-radio-punjabi.php"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 70940872-1f72-489c-835b-94bb4c919d43
   changeuuid: 7514152f-e68d-4970-b114-538a4e3df771
   reviewedAt: 2026-05-21
@@ -300658,6 +301226,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-halkidiki-98-8
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Halkidiki 98.8
@@ -300668,7 +301240,7 @@
   homepage: "http://www.radiohalkidiki.gr/"
   country: GR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 841d87b8-3da4-47ee-b800-464dd9f0a01a
   changeuuid: 0d79425a-1ce5-487e-aa81-59430bb758b2
   reviewedAt: 2026-05-21
@@ -302363,6 +302935,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-hand-of-jesus-end-time-tamil
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Hand Of Jesus - END TIME - TAMIL"
@@ -302373,7 +302949,7 @@
   homepage: "https://handofjesus.in/radio/christian-radio-endtime.php"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 38f36d4c-ac21-4edb-abec-00621831e970
   changeuuid: 0e6815de-a55b-4446-bcae-1d6e4ae23e6e
   reviewedAt: 2026-05-21
@@ -302796,6 +303372,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-hand-of-jesus-marathi
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Hand Of Jesus - MARATHI"
@@ -302806,7 +303386,7 @@
   homepage: "https://handofjesus.in/radio/christian-radio-marathi.php"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: ab8323d6-c37d-43af-b400-f9b6c7b43285
   changeuuid: 273b7556-102e-4bc9-8c06-74e56e74892a
   reviewedAt: 2026-05-21
@@ -315486,6 +316066,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-station-948c21a4
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Пионер ФМ ПО-РУССКИ
@@ -315496,7 +316080,7 @@
   homepage: "https://pionerfm.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 948c21a4-15e9-4d5b-a7f9-e3dc59fcc25b
   changeuuid: 8f986088-b049-4416-a8be-2a3794e9c5fb
   reviewedAt: 2026-05-21
@@ -317944,6 +318528,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cn-station-5fd76e7d
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 南宁乡村生活广播
@@ -317955,7 +318543,7 @@
   homepage: "http://www.nntv.cn/"
   country: CN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 5fd76e7d-bf36-42ee-9b1d-e1398d8d88a4
   changeuuid: bacf04db-db87-488d-8828-ca6c4371ab0d
   reviewedAt: 2026-05-21
@@ -321175,6 +321763,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ca-metal-shop-e6abc3fe
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: metal shop
@@ -321184,7 +321776,7 @@
   homepage: "https://quincy.torontocast.com/"
   country: CA
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: e6abc3fe-e422-44d5-9f63-6e107bf3e8ac
   changeuuid: 6be8b79d-82b5-44c7-99de-ad793cc1d12c
   reviewedAt: 2026-05-21
@@ -322082,6 +322674,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: dk-dr-p2-hls-96
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: DR P2 HLS 96
@@ -322096,7 +322692,7 @@
   homepage: "https://www.dr.dk/lyd/p2"
   country: DK
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 9fb61667-1d5d-4b5d-b22f-88708afa8b05
   changeuuid: 6caf925b-f73e-4c8b-b020-b5117d2b51bf
   reviewedAt: 2026-05-21
@@ -329784,6 +330380,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-station-2d6a6dda
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Авторадио Зарубежный Рок
@@ -329796,7 +330396,7 @@
   homepage: "https://m.avtoradio.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 2d6a6dda-b055-468c-8bf5-0feb410cb472
   changeuuid: 9a49d915-42de-4226-a24d-46ed110e79a9
   reviewedAt: 2026-05-21
@@ -334305,6 +334905,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-whcr-90-3-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   favicon: "https://whcr.org/wp-content/uploads/2022/10/23_logo.jpg"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://whcr.org/"
@@ -334318,7 +334922,7 @@
   homepage: "https://whcr.org/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 7be352bd-c653-4ab4-ac87-1118db1bc86f
   changeuuid: 24057a3e-c559-4b15-9fad-0c551f64578b
   reviewedAt: 2026-05-21
@@ -346339,6 +346943,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-hand-of-jesus-esther-rani
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Hand Of Jesus - ESTHER RANI"
@@ -346349,7 +346957,7 @@
   homepage: "https://handofjesus.in/radio/christian-radio-estherrani.php"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4cb6c137-0862-4d9f-84b0-f549f3f2712d
   changeuuid: 25cacbad-e53a-42c9-8ae4-5ec2af778778
   reviewedAt: 2026-05-21
@@ -347972,6 +348580,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-studio-19
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Studio 19
@@ -347984,7 +348596,7 @@
   homepage: "https://studio19.gr/"
   country: GR
   geo: [35.3392, 25.1332]
-  status: stream-only
+  status: broken
   stationuuid: 1e71ec6f-b345-4f19-8025-f26a4d787f86
   changeuuid: 8d50f4f2-a320-4dc7-8030-b620af97440c
   reviewedAt: 2026-05-21
@@ -348845,6 +349457,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ec-hot-106
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: hot 106
@@ -348854,7 +349470,7 @@
   homepage: "https://hot106fuego.com/"
   country: EC
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 63e93a78-18bf-4321-9003-0f25ca11334f
   changeuuid: a52cedc0-0e1f-4f5b-acc5-8b93b189c772
   reviewedAt: 2026-05-21
@@ -354777,6 +355393,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-hand-of-jesus-daniel
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Hand Of Jesus - DANIEL"
@@ -354787,7 +355407,7 @@
   homepage: "https://handofjesus.in/radio/christian-radio-daniel.php"
   country: IN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: fa0dbaf5-b436-4a17-92fc-ca2554e8aff2
   changeuuid: 0059c64b-56b2-43de-9d5b-38bfbb041021
   reviewedAt: 2026-05-21
@@ -355650,6 +356270,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-99
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Μπλε 99
@@ -355658,7 +356282,7 @@
   homepage: "http://mple99.gr/"
   country: GR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 33f351da-8afa-4454-b2fa-66c500e7b9f7
   changeuuid: eee27d6e-3c99-4d77-af7f-410d999c5a4c
   reviewedAt: 2026-05-21
@@ -359472,6 +360096,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-fm-4e4e4941
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Страна FM
@@ -359482,7 +360110,7 @@
   homepage: "https://strana.fm/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4e4e4941-7042-454f-8766-96238e9cd574
   changeuuid: 34039d23-4181-4df6-8b1c-a0af7d2687b7
   reviewedAt: 2026-05-21
@@ -362421,6 +363049,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-mple-99-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Mple 99 fm
@@ -362432,7 +363064,7 @@
   homepage: "https://lalala.gr/#mple"
   country: GR
   geo: [38.465, 23.5801]
-  status: stream-only
+  status: broken
   stationuuid: 7aa55185-af26-4125-9ebc-4ba0b3aeeddf
   changeuuid: 015f54e5-e103-42a4-86de-011a9926058e
   reviewedAt: 2026-05-21
@@ -377854,6 +378486,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cn-station-e541c9fc
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 郁南音乐台
@@ -377863,7 +378499,7 @@
   homepage: "https://m.weibo.cn/u/2881623280?jumpfrom=weibocom"
   country: CN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: e541c9fc-71c1-4d16-a574-2b6615284429
   changeuuid: 2be6ed58-e3d0-4166-aead-ff8e13554f69
   reviewedAt: 2026-05-21
@@ -378513,6 +379149,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-big-machine-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Big Machine Radio
@@ -378524,7 +379164,7 @@
   homepage: "http://www.bigmachineradio.com/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: cfb28aef-ef80-4f91-9217-05b72b75bd2e
   changeuuid: 6ae47e6c-4cf3-4a3a-bfd2-f30a8fa6011d
   reviewedAt: 2026-05-21
@@ -378997,6 +379637,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-dansbandsradio-se
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: DansBandsRadio.se
@@ -379006,7 +379650,7 @@
   homepage: "https://dansbandsradio.se/"
   country: SE
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4f0772f4-926d-4d51-8571-ebea69c1839f
   changeuuid: b6c9b4d8-524f-4452-a193-cb2001250f47
   reviewedAt: 2026-05-21
@@ -382547,6 +383191,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cn-station-1a8885b0
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 保定经济广播
@@ -382556,7 +383204,7 @@
   homepage: "https://sj.qq.com/appdetail/com.baoding.rmt.android"
   country: CN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 1a8885b0-44ce-480c-92aa-bbf787400b66
   changeuuid: 93e84045-4c82-470b-abcd-d79973d6fe2d
   reviewedAt: 2026-05-21
@@ -385671,6 +386319,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: fr-m2-hit
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: M2 HIT
@@ -385683,7 +386335,7 @@
   homepage: "https://www.m2radio.fr/"
   country: FR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 1a53fe1a-815b-418c-9de0-961b9304276b
   changeuuid: 9caf6945-56e4-4b2f-bae8-affcb298eb48
   reviewedAt: 2026-05-21
@@ -386295,6 +386947,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: us-pan-african-allstars-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Pan African Allstars Radio
@@ -386307,7 +386963,7 @@
   homepage: "https://panafricanallstarsradio.com/mobile/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 00cf1d0d-1df1-4645-9a10-275d71d8c2f9
   changeuuid: f8837fed-7805-40fe-bfaa-35be21539982
   reviewedAt: 2026-05-21
@@ -393016,6 +393672,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: us-kcyn-radio-moab
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: KCYN Radio Moab
@@ -393028,7 +393688,7 @@
   homepage: "https://kcynfm.com/"
   country: US
   geo: [38.5573, -109.5388]
-  status: stream-only
+  status: broken
   stationuuid: ecffde6b-59a8-4cc7-a695-f8cb9a41ec0e
   changeuuid: bcc4d6a5-a221-4a24-9fee-22568bf4d7b3
   reviewedAt: 2026-05-21
@@ -395716,9 +396376,9 @@
   source: radio-browser
   broadcaster: independent
   name: Rádio Paraitinga 105.9 FM
-  streamUrl: "https://live8.livemus.com.br:27416/stream"
+  streamUrl: https://radio02.kingcast.com.br:7210/stream
   bitrate: 32
-  codec: AAC+
+  codec: MP3
   tags: [ecletic, pop, popular]
   favicon: "https://img.radios.com.br/radio/lg/radio31293_1692624434.png"
   faviconSource: radio-browser
@@ -396552,6 +397212,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: se-retrohits
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: RetroHits
@@ -396562,7 +397226,7 @@
   homepage: "https://retrohits.se/"
   country: SE
   geo: [55.8595, 12.8746]
-  status: stream-only
+  status: broken
   stationuuid: b934e685-1878-4d33-bd0b-ba42134322a8
   changeuuid: 050305ef-8b87-4a5f-9de0-5207a671f0d8
   reviewedAt: 2026-05-21
@@ -406764,6 +407428,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-101-ru-50-70
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 101.ru СССР 50-70
@@ -406774,7 +407442,7 @@
   homepage: "https://101.ru/radio/channel/47"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 020ff018-3030-4707-92c3-5f9cd0f619c5
   changeuuid: b1546db9-12ca-4607-8383-c723d75bfd3a
   reviewedAt: 2026-06-10
@@ -409989,6 +410657,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-modern-talking
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Modern Talking
@@ -409998,7 +410670,7 @@
   homepage: "http://101.ru/radio/channel/115"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 239de5e8-f90a-11e9-bbf2-52543be04c81
   changeuuid: aa4f7d21-c938-4144-96cd-f90810fb8d5c
   reviewedAt: 2026-06-10
@@ -411216,6 +411888,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: nl-radio-538-nonstop
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Radio 538 Nonstop
@@ -411225,7 +411901,7 @@
   homepage: "https://www.538.nl/"
   country: NL
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 9621245c-0601-11e8-ae97-52543be04c81
   changeuuid: 87f208d9-7804-4877-a5f9-7c4873391ef8
   reviewedAt: 2026-06-10
@@ -414774,6 +415450,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: rw-bachwezi-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Bachwezi radio
@@ -414782,7 +415462,7 @@
   homepage: "https://mytuner-radio.com/radio/bachwezi-radio-488187/"
   country: RW
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: b531b79e-f104-4d42-8707-a14a50f57378
   changeuuid: e67851b6-04ec-4c8e-8b75-34aa5db5cd1b
   reviewedAt: 2026-06-10
@@ -424075,6 +424755,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-101-ru-30-50
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 101.ru СССР 30-50
@@ -424085,7 +424769,7 @@
   homepage: "https://ussr3050.101.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 27ee1ab2-45af-4f2d-a420-294567aa36c8
   changeuuid: dc818ef6-496b-4ac9-b286-8a8a41dec0bf
   reviewedAt: 2026-06-10
@@ -424595,6 +425279,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-101-ru-30623ca5
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 101.ru ДДТ
@@ -424605,7 +425293,7 @@
   homepage: "https://101.ru/radio/channel/112"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 30623ca5-2500-4182-b09e-a1ce1fd972bd
   changeuuid: 1041edaa-c353-4eed-9681-fa45eb7ee99c
   reviewedAt: 2026-06-10
@@ -435799,6 +436487,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ca-ckng-fresh-radio-92-5-edmonton-ab
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "CKNG \"Fresh Radio 92.5\" Edmonton, AB"
@@ -435809,7 +436501,7 @@
   homepage: "http://www.925freshradio.ca/"
   country: CA
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 96214bd0-0601-11e8-ae97-52543be04c81
   changeuuid: 9b52f945-00ae-41b0-b0c8-2613ca54c01f
   reviewedAt: 2026-06-10
@@ -437514,6 +438206,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: cz-impuls-bc5b6165
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Impuls
@@ -437523,7 +438219,7 @@
   homepage: "https://www.impuls.cz/"
   country: CZ
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: bc5b6165-a6da-42a8-a676-8e1f42eb23fc
   changeuuid: dd3ad637-a1e5-4215-a243-be58d2951d1e
   reviewedAt: 2026-06-10
@@ -443486,6 +444182,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: gb-house-heads-uk
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: HOUSE HEADS UK
@@ -443497,7 +444197,7 @@
   homepage: "http://househeads.uk/"
   country: GB
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: c6037d27-2498-4bb0-9826-3d2d907d1499
   changeuuid: a40340e1-7a9a-40ec-a5a7-aad14b4d482d
   reviewedAt: 2026-06-10
@@ -451796,6 +452496,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-101-ru-linkin-park
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: 101.ru Linkin Park
@@ -451805,7 +452509,7 @@
   homepage: "http://101.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4faa094d-9671-4540-bb70-30b334cc6870
   changeuuid: f7eeaf7f-e25a-494d-a9b4-78df489b3965
   reviewedAt: 2026-06-10
@@ -454905,6 +455609,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-radio-classic-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Radio Classic FM
@@ -454914,7 +455622,7 @@
   homepage: "http://radioclassicfm.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: a1abfd5f-8141-43e1-818f-fe6a5c83eb11
   changeuuid: 97e0a2af-67e5-4cce-a0ce-aa0b0b940281
   reviewedAt: 2026-06-10
@@ -455387,6 +456095,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-moptop-radio-the-beatles-mp3
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "MopTop Radio - The Beatles (MP3)"
@@ -455399,7 +456111,7 @@
   homepage: "https://www.moptopradio.com/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: ba54af2d-fbd3-4f6e-b131-3b0b3d75fe37
   changeuuid: 9201ab55-f7bc-4e85-bcd2-a4d231ce8c26
   reviewedAt: 2026-06-10
@@ -461359,6 +462071,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: cn-brtv-cc120955
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: BRTV北京故事广播（停播）
@@ -461368,7 +462084,7 @@
   homepage: "https://www.brtv.org.cn/"
   country: CN
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: cc120955-eb97-4052-8233-b4d26310bfbc
   changeuuid: 70ab005c-40db-44e0-870e-4239c6f64edf
   reviewedAt: 2026-06-10
@@ -461567,6 +462283,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-oldies-funhouse-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Oldies Funhouse Radio
@@ -461577,7 +462297,7 @@
   homepage: "http://oldiesfunhouse.com/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 1a32dad2-b180-48f4-a3f0-8a4216311803
   changeuuid: c06be5c5-f05b-4235-972a-3594487a576f
   reviewedAt: 2026-06-10
@@ -467486,6 +468206,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ar-binaural-rock-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×26 · 2026-09-08→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Binaural Rock Radio
@@ -467496,7 +468220,7 @@
   homepage: "https://binauralrockradio.com.ar/"
   country: AR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 0541521b-2628-4b51-8685-2e4884a9363f
   changeuuid: c6071d90-f307-49c7-abdf-e15bf7050bec
   reviewedAt: 2026-06-10
@@ -472268,6 +472992,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: de-charivari-95-5-munchen-arbeitsmix
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "Charivari 95.5 München - Arbeitsmix"
@@ -472277,7 +473005,7 @@
   tags: [pop, rock]
   country: DE
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 02b72d4c-9b36-42ee-af41-c783b20fac67
   changeuuid: 7732cd9b-ae6f-4541-aa8e-c3522be6900d
   reviewedAt: 2026-06-10
@@ -479080,6 +479808,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: at-radio-max-merkur
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×26 · 2026-09-08→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Radio Max Merkur
@@ -479089,7 +479821,7 @@
   homepage: "http://www.radiomax.at/"
   country: AT
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 960633eb-0601-11e8-ae97-52543be04c81
   changeuuid: bb6abfc9-be89-427c-a962-27c8929f6e2a
   reviewedAt: 2026-06-10
@@ -480875,6 +481607,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-93-5-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Радио России ГТРК Тверь 93.5 FM
@@ -480887,7 +481623,7 @@
   homepage: "https://top-radio.pro/tver/rossii"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 14ba04c2-e83e-4a46-a6d2-e662ede46846
   changeuuid: 3c7eafb5-9f7a-4074-ae8e-c65b7f46c76d
   reviewedAt: 2026-06-10
@@ -481790,6 +482526,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-102-2-fm-f86cdc37
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Радио России ГТРК Карелия 102.2 FM
@@ -481802,7 +482542,7 @@
   homepage: "https://rosradio-online.ru/detail_00653.htm"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: f86cdc37-8db3-47e9-8e7b-6fb836d4061d
   changeuuid: 09abb46d-627a-41c2-83dc-1044396eea8a
   reviewedAt: 2026-06-10
@@ -482699,6 +483439,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-90-2-fm-7a729e4c
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Радио России ГТРК Тула 90.2 FM
@@ -482711,7 +483455,7 @@
   homepage: "https://top-radio.ru/tula/rossii"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 7a729e4c-b6d1-4796-ab25-2387091bc175
   changeuuid: 3b3ba9df-6581-4eec-b361-be18f7a08428
   reviewedAt: 2026-06-10
@@ -483604,6 +484348,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-7-105-8-fm
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Радио 7 Кострома 105.8 FM
@@ -483614,7 +484362,7 @@
   homepage: "https://top-radio.ru/kostroma/radio-7"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 525e4996-1031-4d00-b01e-0d04e6b1dcdd
   changeuuid: 9a746ce8-8546-4587-97d1-cc68ae5177b3
   reviewedAt: 2026-06-10
@@ -484850,6 +485598,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-105-2-fm-4574a3cd
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Радио России ГТРК Смоленск 105.2 FM
@@ -484862,7 +485614,7 @@
   homepage: "https://top-radio.ru/smolensk/rossii"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4574a3cd-7751-407b-a80c-6ae15da833d6
   changeuuid: 800af68f-f9e5-4d95-a188-da05a7d94f9b
   reviewedAt: 2026-06-10
@@ -487186,6 +487938,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-holiday-music-channel-mp3
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Holiday Music Channel (MP3)
@@ -487198,7 +487954,7 @@
   homepage: "http://www.holidaymusicchannel.com/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 51b84313-cc83-494b-8f9b-bdee9b0f43dc
   changeuuid: ffc0a4b7-7463-449f-8f35-1697a6c1251b
   reviewedAt: 2026-06-10
@@ -489867,6 +490623,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-riderradiorocks-com
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: RiderRadioRocks.com
@@ -489876,7 +490636,7 @@
   homepage: "https://riderradiorocks.com/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 7ed9bf6e-e1ee-4f8c-a3f2-77cef27f6017
   changeuuid: df206430-e298-4ba4-9a68-50f385a6594a
   reviewedAt: 2026-06-10
@@ -501125,6 +501885,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ie-mpb-radio-1-00s-10s
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "MPB Radio 1 00s & 10s"
@@ -501136,7 +501900,7 @@
   homepage: "https://www.mpbradio1.com/"
   country: IE
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 2edd148f-c5cb-418e-b3b6-e45a68b5d016
   changeuuid: 883d722d-3136-40d5-b18c-87151cc68fd1
   reviewedAt: 2026-06-10
@@ -501618,6 +502382,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: gb-visitor-radio-bath
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Visitor Radio (Bath)
@@ -501629,7 +502397,7 @@
   homepage: "https://www.visitorradio.co.uk/stations/bath/"
   country: GB
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 42bfe51f-2055-4e12-96af-8c0b77d640cf
   changeuuid: 0c67a032-3e6a-4291-94d5-a5650e058a88
   reviewedAt: 2026-06-10
@@ -505249,6 +506017,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: gr-love-trap
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-07→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Love Trap
@@ -505260,7 +506032,7 @@
   homepage: "https://www.loveradio.gr/"
   country: GR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 17596e0a-3d66-4d1f-bb05-de443345196a
   changeuuid: 65ab97dd-2ae2-4419-b3c9-25df8a4763de
   reviewedAt: 2026-06-11
@@ -509802,9 +510574,9 @@
   source: radio-browser
   broadcaster: independent
   name: "Star Radio (MK Narodna) Skopje, Macedonia"
-  streamUrl: https://a2.asurahosting.com/listen/stil_radio/starmkfolk
+  streamUrl: https://radiostar.pro/stream/mknarodna.php
   bitrate: 384
-  codec: AAC
+  codec: AAC+
   tags: [macedonian folk]
   favicon: "https://radiostar.pro/wp-content/uploads/2023/10/MK-NARODNA-300x300.png"
   faviconSource: radio-browser
@@ -510017,6 +510789,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: ru-101-ru-bard-songs
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: "101.ru Bard songs - Авторская Песня"
@@ -510027,7 +510803,7 @@
   homepage: "http://avtorskaya.101.ru/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 4dcc8231-f338-4b7b-b1a2-bcdf725e59a3
   changeuuid: 16007b14-d18a-4867-add6-40f2d1be2305
   reviewedAt: 2026-06-11
@@ -511010,6 +511786,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: us-abc-news-radio
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: ABC News Radio
@@ -511021,7 +511801,7 @@
   homepage: "https://abcaudio.com/live/"
   country: US
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 42da533a-e9a5-4993-81e9-1bd14e7ce5a3
   changeuuid: 92dc44cb-0f77-4da6-9f9c-e83c9b57280f
   reviewedAt: 2026-06-11
@@ -521297,6 +522077,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: gr-nitro-102-5
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Nitro 102.5
@@ -521306,7 +522090,7 @@
   homepage: "http://www.athensnitroradio.gr/"
   country: GR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 3b9d72ed-2356-4a96-8308-fb3c3ce7c998
   changeuuid: 4148cfb1-7991-4201-96dd-6f09b2f7b066
   reviewedAt: 2026-06-11
@@ -522127,6 +522911,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: es-oldies-radio-time
+  brokenSince: 2026-10-03
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×27 · 2026-09-06→2026-10-03
   source: radio-browser
   broadcaster: independent
   name: Oldies Radio Time
@@ -522137,7 +522925,7 @@
   homepage: "https://oldiesradiotime.com/"
   country: ES
   geo: [40.364, -3.6749]
-  status: stream-only
+  status: broken
   stationuuid: bf708766-13dd-4da6-934d-b8157222057c
   changeuuid: f04184b7-fa08-45f3-b19e-ffd61bf32803
   reviewedAt: 2026-06-11
