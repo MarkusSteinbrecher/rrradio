@@ -121,6 +121,7 @@ targets iOS parity), not "Not planned".
 | Stream playback | Supported | Reference | Supported | [Playback](playback.md) |
 | Background audio | Partial | Reference | Supported (foreground MediaSessionService) | [Playback](playback.md) |
 | Lock-screen/media controls | Supported where browser allows | Reference | Supported (media3 session) | [Playback](playback.md) |
+| Keyboard shortcuts (desktop) | Supported (Space play/pause, / search, F favorite, ←/→ and N/P skip favorites, M mute, ? help dialog; ignored while typing or with a sheet open — `src/shortcuts.ts`) | Not applicable | Not applicable | [Playback](playback.md) |
 | Navigation (Browse / Favorites / Library) | Supported (three-tab shell — sidebar rail ≥1024px, bottom tab bar below; Library home = lists + pinned Recents) | Reference | Supported (Lists / Browse / Favorites tabs) | [Navigation](features/navigation.md) |
 | Browse/search/filter | Partial (discovery landing, A→Z sort, quality filter, and map all present; no Browse multi-select dock for list building) | Reference | Partial (no community tier or quality filter; 220-row cap) | [Browse](features/browse.md) |
 | Search field | Partial (substring only; no FTS index) | Reference | Partial (substring, no debounce; no RB tier) | [Search](features/search.md) |

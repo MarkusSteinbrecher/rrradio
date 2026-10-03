@@ -235,6 +235,7 @@
           <input
             type="search"
             id="search"
+            aria-keyshortcuts="/"
             class="search"
             placeholder="Search stations, genres, places…"
             autocomplete="off"
@@ -321,7 +322,7 @@
                 <button type="button" class="np-head-btn" id="np-add" aria-label="Add to list">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                 </button>
-                <button type="button" class="np-head-btn" id="np-fav" aria-label="Favorite">
+                <button type="button" class="np-head-btn" id="np-fav" aria-keyshortcuts="F" aria-label="Favorite">
                   <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
                   <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
                 </button>
@@ -433,7 +434,7 @@
                  cluster stays optically centered. -->
             <div class="np-row">
               <div class="np-volume" id="np-volume">
-                <button type="button" class="np-volume__mute" id="np-mute" aria-label="Mute">
+                <button type="button" class="np-volume__mute" id="np-mute" aria-keyshortcuts="M" aria-label="Mute">
                   <svg class="np-volume__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                 </button>
                 <input type="range" class="np-volume__slider" id="np-volume-slider" min="0" max="100" value="100" step="1" aria-label="Volume" />
@@ -441,17 +442,17 @@
               </div>
               <span class="np-row__spacer" aria-hidden="true"></span>
               <div class="np-row__group np-row__group--transport">
-                <button type="button" class="np-btn" id="np-prev" aria-label="Previous station">
+                <button type="button" class="np-btn" id="np-prev" aria-keyshortcuts="ArrowLeft P" aria-label="Previous station">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4.75" y="4.5" width="2" height="15" rx="0.5"/><path d="M19 4.5v15a.75.75 0 0 1-1.16.63l-10-7.5a.75.75 0 0 1 0-1.27l10-7.5A.75.75 0 0 1 19 4.5z"/></svg>
                 </button>
-                <button type="button" class="np-play" id="np-play" aria-label="Play / pause">
+                <button type="button" class="np-play" id="np-play" aria-keyshortcuts="Space" aria-label="Play / pause">
                   <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
                   <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
                   <span class="np-play__loader" aria-hidden="true">
                     <span></span><span></span><span></span>
                   </span>
                 </button>
-                <button type="button" class="np-btn" id="np-next" aria-label="Next station">
+                <button type="button" class="np-btn" id="np-next" aria-keyshortcuts="ArrowRight N" aria-label="Next station">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4.5v15a.75.75 0 0 0 1.16.63l10-7.5a.75.75 0 0 0 0-1.27l-10-7.5A.75.75 0 0 0 5 4.5z"/><rect x="17.25" y="4.5" width="2" height="15" rx="0.5"/></svg>
                 </button>
               </div>
@@ -979,6 +980,10 @@
               <span class="settings-row__label">Privacy</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 10h6"/><path d="M9 14h6"/><path d="M9 18h4"/></svg>
             </a>
+            <button type="button" class="settings-row settings-row--kbd" id="settings-shortcuts" aria-keyshortcuts="Shift+?">
+              <span class="settings-row__label">Keyboard shortcuts</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+            </button>
             <button type="button" class="settings-row" id="settings-stats">
               <span class="settings-row__label">Listener stats</span>
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="11" width="3.2" height="9" rx="0.6"/><rect x="10.4" y="6" width="3.2" height="14" rx="0.6"/><rect x="16.8" y="14" width="3.2" height="6" rx="0.6"/></svg>
@@ -993,6 +998,20 @@
           <div class="settings-panel" role="tabpanel" data-settings-panel="add" hidden></div>
         </div>
       </section>
+    </div>
+
+    <!-- Keyboard-shortcut help (#101) — toggled with "?" or from Settings.
+         The list is rendered from SHORTCUTS in src/shortcuts.ts. -->
+    <div class="kbd-help" id="kbd-help" hidden>
+      <div class="kbd-help__scrim" id="kbd-help-scrim"></div>
+      <div class="kbd-help__card" role="dialog" aria-modal="true" aria-labelledby="kbd-help-title" tabindex="-1">
+        <button type="button" class="np-info__close" id="kbd-help-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <h2 class="kbd-help__title" id="kbd-help-title">Keyboard shortcuts</h2>
+        <dl class="kbd-help__list" id="kbd-help-list"></dl>
+        <p class="kbd-help__hint">Shortcuts pause while you type in a field.</p>
+      </div>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

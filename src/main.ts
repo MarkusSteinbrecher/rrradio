@@ -111,6 +111,7 @@ import {
   type ReportCategory,
 } from './brokenReports';
 import { fetchReportStatuses, reportBrokenStation } from './reportBroken';
+import { SHORTCUTS, shortcutFor, type ShortcutAction } from './shortcuts';
 import { fmtSharePct, normalizeForSearch } from './format';
 import {
   type MiniRefs,
@@ -5376,6 +5377,101 @@ $npFav.addEventListener('click', () => {
 $npSleep.addEventListener('click', () => {
   sleepIndex = (sleepIndex + 1) % SLEEP_CYCLE_MIN.length;
   setSleep(SLEEP_CYCLE_MIN[sleepIndex]);
+});
+
+// ── Keyboard shortcuts (#101) ───────────────────────────────────────
+// Routing rules live in src/shortcuts.ts (ignore typing / modified keys /
+// Space on a focused button / open sheets); each action calls the same
+// function as its on-screen control.
+const $kbdHelp = document.getElementById('kbd-help') as HTMLElement;
+const $kbdHelpList = document.getElementById('kbd-help-list') as HTMLElement;
+let kbdHelpReturnFocus: HTMLElement | null = null;
+
+function renderShortcutHelp(): void {
+  const rows: HTMLElement[] = [];
+  for (const sc of SHORTCUTS) {
+    const dt = document.createElement('dt');
+    sc.keys.forEach((k, i) => {
+      if (i > 0) dt.append(' ');
+      const kbd = document.createElement('kbd');
+      kbd.textContent = k;
+      dt.append(kbd);
+    });
+    const dd = document.createElement('dd');
+    dd.textContent = sc.label;
+    rows.push(dt, dd);
+  }
+  $kbdHelpList.replaceChildren(...rows);
+}
+
+function setShortcutHelp(open: boolean): void {
+  if (open === !$kbdHelp.hidden) return;
+  if (open) {
+    if (!$kbdHelpList.firstChild) renderShortcutHelp();
+    kbdHelpReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    $kbdHelp.hidden = false;
+    $kbdHelp.querySelector<HTMLElement>('.kbd-help__card')?.focus();
+  } else {
+    $kbdHelp.hidden = true;
+    kbdHelpReturnFocus?.focus();
+    kbdHelpReturnFocus = null;
+  }
+}
+
+function focusSearchShortcut(): void {
+  // Search lives on the list pages; from Now Playing (or wherever the
+  // field is collapsed/hidden) jump to Browse first.
+  if (activeTab === 'playing' || $search.offsetParent === null) setTab('browse');
+  $search.focus();
+  $search.select();
+}
+
+function runShortcut(action: ShortcutAction): void {
+  const station = currentNP.station;
+  switch (action) {
+    case 'toggle-play':
+      handlePlayToggle();
+      break;
+    case 'focus-search':
+      focusSearchShortcut();
+      break;
+    case 'toggle-favorite':
+      if (station.id) onToggleFav(station);
+      break;
+    case 'next':
+      skipStation(1);
+      break;
+    case 'previous':
+      skipStation(-1);
+      break;
+    case 'toggle-mute':
+      reflectMuteUi(player.toggleMute());
+      break;
+    case 'toggle-help':
+      setShortcutHelp($kbdHelp.hidden);
+      break;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$kbdHelp.hidden) {
+    setShortcutHelp(false);
+    return;
+  }
+  const action = shortcutFor(e, {
+    modalOpen: !$kbdHelp.hidden || !$npInfo.hidden || !!document.querySelector('.sheet.open'),
+    helpOpen: !$kbdHelp.hidden,
+  });
+  if (!action) return;
+  e.preventDefault();
+  runShortcut(action);
+  track(`shortcut/${action}`);
+});
+document.getElementById('kbd-help-close')?.addEventListener('click', () => setShortcutHelp(false));
+document.getElementById('kbd-help-scrim')?.addEventListener('click', () => setShortcutHelp(false));
+document.getElementById('settings-shortcuts')?.addEventListener('click', () => {
+  openSettingsSheet(false);
+  setShortcutHelp(true);
 });
 
 // ─────────────────────────────────────────────────────────────
