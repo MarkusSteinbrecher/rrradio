@@ -381,9 +381,9 @@ map's "<n> stations" are pluralizable.
 | Searchable country picker with selected-pinned-to-top | Partial. Country selection is a plain native `<select>` populated from the catalog's codes (alphabetical); no in-picker search and no selected-pinned-to-top. | Supported. | Planned. Country selection is a plain dropdown menu populated from the catalog's codes (alphabetical by display name, capped at 90); no in-picker search and no selected-pinned-to-top. |
 | Back-to-discovery chevron + swipe | Not planned for current web. No discovery surface to return to; clearing the search/filter controls reverts to the catalog list. | Supported. | Planned. |
 | Map browse | Supported with web map asset. | Surface built (MapKit) but no Browse entry point wired at d241aa9. | Planned with native map, provider TBD. |
-| Add several stations to a station list | Not planned for current web. | Supported from Browse. | Supported. |
-| Add several stations to Favorites | Not planned for current web. | Supported (Favorites "+" target). | Planned. |
-| Multi-select selection bar (name + count + save) | Not planned for current web. | Supported (top, under the search field). | Supported (bottom bar, above the tab bar; save opens a bottom-sheet list picker / create-list dialog rather than a name+count seeded bar). |
+| Add several stations to a station list | Supported (list-detail "+" or the New-list flow enters Browse multi-select). | Supported from Browse. | Supported. |
+| Add several stations to Favorites | Supported (Favorites "+" target). | Supported (Favorites "+" target). | Planned. |
+| Multi-select selection bar (name + count + save) | Supported (top-pinned dock: cancel · "Adding to <target>" · Add N; stations already in the target show ticked and disabled; a step strip rides above it in the New-list flow). | Supported (top, under the search field). | Supported (bottom bar, above the tab bar; save opens a bottom-sheet list picker / create-list dialog rather than a name+count seeded bar). |
 | Sort controls | Not planned for current web. Browse has no sort row; the catalog renders most-played-first then catalog order, with no user-facing sort control. | Reference native behavior. | Supported for name, quality, and favorite-state sorting. |
 | Alphabet sort cycle (off/A–Z/Z–A) in the sort row | Not planned for current web. No sort row exists. | Reference native behavior. | Supported. |
 | Quality / favorite-state sort | Not planned for current web. | In the sort model; not exposed by the Browse sort row's single control. | Supported. |

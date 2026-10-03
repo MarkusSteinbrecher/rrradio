@@ -78,6 +78,32 @@ function pickBest(
   return exact ?? results[0];
 }
 
+/** Common "no metadata" markers stations broadcast in the title/artist
+ *  slot when they have nothing real to report (iOS c8d409f parity).
+ *  Matched whole-string, case-insensitive and trimmed, so a real song
+ *  that merely *contains* one of these words ("Unknown Pleasures") is
+ *  unaffected. */
+const PLACEHOLDER_COMPONENTS = new Set([
+  'unknown',
+  'unknown artist',
+  'unknown title',
+  'unknown song',
+  'no title',
+  'no artist',
+  'n/a',
+  '---',
+]);
+
+/** True for a title/artist that carries no track signal: a known
+ *  placeholder, or a string with no letters or digits at all ("***",
+ *  "- -"). A title-only iTunes query for these would latch onto an
+ *  unrelated album's cover. */
+export function isPlaceholderTrackComponent(value: string): boolean {
+  const v = value.trim().toLowerCase();
+  if (PLACEHOLDER_COMPONENTS.has(v)) return true;
+  return !/[\p{L}\p{N}]/u.test(v);
+}
+
 /** Run an iTunes Search and cache the outcome. Returns `{hit: false}`
  *  on transport errors *without* caching so the next poll can retry
  *  (aborts and network blips don't poison the cache). */
@@ -88,13 +114,17 @@ export async function searchITunes(
 ): Promise<ITunesResult> {
   const cleaned = track.trim();
   if (cleaned.length < 3) return { hit: false }; // not enough to search on
-  if (cleaned === '—' || cleaned === '-') return { hit: false };
+  // Dashes, "Unknown", "N/A", … — no real track to match, so don't query.
+  if (isPlaceholderTrackComponent(cleaned)) return { hit: false };
+  // A placeholder artist carries no signal: drop it so a real title can
+  // still match on its own instead of being skewed by a bogus artist.
+  const effArtist = artist !== undefined && isPlaceholderTrackComponent(artist) ? undefined : artist;
 
-  const key = cacheKey(artist, cleaned);
+  const key = cacheKey(effArtist, cleaned);
   const cached = cache.get(key);
   if (cached) return cached;
 
-  const term = `${artist ?? ''} ${cleaned}`.trim().slice(0, 100);
+  const term = `${effArtist ?? ''} ${cleaned}`.trim().slice(0, 100);
   const url =
     'https://itunes.apple.com/search?' +
     new URLSearchParams({ term, entity: 'song', limit: '5', media: 'music' }).toString();
@@ -111,7 +141,7 @@ export async function searchITunes(
     }
     const data = (await res.json()) as { resultCount: number; results: ITunesTrack[] };
     const hit = (data.resultCount ?? 0) > 0;
-    const best = hit ? pickBest(data.results ?? [], artist, cleaned) : undefined;
+    const best = hit ? pickBest(data.results ?? [], effArtist, cleaned) : undefined;
     const lo = best?.artworkUrl100;
     const result: ITunesResult = { hit };
     if (lo) result.cover = highRes(lo);
