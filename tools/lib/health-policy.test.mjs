@@ -3,6 +3,7 @@ import {
   decide,
   applySwaps,
   candidateEdgeIds,
+  candidateLogoUpgradeIds,
   candidateSwapIds,
   circuitBreakerReason,
   reasonFor,
@@ -467,11 +468,13 @@ describe('rule 8 · logos (phase 3)', () => {
     expect(byId(r, 'h')).toMatchObject({ action: 'review', auto: false, proposed: 'clear-logo' });
   });
 
-  it('never acts on soft logo failures, short streaks, missing logos, unpublished or bot-unpublished rows', () => {
+  it('never acts on soft logo failures, short streaks, missing or http logos, unpublished or bot-unpublished rows', () => {
     const r = decide(scenario({
       soft: { streak: withStream(logoBad('soft', 9)), tier: 'long-tail', logoDetail: 'HTTP 403' },
       short: { streak: withStream(logoBad('hard', 2)), tier: 'long-tail', logoDetail: 'HTTP 404' },
       none: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'missing' },
+      // a stale hard streak from before http became soft (2026-09-26)
+      http: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'http' },
       gone: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'HTTP 404', published: false },
       bot: { streak: withStream(logoBad('hard', 9)), tier: 'long-tail', logoDetail: 'HTTP 404', status: 'broken', yaml: { brokenBy: 'station-probe' } },
     }));
@@ -501,5 +504,90 @@ describe('rule 8 · logos (phase 3)', () => {
     }, { metrics: { ...METRICS, stream: { ok: 100, warn: 0, bad: 900, hard: 900, soft: 0 } } }));
     expect(r.circuitBreaker).toBe(true);
     expect(skippedWhy(r, 'z')).toBe('circuit-breaker');
+  });
+});
+
+describe('rule 8b · upgrade-logo (#701)', () => {
+  const logoHttp = (n = 1, first = '2026-09-06', last = '2026-09-06') => ({ ...ok(3), logo: { o: 'bad', c: 'soft', n, first, last } });
+  const up = (id) => [id, { favicon: `http://${id}.example/logo.png`, newFavicon: `https://${id}.example/logo.png` }];
+
+  it('candidateLogoUpgradeIds: published rows whose latest logo verdict is http, oldest first', () => {
+    const s = scenario({
+      late: { streak: logoHttp(1, '2026-09-06'), logoDetail: 'http' },
+      early: { streak: logoHttp(4, '2026-09-01'), logoDetail: 'http' },
+      dead: { streak: logoHttp(4, '2026-09-01'), logoDetail: 'HTTP 404' },
+      gone: { streak: logoHttp(4, '2026-09-01'), logoDetail: 'http', published: false },
+      bot: { streak: logoHttp(4, '2026-09-01'), logoDetail: 'http', status: 'broken', yaml: { brokenBy: 'station-probe' } },
+    });
+    expect(candidateLogoUpgradeIds(s.streaks, s.latestLogoDetail, s.yamlById, s.publishedIds)).toEqual(['early', 'late']);
+  });
+
+  it('verified twin, long tail → upgrade-logo auto, ranked after stream actions and logo clears', () => {
+    const r = decide(scenario({
+      u: { streak: logoHttp(1), tier: 'long-tail', logoDetail: 'http' },
+      z: { streak: { ...ok(3), logo: { o: 'bad', c: 'hard', n: 3, first: '2026-09-04', last: '2026-09-06' } }, tier: 'long-tail', logoDetail: 'HTTP 404' },
+      a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'dns' },
+    }, { logoUpgrades: new Map([up('u')]) }));
+    expect(r.actions.map((x) => [x.id, x.action])).toEqual([['a', 'unpublish'], ['z', 'clear-logo'], ['u', 'upgrade-logo']]);
+    expect(byId(r, 'u')).toMatchObject({
+      action: 'upgrade-logo',
+      auto: true,
+      tier: 'long-tail',
+      favicon: 'http://u.example/logo.png',
+      newFavicon: 'https://u.example/logo.png',
+      reason: 'http ×1 · 2026-09-06→2026-09-06 · https twin loads',
+    });
+  });
+
+  it('curated or highlighted → review (proposed upgrade-logo)', () => {
+    const r = decide(scenario({
+      c: { streak: logoHttp(), tier: 'curated', status: 'working', logoDetail: 'http' },
+      h: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http' },
+    }, { highlightIds: new Set(['h']), logoUpgrades: new Map([up('c'), up('h')]) }));
+    expect(byId(r, 'c')).toMatchObject({ action: 'review', auto: false, proposed: 'upgrade-logo', newFavicon: 'https://c.example/logo.png' });
+    expect(byId(r, 'h')).toMatchObject({ action: 'review', auto: false, proposed: 'upgrade-logo' });
+  });
+
+  it('no verified twin, no logo streak, non-https target or unpublished → nothing', () => {
+    const r = decide(scenario({
+      unverified: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http' },
+      nostreak: { streak: ok(3), tier: 'long-tail' },
+      plain: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http' },
+      gone: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http', published: false },
+    }, { logoUpgrades: new Map([up('nostreak'), up('gone'), ['plain', { favicon: 'http://p/x.png', newFavicon: 'http://p/x.png' }]]) }));
+    expect(r.actions).toEqual([]);
+  });
+
+  it('a stale hard http streak (pre-2026-09-26 rows) upgrades, never clears', () => {
+    const r = decide(scenario({
+      u: { streak: { ...ok(3), logo: { o: 'bad', c: 'hard', n: 4, first: '2026-09-08', last: '2026-09-29' } }, tier: 'long-tail', logoDetail: 'http' },
+    }, { logoUpgrades: new Map([up('u')]) }));
+    expect(r.actions.map((x) => [x.id, x.action])).toEqual([['u', 'upgrade-logo']]);
+  });
+
+  it('the logo breaker does not block a verified upgrade; rule 1 does', () => {
+    const logoBadDay = { ...METRICS, logo: { ok: 50, warn: 10, bad: 40, hard: 40, soft: 0, structural: 0 } };
+    const r = decide(scenario({ u: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http' } }, { metrics: logoBadDay, logoUpgrades: new Map([up('u')]) }));
+    expect(byId(r, 'u')).toMatchObject({ action: 'upgrade-logo' });
+
+    const tripped = decide(scenario({ u: { streak: logoHttp(), tier: 'long-tail', logoDetail: 'http' } }, {
+      metrics: { ...METRICS, stream: { ok: 100, warn: 0, bad: 900, hard: 900, soft: 0 } },
+      logoUpgrades: new Map([up('u')]),
+    }));
+    expect(tripped.circuitBreaker).toBe(true);
+    expect(skippedWhy(tripped, 'u')).toBe('circuit-breaker');
+  });
+
+  it('has its own cap, so a stream backlog never starves it', () => {
+    const r = decide(scenario({
+      a: { streak: bad('hard', 3), tier: 'long-tail', detail: 'dns' },
+      b: { streak: bad('hard', 3), tier: 'long-tail', detail: 'dns' },
+      u: { streak: logoHttp(1, '2026-09-05'), tier: 'long-tail', logoDetail: 'http' },
+      v: { streak: logoHttp(1, '2026-09-06'), tier: 'long-tail', logoDetail: 'http' },
+    }, { caps: { auto: 1, upgrade: 1 }, logoUpgrades: new Map([up('u'), up('v')]) }));
+    expect(r.actions.map((x) => [x.id, x.action])).toEqual([['a', 'unpublish'], ['u', 'upgrade-logo']]);
+    expect(skippedWhy(r, 'b')).toBe('cap');
+    expect(skippedWhy(r, 'v')).toBe('cap');
+    expect(DEFAULT_CAPS).toEqual({ auto: 200, upgrade: 200 });
   });
 });

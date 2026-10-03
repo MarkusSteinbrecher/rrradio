@@ -17,14 +17,21 @@
  *                                             (logo-quality) say it is not a
  *                                             logo we want to keep as-is
  *   bad   missing                             no favicon at all
- *         http                                plain-http URL — the app's CSP
- *                                             (img-src https:) never shows it
+ *         http                                plain-http URL whose https twin
+ *                                             loads and decodes — the app's CSP
+ *                                             (img-src https:) never shows the
+ *                                             http URL; rule 8b upgrades it
  *         unsupported-scheme | not-image      not fetchable / not an image
  *         HTTP <n> | timeout | dns | refused | reset | tls | network
  *                                             the shared probe error tokens
  *
  * Hard (will not fix itself) vs soft (retry, wait for a streak) follows the
  * stream probe's split, plus the two deterministic logo-only failures.
+ *
+ * A plain-http favicon is probed through its https twin (issue #701): when
+ * the twin fails, the row records *that* failure (so a dead http logo
+ * reaches rule 8's hard/soft logic like any other); when it loads, the row
+ * says `http` — "fix available", which rule 8b's upgrade-logo applies.
  */
 
 import { readFileSync, statSync } from 'node:fs';
@@ -37,8 +44,8 @@ import { classifyLogoUrl } from '../logo-quality.mjs';
 /** Bad logo details that mean "this will not fix itself". `missing` is
  *  hard too — but the policy has nothing to clear for it. Plain `http` is
  *  deliberately soft: 1,500 catalog favicons are http listings that mostly
- *  answer over https, so the right action is an upgrade, not a clear
- *  (issue: upgrade-logo action). */
+ *  answer over https, so the right action is an upgrade (rule 8b,
+ *  upgrade-logo, #701), not a clear. */
 export const LOGO_HARD_DETAILS = Object.freeze(
   new Set(['HTTP 404', 'HTTP 410', 'dns', 'refused', 'missing', 'unsupported-scheme', 'not-image']),
 );
@@ -50,7 +57,8 @@ const PROBE_BYTES = 64 * 1024;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36';
 
 /** @typedef {{status: number|'failed'|'local', contentType?: string|null, errorToken?: string,
- *             header?: {format: string, width?: number, height?: number}|null, bytes?: number|null, ms: number}} LogoProbe */
+ *             header?: {format: string, width?: number, height?: number}|null, bytes?: number|null, ms: number,
+ *             via?: 'https'}} LogoProbe  `via` = an http favicon probed through its https twin */
 
 /**
  * Fetch and decode a favicon far enough to know what it is.
@@ -59,8 +67,9 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
  *   is read from `publicDir` on disk.
  * - `https://…` is fetched with a 64 KB range and a browser UA (Wikimedia
  *   403s the default one).
- * - `http://…` is not fetched: the app can never show it (CSP), so the
- *   verdict is the same whatever the server would say.
+ * - `http://…` is never fetched as-is (the app's CSP could not show it
+ *   anyway); its https twin (`httpsVariant`) is, and the result carries
+ *   `via: 'https'` so classifyLogo knows the listing itself is still http.
  *
  * Never throws; every failure is a `{status: 'failed', errorToken}`.
  *
@@ -86,9 +95,36 @@ export async function probeLogo(favicon, opts = {}) {
       return { status: 'failed', errorToken: err?.code === 'ENOENT' ? 'HTTP 404' : 'network', ms: Date.now() - t0 };
     }
   }
-  if (/^http:\/\//i.test(fav)) return { status: 'failed', errorToken: 'http', ms: 0 };
+  if (/^http:\/\//i.test(fav)) {
+    const twin = httpsVariant(fav);
+    if (!twin) return { status: 'failed', errorToken: 'http', ms: 0 };
+    return { ...(await fetchLogo(twin, timeout, fetchImpl, t0)), via: 'https' };
+  }
   if (!/^https:\/\//i.test(fav)) return { status: 'failed', errorToken: 'unsupported-scheme', ms: 0 };
+  return fetchLogo(fav, timeout, fetchImpl, t0);
+}
 
+/**
+ * The https twin of a plain-http URL: scheme swapped, an explicit `:80`
+ * dropped, host / path / query kept — the same rule #689 applies to Radio
+ * Browser stream URLs. Null for anything that is not a parseable http URL.
+ * @param {string|null|undefined} url
+ * @returns {string|null}
+ */
+export function httpsVariant(url) {
+  if (typeof url !== 'string' || !/^http:\/\//i.test(url.trim())) return null;
+  try {
+    const u = new URL(url.trim());
+    u.protocol = 'https:';
+    if (u.port === '80') u.port = '';
+    return u.toString();
+  } catch {
+    return null;
+  }
+}
+
+/** @returns {Promise<LogoProbe>} */
+async function fetchLogo(fav, timeout, fetchImpl, t0) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeout);
   try {
@@ -152,6 +188,9 @@ export function classifyLogo(favicon, probe) {
   if (probe.status === 'failed') return { v: 'bad', d: probe.errorToken ?? 'network' };
   if (typeof probe.status === 'number' && probe.status >= 400) return { v: 'bad', d: `HTTP ${probe.status}` };
   if (!probe.header) return { v: 'bad', d: 'not-image' };
+  // An http listing whose https twin loads and decodes: still not showable
+  // as published (CSP), but fixable — rule 8b rewrites it to the twin.
+  if (/^http:\/\//i.test(favicon.trim())) return { v: 'bad', d: 'http' };
 
   // It loads and it is an image. Now: is it a logo we want? The URL
   // heuristics know things pixels cannot (a placeholder host, a

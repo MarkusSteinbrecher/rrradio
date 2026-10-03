@@ -26,7 +26,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyActions, renderSummary } from './lib/catalog-actions.mjs';
+import { applyActions, patchIosLocalFavicons, renderSummary } from './lib/catalog-actions.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -137,6 +137,19 @@ writeFileSync(yamlPath, result.yamlText);
 const nextPayload = Array.isArray(payload) ? result.stations : { ...payload, stations: result.stations };
 writeFileSync(jsonPath, `${JSON.stringify(nextPayload, null, 2)}\n`);
 
+// Favicon upgrades (rule 8b) also reach the iOS-local artifact, whose
+// builder dropped the http URL — check-catalog insists the matched rows
+// carry the curated station's favicon once it is usable.
+const upgraded = result.applied.filter((a) => a.action === 'upgrade-logo');
+const iosLocalPath = join(root, 'public/stations-ios-local.json');
+if (upgraded.length && existsSync(iosLocalPath)) {
+  const ios = JSON.parse(readFileSync(iosLocalPath, 'utf8'));
+  const iosStations = Array.isArray(ios) ? ios : ios?.stations;
+  const n = patchIosLocalFavicons(iosStations, upgraded);
+  if (n) writeFileSync(iosLocalPath, `${JSON.stringify(ios, null, 2)}\n`);
+  log(`iOS-local: ${n} matched row(s) given the upgraded favicon`);
+}
+
 if (written.length) mkdirSync(unpublishedDir, { recursive: true });
 for (const id of written) {
   writeFileSync(join(unpublishedDir, `${id}.json`), `${JSON.stringify(result.snapshotsWritten[id], null, 2)}\n`);
@@ -152,6 +165,6 @@ log(`applied ${result.applied.length} action(s), skipped ${result.errors.length}
 const gate = spawnSync(process.execPath, [join(root, 'tools/check-catalog.mjs')], { cwd: root, stdio: 'inherit' });
 if (gate.status !== 0) {
   log('check-catalog failed — the rejected change is still in the working tree; ' +
-    '`git checkout -- data/stations.yaml public/stations.json` discards it');
+    '`git checkout -- data/stations.yaml public/stations.json public/stations-ios-local.json` discards it');
   process.exit(gate.status ?? 1);
 }
