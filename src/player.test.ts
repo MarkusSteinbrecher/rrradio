@@ -226,6 +226,71 @@ describe('AudioPlayer error path', () => {
   });
 });
 
+describe('AudioPlayer decode-error recovery (#666)', () => {
+  function fireMediaError(audio: HTMLAudioElement, code: number): void {
+    Object.defineProperty(audio, 'error', { configurable: true, get: () => ({ code }) });
+    audio.dispatchEvent(new Event('error'));
+  }
+
+  it('reconnects once on MEDIA_ERR_DECODE instead of surfacing an error', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+    vi.advanceTimersByTime(700);
+    audio.dispatchEvent(new Event('playing'));
+    const playsBefore = vi.mocked(audio.play).mock.calls.length;
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+    expect(vi.mocked(audio.play).mock.calls.length).toBe(playsBefore + 1);
+    expect(states.at(-1)).toMatchObject({ station: A, state: 'loading' });
+  });
+
+  it('surfaces the second decode error within the retry window', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(5_000);
+    fireMediaError(audio, 3);
+    vi.advanceTimersByTime(700);
+
+    expect(states.at(-1)).toMatchObject({ state: 'error', errorMessage: 'Cannot decode stream' });
+  });
+
+  it('retries again once the window has passed', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(31_000);
+    fireMediaError(audio, 3);
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+  });
+
+  it('does not retry non-decode errors', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 2);
+    vi.advanceTimersByTime(700);
+
+    expect(states.at(-1)).toMatchObject({ state: 'error', errorMessage: 'Network error' });
+  });
+});
+
 describe('AudioPlayer.swap', () => {
   // The wake-to-radio fire path (src/main.ts onWakeFire) calls
   // player.swap() to move from the silent bed to the wake station.

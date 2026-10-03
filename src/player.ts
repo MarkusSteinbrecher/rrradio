@@ -270,7 +270,41 @@ export class AudioPlayer {
       this.update({ state: 'paused', errorMessage: undefined });
       return;
     }
+    if (err?.code === 3 && this.tryRecoverDecode()) return;
     this.update({ state: 'error', errorMessage: audioErrorMessage(err) });
+  }
+
+  /** A live HLS stream can hit a one-off MEDIA_ERR_DECODE mid-play (a
+   *  bad segment, a splice in the broadcaster's encoder) that a fresh
+   *  media pipeline plays straight through — BBC Radio 4 logged ~28/week
+   *  of these (#666) on a playlist identical in shape to the BBC stations
+   *  that don't. Recover once (hls.js: recoverMediaError, which re-opens
+   *  MSE; native: reconnect) before surfacing the error. At most one
+   *  attempt per DECODE_RETRY_WINDOW_MS so a truly undecodable stream
+   *  still errors on the second strike instead of looping. */
+  private lastDecodeRecovery = 0;
+  private lastDecodeRecoveryStation = '';
+  private static readonly DECODE_RETRY_WINDOW_MS = 30_000;
+
+  private tryRecoverDecode(): boolean {
+    const station = this.current.station;
+    if (!station.id) return false;
+    const now = Date.now();
+    if (
+      station.id === this.lastDecodeRecoveryStation &&
+      now - this.lastDecodeRecovery < AudioPlayer.DECODE_RETRY_WINDOW_MS
+    ) {
+      return false;
+    }
+    this.lastDecodeRecovery = now;
+    this.lastDecodeRecoveryStation = station.id;
+    if (this.hls) {
+      this.hls.recoverMediaError();
+      void this.audio.play().catch(() => undefined);
+    } else {
+      void this.play(station);
+    }
+    return true;
   }
 
   private async playInternal(
@@ -307,6 +341,13 @@ export class AudioPlayer {
 
     if (isHls && !this.audio.canPlayType('application/vnd.apple.mpegurl') && Hls.isSupported()) {
       this.hls = new Hls();
+      // hls.js can raise a fatal media error (e.g. bufferAppendError)
+      // without the element firing `error`. Only attempt the recovery
+      // here; surfacing stays with the element error + stall watchdog,
+      // so one incident reported through both paths can't double-fire.
+      this.hls.on(Hls.Events.ERROR, (_event, data) => {
+        if (data.fatal && data.type === Hls.ErrorTypes.MEDIA_ERROR) this.tryRecoverDecode();
+      });
       this.hls.loadSource(url);
       this.hls.attachMedia(this.audio);
     } else {
