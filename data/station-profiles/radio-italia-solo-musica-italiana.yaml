@@ -1,0 +1,140 @@
+id: radio-italia-solo-musica-italiana
+
+identity:
+  name: Radio Italia Solo Musica Italiana
+  shortName: Radio Italia
+  tagline: Solo Musica Italiana
+  positioning: Italy's leading all-Italian-music station — exclusively Italian-language pop, soul, and singer-songwriter
+  logo:
+    url: https://assets.radioplayer.org/756/7568001/600/600/l458qi37.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: Radio Italia S.p.A.
+  group: Radio Italia
+  foundedYear: 1982
+  headquarters: { city: Cologno Monzese, address: "Viale Europa 49, 20093 Cologno Monzese (MI)", canton: null }
+
+profile:
+  description: >-
+    Italy's third-most-listened-to national radio (4.9 million daily listeners, 2024),
+    playing exclusively Italian music — pop, soul, ballads, and singer-songwriter —
+    no foreign-language tracks ever. Founded 1982 by musician Mario Volanti.
+  format: Adult Contemporary / Italian-language pop
+  contentMix: { music: 0.90, talk: 0.10 }
+  targetAudience: Italian-speaking adults 25–55 who prefer domestic pop over international hits
+  distinctive: >-
+    100 % Italian-language rotation is the hard editorial rule — a uniquely rare
+    format that makes it the go-to station for Italian-speaking diaspora worldwide,
+    including DAB+ coverage across Italian-speaking Switzerland (Ticino, Bern, Geneva).
+
+music:
+  genres: [italian pop, cantautorato, ballad, soul, dance-pop]
+  languageShare: { it: 1.0 }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: >-
+      https://www.radioitalia.it/onAir (live now-playing) +
+      https://www.radioitalia.it/classifica (weekly chart 21–27 Jun 2026)
+    tracks:
+      - { artist: Mango, title: Bella d'estate }
+      - { artist: Pinguini Tattici Nucleari, title: Sorry scusa lo siento }
+      - { artist: "Jovanotti, Alfa", title: Buon vento }
+      - { artist: Angelina Mango con Marco Mengoni, title: Canto d'amore }
+      - { artist: Francesco Gabbani, title: Summer funk }
+      - { artist: Gaia, title: Bossa nostra }
+      - { artist: Noemi con Vito Salamanca, title: Tu cosa fai questa sera }
+      - { artist: Irama, title: Cabana }
+      - { artist: Annalisa, title: Canzone estiva }
+      - { artist: Ultimo, title: Romantica }
+  topArtists: [Jovanotti, Vasco Rossi, Pinguini Tattici Nucleari, Annalisa, Irama, Angelina Mango, Francesco Gabbani]
+
+programming:
+  flagshipShows:
+    - { name: "Buone Nuove (Savi & Montieri)", when: "Mon–Fri 07:00–09:00", note: "morning show" }
+    - { name: Paoletta, when: "Mon–Fri 09:00–12:00", note: "mid-morning with Luca Ward (09:05) and Enzo Miccio (10:20) guests" }
+    - { name: Classifica / Mario Volanti, when: "Mon–Sun 12:00–13:00", note: "daily chart show hosted by the founder" }
+    - { name: Francesca Leto e Mauro Marino, when: "Mon–Fri 13:00–16:00" }
+    - { name: Giuditta Arecco e Marco Falivelli, when: "Mon–Fri 16:00–18:00" }
+    - { name: Daniela Cappelletti e Emiliano Picardi, when: "Mon–Fri 18:00–21:00" }
+    - { name: Radio Italia Party, when: "Fri/Sat 22:00", note: "late-night dance show" }
+    - { name: Fiorella Felisatti, when: "Sat–Sun 09:00–12:00" }
+  presenters:
+    - Savi & Montieri
+    - Paoletta
+    - Mario Volanti
+    - Francesca Leto
+    - Mauro Marino
+    - Giuditta Arecco
+    - Marco Falivelli
+    - Daniela Cappelletti
+    - Emiliano Picardi
+    - Fiorella Felisatti
+    - Ilaria Cappelluti
+    - Francesco Cataldo
+    - Laura Giane
+    - Edoardo Prelle
+    - Francesca Amendola
+  scheduleUrl: https://www.radioitalia.it/palinsesto
+
+reach:
+  languages: [it]
+  region: >-
+    Italy nationwide; DAB+ in Switzerland (Ticino ch. 8A, Bern ch. 10A, Geneva ch. 10D);
+    satellite via Eutelsat Hot Bird 13° East
+  geo: [45.524, 9.273]   # Cologno Monzese headquarters
+  fm: []                  # numerous local FM frequencies across Italy — not enumerated here
+  dab:
+    present: true
+    region: >-
+      Italy nationwide + Ticino (ch. 8A: Chiasso, Lugano, Locarno, Bellinzona),
+      Bern (ch. 10A), Geneva (ch. 10D: Nyon, Lausanne)
+  audienceDaily: 4927000   # first semester 2024, source: Wikipedia / AGCOM
+
+streams:
+  - { url: "https://radioitaliasmi.akamaized.net/hls/live/2093120/RISMI/master.m3u8", codec: aac, bitrate: 96, type: hls }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.radioitalia.it/onAir
+  type: json
+  cors: false
+  coverArt: true
+  # Returns {program, title, artist, image, url} — cover art from binaries.radioitalia.it
+
+presence:
+  homepage: https://www.radioitalia.it
+  socials:
+    facebook: https://www.facebook.com/radioitalia
+    instagram: https://www.instagram.com/radioitalia/
+    twitter: "@RadioItalia"
+    youtube: "@radioitaliaweb"
+    tiktok: "@radioitalia"
+  apps:
+    ios: https://apps.apple.com/it/app/iradioitalia/id479876292
+    android: https://play.google.com/store/apps/details?id=it.dshare.radioitaliaand
+  contact:
+    tel: "+39 02 254441"
+
+identifiers:
+  rpuId: NzU2fjgwMDE
+
+meta:
+  status: fetcher-todo
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: it.wikipedia / broadcaster (1982 founding by Mario Volanti)
+    owner: radioitalia.it footer (P.IVA 06832230152, Radio Italia S.p.A.)
+    audienceDaily: it.wikipedia citing AGCOM 2024 H1
+    streams: Swiss Radioplayer enrichment table + Akamai HLS confirmed live 2026-06-22
+    dab: radioitalia.it/partnership/radio-italia-dab---svizzera-438356
+    nowPlayingEndpoint: homepage __NEXT_DATA__ onAirUrl + verified JSON response
+    chart: radioitalia.it/classifica __NEXT_DATA__ (week 21–27 Jun 2026)
+  updatedAt: 2026-06-22
+  notes: >-
+    now-playing endpoint (https://www.radioitalia.it/onAir) returns JSON with
+    artist+title+cover but has no CORS headers — needs the worker proxy. Status
+    set to fetcher-todo until a /onAir fetcher is wired. FM frequencies numerous
+    across Italy; full list omitted (lookup tool at radioitalia.it/frequenze).

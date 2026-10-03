@@ -1,0 +1,101 @@
+id: ip-music-slow
+
+identity:
+  name: IP music SLOW
+  shortName: IP music SLOW
+  tagline: All the best slows, no talk!
+  positioning: Internet radio from Switzerland — slow songs, soft pop, love ballads, adult 80s/90s, no DJ talk
+  logo:
+    url: https://assets.radioplayer.org/756/75610009/600/600/l5uoil9a.png
+    source: radioplayer
+
+organization:
+  type: internet
+  owner: Dany Hofmann / IP worldcom
+  group: IP music
+  headquarters: { city: Préverenges, address: "CP 43, 1028 Préverenges", canton: VD }
+
+profile:
+  description: >-
+    Swiss internet-only radio playing a continuous, talk-free rotation of slow
+    songs, love ballads and soft pop spanning the 1970s to 2010s — a sister
+    channel to the main IP music station, curated by the same Lausanne-area team.
+  format: Soft AC / Love Songs / Slow
+  contentMix: { music: 1.0, talk: 0.0 }
+  targetAudience: Adults 30+ seeking relaxed, non-stop background music
+  distinctive: >-
+    Fully automated, no presenter voice — 100 % music, all "slow" in the French
+    sense (ballads, soft-pop, R&B), with album cover art delivered via its own
+    playlist.php JSON endpoint.
+
+music:
+  genres: [soft-pop, adult-contemporary, ballads, love-songs, R&B, soul]
+  languageShare: { en: high, fr: low }
+  rotationStyle: gold
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.ipmusicslow.ch/playlist.php
+    tracks:
+      - { artist: Dennis Edwards, title: Just Like You }
+      - { artist: Nick Jonas, title: Until We Meet Again }
+      - { artist: Leona Lewis, title: I Will Be }
+      - { artist: Sister Sledge, title: Next Time You'll Know }
+      - { artist: Elton John, title: I Guess That's Why They Call It the Blues }
+      - { artist: Atlantic Starr, title: Secret Lovers }
+      - { artist: George Michael, title: Kissing a Fool }
+  topArtists: [Elton John, George Michael, Leona Lewis, Dennis Edwards, Atlantic Starr, Sister Sledge]
+
+reach:
+  languages: [fr]
+  region: Switzerland (internet-only, national)
+  geo: [46.948, 7.447]   # Préverenges, VD — broadcaster HQ area
+  dab: { present: false }
+
+streams:
+  - { url: "https://live9.avf.ch/ipmusicslow256", codec: mp3, bitrate: 256, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicslow320", codec: mp3, bitrate: 320, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicslowaacp96", codec: aac, bitrate: 96, type: icecast }
+  - { url: "https://live9.avf.ch/ipmusicslowaacp128", codec: aac, bitrate: 128, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.ipmusicslow.ch/playlist.php
+  type: json
+  cors: false   # no Access-Control-Allow-Origin — worker proxy required
+  coverArt: true   # albumcover field with relative path to /pochette/ImagePochette/image_*.jpg
+
+presence:
+  homepage: https://www.ipmusicslow.ch
+  socials:
+    facebook: https://www.facebook.com/radioipmusic/
+    instagram: https://www.instagram.com/ipmusicradio/
+  apps: { ios: true, android: true }   # via Swiss Radioplayer app links on site
+  contact: { email: info@ipmusic.ch, tel: "+41 21 811 53 53" }
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-ip-music-slow-aacplus-96-kb-s
+  stationuuid: f46955a2-77e7-4a30-96af-abdd89c70a2e
+  changeuuid: aaff9c4f-2e4c-4a31-82cc-db4006cb9076
+  rpuId: NzU2fjEwMDA5
+
+meta:
+  status: working
+  liveness: { onDab: false, inRadioplayer: true }
+  provenance:
+    owner: ipmusic.ch/ipmusic-pro.php — "Dany Hofmann … dirige IP music … et la société IP worldcom"
+    headquarters: ipmusic.ch/ipmusic-pro.php — "IP music - CP 43 - 1028 Préverenges"
+    streams: live9.avf.ch/status-json.xsl (CORS-open Icecast multi-mount)
+    nowPlaying: ipmusicslow.ch/playlist.php (JSON; no CORS)
+    playlist: live9.avf.ch/status-json.xsl + ipmusicslow.ch/playlist.php
+    dab: DAB+ nav commented out on ipmusicslow.ch; ip music main has DAB+ but SLOW branch does not
+  updatedAt: 2026-06-22
+  notes: >-
+    Internet-only sister station of IP music (ipmusic.ch). DAB+ is available
+    for the main IP music brand across several Swiss regions but NOT for IP music
+    SLOW (DAB nav block is commented out on the SLOW site). The playlist.php
+    endpoint supplies current/next/previous track + album cover art but has no
+    CORS headers — needs the worker proxy. The Icecast status-json at
+    live9.avf.ch is CORS-open and can supply a raw now-playing title as fallback.
+    Geo [46.948, 7.447] is the catalog placeholder (Bern-area), not the actual
+    HQ; real HQ is Préverenges, VD [46.523, 6.528].

@@ -1,0 +1,129 @@
+id: radio-argovia
+
+identity:
+  name: Radio Argovia
+  shortName: Argovia
+  tagline: De Soundtrack zom Läbe
+  positioning: Dein Hitradio im Argovialand
+  logo:
+    url: https://assets.radioplayer.org/756/756128/600/600/l458sc45.png
+    source: radioplayer
+
+organization:
+  type: commercial
+  owner: CH Regionalmedien AG
+  group: CH Media
+  foundedYear: 1990
+  headquarters: { city: Aarau, address: "Neumattstrasse 1, 5001 Aarau", canton: AG }
+
+profile:
+  description: >-
+    Aargau's most-listened-to private radio — Hot AC hit radio in Swiss German, serving
+    the canton of Aargau and eastern Solothurn since 1990 with current chart hits,
+    regional news and the annual Argovia Fäscht festival.
+  format: Hot AC
+  contentMix: { music: 0.85, talk: 0.15 }
+  targetAudience: adults 15–49 in Kanton Aargau and surrounding region
+  distinctive: >-
+    Consistently the most-listened-to private station in the Aargau market;
+    home of the Argovia Fäscht (~50,000 attendees); broad web-channel family
+    (20+ genre channels) on the same streambase infrastructure.
+
+music:
+  genres: [pop, hot-ac, current-hits, dance]
+  languageShare: { intl: high, de: low }
+  rotationStyle: current-hits
+  playlistSample:
+    sampledAt: 2026-06-22
+    source: https://www.argovia.ch/zuletzt-gespielt (SSR Apollo state, ~14:00–14:15 CET)
+    tracks:
+      - { artist: "Lilly Wood, Prick & Robin Schulz", title: "Prayer in C (Robin Schulz Remix)" }
+      - { artist: "Lady Gaga & Bruno Mars", title: "Die With a Smile" }
+      - { artist: "Justin Wellington & Small Jam", title: "Iko Iko" }
+      - { artist: "Ed Sheeran", title: "Eyes Closed" }
+      - { artist: "Kamrad", title: "Hug Yourself" }
+  topArtists: [Ed Sheeran, Lady Gaga, Bruno Mars, Robin Schulz]
+
+programming:
+  flagshipShows:
+    - { name: Morgenshow, when: "Mo–Fr until 10:00", presenters: [Vanessa Landert, Matteo Fruci, Marco Biberstein], note: "flagship morning drive with news, traffic, weather and Falsch-isch-richtig game" }
+    - { name: Siesta, when: "Sun–Thu 14:00–15:00", note: "1-hour ad-free music block" }
+    - { name: Firobigshow, when: "Mo–Thu 15:00–19:30", presenters: [Nicole Bühler, Tristan Scherer] }
+    - { name: Marius Füglister Fritigsshow, when: "Fri afternoon", presenters: [Marius Füglister] }
+    - { name: Weekendshow, when: "Sa 07:00–13:00 / Sun 11:00–18:00", presenters: [Tristan Scherer, Matthias Schöpfer] }
+    - { name: Countdown, when: "Sa 13:00–17:00", presenters: [Peter Stutz], note: "Die schnellste Chartshow der Schweiz — top 50 of the week" }
+  presenters:
+    - Vanessa Landert
+    - Matteo Fruci
+    - Nicole Bühler
+    - Marco Biberstein
+    - Marius Füglister
+    - Tristan Scherer
+    - Matthias Schöpfer
+    - Peter Stutz
+  scheduleUrl: https://www.argovia.ch/shows
+
+reach:
+  languages: [de]
+  region: "Kanton Aargau and eastern Kanton Solothurn; DAB+ across all of Deutschschweiz"
+  geo: [47.3927, 8.0444]
+  fm: [90.3, 94.0, 99.3, 102.2]
+  dab: { present: true, region: Deutschschweiz }
+  audienceDaily: 207000   # 1H 2025, Mon–Fri, D-CH, 15+, 24h (de.wikipedia)
+
+streams:
+  - { url: "https://stream.streambase.ch/argovia/mp3-192", codec: mp3, bitrate: 192, type: icecast }
+  - { url: "https://stream.streambase.ch/argovia/mp3-128", codec: mp3, bitrate: 128, type: icecast }
+  - { url: "https://stream.streambase.ch/argovia/aac-64", codec: aac, bitrate: 64, type: icecast }
+isVideo: false
+
+nowPlaying:
+  endpoint: https://www.argovia.ch/graphql
+  type: graphql
+  cors: false
+  coverArt: true
+  # GraphQL query: AudioLiveData($streamName: String)
+  # { audioPlayer { stream(name: $streamName) { live { title interpret } coming { title interpret } } } }
+  # streamName variable: "argovia.main"; field is "interpret" not "artist"
+  # Endpoint is SSR-only (Chameleon CMS by Lovely Systems) — returns 404 to public fetch;
+  # requires Playwright/browser JS execution to intercept the XHR call.
+
+presence:
+  homepage: https://www.argovia.ch
+  socials:
+    facebook: https://www.facebook.com/radioargovia
+    instagram: https://www.instagram.com/radioargovia
+  apps:
+    ios: true
+    android: true
+  contact:
+    email: sekretariat@argovia.ch
+  wikipedia: https://de.wikipedia.org/wiki/Radio_Argovia
+  affiliations: [Radioplayer]
+
+identifiers:
+  catalogId: ch-radio-argovia
+  stationuuid: f78b5faa-d2a0-4c91-b891-e8889664d460
+  rpuId: NzU2fjEyOA
+  wikidata: Q1725704
+
+meta:
+  status: stream-only
+  liveness: { onDab: true, inRadioplayer: true }
+  provenance:
+    foundedYear: de.wikipedia.org/wiki/Radio_Argovia
+    audienceDaily: de.wikipedia.org/wiki/Radio_Argovia (1H 2025)
+    fm: argovia.ch/services/so-kannst-du-uns-hoeren-130999625
+    headquarters: argovia.ch footer (Apollo state)
+    streams: stream.streambase.ch redirect chain + argovia.ch Apollo state audioPlayer.streams
+    playlist: argovia.ch/zuletzt-gespielt SSR Apollo state (2026-06-22 ~14:15 CET)
+    nowPlaying: argovia.bundled.js GraphQL query AudioLiveData + streamName=argovia.main
+    shows: argovia.ch/shows/morgenshow, /firobigshow, /siesta, /weekendshow, /countdown
+    stationuuid: radio-browser.info search (tagged entry with hot-ac/pop tags)
+  updatedAt: 2026-06-22
+  notes: >-
+    Now-playing GraphQL at /graphql is SSR-internal only (Chameleon CMS, Lovely Systems) —
+    public HTTP POST returns 404; needs Playwright to intercept the browser XHR. ICY metadata
+    in the stream only carries station name, not per-track data. Catalog geo [47.32, 7.90]
+    is approximate canton centroid; broadcaster HQ is in Aarau [47.39, 8.04].
+    The streambase.ch URLs 302-redirect to chmedia.streamabc.net (QuantumCast streamer).
