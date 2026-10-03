@@ -296,14 +296,6 @@
         <main class="content" id="content"></main>
 
         <section class="np" id="np" aria-label="Now playing">
-          <!-- Wide-desktop only: collapse the browse list to expand the
-               player from 2 to 3 columns. Diagonal "expand" arrows read
-               as a layout/size toggle (distinct from the left-nav chevron);
-               they swap to inward "contract" arrows once browse is hidden. -->
-          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Expand player to full width" aria-expanded="true">
-            <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10V4h6"/><path d="m4 4 6 6"/><path d="M20 10V4h-6"/><path d="m20 4-6 6"/><path d="M4 14v6h6"/><path d="m4 20 6-6"/><path d="M20 14v6h-6"/><path d="m20 20-6-6"/></svg>
-            <svg class="icon-contract" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v6H4"/><path d="M10 10 4 4"/><path d="M14 4v6h6"/><path d="m14 10 6-6"/><path d="M10 20v-6H4"/><path d="m10 14-6 6"/><path d="M14 20v-6h6"/><path d="m14 14 6 6"/></svg>
-          </button>
           <!-- Desktop: close the player so browse fills the full width.
                Audio keeps playing via the mini-player bar, which doubles as
                the reopen affordance. -->
@@ -393,7 +385,6 @@
             </div>
 
             <div class="np-program-pane" id="np-program-pane" hidden>
-              <div class="np-col-head" aria-hidden="true">Schedule</div>
               <!-- iOS parity: current show name + subtitle, then a
                    "Today · N broadcasts" caption above the rows. -->
               <div class="np-program-head" id="np-program-head" hidden>
@@ -409,7 +400,6 @@
             </div>
 
             <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
-              <div class="np-col-head" aria-hidden="true">Lyrics</div>
               <!-- iOS parity: track title + artist header pinned above the
                    scrolling lyrics body, with a source credit link below. -->
               <div class="np-lyrics-head" id="np-lyrics-head" hidden>
@@ -436,7 +426,7 @@
                  buttons instead of stretching. Phones have a hardware rocker;
                  this is a desktop affordance. Tapping the speaker mutes;
                  dragging to 0 mutes, dragging up from 0 unmutes. Level persists. -->
-            <!-- Transport (iOS controlsBlock parity, minus the iOS/Android-only
+            <!-- Transport (iOS controlsBlock parity, minus the iOS-only
                  wake alarm): prev · play · next centered, sleep timer trailing.
                  On desktop the volume slider drops into this row's left column
                  (left of play); on mobile volume is hidden and the leading
@@ -470,23 +460,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/><path d="M15.5 3.2h3.4l-3.4 3.4h3.4"/><path d="M19.6 8.2h2.4l-2.4 2.4h2.4"/></svg>
                 <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
               </button>
-            </div>
-
-            <!-- Wake-to-radio is iOS/Android-only; its UI is removed from the
-                 web player. These elements stay (hidden, unreachable) because
-                 the wake scheduler + iOS silent-bed audio-session machinery
-                 still references them. Full teardown is tracked as follow-up. -->
-            <div class="np-wake-legacy" hidden aria-hidden="true">
-              <button type="button" id="np-wake" tabindex="-1">
-                <span id="np-wake-chip" hidden></span>
-              </button>
-              <div id="np-wake-pane" hidden>
-                <input type="time" id="wake-time" tabindex="-1" />
-                <button type="button" id="wake-arm-btn" tabindex="-1">
-                  <span id="wake-arm-label">Set</span>
-                  <span id="wake-arm-meta" hidden></span>
-                </button>
-              </div>
             </div>
           </div>
 
@@ -530,8 +503,60 @@
                   <span class="np-source__v" id="np-report-broken-label">Broken station</span>
                   <svg class="np-source__ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
                 </button>
+                <div class="np-source__status" id="np-report-status" hidden></div>
+                <a class="np-source__status np-source__mail" id="np-report-mail" href="#" hidden>Email the station details instead</a>
               </div>
             </div>
+          </div>
+          <!-- Broken-station report sheet (#614, iOS BrokenStationReportSheet):
+               single-select category + optional comment (required for
+               "Something else"), opened from the station-info Report row. -->
+          <div class="np-info np-report" id="np-report" hidden>
+            <div class="np-info__scrim" id="np-report-scrim"></div>
+            <form class="np-info__card np-report__card" id="np-report-form" role="dialog" aria-modal="true" aria-labelledby="np-report-title" novalidate>
+              <h2 class="np-report__title" id="np-report-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                Report broken station
+              </h2>
+              <div class="np-report__station" id="np-report-station"></div>
+              <fieldset class="np-report__cats">
+                <legend class="np-report__legend">What is broken?</legend>
+                <div class="np-report__list">
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="no-audio">
+                    <span>No audio / won&#39;t play</span>
+                  </label>
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="interruptions">
+                    <span>Buffering or dropouts</span>
+                  </label>
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="wrong-station">
+                    <span>Plays the wrong station</span>
+                  </label>
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="wrong-logo">
+                    <span>Wrong or missing logo</span>
+                  </label>
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="wrong-info">
+                    <span>Wrong name or details</span>
+                  </label>
+                  <label class="np-report__opt">
+                    <input type="radio" name="np-report-category" value="other">
+                    <span>Something else</span>
+                  </label>
+                </div>
+              </fieldset>
+              <label class="np-report__comment-label" for="np-report-comment">Comment for the maintainer</label>
+              <textarea class="np-report__comment" id="np-report-comment" rows="3" maxlength="500" placeholder="Comment (optional)"></textarea>
+              <div class="np-report__foot">
+                <button type="button" class="np-report__close" id="np-report-close" aria-label="Close">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+                <button type="submit" class="np-report__send" id="np-report-send" disabled>Send report</button>
+              </div>
+            </form>
           </div>
         </section>
       </div>
@@ -607,11 +632,6 @@
           Library
         </button>
       </nav>
-
-      <!-- Wake-to-radio UI lives inline on the Now Playing screen (the
-           .np-wake-pane above) — there's no slide-up sheet anymore.
-           See npWake button at the bottom of the NP controls: tapping
-           it toggles the wake pane in place of the regular track row. -->
 
       <!-- ============== ADD STATION (relocated into the Settings sheet's
            "Add" tab at boot; see #add-src relocation in main.ts) ============== -->

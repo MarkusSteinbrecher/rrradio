@@ -139,8 +139,3 @@ References:
 - <https://commons.wikimedia.org/wiki/File:World_map_-_low_resolution.svg>
 - <https://creativecommons.org/licenses/by-sa/3.0/>
 
-## Audio placeholder
-
-`public/silence.m4a` is an app utility asset used to keep the wake-to-radio
-audio session alive. It is generated silence and contains no third-party audio
-content.

@@ -15,7 +15,7 @@ Cumulative count today in this repo: ~280 web, 32 worker, 8 e2e ≈ ~320 cases.
 When extracting a DOM-touching render function out of `main.ts`, follow the established pattern:
 
 1. **Define a typed `*Refs` interface** that enumerates every element the render writes to. Tests get static checking that the HTML fragment has the right ids; production gets a clean dependency list.
-2. **Pure inputs only.** No `wakeScheduler.current()` etc. inside the render — pass non-DOM dependencies through a `*Context` interface alongside refs. main.ts wires production refs/ctx once at boot; tests pass fixtures.
+2. **Pure inputs only.** No module-level state reads (e.g. `isFavorite()` from storage) inside the render — pass non-DOM dependencies through a `*Context` interface alongside refs. main.ts wires production refs/ctx once at boot; tests pass fixtures.
 3. **Add a fragment to `src/render-test-harness.ts`** — a minimal HTML snippet that mirrors the production markup the render touches. Drift between fragment and `index.html` is caught at PR time by the type system (the refs interface enumerates ids that must exist in the fragment).
 4. **Test pattern:**
    ```ts
@@ -37,7 +37,7 @@ Renders that touch 20+ elements (`renderNowPlaying`, dashboard map) get their fr
 ## What's tested vs. not
 
 **Tested at unit level:**
-- Pure helpers (format / np-labels / np-display / station-display / country / dashboard reducers / wake math / search / storage)
+- Pure helpers (format / np-labels / station-display / country / dashboard reducers / fade / search / storage)
 - Render functions via the harness
 - Storage failure modes (privacy-mode getItem throws, quota errors)
 - AudioPlayer state machine + race conditions (audit #74)
