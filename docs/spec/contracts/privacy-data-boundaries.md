@@ -242,7 +242,7 @@ Diagnostics export line (always redacted form):
   query/track/URL content. No-op on `localhost`.
 - Region/stats/report flows hit the same first-party `rrradio.org` boundary
   (Worker), cached in `localStorage` for 24h for region.
-- Library/custom/wake state stays in `localStorage`; no library data sent to
+- Library/custom state stays in `localStorage`; no library data sent to
   analytics.
 
 **iOS** (reference)

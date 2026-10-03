@@ -4,18 +4,17 @@
  * The biggest refs-based render in the app. Mirrors the mini-player
  * pattern: a `NowPlayingRefs` interface enumerates every element the
  * render writes to, and a small `NowPlayingContext` carries the
- * non-DOM dependencies (armed wake, favorite predicate, popup-clear
+ * non-DOM dependencies (favorite predicate, popup-clear
  * callback). main.ts wires production refs once at boot.
  */
 
 import { countryName } from './country';
-import { SILENT_BED_ID, displayStation, isWakeBedActive } from './np-display';
 import { npStatusText } from './np-labels';
 import { hasStreamVariants, type QualityPref } from './stream-select';
 import { stationInitials } from './station-display';
 import { urlDisplay } from './url';
 import type { LyricsResult } from './lyrics';
-import type { NowPlaying, WakeTo } from './types';
+import type { NowPlaying } from './types';
 
 export interface NowPlayingRefs {
   body: HTMLElement;
@@ -58,8 +57,6 @@ export interface NowPlayingRefs {
 }
 
 export interface NowPlayingContext {
-  /** Currently armed wake (if any) — drives the silent-bed masquerade. */
-  armedWake: WakeTo | null;
   /** Favorite predicate. main.ts wires this through to storage; tests
    *  pass a Set / stub so favorite-state can be asserted. */
   isFavorite: (id: string) => boolean;
@@ -76,12 +73,8 @@ export function renderNowPlaying(
   np: NowPlaying,
   ctx: NowPlayingContext,
 ): void {
-  const s = displayStation(np, ctx.armedWake);
-  const wakeBed = isWakeBedActive(np, ctx.armedWake);
+  const s = np.station;
   refs.npName.textContent = s.name || '—';
-  // is-wake-bed dims the cover/logo + overlays a small mute icon so
-  // it's visually obvious the audio is silent right now.
-  refs.body.classList.toggle('is-wake-bed', wakeBed);
 
   if (s.favicon) {
     if (refs.npStationLogo.getAttribute('src') !== s.favicon) {
@@ -103,10 +96,10 @@ export function renderNowPlaying(
   // Format: codec · bitrate, e.g. "MP3 · 192 kbps", of the variant that
   // is actually loaded (falls back to the station's own fields). Falls
   // back to whichever half is known, em-dash when neither.
-  const fmt = np.variant && !wakeBed ? np.variant : s;
+  const fmt = np.variant ?? s;
   const fmtParts = [fmt.codec ?? s.codec, fmt.bitrate ? `${fmt.bitrate} kbps` : ''].filter(Boolean);
   refs.npBitrate.textContent = fmtParts.length > 0 ? fmtParts.join(' · ') : '—';
-  renderQualityToggle(refs, wakeBed ? null : np.station, ctx.qualityPref);
+  renderQualityToggle(refs, np.station, ctx.qualityPref);
   refs.npOrigin.textContent = s.country ? countryName(s.country) : '—';
   refs.npListeners.textContent = s.listeners ? s.listeners.toLocaleString() : '—';
 
@@ -118,8 +111,7 @@ export function renderNowPlaying(
   const hasTrack = !!np.trackTitle && np.trackTitle.trim().length > 0;
   // iOS-parity split: the album title shows just the song (`trackName`)
   // with the artist on its own line below. Fall back to the combined
-  // `trackTitle` when the metadata source didn't split them (e.g. the
-  // wake-bed masquerade passes a single display string).
+  // `trackTitle` when the metadata source didn't split them.
   const songTitle = (np.trackName ?? '').trim() || (np.trackTitle ?? '').trim();
   refs.npTrackTitle.textContent = hasTrack ? songTitle || '—' : '—';
 
@@ -190,7 +182,7 @@ export function renderNowPlaying(
     np.state === 'playing' ? 'Pause' : np.state === 'loading' ? 'Cancel' : 'Play',
   );
 
-  const stream = urlDisplay((!wakeBed && np.variant?.url) || s.streamUrl);
+  const stream = urlDisplay(np.variant?.url ?? s.streamUrl);
   if (stream) {
     refs.npStream.hidden = false;
     refs.npStream.href = stream.href;
@@ -210,8 +202,8 @@ export function renderNowPlaying(
     refs.npHome.hidden = true;
   }
 
-  refs.npReportBroken.hidden = !s.id || s.id === SILENT_BED_ID;
-  refs.npReportBroken.disabled = !s.id || s.id === SILENT_BED_ID;
+  refs.npReportBroken.hidden = !s.id;
+  refs.npReportBroken.disabled = !s.id;
 }
 
 /** Best / Data-saver segmented toggle: visible only when the station
@@ -219,10 +211,10 @@ export function renderNowPlaying(
  *  preference. */
 function renderQualityToggle(
   refs: Pick<NowPlayingRefs, 'npQuality' | 'npQualitySeg'>,
-  station: NowPlaying['station'] | null,
+  station: NowPlaying['station'],
   pref: QualityPref,
 ): void {
-  refs.npQuality.hidden = !station || !hasStreamVariants(station);
+  refs.npQuality.hidden = !hasStreamVariants(station);
   for (const btn of refs.npQualitySeg.querySelectorAll<HTMLElement>('[data-quality]')) {
     const on = btn.dataset.quality === pref;
     btn.classList.toggle('is-active', on);

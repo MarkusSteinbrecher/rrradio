@@ -2708,38 +2708,6 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-openin__btn svg,
 .np-openin__btn img { width: 28px; height: 28px; display: block; object-fit: contain; }
 
-/* Wake-bed visual cue — silent bed is the active source, but the
-   displayed station is the armed wake target. Dim the cover, the
-   small station logo, and the mini-player favicon so it reads as
-   "muted now, will wake up later", and overlay a subtle mute glyph
-   on the big cover so the meaning is unambiguous. */
-.is-wake-bed .np-track__cover,
-.is-wake-bed .np-station__logo {
-  opacity: 0.42;
-}
-/* On the silent bed the audio element is technically `playing`, so
-   body.is-playing flips the play→pause icon by default. But for the
-   user, "audio is silent" maps to "tap to play" — so override and
-   show the play glyph instead. The click handler then plays the
-   wake station. */
-body.is-wake-bed.is-playing .np-play .icon-play  { display: block; }
-body.is-wake-bed.is-playing .np-play .icon-pause { display: none; }
-body.is-wake-bed.is-playing .mini-toggle .icon-play  { display: block; }
-body.is-wake-bed.is-playing .mini-toggle .icon-pause { display: none; }
-.is-wake-bed .np-track__cover-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><path d='M11 5 6 9H2v6h4l5 4V5z'/><line x1='22' y1='9' x2='16' y2='15'/><line x1='16' y1='9' x2='22' y2='15'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 32%;
-  opacity: 0.55;
-  mix-blend-mode: screen;
-}
-.mini.is-wake-bed .fav { opacity: 0.55; }
-.mini.is-wake-bed .mini-name { color: var(--ink-2); }
 .np-track__text {
   display: flex;
   flex-direction: column;
@@ -3899,8 +3867,8 @@ body.is-playing .np-bottom .live-dot  {
   transition: border-color 0.15s;
   /* Without border-box the .field input's width:100% + horizontal
      padding overflowed the parent on small screens — the iOS native
-     time spinner has its own min-width on top, which made the wake
-     time picker bleed past the sheet edge. */
+     time spinner has its own min-width on top, which made time
+     pickers bleed past the sheet edge. */
   box-sizing: border-box;
 }
 .field input::placeholder { color: var(--ink-4); }
@@ -3959,143 +3927,6 @@ body.is-playing .np-bottom .live-dot  {
 .btn-ghost[data-confirming="true"] {
   color: var(--ink);
   border-color: var(--ink);
-}
-
-/* ─── Wake-to-radio sheet + pill ─────────────────────────────────
-   The pill is the always-visible "alarm armed" indicator at the top.
-   The sheet is the editor. */
-/* Inline wake-edit pane — replaces the track row on the Now Playing
-   screen when body.is-wake-edit is set. Big clock on top, the arm/
-   disarm button below it (which doubles as the "armed · 07:00 · in
-   6h" pill while armed), caveat text at the bottom. Toggled by
-   tapping the alarm icon at the bottom of NP controls (np-wake). */
-.np-wake-pane {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "clock"
-    "arm"
-    "caveat";
-  gap: 12px;
-  align-items: stretch;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--bg-2);
-}
-.np-wake-pane[hidden] { display: none; }
-
-/* Hide the regular content panes when in wake-edit mode. */
-body.is-wake-edit .np-track,
-body.is-wake-edit .np-program-pane,
-body.is-wake-edit .np-lyrics-pane,
-body.is-wake-edit .np-pane-tabs { display: none; }
-
-.np-wake-pane__clock-wrap {
-  grid-area: clock;
-  display: grid;
-  place-items: center;
-  padding: 12px 0;
-  border-radius: 8px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  transition: border-color 120ms ease;
-}
-.np-wake-pane__clock-wrap:hover {
-  border-color: color-mix(in srgb, var(--ink) 35%, var(--line));
-}
-.np-wake-pane__clock {
-  appearance: none;
-  -webkit-appearance: none;
-  width: auto;
-  border: none;
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--mono);
-  font-size: clamp(36px, 11vw, 60px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-  /* `text` cursor on desktop signals "click to type" — the spinners
-     are stripped by `appearance: none` so the user otherwise has no
-     visual cue that the value is editable in place. iOS / Android
-     don't show cursors so this is a desktop-only affordance. */
-  cursor: text;
-  padding: 0;
-  min-width: 0;
-}
-.np-wake-pane__clock::-webkit-date-and-time-value { text-align: center; }
-/* The native browser-supplied clock-picker glyph that sits to the
-   right of the value adds visual noise next to our big clock — we
-   already cue editability via the text cursor on desktop and the
-   native picker still pops on tap. Hide it on every WebKit-based
-   engine (Chrome, Safari, Edge). */
-.np-wake-pane__clock::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
-.np-wake-pane__clock:focus {
-  outline: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-
-/* Arm/Disarm button. Doubles as the "armed pill" — when armed it
-   stretches to a two-line layout: the time + countdown on the first
-   line, "Tap to disarm" on the second. Tap toggles arm state. */
-.np-wake-pane__arm {
-  grid-area: arm;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 14px 22px;
-  border-radius: 10px;
-  border: 1px solid var(--line-2);
-  background: var(--bg-2);
-  color: var(--ink);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease;
-}
-.np-wake-pane__arm:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.np-wake-pane__arm.is-armed {
-  background: var(--ink);
-  color: var(--bg);
-  border-color: var(--ink);
-}
-.np-wake-pane__arm-label {
-  display: block;
-}
-.np-wake-pane__arm-meta {
-  display: block;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  opacity: 0.9;
-}
-.np-wake-pane__arm-meta[hidden] { display: none; }
-
-.np-wake-pane__caveat {
-  grid-area: caveat;
-  margin: 0;
-  padding: 10px 12px;
-  border-left: 2px solid var(--line-2);
-  background: var(--bg-2);
-  font-size: 12px;
-  color: var(--ink-3);
-  line-height: 1.45;
-  border-radius: 0 6px 6px 0;
 }
 
 .sheet-divider {
@@ -5063,13 +4894,12 @@ body.is-wake-edit .np-pane-tabs { display: none; }
    The station header spans the top of the NP pane; the transport bar
    spans the bottom (it's a sibling of .np-body). Below 1400px NP falls
    back to the tabbed single-pane layout (mobile unchanged). Gated on
-   body.has-station and :not(.is-wake-edit) (the wake editor keeps its
-   single-pane layout). The .np-twocol / .np-threecol body classes are
+   body.has-station. The .np-twocol / .np-threecol body classes are
    set by syncNpTabs() from the viewport + available panes. */
 @media (min-width: 1400px) {
   /* ── Album + switchable Schedule/Lyrics: the golden split ──
      Album left, secondary pane right, ~38.2% / 61.8% (1 : 1.618). */
-  body.np-twocol:not(.is-wake-edit) .np-body {
+  body.np-twocol .np-body {
     display: grid;
     grid-template-columns: minmax(240px, 0.618fr) minmax(0, 1fr);
     grid-template-rows: auto auto auto minmax(0, 1fr);
@@ -5091,10 +4921,10 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-twocol .np-program-pane,
   body.np-twocol .np-lyrics-pane,
   body.np-twocol #np-secondary-empty { grid-area: secpane; }
-  body.np-twocol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
+  body.np-twocol .np-track[hidden] { display: flex; }
 
   /* ── Album + Schedule + Lyrics: 3 columns ── */
-  body.np-threecol:not(.is-wake-edit) .np-body {
+  body.np-threecol .np-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto auto minmax(0, 1fr);
@@ -5107,9 +4937,9 @@ body.is-wake-edit .np-pane-tabs { display: none; }
   body.np-threecol .np-pane-tabs { display: none !important; }
   body.np-threecol .np-program-pane { grid-area: program; }
   body.np-threecol .np-lyrics-pane { grid-area: lyrics; }
-  body.np-threecol:not(.is-wake-edit) .np-track[hidden] { display: flex; }
-  body.np-threecol:not(.is-wake-edit) .np-program-pane[hidden] { display: flex; }
-  body.np-threecol:not(.is-wake-edit) .np-lyrics-pane[hidden] { display: block; }
+  body.np-threecol .np-track[hidden] { display: flex; }
+  body.np-threecol .np-program-pane[hidden] { display: flex; }
+  body.np-threecol .np-lyrics-pane[hidden] { display: block; }
   /* Per-column headers only earn their keep when both columns are shown
      at once (3-col); in 2-col the switcher already labels the column. */
   body.np-threecol .np-col-head { display: block; }

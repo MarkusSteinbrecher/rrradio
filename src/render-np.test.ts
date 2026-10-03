@@ -1,6 +1,5 @@
 /// <reference lib="dom" />
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { SILENT_BED_ID } from './np-display';
 import { NP_FRAGMENT, mountFragment } from './render-test-harness';
 import {
   renderLyricsPane,
@@ -8,7 +7,7 @@ import {
   type LyricsPaneRefs,
   type NowPlayingRefs,
 } from './render-np';
-import type { Station, WakeTo } from './types';
+import type { Station } from './types';
 
 function mountNp(): NowPlayingRefs {
   mountFragment(NP_FRAGMENT);
@@ -62,7 +61,6 @@ const fm4: Station = {
 };
 
 const ctx = (overrides: Partial<Parameters<typeof renderNowPlaying>[2]> = {}) => ({
-  armedWake: null,
   isFavorite: () => false,
   onClearOpenIn: () => {},
   qualityPref: 'best' as const,
@@ -349,38 +347,6 @@ describe('renderNowPlaying — source links', () => {
     renderNowPlaying(refs, { station: { id: '', name: '', streamUrl: '' }, state: 'idle' }, ctx());
     expect(refs.npReportBroken.hidden).toBe(true);
     expect(refs.npReportBroken.disabled).toBe(true);
-  });
-});
-
-describe('renderNowPlaying — silent-bed wake masquerade', () => {
-  const silentBed: Station = {
-    id: SILENT_BED_ID,
-    name: 'Silent bed',
-    streamUrl: '/silence.m4a',
-  };
-  const wake: WakeTo = {
-    time: '07:30',
-    stationId: 'fm4',
-    station: fm4,
-    armedAt: 1_700_000_000_000,
-  };
-
-  it('substitutes the armed station name + sets is-wake-bed body class', () => {
-    const refs = mountNp();
-    renderNowPlaying(
-      refs,
-      { station: silentBed, state: 'playing' },
-      ctx({ armedWake: wake }),
-    );
-    expect(refs.npName.textContent).toBe('Wake up at 07:30');
-    expect(refs.body.classList.contains('is-wake-bed')).toBe(true);
-  });
-
-  it('clears is-wake-bed when no wake armed', () => {
-    const refs = mountNp();
-    refs.body.classList.add('is-wake-bed');
-    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
-    expect(refs.body.classList.contains('is-wake-bed')).toBe(false);
   });
 });
 

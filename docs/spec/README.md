@@ -134,7 +134,7 @@ targets iOS parity), not "Not planned".
 | Program schedules | Supported for wired broadcasters | Supported for wired broadcasters | Planned | [Now Playing](features/now-playing.md) |
 | Lyrics | Supported on web | Planned/partial on native | Planned | [Now Playing](features/now-playing.md) |
 | Sleep timer | Partial (15/30/60 cycle; no countdown or default) | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
-| Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
+| Wake to radio | Not planned (removed 2026-10-03) | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
 | Manual file export/import | Supported (favorites, custom stations, lists, recents, and settings — v3 backup) | Planned/optional | Supported via SAF (favorites, custom, lists, preferences) | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |

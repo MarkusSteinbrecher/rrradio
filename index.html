@@ -435,7 +435,7 @@
                  buttons instead of stretching. Phones have a hardware rocker;
                  this is a desktop affordance. Tapping the speaker mutes;
                  dragging to 0 mutes, dragging up from 0 unmutes. Level persists. -->
-            <!-- Transport (iOS controlsBlock parity, minus the iOS/Android-only
+            <!-- Transport (iOS controlsBlock parity, minus the iOS-only
                  wake alarm): prev · play · next centered, sleep timer trailing.
                  On desktop the volume slider drops into this row's left column
                  (left of play); on mobile volume is hidden and the leading
@@ -469,23 +469,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/><path d="M15.5 3.2h3.4l-3.4 3.4h3.4"/><path d="M19.6 8.2h2.4l-2.4 2.4h2.4"/></svg>
                 <span class="np-btn__chip" id="np-sleep-chip" hidden></span>
               </button>
-            </div>
-
-            <!-- Wake-to-radio is iOS/Android-only; its UI is removed from the
-                 web player. These elements stay (hidden, unreachable) because
-                 the wake scheduler + iOS silent-bed audio-session machinery
-                 still references them. Full teardown is tracked as follow-up. -->
-            <div class="np-wake-legacy" hidden aria-hidden="true">
-              <button type="button" id="np-wake" tabindex="-1">
-                <span id="np-wake-chip" hidden></span>
-              </button>
-              <div id="np-wake-pane" hidden>
-                <input type="time" id="wake-time" tabindex="-1" />
-                <button type="button" id="wake-arm-btn" tabindex="-1">
-                  <span id="wake-arm-label">Set</span>
-                  <span id="wake-arm-meta" hidden></span>
-                </button>
-              </div>
             </div>
           </div>
 
@@ -615,11 +598,6 @@
           Library
         </button>
       </nav>
-
-      <!-- Wake-to-radio UI lives inline on the Now Playing screen (the
-           .np-wake-pane above) — there's no slide-up sheet anymore.
-           See npWake button at the bottom of the NP controls: tapping
-           it toggles the wake pane in place of the regular track row. -->
 
       <!-- ============== ADD STATION (relocated into the Settings sheet's
            "Add" tab at boot; see #add-src relocation in main.ts) ============== -->

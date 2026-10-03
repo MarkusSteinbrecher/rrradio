@@ -1,12 +1,12 @@
 import { isQualityPref, type QualityPref } from './stream-select';
-import type { Station, WakeTo } from './types';
+import type { Station } from './types';
 
 const FAVORITES_KEY = 'rrradio.favorites.v2';
 const RECENTS_KEY = 'rrradio.recents.v2';
 const CUSTOM_KEY = 'rrradio.custom.v1';
-const WAKE_KEY = 'rrradio.wake.v1';
-const WAKE_LAST_TIME_KEY = 'rrradio.wake.lastTime.v1';
 const QUALITY_PREF_KEY = 'rrradio.qualityPref.v1';
+/** Keys left behind by the removed web wake-to-radio feature. */
+const LEGACY_WAKE_KEYS = ['rrradio.wake.v1', 'rrradio.wake.lastTime.v1'];
 const RECENTS_LIMIT = 12;
 
 /** Safe localStorage.getItem — returns null on quota / privacy-mode /
@@ -159,54 +159,10 @@ export function setCustom(list: Station[]): void {
   writeStations(CUSTOM_KEY, list);
 }
 
-export function getWakeTo(): WakeTo | null {
-  try {
-    const raw = localStorage.getItem(WAKE_KEY);
-    if (!raw) return null;
-    const v = JSON.parse(raw) as unknown;
-    if (
-      typeof v === 'object' &&
-      v !== null &&
-      typeof (v as WakeTo).time === 'string' &&
-      typeof (v as WakeTo).stationId === 'string' &&
-      typeof (v as WakeTo).station === 'object' &&
-      typeof (v as WakeTo).armedAt === 'number'
-    ) {
-      return v as WakeTo;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-export function setWakeTo(w: WakeTo | null): void {
-  try {
-    if (w === null) localStorage.removeItem(WAKE_KEY);
-    else localStorage.setItem(WAKE_KEY, JSON.stringify(w));
-  } catch {
-    // quota / privacy mode — ignore
-  }
-}
-
-/** Persist the most recently armed wake time so the sheet pre-fills
- *  with it on next open — independent of whether a wake is currently
- *  armed. Falls back to "07:00" when nothing is stored. */
-export function getLastWakeTime(): string | undefined {
-  try {
-    const v = localStorage.getItem(WAKE_LAST_TIME_KEY);
-    return v && /^\d{1,2}:\d{2}$/.test(v) ? v : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-export function setLastWakeTime(time: string): void {
-  try {
-    localStorage.setItem(WAKE_LAST_TIME_KEY, time);
-  } catch {
-    // quota / privacy mode — ignore
-  }
+/** One-time cleanup: drop wake-to-radio keys written by older builds.
+ *  Wake-to-radio is iOS-only now; the web app no longer reads them. */
+export function clearLegacyWakeKeys(): void {
+  for (const key of LEGACY_WAKE_KEYS) removeKey(key);
 }
 
 /** Global stream-quality preference (ADR 001): `best` (default) or
