@@ -35,6 +35,10 @@ and does not re-derive them.
   no target list yet.
 - Deep links / Shortcuts that open a station resolve through the catalog Browse
   consumes.
+- Web: `/?genre=<id>` (the "Open in the player" link on the static
+  `/genre/<id>/` SEO landing pages, #61) opens Browse with that single genre
+  filter applied — the same state a discovery genre chip produces. Unknown ids
+  are ignored.
 
 Browse reaches the **result list** from the discovery landing by: typing a
 search, tapping a genre / country chip, tapping a section's "See all ›" then
@@ -385,6 +389,7 @@ map's "<n> stations" are pluralizable.
 | Large Radio Browser-backed catalog | Supported. | Supported with bundled index/cache behavior. | Supported with cache-backed loading. |
 | Discovery landing (genre/country chips + Featured rail + Browse all) | Supported. Browse opens on a discovery landing that mirrors iOS: genre chips, country chips, the "Featured" rail, then an always-present "Browse all" footer with a decorative logo peek. Searching, tapping a chip, or tapping "Browse all" drops into the result list. | Supported. | Planned. |
 | Surprise me (random station, filter-aware, duplicate/broken-free) | Shipped. "Surprise me" pill on the discovery genre header; shuffle icon in the results sort row respects the active filter. | Planned. | Planned. |
+| Genre deep link (`?genre=<id>`) + static `/genre/` SEO pages | Shipped. Pre-rendered `/genre/<id>/` pages (top 60 stations, curated first, stream-bad dropped) + a `/genre/` index; station pages link their genre tags. | Not applicable (web SEO surface). | Not applicable. |
 | Search normalization | Supported. | Reference native behavior. | Supported. |
 | Country filter | Supported. | Supported with native picker rows. | Supported. |
 | Genre/tag filter | Supported. | Supported. | Supported. |

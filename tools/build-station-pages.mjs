@@ -30,6 +30,13 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import {
+  GENRES,
+  genreForTag,
+  genreStations,
+  renderGenreIndex,
+  renderGenrePage,
+} from './lib/genre-pages.mjs';
 import { logoUrl, stationFacts } from './lib/station-page-facts.mjs';
 
 const DIST = 'dist';
@@ -254,6 +261,7 @@ function renderRecentlyAddedNav(items) {
         <ul>
 ${lis}
           <li><a href="/recently-added/">See all recently added →</a></li>
+          <li><a href="/genre/">Browse radio by genre →</a></li>
         </ul>
       </nav>`;
 }
@@ -364,8 +372,14 @@ function renderStationPage(s) {
   const logo = logoUrl(s, SITE);
   if (logo) jsonld.logo = logo;
 
+  // Tags that map onto the genre taxonomy link to their /genre/<id>/ page.
   const proseTags = tags.length
-    ? `Genres: ${tags.join(', ')}.`
+    ? `Genres: ${tags
+        .map((t) => {
+          const g = genreForTag(t);
+          return g ? `<a href="/genre/${g.id}/">${escapeHtml(t)}</a>` : escapeHtml(t);
+        })
+        .join(', ')}.`
     : '';
   const proseCountry = country ? `${country} — ` : '';
 
@@ -386,11 +400,11 @@ function renderStationPage(s) {
   const prose = `<aside class="seo-prose" aria-hidden="true">
       <h1>${escapeHtml(s.name)} — listen live online</h1>
       <p>${escapeHtml(proseCountry)}${escapeHtml(s.name)} live stream${tags.length ? ` (${escapeHtml(tags.join(', '))})` : ''}. Listen in any browser at rrradio.org — no signup, no app install, no tracking.</p>
-      ${proseTags ? `<p>${escapeHtml(proseTags)}</p>` : ''}
+      ${proseTags ? `<p>${proseTags}</p>` : ''}
 ${renderFacts(facts)}
 ${countryNav}
 ${tagNav}
-      <p><a href="/">Browse all stations</a></p>
+      <p><a href="/">Browse all stations</a> · <a href="/genre/">Radio by genre</a></p>
     </aside>`;
 
   let html = template;
@@ -540,6 +554,34 @@ writeFileSync(
   'utf8',
 );
 
+// ─── 4b. Genre landing pages (#61) ──────────────────────────────────
+// Standalone /genre/<id>/ pages + a /genre/ index (tools/lib/genre-pages.mjs).
+// The station health record demotes nothing here — stream-bad stations are
+// simply left off the lists. Missing record (fresh checkout) ⇒ keep all.
+let healthStations = {};
+try {
+  healthStations = JSON.parse(readFileSync(`${DIST}/station-health.json`, 'utf8')).stations ?? {};
+} catch {
+  // Non-fatal — see above.
+}
+const isStreamBad = (id) => healthStations[id]?.stream?.v === 'bad';
+const genreEntries = [];
+for (const genre of GENRES) {
+  const items = genreStations(stations, genre, isStreamBad);
+  if (items.length === 0) continue;
+  genreEntries.push({ genre, total: items.length });
+  const dir = join(DIST, 'genre', genre.id);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, 'index.html'),
+    renderGenrePage(genre, items, { site: SITE, countryName, total: items.length }),
+    'utf8',
+  );
+}
+genreEntries.sort((a, b) => b.total - a.total || a.genre.id.localeCompare(b.genre.id));
+mkdirSync(join(DIST, 'genre'), { recursive: true });
+writeFileSync(join(DIST, 'genre', 'index.html'), renderGenreIndex(genreEntries, { site: SITE }), 'utf8');
+
 // ─── 5. Sitemap ─────────────────────────────────────────────────────
 const today = new Date().toISOString().slice(0, 10);
 const sitemapEntries = [
@@ -547,6 +589,11 @@ const sitemapEntries = [
   `  <url><loc>${SITE}/recently-added/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`,
   `  <url><loc>${SITE}/ios/</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>`,
   `  <url><loc>${SITE}/catalog-health</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>`,
+  `  <url><loc>${SITE}/genre/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
+  ...genreEntries.map(
+    ({ genre }) =>
+      `  <url><loc>${SITE}/genre/${genre.id}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
+  ),
   ...stations.map(
     (s) =>
       `  <url><loc>${SITE}/station/${s.id}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
@@ -560,5 +607,5 @@ ${sitemapEntries.join('\n')}
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap, 'utf8');
 
 console.log(
-  `build-station-pages: wrote ${written} station page(s) + sitemap with ${sitemapEntries.length} entries`,
+  `build-station-pages: wrote ${written} station page(s), ${genreEntries.length} genre page(s) + sitemap with ${sitemapEntries.length} entries`,
 );
