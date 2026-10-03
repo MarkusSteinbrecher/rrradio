@@ -912,7 +912,8 @@
   geo:
     - 47.56
     - 7.589
-  broadcaster: independent
+  broadcaster: energy
+  metadataUrl: basel
   name: Energy Basel
   streamUrl: https://energybasel.ice.infomaniak.ch/energybasel-high.mp3
   bitrate: 128
@@ -924,7 +925,7 @@
     - basel
   homepage: https://www.energy.ch/basel
   country: CH
-  status: icy-only
+  status: working
 - id: ch-radio-x
   favicon: "https://radiox.ch/.resources/radiox-theme/webresources/images/favicon/touch-icon-iphone-retina.png"
   faviconSource: broadcaster-site
@@ -1237,18 +1238,19 @@
   changeuuid: a48a88e6-b2c0-4f05-b1ca-b44f25e3fefd
   reviewedAt: 2026-05-04
   geo:
-    - 46.948
-    - 7.447
-  broadcaster: independent
+    - 46.9918
+    - 6.9293
+  broadcaster: bnj
+  metadataUrl: "RTN"
   name: RTN
   streamUrl: https://rtn.ice.infomaniak.ch/rtn-high.mp3
   bitrate: 128
   codec: MP3
   tags:
     - switzerland
-  homepage: http://www.rtn.ch/
+  homepage: "https://www.rtn.ch/"
   country: CH
-  status: stream-only
+  status: working
 - id: ch-one-fm-2000s
   stationuuid: ee47b64d-ebaf-4d26-90e6-e9cd25f32958
   changeuuid: 1e3213c9-cb94-4372-8c2c-bad168777d72
@@ -1651,18 +1653,19 @@
   changeuuid: d89085a6-aca9-49a1-891e-264c6f95db7d
   reviewedAt: 2026-05-04
   geo:
-    - 46.948
-    - 7.447
-  broadcaster: independent
+    - 47.3649
+    - 7.3445
+  broadcaster: bnj
+  metadataUrl: "RFJ"
   name: RFJ
   streamUrl: https://rfj.ice.infomaniak.ch/rfj-high.mp3
   bitrate: 128
   codec: MP3
   tags:
     - switzerland
-  homepage: http://www.rfj.ch/
+  homepage: "https://www.rfj.ch/"
   country: CH
-  status: stream-only
+  status: working
 - id: ch-energy-bern
   stationuuid: 489f3786-3ff8-46c1-ad14-2a7c5d9cea99
   changeuuid: 8d33e3c9-9135-4b3c-87c9-96fe0ef2e5f8
@@ -1670,7 +1673,8 @@
   geo:
     - 46.948
     - 7.448
-  broadcaster: independent
+  broadcaster: energy
+  metadataUrl: bern
   name: Energy Bern
   streamUrl: https://energybern.ice.infomaniak.ch/energybern-high.mp3
   bitrate: 128
@@ -1681,7 +1685,7 @@
   faviconSource: wiki
   homepage: https://energy.ch/stations/energy-bern
   country: CH
-  status: stream-only
+  status: working
 - id: ch-radio-lora-97-5
   stationuuid: 37d4ee78-88a9-4fbd-82f6-81d5eb0b3477
   changeuuid: 8c19b46c-f3c8-44cd-a82b-e626eb91c177
@@ -281957,9 +281961,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-melody
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "radiomelody#radiomelody.melo"
   name: Radio Melody
-  streamUrl: "https://chmedia.streamabc.net/79-rm-mp3-192-7754268?sABC=64726ssr%230%23565o8622n9638n515p1pqq82pnq6q099%23zlghare&aw_0_1st.playerid=mytuner&amsparams=playerid:mytuner;skey:1685221374"
+  streamUrl: "https://stream.streambase.ch/rm/mp3-192"
   codec: MP3
   tags: [classic hits, hits, top40]
   favicon: "https://ch.az-cdn.ch/static/5.23.0/radiomelody/device-icons/512x512.png"
@@ -281968,8 +281973,8 @@
   faviconLicense: broadcaster-implicit
   homepage: "https://www.radiomelody.ch/"
   country: CH
-  geo: [0, 0]
-  status: stream-only
+  geo: [47.4245, 9.3767]
+  status: working
   stationuuid: e3e08ba3-4ee0-4062-8e82-a75f8d22f52e
   changeuuid: c1fba833-4b16-4b0e-bbe5-8a7180382a31
   reviewedAt: 2026-05-21
@@ -287516,16 +287521,17 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-sunshine-radio-switzerland
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "radiosunshine#radiosunshine.sunshine"
   name: Sunshine Radio (Switzerland)
-  streamUrl: "https://stream.streambase.ch/rsunshine/mp3-192/chmedia-radio-web/1699795900047_8633080"
+  streamUrl: "https://stream.streambase.ch/rsunshine/mp3-192"
   codec: MP3
   favicon: "https://ch.az-cdn.ch/static/4.3.1/radiosunshine/device-icons/512x512.png"
   faviconSource: radio-browser
   homepage: "https://www.sunshine.ch/"
   country: CH
-  geo: [0, 0]
-  status: stream-only
+  geo: [47.0502, 8.3093]
+  status: working
   stationuuid: 6cb03e29-0706-445d-9a28-282e3c21dcd6
   changeuuid: 58e8321e-8aae-4de1-9761-2a7f156938f8
   reviewedAt: 2026-05-21
@@ -288835,14 +288841,15 @@
   faviconSourceUrl: "https://www.virginradio.ch/"
   faviconLicense: broadcaster-implicit
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "virginrock#virgin.rock"
   name: Virgin Radio Switzerland
-  streamUrl: "https://stream.streambase.ch/vrock/mp3-192/direct/"
+  streamUrl: "https://stream.streambase.ch/vrock/mp3-192"
   codec: MP3
   homepage: "https://www.virginradio.ch/"
   country: CH
   geo: [47.4184, 8.5552]
-  status: stream-only
+  status: working
   stationuuid: c1d4b62b-cb16-43ca-ae3a-41c2eb31b6e7
   changeuuid: 37ed1b97-b34b-42d3-a3c5-21867e9673a3
   reviewedAt: 2026-05-21
@@ -291277,16 +291284,17 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-pilatus
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: radiopilatus
   name: Radio Pilatus
-  streamUrl: "https://stream.streambase.ch/radiopilatus/mp3-192/chmedia/"
+  streamUrl: "https://stream.streambase.ch/radiopilatus/mp3-192"
   codec: MP3
   favicon: "https://ch.az-cdn.ch/static/4.10.3/radiopilatus/device-icons/192x192.png"
   faviconSource: radio-browser
   homepage: "https://www.radiopilatus.ch/"
   country: CH
-  geo: [0, 0]
-  status: stream-only
+  geo: [47.0502, 8.3093]
+  status: working
   stationuuid: 7fa043b5-6a69-40ce-abaa-2274634484bc
   changeuuid: f8e24101-351f-4735-8d06-af2b05865451
   reviewedAt: 2026-05-21
@@ -291631,9 +291639,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-fm1
   source: radio-browser
-  broadcaster: independent
-  name: RADIO FM1
-  streamUrl: "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728"
+  broadcaster: ch-media
+  metadataUrl: "radiofm1#radiofm1.FM1"
+  name: Radio FM1
+  streamUrl: "https://stream.streambase.ch/radiofm1/mp3-192"
   codec: MP3
   tags: [rock pop]
   favicon: "https://ch.az-cdn.ch/static/5.23.0/radiofm1/device-icons/512x512.png"
@@ -291643,7 +291652,7 @@
   homepage: "https://www.radiofm1.ch/"
   country: CH
   geo: [47.4312, 9.3787]
-  status: stream-only
+  status: working
   stationuuid: 3786ca1c-bcbd-4c90-8ce2-6e363756b320
   changeuuid: 835e4f07-66c4-4b7d-a620-3e37baa9fcd9
   reviewedAt: 2026-05-21
@@ -292931,9 +292940,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-argovia
   source: radio-browser
-  broadcaster: independent
-  name: RADIO ARGOVIA
-  streamUrl: "https://stream.streambase.ch/argovia/mp3-192/direct/"
+  broadcaster: ch-media
+  metadataUrl: argovia
+  name: Radio Argovia
+  streamUrl: "https://stream.streambase.ch/argovia/mp3-192"
   codec: MP3
   favicon: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Argovia-logo.svg"
   faviconSource: wiki
@@ -292942,7 +292952,7 @@
   homepage: "https://www.argovia.ch/"
   country: CH
   geo: [47.32, 7.8972]
-  status: stream-only
+  status: working
   stationuuid: 3bb2d57f-f7a6-49e7-afb5-89daf251de9d
   changeuuid: 77139081-305b-46ef-83db-02e6d900251d
   reviewedAt: 2026-05-21
@@ -293200,9 +293210,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio24
   source: radio-browser
-  broadcaster: independent
-  name: Radio24
-  streamUrl: "https://chmedia.streamabc.net/79-r24-mp3-192-6659699?sABC=696840ro%230%23srp58oqr2q0127pq92r8qr5o3p87s1no%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1768440043"
+  broadcaster: ch-media
+  metadataUrl: "radio24"
+  name: Radio 24
+  streamUrl: "https://stream.streambase.ch/radio24/mp3-192"
   codec: MP3
   tags: [main, mainstream]
   favicon: "https://ch.az-cdn.ch/static/5.23.0/radio24/device-icons/512x512.png"
@@ -293212,7 +293223,7 @@
   homepage: "https://www.radio24.ch/"
   country: CH
   geo: [47.4186, 8.5552]
-  status: stream-only
+  status: working
   stationuuid: be9fa6d2-aace-46ea-bdbf-68092402066f
   changeuuid: 81d885c4-5e2b-480a-8522-90e8a5f43a64
   reviewedAt: 2026-05-21
@@ -295917,18 +295928,19 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-bern1
   source: radio-browser
-  broadcaster: independent
-  name: RADIO BERN1
-  streamUrl: "https://stream.streambase.ch/radiobern1/mp3-192/direct/"
+  broadcaster: ch-media
+  metadataUrl: "radiobern#radiobern.main"
+  name: Radio Bern1
+  streamUrl: "https://stream.streambase.ch/radiobern1/mp3-192"
   codec: MP3
   favicon: "https://ch.az-cdn.ch/static/5.23.0/radiobern/device-icons/512x512.png"
   faviconSource: broadcaster-site
   faviconSourceUrl: "https://www.radiobern1.ch/"
   faviconLicense: broadcaster-implicit
-  homepage: "https://radio.radiobern1.ch/"
+  homepage: "https://www.radiobern1.ch/"
   country: CH
-  geo: [0, 0]
-  status: stream-only
+  geo: [46.948, 7.447]
+  status: working
   stationuuid: 95142051-a845-4523-a11a-2521e9ba0971
   changeuuid: 8ccbbf5a-8688-40b9-a81f-4ca9604b9742
   reviewedAt: 2026-05-21
@@ -311409,9 +311421,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-32
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "radio32"
   name: Radio 32
-  streamUrl: "https://stream.streambase.ch/radio32/mp3-192/chmedia-today-web"
+  streamUrl: "https://stream.streambase.ch/radio32/mp3-192"
   codec: MP3
   tags: [local news, news, pop]
   favicon: "https://www.presseportal-schweiz.ch/sites/default/files/radio_32_logo_neu.jpg"
@@ -311419,7 +311432,7 @@
   homepage: "https://www.radio32.ch/"
   country: CH
   geo: [47.2041, 7.5428]
-  status: stream-only
+  status: working
   stationuuid: 980d4891-994c-46d9-9096-4ed0eb556aa8
   changeuuid: eee9527c-a4c0-4e5a-84a0-7a7b3b256c25
   reviewedAt: 2026-05-21
@@ -314641,14 +314654,15 @@
   faviconSourceUrl: "https://commons.wikimedia.org/wiki/File:Radio_Eviva_logo.svg"
   faviconLicense: public-domain
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "eviva#eviva.eviva"
   name: Radio Eviva
-  streamUrl: "https://stream.streambase.ch/reviva/mp3-192/direct/"
+  streamUrl: "https://stream.streambase.ch/reviva/mp3-192"
   codec: MP3
-  homepage: "https://player.eviva.ch/"
+  homepage: "https://www.eviva.ch/"
   country: CH
   geo: [47.1449, 8.4343]
-  status: stream-only
+  status: working
   stationuuid: 4d548e92-325f-4f5a-ab85-6dcf7b63ba79
   changeuuid: 252114d2-591f-475e-a048-59549170b8c7
   reviewedAt: 2026-05-21
@@ -331042,9 +331056,10 @@
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: ch-radio-central
   source: radio-browser
-  broadcaster: independent
+  broadcaster: ch-media
+  metadataUrl: "radiocentral#radiocentral.radiocentral"
   name: Radio Central
-  streamUrl: "https://stream.streambase.ch/rcentral/mp3-192/chmedia-radio-web/1723615196409_33800762"
+  streamUrl: "https://stream.streambase.ch/rcentral/mp3-192"
   codec: MP3
   favicon: "https://ch.az-cdn.ch/static/5.23.0/radiocentral/device-icons/512x512.png"
   faviconSource: broadcaster-site
@@ -331052,8 +331067,8 @@
   faviconLicense: broadcaster-implicit
   homepage: "https://www.radiocentral.ch/"
   country: CH
-  geo: [0, 0]
-  status: stream-only
+  geo: [47.0502, 8.3093]
+  status: working
   stationuuid: cf128157-674e-46e1-a1b4-9251ee8d3ab7
   changeuuid: ee127b23-e0e8-48a0-ba9b-48a3a643182d
   reviewedAt: 2026-05-21

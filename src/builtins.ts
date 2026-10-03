@@ -3,6 +3,16 @@ import { STATS_BBC_PROXY, STATS_PROXY } from './config';
 import { reportCatalogError } from './errors';
 import { titleCase, parseLooseJSON } from './format';
 import { icyFetcher } from './metadata';
+import {
+  bnjUrl,
+  chMediaUrl,
+  energyUrl,
+  parseBnj,
+  parseChMedia,
+  parseEnergy,
+  type BnjLive,
+  type ChMediaResponse,
+} from './chFetchers';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station } from './types';
 
@@ -834,6 +844,48 @@ const fetchRadioSwissMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Swiss commercial groups (#631) — CH Media (GraphQL, CORS-open),
+// BNJ (Azure blob, CORS *), Energy (no CORS → worker proxy).
+// Request/parse helpers live in src/chFetchers.ts.
+// ============================================================
+
+async function fetchJson(url: string, signal: AbortSignal): Promise<unknown> {
+  const res = await fetch(url, { signal, cache: 'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+const fetchChMediaMetadata: MetadataFetcher = async (station, signal) => {
+  const url = chMediaUrl(station.metadataUrl, station.homepage);
+  if (!url) return null;
+  try {
+    return parseChMedia((await fetchJson(url, signal)) as ChMediaResponse);
+  } catch {
+    return null;
+  }
+};
+
+const fetchBnjMetadata: MetadataFetcher = async (station, signal) => {
+  const url = bnjUrl(station.metadataUrl);
+  if (!url) return null;
+  try {
+    return parseBnj((await fetchJson(url, signal)) as BnjLive);
+  } catch {
+    return null;
+  }
+};
+
+const fetchEnergyMetadata: MetadataFetcher = async (station, signal) => {
+  const url = energyUrl(station.metadataUrl);
+  if (!url) return null;
+  try {
+    return parseEnergy(await fetchJson(`${PROXY}?url=${encodeURIComponent(url)}`, signal));
+  } catch {
+    return null;
+  }
+};
+
+// ============================================================
 // BBC fetchers (via our worker — rms.api.bbc.co.uk requires
 // Origin: https://www.bbc.co.uk and 403s otherwise)
 // ============================================================
@@ -1648,6 +1700,9 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   hr: fetchHrMetadata,
   cro: fetchCroMetadata,
   mr: fetchMrMetadata,
+  'ch-media': fetchChMediaMetadata,
+  bnj: fetchBnjMetadata,
+  energy: fetchEnergyMetadata,
   srr: fetchSrrMetadata,
   'srgssr-il': fetchSrgssrIlMetadata,
   'swiss-radio': fetchRadioSwissMetadata,

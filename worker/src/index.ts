@@ -576,6 +576,7 @@ export default {
             /^https:\/\/www\.rockantenne\.de\/api\/metadata\/now$/i,
             /^https:\/\/www\.bremen(?:eins|zwei|vier|next)\.de\/.+~ajax_ajaxType-epg\.json$/i,
             /^https:\/\/www\.sr\.de\/sr\/epg\/nowPlaying\.jsp\?welle=[a-z0-9]+$/i,
+            /^https:\/\/energy\.ch\/api\/channels\/[a-z0-9-]+\/playouts$/i,
           ];
           if (!target || !ALLOW.some((re) => re.test(target))) {
             return jsonResponse({ error: 'host not allowed' }, 403, publicCors);

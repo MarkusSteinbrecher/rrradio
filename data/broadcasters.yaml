@@ -256,6 +256,55 @@ ffh:
     rather than a URL — keeps YAML small. CORS open. cHash query param is
     static — re-discover via discover-metadata-api if it ever rotates.
 
+# ─────────────── Swiss commercial (German / Jura) ───────────────
+ch-media:
+  name: CH Media
+  fullName: CH Media Entertainment AG
+  country: CH
+  homepage: https://www.chmedia.ch
+  metadata: ch-media
+  notes: |
+    Swiss-German commercial radio group: Radio 24, Radio 32, Radio
+    Argovia, Radio Pilatus, Radio FM1, Radio Central, Sunshine Radio,
+    Radio Melody, Radio Eviva, Virgin Radio Switzerland, Radio Bern1,
+    Flashback FM. Now-playing via an Apollo persisted-query GraphQL
+    "AudioLiveData" on each station's own host (CORS reflects Origin).
+    metadataUrl is "<skin>" (streamName "<skin>.main": radio24, radio32,
+    argovia, radiopilatus) or "<skin>#<streamName>" — skin = the page's
+    skinConfig.skin, streamName = the channel id in its Channels list:
+    radiofm1#radiofm1.FM1, radiocentral#radiocentral.radiocentral,
+    radiosunshine#radiosunshine.sunshine, radiomelody#radiomelody.melo,
+    eviva#eviva.eviva, virginrock#virgin.rock, radiobern#radiobern.main
+    (all verified 2026-10-03; the "numeric streamNames" noted in #630 were
+    article ids, not channels). Host = station homepage origin. Canonical
+    streams: stream.streambase.ch/<id>/mp3-192 (302 to a fresh streamabc
+    session URL). Cache-MISS responses duplicate the ACAO header, so the
+    odd poll fails in browsers; the next one hits the CDN cache.
+bnj:
+  name: BNJ
+  fullName: Groupe BNJ FM SA
+  country: CH
+  homepage: https://www.bnj.ch
+  metadata: bnj
+  notes: |
+    French-speaking Jura/Neuchâtel/Bernese-Jura group: RTN, RFJ, RJB.
+    (GRRIF is also BNJ but stays on the grrif fetcher.) Now-playing via
+    Azure blob bnj.blob.core.windows.net/mobile/ws/Live/Live<CODE>.json
+    (CORS *). metadataUrl holds the station code (RTN/RFJ/RJB). Streams
+    are Infomaniak Icecast. Cover is usually empty; Programm = show name.
+energy:
+  name: Energy
+  fullName: Energy Schweiz (Ringier)
+  country: CH
+  homepage: https://energy.ch
+  metadata: energy
+  notes: |
+    Energy Zürich / Bern / Basel. Playout history at
+    energy.ch/api/channels/<slug>/playouts (newest first; cover on
+    storage.energy.ch). No CORS → worker proxy allowlist. metadataUrl
+    holds the channel slug (bern / basel / zuerich). The head entry goes
+    stale during talk/ads; the fetcher drops it after 12 minutes.
+
 # ─────────────── Swiss public ───────────────
 
 srf:

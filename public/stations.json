@@ -1030,7 +1030,7 @@
     {
       "id": "ch-energy-basel",
       "name": "Energy Basel",
-      "broadcaster": "independent",
+      "broadcaster": "energy",
       "streamUrl": "https://energybasel.ice.infomaniak.ch/energybasel-high.mp3",
       "homepage": "https://www.energy.ch/basel",
       "country": "CH",
@@ -1044,11 +1044,13 @@
       "faviconSource": "wiki",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "energy",
+      "metadataUrl": "basel",
       "geo": [
         47.56,
         7.589
       ],
-      "status": "icy-only"
+      "status": "working"
     },
     {
       "id": "ch-radio-x",
@@ -1376,9 +1378,9 @@
     {
       "id": "ch-rtn",
       "name": "RTN",
-      "broadcaster": "independent",
+      "broadcaster": "bnj",
       "streamUrl": "https://rtn.ice.infomaniak.ch/rtn-high.mp3",
-      "homepage": "http://www.rtn.ch/",
+      "homepage": "https://www.rtn.ch/",
       "country": "CH",
       "tags": [
         "switzerland"
@@ -1388,11 +1390,13 @@
       "faviconSourceUrl": "https://bnj.blob.core.windows.net/assets/Htdocs/Images/Theme/rtn/logo-rtn.svg",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "bnj",
+      "metadataUrl": "RTN",
       "geo": [
-        46.948,
-        7.447
+        46.9918,
+        6.9293
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ch-one-fm-2000s",
@@ -1814,9 +1818,9 @@
     {
       "id": "ch-rfj",
       "name": "RFJ",
-      "broadcaster": "independent",
+      "broadcaster": "bnj",
       "streamUrl": "https://rfj.ice.infomaniak.ch/rfj-high.mp3",
-      "homepage": "http://www.rfj.ch/",
+      "homepage": "https://www.rfj.ch/",
       "country": "CH",
       "tags": [
         "switzerland"
@@ -1826,16 +1830,18 @@
       "faviconSourceUrl": "https://bnj.blob.core.windows.net/assets/Htdocs/Images/Theme/rfj/logo-rfj.svg",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "bnj",
+      "metadataUrl": "RFJ",
       "geo": [
-        46.948,
-        7.447
+        47.3649,
+        7.3445
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ch-energy-bern",
       "name": "Energy Bern",
-      "broadcaster": "independent",
+      "broadcaster": "energy",
       "streamUrl": "https://energybern.ice.infomaniak.ch/energybern-high.mp3",
       "homepage": "https://energy.ch/stations/energy-bern",
       "country": "CH",
@@ -1846,11 +1852,13 @@
       "faviconSource": "wiki",
       "bitrate": 128,
       "codec": "MP3",
+      "metadata": "energy",
+      "metadataUrl": "bern",
       "geo": [
         46.948,
         7.448
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ch-radio-lora-97-5",
@@ -162086,7 +162094,6 @@
     {
       "id": "pl-radio-eska-2-kultowe-polskie",
       "name": "Radio Eska 2 Kultowe Polskie",
-      "shortName": "Kultowe Polskie",
       "broadcaster": "independent",
       "streamUrl": "https://waw.ic.smcdn.pl/6040-1.aac",
       "homepage": "https://player2.eska.pl/",
@@ -163580,7 +163587,6 @@
     {
       "id": "pl-eska-2-wroclaw",
       "name": "Eska 2 Wroclaw",
-      "shortName": "Wroclaw",
       "broadcaster": "independent",
       "streamUrl": "https://radio.stream.smcdn.pl/timeradio-p/1180-1.aac/playlist.m3u8",
       "homepage": "https://player2.eska.pl/?stream_uid=ra-ZaRH-t4rB-v3fV",
@@ -258775,7 +258781,6 @@
     {
       "id": "hu-rise-fm-classic",
       "name": "Rise FM Classic",
-      "shortName": "Classic",
       "broadcaster": "independent",
       "streamUrl": "https://oxygenmusic.hu:8443/RISE_CLASSIC_128",
       "homepage": "https://risefm.hu/",
@@ -277017,7 +277022,6 @@
     {
       "id": "ca-riverwood-radio-oldies",
       "name": "Riverwood Radio - Oldies",
-      "shortName": "Oldies",
       "broadcaster": "independent",
       "streamUrl": "https://stream3.hornhost.com:8054/oldies",
       "homepage": "https://riverwood-radio.online/",
@@ -311642,8 +311646,8 @@
     {
       "id": "ch-radio-melody",
       "name": "Radio Melody",
-      "broadcaster": "independent",
-      "streamUrl": "https://chmedia.streamabc.net/79-rm-mp3-192-7754268?sABC=64726ssr%230%23565o8622n9638n515p1pqq82pnq6q099%23zlghare&aw_0_1st.playerid=mytuner&amsparams=playerid:mytuner;skey:1685221374",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/rm/mp3-192",
       "homepage": "https://www.radiomelody.ch/",
       "country": "CH",
       "tags": [
@@ -311656,11 +311660,13 @@
       "faviconSourceUrl": "https://www.radiomelody.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiomelody#radiomelody.melo",
       "geo": [
-        0,
-        0
+        47.4245,
+        9.3767
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "my-ai-fm-34089334",
@@ -317757,18 +317763,20 @@
     {
       "id": "ch-sunshine-radio-switzerland",
       "name": "Sunshine Radio (Switzerland)",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/rsunshine/mp3-192/chmedia-radio-web/1699795900047_8633080",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/rsunshine/mp3-192",
       "homepage": "https://www.sunshine.ch/",
       "country": "CH",
       "favicon": "https://ch.az-cdn.ch/static/4.3.1/radiosunshine/device-icons/512x512.png",
       "faviconSource": "radio-browser",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiosunshine#radiosunshine.sunshine",
       "geo": [
-        0,
-        0
+        47.0502,
+        8.3093
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ec-armonica-fm",
@@ -319163,8 +319171,8 @@
     {
       "id": "ch-virgin-radio-switzerland",
       "name": "Virgin Radio Switzerland",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/vrock/mp3-192/direct/",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/vrock/mp3-192",
       "homepage": "https://www.virginradio.ch/",
       "country": "CH",
       "favicon": "https://ch.az-cdn.ch/static/5.23.0/virginrock/device-icons/512x512.png",
@@ -319172,11 +319180,13 @@
       "faviconSourceUrl": "https://www.virginradio.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "virginrock#virgin.rock",
       "geo": [
         47.4184,
         8.5552
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "cn-station-2e1d6f94",
@@ -321850,18 +321860,20 @@
     {
       "id": "ch-radio-pilatus",
       "name": "Radio Pilatus",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/radiopilatus/mp3-192/chmedia/",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/radiopilatus/mp3-192",
       "homepage": "https://www.radiopilatus.ch/",
       "country": "CH",
       "favicon": "https://ch.az-cdn.ch/static/4.10.3/radiopilatus/device-icons/192x192.png",
       "faviconSource": "radio-browser",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiopilatus",
       "geo": [
-        0,
-        0
+        47.0502,
+        8.3093
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "cn-station-2dd8574f",
@@ -322259,9 +322271,9 @@
     },
     {
       "id": "ch-radio-fm1",
-      "name": "RADIO FM1",
-      "broadcaster": "independent",
-      "streamUrl": "https://chmedia.streamabc.net/79-fm1-mp3-192-7523806?sABC=6499oos8%230%230016or1p1r381r4485n244q3016qs660%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1687796728",
+      "name": "Radio FM1",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/radiofm1/mp3-192",
       "homepage": "https://www.radiofm1.ch/",
       "country": "CH",
       "tags": [
@@ -322272,11 +322284,13 @@
       "faviconSourceUrl": "https://www.radiofm1.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiofm1#radiofm1.FM1",
       "geo": [
         47.4312,
         9.3787
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ae-tick-tock-radio-1971",
@@ -323625,9 +323639,9 @@
     },
     {
       "id": "ch-radio-argovia",
-      "name": "RADIO ARGOVIA",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/argovia/mp3-192/direct/",
+      "name": "Radio Argovia",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/argovia/mp3-192",
       "homepage": "https://www.argovia.ch/",
       "country": "CH",
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Argovia-logo.svg",
@@ -323635,11 +323649,13 @@
       "faviconSourceUrl": "https://commons.wikimedia.org/wiki/File:Argovia-logo.svg",
       "faviconLicense": "cc-by-sa-4.0",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "argovia",
       "geo": [
         47.32,
         7.8972
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "cn-station-420e2393",
@@ -323933,9 +323949,9 @@
     },
     {
       "id": "ch-radio24",
-      "name": "Radio24",
-      "broadcaster": "independent",
-      "streamUrl": "https://chmedia.streamabc.net/79-r24-mp3-192-6659699?sABC=696840ro%230%23srp58oqr2q0127pq92r8qr5o3p87s1no%23qverpg&aw_0_1st.playerid=direct&amsparams=playerid:direct;skey:1768440043",
+      "name": "Radio 24",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/radio24/mp3-192",
       "homepage": "https://www.radio24.ch/",
       "country": "CH",
       "tags": [
@@ -323947,11 +323963,13 @@
       "faviconSourceUrl": "https://www.radio24.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radio24",
       "geo": [
         47.4186,
         8.5552
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "in-tamilkaterumbufm",
@@ -326889,21 +326907,23 @@
     },
     {
       "id": "ch-radio-bern1",
-      "name": "RADIO BERN1",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/radiobern1/mp3-192/direct/",
-      "homepage": "https://radio.radiobern1.ch/",
+      "name": "Radio Bern1",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/radiobern1/mp3-192",
+      "homepage": "https://www.radiobern1.ch/",
       "country": "CH",
       "favicon": "https://ch.az-cdn.ch/static/5.23.0/radiobern/device-icons/512x512.png",
       "faviconSource": "broadcaster-site",
       "faviconSourceUrl": "https://www.radiobern1.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiobern#radiobern.main",
       "geo": [
-        0,
-        0
+        46.948,
+        7.447
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "mx-radio-esperanza-monterrey-1140-am-xemr-am-grupo-",
@@ -343275,8 +343295,8 @@
     {
       "id": "ch-radio-32",
       "name": "Radio 32",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/radio32/mp3-192/chmedia-today-web",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/radio32/mp3-192",
       "homepage": "https://www.radio32.ch/",
       "country": "CH",
       "tags": [
@@ -343287,11 +343307,13 @@
       "favicon": "https://www.presseportal-schweiz.ch/sites/default/files/radio_32_logo_neu.jpg",
       "faviconSource": "radio-browser",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radio32",
       "geo": [
         47.2041,
         7.5428
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "gt-radio-activa-95-1-fm-en-linea-catolica",
@@ -346810,20 +346832,22 @@
     {
       "id": "ch-radio-eviva",
       "name": "Radio Eviva",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/reviva/mp3-192/direct/",
-      "homepage": "https://player.eviva.ch/",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/reviva/mp3-192",
+      "homepage": "https://www.eviva.ch/",
       "country": "CH",
       "favicon": "https://upload.wikimedia.org/wikipedia/commons/8/82/Radio_Eviva_logo.svg",
       "faviconSource": "wiki",
       "faviconSourceUrl": "https://commons.wikimedia.org/wiki/File:Radio_Eviva_logo.svg",
       "faviconLicense": "public-domain",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "eviva#eviva.eviva",
       "geo": [
         47.1449,
         8.4343
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ru-radio-maximum-supernova",
@@ -364450,8 +364474,8 @@
     {
       "id": "ch-radio-central",
       "name": "Radio Central",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.streambase.ch/rcentral/mp3-192/chmedia-radio-web/1723615196409_33800762",
+      "broadcaster": "ch-media",
+      "streamUrl": "https://stream.streambase.ch/rcentral/mp3-192",
       "homepage": "https://www.radiocentral.ch/",
       "country": "CH",
       "favicon": "https://ch.az-cdn.ch/static/5.23.0/radiocentral/device-icons/512x512.png",
@@ -364459,11 +364483,13 @@
       "faviconSourceUrl": "https://www.radiocentral.ch/",
       "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
+      "metadata": "ch-media",
+      "metadataUrl": "radiocentral#radiocentral.radiocentral",
       "geo": [
-        0,
-        0
+        47.0502,
+        8.3093
       ],
-      "status": "stream-only"
+      "status": "working"
     },
     {
       "id": "ru-radio-ultra",
@@ -547812,7 +547838,7 @@
     {
       "id": "au-listnr-indigenous-australians-hls",
       "name": "LiSTNR - Indigenous Australians (HLS)",
-      "shortName": "Australians (HLS)",
+      "shortName": "Indigenous Australians (HLS)",
       "broadcaster": "independent",
       "streamUrl": "https://sa46.scastream.com.au/live/7firstnations_128.stream/playlist.m3u8",
       "homepage": "https://play.listnr.com/station/indigenous",
