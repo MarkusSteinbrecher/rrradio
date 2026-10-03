@@ -60,6 +60,10 @@ export const ICON_CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
 /** Magnifying glass — the iOS LibraryPageStatusBar search accessory. */
 export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
 /** Plain plus — "add stations to favorites" header accessory. */
+/** Shuffle arrows — the "Surprise me" random-station control (#97). */
+export const ICON_SHUFFLE = svg(
+  '<path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/>',
+);
 export const ICON_PLUS = svg('<path d="M12 5v14"/><path d="M5 12h14"/>');
 /** Minus-in-circle — the per-row remove affordance shown in favorites
  *  edit mode (the iOS delete-mode red circle). */
