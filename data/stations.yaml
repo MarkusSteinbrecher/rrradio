@@ -5131,8 +5131,9 @@
     - dresden
     - heimatsender
     - leipzig
-  favicon: https://www.mdr.de/administratives/av/bild218-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/MDR_Sachsen_Logo_2017.svg/960px-MDR_Sachsen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/sachsenradio/index.html
   status: working
 - id: mdr-mdr-sachsen-anhalt
@@ -5180,8 +5181,9 @@
     - mitteldeutscher rundfunk
     - oldies
     - regional
-  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/MDR_Th%C3%BCringen_Logo_2017.svg/960px-MDR_Th%C3%BCringen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/mdr-thueringen/index.html
   status: working
 - id: mdr-mdr-aktuell
@@ -5336,8 +5338,9 @@
     - mitteldeutscher rundfunk
     - oldies
     - schlager
-  favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MDR_Schlagerwelt_Logo_2016.svg/960px-MDR_Schlagerwelt_Logo_2016.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
   status: icy-only
 - id: swr-swr1-baden-wurttemberg
@@ -6987,7 +6990,11 @@
     - netherlands
   homepage: https://www.nporadio2.nl/soulenjazz
   country: NL
-  status: working
+  status: broken
+  brokenSince: 2026-10-03
+  brokenFrom: working
+  brokenBy: station-probe
+  brokenReason: "HTTP 404 ×24 · 2026-09-10→2026-10-03; no replacement stream (not on Radio Browser or icecast.omroep.nl)"
 - id: builtin-npo-funx
   metadataUrl: npo-funx
   favicon: "https://www.funx.nl/apple-touch-icon.png"
@@ -7917,7 +7924,7 @@
   country: DE
   status: working
 - id: de-deutschrap
-  favicon: "https://assets.laut.fm/d5a9a1735c8f96e88d7662508879d48c?t=_640x640"
+  favicon: "https://assets.laut.fm/58b2a4127d4a76cf26642af1927e56ea?t=_640x640"
   faviconSource: broadcaster-api
   faviconLicense: broadcaster-implicit
   stationuuid: 9c3f1676-9445-4d72-b4da-d3a1c4847b91
@@ -10844,10 +10851,8 @@
   status: working
   featured: true
 - id: builtin-kcrw-live
-  favicon: "https://kcrw.wpengine.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  favicon: "https://www.kcrw.com/++theme++kcrw.theme/icons/apple-touch-icon.png"
   faviconSource: broadcaster-site
-  faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
-  faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   stationuuid: 325a61dc-fe34-48c6-ae82-1467b710f07b
   changeuuid: fd72e1ca-f26b-49db-92b4-4756558622e2
@@ -10868,10 +10873,8 @@
   country: US
   status: stream-only
 - id: builtin-kcrw-eclectic
-  favicon: "https://kcrw.wpengine.com/wp-content/uploads/sites/7/2012/05/KCRW_LOGO-WhiteBg.jpg"
+  favicon: "https://www.kcrw.com/++theme++kcrw.theme/icons/apple-touch-icon.png"
   faviconSource: broadcaster-site
-  faviconSourceUrl: "https://pressroom.kcrw.com/kcrw-logos-assets/"
-  faviconSourceType: cdn
   faviconLicense: broadcaster-implicit
   stationuuid: 18e31f25-53c8-4213-a1ec-dccc0443a788
   changeuuid: d2a674bd-bd7b-4b26-ab52-4d01bef6d042
@@ -40243,8 +40246,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112912/mdr-990801-0-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MDR_Schlagerwelt_Logo_2016.svg/960px-MDR_Schlagerwelt_Logo_2016.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
   country: DE
   status: stream-only
@@ -40258,8 +40262,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112911/mdr-990701-0-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MDR_Schlagerwelt_Logo_2016.svg/960px-MDR_Schlagerwelt_Logo_2016.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
   country: DE
   status: stream-only
@@ -40273,8 +40278,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112898/mdr-284300-0-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/MDR_Th%C3%BCringen_Logo_2017.svg/960px-MDR_Th%C3%BCringen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/mdr-thueringen/index.html
   country: DE
   status: stream-only
@@ -41215,8 +41221,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112900/mdr-284300-2-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/MDR_Th%C3%BCringen_Logo_2017.svg/960px-MDR_Th%C3%BCringen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/mdr-thueringen/index.html
   country: DE
   status: stream-only
@@ -41230,8 +41237,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112902/mdr-284300-3-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/MDR_Th%C3%BCringen_Logo_2017.svg/960px-MDR_Th%C3%BCringen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/mdr-thueringen/index.html
   country: DE
   status: stream-only
@@ -42070,8 +42078,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112910/mdr-990601-0-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild-36078-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MDR_Schlagerwelt_Logo_2016.svg/960px-MDR_Schlagerwelt_Logo_2016.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/meine-schlagerwelt/radio/index.html
   country: DE
   status: stream-only
@@ -42085,8 +42094,9 @@
   streamUrl: https://radio-hls.mdr.de/hls/live/2112899/mdr-284300-1-hls/index.m3u8
   bitrate: 102
   codec: AAC
-  favicon: https://www.mdr.de/administratives/av/bild220-resimage_v-variantSmall1x1_w-512.png
-  faviconSource: broadcaster-site
+  favicon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/MDR_Th%C3%BCringen_Logo_2017.svg/960px-MDR_Th%C3%BCringen_Logo_2017.svg.png"
+  faviconSource: wiki
+  faviconLicense: public-domain
   homepage: https://www.mdr.de/mdr-thueringen/index.html
   country: DE
   status: stream-only
