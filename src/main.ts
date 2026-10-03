@@ -2097,6 +2097,13 @@ function renderContent(): void {
     // Matched directly against the catalog — no Radio Browser — so this
     // count equals the sheet's "Show N stations" (iOS parity).
     if (filtered && !query) {
+      // A filter can be active before the catalog hydrates (a `?genre=` deep
+      // link); show the tuning line instead of a false "No stations match".
+      // loadBuiltinStations().then re-renders once it lands.
+      if (BUILTIN_STATIONS.length === 0) {
+        $content.append(statusLine('Tuning in…'));
+        return;
+      }
       const matched = BUILTIN_STATIONS.filter((s) =>
         matchesBrowseFilter(s, filterGenres, filterCountries, filterNews, activeQuality),
       );
@@ -5711,10 +5718,20 @@ syncMusicServiceLinks();
 // Landing-page preference: open Favorites / Recents on launch when the
 // user picked one (and there's no inbound ?q search / station deep-link
 // taking precedence — those still win via runQuery / autoLoadStationFromUrl).
+// Inbound `?genre=<id>` (the "Open in player" link on the static
+// /genre/<id>/ landing pages, #61) opens Browse with that genre filter
+// applied — the same state a discovery genre chip produces. Unknown ids are
+// ignored. Applied before the first runQuery below.
+const inboundGenre = findGenre(new URLSearchParams(window.location.search).get('genre'));
+if (inboundGenre) {
+  filterGenres.add(inboundGenre.id);
+  syncFilterDot();
+  track(`deeplink/genre/${inboundGenre.id}`);
+}
 {
   const landing = getString(LANDING_KEY);
   const hasQuery = !!new URLSearchParams(window.location.search).get('q');
-  if (!hasQuery && (landing === 'fav' || landing === 'recent')) setTab(landing);
+  if (!hasQuery && !inboundGenre && (landing === 'fav' || landing === 'recent')) setTab(landing);
 }
 // Paint the discovery landing from the few-KB summary first (genre/country
 // chips + the "Browse all N" count) so Browse is usable immediately instead
