@@ -2,7 +2,7 @@
 
 ```yaml
 status: review
-platforms: [web, ios, android]
+platforms: [ios, android]
 reconciled-against: d241aa9
 ```
 
@@ -233,40 +233,29 @@ formatting; "now"/"soon" are special-cased).
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| In-app timer | Not exposed: the wake UI is removed from the web player (wake-to-radio is native-only). The dormant scheduler described under Web remains in code until its teardown. | Supported while app remains alive. | Planned while process/service remains alive. |
-| Keep audio alive | Silent-bed audio workaround. | Near-silent local audio keep-alive (default on). | Planned (a foreground service / near-silent playback bed while armed; Android-native equivalent of the iOS keep-alive). |
-| Local notification fallback | Partial (best-effort `Notification` fired at wake time only when the page is alive and permission granted; no scheduled/background fallback). | Supported (one-shot, fixed identifier). | Planned. |
-| Notification-tap → playback | Not planned (no notification-tap path; audio starts directly from the in-page timer). | Supported (queued, consumed on next active pass — see W1). | Planned. |
-| Pre-armed default time / prefs | Partial (last-used wake time persists in localStorage; no notify or keep-alive preference rows). | Supported (default time, notify, keep-alive). | Planned. |
-| Program-schedule preset arming | Not planned (no schedule → wake preset path on web). | Supported. | Planned. |
-| DST-safe next-fire resolution | Required. | Supported. | Planned (required of the future implementation). |
-| Pause-while-armed warning | Not applicable (web swaps to the silent bed on pause, so the keep-alive footgun the warning guards against does not exist). | Supported (once per alarm, keep-alive off). | Planned. |
-| Lock-screen wake Live Activity | Not applicable. | Supported (glanceable; independent of playback). | Planned (an ongoing / lock-screen notification glances the armed alarm; Android-native equivalent of the iOS Live Activity). |
-| Shortcuts/automation | Not applicable. | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Planned (App Actions / Assistant as the Android-native equivalent of Siri/Shortcuts). |
-| Exact alarm | Not available. | Not available to third-party app in this sense. | Planned (AlarmManager exact-alarm via `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`; permission model still an open decision). |
-| Survives force quit | No. | No. | No reliable guarantee. |
-| Preference cloud sync | Not planned. | Supported for time + notify + keep-alive. | Not applicable. |
+| In-app timer | Not planned (removed). | Supported while app remains alive. | Planned while process/service remains alive. |
+| Keep audio alive | Not planned (removed). | Near-silent local audio keep-alive (default on). | Planned (a foreground service / near-silent playback bed while armed; Android-native equivalent of the iOS keep-alive). |
+| Local notification fallback | Not planned (removed). | Supported (one-shot, fixed identifier). | Planned. |
+| Notification-tap → playback | Not planned (removed). | Supported (queued, consumed on next active pass — see W1). | Planned. |
+| Pre-armed default time / prefs | Not planned (removed). | Supported (default time, notify, keep-alive). | Planned. |
+| Program-schedule preset arming | Not planned (removed). | Supported. | Planned. |
+| DST-safe next-fire resolution | Not planned (removed). | Supported. | Planned (required of the future implementation). |
+| Pause-while-armed warning | Not planned (removed). | Supported (once per alarm, keep-alive off). | Planned. |
+| Lock-screen wake Live Activity | Not planned (removed). | Supported (glanceable; independent of playback). | Planned (an ongoing / lock-screen notification glances the armed alarm; Android-native equivalent of the iOS Live Activity). |
+| Shortcuts/automation | Not planned (removed). | Supported (Set Wake Alarm arms; Play Station / Play Last Station play). | Planned (App Actions / Assistant as the Android-native equivalent of Siri/Shortcuts). |
+| Exact alarm | Not planned (removed). | Not available to third-party app in this sense. | Planned (AlarmManager exact-alarm via `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM`; permission model still an open decision). |
+| Survives force quit | Not planned (removed). | No. | No reliable guarantee. |
+| Preference cloud sync | Not planned (removed). | Supported for time + notify + keep-alive. | Not applicable. |
 
 ## Web
 
-**Wake-to-radio is no longer offered on web.** Its Now Playing entry (wake
-button + inline wake pane) has been removed from the web player; the elements
-remain hidden and unreachable only because the scheduler / silent-bed code still
-references them, and a full teardown is follow-up work. The remaining Web cells
-in the matrix and the description below record that dormant implementation.
-
-The web wake flow is browser-limited. It can work while the page and audio session
-remain eligible, but it must not promise alarm-clock reliability. The in-page
-scheduler (a clamped `setTimeout`, a 30s heartbeat, a `visibilitychange` re-check,
-and a best-effort screen Wake Lock) only runs while the tab is open; closing the
-page ends the alarm. A silent-bed audio workaround (always on while armed, not a
-user preference) stands in for the iOS keep-alive — it loops a near-silent AAC clip
-so the audio session stays active across the fire-time station swap. The Media
-Session API supplies the lock-screen "Wake to …" title. The notification is fired
-best-effort at wake time (only when the page is alive and `Notification` permission
-is granted), not scheduled to fire while the tab is suspended; there is no
-notification-tap-to-play path, no program-schedule preset arming, and no
-preference cloud sync on web. Only the last-used wake time persists in localStorage.
+Not planned. The web app shipped a browser-limited wake flow (in-page scheduler
+plus a looped silent-bed clip to keep the audio session alive) and removed it on
+2026-10-03: a browser tab cannot promise alarm-clock reliability, and on iOS
+Safari the overnight session and gesture grant were not dependable. Wake to radio
+is a native-app feature. The web sleep timer still pauses playback; it no longer
+has any wake interaction. See the "Wake-to-radio architecture" entry in
+`design/decisions/decisions-log.md` for the lessons learned.
 
 ## iOS
 
