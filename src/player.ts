@@ -162,7 +162,43 @@ export class AudioPlayer {
 
   /** Translate a media-element error event into the retry ladder. */
   private handleAudioError(err: MediaError | null): void {
+    if (err?.code === 3 && this.tryRecoverDecode()) return;
     this.failCurrent(audioErrorMessage(err));
+  }
+
+  /** A live HLS stream can hit a one-off MEDIA_ERR_DECODE mid-play (a
+   *  bad segment, a splice in the broadcaster's encoder) that a fresh
+   *  media pipeline plays straight through — BBC Radio 4 logged ~28/week
+   *  of these (#666) on a playlist identical in shape to the BBC stations
+   *  that don't. Recover once (hls.js: recoverMediaError, which re-opens
+   *  MSE; native: rebuild the current variant) before the error enters
+   *  the retry ladder. At most one attempt per station per
+   *  DECODE_RETRY_WINDOW_MS, so a truly undecodable stream falls through
+   *  to the ladder on the second strike instead of looping. */
+  private lastDecodeRecovery = 0;
+  private lastDecodeRecoveryStation = '';
+  private static readonly DECODE_RETRY_WINDOW_MS = 30_000;
+
+  private tryRecoverDecode(): boolean {
+    const station = this.current.station;
+    if (!station.id || !this.retryArmed) return false;
+    const now = Date.now();
+    if (
+      station.id === this.lastDecodeRecoveryStation &&
+      now - this.lastDecodeRecovery < AudioPlayer.DECODE_RETRY_WINDOW_MS
+    ) {
+      return false;
+    }
+    this.lastDecodeRecovery = now;
+    this.lastDecodeRecoveryStation = station.id;
+    if (this.hls) {
+      this.hls.recoverMediaError();
+      void this.audio.play().catch(() => undefined);
+    } else {
+      this.update({ state: 'loading' });
+      this.rebuild();
+    }
+    return true;
   }
 
   /** Resolve the variant plan for `station` and reset the retry budget. */
@@ -216,7 +252,12 @@ export class AudioPlayer {
       // hls.js reports fatal network / media errors here, not on the
       // <audio> element — route them into the same retry ladder.
       this.hls.on(Hls.Events.ERROR, (_event, data) => {
-        if (data.fatal) this.failCurrent('Network error', seq);
+        if (!data.fatal || seq !== this.loadSeq) return;
+        // A fatal media error (e.g. bufferAppendError) gets the one-shot
+        // decode recovery first; anything else goes to the retry ladder.
+        const media = data.type === Hls.ErrorTypes.MEDIA_ERROR;
+        if (media && this.tryRecoverDecode()) return;
+        this.failCurrent(media ? 'Cannot decode stream' : 'Network error', seq);
       });
       this.hls.loadSource(url);
       this.hls.attachMedia(this.audio);

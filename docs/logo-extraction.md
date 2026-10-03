@@ -207,6 +207,44 @@ How it works:
    1:1, never the same image to two channels. Unmatched/ambiguous channels are
    reported and left for the homepage/brand logo fallback; the tool never guesses.
 
+Two match tiers. **Exact**: the label's discriminator (brand prefix stripped,
+collapsed) equals the station's. **Fuzzy**: collapsed-substring containment
+(≥ 0.6 length ratio) or token overlap, e.g. "Weihnachts Hits" vs
+"Weihnachtshits -om". The fuzzy tier sits behind a **label-quality guard**,
+`looksLikeChannelLabel` (#463). Public-broadcaster pages (SWR / MDR / HR / SR)
+carry many captioned photos whose `alt` names the station, and before the
+guard those captions matched. The guard rejects a label for the fuzzy tier
+when it has:
+
+- photo, caption or credit markers: `foto` (also `Symbolfoto`), `photo`,
+  `bild`, `podcast`, `studio`, `unsplash`, `imago`, `getty`, `dpa`, `picture`,
+  `©` / `(c)`, …
+- sentence punctuation: `„ " … ! ?`, or a full stop that ends a word (the one
+  in `96.3` is fine)
+- more than five words
+- mostly lowercase prose: three or more words, at least two thirds of them
+  starting lowercase
+
+When an `alt` label fails the guard, the image's filename label is tried
+instead, because filenames are far more reliable than `alt` on those pages.
+Exact matches skip the guard. Unit tests cover the #462 false positives,
+which must be rejected:
+
+- "Frau hört SWR1 Baden-Württemberg im Radio"
+- "Fußballfans des SC Freiburg. Symbolfoto."
+- "ARD-Dialogaktion „Was Deutschland verbindet“ …"
+- "(Foto: SR 1)"
+- "Weekend Warmup (Unsplash/ emmanuel)"
+
+They sit next to the Radio Gong fixtures, which must still match.
+
+**Broad sweeps** (`--cc`, `--min-family`): #462 applied exact matches only
+because the fuzzy tier was unsafe. With the guard in place, a sweep can apply
+fuzzy matches too. Still read the `exact: false` rows of
+`.cache/channel-art-report.json` per broadcaster before a broad `--replace`:
+the guard filters captions, but it does not prove a channel-like label belongs
+to the right channel.
+
 Flags: `--id` / `--host` / `--cc` narrow the run (and lift the `--min-family`
 floor); default is **fill-missing** (only stations with no favicon), `--replace`
 also upgrades an existing logo to the matched per-channel art. Writes

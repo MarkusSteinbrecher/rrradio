@@ -1,3 +1,4 @@
+import './polyfills';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -29,6 +30,13 @@ import {
   type DiscoveryCounts,
 } from './discovery';
 import { loadDiscoverySummary, getDiscoverySummary } from './discovery-summary';
+import {
+  getSurpriseExclude,
+  loadSurpriseExclude,
+  parseRecentPicks,
+  pickSurprise,
+  rememberPick,
+} from './surprise';
 import {
   loadHighlights,
   resolveHighlights,
@@ -145,6 +153,7 @@ import {
   ICON_PLUS,
   ICON_RECENT,
   ICON_SEARCH,
+  ICON_SHUFFLE,
   ICON_TRASH,
 } from './icons';
 import { isListQueue, resolveQueue, stepQueue, type QueueSource } from './queue';
@@ -1902,7 +1911,12 @@ function renderDiscovery(): void {
   const counts = getDiscoveryCounts();
   const gChips = genreChips(counts);
   if (gChips.length > 0) {
-    $content.append(discoverySection('Browse by genre'));
+    // The genre header carries the compact "Surprise me" control (#97) —
+    // discovery's one-tap "just play something" next to the chips.
+    const head = document.createElement('div');
+    head.className = 'disc-section-head';
+    head.append(discoverySection('Browse by genre'), surpriseButton('disc-surprise', true));
+    $content.append(head);
     const row = document.createElement('div');
     row.className = 'disc-chips';
     for (const c of gChips) row.append(discoveryChip(c.label, c.count, () => selectGenreChip(c.id)));
@@ -1930,6 +1944,56 @@ function renderDiscovery(): void {
     enableWheelScroll(rail);
     $content.append(rail);
   }
+}
+
+// ─── Surprise me (#97) ───
+
+const SURPRISE_RECENT_KEY = 'rrradio.surprise-recent';
+
+/** Shuffle control. `labelled` renders the text label next to the icon
+ *  (discovery landing); the results row uses the icon alone. */
+function surpriseButton(className: string, labelled: boolean): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = className;
+  const filtered = hasActiveFilter();
+  btn.setAttribute(
+    'aria-label',
+    filtered ? 'Surprise me: play a random station matching the filter' : 'Surprise me: play a random station',
+  );
+  btn.title = filtered ? 'Random station from this filter' : 'Play a random station';
+  btn.innerHTML = ICON_SHUFFLE;
+  if (labelled) {
+    const lbl = document.createElement('span');
+    lbl.textContent = 'Surprise me';
+    btn.append(lbl);
+  }
+  btn.addEventListener('click', () => void surpriseMe());
+  return btn;
+}
+
+/** Play a random published station, inside the active Browse filter when one
+ *  is set. Plays through onRowPlay so recents, analytics, and the URL behave
+ *  exactly like a row tap. */
+async function surpriseMe(): Promise<void> {
+  // The catalog normally hydrated long before the tap; only a very fast tap
+  // on a cold load waits for it. The exclusion list is preloaded at boot —
+  // if it hasn't landed yet the pick just skips nothing extra.
+  const list = BUILTIN_STATIONS.length > 0 ? BUILTIN_STATIONS : await loadBuiltinStations();
+  void loadSurpriseExclude();
+  const filtered = hasActiveFilter();
+  const recent = parseRecentPicks(getString(SURPRISE_RECENT_KEY));
+  const pick = pickSurprise(list, {
+    matches: filtered
+      ? (s) => matchesBrowseFilter(s, filterGenres, filterCountries, filterNews, activeQuality)
+      : undefined,
+    exclude: getSurpriseExclude(),
+    avoid: [currentNP.station.id, ...recent],
+  });
+  if (!pick) return;
+  setString(SURPRISE_RECENT_KEY, JSON.stringify(rememberPick(recent, pick.id)));
+  track(filtered ? 'surprise/filtered' : 'surprise');
+  onRowPlay(pick);
 }
 
 /** "Browse all" — a full-width tappable header row plus a horizontal
@@ -2092,6 +2156,9 @@ function resultsRow(count: number, label?: string): HTMLElement {
   countEl.textContent = label ? `${label} · ${n}` : n;
 
   row.append(back, sort, countEl);
+  // Shuffle within the current filter (#97) — only for the un-queried
+  // catalog/filter views, where "random from this set" is meaningful.
+  if (!queryActive) row.append(surpriseButton('results-row__surprise', false));
   return row;
 }
 
@@ -5675,6 +5742,9 @@ void loadDiscoverySummary().then(() => {
 void loadBuiltinStations().then(() => {
   if (activeTab === 'browse') renderContent();
   autoLoadStationFromUrl();
+  // Preload the Surprise me exclusions (~19 KB gz) once the catalog is in,
+  // so the shuffle tap plays synchronously inside the user gesture.
+  void loadSurpriseExclude();
 });
 // Editorial Featured rail on the discovery landing — load once, then
 // re-render if we're still on the discovery view when it lands.

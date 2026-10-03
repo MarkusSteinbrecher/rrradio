@@ -139,6 +139,8 @@ press-and-hold station-info preview.
 | Tap "See all ›" (genre/country header) | Discovery | Open filter popup with that section pre-expanded | — |
 | Tap the "Browse all" footer row | Discovery | Drop into the full, unfiltered list (no filter applied) | Leaves discovery; back chevron returns; the trailing logo peek is decorative (the whole row is one tap target) |
 | Tap / play a highlight card | Discovery | Play that station | Pushes to recents if catalog; queues the current visible window for skip-next |
+| Tap "Surprise me" (genre header) | Discovery | Play a random station from the whole catalog (see Surprise me rule) | Normal play path: recents, `play:` analytics + a `surprise` event, station URL |
+| Tap shuffle icon (sort row, right) | Results without an active query | Play a random station **inside the active filter** (genre / country / news / quality) | Same as above; event `surprise/filtered` when a filter is active |
 | Tap back chevron | Results (search/chip/filter, not multi-select) | Clear search + filter + browse-all, return to discovery | — |
 | Swipe right over the result list | Results, back chevron shown | Same as back chevron (return to discovery) | Vertical scroll untouched; multi-select excluded |
 | Type in search field | — | Debounced 180 ms, then query updates | Leaves discovery; resets visible window to 25; (re)issues community search; recomputes results off-main |
@@ -174,6 +176,16 @@ press-and-hold station-info preview.
 | Backgrounding / tab switch away | — | Cancel debounce + filter + discovery-count tasks, reset community paginator, dismiss info preview | — |
 
 ## Business rules
+
+- **Surprise me (#97):** picks uniformly at random from published stations,
+  never from known duplicates (non-primary members of a
+  `station-duplicates.json` group) or stations whose last stream health
+  verdict is `bad` — both distilled at build time into `public/surprise.json`.
+  Tiers, first non-empty wins: curated (`working` / `icy-only` / `featured`) →
+  `stream-only` with a logo → the rest. The current station and the last 5
+  picks are skipped while any other candidate exists. Accessible label:
+  "Surprise me: play a random station" (+ "matching the filter" when one is
+  active).
 
 - **Discovery gate:** the discovery landing shows only when the search is empty,
   no filter is active, the page is not mid-multi-select, and "Browse all" has not
@@ -376,6 +388,7 @@ map's "<n> stations" are pluralizable.
 | Curated catalog | Supported. | Supported. | Supported. |
 | Large Radio Browser-backed catalog | Supported. | Supported with bundled index/cache behavior. | Supported with cache-backed loading. |
 | Discovery landing (genre/country chips + Featured rail + Browse all) | Supported. Browse opens on a discovery landing that mirrors iOS: genre chips, country chips, the "Featured" rail, then an always-present "Browse all" footer with a decorative logo peek. Searching, tapping a chip, or tapping "Browse all" drops into the result list. | Supported. | Planned. |
+| Surprise me (random station, filter-aware, duplicate/broken-free) | Shipped. "Surprise me" pill on the discovery genre header; shuffle icon in the results sort row respects the active filter. | Planned. | Planned. |
 | Genre deep link (`?genre=<id>`) + static `/genre/` SEO pages | Shipped. Pre-rendered `/genre/<id>/` pages (top 60 stations, curated first, stream-bad dropped) + a `/genre/` index; station pages link their genre tags. | Not applicable (web SEO surface). | Not applicable. |
 | Search normalization | Supported. | Reference native behavior. | Supported. |
 | Country filter | Supported. | Supported with native picker rows. | Supported. |
@@ -386,9 +399,9 @@ map's "<n> stations" are pluralizable.
 | Searchable country picker with selected-pinned-to-top | Partial. Country selection is a plain native `<select>` populated from the catalog's codes (alphabetical); no in-picker search and no selected-pinned-to-top. | Supported. | Planned. Country selection is a plain dropdown menu populated from the catalog's codes (alphabetical by display name, capped at 90); no in-picker search and no selected-pinned-to-top. |
 | Back-to-discovery chevron + swipe | Not planned for current web. No discovery surface to return to; clearing the search/filter controls reverts to the catalog list. | Supported. | Planned. |
 | Map browse | Supported with web map asset. | Surface built (MapKit) but no Browse entry point wired at d241aa9. | Planned with native map, provider TBD. |
-| Add several stations to a station list | Not planned for current web. | Supported from Browse. | Supported. |
-| Add several stations to Favorites | Not planned for current web. | Supported (Favorites "+" target). | Planned. |
-| Multi-select selection bar (name + count + save) | Not planned for current web. | Supported (top, under the search field). | Supported (bottom bar, above the tab bar; save opens a bottom-sheet list picker / create-list dialog rather than a name+count seeded bar). |
+| Add several stations to a station list | Supported (list-detail "+" or the New-list flow enters Browse multi-select). | Supported from Browse. | Supported. |
+| Add several stations to Favorites | Supported (Favorites "+" target). | Supported (Favorites "+" target). | Planned. |
+| Multi-select selection bar (name + count + save) | Supported (top-pinned dock: cancel · "Adding to <target>" · Add N; stations already in the target show ticked and disabled; a step strip rides above it in the New-list flow). | Supported (top, under the search field). | Supported (bottom bar, above the tab bar; save opens a bottom-sheet list picker / create-list dialog rather than a name+count seeded bar). |
 | Sort controls | Not planned for current web. Browse has no sort row; the catalog renders most-played-first then catalog order, with no user-facing sort control. | Reference native behavior. | Supported for name, quality, and favorite-state sorting. |
 | Alphabet sort cycle (off/A–Z/Z–A) in the sort row | Not planned for current web. No sort row exists. | Reference native behavior. | Supported. |
 | Quality / favorite-state sort | Not planned for current web. | In the sort model; not exposed by the Browse sort row's single control. | Supported. |

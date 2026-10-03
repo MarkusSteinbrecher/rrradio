@@ -427,3 +427,70 @@ describe('AudioPlayer retry ladder + stream variants (#95, #623)', () => {
     expect(audio.src).toBe('https://example.com/a');
   });
 });
+
+describe('AudioPlayer decode-error recovery (#666)', () => {
+  function fireMediaError(audio: HTMLAudioElement, code: number): void {
+    Object.defineProperty(audio, 'error', { configurable: true, get: () => ({ code }) });
+    audio.dispatchEvent(new Event('error'));
+  }
+
+  it('reconnects once on MEDIA_ERR_DECODE before the retry ladder', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+    vi.advanceTimersByTime(700);
+    audio.dispatchEvent(new Event('playing'));
+    const playsBefore = vi.mocked(audio.play).mock.calls.length;
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+    // Immediate rebuild — no ladder backoff, no retry counted.
+    expect(vi.mocked(audio.play).mock.calls.length).toBe(playsBefore + 1);
+    expect(states.at(-1)).toMatchObject({ station: A, state: 'loading' });
+    expect(states.at(-1)?.retry).toBeUndefined();
+  });
+
+  it('a second decode error within the window goes to the retry ladder', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(5_000);
+    fireMediaError(audio, 3);
+
+    expect(states.at(-1)).toMatchObject({ state: 'loading', retry: { attempt: 1 } });
+  });
+
+  it('recovers directly again once the window has passed', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 3);
+    await Promise.resolve();
+    vi.advanceTimersByTime(31_000);
+    fireMediaError(audio, 3);
+
+    expect(states.some((s) => s.state === 'error')).toBe(false);
+    expect(states.at(-1)?.retry).toBeUndefined();
+  });
+
+  it('non-decode errors skip the recovery and enter the ladder', async () => {
+    const audio = makeAudio();
+    const player = new AudioPlayer(audio);
+    const states = recordStates(player);
+    await player.play(A);
+
+    fireMediaError(audio, 2);
+
+    expect(vi.mocked(audio.play)).toHaveBeenCalledTimes(1);
+    expect(states.at(-1)).toMatchObject({ state: 'loading', retry: { attempt: 1 } });
+  });
+});

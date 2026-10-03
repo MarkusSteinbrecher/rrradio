@@ -3,7 +3,7 @@
 ```yaml
 status: review
 platforms: [web, ios, android]
-reconciled-against: d241aa9
+reconciled-against: 8fc085b
 ```
 
 ## Purpose
@@ -69,26 +69,54 @@ Top to bottom:
 - **Paged pane content** (swipeable):
   - **Album (Now) pane** — large artwork (220 pt: track cover, else the
     dot-matrix `rrr` fallback — see Artwork fallback below), track title, artist
-    subtitle, and an uppercase program-name caption when known.
+    subtitle, and a program-name caption (same sans family, not mono caps) when
+    known. While the station details are expanded the track text is hidden,
+    collapsing the pane to just the artwork.
   - **Schedule pane** — program header (name + subtitle), then today's broadcast
     list with start times; the live broadcast is highlighted and tagged "Live".
     Shows a loading spinner while the schedule fetches and a "no schedule" line
-    when the day has no broadcasts.
+    when the day has no broadcasts. The pane (and its tab) exists only when a
+    schedule is loaded or loading — a station that reports a current show name
+    but ships no schedule gets no Schedule pane (the show name still shows on
+    the Album pane).
   - **Lyrics pane** — track header, scrollable lyrics text (selectable), and a
     "Lyrics source: <name>" attribution link.
-- **Music-service rail** — Apple Music / Spotify / YouTube Music buttons (hidden
-  on the Lyrics pane and until the track is verified as a real song).
-- **Expandable station details** — collapsed by default behind a status strip
-  chevron; expands to show website link, stream URL, country, format
+- **Music-service rail** — an "OPEN IN" eyebrow over Apple Music / Spotify /
+  YouTube Music buttons (hidden on the Lyrics pane, while the station details are
+  expanded, and until the track is verified as a real song).
+- **Stream-info status strip** — the header of the station-details panel. A
+  tappable line `"<state> . <codec> . <bitrate>"` with a status dot, centered on
+  the full width (like the NOW PLAYING eyebrow) at a steady size whether the
+  panel is open or closed; the expand chevron is pinned left in a 44 pt slot,
+  directly above the wake control. Chevron points down to expand, up to collapse.
+- **Expandable station details** — collapsed by default; expands directly
+  *beneath* the status strip to show website link, stream URL, country, format
   (codec/bitrate/quality), genres, metadata source, a "Report broken station"
   action, and — when a prior report exists for this station — its current
-  resolution status (received / confirmed / resolved).
-- **Stream-info status strip** — a tappable line `"<state> . <codec> . <bitrate>"`
-  with a status dot; the chevron (up when collapsed, down when expanded) toggles
-  the details panel.
-- **Controls block** — wake-alarm button (left), previous-station, play/pause
-  (large, 64 pt), next-station, sleep-timer button (right). Wake and sleep
-  buttons carry a countdown chip when armed.
+  resolution status (received / confirmed / resolved). The pane area above
+  absorbs the growth, so the transport keeps its bottom anchor.
+- **Controls block** — wake-alarm button (left; native only — the web player has
+  no wake entry, see Platform Matrix), previous-station, play/pause (large,
+  64 pt), next-station, sleep-timer button (right). Wake and sleep buttons carry a
+  countdown chip when armed.
+
+### Type scale (portrait)
+
+Every portrait text element maps to one named role (landscape columns and car
+mode keep their own denser / glanceable sizing):
+
+| Role | Face | Size / weight | Used for |
+|---|---|---|---|
+| eyebrow | mono caps, wide tracking | 10 / medium | NOW PLAYING, stream status, OPEN IN, TODAY, lyrics source |
+| navTab | mono caps, wide tracking | 12 / bold | Album / Schedule / Lyrics tabs |
+| displayTitle | sans | 28 / medium | station name |
+| paneTitle | sans | 20 / medium | song title (Album pane), program title (Schedule pane) |
+| subtitle | sans | 13 / regular | artist, program subtitle |
+| body | sans | 14 / regular | lyrics, schedule-row title |
+| caption | sans | 11 / medium | stream details, schedule times, program name |
+
+Colour is an emphasis ramp (ink → ink2 → ink3 → ink4), with accent for
+live/playing and a warm error tint for offline/error.
 
 ### Artwork fallback (all full-view layouts)
 
@@ -121,9 +149,12 @@ surface aspect, not the vertical size class):
     exist.
   - With no program and no lyrics the row collapses to a single centered album
     column; with one present it is two columns.
-- **Bottom bar** — the expandable details panel (height-capped, scrolls up over
-  the columns instead of pushing the transport), the stream-info status strip,
-  then the transport row: wake, previous, play/pause (52 pt), next, sleep.
+- **Bottom bar** — the stream-info status strip as the panel header, the
+  expandable details panel directly beneath it (height-capped scroll; the bar
+  grows so the columns above shrink while the transport keeps its anchor), then
+  the transport row: wake (native only), previous, play/pause (52 pt), next,
+  sleep. As in portrait, expanding the details hides the track text under the
+  album artwork.
 
 ### Full Now Playing (car mode)
 
@@ -173,7 +204,7 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Tap wake-alarm button | Station current OR wake armed | Opens wake-alarm sheet | See [wake-to-radio](wake-to-radio.md) |
 | Tap sleep-timer button | Station current OR sleep armed | Opens sleep-timer sheet | See [sleep-timer](sleep-timer.md) |
 | Tap a music-service button | Track verified as a real song; service enabled | Opens that service (Apple Music deep-link when available; else search) | External app/URL; never sent to telemetry |
-| Tap status strip / chevron | — | Expands / collapses station details panel | Transport keeps its bottom anchor |
+| Tap status strip / chevron | — | Expands / collapses the station details panel beneath it; track text and the Open-in rail hide while open | Transport keeps its bottom anchor |
 | Tap website / stream link rows | Row present | Opens the URL externally | — |
 | Tap "Report broken station" | A station is current; not already reporting | Opens the broken-station report sheet (category picker + optional/required comment) | — |
 | Submit the report sheet | A category is selected (and a comment when that category requires one) | Sends the report; shows a sent/failed alert; offers an email fallback on failure | Coarse diagnostic recorded locally; a receipt is stored when the worker returns an id |
@@ -257,6 +288,8 @@ wake entry (sleep/wake also reachable while armed even with no current station).
   auto-reconnect only from loading/playing/error (never from paused/idle).
 - **Track verified false / pending** — music-service rail stays hidden; no empty
   search results.
+- **Show name without a schedule** — the Album pane shows the program caption;
+  no Schedule tab/pane is offered (no "no schedule" dead end).
 - **Program/lyrics data races** — when Schedule or Lyrics data disappears while
   that pane is active, the portrait view falls back to the Album pane and the tab
   is removed; in the landscape split the corresponding column is dropped and the
@@ -321,10 +354,12 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 | Previous/next station controls | Supported; Now Playing transport, mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
-| Music-service search links | Supported. | Planned/partial native parity. | Planned. |
+| Music-service search links | Supported; an inline "Open in" row of brand marks under the track text. | Planned/partial native parity. | Planned. |
 | Music-service verification gate | Supported. | Supported. | Partial; the iTunes verification gate runs and resolves `trackVerified` + an Apple Music deep link, but no music-service rail yet consumes them. |
-| Sleep-timer / wake-alarm entry | Partial; sleep-timer entry only (wake to radio is not a web feature). | Reference. | Partial; sleep-timer entry on the mini-player and transport row, but no wake-alarm entry yet (planned; would use AlarmManager exact-alarm + the foreground MediaSessionService). |
+| Sleep-timer / wake-alarm entry | Sleep timer only (trailing the transport). Wake-to-radio UI is removed from the web player — it is a native-only feature. | Reference. | Partial; sleep-timer entry on the mini-player and transport row, but no wake-alarm entry yet (planned; would use AlarmManager exact-alarm + the foreground MediaSessionService). |
 | Landscape / split layout | Supported on wide desktop (≥1400px): a 2-column player (Album + a switchable Schedule/Lyrics column) expands to 3 columns (Album │ Schedule │ Lyrics) when the browse list is collapsed. No phone-landscape split. | Supported (iPad split + iPhone landscape). | Supported — aspect-selected (width > height) split matching the shipped iOS layout: 0.382 golden album column + hairline + the swipeable Schedule⇄Lyrics pane (full-width album when no side data); artwork clamps to the column (max 256, height-aware, floor 96); portrait cover cap 220 phone / 390 tablet. |
+| Station details surface | Platform-specific: no status strip / expandable panel. Tapping the station logo or the album art opens a station-info popup (iOS `StationInfoPreviewOverlay` parity) with Format / Country / Listeners, stream + site links, and Report broken station. The play-state line sits under the track text. | Reference (status-strip header + expandable panel). | Planned. |
+| Volume control | Desktop only (≥1024px): mute toggle + slider on its own row beneath the transport, level persisted. Hidden on phones (hardware rocker; iOS Safari ignores `audio.volume`). | System volume (hardware / Control Center). | System volume. |
 | Car mode | Not a dedicated web feature. | Supported. | Planned; the foreground MediaSessionService already surfaces a media notification with lock-screen/Bluetooth transport (the Android counterpart to background audio + lock-screen controls), but no Android Auto surface or dedicated car-mode layout yet. |
 | Report broken station | Supported; the station-info Report row opens a category + comment sheet, with a receipt status line and an email fallback (#614). | Supported. | Partial; one-tap "Report broken station" POST from the Now Playing surface with a sent/failed status line, no category picker / comment / receipt lifecycle. |
 

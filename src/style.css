@@ -3,7 +3,7 @@
    Ported from design_handoff_rrradio/styles.css
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+@import './fonts.css';
 
 /* Theme tokens. Two palettes, dark default, switched via
    `data-theme="light"` on <html>. The toggle in main.ts persists the
@@ -3968,7 +3968,21 @@ body.is-playing .np-bottom .live-dot  {
   color: var(--ink-3);
 }
 .results-row__back svg,
-.results-row__sort svg { width: 18px; height: 18px; }
+.results-row__sort svg,
+.results-row__surprise svg { width: 18px; height: 18px; }
+/* Surprise me (#97) in the results row: icon-only, pinned right. */
+.results-row__surprise {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 30px;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+}
+.results-row__surprise:hover { color: var(--ink); }
 .results-row__sort.is-active { color: var(--accent); }
 .results-row__sort:disabled { opacity: 0.35; cursor: default; }
 .results-row__count {
@@ -4864,6 +4878,35 @@ body.is-playing .np-bottom .live-dot  {
   font-weight: 700;
   color: var(--ink);
 }
+/* Section header with a trailing control ("Browse by genre" · Surprise me). */
+.disc-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.disc-section-head .disc-section-label { flex: 1 1 auto; min-width: 0; }
+/* Compact, chip-styled shuffle control (#97) — quieter than the genre chips
+   (no fill) so it reads as an action, not another filter. */
+.disc-surprise {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 20px 4px 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.disc-surprise svg { width: 14px; height: 14px; }
+.disc-surprise:hover { background: var(--bg-2); color: var(--ink); }
 
 /* Genre / country chips: a single horizontally-scrolling row (one line,
    scrollable) matching the iOS BrowseDiscoveryView chip carousels —
