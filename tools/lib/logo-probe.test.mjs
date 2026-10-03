@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { classifyLogo, logoFailureClass, probeLogo, toLogoObservation, LOGO_HARD_DETAILS } from './logo-probe.mjs';
+import { classifyLogo, httpsVariant, logoFailureClass, probeLogo, toLogoObservation, LOGO_HARD_DETAILS } from './logo-probe.mjs';
 import { normaliseObservation } from './observations.mjs';
 
 /** Minimal PNG header: signature + IHDR with the given size. */
@@ -68,12 +68,46 @@ describe('probeLogo', () => {
     expect(dns).toMatchObject({ status: 'failed', errorToken: 'dns' });
   });
 
-  it('never fetches http:// or odd schemes, and returns null for no favicon', async () => {
+  it('never fetches odd schemes, and returns null for no favicon', async () => {
     const fetchImpl = async () => { throw new Error('must not be called'); };
-    expect(await probeLogo('http://x/logo.png', { fetchImpl })).toMatchObject({ status: 'failed', errorToken: 'http' });
     expect(await probeLogo('data:image/png;base64,AAAA', { fetchImpl })).toMatchObject({ status: 'failed', errorToken: 'unsupported-scheme' });
     expect(await probeLogo('', { fetchImpl })).toBeNull();
     expect(await probeLogo(undefined, { fetchImpl })).toBeNull();
+  });
+});
+
+describe('http favicons (rule 8b, #701)', () => {
+  it('httpsVariant swaps the scheme, drops :80, keeps host/path/query', () => {
+    expect(httpsVariant('http://www.rtbf.be/favicon.ico')).toBe('https://www.rtbf.be/favicon.ico');
+    expect(httpsVariant('http://x.example:80/a/logo.png?v=2')).toBe('https://x.example/a/logo.png?v=2');
+    expect(httpsVariant('http://x.example:8080/logo.png')).toBe('https://x.example:8080/logo.png');
+    expect(httpsVariant('https://x.example/logo.png')).toBeNull();
+    expect(httpsVariant('stations/x.png')).toBeNull();
+    expect(httpsVariant(null)).toBeNull();
+  });
+
+  it('probes the https twin, never the http URL itself', async () => {
+    const urls = [];
+    const fetchImpl = async (url) => { urls.push(url); return response(200, png(256, 256), { 'content-type': 'image/png' }); };
+    const p = await probeLogo('http://reyfm.de/icon.png', { fetchImpl });
+    expect(urls).toEqual(['https://reyfm.de/icon.png']);
+    expect(p).toMatchObject({ status: 200, via: 'https', header: { width: 256 } });
+  });
+
+  it('twin loads → bad http (soft, fixable); twin fails → that failure, with its own class', async () => {
+    const loads = await probeLogo('http://x/logo.png', { fetchImpl: fetchOk() });
+    expect(classifyLogo('http://x/logo.png', loads)).toEqual({ v: 'bad', d: 'http' });
+    expect(logoFailureClass(classifyLogo('http://x/logo.png', loads))).toBe('soft');
+
+    const gone = await probeLogo('http://x/logo.png', { fetchImpl: fetchOk(404, '', { 'content-type': 'text/html' }) });
+    expect(classifyLogo('http://x/logo.png', gone)).toEqual({ v: 'bad', d: 'HTTP 404' });
+    expect(logoFailureClass(classifyLogo('http://x/logo.png', gone))).toBe('hard');
+
+    const page = await probeLogo('http://x/logo.png', { fetchImpl: fetchOk(200, '<html>', { 'content-type': 'text/html' }) });
+    expect(classifyLogo('http://x/logo.png', page)).toEqual({ v: 'bad', d: 'not-image' });
+
+    const forbidden = await probeLogo('http://x/logo.png', { fetchImpl: fetchOk(403, '', {}) });
+    expect(logoFailureClass(classifyLogo('http://x/logo.png', forbidden))).toBe('soft');
   });
 });
 

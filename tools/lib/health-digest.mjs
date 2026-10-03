@@ -200,11 +200,12 @@ function actionsSection(actionsLog, windowStart) {
   const republished = count((a) => a.action === 'republish');
   const swapped = count((a) => a.action === 'swap-url');
   const logosCleared = count((a) => a.action === 'clear-logo');
+  const logosUpgraded = count((a) => a.action === 'upgrade-logo');
   const awaiting = new Set(all.filter((a) => a.action.startsWith('review')).map((a) => a.id)).size;
 
   const out = [`### Actions this week (${all.length})`, ''];
   if (!all.length && !skippedBy.size && !tripped.length) return [...out, 'none'];
-  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · logos cleared ${logosCleared} · awaiting review ${awaiting}`);
+  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · logos cleared ${logosCleared} · logos upgraded ${logosUpgraded} · awaiting review ${awaiting}`);
   if (skippedBy.size) {
     const parts = [...skippedBy.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([why, n]) => `${why} ${n}`);
     out.push(`- skipped: ${parts.join(', ')}`);

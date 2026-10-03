@@ -81,7 +81,7 @@ volume, then on a Node 22 / npm-11 lockfile mismatch).
 | `metadata` | `health-probe` | metadataUrl / built-in fetcher reachability (analyze.mjs semantics) |
 | `fetcher` | `health-probe` | ok = known key · bad = unknown key · na = generic |
 | `program` | `health-probe` | ok = program-capable fetcher · warn = fetcher without program info · na = no fetcher |
-| `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it; soft, never auto-cleared), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) |
+| `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it, but its https twin loads — soft, never cleared, upgraded by rule 8b), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) — for an http favicon, the token of its https twin |
 | `homepage` | `tools/check-homepages.mjs` | ok · warn = blocked (401/403/429) · bad = dead / server-error / network error · na = no homepage |
 | `drift` | `tools/check-drift.mjs` | ok = changeuuid matches · warn = upstream changed / no baseline · bad = record gone upstream · na = not RB-bound |
 | `duplicate` | `tools/check-duplicates.mjs` | ok = clean · warn = review-tier group · bad = blocking collision |
@@ -89,7 +89,10 @@ volume, then on a Node 22 / npm-11 lockfile mismatch).
 Since phase 3 the probe observes logos itself (`tools/lib/logo-probe.mjs`:
 fetch the favicon with a 64 KB range, decode the header, bucket the size,
 fold the URL heuristics in as `warn`) and `derive-health` writes the facet
-from those observations. `tools/logo-status.mjs` keeps producing its
+from those observations. A plain-`http` favicon is fetched through its https
+twin (scheme swapped, `:80` dropped — the #689 rule): if the twin fails, the
+row records the twin's failure and the normal hard/soft logic applies; if it
+loads and decodes, the row says `http`, which rule 8b turns into an upgrade. `tools/logo-status.mjs` keeps producing its
 heuristic report (`public/station-logo-status.json`) for the tracker and the
 curation tools, but runs with `--no-record` in CI so it no longer touches the
 facet. Before phase 3 it was the facet's owner — an unobserved station still
@@ -220,7 +223,9 @@ Decision-shaped markdown, in this order: the three metrics with
 week-over-week deltas; **newly failing** stations grouped curated /
 long-tail (hard streak ≥ 3 or soft streak ≥ 5, first day inside the window);
 **recovered** (ok streak ≥ 2 after a bad streak); **hot-set stations failing
-right now**; top failure details; per-facet freshness. No raw logs — the old
+right now**; **actions this week** (unpublished / republished / swapped /
+logos cleared / logos upgraded / awaiting review); top failure details;
+per-facet freshness. No raw logs — the old
 tracking issue was a 21 KB log dump nobody read. Exits 0 always.
 
 ## Bootstrap / import
@@ -361,6 +366,30 @@ curator replaces the logo by setting a new `favicon` and removing
 `faviconBlocked`; the vision routine (issue #685, judgement half) is meant
 to do that with a budget.
 
+### upgrade-logo (rule 8b, #701)
+
+About 1,500 published favicons are plain-`http` listings. The app's CSP
+(`img-src https:`) never shows them, and most answer over https. For every
+published station whose latest logo verdict is `http`, `decide-actions`
+fetches the https twin (bounded by `--max-logo`, default 300, concurrency 8;
+`--no-logo-upgrade` turns it off). If the twin loads and decodes, the action
+is `upgrade-logo` (automatic for the long tail, proposed for review on the
+curated tier or a highlighted row). The actuator sets `favicon:` to the https
+URL in the YAML row (inserting it when the URL came from Radio Browser, since
+local YAML wins on the next build), replaces `favicon` in the published JSON
+row, and gives the matched rows in `public/stations-ios-local.json` the same
+favicon (that builder drops http URLs, and `check-catalog` requires matched
+rows to carry the curated favicon). Provenance fields stay: it is the same
+image on the same host. The actuator refuses a row whose published favicon is
+no longer the http URL the twin came from.
+
+Upgrades have their own cap (`caps.upgrade`, 200/day) because sharing the
+200-a-day stream cap would starve them behind any unpublish backlog. The logo
+circuit breaker does not apply to them: a twin that loaded this run is
+positive evidence. Rule 1 still applies. Rule 8 never clears an `http` logo,
+even on a stale hard streak (rows written before 2026-09-26 classed `http` as
+hard).
+
 ### Snapshots
 
 31,427 of 31,461 publishable rows are Radio Browser-bound, so a republish
@@ -382,7 +411,8 @@ is observed, not assumed.
 | 5 | `brokenBy: station-probe` and `ok` · ≥ 3 days | republish, automatic | republish, automatic |
 | 6 | RB has a different https URL that probes `ok` | swap URL instead of unpublishing | proposal for review |
 | 7 | cap: 200 automatic actions per run, worst first | overflow waits | — |
-| 8 | `logo` · `bad` · `hard` · ≥ 3 distinct days (phase 3) — never for `missing`; a non-structural logo failure share > 15 % (missing / http excluded) skips every logo action (`logo-circuit-breaker`) | clear-logo, automatic | proposal for review |
+| 8 | `logo` · `bad` · `hard` · ≥ 3 distinct days (phase 3) — never for `missing` or `http`; a non-structural logo failure share > 15 % (missing / http excluded) skips every logo action (`logo-circuit-breaker`) | clear-logo, automatic | proposal for review |
+| 8b | latest `logo` verdict `http` and the https twin loads and decodes when `decide-actions` probes it (#701) — own cap of 200, the logo breaker does not apply | upgrade-logo, automatic | proposal for review |
 
 Curated tier = `working` / `icy-only` / `featured: true` / referenced from
 `data/highlights.yaml`. Every edge answer is appended to the observation log
