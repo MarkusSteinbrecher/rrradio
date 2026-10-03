@@ -7,13 +7,14 @@ src/
   main.ts             — boot wiring + glue. Shrinks over time as DOM
                         renders get extracted into refs-based modules.
   player.ts           — AudioPlayer class (HTMLAudioElement, hls.js,
-                        MediaSession, prime() sidecar for wake handoff,
-                        swap() for in-place src swap, setStation() for
-                        context-only updates).
+                        MediaSession, reconnect watchdog, the retry /
+                        stream-variant fallback ladder, setQualityPref()).
+  stream-select.ts    — pure variant selection: playbackPlan,
+                        selectVariant, retry backoff (ADR 001).
   stations.ts         — catalog + browse-filter helpers
                         (composeBrowseFilter etc.).
   storage.ts          — safe localStorage wrappers (privacy-mode safe)
-                        + favorites / recents / wake-to / custom-stations.
+                        + favorites / recents / custom-stations.
   url.ts              — safeUrl + urlDisplay (http/https allowlist, used
                         anywhere catalog data becomes <a href>).
   config.ts           — STATS_WORKER_BASE / STATS_PROXY / STATS_BBC_PROXY
@@ -27,8 +28,7 @@ src/
   format.ts           — pure helpers: titleCase, parseLooseJSON,
                         normalizeForSearch (whitespace-insensitive,
                         German diacritics), fmtSharePct.
-  wake.ts             — WakeScheduler + nextFireTime/classifyStoredWake +
-                        formatCountdown + fadeVolume.
+  fade.ts             — fadeVolume (RAF-driven volume ramp).
   metadata.ts         — generic ICY-over-fetch fetcher + types.
   icyMetadata.ts      — ICY StreamTitle parsers.
   radioBrowser.ts     — runtime Radio Browser client (mirror selection +
@@ -38,6 +38,9 @@ src/
   fetchers.json       — fetcher manifest (single source of truth shared
                         between TS runtime and Node tooling, audit #68).
   telemetry.ts        — track() wrapper around GoatCounter's count API.
+  queue.ts            — active playback queue: resolveQueue (list /
+                        favorites / recents / results, favorites fallback)
+                        + circular stepQueue for prev/next.
   types.ts            — shared TypeScript types.
 
   Render layer (audit #77 follow-ups, refs-based for testability):
@@ -47,8 +50,6 @@ src/
   render-np.ts        — refs-based renderNowPlaying (the big one —
                         25-element refs interface).
   np-labels.ts        — pure miniMetaText, npLiveText, npFormatText.
-  np-display.ts       — pure displayStation, isWakeBedActive (wake
-                        masquerade reducer).
   station-display.ts  — pure stationInitials, faviconClass.
   country.ts          — countryName (curated table + Intl.DisplayNames).
   dashboard.ts        — DashboardData, aggregateDashboard, activeCountryMap.
@@ -74,8 +75,7 @@ e2e/
   smoke.spec.ts       — Playwright cold-boot UI tests against `vite preview`.
 
 index.html            — single-page shell with PWA meta tags +
-                        meta-CSP + meta Permissions-Policy +
-                        the .np-wake-pane (inline wake editor).
+                        meta-CSP + meta Permissions-Policy.
 style/index.html      — local design-token editor at /style/.
 catalog-health.html   — public catalog-health dashboard at /catalog-health
                         (src/health/: model.ts filters/sort/URL state,
@@ -87,7 +87,7 @@ ios/                  — static iOS app landing page at /ios (the
                         old /rrradio-ios/ redirects here).
 public/               — static assets (icons, OG image, world map,
                         privacy.html, dashboard.html, stations.json,
-                        analytics.js, silence.m4a). Third-party asset
+                        analytics.js). Third-party asset
                         provenance lives in THIRD_PARTY_NOTICES.md.
 ```
 
@@ -146,8 +146,9 @@ tools/
                          scopable (--cc / --only / --limit). Writes the
                          stream/https/icy/metadata/fetcher/program facets
                          into public/station-health.json plus a
-                         problems-only public/station-status.json for
-                         the dashboard. In CI it runs sharded off a plan
+                         problems-only public/station-status.json (no
+                         longer read by the dashboard; kept for
+                         health-import). In CI it runs sharded off a plan
                          (--plan / --shard / --observations / --no-record)
                          and emits NDJSON observation rows instead.
                          `npm run health` (aliases: validate-catalog,
@@ -268,7 +269,7 @@ public/stations/       — bundled station logos. Path in YAML is
 public/stations.json       — generated. DO NOT hand-edit.
 public/station-capabilities.json — generated by catalog. Native clients read it to choose metadata polling strategy.
 public/station-capabilities-ios-local.json — generated by catalog:ios-local. Local-only native testing companion to stations-ios-local.json.
-public/station-health.json — the unified per-station health record (docs/station-health.md). Written only via tools/lib/health-record.mjs by derive-health, health-probe, logo-status, check-drift, check-duplicates, check-homepages. The committed copy is the bootstrap/local one; the live record is derived daily onto the health-data branch and overlaid into dist/ at deploy time. Read by the tracker Health tab.
-public/station-status.json — generated by health-probe (problems-only). Read by dashboard.
+public/station-health.json — the unified per-station health record (docs/station-health.md). Written only via tools/lib/health-record.mjs by derive-health, health-probe, logo-status, check-drift, check-duplicates, check-homepages. The committed copy is the bootstrap/local one; the live record is derived daily onto the health-data branch and overlaid into dist/ at deploy time. Read by the tracker Health tab and the admin dashboard's station-health card.
+public/station-status.json — generated by health-probe on local full sweeps (problems-only). Legacy: the dashboard reads station-health.json instead; only health-import still seeds from it.
 public/station-backlog.json — generated by backlog. Read by the admin dashboard only (the web app's Browse view stopped surfacing backlog rows on 2026-09-08 — Browse all lists the published, probed catalog).
 ```

@@ -30,6 +30,10 @@ Apple Music, Spotify, etc. are recorded in YAML with `status: not-public` so we 
 
 `tools/check-catalog.mjs` fails CI on any `http://` `streamUrl` not on a per-station allowlist. Opt out with `httpAllowed: true` in `data/stations.yaml` and a comment explaining why HTTPS isn't available. iOS routes those hosts via per-host `NSExceptionDomains` in `ios/project.yml` — App Review will reject `NSAllowsArbitraryLoads`. Web add-custom form rejects `http://` up-front (mixed-content blocks playback anyway).
 
+## No http-only pool on the web (2026-10-03, #495)
+
+The ~6k Radio Browser stations that only answer over plain `http://` stay out of the published catalog. **Decision: no blanket http exceptions; rescue is automatic instead.** #689 upgrades RB plain-http stream URLs to https whenever the https variant answers, and the daily probe (ADR 002) republishes a station once it passes three good days. `httpAllowed: true` stays a rare, hand-reviewed per-station opt-out. Web playback can't use http streams anyway (mixed content on an https page). Revisit only for the native apps, where per-host ATS exceptions are possible, and only per station.
+
 ## Strict CSP via `<meta>` + per-page sha256 hashes (audit #75)
 
 `index.html` ships with `'unsafe-inline'` in `script-src` so dev works; `tools/build-station-pages.mjs` rewrites every emitted page's meta-CSP to drop `'unsafe-inline'` and add `'sha256-<hash>'` entries for the inline JSON-LD blocks. Playwright e2e asserts the post-build form. **Never add `'unsafe-eval'`.** The dynamic-text DOM helpers (`statusLine` / `emptyState` in `src/empty.ts`) use `textContent` so an `Error.message` carrying markup can't smuggle DOM. URL safety lives in `src/url.ts` (http(s) allowlist).
@@ -44,11 +48,12 @@ Browser code imports from `src/config.ts` (`STATS_WORKER_BASE`, `STATS_PROXY`, `
 
 ## Wake-to-radio architecture
 
-- **Silent bed** (`/silence.m4a`, looped) keeps the iOS audio session alive between arm and fire.
-- **Sidecar prime** at arm time grants iOS a fresh user-activation token on a separate audio element so `swap()` at fire time can adopt that element instead of fighting the silent-bed element's stale gesture grant.
-- **`swap()`** never calls `audio.removeAttribute('src') + audio.load()` — those end the iOS media-playback session.
-- **Disarm restores currentNP** to the originally-armed station (paused) via `player.setStation()` so the user doesn't lose their NP context after cancelling an alarm.
-- **Wake editor lives inline on the NP screen** (the `.np-wake-pane`); there's no slide-up sheet. Tapping the alarm icon at the bottom of NP controls toggles it.
+**2026-10-03: removed from the web app.** Wake-to-radio is an iOS feature only (native app, see `docs/wake-to-radio.md` and `docs/spec/features/wake-to-radio.md`). The web player had already hidden its UI (a56648ca); the scheduler, silent bed, sidecar prime and `swap()`/`setStation()` player paths, the `rrradio.wake.*` localStorage keys and `public/silence.m4a` are now gone too. The sleep timer pauses plainly. Boot clears stale `rrradio.wake.*` keys once. `fadeVolume()` survives in `src/fade.ts` for the sleep-timer fade.
+
+Lessons from the web implementation, kept because they explain why a browser can't do this reliably (and why iOS uses a native alarm path):
+
+- A looped silent clip kept the iOS Safari audio session alive between arm and fire, but the tab still got suspended or lost its gesture grant overnight.
+- Re-using the main `<audio>` element at fire time failed: `audio.removeAttribute('src') + audio.load()` ends the iOS media-playback session, so the next `play()` is a fresh autoplay attempt and gets blocked. Priming a sidecar element inside the arm gesture helped but was never dependable.
 
 ## Render extractions go through the harness (audit #77)
 

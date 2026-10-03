@@ -27,6 +27,7 @@ import {
   editStationBlock,
 } from './yaml-station-edit.mjs';
 import { findStation, patchStationFields, removeStation, clearFaviconFields } from './catalog-json-patch.mjs';
+import { httpsVariant } from './logo-probe.mjs';
 
 /** Value of `brokenBy` that marks a row as ours. */
 export const BOT = 'station-probe';
@@ -246,6 +247,79 @@ export function applyClearLogo({ yamlText, stations, action, day }) {
   return { yamlText: next, stations, favicon };
 }
 
+/**
+ * Rewrite a plain-http favicon to its https twin (rule 8b `upgrade-logo`,
+ * #701). decide-actions only proposes it after the twin loaded and decoded,
+ * so this is a field edit: YAML `favicon:` set (inserted when the URL came
+ * from Radio Browser — local YAML wins, so the build keeps it), JSON
+ * `favicon` replaced in place. The rest of the favicon provenance stays: it
+ * is the same image on the same host. Refuses when the published favicon is
+ * no longer the http URL the twin was derived from. `stations` is patched in
+ * place.
+ *
+ * @param {{yamlText: string, stations: object[], action: {id: string, newFavicon: string}}} input
+ * @returns {{yamlText: string, stations: object[], favicon: string}}
+ */
+export function applyUpgradeLogo({ yamlText, stations, action }) {
+  const id = action?.id;
+  assertId(id);
+  const url = action.newFavicon;
+  if (typeof url !== 'string' || !/^https:\/\//.test(url)) throw new Error(`newFavicon must be https, got ${JSON.stringify(url ?? null)}`);
+
+  const block = blockOf(yamlText, id);
+  if (block === null) throw new Error('not in data/stations.yaml');
+  const row = findStation(stations, id);
+  if (!row) throw new Error('not in public/stations.json');
+  const favicon = row.favicon ?? null;
+  if (favicon === url) throw new Error('already on that URL');
+  if (httpsVariant(favicon) !== url) throw new Error(`published favicon ${JSON.stringify(favicon)} is not the http twin of ${url} — changed since the probe`);
+  const yamlFavicon = field(block, id, 'favicon');
+  if (yamlFavicon !== undefined && yamlFavicon !== favicon) throw new Error('YAML favicon differs from the published one — left alone');
+
+  const next = editStationBlock(yamlText, id, (b) => setStationScalar(b, id, 'favicon', url).text).text;
+  row.favicon = url;
+  return { yamlText: next, stations, favicon };
+}
+
+/**
+ * Mirror applied favicon upgrades into `public/stations-ios-local.json`.
+ * The iOS-local builder skips http favicons, so a row matched to an upgraded
+ * station (`localMatchedCatalogId`) has none — and check-catalog fails a row
+ * whose curated station now has a usable one. Sets the favicon the builder
+ * would have copied from the catalog (inserted after `tags`, its builder
+ * position), only on rows that have no favicon or still carry the old http
+ * one. Rows are patched in place; returns how many changed.
+ *
+ * @param {object[]} iosStations
+ * @param {Array<{id: string, favicon: string|null, newFavicon: string}>} upgrades
+ * @returns {number}
+ */
+export function patchIosLocalFavicons(iosStations, upgrades) {
+  const byId = new Map((upgrades ?? []).filter((u) => u?.id && u.newFavicon).map((u) => [u.id, u]));
+  if (!byId.size) return 0;
+  let changed = 0;
+  for (let i = 0; i < (iosStations ?? []).length; i++) {
+    const row = iosStations[i];
+    const up = byId.get(row?.localMatchedCatalogId);
+    if (!up) continue;
+    if (row.favicon && row.favicon !== up.favicon) continue;
+    if (row.favicon) {
+      row.favicon = up.newFavicon;
+    } else {
+      const next = {};
+      for (const [k, v] of Object.entries(row)) {
+        next[k] = v;
+        if (k === 'tags') next.favicon = up.newFavicon;
+      }
+      if (!('favicon' in next)) next.favicon = up.newFavicon;
+      for (const k of Object.keys(row)) delete row[k];
+      Object.assign(row, next);
+    }
+    changed += 1;
+  }
+  return changed;
+}
+
 /** The concrete edit an action asks for — review rows carry it in `proposed`. */
 function kindOf(action) {
   return action?.action === 'review' ? action.proposed : action?.action;
@@ -292,6 +366,7 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
       from: null,
       to: null,
       favicon: null,
+      newFavicon: null,
     };
     try {
       if (kind === 'unpublish') {
@@ -343,6 +418,18 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
           stationuuid: row?.stationuuid ?? null,
           favicon: r.favicon,
         });
+      } else if (kind === 'upgrade-logo') {
+        const row = findStation(stations, id);
+        const r = applyUpgradeLogo({ yamlText, stations, action });
+        yamlText = r.yamlText;
+        stations = r.stations;
+        Object.assign(entry, {
+          name: row?.name ?? id,
+          streamUrl: row?.streamUrl ?? null,
+          stationuuid: row?.stationuuid ?? null,
+          favicon: r.favicon,
+          newFavicon: action.newFavicon,
+        });
       } else {
         throw new Error(`unknown action ${JSON.stringify(kind ?? null)}`);
       }
@@ -375,6 +462,9 @@ function whatToCheck(a) {
   if (a.action === 'clear-logo') {
     return `open ${a.favicon ?? 'the logo URL'} in a browser. Merge = drop it (the app shows its placeholder until a new logo is curated), close = keep. To replace instead, set a new favicon on the branch and remove faviconBlocked.`;
   }
+  if (a.action === 'upgrade-logo') {
+    return `open ${a.newFavicon ?? 'the https logo URL'} in a browser and confirm it is the station's logo (the http listing ${a.favicon ?? ''} could never show under the app's CSP). Merge = ship the https URL, close = keep the http one.`;
+  }
   return 'inspect the diff.';
 }
 
@@ -397,7 +487,7 @@ export function renderSummary({ applied = [], errors = [], mode, day }) {
       ? `${applied.length} curated-tier proposal(s) from station-probe, materialised as a diff so the PR is the review. Nothing here merges on its own (ADR 002).`
       : `${applied.length} automatic long-tail action(s) from station-probe (ADR 002).`,
     '',
-    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · clear-logo ${count('clear-logo')} · skipped ${errors.length}`,
+    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · clear-logo ${count('clear-logo')} · upgrade-logo ${count('upgrade-logo')} · skipped ${errors.length}`,
     '',
   ];
   for (const a of applied) {

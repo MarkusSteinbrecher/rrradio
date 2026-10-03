@@ -59,6 +59,12 @@ export const NP_FRAGMENT = `
     </div>
   </div>
   <div id="np-bitrate">—</div>
+  <div id="np-quality" hidden>
+    <div id="np-quality-seg">
+      <button data-quality="best" role="radio" aria-checked="true"></button>
+      <button data-quality="data" role="radio" aria-checked="false"></button>
+    </div>
+  </div>
   <div id="np-origin">—</div>
   <div id="np-listeners">—</div>
   <a id="np-stream" href="#" hidden>

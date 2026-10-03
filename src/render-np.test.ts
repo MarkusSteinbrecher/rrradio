@@ -1,6 +1,5 @@
 /// <reference lib="dom" />
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { SILENT_BED_ID } from './np-display';
 import { NP_FRAGMENT, mountFragment } from './render-test-harness';
 import {
   renderLyricsPane,
@@ -8,7 +7,7 @@ import {
   type LyricsPaneRefs,
   type NowPlayingRefs,
 } from './render-np';
-import type { Station, WakeTo } from './types';
+import type { Station } from './types';
 
 function mountNp(): NowPlayingRefs {
   mountFragment(NP_FRAGMENT);
@@ -23,6 +22,8 @@ function mountNp(): NowPlayingRefs {
     npStationLogo: byId('np-station-logo') as HTMLImageElement,
     npStationLogoBtn: byId('np-station-logo-btn'),
     npBitrate: byId('np-bitrate'),
+    npQuality: byId('np-quality'),
+    npQualitySeg: byId('np-quality-seg'),
     npOrigin: byId('np-origin'),
     npListeners: byId('np-listeners'),
     npTrackRow: byId('np-track-row'),
@@ -60,9 +61,9 @@ const fm4: Station = {
 };
 
 const ctx = (overrides: Partial<Parameters<typeof renderNowPlaying>[2]> = {}) => ({
-  armedWake: null,
   isFavorite: () => false,
   onClearOpenIn: () => {},
+  qualityPref: 'best' as const,
   ...overrides,
 });
 
@@ -78,6 +79,48 @@ describe('renderNowPlaying — header + meta', () => {
     expect(refs.npBitrate.textContent).toBe('AAC · 192 kbps');
     expect(refs.npOrigin.textContent).toBe('Austria');
     expect(refs.npListeners.textContent).toBe('1,234');
+  });
+
+  it('hides the Best / Data toggle for a single-stream station', () => {
+    const refs = mountNp();
+    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
+    expect(refs.npQuality.hidden).toBe(true);
+  });
+
+  it('shows the toggle for a multi-variant station, marks the active pref, and formats the loaded variant', () => {
+    const refs = mountNp();
+    const variants: Station = {
+      ...fm4,
+      streams: [
+        { url: 'https://example.com/hi', bitrate: 192, codec: 'AAC', tier: 'best' },
+        { url: 'https://example.com/lo', bitrate: 64, codec: 'AAC', tier: 'data' },
+      ],
+    };
+    renderNowPlaying(
+      refs,
+      { station: variants, state: 'playing', variant: variants.streams?.[1] },
+      ctx({ qualityPref: 'data' }),
+    );
+    expect(refs.npQuality.hidden).toBe(false);
+    const [best, data] = Array.from(refs.npQualitySeg.querySelectorAll('[data-quality]'));
+    expect(best.getAttribute('aria-checked')).toBe('false');
+    expect(data.getAttribute('aria-checked')).toBe('true');
+    expect(data.classList.contains('is-active')).toBe(true);
+    expect(refs.npBitrate.textContent).toBe('AAC · 64 kbps');
+  });
+
+  it('shows the retry state in the status badge', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      {
+        station: fm4,
+        state: 'loading',
+        retry: { attempt: 1, maxAttempts: 3, planIndex: 0, planLength: 1 },
+      },
+      ctx(),
+    );
+    expect(refs.npTrackStatusText.textContent).toBe('Reconnecting 1/3');
   });
 
   it('em-dashes when station has no name', () => {
@@ -304,38 +347,6 @@ describe('renderNowPlaying — source links', () => {
     renderNowPlaying(refs, { station: { id: '', name: '', streamUrl: '' }, state: 'idle' }, ctx());
     expect(refs.npReportBroken.hidden).toBe(true);
     expect(refs.npReportBroken.disabled).toBe(true);
-  });
-});
-
-describe('renderNowPlaying — silent-bed wake masquerade', () => {
-  const silentBed: Station = {
-    id: SILENT_BED_ID,
-    name: 'Silent bed',
-    streamUrl: '/silence.m4a',
-  };
-  const wake: WakeTo = {
-    time: '07:30',
-    stationId: 'fm4',
-    station: fm4,
-    armedAt: 1_700_000_000_000,
-  };
-
-  it('substitutes the armed station name + sets is-wake-bed body class', () => {
-    const refs = mountNp();
-    renderNowPlaying(
-      refs,
-      { station: silentBed, state: 'playing' },
-      ctx({ armedWake: wake }),
-    );
-    expect(refs.npName.textContent).toBe('Wake up at 07:30');
-    expect(refs.body.classList.contains('is-wake-bed')).toBe(true);
-  });
-
-  it('clears is-wake-bed when no wake armed', () => {
-    const refs = mountNp();
-    refs.body.classList.add('is-wake-bed');
-    renderNowPlaying(refs, { station: fm4, state: 'playing' }, ctx());
-    expect(refs.body.classList.contains('is-wake-bed')).toBe(false);
   });
 });
 

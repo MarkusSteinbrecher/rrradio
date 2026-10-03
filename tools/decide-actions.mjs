@@ -6,12 +6,14 @@
  *   node tools/decide-actions.mjs --data health-data/ [--catalog public/stations.json]
  *        [--yaml data/stations.yaml] [--out actions.json] [--now ISO]
  *        [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100]
+ *        [--no-logo-upgrade] [--max-logo 300]
  *
  * Reads streaks / plan / metrics / record from the health-data checkout,
  * the published catalog, the YAML (lifecycle fields), the dedup report
  * and the highlights; asks the stats Worker for a second opinion on soft
  * failures (`STATS_ADMIN_TOKEN`); asks Radio Browser for a replacement
- * URL before unpublishing an RB-bound row. The policy itself is pure
+ * URL before unpublishing an RB-bound row; probes the https twin of every
+ * plain-http favicon the record flags `http` (rule 8b). The policy itself is pure
  * (tools/lib/health-policy.mjs) — this file is the I/O around it.
  *
  * Writes `--out` and `<data>/actions/<day>.json` (audit trail), appends
@@ -25,7 +27,8 @@ import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { appendObservations, dayOf, observationPath } from './lib/observations.mjs';
 import { edgeProbeMany, toEdgeObservation } from './lib/edge-probe.mjs';
-import { applySwaps, candidateEdgeIds, candidateSwapIds, decide, DEFAULT_CAPS } from './lib/health-policy.mjs';
+import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds, decide, DEFAULT_CAPS } from './lib/health-policy.mjs';
+import { classifyLogo, httpsVariant, probeLogo } from './lib/logo-probe.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 import { lenientProbe } from './playable-check.mjs';
 
@@ -48,6 +51,8 @@ function parseArgs(argv) {
     rb: true,
     maxEdge: 300,
     maxRb: 100,
+    logoUpgrade: true,
+    maxLogo: 300,
     cap: DEFAULT_CAPS.auto,
     edgeBase: undefined,
   };
@@ -64,12 +69,15 @@ function parseArgs(argv) {
     else if (a === '--no-rb') out.rb = false;
     else if (a === '--max-edge') out.maxEdge = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--max-rb') out.maxRb = Math.max(0, Number(argv[++i]) || 0);
+    else if (a === '--no-logo-upgrade') out.logoUpgrade = false;
+    else if (a === '--max-logo') out.maxLogo = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--cap') out.cap = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--edge-base') out.edgeBase = String(argv[++i] ?? '');
     else if (a === '--help' || a === '-h') {
       console.log(
         'usage: decide-actions --data health-data/ [--catalog p] [--yaml p] [--out actions.json] [--now ISO]\n' +
           '                      [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100] [--cap 200]\n' +
+          '                      [--no-logo-upgrade] [--max-logo 300]\n' +
           '                      [--dedup public/dedup-report.json] [--highlights data/highlights.yaml] [--edge-base URL]',
       );
       process.exit(0);
@@ -204,7 +212,36 @@ if (args.edge && !token) {
   }
 }
 
-// ─── decide (rules 1–5, 7) ───────────────────────────────────────────
+// ─── https twin of http favicons (rule 8b, #701) ─────────────────────
+
+/** @type {Map<string, {favicon: string, newFavicon: string}>} */
+const logoUpgrades = new Map();
+let logoNote = 'logo-upgrade: skipped (--no-logo-upgrade)';
+if (args.logoUpgrade) {
+  try {
+    const ids = candidateLogoUpgradeIds(streaks, latestLogoDetail, yamlById, publishedIds);
+    const todo = ids
+      .map((id) => ({ id, favicon: publishedById.get(id)?.favicon }))
+      .filter((c) => typeof c.favicon === 'string' && httpsVariant(c.favicon))
+      .slice(0, args.maxLogo);
+    let next = 0;
+    const worker = async () => {
+      while (next < todo.length) {
+        const { id, favicon } = todo[next++];
+        const twin = httpsVariant(favicon);
+        const verdict = classifyLogo(twin, await probeLogo(twin, { timeout: 8000 }));
+        if (verdict.v !== 'bad') logoUpgrades.set(id, { favicon, newFavicon: twin });
+      }
+    };
+    await Promise.all(Array.from({ length: 8 }, worker));
+    logoNote = `logo-upgrade: ${ids.length} http favicon(s), probed ${todo.length}, ${logoUpgrades.size} https twin(s) load`;
+  } catch (err) {
+    logoNote = `logo-upgrade: failed (${err.message}) — no upgrades this run`;
+    log(logoNote);
+  }
+}
+
+// ─── decide (rules 1–5, 7, 8, 8b) ────────────────────────────────────
 
 let result = decide({
   streaks,
@@ -216,6 +253,7 @@ let result = decide({
   foldCanonicals,
   highlightIds,
   edge,
+  logoUpgrades,
   metrics,
   now,
   caps: { auto: args.cap },
@@ -282,6 +320,6 @@ console.log(
   `decide-actions: day ${result.day} · ${Object.keys(streaks).length} streaks, ${publishedIds.size} published, ` +
     `${foldCanonicals.size} fold canonicals, ${highlightIds.size} highlighted · ` +
     `circuit breaker ${result.circuitBreaker ? `TRIPPED (${result.circuitBreakerReason})` : 'off'} · ` +
-    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ` +
+    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ${logoNote} · ` +
     `→ ${resolve(args.out)} and ${join(dataDir, 'actions', `${result.day}.json`)}`,
 );

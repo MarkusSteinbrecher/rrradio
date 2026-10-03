@@ -121,6 +121,7 @@ targets iOS parity), not "Not planned".
 | Stream playback | Supported | Reference | Supported | [Playback](playback.md) |
 | Background audio | Partial | Reference | Supported (foreground MediaSessionService) | [Playback](playback.md) |
 | Lock-screen/media controls | Supported where browser allows | Reference | Supported (media3 session) | [Playback](playback.md) |
+| Keyboard shortcuts (desktop) | Supported (Space play/pause, / search, F favorite, ←/→ and N/P skip favorites, M mute, ? help dialog; ignored while typing or with a sheet open — `src/shortcuts.ts`) | Not applicable | Not applicable | [Playback](playback.md) |
 | Navigation (Browse / Favorites / Library) | Supported (three-tab shell — sidebar rail ≥1024px, bottom tab bar below; Library home = lists + pinned Recents) | Reference | Supported (Lists / Browse / Favorites tabs) | [Navigation](features/navigation.md) |
 | Browse/search/filter | Partial (discovery landing, A→Z sort, quality filter, and map all present; no Browse multi-select dock for list building) | Reference | Partial (no community tier or quality filter; 220-row cap) | [Browse](features/browse.md) |
 | Search field | Partial (substring only; no FTS index) | Reference | Partial (substring, no debounce; no RB tier) | [Search](features/search.md) |
@@ -134,14 +135,14 @@ targets iOS parity), not "Not planned".
 | Program schedules | Supported for wired broadcasters | Supported for wired broadcasters | Planned | [Now Playing](features/now-playing.md) |
 | Lyrics | Supported on web | Planned/partial on native | Planned | [Now Playing](features/now-playing.md) |
 | Sleep timer | Partial (15/30/60 cycle; no countdown or default) | Reference | Partial | [Sleep timer](features/sleep-timer.md) |
-| Wake to radio | Partial, browser-limited | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
+| Wake to radio | Not planned (removed 2026-10-03) | Reference, iOS-limited | Planned, Android-limited | [Wake to radio](features/wake-to-radio.md) |
 | iCloud/CloudKit sync | Not planned | Supported | Not applicable | [Data and sync](data-sync.md) |
 | Manual file export/import | Supported (favorites, custom stations, lists, recents, and settings — v3 backup) | Planned/optional | Supported via SAF (favorites, custom, lists, preferences) | [Data and sync](data-sync.md) |
 | Cross-platform account sync | Not planned | Not planned | Not planned for first Android port | [Data and sync](data-sync.md) |
 | Listening history (personal, opt-in, local) | Planned | Reference | Partial (opt-in local log; no dashboard) | [Listening history](features/listening-history.md) |
 | Diagnostics | Privacy-preserving telemetry | Local opt-in diagnostics | Local opt-in diagnostics | [Preferences and diagnostics](features/preferences-diagnostics.md) |
 | Localization / languages | Not planned (English-only; no i18n) | Supported (6 languages) | Planned | [Localization](contracts/localization.md) |
-| Broken-station reports | Partial (fire-and-forget POST; no receipts/category/comment) | Supported (sheet + receipts) | Partial (fire-and-forget POST; no receipts) | [Broken-station reports](contracts/broken-reports.md) |
+| Broken-station reports | Supported (sheet + receipts + status poll) | Supported (sheet + receipts) | Partial (fire-and-forget POST; no receipts) | [Broken-station reports](contracts/broken-reports.md) |
 | Siri / Shortcuts / Spotlight | Planned | Supported | Planned | [Siri & Shortcuts](features/siri-shortcuts.md) |
 | First-run / offline launch | Online-only (boot fetch; no offline/PWA) | Reference | Partial | [First run & offline](features/first-run-offline.md) |
 | Watch companion | Not applicable | Supported as iPhone remote | Not applicable | [Watch remote](features/watch-remote.md) |
