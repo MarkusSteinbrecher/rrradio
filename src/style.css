@@ -2181,36 +2181,7 @@ body.is-playing .mini-toggle .icon-pause { display: block; }
 .np-back:active { transform: scale(0.92); }
 .np-back svg { width: 22px; height: 22px; display: block; }
 
-/* Browse-list collapse toggle — wide desktop only (shown via the ≥1400px
-   block). Anchored to the NP pane's top-left corner; the chevron points
-   left to collapse the browse list and flips to point right (→ "show
-   browse") once collapsed. */
-.np-collapse-browse {
-  display: none;
-  position: absolute;
-  top: 16px;
-  left: 14px;
-  z-index: 6;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--bg);
-  color: var(--ink-3);
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-.np-collapse-browse:hover { color: var(--ink); border-color: var(--line-2); }
-.np-collapse-browse svg { width: 16px; height: 16px; display: block; }
-/* Expand arrows by default; swap to inward "contract" arrows once the
-   browse list is collapsed (player is already full width). */
-.np-collapse-browse .icon-contract { display: none; }
-body.browse-collapsed .np-collapse-browse .icon-expand { display: none; }
-body.browse-collapsed .np-collapse-browse .icon-contract { display: block; }
-
-/* Close the docked player (desktop) — mirrors the collapse toggle in the
-   opposite (top-right) corner. Hidden by default; shown via the ≥1024px
+/* Close the player (desktop, top-right corner). Hidden by default; shown via the ≥1024px
    block while a station is docked and the player isn't already closed.
    Audio continues; the mini-player carries transport + reopen. */
 .np-close {
@@ -2502,24 +2473,8 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-lyrics-source:hover { color: var(--ink); }
 .np-lyrics-source svg { width: 12px; height: 12px; flex-shrink: 0; }
 
-/* Column header + empty-state — both only surface in the wide 4-column
-   Now Playing layout. The header is display:none until the wide @media
-   turns it on; the empty-state line respects its [hidden] attribute
-   (toggled by renderProgramPane / renderLyricsPane) and is only ever
-   un-hidden inside a force-shown column. */
-.np-col-head {
-  display: none;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 0 0 8px;
-  background: var(--bg);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
+/* Pane empty-state — respects its [hidden] attribute (toggled by
+   renderProgramPane / renderLyricsPane). */
 .np-pane-empty {
   padding: 28px 8px;
   font-size: 13px;
@@ -2678,11 +2633,11 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
      the viewport height, with breathing room above and below. The grid modes
      left-align their own album column; this only applies when neither is on.
      Source is 600×600 (coverArt.ts) so it stays crisp at this size. */
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track {
+  body.tab-playing:not(.np-twocol) .np-track {
     padding-top: 22px;
     padding-bottom: 26px;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-track__cover-wrap {
+  body.tab-playing:not(.np-twocol) .np-track__cover-wrap {
     /* Height-driven + flex-shrink so the square stays large on tall screens
        but shrinks to fit shorter ones (e.g. a MacBook) — the on-air text and
        the "Open in" row below it (flex-shrink:0) always stay visible instead
@@ -4593,15 +4548,15 @@ body.is-playing .np-bottom .live-dot  {
      wide screen: cap and centre the *content* so it doesn't hug the left with
      a sea of empty space. The body itself stays full-pane-width and the
      station divider is excluded from the cap, so the hairline runs full-bleed
-     edge-to-edge across the whole pane — matching the ≥1400px 2-/3-column
-     grids, where the divider spans every column even with no Schedule/Lyrics. */
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body {
+     edge-to-edge across the whole pane — matching the ≥1400px 2-column
+     grid, where the divider spans every column even with no Schedule/Lyrics. */
+  body.tab-playing:not(.np-twocol) .np-body {
     align-items: center;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-body > :not(.np-station-divider) {
+  body.tab-playing:not(.np-twocol) .np-body > :not(.np-station-divider) {
     max-width: 760px;
   }
-  body.tab-playing:not(.np-twocol):not(.np-threecol) .np-pane-tabs {
+  body.tab-playing:not(.np-twocol) .np-pane-tabs {
     justify-content: center;
   }
 
@@ -4889,18 +4844,16 @@ body.is-playing .np-bottom .live-dot  {
 /* ─────────────────────────────────────────────────────────────
    Wide desktop: in-window multi-column Now Playing (#521)
    ─────────────────────────────────────────────────────────────
-   At ≥1400px the full-area Now Playing destination lays its panes side by
-   side instead of tab-switching. The column count tracks available
-   content (npLayoutMode):
-
-   · Album + one of Schedule / Lyrics  → 2 columns.
-   · Album + Schedule + Lyrics         → 3 columns.
+   At ≥1400px, when a station has a Schedule and/or Lyrics pane, the
+   full-area Now Playing destination shows Album beside a switchable
+   Schedule/Lyrics column (npLayoutMode → 'twocol'). Album-only stations
+   keep the centred single column. (The 3-column mode was retired, #620.)
 
    The station header spans the top of the NP pane; the transport bar
    spans the bottom (it's a sibling of .np-body). Below 1400px NP falls
    back to the tabbed single-pane layout (mobile unchanged). Gated on
-   body.has-station. The .np-twocol / .np-threecol body classes are
-   set by syncNpTabs() from the viewport + available panes. */
+   body.has-station. The .np-twocol body class is set by syncNpTabs()
+   from the viewport + available panes. */
 @media (min-width: 1400px) {
   /* ── Album + switchable Schedule/Lyrics: the golden split ──
      Album left, secondary pane right, ~38.2% / 61.8% (1 : 1.618). */
@@ -4928,28 +4881,7 @@ body.is-playing .np-bottom .live-dot  {
   body.np-twocol #np-secondary-empty { grid-area: secpane; }
   body.np-twocol .np-track[hidden] { display: flex; }
 
-  /* ── Album + Schedule + Lyrics: 3 columns ── */
-  body.np-threecol .np-body {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto auto minmax(0, 1fr);
-    grid-template-areas:
-      'station station station'
-      'divider divider divider'
-      'album   program lyrics';
-    column-gap: 22px;
-  }
-  body.np-threecol .np-pane-tabs { display: none !important; }
-  body.np-threecol .np-program-pane { grid-area: program; }
-  body.np-threecol .np-lyrics-pane { grid-area: lyrics; }
-  body.np-threecol .np-track[hidden] { display: flex; }
-  body.np-threecol .np-program-pane[hidden] { display: flex; }
-  body.np-threecol .np-lyrics-pane[hidden] { display: block; }
-  /* Per-column headers only earn their keep when both columns are shown
-     at once (3-col); in 2-col the switcher already labels the column. */
-  body.np-threecol .np-col-head { display: block; }
-
-  /* ── Shared (both wide modes) ── */
+  /* ── Shared wide-mode rules ── */
   body.has-station .np-station { grid-area: station; }
   /* Full-width hairline under the station head: once .np-body becomes a grid
      the divider is no longer in normal flow, so give it its own row + area.
@@ -4966,8 +4898,7 @@ body.is-playing .np-bottom .live-dot  {
      mirroring the left-aligned schedule column. Scoped to the actual grid
      modes — the single-pane (album-only) view keeps the centered base layout
      (see the album-only rule in the ≥1024px block). */
-  body.np-twocol .np-track,
-  body.np-threecol .np-track {
+  body.np-twocol .np-track {
     grid-area: album;
     /* Stretch to the album cell (was `start`) so the cover has a definite
        height budget to flex-shrink against — otherwise a content-sized column
@@ -4982,8 +4913,7 @@ body.is-playing .np-bottom .live-dot  {
   /* The "Album" header: match the Schedule tab's type, plus space to the art.
      Only earns its place beside a Schedule/Lyrics column (grid modes).
      Centred over the album column (align-self) to sit above the centred art. */
-  body.np-twocol .np-track__head,
-  body.np-threecol .np-track__head {
+  body.np-twocol .np-track__head {
     display: block;
     align-self: center;
     font-family: var(--mono);
@@ -5000,8 +4930,7 @@ body.is-playing .np-bottom .live-dot  {
      scaled to the viewport) + flex-shrink so it gives way to the text/Open-in
      rows on short viewports; max-width:100% keeps it inside the column (and,
      via aspect-ratio, square) when the column is narrower than that height. */
-  body.np-twocol .np-track .np-track__cover-wrap,
-  body.np-threecol .np-track .np-track__cover-wrap {
+  body.np-twocol .np-track .np-track__cover-wrap {
     width: auto;
     height: min(600px, 56vh);
     max-width: 100%;

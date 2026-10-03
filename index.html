@@ -295,14 +295,6 @@
         <main class="content" id="content"></main>
 
         <section class="np" id="np" aria-label="Now playing">
-          <!-- Wide-desktop only: collapse the browse list to expand the
-               player from 2 to 3 columns. Diagonal "expand" arrows read
-               as a layout/size toggle (distinct from the left-nav chevron);
-               they swap to inward "contract" arrows once browse is hidden. -->
-          <button type="button" class="np-collapse-browse" id="np-collapse-browse" aria-label="Expand player to full width" aria-expanded="true">
-            <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10V4h6"/><path d="m4 4 6 6"/><path d="M20 10V4h-6"/><path d="m20 4-6 6"/><path d="M4 14v6h6"/><path d="m4 20 6-6"/><path d="M20 14v6h-6"/><path d="m20 20-6-6"/></svg>
-            <svg class="icon-contract" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v6H4"/><path d="M10 10 4 4"/><path d="M14 4v6h6"/><path d="m14 10 6-6"/><path d="M10 20v-6H4"/><path d="m10 14-6 6"/><path d="M14 20v-6h6"/><path d="m14 14 6 6"/></svg>
-          </button>
           <!-- Desktop: close the player so browse fills the full width.
                Audio keeps playing via the mini-player bar, which doubles as
                the reopen affordance. -->
@@ -392,7 +384,6 @@
             </div>
 
             <div class="np-program-pane" id="np-program-pane" hidden>
-              <div class="np-col-head" aria-hidden="true">Schedule</div>
               <!-- iOS parity: current show name + subtitle, then a
                    "Today · N broadcasts" caption above the rows. -->
               <div class="np-program-head" id="np-program-head" hidden>
@@ -408,7 +399,6 @@
             </div>
 
             <div class="np-lyrics-pane" id="np-lyrics-pane" hidden>
-              <div class="np-col-head" aria-hidden="true">Lyrics</div>
               <!-- iOS parity: track title + artist header pinned above the
                    scrolling lyrics body, with a source credit link below. -->
               <div class="np-lyrics-head" id="np-lyrics-head" hidden>
