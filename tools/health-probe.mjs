@@ -20,9 +20,6 @@
  *   public/station-health.json   stream/https/icy/metadata/fetcher/program
  *                                facets via tools/lib/health-record.mjs
  *                                (skipped with --no-record)
- *   public/station-status.json   admin-dashboard artifact — same row shape
- *                                analyze.mjs emitted, but problems-only
- *                                (full sweeps only; scoped runs skip it)
  *   <observations>.ndjson        one append-only row per probed station
  *
  * Reads public/stations.json (the merged artifact) so RB-bound entries get
@@ -32,7 +29,6 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { classifyLogoUrl } from './logo-quality.mjs';
 import { classifyError } from './lib/homepage-status.mjs';
 import { loadHealth, saveHealth, applyFacet, pruneStations } from './lib/health-record.mjs';
 import { createClassifiers, failureClass, toObservation } from './lib/probe-classify.mjs';
@@ -45,8 +41,6 @@ const root = join(__dirname, '..');
 const PUBLISHABLE = new Set(['working', 'stream-only', 'icy-only']);
 const ORIGIN = 'https://rrradio.org';
 import { lenientProbe } from './playable-check.mjs';
-
-const STATUS_PROBLEM_CAP = 1000;
 
 // ─── args ────────────────────────────────────────────────────────────
 
@@ -378,63 +372,6 @@ function tallyFacet(list, facet) {
   const tally = { ok: 0, warn: 0, bad: 0, na: 0 };
   for (const r of list) tally[r.facets[facet].v] += 1;
   return { checked: list.length, transitions: 0, tally };
-}
-
-// ─── dashboard artifact (full sweeps only) ───────────────────────────
-
-if (fullSweep && args.record) {
-  const problems = rows
-    .filter((r) => Object.values(r.facets).some((f) => f.v === 'bad'))
-    .sort((a, b) => {
-      const badCount = (r) => Object.values(r.facets).filter((f) => f.v === 'bad').length;
-      return badCount(b) - badCount(a) || a.station.id.localeCompare(b.station.id);
-    });
-  const status = {
-    generatedAt: at,
-    problemsOnly: true,
-    totals: Object.fromEntries(FACET_KEYS.map((f) => [f, summaries[f].tally])),
-    checked: rows.length,
-    problemCount: problems.length,
-    stations: problems.slice(0, STATUS_PROBLEM_CAP).map(({ station: s, facets }) => ({
-      id: s.id,
-      name: s.name,
-      broadcaster: s.broadcaster,
-      status: s.status,
-      streamUrl: s.streamUrl,
-      metadataUrl: s.metadataUrl ?? null,
-      favicon: s.favicon ?? null,
-      metadataKey: s.metadata ?? null,
-      // Dashboard-compatible shape (state/detail keys, metadataApi + logo
-      // columns). The health record stays the source of truth; this is a
-      // rendering artifact.
-      checks: {
-        stream: toState(facets.stream),
-        https: toState(facets.https),
-        icy: toState(facets.icy),
-        metadataApi: toState(facets.metadata),
-        fetcher: toState(facets.fetcher),
-        program: toState(facets.program),
-        logo: logoState(s.favicon),
-      },
-    })),
-  };
-  const outPath = join(root, 'public/station-status.json');
-  mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(outPath, JSON.stringify(status, null, 2) + '\n');
-  console.log(`wrote public/station-status.json (${problems.length} problem station(s), cap ${STATUS_PROBLEM_CAP})`);
-} else {
-  console.log('scoped or unrecorded run — leaving public/station-status.json untouched');
-}
-
-function toState(facet) {
-  return facet.d == null ? { state: vState(facet.v) } : { state: vState(facet.v), detail: facet.d };
-}
-function vState(v) {
-  return v; // verdicts and dashboard states share the ok|warn|bad|na vocabulary
-}
-function logoState(favicon) {
-  const logo = classifyLogoUrl(favicon);
-  return logo.reason == null ? { state: logo.state } : { state: logo.state, detail: logo.reason };
 }
 
 // ─── summary ─────────────────────────────────────────────────────────

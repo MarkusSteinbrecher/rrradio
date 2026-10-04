@@ -135,12 +135,6 @@ npm run health -- --concurrency 24 --timeout 5000
   well under 2 h; the old sequential probes could not finish inside a CI job.
 - Writes the `stream/https/icy/metadata/fetcher/program` facets into the
   health record.
-- Still emits `public/station-status.json` (legacy — the admin dashboard
-  now reads `station-health.json` directly; only `health-import` still seeds
-  from it), same
-  per-station shape as analyze.mjs produced, but **problems-only** (stations
-  with at least one `bad` facet, capped at 1000) plus a `totals` block — the
-  dashboard grid was never going to render 24k rows.
 - Prints a summary tally plus the bad stations, not 24k table rows.
 
 In CI it runs from a plan instead of scanning the catalog itself:
@@ -151,8 +145,8 @@ npm run health -- --plan plan.json --shard 0 --observations obs-0.ndjson --no-re
 
 - `--plan` + `--shard i` take the targets from the plan's shard `i`.
 - `--observations <path>` appends one row per probed station.
-- `--no-record` skips `public/station-health.json` and
-  `public/station-status.json` — `derive-health` writes the record instead.
+- `--no-record` skips `public/station-health.json` — `derive-health` writes
+  the record instead.
 - `--strict` stays for local use; the workflow never passes it.
 
 Classification (`classifyStream`, `classifyIcy`, hard/soft `failureClass`)
@@ -227,15 +221,6 @@ right now**; **actions this week** (unpublished / republished / swapped /
 logos cleared / logos upgraded / awaiting review); top failure details;
 per-facet freshness. No raw logs — the old
 tracking issue was a 21 KB log dump nobody read. Exits 0 always.
-
-## Bootstrap / import
-
-`tools/health-import.mjs` seeds the record from whatever committed reports
-already exist (`station-status.json`, `station-drift.json`,
-`station-duplicates.json`, `station-logo-status.json`, plus the local
-`.cache/homepage-status.json` if present), carrying over each source's own
-`generatedAt` as that facet's `lastRun`. Honest staleness from day one: a
-facet imported from a month-old report *shows* as a month old in the tracker.
 
 ## Observations: the append-only measurement log
 

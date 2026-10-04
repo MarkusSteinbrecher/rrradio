@@ -132,7 +132,7 @@ async function loadRecord(): Promise<void> {
     }
     state.record = parsed;
   } catch (err) {
-    state.loadError = `station-health.json unavailable — run \`npm run health-import\` or \`npm run health\` (${String(err)})`;
+    state.loadError = `station-health.json unavailable — run \`npm run health\` (${String(err)})`;
   }
 }
 
