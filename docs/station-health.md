@@ -228,15 +228,6 @@ logos cleared / logos upgraded / awaiting review); top failure details;
 per-facet freshness. No raw logs — the old
 tracking issue was a 21 KB log dump nobody read. Exits 0 always.
 
-## Bootstrap / import
-
-`tools/health-import.mjs` seeds the record from whatever committed reports
-already exist (`station-status.json`, `station-drift.json`,
-`station-duplicates.json`, `station-logo-status.json`, plus the local
-`.cache/homepage-status.json` if present), carrying over each source's own
-`generatedAt` as that facet's `lastRun`. Honest staleness from day one: a
-facet imported from a month-old report *shows* as a month old in the tracker.
-
 ## Observations: the append-only measurement log
 
 The probe no longer writes verdicts directly. It appends one NDJSON row per

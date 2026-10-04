@@ -181,10 +181,6 @@ tools/
                          .github/workflows/catalog-watch.yml (manual
                          dispatch), which opens a labelled PR with the
                          additions.
-  health-import.mjs    — one-shot bootstrap of the health record from
-                         pre-existing report artifacts, keeping each
-                         source's own generatedAt as that facet's
-                         lastRun. `npm run health-import`.
   build-station-capabilities.mjs
                        — deterministic native-client metadata capability
                          manifest builder. Reads an existing station catalog

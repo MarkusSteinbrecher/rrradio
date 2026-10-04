@@ -86,7 +86,7 @@ export async function renderOverview(root: HTMLElement): Promise<void> {
   if (!health) {
     frag.append(
       sectionHeader('Health'),
-      emptyState('No station-health.json — run `npm run health-import` once, then `npm run health`.'),
+      emptyState('No station-health.json — run `npm run health`.'),
     );
     root.replaceChildren(frag);
     return;
