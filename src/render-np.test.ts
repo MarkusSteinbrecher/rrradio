@@ -32,6 +32,8 @@ function mountNp(): NowPlayingRefs {
     npTrackProgram: byId('np-track-program'),
     npTrackStatus: byId('np-track-status'),
     npTrackStatusText: byId('np-track-status-text'),
+    npError: byId('np-error'),
+    npErrorHint: byId('np-error-hint'),
     npTrackCover: byId('np-track-cover') as HTMLImageElement,
     npTrackCoverFallback: byId('np-track-cover-fallback'),
     npTrackSpotify: byId('np-track-spotify') as HTMLAnchorElement,
@@ -190,6 +192,33 @@ describe('renderNowPlaying — album pane (artist / program / status)', () => {
     renderNowPlaying(refs, { station: fm4, state: 'idle' }, ctx());
     expect(refs.npTrackStatus.hidden).toBe(true);
     expect(refs.npTrackStatusText.textContent).toBe('');
+  });
+});
+
+describe('renderNowPlaying — error panel (#98)', () => {
+  it('shows the hint on a final error and hides it otherwise', () => {
+    const refs = mountNp();
+    renderNowPlaying(
+      refs,
+      {
+        station: fm4,
+        state: 'error',
+        errorMessage: 'Network error',
+        errorView: {
+          kind: 'unreachable',
+          headline: 'Station not reachable',
+          hint: "The stream isn't responding right now. Try again in a moment.",
+        },
+      },
+      ctx(),
+    );
+    expect(refs.npError.hidden).toBe(false);
+    expect(refs.npErrorHint.textContent).toContain('Try again in a moment');
+    expect(refs.npTrackStatusText.textContent).toBe('Station not reachable');
+
+    renderNowPlaying(refs, { station: fm4, state: 'loading' }, ctx());
+    expect(refs.npError.hidden).toBe(true);
+    expect(refs.npErrorHint.textContent).toBe('');
   });
 });
 

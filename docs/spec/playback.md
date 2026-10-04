@@ -61,15 +61,37 @@ All platforms must handle transient stream failure:
   paused or nothing was selected.
 - Region-locked stations do not retry; the friendly region message is preserved.
 
+### Error messages
+
+Once retries are spent, the listener sees a short headline and a one-line hint
+that says what to do next, never a raw browser exception. Web maps the raw
+reason with `src/playback-error.ts` (#98):
+
+| Kind | Raw reason (web) | Headline |
+|---|---|---|
+| offline | any failure while the device is offline | You're offline |
+| region | the curated `availableIn` override | Not available in your region |
+| not-public | MediaError 4 (also a dead URL in Chromium) | Can't reach this stream |
+| format | MediaError 3, `NotSupportedError` | Can't play this stream |
+| unreachable | MediaError 2, stall watchdog, aborted, unknown MediaError | Station not reachable |
+| unknown | anything else | Can't play this station |
+
+Now Playing shows the hint with **Try again** (rebuilds the station) and
+**Report** (opens the broken-station sheet). The mini-player shows the headline.
+Telemetry and broken reports keep the raw reason. Offline failures send no
+error event: they are the listener's connection, not the station.
+
 Platform notes:
 
 - Web must treat `HTMLAudioElement` as unreliable after some failures and
   rebuild source state. Media `error` events, rejected `play()` loads, fatal
   hls.js errors and the stall watchdog (frozen `currentTime`) all feed one
   capped/backed-off retry ladder that rebuilds the source and walks the
-  station's stream variants before surfacing `error` (#95). There is still no
-  connectivity monitor, so the network-restore auto-reconnect is not yet wired
-  (see Platform Matrix).
+  station's stream variants before surfacing `error` (#95). There is no full
+  connectivity monitor: a station that failed while the device was offline
+  restarts on the browser's `online` event, but a stream that is still playing
+  or loading when the connection drops relies on the retry ladder (see Platform
+  Matrix).
 - iOS keeps AVPlayer item rebuilding, audio-session interruption handling,
   output-route-loss pause, and media-services-reset recovery as native reference
   behavior; a connectivity monitor drives the network-restore auto-reconnect.
@@ -137,8 +159,9 @@ Status words per the [README](README.md) status legend.
 | Source rebuild on new station | Supported. | Reference. | Supported. |
 | Automatic retry (≤3, backoff) | Supported (per variant; falls back down `streams[]` before `error`). | Reference. | Supported. |
 | Stream-quality preference (best / data) | Supported (Now Playing station-info toggle). | Partial (in-app wiring tracked in rrradio-ios#130). | Supported. |
+| Listener-facing error message + Try again / Report | Supported (#98). | Planned (parity not checked yet). | Planned (parity not checked yet). |
 | Geo-restriction = permanent (no retry) | Supported. | Reference. | Planned (any stream error retries up to the cap; no region-locked permanent-failure path yet). |
-| Network-restore auto-reconnect | Planned. | Reference. | Planned (no connectivity monitor; `ACCESS_NETWORK_STATE` is declared but unused). |
+| Network-restore auto-reconnect | Partial (restarts a station that failed while offline; no monitor for an active stream). | Reference. | Planned (no connectivity monitor; `ACCESS_NETWORK_STATE` is declared but unused). |
 | Lock-screen / system now-playing | Partial (browser-dependent). | Reference. | Supported. |
 | Headphone / Bluetooth transport | Partial (browser-dependent). | Reference. | Supported. |
 | Background playback | Partial. | Reference. | Supported. |

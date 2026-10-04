@@ -19,9 +19,15 @@ export function retryStatusText(retry: StreamRetry): string {
   return `Reconnecting ${retry.attempt}/${retry.maxAttempts}`;
 }
 
+/** The error line: the listener-facing headline (#98), falling back to
+ *  the raw reason, then a bare "Error". */
+export function errorHeadline(np: NowPlaying): string {
+  return np.errorView?.headline ?? np.errorMessage ?? 'Error';
+}
+
 /** Short status line under the mini-player station name.
  *  e.g. `LIVE`, `192 KBPS · LIVE`, `TUNING…`, `PAUSED`,
- *  `<error message uppercased>`. */
+ *  `<error headline uppercased>`. */
 export function miniMetaText(np: NowPlaying): string {
   switch (np.state) {
     case 'loading':
@@ -33,7 +39,7 @@ export function miniMetaText(np: NowPlaying): string {
     case 'paused':
       return 'PAUSED';
     case 'error':
-      return np.errorMessage ? np.errorMessage.toUpperCase() : 'ERROR';
+      return errorHeadline(np).toUpperCase();
     default:
       return stateLabel(np.state).toUpperCase();
   }
@@ -50,7 +56,7 @@ export function npLiveText(np: NowPlaying): string {
     case 'paused':
       return 'Paused';
     case 'error':
-      return np.errorMessage ?? 'Error';
+      return errorHeadline(np);
     default:
       return 'Standby';
   }
@@ -70,7 +76,7 @@ export function npStatusText(np: NowPlaying): string {
     case 'paused':
       return 'Paused';
     case 'error':
-      return np.errorMessage ?? 'Error';
+      return errorHeadline(np);
     default:
       return '';
   }
