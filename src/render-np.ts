@@ -40,6 +40,8 @@ export interface NowPlayingRefs {
    *  colours the dot) + its label span. */
   npTrackStatus: HTMLElement;
   npTrackStatusText: HTMLElement;
+  npError: HTMLElement;
+  npErrorHint: HTMLElement;
   npTrackCover: HTMLImageElement;
   /** Container the cover-fallback initials live in. */
   npTrackCoverFallback: HTMLElement;
@@ -134,6 +136,12 @@ export function renderNowPlaying(
   refs.npTrackStatusText.textContent = status;
   refs.npTrackStatus.dataset.state = np.state;
   refs.npTrackStatus.hidden = status.length === 0;
+
+  // Error panel (#98) — the hint + Try again / Report buttons (wired in
+  // main.ts). Only on a final error that carries a listener-facing view.
+  const errorView = np.state === 'error' ? np.errorView : undefined;
+  refs.npErrorHint.textContent = errorView?.hint ?? '';
+  refs.npError.hidden = !errorView;
 
   // Music-service search links only render once iTunes has confirmed
   // the title resolves to a real song (np.trackVerified === true).

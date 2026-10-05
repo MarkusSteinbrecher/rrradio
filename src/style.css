@@ -2750,6 +2750,39 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
 .np-track__status[data-state="loading"] .np-track__status-dot { background: var(--ink-2); }
 .np-track__status[data-state="error"] .np-track__status-dot { background: #ff8b6b; }
 .np-track__status[data-state="error"] { color: #ff8b6b; }
+/* Final playback error (#98): hint + Try again / Report, under the badge.
+   Buttons reuse the Surprise-me pill look. */
+.np-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.np-error[hidden] { display: none; }
+.np-error__hint {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  text-align: center;
+  text-wrap: balance;
+}
+.np-error__actions { display: flex; gap: 8px; }
+.np-error__btn {
+  min-height: 32px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.np-error__btn:hover { background: var(--bg-2); color: var(--ink); }
 /* On-air title row: centred title with a small "open-in" arrow
    pinned to the right edge. Tapping reveals text links to music
    services. Symmetric padding on the title reserves the trigger
