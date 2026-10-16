@@ -152,6 +152,16 @@ describe('installGlobalErrorHandlers', () => {
     window.dispatchEvent(ev);
     expect(trackCalls).toHaveLength(1);
     expect(trackCalls[0].path).toBe('error: promise');
+    expect(trackCalls[0].title).toMatch(/from=\S+$/);
+  });
+
+  it('errorOrigin names where an error came from without leaking paths', () => {
+    const at = (frame: string) => Object.assign(new Error('x'), { stack: `TypeError: x\n    at f (${frame})` });
+    expect(errors.errorOrigin(at(`${window.location.origin}/assets/main-abc.js:1:2`))).toBe('self');
+    expect(errors.errorOrigin(at('chrome-extension://abcdef/inject.js:3:4'))).toBe('chrome-extension');
+    expect(errors.errorOrigin(at('https://gc.zgo.at/count.js:1:1'))).toBe('gc.zgo.at');
+    expect(errors.errorOrigin(Object.assign(new TypeError('Failed to fetch'), { stack: 'TypeError: Failed to fetch' }))).toBe('no-stack');
+    expect(errors.errorOrigin('plain string')).toBe('no-stack');
   });
 
   it('is idempotent — installing twice attaches one handler', () => {

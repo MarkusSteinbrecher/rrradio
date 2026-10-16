@@ -8,6 +8,7 @@ import {
   loadBuiltinStations,
 } from './builtins';
 import type { ScheduleDay } from './metadata';
+import { createBuildChecker, fetchDeployedVersion } from './buildCheck';
 import { searchITunes, isLowResCoverUrl } from './coverArt';
 import { FavoritesCoverStore, type FavCoverEntry } from './favoritesMetadata';
 import { lookupLyrics } from './lyrics';
@@ -5621,6 +5622,16 @@ document.getElementById('settings-shortcuts')?.addEventListener('click', () => {
 // Player subscription
 // ─────────────────────────────────────────────────────────────
 
+// Stale-build reload (#666): a tab left open for weeks reloads onto the
+// latest deploy at a quiet moment — never mid-playback.
+const checkForNewBuild = createBuildChecker({
+  current: typeof __BUILD_VERSION__ !== 'undefined' ? __BUILD_VERSION__ : 'dev',
+  fetchVersion: () => fetchDeployedVersion(import.meta.env.BASE_URL),
+  isBusy: () => currentNP.state === 'playing' || currentNP.state === 'loading',
+  reload: () => window.location.reload(),
+});
+document.addEventListener('visibilitychange', () => void checkForNewBuild());
+
 let lastIcyKey = '';
 let prevState: typeof currentNP.state = 'idle';
 let prevStationId = '';
@@ -5699,6 +5710,11 @@ player.subscribe((np) => {
     }
   } else if (np.state !== 'error') {
     lastErrorMessage = '';
+  }
+  // Playback stopped in a background tab: a pending update can land unseen.
+  const wasBusy = prevState === 'playing' || prevState === 'loading';
+  if (document.hidden && wasBusy && np.state !== 'playing' && np.state !== 'loading') {
+    void checkForNewBuild();
   }
   prevState = np.state;
   prevStationId = np.station.id;

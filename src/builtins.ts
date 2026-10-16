@@ -1884,6 +1884,22 @@ function normaliseStreams(raw: unknown): StreamVariant[] | undefined {
   return out.length >= 2 ? out : undefined;
 }
 
+/** Retry delays for a catalog fetch that fails at the network layer —
+ *  typically a phone resuming the app before its connection is back
+ *  (Safari's "TypeError: Load failed", #666). */
+const CATALOG_RETRY_MS = [1_000, 3_000];
+
+async function fetchCatalog(): Promise<Response> {
+  for (const delay of CATALOG_RETRY_MS) {
+    try {
+      return await fetch(`${BASE}stations.json`);
+    } catch {
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
+  return fetch(`${BASE}stations.json`);
+}
+
 export function loadBuiltinStations(): Promise<Station[]> {
   if (loadPromise) return loadPromise;
   loadPromise = (async () => {
@@ -1892,7 +1908,7 @@ export function loadBuiltinStations(): Promise<Station[]> {
       // deploy, so let the browser/HTTP cache serve repeat loads instead of
       // re-downloading ~3.3 MB (gzip) every time. GitHub Pages' ETag +
       // max-age revalidates cheaply when it does change.
-      const res = await fetch(`${BASE}stations.json`);
+      const res = await fetchCatalog();
       if (!res.ok) {
         reportCatalogError(new Error(`stations.json HTTP ${res.status}`));
         return [];
