@@ -115,6 +115,24 @@ function currentRoute(): string {
   }
 }
 
+/** Where an error was thrown, as a host only (no path, no PII): `self`
+ *  for our own bundle, the scheme for extensions (`chrome-extension`),
+ *  the host for third-party scripts, `no-stack` when unknown. Tells app
+ *  bugs apart from extensions that wrap `fetch` (#666). */
+export function errorOrigin(err: unknown): string {
+  const stack = err instanceof Error ? err.stack ?? '' : '';
+  const m = stack.match(/\b([a-z][a-z0-9+.-]*):\/\/([^/\s)]*)/i);
+  if (!m) return 'no-stack';
+  const [, scheme, host] = m;
+  if (scheme !== 'http' && scheme !== 'https') return scheme.toLowerCase();
+  try {
+    if (host === window.location.host) return 'self';
+  } catch {
+    /* no location (tests) */
+  }
+  return host;
+}
+
 let installed = false;
 let errorHandler: ((event: ErrorEvent) => void) | null = null;
 let rejectionHandler: ((event: PromiseRejectionEvent) => void) | null = null;
@@ -133,7 +151,8 @@ export function installGlobalErrorHandlers(): void {
   window.addEventListener('error', errorHandler);
 
   rejectionHandler = (event: PromiseRejectionEvent) => {
-    errorEvent('promise', event.reason ?? 'unknown');
+    const reason: unknown = event.reason ?? 'unknown';
+    errorEvent('promise', reason, { detail: `from=${errorOrigin(reason)}` });
   };
   window.addEventListener('unhandledrejection', rejectionHandler);
 }

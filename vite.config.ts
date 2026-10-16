@@ -74,6 +74,24 @@ function readManualLogoPatches(): ManualLogoPatch[] {
   }
 }
 
+const BUILD_VERSION = buildVersion();
+
+/** Publish the build stamp as `version.json` so long-lived tabs can tell
+ *  a newer deploy is live and reload onto it (src/buildCheck.ts, #666). */
+function versionFilePlugin(): Plugin {
+  return {
+    name: 'rrradio-version-file',
+    apply: 'build',
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: `${JSON.stringify({ version: BUILD_VERSION })}\n`,
+      });
+    },
+  };
+}
+
 function localLogoPatchPlugin(): Plugin {
   return {
     name: 'rrradio-local-logo-patches',
@@ -237,9 +255,9 @@ function specSitePlugin(): Plugin {
 // the base path is '/' in both production and development.
 export default defineConfig({
   base: '/',
-  plugins: [localRouteAliasPlugin(), localLogoPatchPlugin(), specSitePlugin()],
+  plugins: [localRouteAliasPlugin(), localLogoPatchPlugin(), specSitePlugin(), versionFilePlugin()],
   define: {
-    __BUILD_VERSION__: JSON.stringify(buildVersion()),
+    __BUILD_VERSION__: JSON.stringify(BUILD_VERSION),
   },
   build: {
     target: 'es2022',
