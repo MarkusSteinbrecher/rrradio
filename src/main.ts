@@ -93,6 +93,7 @@ import {
   geoRestrictionLabel,
   isAvailableInUserRegion,
 } from './region';
+import { playbackErrorView, REGION_LOCK_SUFFIX } from './playback-error';
 import {
   aggregateDashboard,
   type DashboardData,
@@ -342,6 +343,10 @@ const $npTrackArtist = document.getElementById('np-track-artist') as HTMLElement
 const $npTrackProgram = document.getElementById('np-track-program') as HTMLElement;
 const $npTrackStatus = document.getElementById('np-track-status') as HTMLElement;
 const $npTrackStatusText = document.getElementById('np-track-status-text') as HTMLElement;
+const $npError = document.getElementById('np-error') as HTMLElement;
+const $npErrorHint = document.getElementById('np-error-hint') as HTMLElement;
+const $npErrorRetry = document.getElementById('np-error-retry') as HTMLButtonElement;
+const $npErrorReport = document.getElementById('np-error-report') as HTMLButtonElement;
 const $npTrackCover = document.getElementById('np-track-cover') as HTMLImageElement;
 const $npTrackCoverWrap = document.getElementById('np-track-cover-wrap') as HTMLElement;
 const $npTrackSpotify = document.getElementById('np-track-spotify') as HTMLAnchorElement;
@@ -930,6 +935,8 @@ const NP_REFS: NowPlayingRefs = {
   npTrackProgram: $npTrackProgram,
   npTrackStatus: $npTrackStatus,
   npTrackStatusText: $npTrackStatusText,
+  npError: $npError,
+  npErrorHint: $npErrorHint,
   npTrackCover: $npTrackCover,
   npTrackCoverFallback: document.getElementById(
     'np-track-cover-fallback',
@@ -5459,6 +5466,17 @@ async function sendReport(): Promise<void> {
 }
 
 $npReportBroken.addEventListener('click', openReportSheet);
+
+// Error panel actions (#98).
+function retryCurrentStation(): void {
+  if (currentNP.state === 'error' && currentNP.station.id) void player.play(currentNP.station);
+}
+$npErrorRetry.addEventListener('click', retryCurrentStation);
+$npErrorReport.addEventListener('click', openReportSheet);
+// Failed because the device was offline: start again once it's back.
+window.addEventListener('online', () => {
+  if (currentNP.errorView?.kind === 'offline') retryCurrentStation();
+});
 $npReportForm.addEventListener('change', syncReportSheet);
 $npReportComment.addEventListener('input', syncReportSheet);
 $npReportForm.addEventListener('submit', (e) => {
@@ -5621,8 +5639,13 @@ player.subscribe((np) => {
   if (np.state === 'error' && !isAvailableInUserRegion(np.station)) {
     const label = geoRestrictionLabel(np.station, countryName);
     if (label) {
-      np = { ...np, errorMessage: `${label} — region-locked by the broadcaster.` };
+      np = { ...np, errorMessage: `${label} — ${REGION_LOCK_SUFFIX}` };
     }
+  }
+  // Listener-facing wording for the final error (#98). errorMessage stays
+  // raw for telemetry and broken reports.
+  if (np.state === 'error') {
+    np = { ...np, errorView: playbackErrorView(np.errorMessage, navigator.onLine) };
   }
   // Switching station mid sleep-fade is a manual action: cancel the fade.
   if (np.station.id !== currentNP.station.id) cancelSleepFadeOnUserAction();
@@ -5659,7 +5682,9 @@ player.subscribe((np) => {
       track(`resume: ${np.station.name}`);
     }
   }
-  if (np.state === 'error' && prevState !== 'error') {
+  // Offline failures are the listener's connection, not the station: no
+  // error event, so error-watch and the broken-station list stay clean.
+  if (np.state === 'error' && prevState !== 'error' && np.errorView?.kind !== 'offline') {
     const reason = np.errorMessage ?? 'unknown';
     if (reason !== lastErrorMessage) {
       lastErrorMessage = reason;

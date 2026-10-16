@@ -364,6 +364,14 @@
                   <span class="np-track__status-dot" aria-hidden="true"></span>
                   <span class="np-track__status-text" id="np-track-status-text"></span>
                 </div>
+                <!-- Final playback error (#98): what to do next + actions. -->
+                <div class="np-error" id="np-error" hidden>
+                  <p class="np-error__hint" id="np-error-hint"></p>
+                  <div class="np-error__actions">
+                    <button type="button" class="np-error__btn" id="np-error-retry">Try again</button>
+                    <button type="button" class="np-error__btn" id="np-error-report">Report</button>
+                  </div>
+                </div>
               </div>
               <!-- Open in (iOS musicServiceSection parity): a visible row of
                    brand marks, shown only once iTunes verifies the track

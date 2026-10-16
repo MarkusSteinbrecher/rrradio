@@ -13,6 +13,7 @@ function np(overrides: Partial<NowPlaying> & { state: NowPlaying['state'] }): No
     station: { ...baseStation, ...(overrides.station ?? {}) },
     state: overrides.state,
     errorMessage: overrides.errorMessage,
+    errorView: overrides.errorView,
     retry: overrides.retry,
     variant: overrides.variant,
   };
@@ -43,6 +44,18 @@ describe('miniMetaText', () => {
     ).toBe('CONNECTION REFUSED');
   });
 
+  it('error with a listener-facing view → headline uppercased (#98)', () => {
+    expect(
+      miniMetaText(
+        np({
+          state: 'error',
+          errorMessage: 'Network error',
+          errorView: { kind: 'unreachable', headline: 'Station not reachable', hint: '…' },
+        }),
+      ),
+    ).toBe('STATION NOT REACHABLE');
+  });
+
   it('error without message → ERROR', () => {
     expect(miniMetaText(np({ state: 'error' }))).toBe('ERROR');
   });
@@ -69,6 +82,18 @@ describe('npLiveText', () => {
     expect(
       npLiveText(np({ state: 'error', errorMessage: 'Network down' })),
     ).toBe('Network down');
+  });
+
+  it('error with a listener-facing view → headline, not the raw reason (#98)', () => {
+    expect(
+      npLiveText(
+        np({
+          state: 'error',
+          errorMessage: 'NotSupportedError: The element has no supported sources.',
+          errorView: { kind: 'format', headline: "Can't play this stream", hint: '…' },
+        }),
+      ),
+    ).toBe("Can't play this stream");
   });
 
   it('error without message → Error', () => {

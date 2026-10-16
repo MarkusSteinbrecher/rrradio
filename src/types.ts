@@ -1,3 +1,5 @@
+import type { PlaybackErrorView } from './playback-error';
+
 /** One delivery variant of a station's single broadcast — a bitrate/codec
  *  rendition of the *same* programme (FM4 192k vs 128k), grouped at build time
  *  by `tools/lib/catalog-dedupe.mjs`. */
@@ -177,7 +179,13 @@ export interface NowPlaying {
    *  every hour or two while tracks change every few minutes. */
   programName?: string;
   programSubtitle?: string;
+  /** Raw failure reason (MediaError label, watchdog, play() rejection,
+   *  region-lock override). Telemetry + broken reports use this. */
   errorMessage?: string;
+  /** Listener-facing wording for `errorMessage`, set by main.ts when the
+   *  state turns `error` (#98, src/playback-error.ts). The chrome shows
+   *  this instead of the raw reason. */
+  errorView?: PlaybackErrorView;
   /** The catalog variant currently loaded (ADR 001). Absent for a
    *  single-stream station; the chrome then shows the station's own
    *  codec / bitrate. */

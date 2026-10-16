@@ -57,6 +57,9 @@ export const NP_FRAGMENT = `
     <div id="np-track-status" data-state="idle" hidden>
       <span id="np-track-status-text"></span>
     </div>
+    <div id="np-error" hidden>
+      <p id="np-error-hint"></p>
+    </div>
   </div>
   <div id="np-bitrate">—</div>
   <div id="np-quality" hidden>
