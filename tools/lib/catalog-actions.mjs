@@ -320,6 +320,26 @@ export function patchIosLocalFavicons(iosStations, upgrades) {
   return changed;
 }
 
+/** iOS-local favicon edits implied by the applied actions, in the shape
+ *  patchIosLocalFavicons takes. Logo upgrades replace the old URL; a
+ *  republished station with a usable favicon (bundled or https) fills
+ *  matched rows that have none — check-catalog requires both (#749). */
+export function iosFaviconSyncs(applied, stations) {
+  const byId = new Map((stations ?? []).map((s) => [s.id, s]));
+  const out = [];
+  for (const a of applied ?? []) {
+    if (a.action === 'upgrade-logo') {
+      out.push(a);
+    } else if (a.action === 'republish') {
+      const f = byId.get(a.id)?.favicon;
+      if (typeof f === 'string' && (/^stations\//.test(f) || f.startsWith('https://'))) {
+        out.push({ id: a.id, newFavicon: f });
+      }
+    }
+  }
+  return out;
+}
+
 /** The concrete edit an action asks for — review rows carry it in `proposed`. */
 function kindOf(action) {
   return action?.action === 'review' ? action.proposed : action?.action;
