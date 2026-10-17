@@ -122,17 +122,14 @@ this repository unless a curator explicitly adds a file under `public/stations/`
 
 ## World map
 
-`public/world-map.svg` is derived from Wikimedia Commons file
-`World map - low resolution.svg` by Al MacDonald / @F1LT3R. It is used for the
-Browse map view. The repo copy has been stripped/minified for runtime size.
+`public/world-countries-110m.json` is derived from Natural Earth's
+1:110m Admin 0 – Countries dataset (v5.1.2,
+<https://www.naturalearthdata.com/>). It draws the land on the Stats sheet
+map. The repo copy merges all countries into one MultiPolygon, drops
+Antarctica and the attribute table, and rounds coordinates to two decimals.
 
-License: Creative Commons Attribution-Share Alike 3.0 Unported.
-
-Attribution:
-
-> World map - low resolution.svg by Al MacDonald / @F1LT3R, via Wikimedia
-> Commons, CC BY-SA 3.0. Modified for rrradio by stripping editor metadata and
-> minifying the SVG.
+License: public domain. Attribution is not required; the map credits
+"Natural Earth" anyway.
 
 References:
 

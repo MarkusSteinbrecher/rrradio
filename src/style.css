@@ -3688,7 +3688,7 @@ body.is-playing .np-bottom .live-dot  {
   text-wrap: balance;
 }
 
-/* ─── Map (Browse home map view, Leaflet + CartoDB Dark Matter) ─── */
+/* ─── Map (Stats sheet, Leaflet + self-hosted country outlines) ─── */
 /* Leaflet container background fallback (matches our theme). */
 .leaflet-container {
   background: var(--bg-2) !important;
@@ -4333,6 +4333,14 @@ body.is-playing .np-bottom .live-dot  {
 }
 .dash-map-leaflet .leaflet-control-attribution a {
   color: var(--ink-2);
+}
+/* Natural Earth land polygons. CSS beats Leaflet's SVG presentation
+   attributes, so the land follows the theme tokens. */
+.dash-map-leaflet .dash-map-land {
+  fill: var(--bg-3);
+  fill-opacity: 0.45;
+  stroke: var(--line-2);
+  stroke-width: 0.6;
 }
 
 .dash-table {

@@ -3708,14 +3708,27 @@ function getCountryCentroid(cc: string): [number, number] | null {
   return s?.geo ?? null;
 }
 
-// The dashboard map mirrors the Browse globe view: real CARTO dark
-// tiles via Leaflet, with one circle marker per country at the
-// centroid. Web Mercator from Leaflet aligns markers correctly at
-// every latitude, where the previous home-rolled equirectangular
-// projection onto a non-equirectangular SVG misplaced them.
+// Dashboard map: Leaflet with one circle marker per country at the
+// centroid, over self-hosted Natural Earth 110m country outlines
+// (public/world-countries-110m.json, public domain). No tile CDN —
+// CARTO's basemaps started demanding an API key (2026-10), and dropping
+// tiles also keeps visitor IPs away from a third party. The outlines are
+// fetched once, on first open of the Stats sheet.
+let worldOutlines: Promise<GeoJSON.GeoJsonObject | null> | null = null;
+
+function loadWorldOutlines(): Promise<GeoJSON.GeoJsonObject | null> {
+  worldOutlines ??= fetch(`${import.meta.env.BASE_URL}world-countries-110m.json`)
+    .then((res) => (res.ok ? (res.json() as Promise<GeoJSON.GeoJsonObject>) : null))
+    .catch(() => null);
+  return worldOutlines;
+}
+
 let dashLeafletMap: L.Map | null = null;
+let dashMapResize: ResizeObserver | null = null;
 
 function teardownDashMap(): void {
+  dashMapResize?.disconnect();
+  dashMapResize = null;
   dashLeafletMap?.remove();
   dashLeafletMap = null;
   $dashMap.replaceChildren();
@@ -3743,6 +3756,7 @@ function renderDashMap(d: DashboardData): void {
   queueMicrotask(() => {
     if (!mapEl.isConnected) return;
     const lmap = L.map(mapEl, {
+      zoomSnap: 0.25,
       worldCopyJump: true,
       zoomControl: false,
       attributionControl: true,
@@ -3752,20 +3766,35 @@ function renderDashMap(d: DashboardData): void {
     });
     dashLeafletMap = lmap;
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      subdomains: 'abcd',
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> ' +
-        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-    }).addTo(lmap);
+    lmap.attributionControl.setPrefix(false);
+    void loadWorldOutlines().then((outlines) => {
+      if (!outlines || dashLeafletMap !== lmap) return;
+      // Fill/stroke come from .dash-map-land in style.css so the land
+      // tracks theme switches; added behind the markers.
+      L.geoJSON(outlines, {
+        interactive: false,
+        style: { className: 'dash-map-land' },
+        attribution: '<a href="https://www.naturalearthdata.com/">Natural Earth</a>',
+      })
+        .addTo(lmap)
+        .bringToBack();
+    });
 
     // Show the inhabited band only — fitWorld zooms out enough to
     // include Antarctica, leaving lots of empty space at the bottom.
-    lmap.fitBounds([
-      [-55, -170],
-      [70, 170],
-    ]);
+    // Refit whenever the box changes size: the first measure happens
+    // mid-way through the sheet's open animation, which used to leave
+    // the world at zoom 0 in a corner of a wide box.
+    const fit = (): void => {
+      lmap.invalidateSize();
+      lmap.fitBounds([
+        [-55, -170],
+        [70, 170],
+      ]);
+    };
+    fit();
+    dashMapResize = new ResizeObserver(fit);
+    dashMapResize.observe(mapEl);
 
     // Resolve the theme accent at render time so the markers track
     // theme switches (Warm/Cool/Yellow × light/dark).
