@@ -45,8 +45,12 @@ ORF and ICY special cases.
    and runs ORF.
 3. **Keyed broadcaster fetchers** — exact `metadata` string match against the
    key table in *Detail*.
-4. **ICY fallback** — `status == "icy-only"` → generic ICY `StreamTitle` scrape.
-5. No match → no fetcher (`nil`); now-playing stays blank for that station.
+4. **Triton Digital URL pattern** — `metadata == "triton"`, **or** `streamUrl`
+   is on a `*.streamtheworld.com` host and yields a mount (see *Triton
+   Digital* below). No catalog field is needed; the mount comes off the
+   stream URL.
+5. **ICY fallback** — `status == "icy-only"` → generic ICY `StreamTitle` scrape.
+6. No match → no fetcher (`nil`); now-playing stays blank for that station.
 
 ### Full now-playing resolution (combined pipeline)
 
@@ -54,8 +58,10 @@ Routing above produces the *primary* fetcher. The full per-station resolution
 that callers run layers two transport fallbacks and a cover-art enrichment step:
 
 1. Resolved fetcher = primary registry fetcher **unless** `status == "icy-only"`
-   (in which case the registry is skipped here and ICY runs as the explicit
-   step 2). If the resolved fetcher returns non-nil → use it.
+   and the station is not a Triton station (in which case the registry is
+   skipped here and ICY runs as the explicit step 2). Background polls
+   (Favorites) resolve the stream-free *background* variant: for Triton that
+   is Triton only, never its ICY fallback. If the resolved fetcher returns non-nil → use it.
 2. Else if `status == "icy-only"` → run generic ICY scrape.
 3. Else if `streamUrl` path extension is `m3u8` → run HLS timed-metadata
    (ID3) scrape.
@@ -123,7 +129,29 @@ upper-cased (see *Known deviations* M6).
 | `grrif` | GRRIF | fixed `https://www.grrif.ch/live/covers.json` + cache-bust `_` (no `metadataUrl`) | JSON (array) | **last** entry: title=`Title`, artist=`Artist` (title-cased), cover=`URLCover` (skips `…/default.jpg`) | empty title |
 | `rb-bremen` | Radio Bremen | `metadataUrl` via Worker proxy | JSON | program-only: `programName`=`currentBroadcast.title`, `programSubtitle`=`.titleAddon` | empty title |
 | `sr` | SR (Saarländischer Rundfunk) | `metadataUrl` via Worker proxy | JSON | program-only: first `"now playing"` value → `programName`=`titel`, `programSubtitle`=`moderator` | empty titel |
+| `triton` (also any `*.streamtheworld.com` stream, no key needed) | Triton Digital | fixed `https://np.tritondigital.com/public/nowplaying?mountName={mount}&numberToFetch=1&eventType=track`; mount = `metadataUrl` when it is `^[A-Za-z0-9_]+$`, else derived from `streamUrl` | XML | first `<nowplaying-info>`: title=`cue_title`, artist=`track_artist_name` (no artist → split title on ` - `), cover=`track_cover_url` when https; whitespace collapsed, trailing `.mp3`/`.wav`/`.m4a` stripped; title-cased **only** when artist and title are both ALL CAPS | empty list, cue `timestamp` older than 30 min, title is a clock time (`^\d{1,2}:\d{2}$`), or no artist and title equals the station name (letters/digits only, caseless). Foreground: on `nil`/error falls back to generic ICY; background: `nil` |
 | *(none)* + `status=="icy-only"` | Generic ICY | `streamUrl` with `Icy-MetaData: 1` | binary | `StreamTitle='…'` → split on ` - ` → artist/title | no `StreamTitle` found within scan budget |
+
+### Triton Digital mount derivation
+
+Triton hosts every `*.streamtheworld.com` stream (the bare host
+`streamtheworld.com` too; look-alikes such as `streamtheworld.com.evil.example`
+do not match). The mount is the stream URL's last path segment with, in order:
+anything from `;` on removed, one trailing `.aac`/`.mp3`/`.m3u8`/`.m3u`/`.pls`/`.flv`
+removed, and a trailing `_SC` removed (the Shoutcast-protocol variant;
+Triton publishes metadata only under the mount without it). Codec suffixes
+(`AAC`, `AAC48`) stay — `BONTONAAC` has data, `BONTON` has none. The result
+must match `^[A-Za-z0-9_]+$`, else no mount.
+
+| Stream URL | Mount |
+|---|---|
+| `…/api/livestream-redirect/HRT_RADIO1AAC.aac` | `HRT_RADIO1AAC` |
+| `https://18153.live.streamtheworld.com:443/RAC105.mp3;stream.mp3` | `RAC105` |
+| `…/api/livestream-redirect/CONCIERTO_SC` | `CONCIERTO` |
+| `https://x.live.streamtheworld.com/NOVA_1069_AAC48.aac` | `NOVA_1069_AAC48` |
+
+The endpoint is public, needs no auth, and is CORS `*`. Unknown mounts
+answer 200 with an empty list.
 
 ### Generic ICY (`StreamTitle`) parse
 
@@ -293,7 +321,8 @@ iTunes high-res upgrade:
 
 | Behavior | Web | iOS | Android |
 |---|---|---|---|
-| Same routing order (ORF → FM4 rewrite → keyed → ICY) | MUST | MUST | Supported (ORF by `metadata=="orf"` / FM4 stream-regex / `audioapi.orf.at` metadataUrl host, then the keyed broadcaster table, `icy-only` → generic ICY, `.m3u8` → HLS ID3) |
+| Triton Digital (`*.streamtheworld.com` → np.tritondigital.com, ICY fallback in foreground, Triton-only in background) | MUST (shipped, rrradio#233) | MUST (shipped, rrradio-ios `TritonMetadataFetcher.swift`) | Planned |
+| Same routing order (ORF → FM4 rewrite → keyed → Triton → ICY) | MUST | MUST | Supported (ORF by `metadata=="orf"` / FM4 stream-regex / `audioapi.orf.at` metadataUrl host, then the keyed broadcaster table, `icy-only` → generic ICY, `.m3u8` → HLS ID3) |
 | Same per-source field mapping & null-vs-error | MUST | MUST | Supported (the full keyed broadcaster set incl. the Worker-proxied hosts; null on no-track, error keeps last-good) |
 | Generic ICY `StreamTitle` via `icy-metaint` | MUST (where CORS/proxy allows) | MUST | Supported (`icy-metaint` in (0, 96 KiB] block read + ` - ` split + UTF-8/ISO-8859-1 decode; no-metaint scan capped at 96 KiB). Since 2026-07-04 the playing station reads ICY cues live from the player (`Player.Listener.onMetadata` → the shared apply/enrichment path); the fetch stays as the fallback for streams that never emit a cue and for row previews. |
 | HLS ID3 timed-metadata scrape | Planned (not implemented) | MUST | Supported (2026-07-04) — the 96 KiB segment scrape (`TIT2`/`TPE1`, bare-title re-split) plus the live path: the playing station consumes the player's demuxed ID3 frames via `onMetadata`; the scrape remains the no-cue fallback and the row-preview transport. |
@@ -342,9 +371,10 @@ cadence regardless of strategy/priority hints.
 
 iOS source (the only place iOS mechanics are named):
 
-- `rrradio/Player/Metadata/NowPlayingMetadata.swift` — output struct + `metadataFetcher(for:)` registry router.
+- `rrradio/Player/Metadata/NowPlayingMetadata.swift` — output struct + `metadataFetcher(for:background:)` registry router.
 - `rrradio/Player/Metadata/DirectMetadataFetchers.swift` — the keyed broadcaster fetchers (Azuracast, laut.fm, StreamABC, SWR, FFH, MDR, radioeins, CRo, SRG IL, Radio Swiss, SRR, MR, BR, BBC, HR, ANTENNE, GRRIF, Radio Bremen, SR) + Worker-proxy helper.
 - `rrradio/Player/Metadata/OrfMetadataFetcher.swift` — ORF audioapi now-playing.
+- `rrradio/Player/Metadata/TritonMetadataFetcher.swift` — Triton Digital mount derivation, XML parse, foreground (Triton → ICY) and background (Triton only) fetchers.
 - `rrradio/Player/Metadata/ScheduleFetcher.swift` — ORF/FM4 program-schedule fetch + `scheduleFetcher(for:)`.
 - `rrradio/Player/Metadata/IcyMetadataFetcher.swift` — generic ICY `StreamTitle` + HLS ID3 timed-metadata parse.
 - `rrradio/Player/Metadata/CoverArtFetcher.swift` — iTunes Search (`searchITunes`/`lookupCoverArt`/`verifyTrack`), low-res detection, 64-entry LRU.
