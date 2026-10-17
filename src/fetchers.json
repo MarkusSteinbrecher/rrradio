@@ -240,6 +240,14 @@
       "providerCover": true,
       "selfContained": false,
       "notes": "KEXP public v2 plays API with cover art and current show lookup"
+    },
+    "triton": {
+      "broadcaster": null,
+      "schedule": false,
+      "program": false,
+      "providerCover": true,
+      "selfContained": true,
+      "notes": "Generic Triton Digital np.tritondigital.com now-playing XML; mount derived from any *.streamtheworld.com stream URL (URL-pattern rule), metadataUrl may override the mount; ICY fallback"
     }
   },
   "wireableBroadcasters": ["br", "orf", "bbc", "hr", "ndr", "wdr", "npo", "radio-france", "soma-fm", "kexp"]
