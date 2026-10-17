@@ -249,11 +249,11 @@ worker/                — Cloudflare Worker that proxies broadcaster
                          Adding a new CORS-blocked broadcaster: extend
                          the allowlist in /api/public/proxy.
 
-public/world-map.svg   — Wikimedia "low resolution" world map (~75KB,
-                         stripped of inkscape metadata). Equirectangular
-                         viewBox; pins on the Browse globe view use
-                         simple lat/lon → x/y projection. Attribution and
-                         CC BY-SA notice: THIRD_PARTY_NOTICES.md.
+public/world-countries-110m.json
+                       — Natural Earth 110m land outlines (~145KB, ~47KB
+                         gzipped, public domain) for the Stats sheet map.
+                         Leaflet draws them as a GeoJSON layer; no tile
+                         CDN. Provenance: THIRD_PARTY_NOTICES.md.
 
 public/stations/       — bundled station logos. Path in YAML is
                          relative (e.g. "stations/grrif.png"). These are
