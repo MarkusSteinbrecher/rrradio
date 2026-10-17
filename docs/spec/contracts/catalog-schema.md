@@ -131,6 +131,11 @@ See Open questions for the favicon-variants gap.
 | `icy-only` | Metadata only via ICY/HLS fallback; no structured fetcher. | `metadataStrategy: icy` (or `hls`), `backgroundPollPriority: low` |
 | `stream-only` | Audio only; no usable metadata. Must NOT be background-probed. | `metadataStrategy: none`, `backgroundPollPriority: never` |
 
+Exception: a station with no `metadata` key whose stream URL matches a
+URL-pattern fetcher (today: Triton, any `*.streamtheworld.com` host) maps to
+`metadataKey: triton`, `metadataStrategy: api`, `backgroundPollPriority:
+normal` regardless of status (#233).
+
 User-created stations are minted as `stream-only`. The promotion path
 `stream-only → icy-only → working` is a curation workflow owned by
 `operations.md` ("Per-station curation process").

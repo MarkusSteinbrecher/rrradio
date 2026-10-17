@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url';
 import { classifyError } from './lib/homepage-status.mjs';
 import { loadHealth, saveHealth, applyFacet, pruneStations } from './lib/health-record.mjs';
 import { createClassifiers, failureClass, toObservation } from './lib/probe-classify.mjs';
+import { effectiveMetadataKey } from './lib/url-pattern-fetchers.mjs';
 import { appendObservations } from './lib/observations.mjs';
 import { probeLogo, classifyLogo, toLogoObservation, logoFailureClass } from './lib/logo-probe.mjs';
 
@@ -262,7 +263,8 @@ async function probePass(list, timeout) {
       const i = nextIndex++;
       if (i >= list.length) return;
       const s = list[i];
-      const metadataKey = s.metadata ?? null;
+      // URL-pattern fetchers (Triton) count as a fetcher, as in the app.
+      const metadataKey = effectiveMetadataKey(s);
       const streamProbe = await probeStream(s.streamUrl, timeout);
       const metaProbe =
         s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey)

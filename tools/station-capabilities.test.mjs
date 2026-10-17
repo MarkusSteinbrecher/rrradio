@@ -5,6 +5,7 @@ import {
   buildStationCapabilities,
   buildStationCapabilitiesPayload,
 } from './station-capabilities.mjs';
+import { effectiveMetadataKey, tritonMount } from './lib/url-pattern-fetchers.mjs';
 
 const manifest = {
   fetchers: {
@@ -15,6 +16,14 @@ const manifest = {
       providerCover: true,
       selfContained: false,
       notes: 'test fetcher',
+    },
+    triton: {
+      broadcaster: null,
+      schedule: false,
+      program: false,
+      providerCover: true,
+      selfContained: true,
+      notes: 'URL-pattern fetcher',
     },
     trackOnly: {
       broadcaster: 'test',
@@ -122,5 +131,41 @@ describe('station capabilities', () => {
       counts: { stations: 1 },
       stations: [{ id: 'a', metadataStrategy: 'none', backgroundPollPriority: 'never' }],
     });
+  });
+
+  it('wires *.streamtheworld.com streams to the URL-pattern Triton fetcher (#233)', () => {
+    const result = buildStationCapabilities([
+      { id: 'triton', status: 'stream-only', streamUrl: 'https://playerservices.streamtheworld.com/api/livestream-redirect/KKMGFM.mp3' },
+      { id: 'triton-sc', status: 'stream-only', streamUrl: 'https://18393.live.streamtheworld.com/CONCIERTO_SC' },
+      { id: 'keyed', status: 'working', metadata: 'api', streamUrl: 'https://playerservices.streamtheworld.com/api/livestream-redirect/X.mp3' },
+      { id: 'lookalike', status: 'stream-only', streamUrl: 'https://notstreamtheworld.com/KKMGFM.mp3' },
+    ], manifest);
+
+    expect(result.stations.map((s) => [s.id, s.metadataKey, s.metadataStrategy, s.backgroundPollPriority, s.hasProviderCover])).toEqual([
+      ['triton', 'triton', 'api', 'normal', true],
+      ['triton-sc', 'triton', 'api', 'normal', true],
+      ['keyed', 'api', 'api', 'normal', true],
+      ['lookalike', null, 'none', 'never', false],
+    ]);
+    expect(result.counts.knownFetcherStations).toBe(3);
+  });
+});
+
+describe('url-pattern fetchers', () => {
+  it('mirrors tritonMount() from src/triton.ts', () => {
+    expect(tritonMount('https://playerservices.streamtheworld.com/api/livestream-redirect/HRT_RADIO1AAC.aac')).toBe('HRT_RADIO1AAC');
+    expect(tritonMount('https://x.live.streamtheworld.com/CONCIERTO_SC')).toBe('CONCIERTO');
+    expect(tritonMount('https://x.live.streamtheworld.com/BONTONAAC.aac;stream')).toBe('BONTONAAC');
+    expect(tritonMount('https://STREAMTHEWORLD.COM/A.mp3')).toBe('A');
+    expect(tritonMount('https://evilstreamtheworld.com/A.mp3')).toBeNull();
+    expect(tritonMount('https://x.streamtheworld.com/')).toBeNull();
+    expect(tritonMount('not a url')).toBeNull();
+  });
+
+  it('prefers the catalog metadata key over URL patterns', () => {
+    const url = 'https://x.live.streamtheworld.com/KKMGFM.mp3';
+    expect(effectiveMetadataKey({ metadata: 'bbc', streamUrl: url })).toBe('bbc');
+    expect(effectiveMetadataKey({ streamUrl: url })).toBe('triton');
+    expect(effectiveMetadataKey({ streamUrl: 'https://example.test/a.mp3' })).toBeNull();
   });
 });

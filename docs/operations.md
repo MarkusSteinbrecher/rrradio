@@ -54,7 +54,7 @@ canonical publishes. The wire schema is in
 | `hasSchedule` | The fetcher has a schedule companion endpoint. |
 | `hasProviderCover` | The provider metadata can supply artwork beyond the station favicon. |
 
-The rules are intentionally conservative: `stream-only` becomes `metadataStrategy: none` and `backgroundPollPriority: never`; `icy-only` becomes `icy` or `hls`; stations with a known `metadata` key become `api`. This lets iOS/Android avoid bulk stream probing in Favorites and other station-heavy views while still using curated broadcaster APIs.
+The rules are intentionally conservative: `stream-only` becomes `metadataStrategy: none` and `backgroundPollPriority: never`; `icy-only` becomes `icy` or `hls`; stations with a known `metadata` key become `api`, as do stations the web app wires by stream URL (`URL_PATTERN_RULES` in `src/builtins.ts`, mirrored offline in `tools/lib/url-pattern-fetchers.mjs`): every `*.streamtheworld.com` stream gets `metadataKey: triton` (#233) whatever its status. `npm run health` uses the same resolution for its `fetcher`/`program` facets. This lets iOS/Android avoid bulk stream probing in Favorites and other station-heavy views while still using curated broadcaster APIs.
 
 For local iOS scale testing, `npm run catalog:ios-local` writes the matching local-only pair:
 

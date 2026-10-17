@@ -1,3 +1,5 @@
+import { effectiveMetadataKey } from './lib/url-pattern-fetchers.mjs';
+
 const VALID_STATUS = new Set(['working', 'icy-only', 'stream-only']);
 
 export const METADATA_STRATEGIES = ['api', 'icy', 'hls', 'none'];
@@ -13,9 +15,8 @@ function isHlsStation(station) {
   return codec === 'HLS' || /\.m3u8(?:[?#]|$)/i.test(streamUrl);
 }
 
-function metadataStrategy(station, fetchers) {
+function metadataStrategy(station, metadataKey, fetchers) {
   const status = text(station.status);
-  const metadataKey = text(station.metadata);
   if (metadataKey && fetchers[metadataKey]) return 'api';
 
   // `working` without a known fetcher is a curation mismatch, but we
@@ -63,9 +64,11 @@ export function buildStationCapabilities(stations, fetcherManifest) {
 
     const rawStatus = text(station.status);
     const status = VALID_STATUS.has(rawStatus) ? rawStatus : null;
-    const metadataKey = text(station.metadata) || null;
+    // Includes URL-pattern fetchers (Triton on *.streamtheworld.com) the
+    // web app wires without a catalog `metadata` key.
+    const metadataKey = effectiveMetadataKey(station);
     const fetcher = metadataKey ? fetchers[metadataKey] : undefined;
-    const strategy = metadataStrategy(station, fetchers);
+    const strategy = metadataStrategy(station, metadataKey, fetchers);
     const priority = backgroundPollPriority(strategy);
 
     counts.stations++;
