@@ -8,7 +8,6 @@
  * functions in main.ts call these and assign to `.textContent`.
  */
 
-import { stateLabel } from './player';
 import type { NowPlaying, Station, StreamRetry } from './types';
 
 /** What the player is doing while an automatic retry runs (#95):
@@ -25,24 +24,48 @@ export function errorHeadline(np: NowPlaying): string {
   return np.errorView?.headline ?? np.errorMessage ?? 'Error';
 }
 
-/** Short status line under the mini-player station name.
- *  e.g. `LIVE`, `192 KBPS · LIVE`, `TUNING…`, `PAUSED`,
- *  `<error headline uppercased>`. */
+/** Mini-player state line (iOS `MiniPlayerView.stateLine`), uppercased the
+ *  way the iOS mono caption renders it: `STANDBY` (or the station's country
+ *  code while idle), `LOADING…`, `LIVE`, `PAUSED`, or the error phrase
+ *  trimmed to the part before an em-dash so it fits the strip
+ *  ("Switzerland only — region-locked…" → "SWITZERLAND ONLY"). Web keeps its
+ *  auto-retry wording (#95) while loading. */
 export function miniMetaText(np: NowPlaying): string {
   switch (np.state) {
     case 'loading':
-      return np.retry ? `${retryStatusText(np.retry).toUpperCase()}…` : 'TUNING…';
-    case 'playing': {
-      const bitrate = np.variant?.bitrate ?? np.station.bitrate;
-      return bitrate ? `${bitrate} KBPS · LIVE` : 'LIVE';
-    }
+      return np.retry ? `${retryStatusText(np.retry).toUpperCase()}…` : 'LOADING…';
+    case 'playing':
+      return 'LIVE';
     case 'paused':
       return 'PAUSED';
-    case 'error':
-      return errorHeadline(np).toUpperCase();
+    case 'error': {
+      const message = errorHeadline(np);
+      const dash = message.indexOf(' — ');
+      return (dash > 0 ? message.slice(0, dash) : message).toUpperCase();
+    }
     default:
-      return stateLabel(np.state).toUpperCase();
+      return np.station.country?.toUpperCase() || 'STANDBY';
   }
+}
+
+/** Mini-player track line (iOS `trackLine`): `"<artist> - <title>"`, the
+ *  title alone, or the combined `trackTitle` when the fetcher gave no split.
+ *  Suppressed while loading so a stale track never shows under "Loading". */
+export function miniTrackLine(np: NowPlaying): string | undefined {
+  if (np.state === 'loading') return undefined;
+  const title = np.trackName?.trim();
+  const artist = np.trackArtist?.trim();
+  if (title) return artist ? `${artist} - ${title}` : title;
+  return np.trackTitle?.trim() || undefined;
+}
+
+/** Mini-player program line (iOS `programInfoLine`): program name and
+ *  subtitle joined with " . ", or undefined when neither is set. */
+export function miniProgramLine(np: NowPlaying): string | undefined {
+  const parts = [np.programName?.trim(), np.programSubtitle?.trim()].filter(
+    (v): v is string => !!v,
+  );
+  return parts.length > 0 ? parts.join(' . ') : undefined;
 }
 
 /** "Live · Streaming" / "Tuning" / "Paused" / "Standby" / error

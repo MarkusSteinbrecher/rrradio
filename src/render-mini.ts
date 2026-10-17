@@ -7,26 +7,51 @@
  * resulting DOM. main.ts wires the production refs once at boot.
  */
 
-import { miniMetaText } from './np-labels';
-import { faviconClass, stationInitials } from './station-display';
+import { miniMetaText, miniProgramLine, miniTrackLine } from './np-labels';
+import { faviconClass, flagEmoji, stationInitials } from './station-display';
 import type { NowPlaying, Station } from './types';
 
+/**
+ * Mirrors the iOS strip (`MiniPlayerView.swift`): leading favicon (+ list
+ * badge) · metadata lines · sleep glyph · album thumb · play/pause.
+ */
 export interface MiniRefs {
   /** The clickable mini-player root (hidden when no station selected). */
   mini: HTMLElement;
   /** Station favicon / initials block (left — the station's identity). */
   miniFav: HTMLElement;
+  /** "Playing from list" badge overlaid on the favicon (iOS
+   *  `stationListBadge`) — shown while a station-list queue drives playback. */
+  miniBadge: HTMLElement;
   /** Album cover-art slot (right, before the controls). Hidden when the
    *  track has no cover; a distinct element from the station favicon. */
   miniArt: HTMLElement;
   /** Station name. */
   miniName: HTMLElement;
-  /** Track line (artist · title) — hidden when no track is identified. */
+  /** Country flag emoji trailing the name (iOS `stationTitleLine`). */
+  miniFlag: HTMLElement;
+  /** Track line (`artist - title`) — hidden when no track is identified. */
   miniTrack: HTMLElement;
-  /** Status line (LIVE / TUNING… / PAUSED / error). */
+  /** Program line (`program . subtitle`) — hidden when there's no program. */
+  miniProgram: HTMLElement;
+  /** State-line wrapper (live dot + text). Shown only when there is neither
+   *  a track nor a program line, as on iOS. */
+  miniState: HTMLElement;
+  /** State-line text (STANDBY / LOADING… / LIVE / PAUSED / error). */
   miniMeta: HTMLElement;
+  /** Sleep-timer glyph (iOS `moon.zzz.fill`), shown while a timer is armed. */
+  miniSleep: HTMLElement;
+  /** Play/pause control — labelled per state, disabled while loading. */
+  miniToggle: HTMLElement;
 }
 
+/** Playback context the mini shows that isn't part of `NowPlaying`. */
+export interface MiniContext {
+  /** A sleep timer is armed. */
+  sleepArmed?: boolean;
+  /** Playback is driven by a station-list queue. */
+  fromList?: boolean;
+}
 /** Append an `<img src>` into `container`, calling `onFail` (e.g. draw a
  *  fallback or hide the slot) if the image errors. Shared by the favicon
  *  and cover-art slots. */
@@ -85,10 +110,18 @@ export function setMiniCover(refs: MiniRefs, coverUrl?: string): void {
   });
 }
 
+/** Show `text` in `el`, or hide it when there's nothing to show. */
+function setLine(el: HTMLElement, text: string | undefined): void {
+  el.textContent = text ?? '';
+  el.hidden = !text;
+}
+
 /** Render the mini-player for the given playback state. Hides the bar
- *  when no station is selected; otherwise sets name, meta, track line
- *  and the two art slots (station favicon left, track cover right). */
-export function renderMiniPlayer(refs: MiniRefs, np: NowPlaying): void {
+ *  when no station is selected; otherwise fills the iOS line stack —
+ *  name + flag, track line, then the program line or (when there is
+ *  neither a track nor a program) the state line — plus the two art
+ *  slots (station favicon left, track cover right) and the controls. */
+export function renderMiniPlayer(refs: MiniRefs, np: NowPlaying, ctx: MiniContext = {}): void {
   if (!np.station.id) {
     refs.mini.hidden = true;
     return;
@@ -96,15 +129,22 @@ export function renderMiniPlayer(refs: MiniRefs, np: NowPlaying): void {
   const display = np.station;
   refs.mini.hidden = false;
   refs.miniName.textContent = display.name;
+  setLine(refs.miniFlag, flagEmoji(display.country) || undefined);
+
+  const track = miniTrackLine(np);
+  const program = miniProgramLine(np);
+  setLine(refs.miniTrack, track);
+  setLine(refs.miniProgram, program);
   refs.miniMeta.textContent = miniMetaText(np);
-  const track = np.trackTitle?.trim() ?? '';
-  if (track) {
-    refs.miniTrack.textContent = track;
-    refs.miniTrack.hidden = false;
-  } else {
-    refs.miniTrack.textContent = '';
-    refs.miniTrack.hidden = true;
-  }
+  refs.miniState.hidden = !!track || !!program;
+
+  refs.miniSleep.hidden = !ctx.sleepArmed;
+  refs.miniBadge.hidden = !ctx.fromList;
+
+  const playing = np.state === 'playing';
+  refs.miniToggle.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+  refs.miniToggle.setAttribute('aria-disabled', String(np.state === 'loading'));
+
   // Left slot: always the station favicon. Right slot: the track-level
   // cover when we have one.
   setMiniArt(refs, display);

@@ -319,6 +319,11 @@
                   <img class="np-station__logo" id="np-station-logo" alt="" hidden />
                 </button>
                 <div class="np-name" id="np-name">—</div>
+                <!-- Trailing actions. A layout-neutral group (display: contents)
+                     except on the album-only desktop NP, where it becomes the
+                     right-hand cell of a balanced grid so the name sits on the
+                     album's centre line (#620). -->
+                <span class="np-station__actions">
                 <button type="button" class="np-head-btn" id="np-add" aria-label="Add to list">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                 </button>
@@ -326,6 +331,7 @@
                   <svg class="heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
                   <svg class="heart--fill" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
                 </button>
+                </span>
               </div>
             </div>
             <div class="np-station-divider" aria-hidden="true"></div>
@@ -582,17 +588,16 @@
 
       <!-- ============== MINI PLAYER ============== -->
       <div class="mini" id="mini" hidden>
-        <span class="mini-progress" aria-hidden="true"></span>
         <!-- Swipe-to-close reveal (iOS parity): the sliding content moves left
              to expose this red zone; tap the X (or fling past the threshold)
              to stop playback and dismiss the bar. -->
-        <button class="mini-close" id="mini-close" type="button" aria-label="Close player" hidden>
+        <button class="mini-close" id="mini-close" type="button" aria-label="Close mini player" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
-        <!-- Desktop has no swipe-to-close, so a visible "×" in the bar's
-             top-right corner stops playback and dismisses the player. Shown
-             only ≥1024px (mobile keeps the swipe gesture above). -->
-        <button class="mini-close-x" id="mini-close-x" type="button" aria-label="Close player">
+        <!-- Desktop also gets a visible "×" at the bar's right edge (a mouse
+             swipe is not discoverable); it stops playback and dismisses the
+             player. Shown only ≥1024px. -->
+        <button class="mini-close-x" id="mini-close-x" type="button" aria-label="Close mini player">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
         <!-- Sliding content. Logo / text / album block — tap anywhere here to
@@ -601,24 +606,39 @@
              isn't nested in it. -->
         <div class="mini-slide" id="mini-slide">
         <button class="mini-open" id="mini-open" type="button" aria-label="Open now playing">
-          <span class="fav" id="mini-fav" aria-hidden="true"></span>
+          <!-- Leading icon (iOS leadingIcon): station favicon, with the
+               "playing from list" badge overlaid top-right. -->
+          <span class="mini-lead">
+            <span class="fav" id="mini-fav" aria-hidden="true"></span>
+            <span class="mini-badge" id="mini-badge" role="img" aria-label="Playing from list" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11"/><path d="M9 12h11"/><path d="M9 18h11"/><path d="M4 6h.01"/><path d="M4 12h.01"/><path d="M4 18h.01"/></svg>
+            </span>
+          </span>
+          <!-- Metadata lines (iOS metadataLines): name + flag, track, then the
+               program line — or, with neither track nor program, the state
+               line. render-mini.ts decides which show. -->
           <span class="mini-info">
-            <span class="mini-name" id="mini-name">—</span>
+            <span class="mini-title">
+              <span class="mini-name" id="mini-name">—</span>
+              <span class="mini-flag" id="mini-flag" hidden></span>
+            </span>
             <span class="mini-track" id="mini-track" hidden></span>
-            <span class="mini-meta">
+            <span class="mini-program" id="mini-program" hidden></span>
+            <span class="mini-meta" id="mini-state">
               <span class="live-dot" aria-hidden="true"></span>
               <span id="mini-meta">STANDBY</span>
             </span>
           </span>
-          <!-- Album cover art (iOS parity) — the current track's artwork,
-               distinct from the station favicon on the left. Shown only when a
-               track-level cover is known; hidden otherwise. -->
+          <!-- Sleep-timer glyph (iOS moon.zzz.fill) while a timer is armed. -->
+          <span class="mini-sleep" id="mini-sleep" role="img" aria-label="Sleep timer active" hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></svg>
+          </span>
           <span class="mini-art" id="mini-art" hidden aria-hidden="true"></span>
         </button>
         <span class="mini-prev" id="mini-prev" role="button" aria-label="Previous favorite station">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4.75" y="4.5" width="2" height="15" rx="0.5"/><path d="M19 4.5v15a.75.75 0 0 1-1.16.63l-10-7.5a.75.75 0 0 1 0-1.27l10-7.5A.75.75 0 0 1 19 4.5z"/></svg>
         </span>
-        <span class="mini-toggle" id="mini-toggle" role="button" aria-label="Play / pause">
+        <span class="mini-toggle" id="mini-toggle" role="button" aria-label="Play">
           <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/></svg>
           <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="0.5"/><rect x="14" y="4.5" width="4" height="15" rx="0.5"/></svg>
         </span>

@@ -22,3 +22,14 @@ export function faviconClass(id: string): string {
   const sum = id.charCodeAt(0) + id.charCodeAt(id.length - 1);
   return ['fav', 'fav fav-bbc', 'fav fav-soma', 'fav fav-fip'][sum % 4];
 }
+
+/** ISO 3166-1 alpha-2 → flag emoji via regional indicator code points.
+ *  Renders as a real flag on Apple / Linux; Windows shows the two-letter
+ *  code (Windows ships no flag font for political reasons). Returns
+ *  empty string for unknown / blank codes so the caller can no-op. */
+export function flagEmoji(country: string | undefined): string {
+  if (!country || country.length !== 2) return '';
+  const A = 0x1f1e6 - 'A'.charCodeAt(0);
+  const cc = country.toUpperCase();
+  return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
+}
