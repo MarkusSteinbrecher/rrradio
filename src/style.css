@@ -1905,34 +1905,49 @@ a.settings-row { text-decoration: none; }
    * the whole bar shifting. overflow:hidden clips the slid-away content. */
   position: relative;
   width: 100%;
-  min-height: 66px;
+  min-height: 88px;
   box-sizing: border-box;
   background: var(--bg-2);
-  border-top: 1px solid var(--line);
   overflow: hidden;
   text-align: left;
 }
+/* iOS MiniPlayerTopRule: a 2px accent rule while a station is current (the
+   mini only shows then). Drawn above the sliding content so it stays pinned
+   during the close swipe. */
+.mini::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 2;
+  pointer-events: none;
+}
 .mini[hidden] { display: none; }
-/* Sliding content layer. Left padding + gap match the row above (.row uses
- * padding 14px 20px, gap 14px) so the album art lines up vertically with the
- * row favicons. min-height pins it to a row's height so it doesn't flicker as
- * the track line shows / hides while skipping. The transform follows the
- * finger via --mini-dx; .is-animating adds the spring transition on release
- * so the drag itself stays 1:1. */
+/* Sliding content layer (iOS playerCard): 20px side padding, 12px vertical,
+ * 14px gap, 88px tall — the same height as a favorites station card. A fixed
+ * height keeps the bar from flickering as lines show / hide while skipping.
+ * The transform follows the finger via --mini-dx; .is-animating adds the
+ * spring transition on release so the drag itself stays 1:1. */
 .mini-slide {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 10px 14px 10px 20px;
-  min-height: 66px;
+  padding: 12px 20px;
+  height: 88px;
   box-sizing: border-box;
   background: var(--bg-2);
   position: relative;
   z-index: 1;
   width: 100%;
+  /* The swipe-to-close gesture is captured on the whole card; keep vertical
+     scroll for the browser and claim horizontal for the drag. */
+  touch-action: pan-y;
   transform: translateX(var(--mini-dx, 0px));
 }
-.mini-slide.is-animating { transition: transform 0.2s ease; }
+.mini-slide.is-animating { transition: transform 0.22s ease; }
+/* Swipe-close commit: the content slides fully off before the player stops. */
+.mini-slide.is-closing { transition: transform 0.18s ease-in; }
 /* Red close zone revealed behind the sliding content on the right edge. */
 .mini-close {
   position: absolute;
@@ -1959,32 +1974,12 @@ a.settings-row { text-decoration: none; }
 /* Hide the mini-player while the Playing tab is active — Now Playing
    is its expanded counterpart, no need to show both. */
 body.tab-playing .mini { display: none; }
-.mini-progress {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
-  background-size: 40% 100%;
-  background-repeat: no-repeat;
-  animation: stream 2.4s linear infinite;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-body.is-playing .mini-progress { opacity: 0.7; }
-@keyframes stream {
-  0%   { background-position: -40% 0; }
-  100% { background-position: 140% 0; }
-}
 /* The logo/text/album block is its own button (opens Now Playing); the
    transport + volume controls sit beside it. It owns the left-cluster
    layout the bar used to have directly. */
 .mini-open {
   flex: 1;
   min-width: 0;
-  /* The swipe-to-close gesture is captured here; keep vertical scroll for
-     the browser and claim horizontal for the drag. */
-  touch-action: pan-y;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -2001,17 +1996,46 @@ body.is-playing .mini-progress { opacity: 0.7; }
    styling the slider reuses), which is defined later in the file. */
 .mini .mini-volume { display: none; }
 
-/* Left slot: the station favicon (always — the station's identity). */
-.mini .fav { width: 38px; height: 38px; }
+/* Left slot: the station favicon (always — the station's identity), 46px as
+   on iOS, with the "playing from list" badge overlaid top-right. */
+.mini-lead { position: relative; flex-shrink: 0; display: block; }
+.mini .fav { width: 46px; height: 46px; }
 .mini .fav img { width: 100%; height: 100%; object-fit: cover; }
+.mini-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  color: var(--accent);
+}
+.mini-badge[hidden] { display: none; }
+.mini-badge svg { width: 10px; height: 10px; display: block; }
+/* Sleep-timer glyph (iOS moon.zzz.fill), accent-tinted. */
+.mini-sleep {
+  flex-shrink: 0;
+  width: 24px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+.mini-sleep[hidden] { display: none; }
+.mini-sleep svg { width: 15px; height: 15px; display: block; }
 /* Right slot, before the controls: the current track's album cover art
  * (iOS parity). A distinct square thumb, shown only when a track-level
  * cover is known; hidden otherwise. */
 .mini-art {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
   overflow: hidden;
   background: var(--bg-3);
 }
@@ -2022,23 +2046,37 @@ body.is-playing .mini-progress { opacity: 0.7; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
+}
+/* Name + country flag (iOS stationTitleLine: callout medium + footnote flag). */
+.mini-title {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
 }
 .mini-name {
-  font-size: 13px;
+  min-width: 0;
+  font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mini-track {
-  font-size: 11.5px;
+.mini-flag { flex-shrink: 0; font-size: 12px; line-height: 1; }
+.mini-flag[hidden] { display: none; }
+/* Track (ink-2) and program (ink-3) detail lines, iOS caption size. */
+.mini-track,
+.mini-program {
+  font-size: 12px;
   color: var(--ink-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mini-track[hidden] { display: none; }
+.mini-program { color: var(--ink-3); }
+.mini-track[hidden],
+.mini-program[hidden] { display: none; }
 .mini-meta {
   font-family: var(--mono);
   font-size: 10px;
@@ -2048,21 +2086,27 @@ body.is-playing .mini-progress { opacity: 0.7; }
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
 }
+.mini-meta[hidden] { display: none; }
+/* The accent dot only shows while playing (iOS stateLineView). */
 .mini-meta .live-dot {
-  display: inline-block;
+  display: none;
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background: var(--accent);
   animation: pulse 1.6s ease-in-out infinite;
 }
+body.is-playing .mini-meta .live-dot { display: inline-block; }
+/* Trailing play/pause (iOS: 44pt, hairline ink ring). */
 .mini-prev,
 .mini-skip,
 .mini-toggle {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--line-2);
+  width: 44px;
+  height: 44px;
+  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
   background: transparent;
   color: var(--ink);
   display: grid;
@@ -2071,8 +2115,10 @@ body.is-playing .mini-progress { opacity: 0.7; }
   flex-shrink: 0;
   transition: transform 0.15s;
 }
+/* Prev / next are desktop control-bar extras; the phone strip is play/pause
+   only, as on iOS. The ≥1024px block brings them back. */
 .mini-prev,
-.mini-skip { width: 32px; height: 32px; border: 0; color: var(--ink-2); }
+.mini-skip { display: none; width: 32px; height: 32px; border: 0; color: var(--ink-2); }
 .mini-prev svg,
 .mini-skip svg { width: 14px; height: 14px; }
 .mini-prev:hover,
@@ -2082,8 +2128,10 @@ body.is-playing .mini-progress { opacity: 0.7; }
 /* Breathing room between the album art (end of .mini-open) and the
    transport controls — the first control carries the extra gap. */
 .mini-prev { margin-left: 10px; }
-.mini-toggle svg { width: 12px; height: 12px; }
+.mini-toggle svg { width: 14px; height: 14px; }
 .mini-toggle:active { transform: scale(0.92); }
+/* Disabled while the stream is loading (iOS .disabled(state == .loading)). */
+.mini-toggle[aria-disabled="true"] { opacity: 0.4; cursor: default; }
 .mini-toggle .icon-pause { display: none; }
 body.is-playing .mini-toggle .icon-play  { display: none; }
 body.is-playing .mini-toggle .icon-pause { display: block; }
@@ -2247,6 +2295,9 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   width: 100%;
   min-width: 0;
 }
+/* + / ♥ group: layout-neutral by default (the buttons stay direct flex items
+   of the head); the album-only desktop NP turns it into a grid cell below. */
+.np-station__actions { display: contents; }
 .np-station__logo-btn {
   flex-shrink: 0;
   width: 40px;
@@ -2650,6 +2701,28 @@ body.is-muted #np-mute .icon-vol-mute { display: block; }
   }
   /* Extra breathing room between the station name and the action icons. */
   #np-add { margin-left: 12px; }
+  /* Album-only NP: centre the station NAME on the album's axis (#620). The
+     head used to centre as one cluster (logo · name · + · ♥), and with two
+     buttons trailing on the right the name — and the visual weight of the
+     header — sat left of the centred album. A balanced 1fr | name | 1fr grid
+     keeps the logo hugging the name on the left and the actions on the right
+     while the name itself lands on the centre line. */
+  body.tab-playing:not(.np-twocol) .np-station { width: 100%; }
+  body.tab-playing:not(.np-twocol) .np-station__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, max-content) minmax(0, 1fr);
+    column-gap: 14px;
+    width: 100%;
+  }
+  body.tab-playing:not(.np-twocol) .np-station__logo-btn { grid-column: 1; justify-self: end; }
+  body.tab-playing:not(.np-twocol) .np-name { grid-column: 2; }
+  body.tab-playing:not(.np-twocol) .np-station__actions {
+    grid-column: 3;
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
 }
 
 /* ─── Open in (iOS musicServiceSection): "Open in" + a row of brand marks ─── */
@@ -4658,7 +4731,6 @@ body.is-playing .np-bottom .live-dot  {
     transition-duration: 0.01ms !important;
   }
   .dial-track { transition: none; }
-  .mini-progress { display: none; }
   body.is-playing .np-eq { animation: none; }
   /* Functional status indicators stay animated even with Reduce
      Motion on — they're how the user knows a stream is connecting
@@ -4774,34 +4846,26 @@ body.is-playing .np-bottom .live-dot  {
      playing and you're not already on NP (base rule hides it on
      .tab-playing). No desktop dock means no desktop-specific hiding. */
 
-  /* Desktop: a taller, fuller player bar that holds all the relevant
-     controls (transport + volume), centred as a cluster rather than spread
-     edge-to-edge. Bigger station logo + album art match the taller bar. */
-  .mini { min-height: 120px; }
-  /* The flex container is .mini-slide (not .mini), so centre the cluster and
-     match the taller bar here — otherwise the items hug the left edge. */
-  .mini-slide { justify-content: center; gap: 18px; min-height: 120px; }
-  .mini-open { flex: 0 1 auto; gap: 18px; }
-  .mini-info { flex: 0 1 auto; max-width: 440px; }
-  .mini-name { font-size: 15px; }
-  .mini-track { font-size: 12.5px; }
-  .mini .fav { width: 60px; height: 60px; }
-  .mini-art { width: 60px; height: 60px; border-radius: 6px; }
-  .mini-prev, .mini-skip { width: 40px; height: 40px; }
+  /* Desktop: the same 88px iOS strip (favicon 46 · lines · thumb 64), plus
+     the desktop control-bar extras — prev / next and volume — centred as one
+     cluster rather than spread edge-to-edge. */
+  .mini-slide { justify-content: center; gap: 18px; }
+  .mini-open { flex: 0 1 auto; gap: 14px; }
+  .mini-info { flex: 0 1 auto; width: 320px; max-width: 440px; }
+  .mini-prev, .mini-skip { display: grid; width: 40px; height: 40px; }
   .mini-prev svg, .mini-skip svg { width: 16px; height: 16px; }
   .mini-prev { margin-left: 24px; }
-  .mini-toggle { width: 46px; height: 46px; }
-  .mini-toggle svg { width: 15px; height: 15px; }
   .mini .mini-volume { display: flex; flex: 0 0 auto; width: 150px; }
-  /* Desktop close affordances: a "×" in the mini bar's top-right corner, and
+  /* Desktop close affordances: a "×" at the mini bar's right edge, and
      one mirrored at the Now Playing pane's top-right. Both stop playback and
      dismiss the player (NP also bounces back to the list). The NP back chevron
      (top-left) stays for "leave NP but keep listening". */
   .mini-close-x {
     display: grid;
     position: absolute;
-    top: 12px;
-    right: 14px;
+    top: 50%;
+    right: 20px;
+    margin-top: -14px;
     z-index: 4;
     width: 28px;
     height: 28px;

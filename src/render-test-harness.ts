@@ -18,22 +18,26 @@
  * interface enumerates the elements the render actually accesses).
  */
 
-/** Minimal HTML fragment for the mini-player chrome. Mirrors the
- *  shape main.ts builds at id "mini" / "mini-fav" / "mini-name" /
- *  "mini-meta". Production HTML (index.html) is the source of truth;
- *  this fragment exists so render tests don't depend on it. */
+/** Minimal HTML fragment for the mini-player chrome. Mirrors the ids of
+ *  index.html's #mini strip. Production HTML (index.html) is the source of
+ *  truth; this fragment exists so render tests don't depend on it. */
 export const MINI_FRAGMENT = `
-<button id="mini" type="button" hidden>
+<div id="mini" hidden>
   <span id="mini-fav" aria-hidden="true"></span>
+  <span id="mini-badge" hidden></span>
   <span class="mini-info">
     <span id="mini-name">—</span>
+    <span id="mini-flag" hidden></span>
     <span id="mini-track" hidden></span>
-    <span class="mini-meta">
+    <span id="mini-program" hidden></span>
+    <span id="mini-state">
       <span id="mini-meta">STANDBY</span>
     </span>
   </span>
+  <span id="mini-sleep" hidden></span>
   <span id="mini-art" hidden></span>
-</button>
+  <span id="mini-toggle" role="button" aria-label="Play"></span>
+</div>
 `;
 
 /** Minimal HTML fragment for the Now Playing surface. Carries every

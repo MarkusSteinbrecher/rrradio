@@ -136,7 +136,7 @@ reorders apply), or Recents / the Browse or search result (snapshotted at play
 time). Unlike the single-station rule above, a station started outside a known
 context (deep link, map, featured card) falls back to **Favorites**, as does a
 queue whose list was deleted or emptied (owner decision, #612/#613). Now Playing
-prev/next, the mini-player prev/next and the Media Session previous/next handlers
+prev/next, the desktop web mini-player prev/next and the Media Session previous/next handlers
 all step this queue circularly; a station not in the queue jumps to the first
 (next) or last (previous) entry. Previous/next are not disabled for one-station
 queues; they no-op.

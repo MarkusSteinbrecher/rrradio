@@ -348,10 +348,11 @@ wake entry (sleep/wake also reachable while armed even with no current station).
 |---|---|---|---|
 | Destination view | Supported. | Reference. | Supported for the core playback surface; secondary panels remain planned. |
 | Mini-player handoff | Supported. | Supported. | Supported. |
-| Mini-player swipe-to-close | Platform-specific (no equivalent gesture). | Supported. | Planned. |
+| Mini-player strip | Supported (#620): the iOS strip on every width — 88 px, favicon 46 px with the list badge, name + flag / track / program-or-state lines, sleep glyph, album thumb 64 px, 44 px play/pause (disabled while loading), 2 px accent top rule. Desktop (≥1024px) adds prev/next, volume and a "✕" close to the same strip; phones show play/pause only, as on iOS. No offline state (web has no connectivity detection). | Reference. | Partial. |
+| Mini-player swipe-to-close | Supported (#620): pointer swipe on the whole card (touch or mouse) — reveal rest, auto-close past half the bar or on a fling, the content slides off before playback stops, tap-to-cancel while resting. No haptics. | Supported. | Planned. |
 | Track metadata | Supported. | Reference. | Partial; ICY plus broadcaster direct fetchers (GRRIF / ORF) supply artist / title / program, polled on a tick; no full fetcher parity yet. |
 | Cover art fallback | Partial; no-cover falls back to station favicon then initials, not the animated dot-matrix `rrr`. | Reference. | Partial; track cover art resolves (iTunes + broadcaster art) into the artwork frame and mini-player thumb, but the no-cover fallback is the station favicon then initials, not the animated dot-matrix `rrr` (planned). |
-| Previous/next station controls | Supported; Now Playing transport, mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
+| Previous/next station controls | Supported; Now Playing transport, desktop mini-player and lock-screen/Bluetooth controls step the active queue (open list / favorites / recents / browse result, favorites fallback). Not disabled for one-station queues. | Reference. | Supported for active playback queues. |
 | Program schedule | Supported for wired broadcasters. | Supported for wired broadcasters. | Planned. |
 | Lyrics | Supported where lookup matches. | Planned/partial native parity. | Planned. |
 | Music-service search links | Supported; an inline "Open in" row of brand marks under the track text. | Planned/partial native parity. | Planned. |

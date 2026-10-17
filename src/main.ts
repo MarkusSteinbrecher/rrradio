@@ -136,7 +136,7 @@ import {
   renderLyricsPane as renderLyricsPaneImpl,
   renderNowPlaying as renderNowPlayingImpl,
 } from './render-np';
-import { faviconClass, stationInitials } from './station-display';
+import { faviconClass, flagEmoji, stationInitials } from './station-display';
 import {
   ICON_BACK,
   ICON_CHECK,
@@ -297,12 +297,16 @@ const $miniArt = document.getElementById('mini-art') as HTMLElement;
 const $miniName = document.getElementById('mini-name') as HTMLElement;
 const $miniTrack = document.getElementById('mini-track') as HTMLElement;
 const $miniMeta = document.getElementById('mini-meta') as HTMLElement;
+const $miniBadge = document.getElementById('mini-badge') as HTMLElement;
+const $miniFlag = document.getElementById('mini-flag') as HTMLElement;
+const $miniProgram = document.getElementById('mini-program') as HTMLElement;
+const $miniState = document.getElementById('mini-state') as HTMLElement;
+const $miniSleep = document.getElementById('mini-sleep') as HTMLElement;
 const $miniToggle = document.getElementById('mini-toggle') as HTMLElement;
 const $miniPrev = document.getElementById('mini-prev') as HTMLElement;
 const $miniSkip = document.getElementById('mini-skip') as HTMLElement;
 const $miniVolume = document.getElementById('mini-volume') as HTMLElement;
 const $miniVolumeSlider = document.getElementById('mini-volume-slider') as HTMLInputElement;
-const $miniOpen = document.getElementById('mini-open') as HTMLButtonElement;
 const $miniSlide = document.getElementById('mini-slide') as HTMLElement;
 const $miniClose = document.getElementById('mini-close') as HTMLButtonElement;
 const $miniCloseX = document.getElementById('mini-close-x') as HTMLButtonElement;
@@ -663,17 +667,6 @@ function buildAddListBtn(): HTMLButtonElement {
   return btn;
 }
 
-/** ISO 3166-1 alpha-2 → flag emoji via regional indicator code points.
- *  Renders as a real flag on Apple / Linux; Windows shows the two-letter
- *  code (Windows ships no flag font for political reasons). Returns
- *  empty string for unknown / blank codes so the caller can no-op. */
-function flagEmoji(country: string | undefined): string {
-  if (!country || country.length !== 2) return '';
-  const A = 0x1f1e6 - 'A'.charCodeAt(0);
-  const cc = country.toUpperCase();
-  return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
-}
-
 interface RowOptions {
   /** Library feeds (Favorites / Lists / Recents) carry a trailing cover-art
    *  slot showing the station's current-track art (iOS parity). Browse rows
@@ -906,10 +899,21 @@ const MINI_REFS: MiniRefs = {
   miniName: $miniName,
   miniTrack: $miniTrack,
   miniMeta: $miniMeta,
+  miniBadge: $miniBadge,
+  miniFlag: $miniFlag,
+  miniProgram: $miniProgram,
+  miniState: $miniState,
+  miniSleep: $miniSleep,
+  miniToggle: $miniToggle,
 };
 
 function renderMiniPlayer(np: NowPlaying): void {
-  renderMiniPlayerImpl(MINI_REFS, np);
+  renderMiniPlayerImpl(MINI_REFS, np, {
+    // Armed through the final fade, too (the timer handle clears when the
+    // fade starts).
+    sleepArmed: sleepTimer !== undefined || sleepFade.active,
+    fromList: activeQueue?.kind === 'list',
+  });
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -4050,6 +4054,7 @@ function setSleep(minutes: number): void {
     $npSleepChip.hidden = true;
     $npSleepChip.textContent = '';
     $npSleep.setAttribute('aria-label', 'Sleep timer');
+    renderMiniPlayer(currentNP);
     return;
   }
   $npSleep.classList.add('is-fav');
@@ -4062,6 +4067,7 @@ function setSleep(minutes: number): void {
     sleepTimer = undefined;
     sleepFade.start();
   }, Math.max(0, minutes * 60 * 1000 - SLEEP_FADE_MS));
+  renderMiniPlayer(currentNP);
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -5091,6 +5097,12 @@ let miniSwipeStartX = 0;
 let miniSwipeStartY = 0;
 let miniSwiping = false;
 let miniSuppressClick = false;
+/** Last pointer sample, for the release velocity (iOS predictedEndTranslation). */
+let miniLastX = 0;
+let miniLastT = 0;
+let miniVelocity = 0; // px/ms, negative = moving left
+/** How far ahead (ms) a release "throws" the card when predicting a fling. */
+const MINI_FLING_PROJECTION_MS = 200;
 
 function miniBarWidth(): number {
   const w = $mini.getBoundingClientRect().width;
@@ -5123,16 +5135,40 @@ function miniClose(): void {
   miniReset();
   track('mini/close');
 }
+/** Swipe-close commit (iOS performSwipeClose): slide the content fully off
+ *  the bar, then stop. The reduced-motion rule shortens the transition to
+ *  ~0, so transitionend still fires promptly; the timeout is a safety net. */
+function miniSwipeClose(): void {
+  miniRested = false;
+  $miniSlide.classList.add('is-closing');
+  setMiniDx(-(miniBarWidth() + 40), false);
+  let done = false;
+  const finish = (): void => {
+    if (done) return;
+    done = true;
+    $miniSlide.classList.remove('is-closing');
+    miniClose();
+  };
+  $miniSlide.addEventListener('transitionend', finish, { once: true });
+  window.setTimeout(finish, 260);
+}
 
-$miniOpen.addEventListener('pointerdown', (e) => {
+// The gesture lives on the whole sliding card (iOS: the DragGesture is on
+// playerCard), so a swipe can start on the text, the thumb, the gaps or the
+// play button — only the desktop volume slider keeps its own drag.
+$miniSlide.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if ((e.target as HTMLElement).closest('.mini-volume')) return;
   miniSwipePointer = e.pointerId;
   miniSwipeStartX = e.clientX;
   miniSwipeStartY = e.clientY;
   miniSwiping = false;
   miniSuppressClick = false;
+  miniLastX = e.clientX;
+  miniLastT = e.timeStamp;
+  miniVelocity = 0;
 });
-$miniOpen.addEventListener('pointermove', (e) => {
+$miniSlide.addEventListener('pointermove', (e) => {
   if (miniSwipePointer !== e.pointerId) return;
   const dx = e.clientX - miniSwipeStartX;
   const dy = e.clientY - miniSwipeStartY;
@@ -5142,9 +5178,13 @@ $miniOpen.addEventListener('pointermove', (e) => {
     if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
     miniSwiping = true;
     miniSuppressClick = true;
-    try { $miniOpen.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+    try { $miniSlide.setPointerCapture(e.pointerId); } catch { /* ignore */ }
   }
   e.preventDefault();
+  const dt = e.timeStamp - miniLastT;
+  if (dt > 0) miniVelocity = (e.clientX - miniLastX) / dt;
+  miniLastX = e.clientX;
+  miniLastT = e.timeStamp;
   const base = miniRested ? -MINI_REVEAL_WIDTH : 0;
   const lower = -miniBarWidth();
   setMiniDx(Math.min(0, Math.max(lower, base + dx)), false);
@@ -5154,14 +5194,18 @@ function endMiniSwipe(e: PointerEvent): void {
   miniSwipePointer = null;
   if (!miniSwiping) return;
   miniSwiping = false;
-  try { $miniOpen.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
+  try { $miniSlide.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
   const distance = -miniDx;
-  if (distance >= miniCloseThreshold()) miniClose();
+  // A quick flick counts as far as it would have travelled (iOS fling). A
+  // finger that paused before lifting has no throw left.
+  if (e.timeStamp - miniLastT > 80) miniVelocity = 0;
+  const fling = distance - miniVelocity * MINI_FLING_PROJECTION_MS;
+  if (distance >= miniCloseThreshold() || fling >= miniCloseThreshold()) miniSwipeClose();
   else if (distance >= MINI_REVEAL_THRESHOLD) miniRest();
   else miniSpringBack();
 }
-$miniOpen.addEventListener('pointerup', endMiniSwipe);
-$miniOpen.addEventListener('pointercancel', endMiniSwipe);
+$miniSlide.addEventListener('pointerup', endMiniSwipe);
+$miniSlide.addEventListener('pointercancel', endMiniSwipe);
 
 $miniClose.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -5246,6 +5290,9 @@ const $npBack = document.getElementById('np-back') as HTMLButtonElement;
 $npBack.addEventListener('click', () => openNp(false));
 $miniToggle.addEventListener('click', (e) => {
   e.stopPropagation();
+  // Disabled while the stream loads (iOS parity); the tap is swallowed, not
+  // passed on to the bar's open-Now-Playing handler.
+  if ($miniToggle.getAttribute('aria-disabled') === 'true') return;
   handlePlayToggle();
 });
 
