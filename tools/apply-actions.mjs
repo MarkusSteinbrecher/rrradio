@@ -26,7 +26,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyActions, patchIosLocalFavicons, renderSummary } from './lib/catalog-actions.mjs';
+import { applyActions, iosFaviconSyncs, patchIosLocalFavicons, renderSummary } from './lib/catalog-actions.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -137,17 +137,18 @@ writeFileSync(yamlPath, result.yamlText);
 const nextPayload = Array.isArray(payload) ? result.stations : { ...payload, stations: result.stations };
 writeFileSync(jsonPath, `${JSON.stringify(nextPayload, null, 2)}\n`);
 
-// Favicon upgrades (rule 8b) also reach the iOS-local artifact, whose
-// builder dropped the http URL — check-catalog insists the matched rows
-// carry the curated station's favicon once it is usable.
-const upgraded = result.applied.filter((a) => a.action === 'upgrade-logo');
+// Favicon upgrades (rule 8b) and republished stations also reach the
+// iOS-local artifact, whose builder dropped the http URL or never saw the
+// unpublished station — check-catalog insists the matched rows carry the
+// curated station's favicon once it is usable (#749).
+const iconSyncs = iosFaviconSyncs(result.applied, result.stations);
 const iosLocalPath = join(root, 'public/stations-ios-local.json');
-if (upgraded.length && existsSync(iosLocalPath)) {
+if (iconSyncs.length && existsSync(iosLocalPath)) {
   const ios = JSON.parse(readFileSync(iosLocalPath, 'utf8'));
   const iosStations = Array.isArray(ios) ? ios : ios?.stations;
-  const n = patchIosLocalFavicons(iosStations, upgraded);
+  const n = patchIosLocalFavicons(iosStations, iconSyncs);
   if (n) writeFileSync(iosLocalPath, `${JSON.stringify(ios, null, 2)}\n`);
-  log(`iOS-local: ${n} matched row(s) given the upgraded favicon`);
+  log(`iOS-local: ${n} matched row(s) given the curated favicon`);
 }
 
 if (written.length) mkdirSync(unpublishedDir, { recursive: true });

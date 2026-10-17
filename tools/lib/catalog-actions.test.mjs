@@ -9,6 +9,7 @@ import {
   applySwapUrl,
   applyClearLogo,
   applyUpgradeLogo,
+  iosFaviconSyncs,
   patchIosLocalFavicons,
   applyActions,
   renderSummary,
@@ -562,5 +563,36 @@ describe('patchIosLocalFavicons (rule 8b, #701)', () => {
     const ios = [{ id: 'a', localMatchedCatalogId: 'u-rb' }];
     expect(patchIosLocalFavicons(ios, [])).toBe(0);
     expect(ios[0]).toEqual({ id: 'a', localMatchedCatalogId: 'u-rb' });
+  });
+});
+
+describe('iosFaviconSyncs (#749)', () => {
+  const stations = [
+    { id: 'rep-png', favicon: 'stations/rep.png' },
+    { id: 'rep-http', favicon: 'http://x.example/f.ico' },
+    { id: 'rep-none' },
+  ];
+
+  it('keeps upgrades and adds republished stations with a usable favicon', () => {
+    const up = { action: 'upgrade-logo', id: 'u', favicon: 'http://a/f', newFavicon: 'https://a/f' };
+    const applied = [
+      up,
+      { action: 'republish', id: 'rep-png' },
+      { action: 'republish', id: 'rep-http' },
+      { action: 'republish', id: 'rep-none' },
+      { action: 'unpublish', id: 'gone' },
+    ];
+    expect(iosFaviconSyncs(applied, stations)).toEqual([up, { id: 'rep-png', newFavicon: 'stations/rep.png' }]);
+  });
+
+  it('fills only rows without an icon for a republish', () => {
+    const ios = [
+      { id: 'rb-a', name: 'A', tags: [], localMatchedCatalogId: 'rep-png' },
+      { id: 'rb-b', name: 'B', favicon: 'https://own/logo.png', localMatchedCatalogId: 'rep-png' },
+    ];
+    const n = patchIosLocalFavicons(ios, iosFaviconSyncs([{ action: 'republish', id: 'rep-png' }], stations));
+    expect(n).toBe(1);
+    expect(ios[0].favicon).toBe('stations/rep.png');
+    expect(ios[1].favicon).toBe('https://own/logo.png');
   });
 });
