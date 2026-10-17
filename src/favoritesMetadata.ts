@@ -30,7 +30,7 @@ export type FavCoverFetcher = (
  *  player uses). Returns null when the station has no fetcher, no current
  *  track, or no resolvable art — the caller then renders nothing for it. */
 export const fetchStationCover: FavCoverFetcher = async (station, signal) => {
-  const resolved = findFetcher(station);
+  const resolved = findFetcher(station, { background: true });
   if (!resolved) return null;
   let parsed;
   try {

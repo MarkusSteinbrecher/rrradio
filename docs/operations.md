@@ -277,6 +277,15 @@ Existing fetchers cover Grrif, ORF (any channel via metadataUrl), BR (any channe
 3. **Logo**: drop a PNG into `public/stations/`, point `favicon:` at it, and record the source URL/retrieval date in the PR body or `THIRD_PARTY_NOTICES.md`.
 4. **Done** — `npm run dev` regenerates the catalog automatically.
 
+### Stations on Triton Digital (`*.streamtheworld.com`)
+
+Nothing to wire. Any station whose stream URL is on a `*.streamtheworld.com` host picks up the generic `triton` fetcher through a URL-pattern rule in `src/builtins.ts` (parsing in `src/triton.ts`, #233). It derives the Triton mount from the last path segment (extension and the Shoutcast `_SC` suffix dropped, codec suffixes like `AAC` kept) and polls `https://np.tritondigital.com/public/nowplaying?mountName=<MOUNT>&numberToFetch=1&eventType=track` (CORS `*`, no auth). If the mount has no current cue (empty list, stale for more than 30 min, a station ident or a clock time), the fetcher falls back to ICY-over-fetch. Background polls (Favorites covers) stay Triton-only and never open the stream.
+
+- Check a mount by hand: `curl -s 'https://np.tritondigital.com/public/nowplaying?mountName=KKMGFM&numberToFetch=5&eventType=track'`.
+- If the stream URL's mount carries no metadata but a sibling mount does, set `metadata: triton` and `metadataUrl: <MOUNT>` on the row to override.
+- Coverage on 2026-10-17: 802 of 1,619 streamtheworld stations returned a current track; 121 were stale and 696 empty (talk, AFN, several LatAm groups).
+- Status is not flipped automatically. Promote a row to `icy-only` or `working` per `docs/curation-checklist.md` after checking it.
+
 ## Geo-restricted stations
 
 Some broadcasters geo-gate their streams for music-licensing reasons — SUISA/SwissPerform for Switzerland, GEMA for Germany, similar agencies elsewhere. The stream returns an `HTTP 401` (Infomaniak's AIS9 server) or a 403 to non-allowed IPs, with no auth challenge body; it's a server-side IP geo-block dressed up as auth.

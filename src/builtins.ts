@@ -14,6 +14,7 @@ import {
   type ChMediaResponse,
 } from './chFetchers';
 import { mediaOneUrl, parseMediaOne, type MediaOneResponse } from './mediaOne';
+import { parseTriton, tritonMount, tritonUrl } from './triton';
 import type { MetadataFetcher, ScheduleBroadcast, ScheduleDay, ScheduleFetcher } from './metadata';
 import type { Station, StreamVariant } from './types';
 
@@ -1707,6 +1708,33 @@ const fetchKexpMetadata: MetadataFetcher = async (station, signal) => {
 };
 
 // ============================================================
+// Triton Digital (#233) — generic now-playing for every stream on
+// *.streamtheworld.com. Public XML endpoint, CORS *, no auth. Parsing
+// lives in src/triton.ts. Many mounts publish no cues (talk, AFN, some
+// LatAm groups), so an empty answer falls back to ICY-over-fetch, which
+// is what these stations used before this fetcher existed.
+// ============================================================
+
+/** Triton only — null when the mount has no current cue. Background
+ *  polls (Favorites covers) use this so they never open audio streams. */
+const fetchTritonNowplaying: MetadataFetcher = async (station, signal) => {
+  const override = station.metadataUrl?.trim();
+  const mount = override && /^[A-Za-z0-9_]+$/.test(override) ? override : tritonMount(station.streamUrl);
+  if (!mount) return null;
+  try {
+    const res = await fetch(tritonUrl(mount), { signal, cache: 'no-store' });
+    if (!res.ok) return null;
+    return parseTriton(await res.text(), { stationName: station.name });
+  } catch (err) {
+    if (signal.aborted) throw err;
+    return null;
+  }
+};
+
+const fetchTritonMetadata: MetadataFetcher = async (station, signal) =>
+  (await fetchTritonNowplaying(station, signal)) ?? icyFetcher(station, signal);
+
+// ============================================================
 // Fetcher registry
 // ============================================================
 
@@ -1742,6 +1770,7 @@ const FETCHERS_BY_KEY: Record<string, MetadataFetcher> = {
   'radio-france': fetchRadioFranceMetadata,
   'soma-fm': fetchSomaFmMetadata,
   kexp: fetchKexpMetadata,
+  triton: fetchTritonMetadata,
 };
 
 /** Schedule fetchers — keyed the same as MetadataFetchers. Optional —
@@ -1763,8 +1792,12 @@ interface UrlPatternRule {
   fetcher: MetadataFetcher;
   /** What to put in `station.metadataUrl` when wiring this fetcher
    *  for a station that didn't declare one (so the code fetcher knows
-   *  where to call). */
-  metadataUrl: string;
+   *  where to call). Omitted when the fetcher derives its endpoint from
+   *  the station itself (Triton reads the mount off the stream URL). */
+  metadataUrl?: string;
+  /** Variant for background polls that must not open the audio stream
+   *  (the main fetcher may fall back to ICY-over-fetch). */
+  backgroundFetcher?: MetadataFetcher;
 }
 const URL_PATTERN_RULES: UrlPatternRule[] = [
   {
@@ -1772,10 +1805,22 @@ const URL_PATTERN_RULES: UrlPatternRule[] = [
     fetcher: fetchOrfMetadata,
     metadataUrl: 'https://audioapi.orf.at/fm4/api/json/4.0/live',
   },
+  {
+    match: (s) => tritonMount(s.streamUrl) !== null,
+    fetcher: fetchTritonMetadata,
+    backgroundFetcher: fetchTritonNowplaying,
+  },
 ];
 
+function withRuleUrl(station: Station, rule: UrlPatternRule): Station {
+  return rule.metadataUrl ? { ...station, metadataUrl: rule.metadataUrl } : station;
+}
+
+/** `background: true` (Favorites covers) prefers a rule's stream-free
+ *  variant, so a background poll never reads ICY off the audio stream. */
 export function findFetcher(
   station: Station,
+  opts: { background?: boolean } = {},
 ): { fetcher: MetadataFetcher; station: Station } | undefined {
   if (station.metadata) {
     const f = FETCHERS_BY_KEY[station.metadata];
@@ -1783,7 +1828,8 @@ export function findFetcher(
   }
   for (const rule of URL_PATTERN_RULES) {
     if (rule.match(station)) {
-      return { fetcher: rule.fetcher, station: { ...station, metadataUrl: rule.metadataUrl } };
+      const fetcher = (opts.background && rule.backgroundFetcher) || rule.fetcher;
+      return { fetcher, station: withRuleUrl(station, rule) };
     }
   }
   return undefined;
@@ -1807,7 +1853,7 @@ export function findScheduleFetcher(
         rule.fetcher === fetchBrMetadata ? 'br-radioplayer' :
         null;
       const sf = ruleKey ? SCHEDULE_FETCHERS_BY_KEY[ruleKey] : null;
-      if (sf) return { fetcher: sf, station: { ...station, metadataUrl: rule.metadataUrl } };
+      if (sf) return { fetcher: sf, station: withRuleUrl(station, rule) };
     }
   }
   return undefined;
