@@ -12,11 +12,11 @@
  * for a site deploy. Locally, point --out at public/catalog-health.json
  * (gitignored) to feed `npm run dev`.
  *
- * Every input except the catalog is optional — a missing streaks/plan/metrics
+ * Every input except the catalog is optional — a missing streaks/plan/metrics/actions
  * file degrades the artifact, it never fails the build.
  */
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { buildDashboard, serialiseDashboard } from './lib/health-dashboard.mjs';
 
@@ -52,6 +52,17 @@ function readNdjson(path) {
     .map((l) => JSON.parse(l));
 }
 
+/** The last 40 days of catalog-actions audit files (the page shows 30). */
+function readActions(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort()
+    .slice(-40)
+    .map((f) => readJson(join(dir, f), null))
+    .filter(Boolean);
+}
+
 const args = parseArgs(process.argv.slice(2));
 const data = resolve(args.data);
 
@@ -69,6 +80,7 @@ const dashboard = buildDashboard({
   plan: readJson(join(data, 'plan.json'), {}),
   metrics: readJson(join(data, 'metrics.json'), null),
   history: readNdjson(join(data, 'metrics-history.ndjson')),
+  actions: readActions(join(data, 'actions')),
 });
 
 const outPath = resolve(args.out);

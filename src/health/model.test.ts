@@ -94,8 +94,8 @@ describe('sortRows', () => {
   it('puts curated stations first, then names', () => {
     expect(sortRows(dash.rows, 'curated').map((r) => r.id)).toEqual(['de-dlf', 'de-arabella', 'gb-heart', 'fr-x', 'xx-new']);
   });
-  it('sorts lowest score first, unscored last', () => {
-    const ids = sortRows(dash.rows, 'score').map((r) => r.id);
+  it('sorts problems first: failing streams on top, clean and unchecked last', () => {
+    const ids = sortRows(dash.rows, 'problems').map((r) => r.id);
     expect(ids[0]).toBe('de-arabella');
     expect(ids[ids.length - 1]).toBe('xx-new');
   });
@@ -105,7 +105,7 @@ describe('sortRows', () => {
   });
   it('does not mutate the input', () => {
     const before = dash.rows.map((r) => r.id);
-    sortRows(dash.rows, 'score');
+    sortRows(dash.rows, 'problems');
     expect(dash.rows.map((r) => r.id)).toEqual(before);
   });
 });
@@ -114,7 +114,7 @@ describe('URL state', () => {
   it('round-trips non-default filters and omits defaults', () => {
     expect(filtersToParams(DEFAULT_FILTERS).toString()).toBe('');
     expect(isDefaultFilters(f())).toBe(true);
-    const custom = f({ q: 'dlf', cc: 'DE', view: 'attention', facet: 'logo', level: 'bad', sort: 'score' });
+    const custom = f({ q: 'dlf', cc: 'DE', view: 'attention', facet: 'logo', level: 'bad', sort: 'problems' });
     const params = filtersToParams(custom);
     expect(filtersFromParams(params)).toEqual(custom);
   });

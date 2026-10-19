@@ -1,7 +1,8 @@
 /**
- * Catalog-health page boot. Reads top to bottom as a story: one quality
- * score, what it is made of, how failing streams trend, what needs
- * attention, then a station lookup. Everything above the lookup is
+ * Catalog-health page boot. Reads top to bottom: the headline (stations
+ * that play), how failing streams trend, what the catalog fixed on its
+ * own, the extras on top of playing, what needs attention, then a station
+ * lookup. Everything above the lookup is
  * catalog-wide and never changes with its filters; the lookup's filters
  * are URL params, so any view is a shareable link.
  *
@@ -32,17 +33,21 @@ import {
   DIMENSIONS,
   DIMENSION_HINT,
   DIMENSION_LABEL,
+  EXTRAS,
   GRADE_LABEL,
-  WEIGHT,
+  goodShare,
   grade,
   needsAttention,
-  stationScore,
   summarise,
   worstIssue,
   type Dimension,
+  type Extra,
 } from './score';
 import { bootstrapTheme, wireThemeToggle } from './theme';
 import { countryName, el, fmtDay, fmtInt, fmtPct, gradeMark, relDay, stackedBar, trendChart } from './ui';
+
+const DAY_MS = 86_400_000;
+const STALE_DAYS = 8;
 
 const BASE = import.meta.env.BASE_URL;
 const LIVE_URL = 'https://raw.githubusercontent.com/MarkusSteinbrecher/rrradio/health-data/dashboard.json';
@@ -70,33 +75,33 @@ async function fetchJson(url: string): Promise<unknown> {
 }
 
 async function loadDashboard(): Promise<Dashboard> {
+  // In dev the local artifact wins, so a freshly built one can be tried
+  // before the live copy on health-data carries its changes.
+  const [first, second] = import.meta.env.DEV ? [LOCAL_URL, LIVE_URL] : [LIVE_URL, LOCAL_URL];
   let raw: unknown;
   try {
-    raw = await fetchJson(LIVE_URL);
+    raw = await fetchJson(first);
   } catch {
-    raw = await fetchJson(LOCAL_URL);
+    raw = await fetchJson(second);
   }
   return parseDashboard(raw as Parameters<typeof parseDashboard>[0]);
 }
 
-/* ── Hero: the one number ────────────────────────────────────────── */
+/* ── Hero: does it play? ────────────────────────────────────────── */
 
 function renderHero(dash: Dashboard): void {
-  const all = summarise(dash.rows);
-  const curated = summarise(dash.rows.filter((r) => r.tier === 'curated'));
-  must('score-value').textContent = all.score == null ? '—' : String(Math.round(all.score));
+  const stream = summarise(dash.rows).stream;
+  const curated = summarise(dash.rows.filter((r) => r.tier === 'curated')).stream;
+  must('hero-value').textContent = fmtPct(goodShare(stream));
   const lastRun = dash.runs.stream ?? dash.generatedAt;
-  must('score-lede').replaceChildren(
-    `${fmtInt(dash.counts.published)} stations from ${fmtInt(dash.counts.countries)} countries, last checked ${relDay(lastRun)}. `,
-    curated.score == null ? '' : `The ${fmtInt(dash.counts.curated)} curated stations score ${Math.round(curated.score)}.`,
-  );
+  must('hero-lede').textContent =
+    `${fmtInt(stream.good)} of ${fmtInt(stream.checked)} stations answered with audio at their last check ` +
+    `(${fmtInt(dash.counts.countries)} countries, checked ${relDay(lastRun)}).`;
 
-  const m = dash.metrics;
-  const stream = all.dims.stream;
   const facts: [string, string][] = [
-    ['Streams playing', stream.checked ? fmtPct(stream.good / stream.checked) : '—'],
-    ['Listening that reached a working stream, last 7 days', fmtPct(m?.availability ?? null)],
     ['Failing right now', fmtInt(stream.bad)],
+    ['Curated stations playing', `${fmtInt(curated.good)} of ${fmtInt(curated.checked)}`],
+    ['Listening that reached a working stream, last 7 days', fmtPct(dash.metrics?.availability ?? null)],
   ];
   must('hero-facts').replaceChildren(
     ...facts.map(([label, value]) => el('div', { class: 'fact' }, el('dt', { class: 'fact__label' }, label), el('dd', { class: 'fact__value' }, value))),
@@ -104,11 +109,54 @@ function renderHero(dash: Dashboard): void {
   must('hero').hidden = false;
 }
 
-/* ── Breakdown: the four dimensions ──────────────────────────────── */
+/* ── Fixed automatically (catalog-actions loop) ──────────────────── */
 
-function renderBreakdown(dash: Dashboard, onPick: (dim: Dimension, level: FacetLevel) => void): void {
-  const { dims } = summarise(dash.rows);
-  const items = DIMENSIONS.map((dim) => {
+function renderAutomation(dash: Dashboard): void {
+  const days = dash.automation;
+  if (days.length === 0) return;
+  const sum = (k: 'retired' | 'recovered' | 'urlSwapped' | 'logoCleared' | 'logoUpgraded' | 'review'): number =>
+    days.reduce((n, d) => n + (d[k] ?? 0), 0);
+  const totals: [string, number, string][] = [
+    ['Retired', sum('retired'), 'Dead streams taken out of the catalog'],
+    ['Back on air', sum('recovered'), 'Retired stations that played again'],
+    ['Stream replaced', sum('urlSwapped'), 'Dead URL swapped for a working one'],
+    ['Dead logo removed', sum('logoCleared'), 'The app shows a placeholder instead'],
+    ['Logo moved to https', sum('logoUpgraded'), 'Same image, now allowed by the app'],
+    ['Sent to review', sum('review'), 'Curated stations wait for a human'],
+  ];
+  must('automation-totals').replaceChildren(
+    ...totals.map(([label, n, hint]) =>
+      el(
+        'div',
+        { class: 'total' },
+        el('dt', { class: 'total__label' }, label),
+        el('dd', { class: 'total__value' }, fmtInt(n)),
+        el('dd', { class: 'total__hint' }, hint),
+      ),
+    ),
+  );
+  const held = days.filter((d) => d.held).length;
+  const last = days[days.length - 1];
+  must('automation-note').textContent =
+    `Last ${days.length} runs, ${fmtDay(days[0].day)} to ${fmtDay(last.day)}. ` +
+    (held > 0 ? `On ${held} ${held === 1 ? 'day' : 'days'} the safety brake held every change (too many failures at once).` : 'Runs daily an hour after the check.');
+  must('automation').hidden = false;
+}
+
+/* ── Extras: now playing, logo, homepage ─────────────────────────── */
+
+/** When each extra was last checked. Now playing folds stream titles and
+ *  the metadata probe, so it is as old as the older of the two. */
+function lastChecked(dash: Dashboard, dim: Extra): string {
+  const r = dash.runs;
+  if (dim === 'np') return [r.icy, r.metadata].filter(Boolean).sort()[0] ?? '';
+  return (dim === 'logo' ? r.logo : r.homepage) ?? '';
+}
+
+function renderExtras(dash: Dashboard, onPick: (dim: Dimension, level: FacetLevel) => void): void {
+  const dims = summarise(dash.rows);
+  const now = Date.now();
+  const items = EXTRAS.map((dim) => {
     const s = dims[dim];
     const labels = GRADE_LABEL[dim];
     const pick = (level: 'weak' | 'bad', n: number): HTMLElement => {
@@ -123,17 +171,20 @@ function renderBreakdown(dash: Dashboard, onPick: (dim: Dimension, level: FacetL
       btn.addEventListener('click', () => onPick(dim, level));
       return btn;
     };
+    const checked = lastChecked(dash, dim);
+    const age = checked ? (now - new Date(checked).getTime()) / DAY_MS : Infinity;
+    const stale = age > STALE_DAYS;
+    const when = el(
+      'p',
+      { class: stale ? 'dim__when dim__when--stale' : 'dim__when' },
+      checked ? `Checked ${stale ? fmtDay(checked) : relDay(checked)}` : 'Not checked yet',
+      stale ? ' · not on the daily check yet' : '',
+    );
     return el(
       'li',
       { class: 'dim' },
-      el(
-        'div',
-        { class: 'dim__name' },
-        el('h3', { class: 'dim__title' }, DIMENSION_LABEL[dim]),
-        el('p', { class: 'dim__hint' }, DIMENSION_HINT[dim]),
-        el('p', { class: 'dim__weight' }, `${Math.round(WEIGHT[dim] * 100)}% of the score`),
-      ),
-      el('p', { class: 'dim__score' }, s.score == null ? '—' : String(Math.round(s.score))),
+      el('div', { class: 'dim__name' }, el('h3', { class: 'dim__title' }, DIMENSION_LABEL[dim]), el('p', { class: 'dim__hint' }, DIMENSION_HINT[dim]), when),
+      el('p', { class: 'dim__score' }, fmtPct(goodShare(s), 0)),
       el(
         'div',
         { class: 'dim__bar' },
@@ -153,7 +204,7 @@ function renderBreakdown(dash: Dashboard, onPick: (dim: Dimension, level: FacetL
     );
   });
   must('dims').replaceChildren(...items);
-  must('breakdown').hidden = false;
+  must('extras').hidden = false;
 }
 
 /* ── Trend: failing streams per day ──────────────────────────────── */
@@ -171,8 +222,8 @@ function renderTrend(dash: Dashboard): void {
   const peak = points.reduce((a, b) => (b.value > a.value ? b : a));
   must('trend-note').textContent =
     peak.value > now.value
-      ? `Down from ${fmtInt(peak.value)} on ${fmtDay(peak.day)} to ${fmtInt(now.value)} today, as dead streams leave the catalog and recovered ones return.`
-      : `${fmtInt(now.value)} today.`;
+      ? `Failing at each morning’s check: down from ${fmtInt(peak.value)} on ${fmtDay(peak.day)} to ${fmtInt(now.value)} on ${fmtDay(now.day)}, as dead streams leave the catalog and recovered ones return.`
+      : `Failing at each morning’s check: ${fmtInt(now.value)} on ${fmtDay(now.day)}.`;
   must('trend-chart').replaceChildren(trendChart(points, fmtInt, 'failing'));
   must('trend').hidden = false;
 }
@@ -212,7 +263,7 @@ function showAllButton(label: string, onClick: () => void): HTMLElement {
 function renderAttention(dash: Dashboard, onOpen: (row: HealthRow) => void, onShow: (f: Partial<Filters>) => void): void {
   const curated = sortRows(
     dash.rows.filter((r) => r.tier === 'curated' && needsAttention(r)),
-    'score',
+    'problems',
   );
   must('attention-curated-title').textContent = `Curated stations · ${fmtInt(curated.length)}`;
   const curatedList = must('attention-curated');
@@ -239,7 +290,7 @@ function renderAttention(dash: Dashboard, onOpen: (row: HealthRow) => void, onSh
   } else {
     failingList.replaceChildren(
       ...failing.slice(0, ATTENTION_ROWS).map((r) => issueRow(r, 'stream', onOpen)),
-      showAllButton(`Show all ${fmtInt(failing.length)}`, () => onShow({ facet: 'stream', level: 'bad', sort: 'score' })),
+      showAllButton(`Show all ${fmtInt(failing.length)}`, () => onShow({ facet: 'stream', level: 'bad', sort: 'problems' })),
     );
   }
   must('attention').hidden = false;
@@ -248,7 +299,7 @@ function renderAttention(dash: Dashboard, onOpen: (row: HealthRow) => void, onSh
 /* ── Station lookup ──────────────────────────────────────────────── */
 
 const VIEW_LABEL: Record<View, string> = { all: 'All', curated: 'Curated', attention: 'Needs attention' };
-const SORT_LABEL: Record<SortKey, string> = { curated: 'Curated first', score: 'Lowest score', name: 'Name' };
+const SORT_LABEL: Record<SortKey, string> = { curated: 'Curated first', problems: 'Problems first', name: 'Name' };
 
 function dimCell(row: HealthRow, dim: Dimension): HTMLElement {
   const g = grade(row, dim);
@@ -261,7 +312,6 @@ function dimCell(row: HealthRow, dim: Dimension): HTMLElement {
 }
 
 function stationRow(row: HealthRow): HTMLElement {
-  const score = stationScore(row);
   const meta = [row.id, row.cc ? countryName(row.cc) : '', row.tier === 'curated' ? 'Curated' : ''].filter(Boolean).join(' · ');
   return el(
     'tr',
@@ -273,7 +323,6 @@ function stationRow(row: HealthRow): HTMLElement {
       el('span', { class: 'station__meta' }, meta),
     ),
     ...DIMENSIONS.map((d) => dimCell(row, d)),
-    el('td', { class: 'col-score', 'data-label': 'Score' }, score == null ? '—' : String(score)),
   );
 }
 
@@ -342,7 +391,7 @@ function initLookup(dash: Dashboard): { apply: (f: Partial<Filters>, scroll?: bo
     const rows = sortRows(filterRows(dash.rows, filters), filters.sort);
     tbody.replaceChildren(...rows.slice(0, shown).map(stationRow));
     if (rows.length === 0) {
-      tbody.replaceChildren(el('tr', {}, el('td', { class: 'empty', colspan: '6' }, 'No station matches.')));
+      tbody.replaceChildren(el('tr', {}, el('td', { class: 'empty', colspan: '5' }, 'No station matches.')));
     }
     resultLine.textContent =
       rows.length === dash.rows.length
@@ -391,8 +440,9 @@ loadDashboard()
     statusRoot.hidden = true;
     renderHero(dash);
     const lookup = initLookup(dash);
-    renderBreakdown(dash, (facet, level) => lookup.apply({ ...DEFAULT_FILTERS, facet, level }, true));
     renderTrend(dash);
+    renderAutomation(dash);
+    renderExtras(dash, (facet, level) => lookup.apply({ ...DEFAULT_FILTERS, facet, level }, true));
     renderAttention(
       dash,
       (row) => lookup.apply({ ...DEFAULT_FILTERS, q: row.id }, true),

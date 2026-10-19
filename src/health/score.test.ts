@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseDashboard, type HealthRow } from './model';
-import { grade, needsAttention, stationScore, summarise, worstIssue } from './score';
+import { goodShare, grade, needsAttention, problemRank, summarise, worstIssue } from './score';
 
 const COLS = ['id', 'name', 'tier', 'stream', 'np', 'logo', 'home'];
 const rows = parseDashboard({
@@ -9,6 +9,7 @@ const rows = parseDashboard({
     ['perfect', 'Perfect', 'curated', 'ok', 'api', 'ok', 'ok'],
     ['dead', 'Dead', 'long-tail', 'bad', 'none', 'bad', 'bad'],
     ['mixed', 'Mixed', 'long-tail', 'ok', 'silent', 'warn', 'na'],
+    ['plays-bare', 'Plays bare', 'long-tail', 'ok', 'none', 'bad', 'bad'],
     ['unchecked', 'Unchecked', 'long-tail', '', '', '', ''],
   ],
 }).rows;
@@ -24,27 +25,23 @@ describe('grade', () => {
   });
 });
 
-describe('stationScore', () => {
-  it('weights the four dimensions and leaves skipped ones out', () => {
-    expect(stationScore(byId('perfect'))).toBe(100);
-    expect(stationScore(byId('dead'))).toBe(0);
-    // stream 1·0.4 + np ½·0.25 + logo ½·0.2, over 0.85 (homepage n/a)
-    expect(stationScore(byId('mixed'))).toBe(Math.round(((0.4 + 0.125 + 0.1) / 0.85) * 100));
-    expect(stationScore(byId('unchecked'))).toBeNull();
+describe('summarise', () => {
+  it('counts each dimension over the stations it checked', () => {
+    const s = summarise(rows);
+    expect(s.stream).toEqual({ dim: 'stream', good: 3, weak: 0, bad: 1, checked: 4 });
+    expect(goodShare(s.stream)).toBe(0.75);
+    expect(s.home).toMatchObject({ good: 1, bad: 2, checked: 3 });
+  });
+  it('has no share for an empty catalog', () => {
+    expect(goodShare(summarise([]).stream)).toBeNull();
   });
 });
 
-describe('summarise', () => {
-  it('scores each dimension over the stations it checked', () => {
-    const s = summarise(rows);
-    expect(s.dims.stream).toMatchObject({ good: 2, weak: 0, bad: 1, checked: 3 });
-    expect(s.dims.stream.score).toBeCloseTo(66.67, 1);
-    expect(s.dims.home).toMatchObject({ good: 1, bad: 1, checked: 2, score: 50 });
-    const expected = 0.4 * (200 / 3) + 0.25 * 50 + 0.2 * 50 + 0.15 * 50;
-    expect(s.score).toBeCloseTo(expected, 5);
-  });
-  it('is null for an empty catalog', () => {
-    expect(summarise([]).score).toBeNull();
+describe('problemRank', () => {
+  it('puts a failing stream below any station that plays, however bare', () => {
+    expect(problemRank(byId('dead'))).toBeLessThan(problemRank(byId('plays-bare')));
+    expect(problemRank(byId('plays-bare'))).toBeLessThan(problemRank(byId('mixed')));
+    expect(problemRank(byId('mixed'))).toBeLessThan(problemRank(byId('perfect')));
   });
 });
 

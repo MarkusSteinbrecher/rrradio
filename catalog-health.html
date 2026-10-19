@@ -24,12 +24,12 @@
       form-action 'self';
     " />
     <title>Catalog health — rrradio</title>
-    <meta name="description" content="How good is the rrradio station catalog today? One quality score from daily automatic checks of every station's stream, now-playing titles, logo and homepage." />
+    <meta name="description" content="Does every station in the rrradio catalog play? Daily automatic checks of every stream, what the catalog fixed on its own, and the extras: now-playing titles, logos and homepages." />
     <link rel="canonical" href="https://rrradio.org/catalog-health" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="rrradio catalog health" />
-    <meta property="og:description" content="One quality score for every station in the rrradio catalog, checked automatically every day." />
+    <meta property="og:description" content="Every station in the rrradio catalog, checked every day: how many play, and what was fixed automatically." />
     <meta property="og:url" content="https://rrradio.org/catalog-health" />
     <meta property="og:image" content="https://rrradio.org/og-image.png" />
     <link rel="stylesheet" href="/vendor/steinerdesign/dist/steiner.css" />
@@ -47,21 +47,13 @@
     <main class="page">
       <p id="load-status" class="load-status" aria-live="polite">Loading today’s checks…</p>
 
-      <section id="hero" class="hero" aria-labelledby="score-title" hidden>
-        <div class="hero__score">
-          <h1 id="score-title" class="hero__label">Catalog quality</h1>
-          <p class="hero__value"><span id="score-value"></span><span class="hero__of">/ 100</span></p>
-          <p id="score-lede" class="hero__lede"></p>
+      <section id="hero" class="hero" aria-labelledby="hero-title" hidden>
+        <div class="hero__main">
+          <h1 id="hero-title" class="hero__label">Stations that play</h1>
+          <p class="hero__value"><span id="hero-value"></span></p>
+          <p id="hero-lede" class="hero__lede"></p>
         </div>
         <dl id="hero-facts" class="facts"></dl>
-      </section>
-
-      <section id="breakdown" class="section" aria-labelledby="breakdown-title" hidden>
-        <div class="section__head">
-          <h2 id="breakdown-title" class="section__title">What the score is made of</h2>
-          <p class="section__note">Weighted by how much a listener notices it.</p>
-        </div>
-        <ol id="dims" class="dims"></ol>
       </section>
 
       <section id="trend" class="section" aria-labelledby="trend-title" hidden>
@@ -70,6 +62,22 @@
           <p id="trend-note" class="section__note"></p>
         </div>
         <div id="trend-chart"></div>
+      </section>
+
+      <section id="automation" class="section" aria-labelledby="automation-title" hidden>
+        <div class="section__head">
+          <h2 id="automation-title" class="section__title">Fixed automatically</h2>
+          <p id="automation-note" class="section__note"></p>
+        </div>
+        <dl id="automation-totals" class="totals"></dl>
+      </section>
+
+      <section id="extras" class="section" aria-labelledby="extras-title" hidden>
+        <div class="section__head">
+          <h2 id="extras-title" class="section__title">On top of playing</h2>
+          <p class="section__note">Share of stations where each extra works.</p>
+        </div>
+        <ol id="dims" class="dims"></ol>
       </section>
 
       <section id="attention" class="section" aria-labelledby="attention-title" hidden>
@@ -104,7 +112,6 @@
                 <th scope="col" class="col-dim">Now playing</th>
                 <th scope="col" class="col-dim">Logo</th>
                 <th scope="col" class="col-dim">Homepage</th>
-                <th scope="col" class="col-score">Score</th>
               </tr>
             </thead>
             <tbody id="table-body"></tbody>
@@ -116,19 +123,24 @@
       <section class="section" aria-labelledby="method-title">
         <h2 id="method-title" class="sd-visually-hidden">Method</h2>
         <details class="sd-disclosure">
-          <summary>How the score works</summary>
+          <summary>How the checks work</summary>
           <div class="sd-disclosure__body method">
             <p>
-              Every published station is checked automatically: curated stations daily, the long tail weekly,
-              and any failing stream daily until it recovers. Each of the four checks gives a station
-              <em>good</em> (1 point), <em>weak</em> (½) or <em>bad</em> (0). A check that doesn’t apply, or hasn’t
-              run yet, is left out rather than counted against the station.
+              Every published station is checked automatically: curated stations and anything played in the
+              last 30 days daily, the long tail weekly, and any failing stream daily until it recovers. A
+              station <em>plays</em> when its stream answers with audio.
             </p>
             <p>
-              The catalog score is the weighted average: stream 40%, now playing 25%, logo 20%, homepage 15%.
-              Streams that fail three days in a row leave the catalog on their own and come back when they
-              play again; hard failures (404, DNS) retire a long-tail station after 3 days, soft ones
-              (timeouts, 5xx) after 5 days and a second opinion.
+              An hour after the check, the catalog fixes itself. Hard failures (404, DNS, refused) retire a
+              long-tail station after 3 days; soft ones (timeouts, 5xx) after 5 days and a second opinion from
+              another vantage point. Retired stations stay on the daily check and come back once they play
+              for 3 days. When Radio Browser lists a working replacement URL, the stream is swapped instead.
+              Dead logos are removed and plain-http logos moved to https. Curated stations are never changed
+              without a human review.
+            </p>
+            <p>
+              Now playing, logo and homepage are extras: they are reported next to the headline, never
+              mixed into it. A check that doesn’t apply, or hasn’t run yet, is left out of its share.
             </p>
             <p>
               The data lives on the

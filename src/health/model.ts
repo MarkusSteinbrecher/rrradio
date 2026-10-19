@@ -3,13 +3,13 @@
  * rows for the station lookup, and round-trip the filter state through URL search params so a
  * filtered view is a shareable link. Pure — no DOM, fully unit-tested.
  *
- * Quality scoring lives in score.ts.
+ * Grades live in score.ts.
  *
  * Artifact contract: tools/lib/health-dashboard.mjs (COLS). Rows are read
  * by column name via the `cols` header, never by position.
  */
 
-import { DIMENSIONS, grade, needsAttention, stationScore, type Dimension } from './score';
+import { DIMENSIONS, grade, needsAttention, problemRank, type Dimension } from './score';
 
 export type Verdict = 'ok' | 'warn' | 'bad' | 'na' | '';
 export type Tier = 'curated' | 'long-tail';
@@ -59,6 +59,18 @@ export interface DashboardMetrics {
   hotSet?: { size: number; bad: number };
 }
 
+/** One day of the catalog-actions loop (tools/lib/health-dashboard.mjs). */
+export interface AutomationPoint {
+  day: string;
+  retired: number;
+  recovered: number;
+  urlSwapped: number;
+  logoCleared: number;
+  logoUpgraded: number;
+  review: number;
+  held: boolean;
+}
+
 export interface Dashboard {
   version: number;
   generatedAt: string;
@@ -66,6 +78,7 @@ export interface Dashboard {
   runs: Record<string, string>;
   metrics: DashboardMetrics | null;
   history: HistoryPoint[];
+  automation: AutomationPoint[];
   rows: HealthRow[];
 }
 
@@ -76,6 +89,7 @@ interface RawDashboard {
   runs?: Record<string, string>;
   metrics?: DashboardMetrics | null;
   history?: HistoryPoint[];
+  automation?: AutomationPoint[];
   cols?: string[];
   rows?: unknown[][];
 }
@@ -142,6 +156,7 @@ export function parseDashboard(raw: RawDashboard): Dashboard {
     runs: raw.runs ?? {},
     metrics: raw.metrics ?? null,
     history: Array.isArray(raw.history) ? raw.history : [],
+    automation: Array.isArray(raw.automation) ? raw.automation : [],
     rows,
   };
 }
@@ -149,7 +164,7 @@ export function parseDashboard(raw: RawDashboard): Dashboard {
 /* ── Station lookup: filters, sort, URL state ────────────────────── */
 
 export type View = 'all' | 'curated' | 'attention';
-export type SortKey = 'curated' | 'score' | 'name';
+export type SortKey = 'curated' | 'problems' | 'name';
 export type FacetKey = Dimension | '';
 export type FacetLevel = 'weak' | 'bad' | '';
 
@@ -212,12 +227,12 @@ function byName(a: HealthRow, b: HealthRow): number {
 
 export function sortRows(rows: HealthRow[], sort: SortKey): HealthRow[] {
   const out = [...rows];
-  const score = new Map(out.map((r) => [r, stationScore(r) ?? 101]));
+  const rank = new Map(out.map((r) => [r, problemRank(r)]));
   const tier = (r: HealthRow): number => (r.tier === 'curated' ? 0 : 1);
   switch (sort) {
-    case 'score':
-      // Worst first; among failing streams the longest streak on top.
-      out.sort((a, b) => (score.get(a) ?? 0) - (score.get(b) ?? 0) || b.streakDays - a.streakDays || byName(a, b));
+    case 'problems':
+      // Not playing first (longest streak on top), then the barest extras.
+      out.sort((a, b) => (rank.get(a) ?? 0) - (rank.get(b) ?? 0) || b.streakDays - a.streakDays || byName(a, b));
       break;
     case 'name':
       out.sort(byName);
@@ -229,7 +244,7 @@ export function sortRows(rows: HealthRow[], sort: SortKey): HealthRow[] {
 }
 
 const VIEWS: View[] = ['all', 'curated', 'attention'];
-const SORT_KEYS: SortKey[] = ['curated', 'score', 'name'];
+const SORT_KEYS: SortKey[] = ['curated', 'problems', 'name'];
 const FACETS: FacetKey[] = ['', ...DIMENSIONS];
 const LEVELS: FacetLevel[] = ['', 'weak', 'bad'];
 

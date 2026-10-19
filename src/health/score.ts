@@ -1,21 +1,24 @@
 /**
- * Catalog quality score: one number (0–100) for "how good is the catalog
- * today", built from four dimensions a listener notices. Pure — no DOM.
+ * Station quality grades. Pure — no DOM.
  *
- * Each dimension scores (good + ½·weak) / checked. Unchecked and
- * not-applicable stations are left out of that dimension rather than
- * counted as failures. The overall score is the weighted mean below: a
- * stream that doesn't play matters more than a missing homepage.
+ * The headline is whether a station plays (the stream dimension). The
+ * other three are extras on top of that and are reported next to it,
+ * never blended into one number: a catalog where every station plays but
+ * half lack logos is better than the reverse, and a weighted score hides it.
+ *
+ * Each dimension grades a station good / weak / bad, or skip when the
+ * check doesn't apply or hasn't run (skipped stations are left out of
+ * that dimension's shares rather than counted as failures).
  */
 
 import type { HealthRow } from './model';
 
 export type Dimension = 'stream' | 'np' | 'logo' | 'home';
+export type Extra = Exclude<Dimension, 'stream'>;
 export type Grade = 'good' | 'weak' | 'bad' | 'skip';
 
 export const DIMENSIONS: readonly Dimension[] = ['stream', 'np', 'logo', 'home'];
-
-export const WEIGHT: Record<Dimension, number> = { stream: 0.4, np: 0.25, logo: 0.2, home: 0.15 };
+export const EXTRAS: readonly Extra[] = ['np', 'logo', 'home'];
 
 export const DIMENSION_LABEL: Record<Dimension, string> = {
   stream: 'Stream',
@@ -24,7 +27,7 @@ export const DIMENSION_LABEL: Record<Dimension, string> = {
   home: 'Homepage',
 };
 
-/** What good / weak / bad mean, per dimension — shown under each bar. */
+/** What good / weak / bad mean, per dimension. */
 export const GRADE_LABEL: Record<Dimension, Record<'good' | 'weak' | 'bad', string>> = {
   stream: { good: 'Playing', weak: 'Odd reply', bad: 'Failing' },
   np: { good: 'Titles arrive', weak: 'Advertised, none seen', bad: 'No titles' },
@@ -62,21 +65,6 @@ export function grade(row: HealthRow, dim: Dimension): Grade {
   }
 }
 
-const POINTS: Record<Exclude<Grade, 'skip'>, number> = { good: 1, weak: 0.5, bad: 0 };
-
-/** One station's score, 0–100, or null when nothing about it was checked. */
-export function stationScore(row: HealthRow): number | null {
-  let sum = 0;
-  let weight = 0;
-  for (const dim of DIMENSIONS) {
-    const g = grade(row, dim);
-    if (g === 'skip') continue;
-    sum += WEIGHT[dim] * POINTS[g];
-    weight += WEIGHT[dim];
-  }
-  return weight === 0 ? null : Math.round((sum / weight) * 100);
-}
-
 /** True when any dimension is weak or bad — something a curator could fix. */
 export function needsAttention(row: HealthRow): boolean {
   return DIMENSIONS.some((d) => {
@@ -85,46 +73,48 @@ export function needsAttention(row: HealthRow): boolean {
   });
 }
 
+/** Sort key, lower = worse: a stream that doesn't play outranks every
+ *  extra, then the number of bad extras, then weak ones. */
+export function problemRank(row: HealthRow): number {
+  const stream = grade(row, 'stream');
+  let rank = stream === 'bad' ? 0 : stream === 'weak' ? 100 : 200;
+  for (const d of EXTRAS) {
+    const g = grade(row, d);
+    if (g === 'bad') rank -= 10;
+    else if (g === 'weak') rank -= 1;
+  }
+  return rank;
+}
+
 export interface DimensionSummary {
   dim: Dimension;
   good: number;
   weak: number;
   bad: number;
   checked: number;
-  /** 0–100, null when no station was checked. */
-  score: number | null;
 }
 
-export interface QualitySummary {
-  score: number | null;
-  dims: Record<Dimension, DimensionSummary>;
-}
-
-export function summarise(rows: readonly HealthRow[]): QualitySummary {
-  const dims = {} as Record<Dimension, DimensionSummary>;
+export function summarise(rows: readonly HealthRow[]): Record<Dimension, DimensionSummary> {
+  const out = {} as Record<Dimension, DimensionSummary>;
   for (const dim of DIMENSIONS) {
-    const s: DimensionSummary = { dim, good: 0, weak: 0, bad: 0, checked: 0, score: null };
+    const s: DimensionSummary = { dim, good: 0, weak: 0, bad: 0, checked: 0 };
     for (const r of rows) {
       const g = grade(r, dim);
       if (g !== 'skip') s[g] += 1;
     }
     s.checked = s.good + s.weak + s.bad;
-    s.score = s.checked === 0 ? null : ((s.good + 0.5 * s.weak) / s.checked) * 100;
-    dims[dim] = s;
+    out[dim] = s;
   }
-  let sum = 0;
-  let weight = 0;
-  for (const dim of DIMENSIONS) {
-    const sc = dims[dim].score;
-    if (sc == null) continue;
-    sum += WEIGHT[dim] * sc;
-    weight += WEIGHT[dim];
-  }
-  return { score: weight === 0 ? null : sum / weight, dims };
+  return out;
+}
+
+/** good / checked, or null when nothing was checked. */
+export function goodShare(s: DimensionSummary): number | null {
+  return s.checked === 0 ? null : s.good / s.checked;
 }
 
 /** The worst thing about a station, for one-line "needs attention" rows.
- *  Order follows the weights: a failing stream outranks a missing logo. */
+ *  Stream first: not playing outranks a missing logo. */
 export function worstIssue(row: HealthRow): { dim: Dimension; grade: 'weak' | 'bad' } | null {
   for (const level of ['bad', 'weak'] as const) {
     for (const dim of DIMENSIONS) if (grade(row, dim) === level) return { dim, grade: level };

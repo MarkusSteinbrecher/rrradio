@@ -510,28 +510,32 @@ PR labelled `catalog-review`. Snapshots and the actions audit trail go to
 
 The public read of the loop — <https://rrradio.org/catalog-health> — shows
 that the catalog is managed, not just accumulated. It reads top to bottom:
-one **catalog quality score** (0–100), the four dimensions it is made of,
-failing streams over time, what needs attention (curated stations first,
-then the longest-failing streams), and a station lookup. Everything above the
-lookup is catalog-wide; the lookup's filters (search, country, all / curated /
-needs attention, a dimension grade picked from the breakdown, sort) are URL
-params, so any view is a shareable link.
+the headline KPI, **stations that play** (share of checked stations whose
+stream answered with audio), failing streams at each morning's check, what
+the catalog-actions loop **fixed automatically** in its last 30 runs, the
+**extras on top of playing** (now playing, logo, homepage — each with when it
+was last checked, flagged when it is not on the daily check), what needs
+attention (curated stations first, then the longest-failing streams), and a
+station lookup. Everything above the lookup is catalog-wide; the lookup's
+filters (search, country, all / curated / needs attention, a grade picked
+from the extras, sort) are URL params, so any view is a shareable link.
 
-**Score.** `src/health/score.ts`. Each station gets *good* (1), *weak* (½)
-or *bad* (0) per dimension — stream (`stream` verdict), now playing (api/icy
-good, silent/hls weak, none bad), logo, homepage — and a dimension that
-doesn't apply or hasn't been checked is left out rather than counted against
-it. Dimension score = (good + ½·weak) / checked; the catalog score is the
-weighted mean: stream 40%, now playing 25%, logo 20%, homepage 15%. The same
-weights give each station its own score in the lookup.
+**Grades, not a score.** `src/health/score.ts` grades each station good /
+weak / bad per dimension (now playing: api/icy good, silent/hls weak, none
+bad); a check that doesn't apply or hasn't run is left out. The extras are
+reported next to the headline and never blended into it: whether a station
+plays is the KPI, everything else sits on top of that. "Problems first"
+sorts failing streams before any station that plays.
 
 **Artifact.** `tools/build-health-dashboard.mjs` (`npm run health-dashboard
 -- --data health-data`) joins `stations.json` with the record, streaks, plan
 tiers and metrics history into `dashboard.json` — one array row per station
-under a `cols` header (`tools/lib/health-dashboard.mjs`, `COLS`), ~4.7 MB
+under a `cols` header (`tools/lib/health-dashboard.mjs`, `COLS`), plus
+`automation` (per-day action counts from `actions/<day>.json`), ~4.7 MB
 raw / ~0.7 MB gzipped. No favicon URLs (they were 1.8 MB alone); the station
 page carries the image. The merge job of `station-probe.yml` builds it after
-`derive-health` and commits it onto `health-data` with the rest.
+`derive-health` and commits it onto `health-data` with the rest; `catalog-actions.yml` rebuilds
+it after its run so "Fixed automatically" includes the same morning.
 
 **Freshness without a deploy.** The page fetches the artifact from
 `raw.githubusercontent.com/…/health-data/dashboard.json` first (CORS `*`,

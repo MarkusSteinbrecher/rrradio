@@ -6,6 +6,7 @@ import {
   compactHistory,
   nowPlayingKind,
   serialiseDashboard,
+  summariseActions,
   tierOf,
 } from './health-dashboard.mjs';
 
@@ -193,5 +194,26 @@ describe('serialiseDashboard', () => {
     const lines = text.split('\n');
     expect(lines.filter((l) => l.startsWith('["a"') || l.startsWith('["b"'))).toHaveLength(2);
     expect(text.endsWith('\n')).toBe(true);
+  });
+});
+
+describe('summariseActions', () => {
+  it('counts automatic actions by kind and proposals as review, one point per day', () => {
+    const out = summariseActions([
+      { day: '2026-10-19', circuitBreaker: false, actions: [
+        { action: 'unpublish', auto: true }, { action: 'unpublish', auto: true },
+        { action: 'republish', auto: true }, { action: 'clear-logo', auto: true },
+        { action: 'unpublish', auto: false }, { action: 'mystery', auto: true },
+      ] },
+      { day: '2026-10-02', circuitBreaker: true, actions: [] },
+      'junk',
+    ]);
+    expect(out.map((p) => p.day)).toEqual(['2026-10-02', '2026-10-19']);
+    expect(out[0]).toMatchObject({ held: true, retired: 0 });
+    expect(out[1]).toEqual({ day: '2026-10-19', retired: 2, recovered: 1, urlSwapped: 0, logoCleared: 1, logoUpgraded: 0, review: 1, held: false });
+  });
+  it('keeps the last N days', () => {
+    const files = Array.from({ length: 5 }, (_, i) => ({ day: `2026-10-0${i + 1}`, actions: [] }));
+    expect(summariseActions(files, 2).map((p) => p.day)).toEqual(['2026-10-04', '2026-10-05']);
   });
 });
