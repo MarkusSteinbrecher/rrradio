@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { miniMetaText, npFormatText, npLiveText, npStatusText } from './np-labels';
+import { miniMetaText, miniProgramLine, miniTrackLine, npFormatText, npLiveText, npStatusText } from './np-labels';
 import type { NowPlaying, Station } from './types';
 
 const baseStation: Station = {
@@ -9,29 +9,22 @@ const baseStation: Station = {
 };
 
 function np(overrides: Partial<NowPlaying> & { state: NowPlaying['state'] }): NowPlaying {
-  return {
-    station: { ...baseStation, ...(overrides.station ?? {}) },
-    state: overrides.state,
-    errorMessage: overrides.errorMessage,
-    errorView: overrides.errorView,
-    retry: overrides.retry,
-    variant: overrides.variant,
-  };
+  return { ...overrides, station: { ...baseStation, ...(overrides.station ?? {}) } };
 }
 
 describe('miniMetaText', () => {
-  it('loading → TUNING…', () => {
-    expect(miniMetaText(np({ state: 'loading' }))).toBe('TUNING…');
+  it('loading → LOADING… (iOS stateLine)', () => {
+    expect(miniMetaText(np({ state: 'loading' }))).toBe('LOADING…');
   });
 
   it('playing without bitrate → LIVE', () => {
     expect(miniMetaText(np({ state: 'playing' }))).toBe('LIVE');
   });
 
-  it('playing with bitrate → "<n> KBPS · LIVE"', () => {
+  it('playing with bitrate still reads LIVE (iOS parity — no bitrate)', () => {
     expect(
       miniMetaText(np({ state: 'playing', station: { ...baseStation, bitrate: 192 } })),
-    ).toBe('192 KBPS · LIVE');
+    ).toBe('LIVE');
   });
 
   it('paused → PAUSED', () => {
@@ -56,12 +49,24 @@ describe('miniMetaText', () => {
     ).toBe('STATION NOT REACHABLE');
   });
 
+  it('error phrase is trimmed before an em-dash so it fits the strip', () => {
+    expect(
+      miniMetaText(
+        np({ state: 'error', errorMessage: 'Switzerland only — region-locked by the broadcaster.' }),
+      ),
+    ).toBe('SWITZERLAND ONLY');
+  });
+
   it('error without message → ERROR', () => {
     expect(miniMetaText(np({ state: 'error' }))).toBe('ERROR');
   });
 
-  it('idle falls back to player.stateLabel uppercased', () => {
-    expect(miniMetaText(np({ state: 'idle' }))).toBe('IDLE');
+  it('idle → the station country, else STANDBY', () => {
+    expect(miniMetaText(np({ state: 'idle' }))).toBe('STANDBY');
+    expect(miniMetaText(np({ state: 'idle', station: { ...baseStation, country: 'at' } }))).toBe('AT');
+    expect(miniMetaText(np({ state: 'idle', station: { ...baseStation, country: undefined } }))).toBe(
+      'STANDBY',
+    );
   });
 });
 
@@ -142,15 +147,32 @@ describe('retry state (#95)', () => {
     expect(npStatusText(np({ state: 'loading' }))).toBe('Tuning');
   });
 
-  it('mini meta shows the playing variant bitrate over the station default', () => {
-    expect(
-      miniMetaText(
-        np({
-          state: 'playing',
-          station: { ...baseStation, bitrate: 192 },
-          variant: { url: 'https://example.com/lo', bitrate: 64, tier: 'data' },
-        }),
-      ),
-    ).toBe('64 KBPS · LIVE');
+});
+
+describe('miniTrackLine (iOS trackLine)', () => {
+  it('joins the split artist + title with " - "', () => {
+    expect(miniTrackLine(np({ state: 'playing', trackArtist: 'Aphex Twin', trackName: 'Xtal' }))).toBe(
+      'Aphex Twin - Xtal',
+    );
+  });
+  it('falls back to the title alone, then the combined trackTitle', () => {
+    expect(miniTrackLine(np({ state: 'playing', trackName: 'Xtal' }))).toBe('Xtal');
+    expect(miniTrackLine(np({ state: 'playing', trackTitle: 'Aphex Twin — Xtal' }))).toBe('Aphex Twin — Xtal');
+  });
+  it('is suppressed while loading and when blank', () => {
+    expect(miniTrackLine(np({ state: 'loading', trackName: 'Xtal' }))).toBeUndefined();
+    expect(miniTrackLine(np({ state: 'playing', trackTitle: '   ' }))).toBeUndefined();
+  });
+});
+
+describe('miniProgramLine (iOS programInfoLine)', () => {
+  it('joins program name + subtitle with " . "', () => {
+    expect(miniProgramLine(np({ state: 'playing', programName: 'Morning Show', programSubtitle: 'with Ana' }))).toBe(
+      'Morning Show . with Ana',
+    );
+  });
+  it('uses whichever part exists, else undefined', () => {
+    expect(miniProgramLine(np({ state: 'playing', programSubtitle: ' with Ana ' }))).toBe('with Ana');
+    expect(miniProgramLine(np({ state: 'playing', programName: '  ' }))).toBeUndefined();
   });
 });

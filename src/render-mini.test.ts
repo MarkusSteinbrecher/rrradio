@@ -11,6 +11,12 @@ const IDS = {
   miniName: 'mini-name',
   miniTrack: 'mini-track',
   miniMeta: 'mini-meta',
+  miniBadge: 'mini-badge',
+  miniFlag: 'mini-flag',
+  miniProgram: 'mini-program',
+  miniState: 'mini-state',
+  miniSleep: 'mini-sleep',
+  miniToggle: 'mini-toggle',
 } as const;
 
 function mountMini(): MiniRefs {
@@ -37,46 +43,88 @@ describe('renderMiniPlayer', () => {
     expect(refs.mini.hidden).toBe(true);
   });
 
-  it('un-hides + sets name + status on play', () => {
+  it('un-hides + sets name + LIVE state line on play', () => {
     const refs = mountMini();
     renderMiniPlayer(refs, { station: fm4, state: 'playing' });
     expect(refs.mini.hidden).toBe(false);
     expect(refs.miniName.textContent).toBe('FM4');
-    expect(refs.miniMeta.textContent).toBe('192 KBPS · LIVE');
+    expect(refs.miniMeta.textContent).toBe('LIVE');
+    expect(refs.miniState.hidden).toBe(false);
   });
 
-  it('shows TUNING… while loading', () => {
+  it('shows LOADING… and disables play/pause while loading', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'loading' });
-    expect(refs.miniMeta.textContent).toBe('TUNING…');
+    renderMiniPlayer(refs, { station: fm4, state: 'loading', trackName: 'Stale' });
+    expect(refs.miniMeta.textContent).toBe('LOADING…');
+    expect(refs.miniTrack.hidden).toBe(true);
+    expect(refs.miniToggle.getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('shows PAUSED when paused', () => {
+  it('labels the toggle Pause while playing and Play otherwise', () => {
     const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
+    expect(refs.miniToggle.getAttribute('aria-label')).toBe('Pause');
+    expect(refs.miniToggle.getAttribute('aria-disabled')).toBe('false');
     renderMiniPlayer(refs, { station: fm4, state: 'paused' });
+    expect(refs.miniToggle.getAttribute('aria-label')).toBe('Play');
     expect(refs.miniMeta.textContent).toBe('PAUSED');
   });
 
-  it('shows the track line when a trackTitle is present', () => {
+  it('trails the name with the country flag, hidden without a country', () => {
     const refs = mountMini();
-    renderMiniPlayer(
-      refs,
-      { station: fm4, state: 'playing', trackTitle: 'Aphex Twin · Xtal' },
-    );
+    renderMiniPlayer(refs, { station: { ...fm4, country: 'AT' }, state: 'playing' });
+    expect(refs.miniFlag.hidden).toBe(false);
+    expect(refs.miniFlag.textContent).toBe('🇦🇹');
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
+    expect(refs.miniFlag.hidden).toBe(true);
+  });
+
+  it('shows the "artist - title" track line and drops the state line (iOS)', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackArtist: 'Aphex Twin', trackName: 'Xtal' });
     expect(refs.miniTrack.hidden).toBe(false);
+    expect(refs.miniTrack.textContent).toBe('Aphex Twin - Xtal');
+    expect(refs.miniState.hidden).toBe(true);
+  });
+
+  it('falls back to the combined trackTitle', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: 'Aphex Twin · Xtal' });
     expect(refs.miniTrack.textContent).toBe('Aphex Twin · Xtal');
   });
 
-  it('hides the track line when no trackTitle', () => {
+  it('shows the program line in place of the state line', () => {
     const refs = mountMini();
-    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', programName: 'Morning Show', programSubtitle: 'with Ana' });
     expect(refs.miniTrack.hidden).toBe(true);
+    expect(refs.miniProgram.hidden).toBe(false);
+    expect(refs.miniProgram.textContent).toBe('Morning Show . with Ana');
+    expect(refs.miniState.hidden).toBe(true);
+  });
+
+  it('shows track and program together', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: 'Xtal', programName: 'Morning Show' });
+    expect(refs.miniTrack.hidden).toBe(false);
+    expect(refs.miniProgram.hidden).toBe(false);
+    expect(refs.miniState.hidden).toBe(true);
   });
 
   it('hides the track line when trackTitle is whitespace', () => {
     const refs = mountMini();
     renderMiniPlayer(refs, { station: fm4, state: 'playing', trackTitle: '   ' });
     expect(refs.miniTrack.hidden).toBe(true);
+    expect(refs.miniState.hidden).toBe(false);
+  });
+
+  it('shows the sleep glyph and list badge from the playback context', () => {
+    const refs = mountMini();
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' });
+    expect(refs.miniSleep.hidden).toBe(true);
+    expect(refs.miniBadge.hidden).toBe(true);
+    renderMiniPlayer(refs, { station: fm4, state: 'playing' }, { sleepArmed: true, fromList: true });
+    expect(refs.miniSleep.hidden).toBe(false);
+    expect(refs.miniBadge.hidden).toBe(false);
   });
 });
 
