@@ -4,13 +4,11 @@ import {
   filterRows,
   filtersFromParams,
   filtersToParams,
-  hasProblem,
   isDefaultFilters,
   logoDetailLabel,
   parseDashboard,
   sortRows,
   streamDetailLabel,
-  tally,
   type Filters,
   type HealthRow,
 } from './model';
@@ -72,77 +70,57 @@ describe('filterRows', () => {
     expect(filterRows(dash.rows, f())).toHaveLength(5);
   });
 
-  it('filters by country, tier, status and each facet', () => {
+  it('filters by country and view', () => {
     expect(filterRows(dash.rows, f({ cc: 'de' })).map((r) => r.id)).toEqual(['de-dlf', 'de-arabella']);
-    expect(filterRows(dash.rows, f({ tier: 'curated' }))).toHaveLength(2);
-    expect(filterRows(dash.rows, f({ status: 'stream-only' }))).toHaveLength(3);
-    expect(filterRows(dash.rows, f({ stream: 'bad' })).map((r) => r.id)).toEqual(['de-arabella']);
-    expect(filterRows(dash.rows, f({ stream: 'unobserved' })).map((r) => r.id)).toEqual(['xx-new']);
-    expect(filterRows(dash.rows, f({ np: 'silent' })).map((r) => r.id)).toEqual(['fr-x']);
-    expect(filterRows(dash.rows, f({ logo: 'bad' })).map((r) => r.id)).toEqual(['gb-heart']);
-    expect(filterRows(dash.rows, f({ home: 'ok' }))).toHaveLength(2);
+    expect(filterRows(dash.rows, f({ view: 'curated' })).map((r) => r.id)).toEqual(['de-dlf', 'de-arabella']);
+    expect(filterRows(dash.rows, f({ view: 'attention' })).map((r) => r.id)).toEqual(['de-arabella', 'gb-heart', 'fr-x']);
   });
 
-  it('"problems only" keeps failing streams, dead homepages and missing logos', () => {
-    expect(filterRows(dash.rows, f({ problems: true })).map((r) => r.id)).toEqual(['de-arabella', 'gb-heart', 'fr-x']);
-    expect(hasProblem(byId('de-dlf'))).toBe(false);
-    expect(hasProblem(byId('xx-new'))).toBe(false);
+  it('filters by a dimension grade, or by weak-or-bad when no level is set', () => {
+    expect(filterRows(dash.rows, f({ facet: 'stream', level: 'bad' })).map((r) => r.id)).toEqual(['de-arabella']);
+    expect(filterRows(dash.rows, f({ facet: 'stream' })).map((r) => r.id)).toEqual(['de-arabella', 'fr-x']);
+    expect(filterRows(dash.rows, f({ facet: 'np', level: 'bad' })).map((r) => r.id)).toEqual(['de-arabella']);
+    expect(filterRows(dash.rows, f({ facet: 'logo', level: 'weak' })).map((r) => r.id)).toEqual(['de-arabella', 'fr-x']);
   });
 
   it('searches name, id and country, whitespace-insensitively', () => {
-    expect(filterRows(dash.rows, f({ q: 'arabella' })).map((r) => r.id)).toEqual(['de-arabella']);
+    expect(filterRows(dash.rows, f({ q: 'heart' })).map((r) => r.id)).toEqual(['gb-heart']);
     expect(filterRows(dash.rows, f({ q: 'WDR5' })).map((r) => r.id)).toEqual(['xx-new']);
-    expect(filterRows(dash.rows, f({ q: 'gb-he' })).map((r) => r.id)).toEqual(['gb-heart']);
-    expect(filterRows(dash.rows, f({ q: '   ' }))).toHaveLength(5);
-  });
-
-  it('combines filters', () => {
-    expect(filterRows(dash.rows, f({ cc: 'DE', stream: 'ok' })).map((r) => r.id)).toEqual(['de-dlf']);
-    expect(filterRows(dash.rows, f({ tier: 'long-tail', problems: true })).map((r) => r.id)).toEqual(['gb-heart', 'fr-x']);
+    expect(filterRows(dash.rows, f({ q: 'fr-x' })).map((r) => r.id)).toEqual(['fr-x']);
   });
 });
 
 describe('sortRows', () => {
-  it('sorts by name (case-insensitive) by default', () => {
-    expect(sortRows(dash.rows, 'name').map((r) => r.name)).toEqual(['Deutschlandfunk', 'Heart 90s', 'Radio Arabella', 'Radio X', 'WDR 5']);
+  it('puts curated stations first, then names', () => {
+    expect(sortRows(dash.rows, 'curated').map((r) => r.id)).toEqual(['de-dlf', 'de-arabella', 'gb-heart', 'fr-x', 'xx-new']);
   });
-  it('sorts worst stream first, longest streak on top', () => {
-    const rows = [...dash.rows, { ...byId('de-arabella'), id: 'other', name: 'Zed', streakDays: 2 }];
-    expect(sortRows(rows, 'stream').map((r) => r.id)).toEqual(['de-arabella', 'other', 'fr-x', 'xx-new', 'de-dlf', 'gb-heart']);
+  it('sorts lowest score first, unscored last', () => {
+    const ids = sortRows(dash.rows, 'score').map((r) => r.id);
+    expect(ids[0]).toBe('de-arabella');
+    expect(ids[ids.length - 1]).toBe('xx-new');
   });
-  it('sorts by country then name, by most recent change, and by most recent check', () => {
-    expect(sortRows(dash.rows, 'country').map((r) => r.id)).toEqual(['xx-new', 'de-dlf', 'de-arabella', 'fr-x', 'gb-heart']);
-    expect(sortRows(dash.rows, 'since')[0].id).toBe('fr-x');
-    expect(sortRows(dash.rows, 'checked').slice(0, 2).map((r) => r.id)).toEqual(['de-dlf', 'de-arabella']);
+  it('sorts names starting with punctuation after real names', () => {
+    const d = parseDashboard(raw([['a', '__1oldies'], ['b', 'Zeta'], ['c', 'alpha']]));
+    expect(sortRows(d.rows, 'name').map((r) => r.name)).toEqual(['alpha', 'Zeta', '__1oldies']);
   });
   it('does not mutate the input', () => {
     const before = dash.rows.map((r) => r.id);
-    sortRows(dash.rows, 'stream');
+    sortRows(dash.rows, 'score');
     expect(dash.rows.map((r) => r.id)).toEqual(before);
-  });
-});
-
-describe('tally', () => {
-  it('counts verdicts including unobserved', () => {
-    expect(tally(dash.rows, 'stream')).toEqual({ ok: 2, warn: 1, bad: 1, na: 0, unobserved: 1 });
-    expect(tally(dash.rows, 'home')).toEqual({ ok: 2, warn: 0, bad: 1, na: 0, unobserved: 2 });
   });
 });
 
 describe('URL state', () => {
   it('round-trips non-default filters and omits defaults', () => {
-    const filters = f({ q: 'heart', cc: 'gb', tier: 'long-tail', stream: 'bad', np: 'icy', logo: 'warn', home: 'bad', problems: true, sort: 'stream', status: 'stream-only' });
-    const params = filtersToParams(filters);
-    expect(params.toString()).toBe('q=heart&cc=GB&tier=long-tail&status=stream-only&stream=bad&np=icy&logo=warn&home=bad&problems=1&sort=stream');
-    expect(filtersFromParams(params)).toEqual({ ...filters, cc: 'GB' });
     expect(filtersToParams(DEFAULT_FILTERS).toString()).toBe('');
     expect(isDefaultFilters(f())).toBe(true);
-    expect(isDefaultFilters(f({ problems: true }))).toBe(false);
+    const custom = f({ q: 'dlf', cc: 'DE', view: 'attention', facet: 'logo', level: 'bad', sort: 'score' });
+    const params = filtersToParams(custom);
+    expect(filtersFromParams(params)).toEqual(custom);
   });
-
-  it('ignores unknown values', () => {
-    const parsed = filtersFromParams(new URLSearchParams('stream=meh&sort=nope&np=x&tier=gold&cc=ALL&problems=yes'));
-    expect(parsed).toEqual(DEFAULT_FILTERS);
+  it('ignores unknown values and a level without a facet', () => {
+    const back = filtersFromParams(new URLSearchParams('view=nope&facet=x&level=bad&sort=zzz'));
+    expect(back).toEqual(f());
   });
 });
 

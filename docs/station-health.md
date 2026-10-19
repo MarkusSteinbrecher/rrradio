@@ -509,13 +509,21 @@ PR labelled `catalog-review`. Snapshots and the actions audit trail go to
 ## Public dashboard: `/catalog-health`
 
 The public read of the loop — <https://rrradio.org/catalog-health> — shows
-that the catalog is managed, not just accumulated. Filters at the top
-(search, country, tier, status, stream, now-playing, logo, homepage, sort,
-"problems only") are URL params, so any view is a shareable link; the table
-lists every published station with its stream verdict (and failing streak),
-how now-playing arrives, logo and homepage state, and the day of the latest
-probe. The tiles above the filters are catalog-wide and never change with
-the filters.
+that the catalog is managed, not just accumulated. It reads top to bottom:
+one **catalog quality score** (0–100), the four dimensions it is made of,
+failing streams over time, what needs attention (curated stations first,
+then the longest-failing streams), and a station lookup. Everything above the
+lookup is catalog-wide; the lookup's filters (search, country, all / curated /
+needs attention, a dimension grade picked from the breakdown, sort) are URL
+params, so any view is a shareable link.
+
+**Score.** `src/health/score.ts`. Each station gets *good* (1), *weak* (½)
+or *bad* (0) per dimension — stream (`stream` verdict), now playing (api/icy
+good, silent/hls weak, none bad), logo, homepage — and a dimension that
+doesn't apply or hasn't been checked is left out rather than counted against
+it. Dimension score = (good + ½·weak) / checked; the catalog score is the
+weighted mean: stream 40%, now playing 25%, logo 20%, homepage 15%. The same
+weights give each station its own score in the lookup.
 
 **Artifact.** `tools/build-health-dashboard.mjs` (`npm run health-dashboard
 -- --data health-data`) joins `stations.json` with the record, streaks, plan
@@ -534,9 +542,11 @@ as the same-origin fallback. Locally: `npm run health-dashboard -- --data
 `npm run dev` at <http://localhost:5173/catalog-health>.
 
 **Page.** `catalog-health.html` + `src/health/` (`model.ts` parse / filter /
-sort / URL state, unit-tested; `ui.ts` DOM, sparkline, proportion bar;
-`theme.ts` shares the app's `rrradio.theme` key; `health.css` the app palette).
-Strict CSP: no inline script or style, fonts via fonts.googleapis.com,
-`connect-src` limited to self + raw.githubusercontent.com. Verdicts are always
-a dot plus a word — the amber/red pair is not distinguishable for every reader
-by hue alone.
+sort / URL state and `score.ts`, both unit-tested; `ui.ts` DOM, grade marks,
+stacked bars, trend chart; `theme.ts` shares the app's `rrradio.theme` key;
+`health.css` layout only). Styled with SteinerDesign, vendored at
+`public/vendor/steinerdesign/` (tag in its `VERSION`; re-copy `dist/` and
+`assets/` from a newer tag to upgrade). Strict CSP: no inline script or style,
+everything self-hosted (`style-src`/`font-src 'self'`), `connect-src` limited
+to self + raw.githubusercontent.com. Grades are always a dot plus a word,
+never colour alone.

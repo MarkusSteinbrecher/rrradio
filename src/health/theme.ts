@@ -14,8 +14,8 @@
  */
 
 const THEME_KEY = 'rrradio.theme';
-const DARK_BG = '#1e1d19';
-const LIGHT_BG = '#f8f8f6';
+const DARK_BG = '#121110'; // SteinerDesign --bg-page, dark
+const LIGHT_BG = '#fafaf9'; // SteinerDesign --bg-page, light
 
 export type Theme = 'light' | 'dark';
 
