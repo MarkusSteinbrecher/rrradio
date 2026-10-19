@@ -100,6 +100,32 @@ export function toObservation({ station, facets, probe, at, retried = false }) {
 }
 
 /**
+ * Observation row for the metadata facet. Only written when the probe
+ * actually fetched a metadataUrl — every other metadata verdict (slug,
+ * built-in fetcher, auto-discoverable, not declared) is a pure function of
+ * the catalog and `derive-health` computes it from there.
+ *
+ * @param {{station: {id: string}, verdict: Verdict,
+ *          probe: {status: number|'failed', contentType?: string}, at: string}} input
+ * @returns {object} observation row (not yet normalised)
+ */
+export function toMetadataObservation({ station, verdict, probe, at }) {
+  return {
+    id: station.id,
+    at,
+    v: 'gha',
+    f: 'metadata',
+    o: verdict.v,
+    c: verdict.v === 'bad' ? failureClass(verdict.d ?? null) : null,
+    s: typeof probe?.status === 'number' ? probe.status : null,
+    ct: probe?.contentType || null,
+    ms: null,
+    d: verdict.d ?? null,
+    r: false,
+  };
+}
+
+/**
  * Classifiers that need `src/fetchers.json`. Passing the manifest in keeps
  * the module pure and lets tests use a two-entry manifest.
  *
@@ -155,6 +181,33 @@ export function createClassifiers(manifest) {
       : { v: 'warn', d: 'fetcher does not expose program info' };
   }
 
+  /** Whether the probe has to fetch the metadataUrl to judge it. */
+  function probesMetadata(metadataUrl, metadataKey) {
+    return !!metadataUrl && !isMetadataSlug(metadataUrl, metadataKey);
+  }
+
+  /**
+   * The facets that need no request: `https`, `fetcher`, `program`, and
+   * `metadata` whenever there is no metadataUrl to fetch. derive-health
+   * computes these for the whole published catalog every day, so they
+   * never wait for the long-tail rotation.
+   *
+   * @param {{streamUrl?: string, metadataUrl?: string, broadcaster?: string}} station
+   * @param {string|null} metadataKey effectiveMetadataKey(station)
+   * @returns {Record<string, Verdict>}
+   */
+  function catalogVerdicts(station, metadataKey) {
+    const out = {
+      https: classifyHttps(station.streamUrl),
+      fetcher: classifyFetcher(metadataKey),
+      program: classifyProgram(metadataKey),
+    };
+    if (!probesMetadata(station.metadataUrl, metadataKey)) {
+      out.metadata = classifyMetadataApi(station.metadataUrl, null, metadataKey, station.broadcaster);
+    }
+    return out;
+  }
+
   return {
     classifyStream,
     classifyHttps,
@@ -163,5 +216,7 @@ export function createClassifiers(manifest) {
     classifyFetcher,
     classifyProgram,
     isMetadataSlug,
+    probesMetadata,
+    catalogVerdicts,
   };
 }

@@ -10,6 +10,8 @@ import {
   rollupCutoffDay,
   serialiseStreaks,
   ICY_DETAILS,
+  catalogFacetUpdates,
+  facetUpdates,
 } from './derive-health.mjs';
 
 const NOW = '2026-09-10T06:00:00Z';
@@ -260,5 +262,94 @@ describe('serialiseStreaks', () => {
     expect(lines[1].startsWith('"a": {"stream":')).toBe(true);
     expect(lines[2].startsWith('"b":')).toBe(true);
     expect(() => JSON.parse(text)).not.toThrow();
+  });
+});
+
+describe('metadata + homepage rows', () => {
+  const row = (id, f, o, d, day = '2026-09-09') => ({ ...obs(id, day, o, { d }), f, icy: undefined });
+
+  it('maps metadata and homepage rows like the logo facet', () => {
+    const latest = latestByStationFacet([row('a', 'metadata', 'bad', 'HTTP 404'), row('a', 'homepage', 'warn', 'HTTP 403')]);
+    expect([...toFacetUpdates(latest, 'metadata')]).toEqual([['a', { v: 'bad', d: 'HTTP 404' }]]);
+    expect([...toFacetUpdates(latest, 'homepage')]).toEqual([['a', { v: 'warn', d: 'HTTP 403' }]]);
+  });
+});
+
+describe('catalogFacetUpdates', () => {
+  const verdictsOf = (s) => ({
+    https: s.streamUrl.startsWith('https:') ? { v: 'ok' } : { v: 'bad', d: 'http (mixed content)' },
+    fetcher: { v: 'na', d: 'generic' },
+    program: { v: 'na' },
+    ...(s.metadataUrl ? {} : { metadata: { v: 'na', d: 'not declared' } }),
+  });
+
+  it('decides the request-free facets for every catalogued station', () => {
+    const out = catalogFacetUpdates(
+      [
+        { id: 'a', streamUrl: 'https://a', homepage: 'https://a.example' },
+        { id: 'b', streamUrl: 'http://b', metadataUrl: 'https://b/m' },
+      ],
+      verdictsOf,
+    );
+    expect(out.get('https').get('b')).toEqual({ v: 'bad', d: 'http (mixed content)' });
+    expect(out.get('program').get('a')).toEqual({ v: 'na', d: null });
+    expect(out.get('metadata').has('a')).toBe(true);
+    expect(out.get('metadata').has('b')).toBe(false); // needs the probe
+    expect(out.get('homepage').has('a')).toBe(false); // needs check-homepages
+    expect(out.get('homepage').get('b')).toEqual({ v: 'na', d: 'no homepage' });
+  });
+});
+
+describe('facetUpdates', () => {
+  const metaRow = (id, day, o, d) => ({ ...obs(id, day, o), d, f: 'metadata', icy: undefined });
+
+  it('merges observed rows with catalog verdicts; the catalog wins', () => {
+    const latest = latestByStationFacet([metaRow('a', '2026-09-09', 'ok', null), metaRow('b', '2026-09-09', 'bad', 'HTTP 500')]);
+    // b dropped its metadataUrl since it was probed: the catalog decides now.
+    const fromCatalog = new Map([['metadata', new Map([['b', { v: 'na', d: 'not declared' }], ['c', { v: 'na', d: 'not declared' }]])]]);
+    const { updates, checked, observed } = facetUpdates(latest, 'metadata', fromCatalog, NOW);
+    expect([...updates]).toEqual([
+      ['a', { v: 'ok', d: null }],
+      ['b', { v: 'na', d: 'not declared' }],
+      ['c', { v: 'na', d: 'not declared' }],
+    ]);
+    expect(checked).toBe(3);
+    expect(observed).toBe(2);
+  });
+
+  it('counts only last-7-day rows as checked, but keeps older verdicts', () => {
+    const latest = latestByStationFacet([metaRow('a', '2026-08-01', 'ok', null), metaRow('b', '2026-09-09', 'ok', null)]);
+    const { updates, checked } = facetUpdates(latest, 'metadata', new Map(), NOW);
+    expect(updates.size).toBe(2);
+    expect(checked).toBe(1);
+  });
+
+  it('is a pure catalog facet when no rows exist (https/fetcher/program)', () => {
+    const fromCatalog = new Map([['https', new Map([['a', { v: 'ok', d: null }]])]]);
+    expect(facetUpdates(new Map(), 'https', fromCatalog, NOW)).toEqual({
+      updates: new Map([['a', { v: 'ok', d: null }]]),
+      checked: 1,
+      observed: 0,
+    });
+  });
+
+  it('matches coverage() for the rolling facets it replaced', () => {
+    const latest = latestByStationFacet([
+      obs('a', '2026-09-09', 'ok', { icy: 'ok' }),
+      obs('b', '2026-08-01', 'ok', { icy: 'bad' }),
+    ]);
+    for (const facet of ['stream', 'icy']) {
+      expect(facetUpdates(latest, facet, new Map(), NOW).checked).toBe(coverage(latest, facet, NOW));
+    }
+  });
+
+  it('a re-derive with unchanged inputs makes no transitions', () => {
+    const latest = latestByStationFacet([metaRow('a', '2026-09-09', 'warn', 'content-type "text/html"')]);
+    const record = emptyRecord();
+    const { updates } = facetUpdates(latest, 'metadata', new Map(), NOW);
+    applyFacet(record, 'metadata', updates, { tool: 'derive-health', at: NOW });
+    const again = applyFacet(record, 'metadata', updates, { tool: 'derive-health', at: '2026-09-11T06:00:00Z' });
+    expect(again.transitions).toBe(0);
+    expect(record.stations.a.metadata.since).toBe('2026-09-10');
   });
 });

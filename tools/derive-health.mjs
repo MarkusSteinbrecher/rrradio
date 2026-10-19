@@ -20,14 +20,16 @@ import { existsSync, readFileSync, readdirSync, rmSync, appendFileSync, writeFil
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readObservations } from './lib/observations.mjs';
-import { loadHealthFrom, saveHealthTo, applyFacet, pruneStations } from './lib/health-record.mjs';
+import { loadHealthFrom, saveHealthTo, applyFacet, pruneStations, FACETS } from './lib/health-record.mjs';
+import { createClassifiers } from './lib/probe-classify.mjs';
+import { effectiveMetadataKey } from './lib/url-pattern-fetchers.mjs';
 import {
   observedIds,
   latestByStationFacet,
-  toFacetUpdates,
+  catalogFacetUpdates,
+  facetUpdates,
   computeStreaks,
   computeMetrics,
-  coverage,
   rollupCutoffDay,
   serialiseStreaks,
 } from './lib/derive-health.mjs';
@@ -90,17 +92,27 @@ const metrics = computeMetrics({ catalog, latest, plan, streaks, now });
 
 // ─── health record ───────────────────────────────────────────────────
 
+// The facets that need no request (https, fetcher, program, the metadata of
+// stations with nothing to fetch, homepage na) come straight from the
+// catalog for every station, every day — they used to wait for a full
+// local `npm run health` sweep and went stale for months.
+const { catalogVerdicts } = createClassifiers(JSON.parse(readFileSync(join(root, 'src/fetchers.json'), 'utf8')));
+const fromCatalog = catalogFacetUpdates(catalog, (s) => catalogVerdicts(s, effectiveMetadataKey(s)));
+
 const record = loadHealthFrom(recordPath);
-const runMeta = { tool: 'derive-health', scope: 'rolling', at: now };
 const applied = [];
-for (const facet of ['stream', 'icy', 'logo']) {
-  const updates = toFacetUpdates(latest, facet);
+// Drift and duplicate keep their own writers (check-drift / check-duplicates).
+for (const facet of FACETS.filter((f) => f !== 'drift' && f !== 'duplicate')) {
+  const { updates, checked, observed } = facetUpdates(latest, facet, fromCatalog, now);
   if (!updates.size) continue; // never invent a run for a facet with no rows
-  const res = applyFacet(record, facet, updates, runMeta);
+  // `rolling` = at least partly measured by the tiered probe; `full` = the
+  // catalog alone decided every station.
+  const scope = observed ? 'rolling' : 'full';
+  const res = applyFacet(record, facet, updates, { tool: 'derive-health', scope, at: now });
   // applyFacet counts the updates it was handed; the ADR wants `checked` to
   // read as 7-day coverage of the rolling sweep, which is a property of the
   // log, not of this call. Overriding here keeps applyFacet's semantics.
-  record.runs[facet].checked = coverage(latest, facet, now);
+  record.runs[facet].checked = checked;
   applied.push(`${facet} ${res.transitions} transitions`);
 }
 const pruned = pruneStations(record, ids);
