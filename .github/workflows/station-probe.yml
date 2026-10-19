@@ -12,7 +12,8 @@ name: Station probe
 #
 #   plan   → picks today's targets (hot set daily + 1/7 of the long tail)
 #   probe  → matrix of shards, each with its own 25 min budget, each
-#            writing append-only NDJSON observation rows
+#            writing append-only NDJSON observation rows (stream, logo,
+#            metadata from health-probe; homepage from check-homepages)
 #   merge  → appends the rows to the `health-data` branch, derives the
 #            health record from them, commits + pushes to `health-data`
 #   digest → Mondays (and on dispatch): one issue labelled
@@ -142,12 +143,40 @@ jobs:
             --quiet
 
       # always(): a timed-out or crashed shard has still appended rows,
-      # and half a shard of observations is worth more than none.
+      # and half a shard of observations is worth more than none. Uploaded
+      # before the homepage step so a slow homepage pass can never cost
+      # the stream rows.
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: obs-${{ matrix.shard }}
           path: obs-${{ matrix.shard }}.ndjson
+          retention-days: 7
+          if-no-files-found: ignore
+
+      # Same shard, same tiering, homepage facet. Polite by construction:
+      # one probe per unique URL, HEAD before GET, never two requests in
+      # flight to one host, 6 lanes per shard. --budget stops starting new
+      # probes after 10 min so the step ends with the rows it has; anything
+      # not reached keeps yesterday's verdict.
+      - name: Check homepages for shard ${{ matrix.shard }}
+        continue-on-error: true
+        timeout-minutes: 13
+        run: |
+          node tools/check-homepages.mjs \
+            --plan plan.json \
+            --shard ${{ matrix.shard }} \
+            --observations obs-hp-${{ matrix.shard }}.ndjson \
+            --no-record \
+            --concurrency 6 \
+            --timeout 8000 \
+            --budget 600
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: obs-hp-${{ matrix.shard }}
+          path: obs-hp-${{ matrix.shard }}.ndjson
           retention-days: 7
           if-no-files-found: ignore
 

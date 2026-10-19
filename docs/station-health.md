@@ -76,13 +76,13 @@ volume, then on a Node 22 / npm-11 lockfile mismatch).
 | Facet | Writer | Verdict semantics |
 |---|---|---|
 | `stream` | `tools/health-probe.mjs` | ok = 2xx + audio-like content-type · warn = unexpected content-type · bad = HTTP ≥ 400 / network failure |
-| `https` | `health-probe` | ok = https stream URL · bad = http (mixed content) |
-| `icy` | `health-probe` | ok = StreamTitle seen · warn = metaint advertised, no title in 64 KB · bad = none · na = HLS |
-| `metadata` | `health-probe` | metadataUrl / built-in fetcher reachability (analyze.mjs semantics) |
-| `fetcher` | `health-probe` | ok = known key · bad = unknown key · na = generic |
-| `program` | `health-probe` | ok = program-capable fetcher · warn = fetcher without program info · na = no fetcher |
+| `https` | `derive-health` (from the catalog, daily); `health-probe` locally | ok = https stream URL · bad = http (mixed content) |
+| `icy` | `health-probe` → `derive-health` | ok = StreamTitle seen · warn = metaint advertised, no title in 64 KB · bad = none · na = HLS |
+| `metadata` | `health-probe` → `derive-health` (fetched endpoints, tiered); `derive-health` from the catalog (everything else, daily) | metadataUrl / built-in fetcher reachability (analyze.mjs semantics) |
+| `fetcher` | `derive-health` (from the catalog, daily); `health-probe` locally | ok = known key · bad = unknown key · na = generic |
+| `program` | `derive-health` (from the catalog, daily); `health-probe` locally | ok = program-capable fetcher · warn = fetcher without program info · na = no fetcher |
 | `logo` | `health-probe` → `derive-health` (phase 3) | ok = loads, decodes, big enough (`good` / `acceptable` / `vector`) · warn = too small (`poor` / `unknown`) or the URL heuristics distrust it (`generic` / `third-party` / `non-free-wiki`) · bad = `missing`, plain `http` (the app's CSP never shows it, but its https twin loads — soft, never cleared, upgraded by rule 8b), `not-image`, or the probe error token (`HTTP 404`, `timeout`, `dns`, …) — for an http favicon, the token of its https twin |
-| `homepage` | `tools/check-homepages.mjs` | ok · warn = blocked (401/403/429) · bad = dead / server-error / network error · na = no homepage |
+| `homepage` | `tools/check-homepages.mjs` → `derive-health` (tiered, daily); `check-homepages` directly for local sweeps | ok · warn = blocked (401/403/429) · bad = dead / server-error / network error · na = no homepage |
 | `drift` | `tools/check-drift.mjs` | ok = changeuuid matches · warn = upstream changed / no baseline · bad = record gone upstream · na = not RB-bound |
 | `duplicate` | `tools/check-duplicates.mjs` | ok = clean · warn = review-tier group · bad = blocking collision |
 
@@ -134,7 +134,7 @@ npm run health -- --concurrency 24 --timeout 5000
   At ~24k stations and 8 s worst-case timeouts this bounds the full sweep to
   well under 2 h; the old sequential probes could not finish inside a CI job.
 - Writes the `stream/https/icy/metadata/fetcher/program` facets into the
-  health record.
+  health record (local runs; CI uses `--no-record`, see below).
 - Prints a summary tally plus the bad stations, not 24k table rows.
 
 In CI it runs from a plan instead of scanning the catalog itself:
@@ -144,7 +144,9 @@ npm run health -- --plan plan.json --shard 0 --observations obs-0.ndjson --no-re
 ```
 
 - `--plan` + `--shard i` take the targets from the plan's shard `i`.
-- `--observations <path>` appends one row per probed station.
+- `--observations <path>` appends one stream row per probed station, one
+  logo row per catalogued station, and one `metadata` row per station whose
+  metadataUrl it actually fetched.
 - `--no-record` skips `public/station-health.json` — `derive-health` writes
   the record instead.
 - `--strict` stays for local use; the workflow never passes it.
@@ -204,6 +206,35 @@ run of identical `(o, c)`, counting distinct UTC days only), `metrics.json`
 and `metrics-history.ndjson`. Prunes stations that left the catalog and
 observation files older than 90 days.
 
+Two sources feed the record, and both run every day:
+
+- **Observed facets** — `stream`, `icy`, `logo`, `metadata` (stations with a
+  metadataUrl to fetch) and `homepage` come from the latest observation row,
+  so they follow the probe's tiering: curated + hot set daily, the long tail
+  on the 7-day rotation. A station the rotation has not reached keeps its
+  last verdict; `checked` counts the stations observed in the last 7 days.
+- **Catalog facets** — `https`, `fetcher`, `program`, the `metadata` of
+  every station with nothing to fetch (slug, built-in fetcher,
+  auto-discoverable, not declared) and `homepage: na` for a station without
+  a homepage. They are pure functions of the catalog row
+  (`catalogVerdicts` in `tools/lib/probe-classify.mjs`, the same classifiers
+  the probe uses, so details are byte-identical), computed for every
+  published station in every run. Where the catalog decides, it beats an
+  older observation — a station that dropped its metadataUrl must not keep
+  the verdict of its last fetch. Only catalogued stations: a `plan.extra`
+  stub has no metadata key or homepage to judge.
+
+A facet whose every verdict came from the catalog runs with scope `full`;
+one with any observed rows with scope `rolling`. `drift` and `duplicate`
+keep their own writers.
+
+Until October 2026 only `stream`, `icy` and `logo` were derived. The CI
+probe runs `--no-record`, so `https/metadata/fetcher/program` were last
+written by a local full sweep (2026-06-15) and `homepage` by a manual
+`check-homepages` run (2026-06-14). The first derive after the fix made
+~1.6k one-time `fetcher`/`program` transitions — the URL-pattern (Triton)
+fetchers wired since June — and none on re-runs.
+
 `availability` in the metrics is play-weighted: Σ plays of stations whose
 latest stream verdict is `ok` ÷ Σ plays. With no plays it is `null`, not 1.
 
@@ -239,7 +270,7 @@ for five consecutive days is a different thing from one that timed out once.
 | `id` | station id |
 | `at` | ISO-8601 UTC, second precision |
 | `v` | vantage: `gha` (GitHub Actions runner). Reserved: `edge`, `client` |
-| `f` | facet: `stream` (phase 1) or `logo` (phase 3). Logo rows carry no `icy` key |
+| `f` | facet: `stream` (phase 1), `logo` (phase 3), `metadata` or `homepage`. Only stream rows carry an `icy` key |
 | `o` | outcome `ok` \| `warn` \| `bad` |
 | `c` | class `hard` \| `soft` \| `null` (only set when `o` is `bad`) |
 | `s` | HTTP status or `null` |
@@ -249,7 +280,14 @@ for five consecutive days is a different thing from one that timed out once.
 | `icy` | `ok` \| `warn` \| `bad` \| `na` (stream rows only) |
 | `r` | `true` when the row is the result of the soft-failure retry |
 
-Keys are short on purpose: ~31k rows a week. Rows are append-only — a run
+Metadata rows exist only for stations with a metadataUrl the probe has to
+fetch (a few hundred); everything else about metadata is decided from the
+catalog, so it costs no rows. Homepage rows are one per station probed —
+`check-homepages` probes each unique URL once and fans the result out. A
+homepage row's `c` is `hard` for a 4xx, `dns` or `refused`, `soft`
+otherwise; `blocked` (401/403/429) is `warn`, never bad.
+
+Keys are short on purpose: ~31k rows a week per facet. Rows are append-only — a run
 never rewrites another run's rows.
 
 ### Failure classes
@@ -433,7 +471,7 @@ cancelled — the merge job appends to a branch):
 | Job | Budget | What it does |
 |---|---|---|
 | `plan` | 10 min | `plan-probe --out plan.json --shards N [--full]`; uploads `plan.json`; emits the `[0…N-1]` matrix |
-| `probe` | 25 min per shard | matrix, `fail-fast: false`, `continue-on-error`; `health-probe --plan plan.json --shard i --observations obs-i.ndjson --no-record --concurrency 24 --quiet`; uploads its rows with `if: always()` |
+| `probe` | 25 min per shard | matrix, `fail-fast: false`, `continue-on-error`; `health-probe --plan plan.json --shard i --observations obs-i.ndjson --no-record --concurrency 24 --quiet`; uploads its rows with `if: always()`; then `check-homepages --plan plan.json --shard i --observations obs-hp-i.ndjson --no-record --concurrency 6 --budget 600` (non-fatal, own 13 min step timeout) and uploads those rows as `obs-hp-i` |
 | `merge` | 20 min | `if: always()`; appends every `obs-*.ndjson` into `health-data/observations/<day>.ndjson`, runs `logo-status` / `check-duplicates` (and `check-drift` on Mondays) non-fatally, runs `derive-health`, commits + pushes `health-data` with a rebase-retry |
 | `digest` | 15 min | Mondays and on dispatch: `health-digest --data health-data --out body.md`, upserts one issue labelled `catalog-quality`, closes the legacy `catalog-watch` issue |
 
@@ -460,9 +498,18 @@ Notes on the shape, because each part is load-bearing:
 refresh + duplicates + candidates + backlog + auto-curate. It no longer
 probes, checks drift, refreshes logo status, or commits any health artifact.
 
-`check-homepages` stays manual/curator-paced for now (18.5k URLs, real
-network cost) — but when it runs, it leaves its verdicts in the record
-instead of only in a gitignored cache.
+`check-homepages` runs in every probe shard, on the same targets as the
+stream probe, so the homepage facet has the stream's tiering (curated + hot
+set daily, long tail weekly) instead of a full 18.5k-URL sweep. It stays
+polite: one probe per unique URL, a `HEAD` first and a `GET` only when the
+HEAD is not a clean 2xx (many servers 403/405 a HEAD, so a non-2xx HEAD is
+never a verdict), never two requests in flight to the same host, 6 lanes
+per shard, retries only for 5xx / network / 429. `--budget 600` stops it
+starting new probes after 10 minutes; unreached stations keep their last
+verdict. The homepage step runs after the stream rows are uploaded, so it
+can never cost them. Run without `--plan` it is still the local curation
+tool: country or full sweeps, a gitignored cache, and a direct write to the
+record.
 
 `catalog-actions.yml` (daily 06:00 UTC + dispatch with `dry_run`) is the
 act half: App token → `decide-actions` → `apply-actions --mode auto` → PR

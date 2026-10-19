@@ -6,6 +6,7 @@ import {
   createClassifiers,
   failureClass,
   toObservation,
+  toMetadataObservation,
 } from './probe-classify.mjs';
 import { normaliseObservation } from './observations.mjs';
 
@@ -197,5 +198,59 @@ describe('createClassifiers', () => {
     expect(c.classifyMetadataApi(null, null, 'soma-fm', 'soma-fm').v).toBe('ok');
     expect(c.classifyMetadataApi(null, null, null, 'ard').v).toBe('warn');
     expect(c.classifyMetadataApi(null, null, null, 'grrif')).toEqual({ v: 'na', d: 'not declared' });
+  });
+});
+
+describe('catalogVerdicts', () => {
+  const c = createClassifiers(MANIFEST);
+
+  it('decides https, fetcher and program from the catalog row alone', () => {
+    expect(c.catalogVerdicts({ streamUrl: 'http://x/s', metadataUrl: 'https://x/m' }, 'grrif')).toEqual({
+      https: { v: 'bad', d: 'http (mixed content)' },
+      fetcher: { v: 'ok', d: 'grrif' },
+      program: { v: 'ok' },
+    });
+  });
+
+  it('decides metadata only when there is nothing to fetch', () => {
+    expect(c.catalogVerdicts({ streamUrl: 'https://x/s' }, null).metadata).toEqual({ v: 'na', d: 'not declared' });
+    expect(c.catalogVerdicts({ streamUrl: 'https://x/s', metadataUrl: 'groovesalad' }, 'soma-fm').metadata).toEqual({
+      v: 'ok',
+      d: 'slug=groovesalad (proxied)',
+    });
+    expect('metadata' in c.catalogVerdicts({ streamUrl: 'https://x/s', metadataUrl: 'https://x/m' }, 'grrif')).toBe(false);
+    expect(c.probesMetadata('https://x/m', 'grrif')).toBe(true);
+    expect(c.probesMetadata('groovesalad', 'soma-fm')).toBe(false);
+    expect(c.probesMetadata(undefined, 'grrif')).toBe(false);
+  });
+
+  it('matches the probe verdicts byte for byte (no churn between writers)', () => {
+    const s = { streamUrl: 'https://x/s', broadcaster: 'ard' };
+    const v = c.catalogVerdicts(s, null);
+    expect(v.metadata).toEqual(c.classifyMetadataApi(undefined, null, null, 'ard'));
+    expect(v.https).toEqual(c.classifyHttps(s.streamUrl));
+  });
+});
+
+describe('toMetadataObservation', () => {
+  const at = '2026-10-19T05:00:00Z';
+  it('records a fetched endpoint as a metadata row', () => {
+    const row = normaliseObservation(
+      toMetadataObservation({
+        station: { id: 'a' },
+        verdict: { v: 'bad', d: 'HTTP 404' },
+        probe: { status: 404, contentType: 'text/html' },
+        at,
+      }),
+    );
+    expect(row).toMatchObject({ id: 'a', f: 'metadata', o: 'bad', c: 'hard', s: 404, d: 'HTTP 404' });
+    expect('icy' in row).toBe(false);
+  });
+
+  it('keeps a network failure soft and an ok row classless', () => {
+    expect(toMetadataObservation({ station: { id: 'a' }, verdict: { v: 'bad', d: 'timeout' }, probe: { status: 'failed' }, at }))
+      .toMatchObject({ c: 'soft', s: null });
+    expect(toMetadataObservation({ station: { id: 'a' }, verdict: { v: 'ok' }, probe: { status: 200 }, at }))
+      .toMatchObject({ c: null, d: null });
   });
 });

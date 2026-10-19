@@ -49,7 +49,7 @@ describe('normaliseObservation', () => {
 
   it('rejects unknown vantage / facet / outcome', () => {
     expect(() => normaliseObservation({ ...base, v: 'laptop' })).toThrow(/vantage/);
-    expect(() => normaliseObservation({ ...base, f: 'homepage' })).toThrow(/facet/);
+    expect(() => normaliseObservation({ ...base, f: 'drift' })).toThrow(/facet/);
     expect(() => normaliseObservation({ ...base, o: 'meh' })).toThrow(/outcome/);
   });
 
