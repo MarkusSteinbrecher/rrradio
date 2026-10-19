@@ -77,7 +77,7 @@ export function latestByStationFacet(rows) {
  * empty map — never derive a verdict you did not observe.
  *
  * @param {Map<string, Map<string, Observation>>} latest
- * @param {'stream'|'icy'|'logo'} facet
+ * @param {'stream'|'icy'|'logo'|'metadata'|'homepage'} facet
  * @returns {Map<string, {v: string, d: string|null}>}
  */
 export function toFacetUpdates(latest, facet) {
@@ -95,16 +95,83 @@ export function toFacetUpdates(latest, facet) {
       if (v && v in ICY_DETAILS) updates.set(id, { v, d: ICY_DETAILS[v] });
       continue;
     }
-    if (facet === 'logo') {
-      // Phase 3: the probe's own logo row (load + decode + size, with the
-      // URL heuristics folded in as warn). Same shape as the stream facet.
-      const row = facets.get('logo');
+    if (facet === 'logo' || facet === 'metadata' || facet === 'homepage') {
+      // Logo (phase 3): the probe's own row — load + decode + size, with the
+      // URL heuristics folded in as warn. Metadata: the probe's fetch of a
+      // declared metadataUrl. Homepage: check-homepages' HEAD-then-GET.
+      // All three have the stream facet's shape.
+      const row = facets.get(facet);
       if (row) updates.set(id, { v: row.o, d: row.d ?? null });
       continue;
     }
     throw new Error(`toFacetUpdates: unsupported facet "${facet}"`);
   }
   return updates;
+}
+
+/** Facets derive-health reads from observation rows. */
+export const OBSERVED_FACETS = Object.freeze(['stream', 'icy', 'logo', 'metadata', 'homepage']);
+
+/** Facets (or parts of facets) that are a pure function of the catalog row. */
+export const CATALOG_FACETS = Object.freeze(['https', 'fetcher', 'program', 'metadata', 'homepage']);
+
+/**
+ * Verdicts that need no request, for every catalogued station. `verdictsOf`
+ * is `catalogVerdicts` from tools/lib/probe-classify.mjs (https, fetcher,
+ * program, and metadata when there is no metadataUrl to fetch), injected so
+ * this module stays manifest-free. A station without a homepage gets
+ * `homepage: na` here — there is nothing to probe.
+ *
+ * Only catalogued stations: a `plan.extra` row (bot-unpublished) carries no
+ * metadata key or homepage, and judging it from that stub would flip its
+ * facets and reset their `since` until republish.
+ *
+ * @param {(CatalogStation & {homepage?: string})[]} catalog
+ * @param {(station: object) => Record<string, {v: string, d?: string}>} verdictsOf
+ * @returns {Map<string, Map<string, {v: string, d: string|null}>>} facet → id → verdict
+ */
+export function catalogFacetUpdates(catalog, verdictsOf) {
+  /** @type {Map<string, Map<string, {v: string, d: string|null}>>} */
+  const out = new Map(CATALOG_FACETS.map((f) => [f, new Map()]));
+  for (const station of catalog) {
+    if (!station?.id) continue;
+    const verdicts = { ...verdictsOf(station) };
+    if (!station.homepage) verdicts.homepage = { v: 'na', d: 'no homepage' };
+    for (const [facet, verdict] of Object.entries(verdicts)) {
+      out.get(facet)?.set(station.id, { v: verdict.v, d: verdict.d ?? null });
+    }
+  }
+  return out;
+}
+
+/**
+ * One facet's full update set: observed rows, overridden by the catalog
+ * where the catalog alone decides (a station that dropped its metadataUrl
+ * or homepage must not keep its last fetched verdict).
+ *
+ * `checked` is what the facet actually covers today: every catalog-decided
+ * station plus the observed ones seen in the last `days` days — the same
+ * 7-day reading `coverage()` gives the rolling facets.
+ *
+ * @param {Map<string, Map<string, Observation>>} latest
+ * @param {string} facet
+ * @param {Map<string, Map<string, {v: string, d: string|null}>>} fromCatalog
+ * @param {string} now ISO
+ * @param {number} [days]
+ * @returns {{updates: Map<string, {v: string, d: string|null}>, checked: number, observed: number}}
+ */
+export function facetUpdates(latest, facet, fromCatalog, now, days = 7) {
+  const observed = OBSERVED_FACETS.includes(facet) ? toFacetUpdates(latest, facet) : new Map();
+  const decided = fromCatalog.get(facet) ?? new Map();
+  const updates = new Map([...observed, ...decided]);
+  const cutoff = new Date(Date.parse(now) - days * DAY_MS).toISOString();
+  let fresh = 0;
+  for (const id of observed.keys()) {
+    if (decided.has(id)) continue;
+    const row = latest.get(id)?.get(facet === 'icy' ? 'stream' : facet);
+    if (row && row.at >= cutoff) fresh += 1;
+  }
+  return { updates, checked: decided.size + fresh, observed: observed.size };
 }
 
 /**

@@ -20,7 +20,11 @@
  *   public/station-health.json   stream/https/icy/metadata/fetcher/program
  *                                facets via tools/lib/health-record.mjs
  *                                (skipped with --no-record)
- *   <observations>.ndjson        one append-only row per probed station
+ *   <observations>.ndjson        append-only rows: stream (+icy) and logo per
+ *                                probed station, metadata where a metadataUrl
+ *                                was fetched. In CI derive-health turns these
+ *                                into the record and computes https/fetcher/
+ *                                program from the catalog.
  *
  * Reads public/stations.json (the merged artifact) so RB-bound entries get
  * their resolved streamUrl — the audit-#68 class of false BROKEN.
@@ -31,7 +35,7 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyError } from './lib/homepage-status.mjs';
 import { loadHealth, saveHealth, applyFacet, pruneStations } from './lib/health-record.mjs';
-import { createClassifiers, failureClass, toObservation } from './lib/probe-classify.mjs';
+import { createClassifiers, failureClass, toObservation, toMetadataObservation } from './lib/probe-classify.mjs';
 import { effectiveMetadataKey } from './lib/url-pattern-fetchers.mjs';
 import { appendObservations } from './lib/observations.mjs';
 import { probeLogo, classifyLogo, toLogoObservation, logoFailureClass } from './lib/logo-probe.mjs';
@@ -102,7 +106,7 @@ const {
   classifyMetadataApi,
   classifyFetcher,
   classifyProgram,
-  isMetadataSlug,
+  probesMetadata,
 } = createClassifiers(fetcherManifest);
 
 // ─── probes ──────────────────────────────────────────────────────────
@@ -266,16 +270,16 @@ async function probePass(list, timeout) {
       // URL-pattern fetchers (Triton) count as a fetcher, as in the app.
       const metadataKey = effectiveMetadataKey(s);
       const streamProbe = await probeStream(s.streamUrl, timeout);
-      const metaProbe =
-        s.metadataUrl && !isMetadataSlug(s.metadataUrl, metadataKey)
-          ? await probeMetadataUrl(s.metadataUrl, timeout)
-          : null;
+      const metaProbe = probesMetadata(s.metadataUrl, metadataKey)
+        ? await probeMetadataUrl(s.metadataUrl, timeout)
+        : null;
       // Phase 3: the logo is observed alongside the stream — load, decode,
       // size — so the record's logo facet is a measurement, not a guess.
       const logoProbe = extraIds.has(s.id) ? undefined : await probeLogo(s.favicon, { timeout, publicDir: join(root, 'public') });
       out[i] = {
         station: s,
         probe: streamProbe,
+        metaProbe,
         logoProbe,
         facets: {
           stream: classifyStream(streamProbe),
@@ -338,8 +342,17 @@ if (args.observations) {
   const logoObservations = rows
     .filter((r) => r.facets.logo)
     .map((r) => toLogoObservation({ station: r.station, verdict: r.facets.logo, probe: r.logoProbe ?? null, at }));
-  appendObservations(resolve(args.observations), [...observations, ...logoObservations]);
-  console.log(`appended ${observations.length} stream + ${logoObservations.length} logo observation(s) to ${args.observations}`);
+  // Metadata rows only where a metadataUrl was actually fetched; the rest
+  // of the metadata facet (and https/fetcher/program) is a pure function of
+  // the catalog, which derive-health computes for every station daily.
+  const metadataObservations = rows
+    .filter((r) => r.metaProbe)
+    .map((r) => toMetadataObservation({ station: r.station, verdict: r.facets.metadata, probe: r.metaProbe, at }));
+  appendObservations(resolve(args.observations), [...observations, ...logoObservations, ...metadataObservations]);
+  console.log(
+    `appended ${observations.length} stream + ${logoObservations.length} logo + ` +
+      `${metadataObservations.length} metadata observation(s) to ${args.observations}`,
+  );
 }
 
 // ─── write the health record ─────────────────────────────────────────

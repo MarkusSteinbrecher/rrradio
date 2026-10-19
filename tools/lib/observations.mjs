@@ -16,7 +16,7 @@ import { dirname, join } from 'node:path';
 export const OUTCOMES = Object.freeze(new Set(['ok', 'warn', 'bad']));
 export const CLASSES = Object.freeze(new Set(['hard', 'soft']));
 export const VANTAGES = Object.freeze(new Set(['gha', 'edge', 'client']));
-export const FACETS = Object.freeze(new Set(['stream', 'logo']));
+export const FACETS = Object.freeze(new Set(['stream', 'logo', 'metadata', 'homepage']));
 
 /**
  * Validate and normalise one row. Throws on a malformed row — a bad writer
