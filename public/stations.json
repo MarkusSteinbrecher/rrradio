@@ -98906,17 +98906,6 @@
       "status": "stream-only"
     },
     {
-      "id": "us-top-trend-radio-101",
-      "name": "Top Trend Radio 101",
-      "broadcaster": "independent",
-      "streamUrl": "https://usa15.fastcast4u.com/proxy/cwatters/stream/;",
-      "homepage": "http://toptrendradio101.com/",
-      "country": "US",
-      "bitrate": 128,
-      "codec": "MP3",
-      "status": "stream-only"
-    },
-    {
       "id": "us-university-of-texas-radio",
       "name": "University of Texas Radio",
       "broadcaster": "independent",
@@ -99872,6 +99861,17 @@
       "faviconSource": "broadcaster-site",
       "bitrate": 128,
       "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
+      "id": "us-jb-radio",
+      "name": "JB Radio",
+      "broadcaster": "independent",
+      "streamUrl": "https://mediacp.jb-radio.net:8001/aac",
+      "homepage": "https://www.radio-browser.info/",
+      "country": "US",
+      "bitrate": 320,
+      "codec": "AAC+",
       "status": "stream-only"
     },
     {
@@ -135192,6 +135192,25 @@
       "status": "stream-only"
     },
     {
+      "id": "it-radio-yes",
+      "name": "Radio YES",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream1.aswifi.it/radioyes/live/index.m3u8",
+      "homepage": "https://yesmagazine.it/radio-yes-dab/",
+      "country": "IT",
+      "tags": [
+        "music",
+        "news",
+        "sport",
+        "talk"
+      ],
+      "favicon": "https://i0.wp.com/yesmagazine.it/wp-content/uploads/2020/05/cropped-C13D5FC3-03A2-4BF4-8563-944A0AFF61C9-2.png?fit=180%2C180&ssl=1",
+      "faviconSource": "broadcaster-api",
+      "faviconLicense": "broadcaster-implicit",
+      "codec": "UNKNOWN",
+      "status": "stream-only"
+    },
+    {
       "id": "it-stazione-playlist",
       "name": "Stazione Playlist",
       "broadcaster": "independent",
@@ -154088,6 +154107,17 @@
       "status": "stream-only"
     },
     {
+      "id": "nl-pepperbox",
+      "name": "Pepperbox",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream.pepperboxradio.nl:8000/radio.mp3",
+      "homepage": "http://www.pepperbox.nl/",
+      "country": "NL",
+      "bitrate": 192,
+      "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
       "id": "nl-piraten-fm-10",
       "name": "Piraten.FM - 10",
       "shortName": "10",
@@ -161812,22 +161842,6 @@
         -32.4035,
         -63.2474
       ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ar-radio-21-fm-90-1-caleta-olivia",
-      "name": "Radio 21 FM 90.1 - Caleta Olivia",
-      "broadcaster": "independent",
-      "streamUrl": "https://cdn.instream.audio/:9135/stream",
-      "homepage": "http://www.radio21.com.ar/web/",
-      "country": "AR",
-      "tags": [
-        "caleta olivia"
-      ],
-      "favicon": "https://static-media.streema.com/media/cache/4f/54/4f54e276f175304bdc2595acf2c5ec62.png",
-      "faviconSource": "radio-browser",
-      "bitrate": 96,
-      "codec": "AAC+",
       "status": "stream-only"
     },
     {
@@ -175616,17 +175630,6 @@
       "country": "TR",
       "bitrate": 48,
       "codec": "AAC+",
-      "status": "stream-only"
-    },
-    {
-      "id": "tr-mood-rock",
-      "name": "MOOD ROCK",
-      "broadcaster": "independent",
-      "streamUrl": "https://radyo.yayin.com.tr:6321/;",
-      "homepage": "https://radyo.yayin.com.tr:6321/;",
-      "country": "TR",
-      "bitrate": 128,
-      "codec": "MP3",
       "status": "stream-only"
     },
     {
@@ -215425,17 +215428,6 @@
         -27.3457,
         -51.6095
       ],
-      "status": "stream-only"
-    },
-    {
-      "id": "br-radio-amigos-do-rock",
-      "name": "Rádio Amigos do Rock",
-      "broadcaster": "independent",
-      "streamUrl": "https://stm25.srvaudio.com.br:11358/;",
-      "homepage": "https://radioamigosdorock.wixsite.com/radio-amigos-do-ro-1",
-      "country": "BR",
-      "bitrate": 72,
-      "codec": "AAC+",
       "status": "stream-only"
     },
     {
@@ -328746,26 +328738,6 @@
       "status": "stream-only"
     },
     {
-      "id": "ca-beats-radio",
-      "name": "Beats Radio",
-      "broadcaster": "independent",
-      "streamUrl": "https://satcom.rfchosting.ca:8100/stream",
-      "homepage": "https://beatsradio.ca/",
-      "country": "CA",
-      "tags": [
-        "dance",
-        "edm",
-        "electronic"
-      ],
-      "bitrate": 192,
-      "codec": "MP3",
-      "geo": [
-        51.0443,
-        -114.0628
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "gr-blu-lounge-radio",
       "name": "Blu Lounge Radio",
       "broadcaster": "independent",
@@ -364042,21 +364014,6 @@
       "status": "stream-only"
     },
     {
-      "id": "lc-fire-fm",
-      "name": "Fire FM",
-      "broadcaster": "independent",
-      "streamUrl": "https://tinyurl.com/firefm758",
-      "homepage": "https://www.firefm758/",
-      "country": "LC",
-      "bitrate": 192,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "de-fluxfm-melides-art-radio",
       "name": "FluxFM - Melides Art Radio",
       "shortName": "Melides Art Radio",
@@ -366220,7 +366177,7 @@
       "streamUrl": "https://lhttp-hw.qtfm.cn/live/20669/64k.mp3",
       "homepage": "http://www.weihai.tv/",
       "country": "CN",
-      "favicon": "http://pic.qingting.fm/2015/0318/20150318175130358.jpg",
+      "favicon": "https://pic.qingting.fm/2015/0318/20150318175130358.jpg",
       "codec": "MP3",
       "geo": [
         0,
@@ -367519,29 +367476,6 @@
         "mainstream"
       ],
       "favicon": "https://onradio.gr/wp-content/uploads/2020/04/STYL-FM-104.8.jpg",
-      "faviconSource": "radio-browser",
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ca-umfm-101-5-cjum",
-      "name": "UMFM 101.5 (CJUM)",
-      "broadcaster": "independent",
-      "streamUrl": "https://live.umfm.com:8015/stream/2;",
-      "homepage": "https://umfm.com/",
-      "country": "CA",
-      "tags": [
-        "campus radio",
-        "college radio",
-        "community radio",
-        "university radio"
-      ],
-      "favicon": "https://umfm.com/favicon.ico",
       "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
@@ -373327,30 +373261,6 @@
       "tags": [
         "musica regional mexicano"
       ],
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "co-la-voz-de-los-llaneros-106-3fm",
-      "name": "La Voz de los Llaneros 106.3FM",
-      "broadcaster": "independent",
-      "streamUrl": "https://1063.meta.gov.co/",
-      "homepage": "https://www.facebook.com/106.3fmoficial/",
-      "country": "CO",
-      "tags": [
-        "government",
-        "information",
-        "local government",
-        "salsa",
-        "tropical"
-      ],
-      "favicon": "https://static-media.streema.com/media/cache/8d/bd/8dbdd33d18d2e6d5856eaaedf5bb3a21.jpg",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -397546,21 +397456,6 @@
       "status": "stream-only"
     },
     {
-      "id": "ca-the-borderline-radio",
-      "name": "The Borderline Radio",
-      "broadcaster": "independent",
-      "streamUrl": "https://satcom.rfchosting.ca:9015/stream",
-      "homepage": "https://theborderline.ca/",
-      "country": "CA",
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "za-theradio-fm",
       "name": "theradio.fm",
       "broadcaster": "independent",
@@ -398751,24 +398646,6 @@
       "favicon": "https://filestorage.hshan.com/inner-file/storage1-cloudlivemanage/cloudlivemanage/2023/127/0b924aee3c96ef66.jpeg",
       "faviconSource": "radio-browser",
       "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "cn-station-a120e591",
-      "name": "肇庆旅游之声",
-      "broadcaster": "independent",
-      "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/2893/64.m3u8?transcode=ts",
-      "homepage": "http://www.xjrb.com/",
-      "country": "CN",
-      "tags": [
-        "oldies"
-      ],
-      "favicon": "https://pic.qtfm.cn/device/d09c9ce44e3840d0962f78a141336aec/1563518838427_L4leTmXdC.jpeg!200",
-      "codec": "UNKNOWN",
       "geo": [
         0,
         0
@@ -401054,25 +400931,6 @@
       "geo": [
         0,
         0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ru-karasevuy-radio",
-      "name": "Karasevuy radio",
-      "broadcaster": "independent",
-      "streamUrl": "https://karasevuy.ru/radiostream",
-      "homepage": "https://karasevuy.ru/",
-      "country": "RU",
-      "tags": [
-        "anime",
-        "random",
-        "russian"
-      ],
-      "codec": "MP3",
-      "geo": [
-        67.3128,
-        34.1016
       ],
       "status": "stream-only"
     },
@@ -404396,6 +404254,23 @@
       "status": "stream-only"
     },
     {
+      "id": "do-yarah-radio",
+      "name": "Yarah Radio",
+      "broadcaster": "independent",
+      "streamUrl": "https://servidor40-4.brlogic.com:7022/live?source=website",
+      "homepage": "https://yarahradio.com/",
+      "country": "DO",
+      "favicon": "https://public-rf-upload.minhawebradio.net/252370/logo/291cb762d4ebc34d6894d9bdd6b03452.jpg",
+      "faviconSource": "radio-browser",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
       "id": "gh-yfm-accra",
       "name": "YFm Accra",
       "broadcaster": "independent",
@@ -405050,26 +404925,6 @@
       "status": "stream-only"
     },
     {
-      "id": "ru-station-2760bf97",
-      "name": "Минор",
-      "broadcaster": "independent",
-      "streamUrl": "https://radiominor.ru:8443/radiominor_ru_indie.mp3",
-      "homepage": "https://radiominor.ru/",
-      "country": "RU",
-      "tags": [
-        "инди-рок"
-      ],
-      "favicon": "https://topradio.me/assets/image/radio/100/minor.png",
-      "faviconSource": "radio-browser",
-      "bitrate": 160,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "ru-station-763df85a",
       "name": "Н-Радио",
       "broadcaster": "independent",
@@ -405261,25 +405116,6 @@
       "favicon": "https://pic.qtfm.cn/sso/198/1628153925899_sb5h5wFx4.jpeg",
       "faviconSource": "radio-browser",
       "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "cn-station-5f85d361",
-      "name": "兵团之声",
-      "broadcaster": "independent",
-      "streamUrl": "https://live.ximalaya.com/radio-first-page-app/live/1838/64.m3u8?transcode=ts",
-      "homepage": "https://www.btzx.com.cn/",
-      "country": "CN",
-      "tags": [
-        "full service"
-      ],
-      "favicon": "https://pic.btzx.com.cn/photoAlbum/page/performance/img/2023/7/11/1689043197147_169.png",
-      "faviconSource": "radio-browser",
-      "codec": "UNKNOWN",
       "geo": [
         0,
         0
@@ -408372,6 +408208,23 @@
       "geo": [
         37.0725,
         37.3775
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "ca-indi-101-5",
+      "name": "INDI 101-5",
+      "broadcaster": "independent",
+      "streamUrl": "https://hawkstream.mohawkcollege.ca/1/",
+      "homepage": "http://www.indi1015.ca/",
+      "country": "CA",
+      "favicon": "https://indi1015.ca/wp-content/uploads/2021/09/logo_indi-Reverse.png",
+      "faviconSource": "radio-browser",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
       ],
       "status": "stream-only"
     },
@@ -450291,29 +450144,6 @@
       "status": "stream-only"
     },
     {
-      "id": "ro-radio-nova22",
-      "name": "Radio Nova22",
-      "broadcaster": "independent",
-      "streamUrl": "https://s2.myradiostream.com:4520/listen.m4a",
-      "homepage": "http://s2.myradiostream.com:4520/listen.m4a",
-      "country": "RO",
-      "tags": [
-        "dance",
-        "jazz",
-        "latin",
-        "oldies",
-        "pop",
-        "relax"
-      ],
-      "bitrate": 224,
-      "codec": "AAC+",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "ch-radio-srf-1-zurich-schaffhausen",
       "name": "Radio SRF 1 Zürich Schaffhausen",
       "shortName": "Zürich Schaffhausen",
@@ -471786,6 +471616,21 @@
       "status": "stream-only"
     },
     {
+      "id": "us-aardvark-blues-fm",
+      "name": "Aardvark Blues FM",
+      "broadcaster": "independent",
+      "streamUrl": "https://edge4.peta.live365.net/b77280_128mp3",
+      "homepage": "https://www.aardvarkbluesfm.com/",
+      "country": "US",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
       "id": "gr-avanti-107-6",
       "name": "Avanti 107.6",
       "broadcaster": "independent",
@@ -474096,6 +473941,23 @@
       "favicon": "https://www.radioerzgebirge.de/favicon.ico",
       "faviconSource": "radio-browser",
       "codec": "AAC",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "in-radio-khushkhabri",
+      "name": "Radio Khushkhabri",
+      "broadcaster": "independent",
+      "streamUrl": "https://edge-audio-03-gos2.sharp-stream.com/khushkhabri.mp3",
+      "homepage": "https://www.radio-browser.info/",
+      "country": "IN",
+      "favicon": "https://onlineradiohub.com/wp-content/uploads/2023/10/radio-khushkhabri.jpg",
+      "faviconSource": "radio-browser",
+      "bitrate": 128,
+      "codec": "MP3",
       "geo": [
         0,
         0
@@ -533303,28 +533165,6 @@
       "status": "stream-only"
     },
     {
-      "id": "us-kffp-lp-90-3-fm-freeform-portland",
-      "name": "KFFP-LP 90.3 FM Freeform Portland",
-      "broadcaster": "independent",
-      "streamUrl": "https://listen.freeformportland.org/stream",
-      "homepage": "https://www.freeformportland.org/",
-      "country": "US",
-      "tags": [
-        "community radio",
-        "eclectic",
-        "freeform",
-        "oregon",
-        "portland"
-      ],
-      "bitrate": 256,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "de-klassikradio-klassik-dreams",
       "name": "Klassikradio - Klassik Dreams",
       "broadcaster": "independent",
@@ -536901,32 +536741,6 @@
       "status": "stream-only"
     },
     {
-      "id": "br-jovem-pan-fm-blumenau-sc",
-      "name": "Jovem Pan FM - Blumenau - SC",
-      "shortName": "Blumenau - SC",
-      "broadcaster": "independent",
-      "streamUrl": "https://f108.fabricahost.com.br/jpblumenau?f=1768464027N01KF0AQ438AT4MFMBHEV2NP5QH&tid=01KF0AQ438FRZFWMDPREG5YT3S",
-      "homepage": "https://jovempan.com.br/afiliada/blumenau-fm",
-      "country": "BR",
-      "tags": [
-        "brazilian pop",
-        "contemporary hits radio",
-        "dance",
-        "electronic dance music",
-        "eurodance",
-        "jovem"
-      ],
-      "favicon": "https://jpimg.com.br/uploads/2024/02/avatar-blumenau-rgb-500x500.png",
-      "faviconSource": "radio-browser",
-      "bitrate": 48,
-      "codec": "AAC",
-      "geo": [
-        -26.9073,
-        -49.068
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "us-kyse-94-7-la-tricolor-el-paso-tx",
       "name": "KYSE 94.7 \"La Tricolor\" El Paso, TX",
       "broadcaster": "independent",
@@ -537107,21 +536921,6 @@
       "faviconSource": "radio-browser",
       "bitrate": 80,
       "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "br-grauna-fm-95-5",
-      "name": "Grauna FM 95,5",
-      "broadcaster": "independent",
-      "streamUrl": "https://f108.fabricahost.com.br/graunafm?f=1768434569N01KEZEM4AAB8VSEVFTM75NQAE1&tid=01KEZEM4AA8K03BRVJTSHHCPCJ",
-      "homepage": "https://grauna.com.br/",
-      "country": "BR",
-      "bitrate": 48,
-      "codec": "AAC",
       "geo": [
         0,
         0
@@ -542737,28 +542536,6 @@
       "geo": [
         0,
         0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "br-radio-otima-89-1-fm",
-      "name": "Rádio Ótima 89.1 FM",
-      "shortName": "89.1 FM",
-      "broadcaster": "independent",
-      "streamUrl": "https://f108.fabricahost.com.br/otimafm891?f=1768437175N01KEZH3NEF9QXY6TAT9WJ3VS5D&tid=01KEZH3NEF5YQV674YKSCWC9NN",
-      "homepage": "https://otimafm.com.br/",
-      "country": "BR",
-      "tags": [
-        "hits",
-        "popular"
-      ],
-      "favicon": "https://img.radios.com.br/radio/lg/radio39929_1646778380.jpeg",
-      "faviconSource": "radio-browser",
-      "bitrate": 48,
-      "codec": "AAC+",
-      "geo": [
-        -22.4504,
-        -48.3838
       ],
       "status": "stream-only"
     },
