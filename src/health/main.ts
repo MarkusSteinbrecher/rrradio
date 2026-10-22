@@ -1,7 +1,10 @@
 /**
- * Catalog-health page boot: load the dashboard artifact, render the metric
- * tiles once, then keep the filter bar, result line and table in sync with
- * the URL (every filter is a search param, so any view is a link).
+ * Catalog-health page boot. Reads top to bottom: the headline (stations
+ * that play), how failing streams trend, what the catalog fixed on its
+ * own, the extras on top of playing, what needs attention, then a station
+ * lookup. Everything above the lookup is
+ * catalog-wide and never changes with its filters; the lookup's filters
+ * are URL params, so any view is a shareable link.
  *
  * Data source, in order: the live copy on the health-data branch (fresh
  * every morning without a site deploy), then the same-origin copy deploy.yml
@@ -11,30 +14,46 @@
 import {
   DEFAULT_FILTERS,
   NP_LABEL,
-  STATUS_LABEL,
-  countBy,
   filterRows,
   filtersFromParams,
   filtersToParams,
-  hasProblem,
   isDefaultFilters,
   logoDetailLabel,
   parseDashboard,
   sortRows,
   streamDetailLabel,
-  tally,
   type Dashboard,
+  type FacetLevel,
   type Filters,
   type HealthRow,
   type SortKey,
+  type View,
 } from './model';
+import {
+  DIMENSIONS,
+  DIMENSION_HINT,
+  DIMENSION_LABEL,
+  EXTRAS,
+  GRADE_LABEL,
+  goodShare,
+  grade,
+  needsAttention,
+  summarise,
+  worstIssue,
+  type Dimension,
+  type Extra,
+} from './score';
 import { bootstrapTheme, wireThemeToggle } from './theme';
-import { countryName, el, fmtDateTime, fmtDay, fmtInt, fmtPct, proportionBar, relDay, sparkline, verdictCell } from './ui';
+import { countryName, el, fmtDay, fmtInt, fmtPct, gradeMark, relDay, stackedBar, trendChart } from './ui';
+
+const DAY_MS = 86_400_000;
+const STALE_DAYS = 8;
 
 const BASE = import.meta.env.BASE_URL;
 const LIVE_URL = 'https://raw.githubusercontent.com/MarkusSteinbrecher/rrradio/health-data/dashboard.json';
 const LOCAL_URL = `${BASE}catalog-health.json`;
-const PAGE = 100;
+const PAGE = 25;
+const ATTENTION_ROWS = 6;
 
 function must(id: string): HTMLElement {
   const node = document.getElementById(id);
@@ -45,12 +64,6 @@ function must(id: string): HTMLElement {
 bootstrapTheme();
 wireThemeToggle(must('theme-toggle') as HTMLButtonElement);
 
-const tilesRoot = must('tiles');
-const filtersRoot = must('filters');
-const resultLine = must('result-line');
-const tbody = must('table-body');
-const moreRoot = must('more');
-const ledeMeta = must('lede-meta');
 const statusRoot = must('load-status');
 
 /* ── Data ────────────────────────────────────────────────────────── */
@@ -62,343 +75,381 @@ async function fetchJson(url: string): Promise<unknown> {
 }
 
 async function loadDashboard(): Promise<Dashboard> {
+  // In dev the local artifact wins, so a freshly built one can be tried
+  // before the live copy on health-data carries its changes.
+  const [first, second] = import.meta.env.DEV ? [LOCAL_URL, LIVE_URL] : [LIVE_URL, LOCAL_URL];
   let raw: unknown;
   try {
-    raw = await fetchJson(LIVE_URL);
+    raw = await fetchJson(first);
   } catch {
-    raw = await fetchJson(LOCAL_URL);
+    raw = await fetchJson(second);
   }
   return parseDashboard(raw as Parameters<typeof parseDashboard>[0]);
 }
 
-/* ── Tiles (whole catalog — the filters below never change these) ── */
+/* ── Hero: does it play? ────────────────────────────────────────── */
 
-function tile(label: string, value: string, sub: Node | string, extra?: Node): HTMLElement {
+function renderHero(dash: Dashboard): void {
+  const stream = summarise(dash.rows).stream;
+  const curated = summarise(dash.rows.filter((r) => r.tier === 'curated')).stream;
+  must('hero-value').textContent = fmtPct(goodShare(stream));
+  const lastRun = dash.runs.stream ?? dash.generatedAt;
+  must('hero-lede').textContent =
+    `${fmtInt(stream.good)} of ${fmtInt(stream.checked)} stations answered with audio at their last check ` +
+    `(${fmtInt(dash.counts.countries)} countries, checked ${relDay(lastRun)}).`;
+
+  const facts: [string, string][] = [
+    ['Failing right now', fmtInt(stream.bad)],
+    ['Curated stations playing', `${fmtInt(curated.good)} of ${fmtInt(curated.checked)}`],
+    ['Listening that reached a working stream, last 7 days', fmtPct(dash.metrics?.availability ?? null)],
+  ];
+  must('hero-facts').replaceChildren(
+    ...facts.map(([label, value]) => el('div', { class: 'fact' }, el('dt', { class: 'fact__label' }, label), el('dd', { class: 'fact__value' }, value))),
+  );
+  must('hero').hidden = false;
+}
+
+/* ── Fixed automatically (catalog-actions loop) ──────────────────── */
+
+function renderAutomation(dash: Dashboard): void {
+  const days = dash.automation;
+  if (days.length === 0) return;
+  const sum = (k: 'retired' | 'recovered' | 'urlSwapped' | 'logoCleared' | 'logoUpgraded' | 'review'): number =>
+    days.reduce((n, d) => n + (d[k] ?? 0), 0);
+  const totals: [string, number, string][] = [
+    ['Retired', sum('retired'), 'Dead streams taken out of the catalog'],
+    ['Back on air', sum('recovered'), 'Retired stations that played again'],
+    ['Stream replaced', sum('urlSwapped'), 'Dead URL swapped for a working one'],
+    ['Dead logo removed', sum('logoCleared'), 'The app shows a placeholder instead'],
+    ['Logo moved to https', sum('logoUpgraded'), 'Same image, now allowed by the app'],
+    ['Sent to review', sum('review'), 'Curated stations wait for a human'],
+  ];
+  must('automation-totals').replaceChildren(
+    ...totals.map(([label, n, hint]) =>
+      el(
+        'div',
+        { class: 'total' },
+        el('dt', { class: 'total__label' }, label),
+        el('dd', { class: 'total__value' }, fmtInt(n)),
+        el('dd', { class: 'total__hint' }, hint),
+      ),
+    ),
+  );
+  const held = days.filter((d) => d.held).length;
+  const last = days[days.length - 1];
+  must('automation-note').textContent =
+    `Last ${days.length} runs, ${fmtDay(days[0].day)} to ${fmtDay(last.day)}. ` +
+    (held > 0 ? `On ${held} ${held === 1 ? 'day' : 'days'} the safety brake held every change (too many failures at once).` : 'Runs daily an hour after the check.');
+  must('automation').hidden = false;
+}
+
+/* ── Extras: now playing, logo, homepage ─────────────────────────── */
+
+/** When each extra was last checked. Now playing folds stream titles and
+ *  the metadata probe, so it is as old as the older of the two. */
+function lastChecked(dash: Dashboard, dim: Extra): string {
+  const r = dash.runs;
+  if (dim === 'np') return [r.icy, r.metadata].filter(Boolean).sort()[0] ?? '';
+  return (dim === 'logo' ? r.logo : r.homepage) ?? '';
+}
+
+function renderExtras(dash: Dashboard, onPick: (dim: Dimension, level: FacetLevel) => void): void {
+  const dims = summarise(dash.rows);
+  const now = Date.now();
+  const items = EXTRAS.map((dim) => {
+    const s = dims[dim];
+    const labels = GRADE_LABEL[dim];
+    const pick = (level: 'weak' | 'bad', n: number): HTMLElement => {
+      const btn = el(
+        'button',
+        { type: 'button', class: 'key', 'data-grade': level },
+        el('i', { class: 'mark__dot', 'aria-hidden': 'true' }),
+        `${fmtInt(n)} ${labels[level].toLowerCase()}`,
+      );
+      btn.title = `List the ${fmtInt(n)} stations: ${labels[level].toLowerCase()}`;
+      if (n === 0) btn.disabled = true;
+      btn.addEventListener('click', () => onPick(dim, level));
+      return btn;
+    };
+    const checked = lastChecked(dash, dim);
+    const age = checked ? (now - new Date(checked).getTime()) / DAY_MS : Infinity;
+    const stale = age > STALE_DAYS;
+    const when = el(
+      'p',
+      { class: stale ? 'dim__when dim__when--stale' : 'dim__when' },
+      checked ? `Checked ${stale ? fmtDay(checked) : relDay(checked)}` : 'Not checked yet',
+      stale ? ' · not on the daily check yet' : '',
+    );
+    return el(
+      'li',
+      { class: 'dim' },
+      el('div', { class: 'dim__name' }, el('h3', { class: 'dim__title' }, DIMENSION_LABEL[dim]), el('p', { class: 'dim__hint' }, DIMENSION_HINT[dim]), when),
+      el('p', { class: 'dim__score' }, fmtPct(goodShare(s), 0)),
+      el(
+        'div',
+        { class: 'dim__bar' },
+        stackedBar([
+          { grade: 'good', value: s.good, label: labels.good.toLowerCase() },
+          { grade: 'weak', value: s.weak, label: labels.weak.toLowerCase() },
+          { grade: 'bad', value: s.bad, label: labels.bad.toLowerCase() },
+        ]),
+        el(
+          'p',
+          { class: 'dim__keys' },
+          el('span', { class: 'key', 'data-grade': 'good' }, el('i', { class: 'mark__dot', 'aria-hidden': 'true' }), `${fmtInt(s.good)} ${labels.good.toLowerCase()}`),
+          pick('weak', s.weak),
+          pick('bad', s.bad),
+        ),
+      ),
+    );
+  });
+  must('dims').replaceChildren(...items);
+  must('extras').hidden = false;
+}
+
+/* ── Trend: failing streams per day ──────────────────────────────── */
+
+function renderTrend(dash: Dashboard): void {
+  // Start once the probe covered the whole catalog: before that the count
+  // climbs only because more stations were being checked.
+  const firstFull = dash.history.findIndex((h) => (h.freshness ?? 0) >= 0.95);
+  const points = dash.history
+    .slice(Math.max(0, firstFull))
+    .filter((h): h is typeof h & { bad: number } => typeof h.bad === 'number')
+    .map((h) => ({ day: h.day, value: h.bad }));
+  if (points.length < 2) return;
+  const now = points[points.length - 1];
+  const peak = points.reduce((a, b) => (b.value > a.value ? b : a));
+  must('trend-note').textContent =
+    peak.value > now.value
+      ? `Failing at each morning’s check: down from ${fmtInt(peak.value)} on ${fmtDay(peak.day)} to ${fmtInt(now.value)} on ${fmtDay(now.day)}, as dead streams leave the catalog and recovered ones return.`
+      : `Failing at each morning’s check: ${fmtInt(now.value)} on ${fmtDay(now.day)}.`;
+  must('trend-chart').replaceChildren(trendChart(points, fmtInt, 'failing'));
+  must('trend').hidden = false;
+}
+
+/* ── Needs attention ─────────────────────────────────────────────── */
+
+function issueText(row: HealthRow, dim: Dimension): string {
+  if (dim === 'stream') {
+    const days = row.streakDays > 0 ? `${row.streakDays} ${row.streakDays === 1 ? 'day' : 'days'} · ` : '';
+    return `${days}${streamDetailLabel(row)}`;
+  }
+  if (dim === 'logo') return logoDetailLabel(row);
+  if (dim === 'np') return NP_LABEL[row.np];
+  return GRADE_LABEL.home[grade(row, 'home') === 'bad' ? 'bad' : 'weak'];
+}
+
+function issueRow(row: HealthRow, dim: Dimension, onOpen: (row: HealthRow) => void): HTMLElement {
+  const g = grade(row, dim);
+  const open = el('button', { type: 'button', class: 'issue__name' }, row.name);
+  open.title = `Look up ${row.name}`;
+  open.addEventListener('click', () => onOpen(row));
   return el(
-    'article',
-    { class: 'tile' },
-    el('h2', { class: 'tile__label' }, label),
-    el('p', { class: 'tile__value' }, value),
-    extra ?? null,
-    el('p', { class: 'tile__sub' }, sub),
+    'li',
+    { class: 'issue' },
+    open,
+    el('span', { class: 'issue__cc' }, row.cc || '—'),
+    gradeMark(g === 'bad' ? 'bad' : 'weak', `${DIMENSION_LABEL[dim]}: ${issueText(row, dim)}`),
   );
 }
 
-function renderTiles(d: Dashboard): void {
-  const stream = tally(d.rows, 'stream');
-  const observed = stream.ok + stream.warn + stream.bad;
-  const logo = tally(d.rows, 'logo');
-  const logoChecked = logo.ok + logo.warn + logo.bad;
-  const m = d.metrics;
-  const pct = (v: number | null | undefined): string => fmtPct(v, 1);
+function showAllButton(label: string, onClick: () => void): HTMLElement {
+  const btn = el('button', { type: 'button', 'data-variant': 'ghost', 'data-size': 'sm', class: 'issues__all' }, label);
+  btn.addEventListener('click', onClick);
+  return el('li', { class: 'issues__more' }, btn);
+}
 
-  const availability = sparkline(
-    d.history.map((h) => ({ day: h.day, value: h.availability })),
-    { min: 0.8, max: 1, format: (v) => pct(v) },
+function renderAttention(dash: Dashboard, onOpen: (row: HealthRow) => void, onShow: (f: Partial<Filters>) => void): void {
+  const curated = sortRows(
+    dash.rows.filter((r) => r.tier === 'curated' && needsAttention(r)),
+    'problems',
   );
-  const coverage = sparkline(
-    d.history.map((h) => ({ day: h.day, value: h.freshness })),
-    { min: 0, max: 1, format: (v) => pct(v) },
-  );
-  const failing = sparkline(
-    d.history.map((h) => ({ day: h.day, value: h.bad })),
-    { min: 0, format: (v) => `${fmtInt(v)} failing` },
-  );
+  must('attention-curated-title').textContent = `Curated stations · ${fmtInt(curated.length)}`;
+  const curatedList = must('attention-curated');
+  if (curated.length === 0) {
+    curatedList.replaceChildren(el('li', { class: 'issues__empty' }, 'Every curated station is in good shape.'));
+  } else {
+    curatedList.replaceChildren(
+      ...curated.slice(0, ATTENTION_ROWS).map((r) => {
+        const w = worstIssue(r);
+        return issueRow(r, w ? w.dim : 'stream', onOpen);
+      }),
+      ...(curated.length > ATTENTION_ROWS
+        ? [showAllButton(`Show all ${fmtInt(curated.length)}`, () => onShow({ view: 'attention', sort: 'curated' }))]
+        : []),
+    );
+  }
 
-  tilesRoot.replaceChildren(
-    tile(
-      'Stations published',
-      fmtInt(d.counts.published),
-      `${fmtInt(d.counts.curated)} curated · ${fmtInt(d.counts.longTail)} long tail · ${fmtInt(d.counts.countries)} countries`,
-    ),
-    tile(
-      'Streams playing',
-      observed ? pct(stream.ok / observed) : '—',
-      'share of probed streams answering with audio',
-      proportionBar([
-        { key: 'ok', value: stream.ok, label: 'playing' },
-        { key: 'warn', value: stream.warn, label: 'odd reply' },
-        { key: 'bad', value: stream.bad, label: 'failing' },
-      ]),
-    ),
-    tile(
-      'Availability',
-      pct(m?.availability),
-      'of listening in the last 7 days hit a working stream (play-weighted)',
-      availability.root,
-    ),
-    tile(
-      'Failing now',
-      fmtInt(stream.bad),
-      `${fmtInt(m?.stream?.hard ?? 0)} hard failures · ${fmtInt(m?.stream?.soft ?? 0)} soft · ${fmtInt(stream.unobserved)} not probed yet`,
-      failing.root,
-    ),
-    tile(
-      'Probe coverage',
-      pct(m?.freshness),
-      'of the catalog probed within the last 7 days',
-      coverage.root,
-    ),
-    tile(
-      'Logos',
-      logoChecked ? pct(logo.ok / logoChecked) : '—',
-      'share of stations with a good, licensed logo',
-      proportionBar([
-        { key: 'ok', value: logo.ok, label: 'good' },
-        { key: 'warn', value: logo.warn, label: 'weak' },
-        { key: 'bad', value: logo.bad, label: 'missing' },
-      ]),
-    ),
-  );
+  const failing = dash.rows
+    .filter((r) => r.stream === 'bad')
+    .sort((a, b) => b.streakDays - a.streakDays || a.name.localeCompare(b.name));
+  const failingList = must('attention-failing');
+  if (failing.length === 0) {
+    failingList.replaceChildren(el('li', { class: 'issues__empty' }, 'No stream is failing today.'));
+  } else {
+    failingList.replaceChildren(
+      ...failing.slice(0, ATTENTION_ROWS).map((r) => issueRow(r, 'stream', onOpen)),
+      showAllButton(`Show all ${fmtInt(failing.length)}`, () => onShow({ facet: 'stream', level: 'bad', sort: 'problems' })),
+    );
+  }
+  must('attention').hidden = false;
+}
 
-  const probed = d.runs.stream ?? d.generatedAt;
-  ledeMeta.replaceChildren(
-    'Last probe ',
-    el('time', { datetime: probed, title: fmtDateTime(probed) }, relDay(probed)),
-    '.',
+/* ── Station lookup ──────────────────────────────────────────────── */
+
+const VIEW_LABEL: Record<View, string> = { all: 'All', curated: 'Curated', attention: 'Needs attention' };
+const SORT_LABEL: Record<SortKey, string> = { curated: 'Curated first', problems: 'Problems first', name: 'Name' };
+
+function dimCell(row: HealthRow, dim: Dimension): HTMLElement {
+  const g = grade(row, dim);
+  const label = g === 'skip' ? 'Not checked' : GRADE_LABEL[dim][g];
+  let title = label;
+  if (dim === 'stream') title = streamDetailLabel(row) + (row.streakDays > 0 ? ` · failing ${row.streakDays} days` : '');
+  else if (dim === 'logo') title = logoDetailLabel(row);
+  else if (dim === 'np') title = NP_LABEL[row.np];
+  return el('td', { class: 'col-dim', 'data-label': DIMENSION_LABEL[dim] }, gradeMark(g, label, title));
+}
+
+function stationRow(row: HealthRow): HTMLElement {
+  const meta = [row.id, row.cc ? countryName(row.cc) : '', row.tier === 'curated' ? 'Curated' : ''].filter(Boolean).join(' · ');
+  return el(
+    'tr',
+    {},
+    el(
+      'td',
+      { class: 'col-station' },
+      el('a', { class: 'station__name', href: `${BASE}station/${encodeURIComponent(row.id)}/` }, row.name),
+      el('span', { class: 'station__meta' }, meta),
+    ),
+    ...DIMENSIONS.map((d) => dimCell(row, d)),
   );
 }
 
-/* ── Filters ─────────────────────────────────────────────────────── */
+function initLookup(dash: Dashboard): { apply: (f: Partial<Filters>, scroll?: boolean) => void } {
+  let filters: Filters = filtersFromParams(new URLSearchParams(location.search));
+  let shown = PAGE;
 
-interface Controls {
-  q: HTMLInputElement;
-  cc: HTMLSelectElement;
-  tier: HTMLSelectElement;
-  status: HTMLSelectElement;
-  stream: HTMLSelectElement;
-  np: HTMLSelectElement;
-  logo: HTMLSelectElement;
-  home: HTMLSelectElement;
-  sort: HTMLSelectElement;
-  problems: HTMLButtonElement;
-  reset: HTMLButtonElement;
-  toggle: HTMLButtonElement;
-}
-
-function select(id: string, label: string, options: [string, string][]): { wrap: HTMLElement; node: HTMLSelectElement } {
-  const node = el('select', { id: `f-${id}`, class: 'control control--select' });
-  for (const [value, text] of options) node.append(el('option', { value }, text));
-  const wrap = el('label', { class: 'field' }, el('span', { class: 'field__label' }, label), node);
-  return { wrap, node };
-}
-
-function buildControls(d: Dashboard): Controls {
-  const countries = [...countBy(d.rows, (r) => r.cc).entries()]
-    .filter(([cc]) => cc)
-    .map(([cc, n]) => ({ cc, n, name: countryName(cc) }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-  const statuses = [...countBy(d.rows, (r) => r.status).keys()].filter(Boolean).sort();
-
-  const q = el('input', {
+  const search = el('input', {
     id: 'f-q',
-    class: 'control control--search',
     type: 'search',
-    placeholder: 'Search station or id',
+    placeholder: 'Station name or id',
+    'aria-label': 'Search stations',
     autocomplete: 'off',
     spellcheck: 'false',
-    'aria-label': 'Search stations',
   });
-  const cc = select('cc', 'Country', [['all', 'All countries'], ...countries.map((c): [string, string] => [c.cc, `${c.name} (${fmtInt(c.n)})`])]);
-  const tier = select('tier', 'Tier', [['all', 'All tiers'], ['curated', 'Curated'], ['long-tail', 'Long tail']]);
-  const status = select('status', 'Status', [['all', 'Any status'], ...statuses.map((s): [string, string] => [s, STATUS_LABEL[s] ?? s])]);
-  const stream = select('stream', 'Stream', [['all', 'Any stream'], ['ok', 'Playing'], ['warn', 'Odd reply'], ['bad', 'Failing'], ['unobserved', 'Not probed yet']]);
-  const np = select('np', 'Now playing', [['all', 'Any now-playing'], ['api', NP_LABEL.api], ['icy', NP_LABEL.icy], ['silent', NP_LABEL.silent], ['hls', NP_LABEL.hls], ['none', NP_LABEL.none]]);
-  const logo = select('logo', 'Logo', [['all', 'Any logo'], ['ok', 'Good'], ['warn', 'Weak'], ['bad', 'Missing']]);
-  const home = select('home', 'Homepage', [['all', 'Any homepage'], ['ok', 'Reachable'], ['warn', 'Blocked'], ['bad', 'Dead']]);
-  const sort = select('sort', 'Sort', [['name', 'Name'], ['country', 'Country'], ['stream', 'Worst stream first'], ['since', 'Recently changed'], ['checked', 'Recently probed']]);
-  const problems = el('button', { type: 'button', class: 'chip', id: 'f-problems', 'aria-pressed': 'false' }, 'Problems only');
-  const reset = el('button', { type: 'button', class: 'linkish', id: 'f-reset' }, 'Reset');
-  // Narrow screens only (CSS hides it otherwise): folds the select row away
-  // so the sticky bar doesn't swallow the viewport.
-  const toggle = el('button', { type: 'button', class: 'chip chip--filters', id: 'f-toggle', 'aria-expanded': 'false', 'aria-controls': 'f-selects' }, 'Filters');
-  toggle.addEventListener('click', () => {
-    const open = filtersRoot.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  const countries = [...new Set(dash.rows.map((r) => r.cc).filter(Boolean))]
+    .map((cc) => ({ cc, name: countryName(cc) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const country = el(
+    'select',
+    { id: 'f-cc', 'aria-label': 'Country' },
+    el('option', { value: 'all' }, 'All countries'),
+    ...countries.map((c) => el('option', { value: c.cc }, c.name)),
+  );
+  const sort = el(
+    'select',
+    { id: 'f-sort', 'aria-label': 'Sort' },
+    ...(Object.keys(SORT_LABEL) as SortKey[]).map((k) => el('option', { value: k }, SORT_LABEL[k])),
+  );
+  const views = (Object.keys(VIEW_LABEL) as View[]).map((v) => {
+    const b = el('button', { type: 'button', class: 'seg__btn', id: `f-view-${v}`, 'data-view': v }, VIEW_LABEL[v]);
+    b.addEventListener('click', () => apply({ view: v }));
+    return b;
   });
+  const chip = el('p', { class: 'chip-row' });
 
-  filtersRoot.replaceChildren(
-    el('div', { class: 'filters__row' }, q, sort.wrap, problems, toggle, reset),
-    el('div', { class: 'filters__row filters__row--selects', id: 'f-selects' }, cc.wrap, tier.wrap, status.wrap, stream.wrap, np.wrap, logo.wrap, home.wrap),
+  must('filters').replaceChildren(
+    el('div', { class: 'filters__search' }, search),
+    el('div', { class: 'seg', role: 'group', 'aria-label': 'Show' }, ...views),
+    el('div', { class: 'filters__selects' }, country, sort),
+    chip,
   );
-  return { q, cc: cc.node, tier: tier.node, status: status.node, stream: stream.node, np: np.node, logo: logo.node, home: home.node, sort: sort.node, problems, reset, toggle };
-}
 
-function readControls(c: Controls): Filters {
-  return {
-    q: c.q.value,
-    cc: c.cc.value,
-    tier: c.tier.value === 'curated' || c.tier.value === 'long-tail' ? c.tier.value : 'all',
-    status: c.status.value,
-    stream: c.stream.value as Filters['stream'],
-    np: c.np.value as Filters['np'],
-    logo: c.logo.value as Filters['logo'],
-    home: c.home.value as Filters['home'],
-    problems: c.problems.getAttribute('aria-pressed') === 'true',
-    sort: c.sort.value as SortKey,
+  const tbody = must('table-body');
+  const moreRoot = must('more');
+  const resultLine = must('result-line');
+
+  const syncControls = (): void => {
+    if (search.value !== filters.q) search.value = filters.q;
+    country.value = filters.cc;
+    sort.value = filters.sort;
+    for (const b of views) b.setAttribute('aria-pressed', String(b.dataset.view === filters.view));
+    if (filters.facet) {
+      const level = filters.level ? GRADE_LABEL[filters.facet][filters.level].toLowerCase() : 'weak or bad';
+      const clear = el('button', { type: 'button', 'data-variant': 'ghost', 'data-size': 'sm' }, 'Clear');
+      clear.addEventListener('click', () => apply({ facet: '', level: '' }));
+      chip.replaceChildren(el('span', { class: 'chip' }, `${DIMENSION_LABEL[filters.facet]}: ${level}`), clear);
+      chip.hidden = false;
+    } else {
+      chip.replaceChildren();
+      chip.hidden = true;
+    }
   };
-}
 
-function writeControls(c: Controls, f: Filters): void {
-  c.q.value = f.q;
-  const setSel = (node: HTMLSelectElement, value: string): void => {
-    node.value = value;
-    if (node.value !== value) node.value = 'all';
-  };
-  setSel(c.cc, f.cc);
-  setSel(c.tier, f.tier);
-  setSel(c.status, f.status);
-  setSel(c.stream, f.stream);
-  setSel(c.np, f.np);
-  setSel(c.logo, f.logo);
-  setSel(c.home, f.home);
-  c.sort.value = f.sort;
-  c.problems.setAttribute('aria-pressed', f.problems ? 'true' : 'false');
-  c.problems.classList.toggle('is-active', f.problems);
-  c.reset.hidden = isDefaultFilters(f);
-  const active = [f.cc, f.tier, f.status, f.stream, f.np, f.logo, f.home].filter((v) => v !== 'all').length;
-  c.toggle.textContent = active ? `Filters · ${active}` : 'Filters';
-  c.toggle.classList.toggle('is-active', active > 0);
-}
-
-/* ── Table ───────────────────────────────────────────────────────── */
-
-const NP_SHORT: Record<HealthRow['np'], string> = {
-  api: 'Broadcaster API',
-  icy: 'Stream titles',
-  silent: 'Silent',
-  hls: 'HLS',
-  none: 'None',
-  '': '—',
-};
-
-const HOME_WORD: Record<HealthRow['home'], string> = { ok: 'Reachable', warn: 'Blocked', bad: 'Dead', na: 'None', '': '—' };
-
-function streamCell(r: HealthRow): HTMLElement {
-  const label = streamDetailLabel(r);
-  const streak = r.streakDays > 0 ? `${r.streakDays} d${r.streakClass ? ` · ${r.streakClass}` : ''}` : undefined;
-  const since = r.streamSince ? ` since ${fmtDay(r.streamSince)}` : '';
-  const title = r.stream === 'ok' ? `Playing (${r.streamDetail})${since}` : `${label}${since}${streak ? `, failing ${r.streakDays} days in a row` : ''}`;
-  return verdictCell(r.stream, label, title, streak);
-}
-
-function row(r: HealthRow): HTMLTableRowElement {
-  const tr = el('tr', { class: hasProblem(r) ? 'row row--problem' : 'row' });
-  tr.append(
-    el(
-      'td',
-      { class: 'cell cell--station' },
-      el('a', { class: 'station__name', href: `${BASE}station/${encodeURIComponent(r.id)}/` }, r.name),
-      el('span', { class: 'station__id' }, r.id),
-    ),
-    el('td', { class: 'cell cell--country', title: countryName(r.cc) }, r.cc || '—'),
-    el(
-      'td',
-      { class: 'cell cell--tier' },
-      r.tier === 'curated'
-        ? el('span', { class: 'pill pill--curated', title: `Curated tier · ${STATUS_LABEL[r.status] ?? r.status} · probed daily` }, 'curated')
-        : el('span', { class: 'pill pill--tail', title: `Long tail · ${STATUS_LABEL[r.status] ?? r.status} · probed weekly, daily while failing` }, 'long tail'),
-    ),
-    el('td', { class: 'cell cell--stream' }, streamCell(r)),
-    el('td', { class: `cell cell--np np-${r.np || 'none'}`, title: NP_LABEL[r.np] }, NP_SHORT[r.np]),
-    el('td', { class: 'cell cell--logo' }, verdictCell(r.logo, logoDetailLabel(r), `Logo: ${logoDetailLabel(r)}`)),
-    el('td', { class: 'cell cell--home' }, verdictCell(r.home, HOME_WORD[r.home], `Homepage: ${HOME_WORD[r.home]}`)),
-    el('td', { class: 'cell cell--checked', title: r.checked ? `Last probed ${r.checked}` : 'Not probed yet' }, r.checked ? fmtDay(r.checked) : '—'),
-  );
-  return tr;
-}
-
-/* ── Wiring ──────────────────────────────────────────────────────── */
-
-async function boot(): Promise<void> {
-  let d: Dashboard;
-  try {
-    d = await loadDashboard();
-  } catch (err) {
-    statusRoot.textContent = 'The health data could not be loaded right now. Please try again in a few minutes.';
-    statusRoot.classList.add('is-error');
-    console.error(err);
-    return;
-  }
-  statusRoot.hidden = true;
-  renderTiles(d);
-  const controls = buildControls(d);
-  let filters = filtersFromParams(new URLSearchParams(location.search));
-  let visible = PAGE;
-  let current: HealthRow[] = [];
-
-  const renderRows = (): void => {
-    const slice = current.slice(0, visible);
-    tbody.replaceChildren(...slice.map(row));
+  const render = (): void => {
+    const rows = sortRows(filterRows(dash.rows, filters), filters.sort);
+    tbody.replaceChildren(...rows.slice(0, shown).map(stationRow));
+    if (rows.length === 0) {
+      tbody.replaceChildren(el('tr', {}, el('td', { class: 'empty', colspan: '5' }, 'No station matches.')));
+    }
+    resultLine.textContent =
+      rows.length === dash.rows.length
+        ? `${fmtInt(rows.length)} stations`
+        : `${fmtInt(rows.length)} of ${fmtInt(dash.rows.length)} stations`;
     moreRoot.replaceChildren();
-    if (current.length === 0) {
-      tbody.append(el('tr', {}, el('td', { class: 'cell cell--empty', colspan: '8' }, 'No station matches these filters.')));
-      return;
-    }
-    if (current.length > visible) {
-      const remaining = current.length - visible;
-      const more = el('button', { type: 'button', class: 'more__btn' }, `Show ${fmtInt(Math.min(PAGE, remaining))} more`);
-      more.addEventListener('click', () => {
-        visible += PAGE;
-        renderRows();
+    if (rows.length > shown) {
+      const btn = el('button', { type: 'button', 'data-size': 'sm' }, `Show ${fmtInt(Math.min(PAGE, rows.length - shown))} more`);
+      btn.addEventListener('click', () => {
+        shown += PAGE;
+        render();
       });
-      moreRoot.append(more, el('span', { class: 'more__meta' }, `${fmtInt(slice.length)} of ${fmtInt(current.length)} shown`));
+      moreRoot.append(btn);
     }
   };
 
-  const renderResults = (): void => {
-    current = sortRows(filterRows(d.rows, filters), filters.sort);
-    visible = PAGE;
-    const t = tally(current, 'stream');
-    const observed = t.ok + t.warn + t.bad;
-    const logo = tally(current, 'logo');
-    const logoChecked = logo.ok + logo.warn + logo.bad;
-    const parts: string[] = [`${fmtInt(current.length)} station${current.length === 1 ? '' : 's'}`];
-    if (!isDefaultFilters(filters) && d.rows.length) parts.push(`${fmtPct(current.length / d.rows.length, 1)} of the catalog`);
-    if (observed) parts.push(`${fmtPct(t.ok / observed, 1)} playing`);
-    if (t.bad) parts.push(`${fmtInt(t.bad)} failing`);
-    if (logoChecked) parts.push(`${fmtPct(logo.ok / logoChecked, 0)} good logos`);
-    resultLine.textContent = parts.join(' · ');
-    renderRows();
+  const apply = (patch: Partial<Filters>, scroll = false): void => {
+    filters = { ...filters, ...patch };
+    if (!filters.facet) filters.level = '';
+    shown = PAGE;
+    const params = filtersToParams(filters).toString();
+    history.replaceState(null, '', isDefaultFilters(filters) ? location.pathname : `${location.pathname}?${params}`);
+    syncControls();
+    render();
+    if (scroll) must('lookup').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const syncUrl = (): void => {
-    const qs = filtersToParams(filters).toString();
-    history.replaceState(null, '', `${location.pathname}${qs ? `?${qs}` : ''}`);
-  };
+  let typing: number | undefined;
+  search.addEventListener('input', () => {
+    window.clearTimeout(typing);
+    typing = window.setTimeout(() => apply({ q: search.value }), 120);
+  });
+  country.addEventListener('change', () => apply({ cc: country.value }));
+  sort.addEventListener('change', () => apply({ sort: sort.value as SortKey }));
 
-  const onChange = (): void => {
-    filters = readControls(controls);
-    writeControls(controls, filters);
-    syncUrl();
-    renderResults();
-  };
-
-  for (const node of [controls.cc, controls.tier, controls.status, controls.stream, controls.np, controls.logo, controls.home, controls.sort]) {
-    node.addEventListener('change', onChange);
-  }
-  let debounce = 0;
-  controls.q.addEventListener('input', () => {
-    window.clearTimeout(debounce);
-    debounce = window.setTimeout(onChange, 120);
-  });
-  controls.problems.addEventListener('click', () => {
-    const on = controls.problems.getAttribute('aria-pressed') !== 'true';
-    controls.problems.setAttribute('aria-pressed', on ? 'true' : 'false');
-    onChange();
-  });
-  controls.reset.addEventListener('click', () => {
-    writeControls(controls, { ...DEFAULT_FILTERS });
-    onChange();
-  });
-  window.addEventListener('popstate', () => {
-    filters = filtersFromParams(new URLSearchParams(location.search));
-    writeControls(controls, filters);
-    renderResults();
-  });
-
-  writeControls(controls, filters);
-  renderResults();
+  syncControls();
+  render();
+  must('lookup').hidden = false;
+  return { apply };
 }
 
-void boot();
+/* ── Boot ────────────────────────────────────────────────────────── */
+
+loadDashboard()
+  .then((dash) => {
+    statusRoot.hidden = true;
+    renderHero(dash);
+    const lookup = initLookup(dash);
+    renderTrend(dash);
+    renderAutomation(dash);
+    renderExtras(dash, (facet, level) => lookup.apply({ ...DEFAULT_FILTERS, facet, level }, true));
+    renderAttention(
+      dash,
+      (row) => lookup.apply({ ...DEFAULT_FILTERS, q: row.id }, true),
+      (patch) => lookup.apply({ ...DEFAULT_FILTERS, ...patch }, true),
+    );
+  })
+  .catch(() => {
+    statusRoot.textContent = 'Today’s checks could not be loaded. Try again in a minute.';
+    statusRoot.classList.add('is-error');
+  });

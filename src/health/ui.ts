@@ -1,10 +1,11 @@
 /**
  * DOM building blocks for the catalog-health page. Everything is built with
  * createElement / createElementNS — the page's CSP has no 'unsafe-inline',
- * so no innerHTML and no inline style attributes anywhere.
+ * so no innerHTML and no inline style attributes anywhere (positions go
+ * through the CSSOM, which the policy allows).
  */
 
-import type { Verdict } from './model';
+import type { Grade } from './score';
 
 type Child = Node | string | null | undefined;
 
@@ -93,131 +94,129 @@ export function countryName(cc: string): string {
   }
 }
 
-/* ── Verdict cell ────────────────────────────────────────────────── */
+/* ── Grade mark ──────────────────────────────────────────────────── */
 
-const VERDICT_WORD: Record<Verdict, string> = { ok: 'ok', warn: 'warning', bad: 'failing', na: 'not applicable', '': 'not checked' };
+const GRADE_WORD: Record<Grade, string> = { good: 'good', weak: 'weak', bad: 'bad', skip: 'not checked' };
 
-/** Colored dot + always-visible label; verdict is never color alone.
- *  `title` carries the long form for hover / screen readers. */
-export function verdictCell(v: Verdict, label: string, title?: string, extra?: string): HTMLElement {
-  const cls = v === '' ? 'v v-none' : `v v-${v}`;
+/** Dot + always-visible label: a grade is never colour alone. */
+export function gradeMark(g: Grade, label: string, title?: string): HTMLElement {
   const node = el(
     'span',
-    { class: cls, title: title ?? `${VERDICT_WORD[v]} — ${label}` },
-    el('i', { class: 'v__dot', 'aria-hidden': 'true' }),
-    el('span', { class: 'v__label' }, label),
-    extra ? el('span', { class: 'v__extra' }, extra) : null,
+    { class: `mark mark--${g}`, title: title ?? label },
+    el('i', { class: 'mark__dot', 'aria-hidden': 'true' }),
+    el('span', { class: 'mark__label' }, label),
   );
-  node.setAttribute('aria-label', `${VERDICT_WORD[v]}: ${label}${extra ? `, ${extra}` : ''}`);
+  node.setAttribute('aria-label', `${GRADE_WORD[g]}: ${label}`);
   return node;
 }
 
-/* ── Proportion bar (ok / warn / bad share) ──────────────────────── */
+/* ── Stacked bar (good / weak / bad share) ───────────────────────── */
 
 export interface BarPart {
-  key: 'ok' | 'warn' | 'bad' | 'na';
+  grade: 'good' | 'weak' | 'bad';
   value: number;
   label: string;
 }
 
-/** A single stacked bar with a 2px surface gap between fills plus a text
- *  legend underneath, so the split is readable without the colors. */
-export function proportionBar(parts: BarPart[]): HTMLElement {
+/** One stacked bar with a 2px surface gap between fills. The caller
+ *  renders the text legend, so the split never depends on the colours. */
+export function stackedBar(parts: BarPart[]): HTMLElement {
   const total = parts.reduce((s, p) => s + p.value, 0) || 1;
   const bar = el('div', { class: 'bar', role: 'img' });
-  const legend = el('div', { class: 'bar__legend' });
   const words: string[] = [];
   for (const p of parts) {
     if (p.value <= 0) continue;
-    const seg = el('i', { class: `bar__seg bar__seg--${p.key}` });
-    // flex-grow carries the proportion — no inline style attribute needed.
+    const seg = el('i', { class: `bar__seg bar__seg--${p.grade}` });
+    // CSSOM, not a style attribute — allowed under the page's CSP.
     seg.style.flexGrow = String(p.value / total);
     bar.append(seg);
-    legend.append(
-      el('span', { class: `bar__key bar__key--${p.key}` }, el('i', { class: 'v__dot', 'aria-hidden': 'true' }), `${fmtInt(p.value)} ${p.label}`),
-    );
     words.push(`${fmtInt(p.value)} ${p.label}`);
   }
   bar.setAttribute('aria-label', words.join(', '));
-  return el('div', { class: 'bar-wrap' }, bar, legend);
+  return bar;
 }
 
-/* ── Sparkline ───────────────────────────────────────────────────── */
+/* ── Trend chart ─────────────────────────────────────────────────── */
 
-export interface SparkOptions {
-  /** Y-axis floor/ceiling; default = data min/max with a little headroom. */
-  min?: number;
-  max?: number;
-  format: (v: number) => string;
+export interface TrendPoint {
+  day: string;
+  value: number;
 }
 
-export interface Sparkline {
-  root: HTMLElement;
-  readout: HTMLElement;
-}
+const VW = 600;
+const VH = 160;
 
-const W = 160;
-const H = 40;
-const PAD = 4;
+function niceCeil(v: number): number {
+  if (v <= 0) return 1;
+  const mag = 10 ** Math.floor(Math.log10(v));
+  for (const m of [1, 2, 2.5, 5, 10]) if (m * mag >= v) return m * mag;
+  return 10 * mag;
+}
 
 /**
- * Single-series line with a filled area, last-point marker and a hover
- * layer: transparent hit columns wider than the marks; hovering one moves
- * the crosshair and writes "day · value" into the readout (default: the
- * latest point). One series → no legend; the tile title names it.
+ * Single-series line from a zero baseline with recessive gridlines and a
+ * crosshair + readout on hover (default: the latest point). The line and
+ * grid are SVG stretched to the box; the dot, crosshair and labels are
+ * HTML positioned in percent, so nothing distorts at any width.
  */
-export function sparkline(points: { day: string; value: number | null }[], opts: SparkOptions): Sparkline {
-  const readout = el('span', { class: 'spark__readout' });
-  const root = el('div', { class: 'spark' });
-  const valid = points.filter((p): p is { day: string; value: number } => p.value != null);
-  if (valid.length === 0) {
-    readout.textContent = 'no history yet';
-    root.append(el('div', { class: 'spark__empty' }), readout);
-    return { root, readout };
+export function trendChart(points: TrendPoint[], format: (v: number) => string, unit: string): HTMLElement {
+  const root = el('div', { class: 'trend' });
+  if (points.length < 2) {
+    root.append(el('p', { class: 'trend__empty' }, 'Not enough history yet.'));
+    return root;
   }
-  const values = valid.map((p) => p.value);
-  const lo = opts.min ?? Math.min(...values);
-  const hi = opts.max ?? Math.max(...values);
-  const span = hi - lo || 1;
+  const top = niceCeil(Math.max(...points.map((p) => p.value)));
   const n = points.length;
-  const x = (i: number): number => (n === 1 ? W / 2 : PAD + (i * (W - 2 * PAD)) / (n - 1));
-  const y = (v: number): number => H - PAD - ((v - lo) / span) * (H - 2 * PAD);
+  const xPct = (i: number): number => (i / (n - 1)) * 100;
+  const yPct = (v: number): number => 100 - (v / top) * 100;
 
-  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, class: 'spark__svg', 'aria-hidden': 'true', preserveAspectRatio: 'none' });
-  const coords: { i: number; px: number; py: number; p: { day: string; value: number } }[] = [];
-  points.forEach((p, i) => {
-    if (p.value == null) return;
-    coords.push({ i, px: x(i), py: y(p.value), p: { day: p.day, value: p.value } });
-  });
-  const lineD = coords.map((c, k) => `${k === 0 ? 'M' : 'L'}${c.px.toFixed(1)} ${c.py.toFixed(1)}`).join(' ');
-  const first = coords[0];
-  const last = coords[coords.length - 1];
-  const areaD = `${lineD} L${last.px.toFixed(1)} ${H - PAD} L${first.px.toFixed(1)} ${H - PAD} Z`;
-  svg.append(svgEl('path', { d: areaD, class: 'spark__area' }));
-  svg.append(svgEl('path', { d: lineD, class: 'spark__line', 'vector-effect': 'non-scaling-stroke' }));
-  const cursor = svgEl('line', { class: 'spark__cursor', x1: String(last.px), x2: String(last.px), y1: '0', y2: String(H), 'vector-effect': 'non-scaling-stroke' });
-  svg.append(cursor);
-  const marker = svgEl('circle', { class: 'spark__marker', cx: String(last.px), cy: String(last.py), r: '3.5' });
-  svg.append(marker);
+  const plot = el('div', { class: 'trend__plot' });
+  const svg = svgEl('svg', { viewBox: `0 0 ${VW} ${VH}`, preserveAspectRatio: 'none', class: 'trend__svg', 'aria-hidden': 'true' });
+  const axis = el('div', { class: 'trend__axis', 'aria-hidden': 'true' });
+  for (const f of [0, 0.5, 1]) {
+    const y = (VH * (1 - f)).toFixed(1);
+    svg.append(svgEl('line', { x1: '0', x2: String(VW), y1: y, y2: y, class: f === 0 ? 'trend__base' : 'trend__grid', 'vector-effect': 'non-scaling-stroke' }));
+    const tick = el('span', { class: 'trend__tick' }, format(top * f));
+    tick.style.top = `${(1 - f) * 100}%`;
+    axis.append(tick);
+  }
+  const d = points
+    .map((p, i) => `${i === 0 ? 'M' : 'L'}${((xPct(i) / 100) * VW).toFixed(1)} ${((yPct(p.value) / 100) * VH).toFixed(1)}`)
+    .join(' ');
+  svg.append(svgEl('path', { d, class: 'trend__line', 'vector-effect': 'non-scaling-stroke' }));
 
-  const show = (c: (typeof coords)[number]): void => {
-    cursor.setAttribute('x1', String(c.px));
-    cursor.setAttribute('x2', String(c.px));
-    marker.setAttribute('cx', String(c.px));
-    marker.setAttribute('cy', String(c.py));
-    readout.textContent = `${fmtDay(c.p.day)} · ${opts.format(c.p.value)}`;
+  const cursor = el('i', { class: 'trend__cursor', 'aria-hidden': 'true' });
+  const dot = el('i', { class: 'trend__dot', 'aria-hidden': 'true' });
+  const readout = el('p', { class: 'trend__readout', 'aria-live': 'polite' });
+  plot.append(svg, cursor, dot);
+
+  const show = (i: number): void => {
+    const p = points[i];
+    cursor.style.left = `${xPct(i)}%`;
+    dot.style.left = `${xPct(i)}%`;
+    dot.style.top = `${yPct(p.value)}%`;
+    readout.replaceChildren(el('strong', {}, format(p.value)), ` ${unit} · ${fmtDay(p.day)}`);
   };
-  // Hit columns: each owns the half-gap to its neighbours.
-  coords.forEach((c, k) => {
-    const left = k === 0 ? 0 : (coords[k - 1].px + c.px) / 2;
-    const right = k === coords.length - 1 ? W : (c.px + coords[k + 1].px) / 2;
-    const hit = svgEl('rect', { x: String(left), y: '0', width: String(right - left), height: String(H), class: 'spark__hit' });
-    hit.addEventListener('mouseenter', () => show(c));
-    svg.append(hit);
+  const last = n - 1;
+  plot.addEventListener('pointermove', (e) => {
+    const box = plot.getBoundingClientRect();
+    const f = Math.min(1, Math.max(0, (e.clientX - box.left) / box.width));
+    show(Math.round(f * last));
   });
-  svg.addEventListener('mouseleave', () => show(last));
+  plot.addEventListener('pointerleave', () => show(last));
   show(last);
 
-  root.append(svg, readout);
-  return { root, readout };
+  const xAxis = el(
+    'div',
+    { class: 'trend__x', 'aria-hidden': 'true' },
+    el('span', {}, fmtDay(points[0].day)),
+    el('span', {}, fmtDay(points[last].day)),
+  );
+  root.setAttribute('role', 'img');
+  root.setAttribute(
+    'aria-label',
+    `${unit}: ${format(points[0].value)} on ${fmtDay(points[0].day)}, ${format(points[last].value)} on ${fmtDay(points[last].day)}`,
+  );
+  root.append(readout, el('div', { class: 'trend__frame' }, axis, plot), xAxis);
+  return root;
 }

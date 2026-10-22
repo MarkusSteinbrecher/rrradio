@@ -204,6 +204,21 @@ jobs:
             cat review-body.md 2>/dev/null || echo "_no review proposals_"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # The public dashboard shows what this run did ("Fixed automatically"),
+      # so rebuild it on top of the probe's copy before the commit below.
+      # The rows come from main's committed catalog, not the working tree
+      # (which may hold unmerged review proposals); today's retirements
+      # leave the rows with tomorrow's probe rebuild.
+      - name: Rebuild the public dashboard artifact
+        if: env.DRY_RUN != 'true'
+        run: |
+          git show origin/main:public/stations.json > "$RUNNER_TEMP/stations.json"
+          node tools/build-health-dashboard.mjs \
+            --data health-data \
+            --catalog "$RUNNER_TEMP/stations.json" \
+            --out health-data/dashboard.json \
+            || echo "build-health-dashboard failed — page keeps the probe's copy"
+
       # ── persist the audit trail + snapshots ─────────────────────────
       # One commit for everything this run wrote to health-data: the
       # actions file and edge observation rows from decide, and the

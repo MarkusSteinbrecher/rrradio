@@ -1,5 +1,7 @@
 node_modules
 dist
+# Vendored SteinerDesign ships its built stylesheet in dist/ (see VERSION).
+!public/vendor/steinerdesign/dist/
 .vite
 .cache
 .local

@@ -142,6 +142,35 @@ export function compactHistory(history, days = 90) {
     }));
 }
 
+const ACTION_KEYS = Object.freeze({
+  unpublish: 'retired',
+  republish: 'recovered',
+  'swap-url': 'urlSwapped',
+  'clear-logo': 'logoCleared',
+  'upgrade-logo': 'logoUpgraded',
+});
+
+/**
+ * What the catalog-actions loop did, one point per day: automatic actions
+ * by kind, proposals routed to human review, and whether the circuit
+ * breaker held the run. Reads the audit files on health-data/actions/.
+ * @param {object[]} files parsed actions/<day>.json, any order
+ * @param {number} days
+ */
+export function summariseActions(files, days = 30) {
+  const byDay = new Map();
+  for (const f of files) {
+    if (!f || typeof f.day !== 'string') continue;
+    const point = { day: f.day, retired: 0, recovered: 0, urlSwapped: 0, logoCleared: 0, logoUpgraded: 0, review: 0, held: Boolean(f.circuitBreaker) };
+    for (const a of Array.isArray(f.actions) ? f.actions : []) {
+      if (!a?.auto) point.review += 1;
+      else if (ACTION_KEYS[a.action]) point[ACTION_KEYS[a.action]] += 1;
+    }
+    byDay.set(f.day, point);
+  }
+  return [...byDay.values()].sort((a, b) => (a.day < b.day ? -1 : a.day > b.day ? 1 : 0)).slice(-days);
+}
+
 /**
  * @param {object} input
  * @param {object[]} input.catalog published stations (stations.json)
@@ -150,9 +179,10 @@ export function compactHistory(history, days = 90) {
  * @param {{tiers?: Record<string, string>}} [input.plan]
  * @param {object | null} [input.metrics] latest metrics.json
  * @param {object[]} [input.history] metrics-history rows
+ * @param {object[]} [input.actions] parsed health-data/actions/<day>.json files
  * @param {string} [input.now] ISO timestamp for generatedAt
  */
-export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metrics = null, history = [], now }) {
+export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metrics = null, history = [], actions = [], now }) {
   const stations = record?.stations ?? {};
   const rows = [];
   let curated = 0;
@@ -180,6 +210,7 @@ export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metri
     runs,
     metrics,
     history: compactHistory(history),
+    automation: summariseActions(actions),
     cols: [...COLS],
     rows,
   };

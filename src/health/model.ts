@@ -1,11 +1,15 @@
 /**
  * Catalog-health page model: parse the dashboard artifact, filter/sort its
- * rows, and round-trip the filter state through URL search params so a
+ * rows for the station lookup, and round-trip the filter state through URL search params so a
  * filtered view is a shareable link. Pure — no DOM, fully unit-tested.
+ *
+ * Grades live in score.ts.
  *
  * Artifact contract: tools/lib/health-dashboard.mjs (COLS). Rows are read
  * by column name via the `cols` header, never by position.
  */
+
+import { DIMENSIONS, grade, needsAttention, problemRank, type Dimension } from './score';
 
 export type Verdict = 'ok' | 'warn' | 'bad' | 'na' | '';
 export type Tier = 'curated' | 'long-tail';
@@ -55,6 +59,18 @@ export interface DashboardMetrics {
   hotSet?: { size: number; bad: number };
 }
 
+/** One day of the catalog-actions loop (tools/lib/health-dashboard.mjs). */
+export interface AutomationPoint {
+  day: string;
+  retired: number;
+  recovered: number;
+  urlSwapped: number;
+  logoCleared: number;
+  logoUpgraded: number;
+  review: number;
+  held: boolean;
+}
+
 export interface Dashboard {
   version: number;
   generatedAt: string;
@@ -62,6 +78,7 @@ export interface Dashboard {
   runs: Record<string, string>;
   metrics: DashboardMetrics | null;
   history: HistoryPoint[];
+  automation: AutomationPoint[];
   rows: HealthRow[];
 }
 
@@ -72,6 +89,7 @@ interface RawDashboard {
   runs?: Record<string, string>;
   metrics?: DashboardMetrics | null;
   history?: HistoryPoint[];
+  automation?: AutomationPoint[];
   cols?: string[];
   rows?: unknown[][];
 }
@@ -138,48 +156,36 @@ export function parseDashboard(raw: RawDashboard): Dashboard {
     runs: raw.runs ?? {},
     metrics: raw.metrics ?? null,
     history: Array.isArray(raw.history) ? raw.history : [],
+    automation: Array.isArray(raw.automation) ? raw.automation : [],
     rows,
   };
 }
 
-/* ── Filters ─────────────────────────────────────────────────────── */
+/* ── Station lookup: filters, sort, URL state ────────────────────── */
 
-export type StreamFilter = 'all' | 'ok' | 'warn' | 'bad' | 'unobserved';
-export type NpFilter = 'all' | NowPlaying;
-export type FacetFilter = 'all' | 'ok' | 'warn' | 'bad';
-export type SortKey = 'name' | 'country' | 'stream' | 'since' | 'checked';
+export type View = 'all' | 'curated' | 'attention';
+export type SortKey = 'curated' | 'problems' | 'name';
+export type FacetKey = Dimension | '';
+export type FacetLevel = 'weak' | 'bad' | '';
 
 export interface Filters {
   q: string;
   cc: string;
-  tier: 'all' | Tier;
-  status: string;
-  stream: StreamFilter;
-  np: NpFilter;
-  logo: FacetFilter;
-  home: FacetFilter;
-  problems: boolean;
+  view: View;
+  /** Set by the score breakdown: "show me the stations failing this". */
+  facet: FacetKey;
+  level: FacetLevel;
   sort: SortKey;
 }
 
 export const DEFAULT_FILTERS: Readonly<Filters> = Object.freeze({
   q: '',
   cc: 'all',
-  tier: 'all',
-  status: 'all',
-  stream: 'all',
-  np: 'all',
-  logo: 'all',
-  home: 'all',
-  problems: false,
-  sort: 'name',
+  view: 'all',
+  facet: '',
+  level: '',
+  sort: 'curated',
 });
-
-/** "Problem" = something a listener would notice or a curator would fix:
- *  the stream not answering with audio, a dead homepage, or no usable logo. */
-export function hasProblem(row: HealthRow): boolean {
-  return row.stream === 'bad' || row.stream === 'warn' || row.logo === 'bad' || row.home === 'bad';
-}
 
 /** Whitespace-insensitive contains (the app's search behaves the same:
  *  "WDR5" finds "WDR 5"). */
@@ -195,109 +201,67 @@ export function filterRows(rows: HealthRow[], f: Filters): HealthRow[] {
   const cc = f.cc.toUpperCase();
   return rows.filter((r) => {
     if (cc !== 'ALL' && r.cc !== cc) return false;
-    if (f.tier !== 'all' && r.tier !== f.tier) return false;
-    if (f.status !== 'all' && r.status !== f.status) return false;
-    if (f.stream !== 'all') {
-      if (f.stream === 'unobserved' ? r.stream !== '' : r.stream !== f.stream) return false;
+    if (f.view === 'curated' && r.tier !== 'curated') return false;
+    if (f.view === 'attention' && !needsAttention(r)) return false;
+    if (f.facet) {
+      const g = grade(r, f.facet);
+      if (f.level ? g !== f.level : g !== 'weak' && g !== 'bad') return false;
     }
-    if (f.np !== 'all' && r.np !== f.np) return false;
-    if (f.logo !== 'all' && r.logo !== f.logo) return false;
-    if (f.home !== 'all' && r.home !== f.home) return false;
-    if (f.problems && !hasProblem(r)) return false;
     return matchesQuery(r, q);
   });
 }
 
-const STREAM_RANK: Record<Verdict, number> = { bad: 0, warn: 1, '': 2, na: 3, ok: 4 };
-
-// One collator instead of localeCompare per pair: 31k rows sort in tens of
+// One collator instead of localeCompare per pair: 29k rows sort in tens of
 // milliseconds rather than seconds.
 const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
 
+/** Radio Browser names like "__1oldies" or "#1 Hits" sort after real
+ *  names, so an unfiltered list doesn't open on punctuation. */
+function sortName(name: string): string {
+  return /^[\p{L}\p{N}]/u.test(name) ? name : `\u{10FFFF}${name}`;
+}
+
 function byName(a: HealthRow, b: HealthRow): number {
-  return collator.compare(a.name, b.name) || collator.compare(a.id, b.id);
+  return collator.compare(sortName(a.name), sortName(b.name)) || collator.compare(a.id, b.id);
 }
 
 export function sortRows(rows: HealthRow[], sort: SortKey): HealthRow[] {
   const out = [...rows];
+  const rank = new Map(out.map((r) => [r, problemRank(r)]));
+  const tier = (r: HealthRow): number => (r.tier === 'curated' ? 0 : 1);
   switch (sort) {
-    case 'country':
-      out.sort((a, b) => collator.compare(a.cc, b.cc) || byName(a, b));
+    case 'problems':
+      // Not playing first (longest streak on top), then the barest extras.
+      out.sort((a, b) => (rank.get(a) ?? 0) - (rank.get(b) ?? 0) || b.streakDays - a.streakDays || byName(a, b));
       break;
-    case 'stream':
-      // Worst first: failing streams, longest streak on top, then warn, then ok.
-      out.sort(
-        (a, b) =>
-          STREAM_RANK[a.stream] - STREAM_RANK[b.stream] ||
-          b.streakDays - a.streakDays ||
-          byName(a, b),
-      );
-      break;
-    case 'since':
-      out.sort((a, b) => b.streamSince.localeCompare(a.streamSince) || byName(a, b));
-      break;
-    case 'checked':
-      out.sort((a, b) => b.checked.localeCompare(a.checked) || byName(a, b));
+    case 'name':
+      out.sort(byName);
       break;
     default:
-      out.sort(byName);
+      out.sort((a, b) => tier(a) - tier(b) || byName(a, b));
   }
   return out;
 }
 
-/* ── Aggregates for the tiles and the result line ────────────────── */
-
-export interface VerdictTally {
-  ok: number;
-  warn: number;
-  bad: number;
-  na: number;
-  unobserved: number;
-}
-
-export function tally(rows: HealthRow[], facet: 'stream' | 'logo' | 'home'): VerdictTally {
-  const t: VerdictTally = { ok: 0, warn: 0, bad: 0, na: 0, unobserved: 0 };
-  for (const r of rows) {
-    const v = r[facet];
-    if (v === '') t.unobserved += 1;
-    else t[v] += 1;
-  }
-  return t;
-}
-
-export function countBy<K extends string>(rows: HealthRow[], pick: (r: HealthRow) => K): Map<K, number> {
-  const m = new Map<K, number>();
-  for (const r of rows) {
-    const k = pick(r);
-    m.set(k, (m.get(k) ?? 0) + 1);
-  }
-  return m;
-}
-
-/* ── URL state ───────────────────────────────────────────────────── */
-
-const SORT_KEYS: SortKey[] = ['name', 'country', 'stream', 'since', 'checked'];
-const STREAM_KEYS: StreamFilter[] = ['all', 'ok', 'warn', 'bad', 'unobserved'];
-const NP_KEYS: NpFilter[] = ['all', 'api', 'icy', 'silent', 'hls', 'none'];
-const FACET_KEYS: FacetFilter[] = ['all', 'ok', 'warn', 'bad'];
+const VIEWS: View[] = ['all', 'curated', 'attention'];
+const SORT_KEYS: SortKey[] = ['curated', 'problems', 'name'];
+const FACETS: FacetKey[] = ['', ...DIMENSIONS];
+const LEVELS: FacetLevel[] = ['', 'weak', 'bad'];
 
 function oneOf<T extends string>(v: string | null, allowed: readonly T[], fallback: T): T {
   return v !== null && (allowed as readonly string[]).includes(v) ? (v as T) : fallback;
 }
 
 export function filtersFromParams(params: URLSearchParams): Filters {
-  const tier = params.get('tier');
+  const cc = (params.get('cc') ?? 'all').toUpperCase();
+  const facet = oneOf(params.get('facet'), FACETS, '');
   return {
     q: params.get('q') ?? '',
-    cc: (params.get('cc') ?? 'all').toUpperCase() === 'ALL' ? 'all' : (params.get('cc') ?? 'all').toUpperCase(),
-    tier: tier === 'curated' || tier === 'long-tail' ? tier : 'all',
-    status: params.get('status') ?? 'all',
-    stream: oneOf(params.get('stream'), STREAM_KEYS, 'all'),
-    np: oneOf(params.get('np'), NP_KEYS, 'all'),
-    logo: oneOf(params.get('logo'), FACET_KEYS, 'all'),
-    home: oneOf(params.get('home'), FACET_KEYS, 'all'),
-    problems: params.get('problems') === '1',
-    sort: oneOf(params.get('sort'), SORT_KEYS, 'name'),
+    cc: cc === 'ALL' ? 'all' : cc,
+    view: oneOf(params.get('view'), VIEWS, 'all'),
+    facet,
+    level: facet ? oneOf(params.get('level'), LEVELS, '') : '',
+    sort: oneOf(params.get('sort'), SORT_KEYS, 'curated'),
   };
 }
 
@@ -306,14 +270,12 @@ export function filtersToParams(f: Filters): URLSearchParams {
   const p = new URLSearchParams();
   if (f.q.trim()) p.set('q', f.q.trim());
   if (f.cc !== 'all') p.set('cc', f.cc.toUpperCase());
-  if (f.tier !== 'all') p.set('tier', f.tier);
-  if (f.status !== 'all') p.set('status', f.status);
-  if (f.stream !== 'all') p.set('stream', f.stream);
-  if (f.np !== 'all') p.set('np', f.np);
-  if (f.logo !== 'all') p.set('logo', f.logo);
-  if (f.home !== 'all') p.set('home', f.home);
-  if (f.problems) p.set('problems', '1');
-  if (f.sort !== 'name') p.set('sort', f.sort);
+  if (f.view !== 'all') p.set('view', f.view);
+  if (f.facet) {
+    p.set('facet', f.facet);
+    if (f.level) p.set('level', f.level);
+  }
+  if (f.sort !== 'curated') p.set('sort', f.sort);
   return p;
 }
 
@@ -330,12 +292,6 @@ export const NP_LABEL: Record<NowPlaying, string> = {
   hls: 'HLS manifest',
   none: 'None',
   '': 'Not checked',
-};
-
-export const STATUS_LABEL: Record<string, string> = {
-  working: 'Working',
-  'icy-only': 'ICY only',
-  'stream-only': 'Stream only',
 };
 
 /** Short, plain-language stream detail for the table. Content types read

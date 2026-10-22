@@ -556,21 +556,33 @@ PR labelled `catalog-review`. Snapshots and the actions audit trail go to
 ## Public dashboard: `/catalog-health`
 
 The public read of the loop — <https://rrradio.org/catalog-health> — shows
-that the catalog is managed, not just accumulated. Filters at the top
-(search, country, tier, status, stream, now-playing, logo, homepage, sort,
-"problems only") are URL params, so any view is a shareable link; the table
-lists every published station with its stream verdict (and failing streak),
-how now-playing arrives, logo and homepage state, and the day of the latest
-probe. The tiles above the filters are catalog-wide and never change with
-the filters.
+that the catalog is managed, not just accumulated. It reads top to bottom:
+the headline KPI, **stations that play** (share of checked stations whose
+stream answered with audio), failing streams at each morning's check, what
+the catalog-actions loop **fixed automatically** in its last 30 runs, the
+**extras on top of playing** (now playing, logo, homepage — each with when it
+was last checked, flagged when it is not on the daily check), what needs
+attention (curated stations first, then the longest-failing streams), and a
+station lookup. Everything above the lookup is catalog-wide; the lookup's
+filters (search, country, all / curated / needs attention, a grade picked
+from the extras, sort) are URL params, so any view is a shareable link.
+
+**Grades, not a score.** `src/health/score.ts` grades each station good /
+weak / bad per dimension (now playing: api/icy good, silent/hls weak, none
+bad); a check that doesn't apply or hasn't run is left out. The extras are
+reported next to the headline and never blended into it: whether a station
+plays is the KPI, everything else sits on top of that. "Problems first"
+sorts failing streams before any station that plays.
 
 **Artifact.** `tools/build-health-dashboard.mjs` (`npm run health-dashboard
 -- --data health-data`) joins `stations.json` with the record, streaks, plan
 tiers and metrics history into `dashboard.json` — one array row per station
-under a `cols` header (`tools/lib/health-dashboard.mjs`, `COLS`), ~4.7 MB
+under a `cols` header (`tools/lib/health-dashboard.mjs`, `COLS`), plus
+`automation` (per-day action counts from `actions/<day>.json`), ~4.7 MB
 raw / ~0.7 MB gzipped. No favicon URLs (they were 1.8 MB alone); the station
 page carries the image. The merge job of `station-probe.yml` builds it after
-`derive-health` and commits it onto `health-data` with the rest.
+`derive-health` and commits it onto `health-data` with the rest; `catalog-actions.yml` rebuilds
+it after its run so "Fixed automatically" includes the same morning.
 
 **Freshness without a deploy.** The page fetches the artifact from
 `raw.githubusercontent.com/…/health-data/dashboard.json` first (CORS `*`,
@@ -581,9 +593,11 @@ as the same-origin fallback. Locally: `npm run health-dashboard -- --data
 `npm run dev` at <http://localhost:5173/catalog-health>.
 
 **Page.** `catalog-health.html` + `src/health/` (`model.ts` parse / filter /
-sort / URL state, unit-tested; `ui.ts` DOM, sparkline, proportion bar;
-`theme.ts` shares the app's `rrradio.theme` key; `health.css` the app palette).
-Strict CSP: no inline script or style, fonts via fonts.googleapis.com,
-`connect-src` limited to self + raw.githubusercontent.com. Verdicts are always
-a dot plus a word — the amber/red pair is not distinguishable for every reader
-by hue alone.
+sort / URL state and `score.ts`, both unit-tested; `ui.ts` DOM, grade marks,
+stacked bars, trend chart; `theme.ts` shares the app's `rrradio.theme` key;
+`health.css` layout only). Styled with SteinerDesign, vendored at
+`public/vendor/steinerdesign/` (tag in its `VERSION`; re-copy `dist/` and
+`assets/` from a newer tag to upgrade). Strict CSP: no inline script or style,
+everything self-hosted (`style-src`/`font-src 'self'`), `connect-src` limited
+to self + raw.githubusercontent.com. Grades are always a dot plus a word,
+never colour alone.
