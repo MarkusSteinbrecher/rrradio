@@ -11766,6 +11766,10 @@
   country: SE
   status: stream-only
 - id: se-mix-megapol
+  brokenSince: 2026-10-25
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: timeout ×5 · 2026-10-21→2026-10-25 · edge agrees
   favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1592840543/brand_manager/stations/ytwsvxzhg2maeejuhxh8.png"
   faviconSource: radio-browser
   stationuuid: 96342772-0601-11e8-ae97-52543be04c81
@@ -11784,7 +11788,7 @@
     - sweden
   homepage: https://www.mixmegapol.se/
   country: SE
-  status: stream-only
+  status: broken
   featured: true
 - id: se-nrj-sweden
   favicon: "https://assets.planetradio.co.uk/img/ConfigWebListenBarLogoImageUrl/455.png?ver=1589297422"
