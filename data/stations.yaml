@@ -139954,7 +139954,7 @@
   tags: [60s, 70s, 80s, folk, hollands, piratenmuziek, polkas]
   broadcaster: independent
   name: XerosRadio
-  streamUrl: https://az.streamxerosradio.duckdns.org/radio/8000/xerosradio
+  streamUrl: https://streaming.xeros-radio.nl/radio/8000/xerosradio
   codec: AAC
   favicon: https://res.cloudinary.com/xerosradio/image/upload/f_webp,q_auto/XerosRadio_Logo_Achtergrond_Wit
   faviconSource: radio-browser
@@ -140176,6 +140176,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: pl-anty-radio
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   broadcaster: independent
   name: Anty Radio
   streamUrl: https://an.cdn.eurozet.pl/ant-web.mp3?t=1713710188361
@@ -140185,7 +140189,7 @@
   faviconSource: broadcaster-site
   homepage: https://www.antyradio.pl/
   country: PL
-  status: stream-only
+  status: broken
   stationuuid: 6bf03632-07d9-4112-8119-03588ec8f556
   changeuuid: dde18fdf-c299-4119-b87c-df5c5466c0d5
   reviewedAt: "2026-05-04"
@@ -169238,6 +169242,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: co-energia-102-5-fm
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 502 ×5 · 2026-10-22→2026-10-26 · edge agrees
   tags: [salsa]
   broadcaster: independent
   name: "Energia 102.5 FM"
@@ -169248,7 +169256,7 @@
   faviconSource: broadcaster-site
   homepage: https://energia1025.com/
   country: CO
-  status: stream-only
+  status: broken
   stationuuid: 9a91be3c-a87e-46f7-aabd-28aa49074013
   changeuuid: f3d2db2d-9ec8-4762-b15a-0c821f2aeb2a
   reviewedAt: "2026-05-04"
@@ -177249,6 +177257,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ph-106-9-wgb-fm-tabaco
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 502 ×5 · 2026-10-22→2026-10-26 · edge agrees
   favicon: "https://www.pbnbicol.com/images/PBN%20Logo%20Large.webp"
   faviconSource: broadcaster-site
   faviconBlocked: true
@@ -177259,7 +177271,7 @@
   codec: MP3
   homepage: https://www.pbnbicol.com/
   country: PH
-  status: stream-only
+  status: broken
   stationuuid: 4dda8153-a3a5-458f-a545-c13ff106b4d1
   changeuuid: d672f90f-0ae9-4e7e-b3db-7422b2da0313
   reviewedAt: "2026-05-04"
@@ -179325,6 +179337,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ro-radio-zen
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   broadcaster: independent
   name: Radio ZEN
   streamUrl: https://streaming.shoutcast.com/radiozen
@@ -179334,7 +179350,7 @@
   faviconSource: broadcaster-site
   homepage: https://radiozen.ro/
   country: RO
-  status: stream-only
+  status: broken
   stationuuid: 1453d748-3917-4447-9482-ceedf25b7875
   changeuuid: ef1dbecb-4bf5-4b44-a700-f83536614cd3
   reviewedAt: "2026-05-04"
@@ -206266,13 +206282,14 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: br-sucesso-fm-tupaciguara
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   broadcaster: independent
   name: Sucesso FM Tupaciguara
   streamUrl: https://stm28.srvaudio.com.br:10008/listen.mp3
   bitrate: 128
   codec: AAC+
-  favicon: "https://fb.painelsite.com.br/arquivos/8441/cabecalho-8441-20240322091936.jpg"
-  faviconSource: radio-browser
   homepage: "https://www.sucessofm919.com.br/"
   country: BR
   status: stream-only
@@ -208415,6 +208432,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: br-bandnews-salvador
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: refused ×3 · 2026-10-24→2026-10-26
   tags: [news, noticias]
   broadcaster: independent
   name: BandNews Salvador
@@ -208425,7 +208446,7 @@
   faviconSource: broadcaster-site
   homepage: "https://www.band.com.br/bandnews-fm"
   country: BR
-  status: stream-only
+  status: broken
   stationuuid: 227aa3fe-38f6-4ae0-89aa-2857f2fe86ab
   changeuuid: a25b2aaa-acd0-4253-8cda-5ac1373312bc
   reviewedAt: "2026-05-04"
@@ -223350,10 +223371,6 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-radio-formula-torreon-105-9-fm-torreon-coahuila
-  brokenSince: 2026-10-17
-  brokenFrom: stream-only
-  brokenBy: station-probe
-  brokenReason: HTTP 503 ×9 · 2026-10-08→2026-10-16 · edge agrees
   tags: [music, news, "talk & speech"]
   broadcaster: independent
   name: "Radio Fórmula (Torreón) - 105.9 FM [Torreón, Coahuila]"
@@ -223364,7 +223381,7 @@
   faviconLicense: broadcaster-implicit
   homepage: "https://www.radioformula.com.mx/torreon/"
   country: MX
-  status: broken
+  status: stream-only
   stationuuid: e2d2df5e-6749-450c-8e8d-5b8d8cadc840
   changeuuid: c0740de6-b926-49bd-bc0c-381764a097d0
   reviewedAt: "2026-05-04"
@@ -232395,6 +232412,10 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: hu-mixradioretro
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   favicon: "https://cdn.onlineradiobox.com/img/l/3/73103.v10.png"
   faviconSource: radio-browser
   broadcaster: independent
@@ -232404,7 +232425,7 @@
   codec: MP3
   homepage: https://stream.phost.hu:8004/retro
   country: HU
-  status: stream-only
+  status: broken
   stationuuid: 20f45ba0-06af-4efb-86f4-9d739af3b175
   changeuuid: f10785bc-a960-4e7b-bb57-d0db7afa187d
   reviewedAt: "2026-05-04"
@@ -240288,12 +240309,13 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-exclusively-erasure
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   broadcaster: independent
   name: exclusively Erasure
   streamUrl: https://streaming.exclusive.radio/er/erasure/icecast.audio
   codec: MP3
-  favicon: "https://play.exclusive.radio/static/assets/img/apple-icon-120x120.png"
-  faviconSource: broadcaster-site
   homepage: "https://play.exclusive.radio/"
   country: CA
   status: stream-only
@@ -242713,14 +242735,15 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-cjok-country-93-3-fort-mcmurray-ab
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   tags: [country, fort mcmurray]
   broadcaster: independent
   name: "CJOK \"Country 93.3\" Fort McMurray, AB"
   streamUrl: https://rogers-hls.leanstream.co/rogers/for933.stream/playlist.m3u8
   bitrate: 48
   codec: AAC+
-  favicon: "https://www.country933.com/wp-content/uploads/sites/35/2023/03/cropped-static-logo-country-933-2-180x180.png"
-  faviconSource: broadcaster-site
   homepage: "https://www.country933.com/"
   country: CA
   status: stream-only
@@ -243375,14 +243398,15 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-chtt-kiss-103-1-victoria-bc
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   tags: [contemporary hits, victoria]
   broadcaster: independent
   name: "CHTT \"KISS 103.1\" Victoria, BC"
   streamUrl: https://rogers-hls.leanstream.co/rogers/vic1031.stream/playlist.m3u8
   bitrate: 48
   codec: AAC+
-  favicon: "https://www.jack1031.ca/wp-content/uploads/sites/67/2023/03/cropped-static-logo-jack-1031-180x180.png"
-  faviconSource: radio-browser
   homepage: "https://www.kiss1031.ca/"
   country: CA
   status: stream-only
@@ -245017,14 +245041,15 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-classic-hits-109-country-hits
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: HTTP 404 ×7 · 2026-09-13→2026-10-25
   tags: [country hits]
   broadcaster: independent
   name: Classic Hits 109 - Country Hits
   streamUrl: https://broadcast.classichits109.com/country
   bitrate: 128
   codec: MP3
-  favicon: "http://www.classichits109.torontocast.stream/favicon.ico"
-  faviconSource: radio-browser
   homepage: "http://www.classichits109.com/"
   country: CA
   status: stream-only
@@ -251038,14 +251063,15 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: ca-absoluut-fm
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: refused ×7 · 2026-09-13→2026-10-25
   tags: [community radio, dutch, music]
   broadcaster: independent
   name: Absoluut FM
   streamUrl: https://absoluutfm.stream.laut.fm/absoluutfm
   bitrate: 128
   codec: MP3
-  favicon: "https://www.absoluutfm.com/wp-content/uploads/2018/11/cropped-AFM-Logo-klein-3.jpg"
-  faviconSource: broadcaster-site
   homepage: "https://www.absoluutfm.com/"
   country: CA
   status: stream-only
@@ -273329,6 +273355,10 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: vc-boom-svg-106-9
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   faviconBlocked: true
   broadcaster: independent
   name: Boom SVG 106.9
@@ -273338,7 +273368,7 @@
   tags: [hip-hop, reggae, urban]
   homepage: "https://boom1069.com/"
   country: VC
-  status: stream-only
+  status: broken
   stationuuid: 7ad2a622-77db-4341-bd9e-45587ee42abd
   changeuuid: 622e6096-1509-47ed-ab07-51057448c773
   reviewedAt: "2026-05-11"
@@ -318496,6 +318526,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: in-air-madikeri
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   source: radio-browser
   broadcaster: independent
   name: AIR Madikeri
@@ -318506,7 +318540,7 @@
   homepage: "https://prasarbharati.gov.in/"
   country: IN
   geo: [12.0128, 76.7175]
-  status: stream-only
+  status: broken
   stationuuid: 590c5917-fdda-411f-8a13-221879fb5a4d
   changeuuid: 9d4a3b1a-cf2f-46cc-98ff-36273c11834d
   reviewedAt: 2026-05-21
@@ -336048,6 +336082,9 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cl-la-mas-kaliente
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: dns ×7 · 2026-09-13→2026-10-25
   source: radio-browser
   broadcaster: independent
   name: La Más Kaliente
@@ -336055,8 +336092,6 @@
   bitrate: 128
   codec: MP3
   tags: [tropical music]
-  favicon: "https://lamaskaliente.com/assets/favicon.ico"
-  faviconSource: radio-browser
   homepage: "https://lamaskaliente.com/"
   country: CL
   geo: [-33.6964, -70.73]
@@ -342292,6 +342327,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: tw-1940-s-shanghai-vintage-jazz-shidaiqu-radio
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: tls ×5 · 2026-10-22→2026-10-26 · edge agrees
   source: radio-browser
   broadcaster: independent
   name: "上海麗都廣播電台 1940's Shanghai Vintage Jazz Shidaiqu Radio"
@@ -342301,7 +342340,7 @@
   homepage: "https://radio.nitro-server.uk/public/1940sshanghaioldtimesmusicradio"
   country: TW
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 5b80d82b-5f15-4472-a1a7-8aad8307973a
   changeuuid: f598deef-16fc-435f-90a8-bc9c723ce3cb
   reviewedAt: 2026-05-21
@@ -354443,14 +354482,15 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cl-radio-dulce-illapel-98-3-fm
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: HTTP 404 ×7 · 2026-09-13→2026-10-25
   source: radio-browser
   broadcaster: independent
   name: Radio Dulce ILLAPEL 98.3 FM
   streamUrl: "https://stream.zeno.fm/kc5hofr05tavv"
   codec: MP3
   tags: [adult contemporary, entretenimiento, musica romantica, música en español, noticias, radio hablada]
-  favicon: "https://dulcefm.cl/wp-content/uploads/elementor/thumbs/logo-web-q0val34wkm3p6wh8gop0g4apeqxdpct5lleoaa1omg.png"
-  faviconSource: radio-browser
   homepage: "https://dulcefm.cl/"
   country: CL
   geo: [0, 0]
@@ -365773,14 +365813,15 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: cl-europa-beat
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   source: radio-browser
   broadcaster: independent
   name: Europa Beat
   streamUrl: "https://s4.radio.co/s13e4f2090/listen"
   bitrate: 128
   codec: MP3
-  favicon: "https://images.app.goo.gl/HB8KPSvFAJLp7zKZ7"
-  faviconSource: radio-browser
   homepage: "https://europabeat.com/"
   country: CL
   geo: [-33.0284, -71.5598]
@@ -369916,10 +369957,6 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-figaro-discotheque
-  brokenSince: 2026-10-17
-  brokenFrom: stream-only
-  brokenBy: station-probe
-  brokenReason: HTTP 502 ×5 · 2026-10-13→2026-10-17 · edge agrees
   source: radio-browser
   broadcaster: independent
   name: Figaro Discotheque
@@ -369932,7 +369969,7 @@
   homepage: "https://www.figarodisco.com/"
   country: GR
   geo: [0, 0]
-  status: broken
+  status: stream-only
   stationuuid: 4294c182-946f-4a64-9a6d-13d5fcb0f83d
   changeuuid: 0f3f3191-d184-4f43-b9d7-bfe435d44e90
   reviewedAt: 2026-05-21
@@ -380569,6 +380606,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-alpha-omega-107-3
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 502 ×5 · 2026-10-22→2026-10-26 · edge agrees
   source: radio-browser
   broadcaster: independent
   name: "Alpha & Omega 107.3"
@@ -380581,7 +380622,7 @@
   homepage: "http://www.alfaomegaradio.gr/"
   country: GR
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 3cc39a8f-1d1f-43ae-ad01-9c8d9738eabc
   changeuuid: 184a90ad-c6fa-4dfd-9584-5089ed33d04c
   reviewedAt: 2026-05-21
@@ -416854,6 +416895,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: nl-hi-on-line-latin-radio
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   source: radio-browser
   broadcaster: independent
   name: Hi On Line Latin Radio
@@ -416864,7 +416909,7 @@
   homepage: "http://www.hionline.eu/"
   country: NL
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 96244866-0601-11e8-ae97-52543be04c81
   changeuuid: 33aeedcb-e38b-4598-b72e-d3095c1d8a62
   reviewedAt: 2026-06-10
@@ -444766,6 +444811,9 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ca-cism-89-3-mhz-fm-universite-de-montreal-qc
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   source: radio-browser
   broadcaster: independent
   name: "CISM 89,3 MHz FM Université de Montréal, QC"
@@ -458672,6 +458720,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: az-azerbaycan-radiosu-105-0-fm
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 403 ×5 · 2026-10-22→2026-10-26 · edge agrees
   source: radio-browser
   broadcaster: independent
   name: Azerbaycan Radiosu 105.0 FM
@@ -458681,7 +458733,7 @@
   homepage: "https://aztv.az/"
   country: AZ
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: 3a98b5ca-516e-400f-ba72-fb40e036944f
   changeuuid: 69953507-81d0-43ff-b8b6-ed89fb0b8a0c
   reviewedAt: 2026-06-10
@@ -473101,6 +473153,9 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ca-kiss-103-1-victoria
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: not-image ×7 · 2026-09-13→2026-10-25
   source: radio-browser
   broadcaster: independent
   name: KiSS 103.1 Victoria
@@ -473108,8 +473163,6 @@
   bitrate: 198
   codec: AAC
   tags: [black, charts, pop, pop rock]
-  favicon: "https://www.jack1031.ca/wp-content/uploads/sites/67/2021/03/cropped-jack1031-logo-192x192.png"
-  faviconSource: radio-browser
   homepage: "https://www.kiss1031.ca/"
   country: CA
   geo: [0, 0]
@@ -506541,6 +506594,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: it-radio-6023
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×3 · 2026-10-24→2026-10-26
   source: radio-browser
   broadcaster: independent
   name: Radio 6023
@@ -506552,17 +506609,13 @@
   homepage: "https://6023.it/station/6023-ascoltaci/"
   country: IT
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: c69f1669-eafd-40fc-a5ec-f3c830cdbc28
   changeuuid: cb3a9d61-30da-4cbf-b8ac-ea4ac5b2db2f
   reviewedAt: 2026-06-10
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: fr-radio-disney-village
-  brokenSince: 2026-10-21
-  brokenFrom: stream-only
-  brokenBy: station-probe
-  brokenReason: HTTP 404 ×3 · 2026-10-19→2026-10-21
   source: radio-browser
   broadcaster: independent
   name: Radio Disney Village
@@ -506575,7 +506628,7 @@
   homepage: "https://www.disneylandparis.com/en-usd/entertainment/disney-village/web-radio"
   country: FR
   geo: [0, 0]
-  status: broken
+  status: stream-only
   stationuuid: 1c1fd562-6537-4217-b2c1-3f24d90e6a96
   changeuuid: 11c05aef-a5c4-4c8a-98fd-16212161b688
   reviewedAt: 2026-06-10
@@ -509793,10 +509846,6 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-pc-radio-live
-  brokenSince: 2026-10-18
-  brokenFrom: stream-only
-  brokenBy: station-probe
-  brokenReason: HTTP 404 ×3 · 2026-10-16→2026-10-18
   source: radio-browser
   broadcaster: independent
   name: PC Radio Live
@@ -509808,7 +509857,7 @@
   homepage: "https://unlabeled.media/pcradio"
   country: US
   geo: [0, 0]
-  status: broken
+  status: stream-only
   stationuuid: 2793f669-7bd2-40ec-9119-2fc0c13ab1f2
   changeuuid: a4e8df6c-ba29-45b7-8d5d-413481140679
   reviewedAt: 2026-06-10
@@ -510813,6 +510862,10 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ru-kazak-fm
+  brokenSince: 2026-10-26
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: timeout ×5 · 2026-10-22→2026-10-26 · edge agrees
   source: radio-browser
   broadcaster: independent
   name: KAZAK FM
@@ -510824,7 +510877,7 @@
   homepage: "https://kazak.fm/"
   country: RU
   geo: [0, 0]
-  status: stream-only
+  status: broken
   stationuuid: f6c6b2ca-f20f-4465-9f4d-b8c5cc66684b
   changeuuid: b23db0d1-cc6d-49fa-be1c-a0584833ae5e
   reviewedAt: 2026-06-10
