@@ -110,32 +110,6 @@ export function gradeMark(g: Grade, label: string, title?: string): HTMLElement 
   return node;
 }
 
-/* ── Stacked bar (good / weak / bad share) ───────────────────────── */
-
-export interface BarPart {
-  grade: 'good' | 'weak' | 'bad';
-  value: number;
-  label: string;
-}
-
-/** One stacked bar with a 2px surface gap between fills. The caller
- *  renders the text legend, so the split never depends on the colours. */
-export function stackedBar(parts: BarPart[]): HTMLElement {
-  const total = parts.reduce((s, p) => s + p.value, 0) || 1;
-  const bar = el('div', { class: 'bar', role: 'img' });
-  const words: string[] = [];
-  for (const p of parts) {
-    if (p.value <= 0) continue;
-    const seg = el('i', { class: `bar__seg bar__seg--${p.grade}` });
-    // CSSOM, not a style attribute — allowed under the page's CSP.
-    seg.style.flexGrow = String(p.value / total);
-    bar.append(seg);
-    words.push(`${fmtInt(p.value)} ${p.label}`);
-  }
-  bar.setAttribute('aria-label', words.join(', '));
-  return bar;
-}
-
 /* ── Trend chart ─────────────────────────────────────────────────── */
 
 export interface TrendPoint {

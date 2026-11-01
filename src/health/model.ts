@@ -1,15 +1,13 @@
 /**
- * Catalog-health page model: parse the dashboard artifact, filter/sort its
- * rows for the station lookup, and round-trip the filter state through URL search params so a
- * filtered view is a shareable link. Pure — no DOM, fully unit-tested.
+ * Catalog-health page model: parse the dashboard artifact into typed rows,
+ * plus the display labels shared by the table and charts. Pure — no DOM.
  *
- * Grades live in score.ts.
+ * Grades live in score.ts, filters and sort in filters.ts, chart counts in
+ * aggregate.ts.
  *
  * Artifact contract: tools/lib/health-dashboard.mjs (COLS). Rows are read
  * by column name via the `cols` header, never by position.
  */
-
-import { DIMENSIONS, grade, needsAttention, problemRank, type Dimension } from './score';
 
 export type Verdict = 'ok' | 'warn' | 'bad' | 'na' | '';
 export type Tier = 'curated' | 'long-tail';
@@ -159,128 +157,6 @@ export function parseDashboard(raw: RawDashboard): Dashboard {
     automation: Array.isArray(raw.automation) ? raw.automation : [],
     rows,
   };
-}
-
-/* ── Station lookup: filters, sort, URL state ────────────────────── */
-
-export type View = 'all' | 'curated' | 'attention';
-export type SortKey = 'curated' | 'problems' | 'name';
-export type FacetKey = Dimension | '';
-export type FacetLevel = 'weak' | 'bad' | '';
-
-export interface Filters {
-  q: string;
-  cc: string;
-  view: View;
-  /** Set by the score breakdown: "show me the stations failing this". */
-  facet: FacetKey;
-  level: FacetLevel;
-  sort: SortKey;
-}
-
-export const DEFAULT_FILTERS: Readonly<Filters> = Object.freeze({
-  q: '',
-  cc: 'all',
-  view: 'all',
-  facet: '',
-  level: '',
-  sort: 'curated',
-});
-
-/** Whitespace-insensitive contains (the app's search behaves the same:
- *  "WDR5" finds "WDR 5"). */
-function matchesQuery(row: HealthRow, q: string): boolean {
-  if (!q) return true;
-  if (row.haystack.includes(q)) return true;
-  const squashed = q.replace(/\s+/g, '');
-  return squashed.length > 0 && row.haystack.replace(/\s+/g, '').includes(squashed);
-}
-
-export function filterRows(rows: HealthRow[], f: Filters): HealthRow[] {
-  const q = f.q.trim().toLowerCase();
-  const cc = f.cc.toUpperCase();
-  return rows.filter((r) => {
-    if (cc !== 'ALL' && r.cc !== cc) return false;
-    if (f.view === 'curated' && r.tier !== 'curated') return false;
-    if (f.view === 'attention' && !needsAttention(r)) return false;
-    if (f.facet) {
-      const g = grade(r, f.facet);
-      if (f.level ? g !== f.level : g !== 'weak' && g !== 'bad') return false;
-    }
-    return matchesQuery(r, q);
-  });
-}
-
-// One collator instead of localeCompare per pair: 29k rows sort in tens of
-// milliseconds rather than seconds.
-const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
-
-/** Radio Browser names like "__1oldies" or "#1 Hits" sort after real
- *  names, so an unfiltered list doesn't open on punctuation. */
-function sortName(name: string): string {
-  return /^[\p{L}\p{N}]/u.test(name) ? name : `\u{10FFFF}${name}`;
-}
-
-function byName(a: HealthRow, b: HealthRow): number {
-  return collator.compare(sortName(a.name), sortName(b.name)) || collator.compare(a.id, b.id);
-}
-
-export function sortRows(rows: HealthRow[], sort: SortKey): HealthRow[] {
-  const out = [...rows];
-  const rank = new Map(out.map((r) => [r, problemRank(r)]));
-  const tier = (r: HealthRow): number => (r.tier === 'curated' ? 0 : 1);
-  switch (sort) {
-    case 'problems':
-      // Not playing first (longest streak on top), then the barest extras.
-      out.sort((a, b) => (rank.get(a) ?? 0) - (rank.get(b) ?? 0) || b.streakDays - a.streakDays || byName(a, b));
-      break;
-    case 'name':
-      out.sort(byName);
-      break;
-    default:
-      out.sort((a, b) => tier(a) - tier(b) || byName(a, b));
-  }
-  return out;
-}
-
-const VIEWS: View[] = ['all', 'curated', 'attention'];
-const SORT_KEYS: SortKey[] = ['curated', 'problems', 'name'];
-const FACETS: FacetKey[] = ['', ...DIMENSIONS];
-const LEVELS: FacetLevel[] = ['', 'weak', 'bad'];
-
-function oneOf<T extends string>(v: string | null, allowed: readonly T[], fallback: T): T {
-  return v !== null && (allowed as readonly string[]).includes(v) ? (v as T) : fallback;
-}
-
-export function filtersFromParams(params: URLSearchParams): Filters {
-  const cc = (params.get('cc') ?? 'all').toUpperCase();
-  const facet = oneOf(params.get('facet'), FACETS, '');
-  return {
-    q: params.get('q') ?? '',
-    cc: cc === 'ALL' ? 'all' : cc,
-    view: oneOf(params.get('view'), VIEWS, 'all'),
-    facet,
-    level: facet ? oneOf(params.get('level'), LEVELS, '') : '',
-    sort: oneOf(params.get('sort'), SORT_KEYS, 'curated'),
-  };
-}
-
-/** Only non-default values are written, so the bare URL stays bare. */
-export function filtersToParams(f: Filters): URLSearchParams {
-  const p = new URLSearchParams();
-  if (f.q.trim()) p.set('q', f.q.trim());
-  if (f.cc !== 'all') p.set('cc', f.cc.toUpperCase());
-  if (f.view !== 'all') p.set('view', f.view);
-  if (f.facet) {
-    p.set('facet', f.facet);
-    if (f.level) p.set('level', f.level);
-  }
-  if (f.sort !== 'curated') p.set('sort', f.sort);
-  return p;
-}
-
-export function isDefaultFilters(f: Filters): boolean {
-  return filtersToParams(f).toString() === '';
 }
 
 /* ── Labels (shared by table cells, selects, legend) ─────────────── */

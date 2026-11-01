@@ -47,78 +47,119 @@
     <main class="page">
       <p id="load-status" class="load-status" aria-live="polite">Loading today’s checks…</p>
 
-      <section id="hero" class="hero" aria-labelledby="hero-title" hidden>
-        <div class="hero__main">
-          <h1 id="hero-title" class="hero__label">Stations that play</h1>
-          <p class="hero__value"><span id="hero-value"></span></p>
-          <p id="hero-lede" class="hero__lede"></p>
-        </div>
-        <dl id="hero-facts" class="facts"></dl>
-      </section>
+      <div id="dash" hidden>
+        <section class="dash-head" aria-labelledby="page-title">
+          <h1 id="page-title" class="dash-head__title">Catalog health</h1>
+          <p id="dash-meta" class="dash-head__meta"></p>
+        </section>
 
-      <section id="trend" class="section" aria-labelledby="trend-title" hidden>
-        <div class="section__head">
-          <h2 id="trend-title" class="section__title">Failing streams</h2>
-          <p id="trend-note" class="section__note"></p>
-        </div>
-        <div id="trend-chart"></div>
-      </section>
-
-      <section id="automation" class="section" aria-labelledby="automation-title" hidden>
-        <div class="section__head">
-          <h2 id="automation-title" class="section__title">Fixed automatically</h2>
-          <p id="automation-note" class="section__note"></p>
-        </div>
-        <dl id="automation-totals" class="totals"></dl>
-      </section>
-
-      <section id="extras" class="section" aria-labelledby="extras-title" hidden>
-        <div class="section__head">
-          <h2 id="extras-title" class="section__title">On top of playing</h2>
-          <p class="section__note">Share of stations where each extra works.</p>
-        </div>
-        <ol id="dims" class="dims"></ol>
-      </section>
-
-      <section id="attention" class="section" aria-labelledby="attention-title" hidden>
-        <div class="section__head">
-          <h2 id="attention-title" class="section__title">Needs attention</h2>
-          <p class="section__note">Curated stations are the ones people listen to most, so they come first.</p>
-        </div>
-        <div class="attention">
-          <div class="attention__col">
-            <h3 class="attention__title" id="attention-curated-title">Curated stations</h3>
-            <ul id="attention-curated" class="issues"></ul>
+        <div class="filterbar" role="search" aria-label="Filter stations">
+          <div class="filterbar__row">
+            <label class="sd-visually-hidden" for="f-q">Search stations</label>
+            <input id="f-q" class="filterbar__search" type="search" placeholder="Search station or id" autocomplete="off" spellcheck="false" />
+            <label class="sd-visually-hidden" for="f-cc">Country</label>
+            <select id="f-cc" class="filterbar__select"></select>
+            <div class="seg" role="group" aria-label="Tier">
+              <button type="button" class="seg__btn" id="f-tier-all" data-tier="all">All</button>
+              <button type="button" class="seg__btn" id="f-tier-curated" data-tier="curated">Curated</button>
+              <button type="button" class="seg__btn" id="f-tier-long-tail" data-tier="long-tail">Long tail</button>
+            </div>
+            <button type="button" data-variant="ghost" class="filterbar__more" id="f-more" popovertarget="more-filters">More filters</button>
+            <div id="more-filters" class="more-filters sd-raised" popover>
+              <div id="more-fields" class="more-filters__grid"></div>
+            </div>
           </div>
-          <div class="attention__col">
-            <h3 class="attention__title">Longest-failing streams</h3>
-            <ul id="attention-failing" class="issues"></ul>
+          <div class="filterbar__row filterbar__row--chips">
+            <p id="result-line" class="result-line sd-num" aria-live="polite"></p>
+            <ul id="chips" class="chips" aria-label="Active filters"></ul>
+            <button type="button" data-variant="ghost" data-size="sm" id="f-clear" hidden>Clear all</button>
           </div>
         </div>
-      </section>
 
-      <section id="lookup" class="section" aria-labelledby="lookup-title" hidden>
-        <div class="section__head">
-          <h2 id="lookup-title" class="section__title">Look up a station</h2>
-        </div>
-        <div id="filters" class="filters"></div>
-        <p id="result-line" class="result-line" aria-live="polite"></p>
-        <div class="table-wrap">
-          <table class="stations">
-            <thead>
-              <tr>
-                <th scope="col" class="col-station">Station</th>
-                <th scope="col" class="col-dim">Stream</th>
-                <th scope="col" class="col-dim">Now playing</th>
-                <th scope="col" class="col-dim">Logo</th>
-                <th scope="col" class="col-dim">Homepage</th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-        <div id="more" class="more"></div>
-      </section>
+        <section class="kpis" aria-label="Key figures">
+          <ul id="kpis" class="kpis__list"></ul>
+        </section>
+
+        <section class="panels" aria-label="Charts">
+          <article class="panel" aria-labelledby="trend-title">
+            <header class="panel__head">
+              <h2 id="trend-title" class="panel__title">Failing streams over time</h2>
+              <div class="sd-tabs panel__tabs" role="tablist" aria-label="Trend measure">
+                <button type="button" class="sd-tab" role="tab" id="trend-bad" aria-selected="true">Failing</button>
+                <button type="button" class="sd-tab" role="tab" id="trend-share" aria-selected="false">Share playing</button>
+              </div>
+            </header>
+            <p class="panel__note">Whole catalog, at each morning’s check. Filters don’t apply.</p>
+            <div id="trend-chart" class="panel__body"></div>
+          </article>
+
+          <article class="panel" aria-labelledby="cc-title">
+            <header class="panel__head">
+              <h2 id="cc-title" class="panel__title">Countries</h2>
+              <div class="sd-tabs panel__tabs" role="tablist" aria-label="Country ranking">
+                <button type="button" class="sd-tab" role="tab" id="cc-size" aria-selected="true">Most stations</button>
+                <button type="button" class="sd-tab" role="tab" id="cc-failing" aria-selected="false">Most failing</button>
+              </div>
+            </header>
+            <p class="panel__note" id="cc-legend"></p>
+            <div id="cc-chart" class="panel__body"></div>
+            <button type="button" data-variant="ghost" data-size="sm" class="panel__more" id="cc-more" hidden></button>
+          </article>
+
+          <article class="panel" aria-labelledby="why-title">
+            <header class="panel__head"><h2 id="why-title" class="panel__title">Why streams fail</h2></header>
+            <p class="panel__note">Stations not playing at their last check, by reason.</p>
+            <div id="why-chart" class="panel__body"></div>
+          </article>
+
+          <article class="panel" aria-labelledby="np-title">
+            <header class="panel__head"><h2 id="np-title" class="panel__title">Now playing source</h2></header>
+            <p class="panel__note">How the player learns what’s on air.</p>
+            <div id="np-chart" class="panel__body"></div>
+          </article>
+
+          <article class="panel" aria-labelledby="logo-title">
+            <header class="panel__head"><h2 id="logo-title" class="panel__title">Logo issues</h2></header>
+            <p class="panel__note">Stations whose logo is weak or missing, by issue.</p>
+            <div id="logo-chart" class="panel__body"></div>
+          </article>
+
+          <article class="panel" aria-labelledby="auto-title">
+            <header class="panel__head"><h2 id="auto-title" class="panel__title">Fixed automatically</h2></header>
+            <p class="panel__note" id="auto-note"></p>
+            <div id="auto-chart" class="panel__body"></div>
+            <dl id="auto-totals" class="totals"></dl>
+          </article>
+        </section>
+
+        <section class="stations" aria-labelledby="stations-title">
+          <header class="panel__head">
+            <h2 id="stations-title" class="panel__title">Stations</h2>
+            <p id="table-count" class="panel__note sd-num"></p>
+          </header>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-station" data-sort="name"></th>
+                  <th scope="col" class="col-cc" data-sort="country"></th>
+                  <th scope="col" class="col-stream" data-sort="stream"></th>
+                  <th scope="col" class="col-streak" data-sort="streak"></th>
+                  <th scope="col" class="col-dim">Now playing</th>
+                  <th scope="col" class="col-dim">Logo</th>
+                  <th scope="col" class="col-dim">Homepage</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <nav class="pager" aria-label="Pages">
+            <button type="button" data-variant="ghost" data-size="sm" id="page-prev">Previous</button>
+            <span id="page-info" class="pager__info sd-num"></span>
+            <button type="button" data-variant="ghost" data-size="sm" id="page-next">Next</button>
+          </nav>
+        </section>
+      </div>
 
       <section class="section" aria-labelledby="method-title">
         <h2 id="method-title" class="sd-visually-hidden">Method</h2>
