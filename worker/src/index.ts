@@ -15,6 +15,9 @@
  *   /api/favorites     — most-favorited stations (filter: "favorite: ")
  *
  * Public endpoints:
+ *   POST /api/public/play          — anonymous native-app play ping,
+ *                                    forwarded as a `play: <name>` GC
+ *                                    event (see src/plays.ts)
  *   POST /api/public/report-broken — anonymous structured station report;
  *                                    stored in D1, returns a receipt id
  *   GET  /api/public/report-status — per-receipt report status polling
@@ -40,6 +43,7 @@
 import type { Env } from './env';
 import { jsonResponse, noStoreJsonResponse } from './respond';
 import { handleAdminProbe } from './probe';
+import { handlePlay } from './plays';
 import {
   handleAdminReportsList,
   handleReportBroken,
@@ -354,6 +358,13 @@ export default {
     if (url.pathname.startsWith('/api/public/')) {
       const publicCors = { ...cors, 'Access-Control-Allow-Origin': '*' };
       try {
+        if (url.pathname === '/api/public/play') {
+          if (req.method !== 'POST') {
+            return noStoreJsonResponse({ error: 'method not allowed' }, 405, publicCors);
+          }
+          return await handlePlay(req, env, publicCors);
+        }
+
         if (url.pathname === '/api/public/report-broken') {
           if (req.method !== 'POST') {
             return noStoreJsonResponse({ error: 'method not allowed' }, 405, publicCors);

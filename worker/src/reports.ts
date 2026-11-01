@@ -91,7 +91,7 @@ interface ReportRow extends StatusRow {
   github_issue: number | null;
 }
 
-function cleanField(value: unknown, max = 120): string {
+export function cleanField(value: unknown, max = 120): string {
   if (typeof value !== 'string') return '';
   return value.replace(/\s+/g, ' ').trim().slice(0, max);
 }
@@ -113,7 +113,7 @@ function cleanReportedHost(data: Record<string, unknown>): string {
   return cleanHost(data.streamUrl);
 }
 
-function cleanToken(value: unknown, fallback: string, max = 40): string {
+export function cleanToken(value: unknown, fallback: string, max = 40): string {
   const cleaned = cleanField(value, max).replace(/[^a-z0-9._:-]/gi, '-');
   return cleaned || fallback;
 }
@@ -154,7 +154,7 @@ async function sha256Hex(input: string): Promise<string> {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
+export async function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
   const params = new URLSearchParams({
     p: path,
     t: title,
@@ -171,21 +171,27 @@ async function recordGoatCounterEvent(path: string, title: string, env: Env): Pr
   }
 }
 
-/** True when this IP already spent its daily report budget. Fail-open:
- *  a D1 hiccup must not block a legitimate report. The hash is salted
- *  with the day + a server secret so the stored key is neither
- *  reversible nor linkable across days. */
-async function isRateLimited(req: Request, env: Env): Promise<boolean> {
+/** True when this IP already spent its daily budget. Fail-open: a D1
+ *  hiccup must not block a legitimate request. The hash is salted with
+ *  the day + a server secret so the stored key is neither reversible
+ *  nor linkable across days. `scope` keeps budgets apart in the shared
+ *  table (reports keep the unprefixed key they always had). */
+export async function isRateLimited(
+  req: Request,
+  env: Env,
+  limit = RATE_LIMIT_PER_DAY,
+  scope = '',
+): Promise<boolean> {
   const ip = req.headers.get('CF-Connecting-IP') ?? '';
   if (!ip) return false;
   try {
     const day = new Date().toISOString().slice(0, 10);
-    const ipHash = await sha256Hex(`${day}:${ip}:${env.ADMIN_TOKEN}`);
+    const ipHash = await sha256Hex(`${scope}${day}:${ip}:${env.ADMIN_TOKEN}`);
     const row = await env.DB.prepare(SQL.upsertRate)
       .bind(ipHash, day)
       .first<{ count: number }>();
     await env.DB.prepare(SQL.purgeRate).bind(day).run();
-    return (row?.count ?? 0) > RATE_LIMIT_PER_DAY;
+    return (row?.count ?? 0) > limit;
   } catch (err) {
     console.error('[report-rate]', err instanceof Error ? err.message : String(err));
     return false;
