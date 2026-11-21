@@ -1,0 +1,5929 @@
+{
+  "generatedAt": "2026-11-21T14:10:53.478Z",
+  "day": "2026-11-21",
+  "circuitBreaker": false,
+  "circuitBreakerReason": null,
+  "actions": [
+    {
+      "id": "ar-expo-radio-fm-94-3",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "br-radio-brasil-2000",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "tt-woods-hit-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "ar-antena-libre-89-1-argentina-universidad-conahue",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "ar-fm-alas-106-9",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "br-planeta-reggae",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "es-rock-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "ph-dwje-88-1-fm-radyo-pangasinan",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "ar-radiotv-an24",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "ar-simphony-san-isidro-fm-91-3-mhz",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "br-aranas-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "nl-freak-radio-nl",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "ar-revuelto-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "es-trespatines-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "tr-power-fm-turkiye",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "ar-fm-del-viento-97-7",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "ar-nqp-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "cn-station-c0026cc9",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "co-discorumba-95-4-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "es-radio-kvrruf",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "it-astarbene",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "it-relax-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "mx-el-viejon-torreon-99-5-fm-torreon-coahuila",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "ph-90-7-radyo-oragon-legazpi",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "us-dse-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "cn-station-84d0ec1f",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "hu-streamx-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "il-ze-rock-radio",
+      "action": "swap-url",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "newUrl": "https://rocky.kupernet.com/stream",
+      "newCodec": "MP3",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21 · RB url_resolved probes ok"
+    },
+    {
+      "id": "ph-manila-wave-radio-2",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "tr-slow-turk",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "us-yes-fm-worship",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "ar-radio-power-100-3",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "au-todays-country-94one-gosford-94-1-fm-aac",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "br-mix-fm-porto-alegre",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "es-radio-genil",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "gb-greatest-hits-radio-devon",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "pl-radio-dj-andreas",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-bakkenroll-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-tailgate-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "ar-una-radio-muchas-voces",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "ca-amazing-discoveries-tv",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "cn-station-ea4080c4",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "fr-mistral-fm-marseille",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "gb-lyca-dil-se-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "gb-radio-reverb",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "in-radio-khushkhabri",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "ru-kazak-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "ru-kids-hits",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "us-big-615",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "us-kzuu",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "us-power-104-1-the-source",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "cn-live",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/dx5ycbq2vc9uv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 217
+      },
+      "reason": "HTTP 401 ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "es-radio-bluesflac",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://audio-edge-jfbmv.sin.d.radiomast.io/radioblues-flac?t=nightvision%3Fs%3D88baf5be-4b2d-416a-afc6-b0d9be7c9f1e&cachebuster=5213503296919065",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 417
+      },
+      "reason": "tls ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "in-ilayaraja-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://psrlive2.listenon.in/ir?ah=0e81749e37789e5fb8c290926ce87e3f",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ro-blaj-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://ssl.asculta.live:8016/",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 882
+      },
+      "reason": "tls ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-light-truth-radio-network",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://audio-edge-jfbmv.sin.d.radiomast.io/c66c5770-cd6f-46cd-884d-bd7dbda7da9a?t=dark",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 432
+      },
+      "reason": "tls ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-wzrv-the-river-95-3-front-royal-va",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://crystalout.surfernetwork.com:8001/WZRV_MP3",
+        "s": 503,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 470
+      },
+      "reason": "HTTP 503 ×12 · 2026-11-10→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-k2-radio-96-3-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9568/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 180
+      },
+      "reason": "HTTP 502 ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "br-radio-nacional-da-memoria-adventista",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream-178.zeno.fm/m3ytuubv0uhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtM3l0dXVidjB1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoieFdraFRhRm9RQmEwNjNvUEVrR0F6QSIsImlhdCI6MTc2ODQ1NTYwMCwiZXhwIjoxNzY4NDU1NjYwfQ.Of0Jsy6UULPCNYaDimCmYpf65l1Qtb4_PK3m4F33kBw",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 427
+      },
+      "reason": "HTTP 401 ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ca-ckxl-fm-91-1-envol-fm-saint-boniface-mb",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://stream03.ustream.ca/ckxl128.mp3",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 121
+      },
+      "reason": "tls ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "cn-sao-fm-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/98nz8aq2vc9uv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 189
+      },
+      "reason": "HTTP 401 ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "id-damu-lumajang",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "reset"
+      },
+      "edge": {
+        "url": "https://stream.radiodakwahmustofa.com:8724/damu",
+        "s": 525,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 525",
+        "ms": 1175
+      },
+      "reason": "reset ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "jp-hitsujikai-radio-shepherd-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://streaming.radio.co/se4a8e6a93/low",
+        "s": 403,
+        "ct": "text/html",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 403",
+        "ms": 645
+      },
+      "reason": "HTTP 403 ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-la-rancherita-del-aire-580-piedras-negras-580-am",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://enlinea-r1.rancherita.com.mx/listen/rancherita_del_aire/radio.mp3",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 477
+      },
+      "reason": "tls ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-theatre",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream-177.zeno.fm/vgt88vsux2quv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2Z3Q4OHZzdXgycXV2IiwiaG9zdCI6InN0cmVhbS0xNzcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InhwaW5KMHJxUk1xZGhiQ25DQ0s2d2ciLCJpYXQiOjE3Njk4MTM2OTUsImV4cCI6MTc2OTgxMzc1NX0.K3Ve-Hj8kJHn_hvGnqEAXOoOOHfYFJVlzQ8NCHrb_HI",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 362
+      },
+      "reason": "HTTP 401 ×11 · 2026-11-11→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-am-cumbre-1400",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9366/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 171
+      },
+      "reason": "HTTP 502 ×10 · 2026-11-12→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-fm-en-transito",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9110/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 91
+      },
+      "reason": "HTTP 502 ×10 · 2026-11-12→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "id-istara-fm-surabaya",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://live.radioistara.com/listen/radioistara/radioistara",
+        "s": 525,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 525",
+        "ms": 542
+      },
+      "reason": "tls ×10 · 2026-11-12→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "nl-que-brille-800",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9050/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 186
+      },
+      "reason": "HTTP 502 ×10 · 2026-11-12→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-fm-del-viento-104-9",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9125/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 96
+      },
+      "reason": "HTTP 502 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "bo-el-derribador-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://sc10.conectarhosting.com/proxy/derribadorradio/;",
+        "s": 520,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 520",
+        "ms": 144
+      },
+      "reason": "network ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "cl-boogaclub",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/777prr0xfm8uv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 150
+      },
+      "reason": "HTTP 401 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gb-jingle-ark-jingle-jukebox",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/6q0ftbdzk2zuv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 120
+      },
+      "reason": "HTTP 401 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gr-ecobeat-gr",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/quy1b86vgkhvv?acu-uid=727435602967&triton-uid=cookie%3A83ca5b14-582e-4c12-a5ab-255cdb39e2cb",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 120
+      },
+      "reason": "HTTP 401 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gr-merakia-gr",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/r4k1wdsshkhvv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 50
+      },
+      "reason": "HTTP 401 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "in-harris-jayaraj-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://psrlive2.listenon.in/hjr?ah=0e81749e37789e5fb8c290926ce87e3f",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ro-play-90-s",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://live.playradio.org:9090/90HD",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-audio-theater",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zenolive.com/vgt88vsux2quv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 214
+      },
+      "reason": "HTTP 401 ×9 · 2026-11-13→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "br-radio-pirafm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/zyvh88ftvxhvv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 120
+      },
+      "reason": "HTTP 401 ×8 · 2026-11-14→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gb-80s-music-station-mp3",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/1fm38n8f74zuv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 153
+      },
+      "reason": "HTTP 401 ×8 · 2026-11-14→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-revolution-93-5",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://centova87.shoutcastservices.com/proxy/revolution935/stream",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 976
+      },
+      "reason": "HTTP 401 ×8 · 2026-11-14→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-somafm-left-coast-70s-128k-aac",
+      "action": "swap-url",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "newUrl": "https://ice5.somafm.com/seventies-128-aac",
+      "newCodec": "AAC",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://ice6.somafm.com/seventies-128-aac",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "HTTP 403 ×8 · 2026-11-14→2026-11-21 · edge agrees · RB url_resolved probes ok"
+    },
+    {
+      "id": "us-zvibez-z103-kftz-web-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://ice26.securenetsystems.net/KFTZ3?playSessionID=CA0E8C00-E4EC-DB3D-1A31E1D8FC872F93",
+        "s": 403,
+        "ct": "text/html",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 403",
+        "ms": 831
+      },
+      "reason": "HTTP 403 ×8 · 2026-11-14→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-antena-libre-89-1-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9140/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 96
+      },
+      "reason": "HTTP 502 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-radio-2",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9056/stream?_=1680ada412b",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 96
+      },
+      "reason": "HTTP 502 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-radio-universidad-rosario",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9202/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 96
+      },
+      "reason": "HTTP 502 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ca-nuxalk-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "reset"
+      },
+      "edge": {
+        "url": "https://openbroadcaster.nuxalkradio.com/",
+        "s": 525,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 525",
+        "ms": 440
+      },
+      "reason": "reset ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gr-merakia",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream-57.zeno.fm/r4k1wdsshkhvv?zs=1oZXErYwSLei_qvBzZxyag&acu-uid=727435602967&triton-uid=cookie%3A83ca5b14-582e-4c12-a5ab-255cdb39e2cb",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 314
+      },
+      "reason": "HTTP 401 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "it-radio-studio-one",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://be.server89.com:10998/stream",
+        "s": 520,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 520",
+        "ms": 418
+      },
+      "reason": "network ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "lt-leproradio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://live.leproradio.com/bender.ogg",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 487
+      },
+      "reason": "tls ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-100-9-fm-morelia",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66a12d64d964f0fc279848a4/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 62
+      },
+      "reason": "HTTP 400 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-93-1-fm-coatzacoalcos",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66a01c0328071626dc3e6971/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 49
+      },
+      "reason": "HTTP 400 ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "se-retro-fm-skane",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://live-bauerse-fm.sharp-stream.com/retrofm_aacp",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×7 · 2026-11-15→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-radiovision-comodoro-rivadavia-fm-99-5",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9061/stream?in_device_id=wp-5270c502-0535-444e-975b-d49592d1d988",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 97
+      },
+      "reason": "HTTP 502 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-undinamo",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9339/stream?in_device_id=WPU32ffbfaa3cd8ebaaa8f64ec868bf4b88XY177fdfd79a7",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 98
+      },
+      "reason": "HTTP 502 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gr-loop",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://eu2.fastcast4u.com/proxy/loopradiostation?mp=/;",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 633
+      },
+      "reason": "HTTP 502 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "in-hot-now-bangla",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "tls"
+      },
+      "edge": {
+        "url": "https://stream.radiotreetal.com/listen",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 68
+      },
+      "reason": "tls ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-88-5-veracruz-88-5-fm-xhil-fm-grupo-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66a0112844d3c94ecf11dd96/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 59
+      },
+      "reason": "HTTP 400 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-96-3-fm-hermosillo-c76cb855",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66ad356de8f3b93d2da94362/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 53
+      },
+      "reason": "HTTP 400 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-98-9-fm-ciudad-del-carmen",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66a3e88f19acc1b9d1487ec0/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 55
+      },
+      "reason": "HTTP 400 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ph-93-5-city-radio",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://cdnstream1.typicalmedia.net/yourradio",
+        "s": 503,
+        "ct": "text/html",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 372
+      },
+      "reason": "HTTP 503 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ph-star-fm-davao",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/sdtv271nz9duv",
+        "s": 503,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 186
+      },
+      "reason": "HTTP 503 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "tr-radyo-nese",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://radyo.yayindakiler.com:2042/",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 951
+      },
+      "reason": "HTTP 401 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-somafm-n5md-128k-aac",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://ice6.somafm.com/n5md-128-aac",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "HTTP 403 ×6 · 2026-11-16→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-malva-fm-general-pico",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9310/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 98
+      },
+      "reason": "HTTP 502 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ar-radio-del-mar-98-7",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://cdn.instream.audio/:9051/stream",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 98
+      },
+      "reason": "HTTP 502 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "at-styrialounge",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://styrialounge.out.airtime.pro/styrialounge_a",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 1790
+      },
+      "reason": "HTTP 401 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "cn-station-e2dd722a",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://live.ximalaya.com/radio-first-page-app/live/1692/64.m3u8?transcode=ts",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "HTTP 403 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "gr-93",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 502"
+      },
+      "edge": {
+        "url": "https://tls-chrome.live24.gr/895?http://server.insms.gr:45124/;listen.pls",
+        "s": 502,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 502",
+        "ms": 1274
+      },
+      "reason": "HTTP 502 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "iq-radio-duhok-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 401"
+      },
+      "edge": {
+        "url": "https://stream-149.zeno.fm/unwq3jdyhmbuv",
+        "s": 401,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 401",
+        "ms": 241
+      },
+      "reason": "HTTP 401 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-el-viejon-torreon-99-5-fm-xhgz-fm-gps-media-torr",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/lhvgzgkoofstv",
+        "s": 503,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 210
+      },
+      "reason": "HTTP 503 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-love-fm-103-7-veracruz-103-7-fm-xhcs-fm-grupo-ra-3c360903",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66a01759c5aa2b85d66b5933/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 145
+      },
+      "reason": "HTTP 400 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "mx-maxima-97-5-fm-cancun",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 400"
+      },
+      "edge": {
+        "url": "https://mdstrm.com/audio/66e9d6ccaefe12962688efb9/live.m3u8",
+        "s": 400,
+        "ct": "application/json; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 400",
+        "ms": 95
+      },
+      "reason": "HTTP 400 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ph-star-fm-dipolog",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/qd45x88q0y5tv.aac",
+        "s": 503,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 337
+      },
+      "reason": "HTTP 503 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ro-play-radio-91-6",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://live.playradio.org:9090/FMHD",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ro-play-urban",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://live.playradio.org:9090/UrbanHD",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "ro-voces-campi-calarasi",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://vocescampi.ro:8443/;",
+        "s": 523,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 523",
+        "ms": 2258
+      },
+      "reason": "network ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-kesj-joetown-107-5",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://prod-3-84-209-199.amperwave.net/eagleradio-kesjammp3-ibc4?session-id=e524c1d5da595256b7a4abe9ad80add9",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-pistonsgame2",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://prod-34-229-192-218.amperwave.net/audacy-wxytfmaac-hlsc.m3u8/?z=1d22f4bd761b4dd48fe175aa561ba0f7&p=1",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-somafm-groove-salad-16k-aac",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://ice1.somafm.com/groovesalad-16-aac",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8001
+      },
+      "reason": "HTTP 403 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "us-somafm-vaporwaves-128k-aac",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 403"
+      },
+      "edge": {
+        "url": "https://ice6.somafm.com/vaporwaves-128-aac",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "HTTP 403 ×5 · 2026-11-17→2026-11-21 · edge agrees"
+    },
+    {
+      "id": "br-radio-mega-87-9-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "fr-tempo-62",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "mx-la-ke-buena-tlaltenango-zacatecas-90-1-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-12",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-12→2026-11-21"
+    },
+    {
+      "id": "rs-rock-radio-beograd",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-12",
+        "last": "2026-11-14",
+        "d": null
+      },
+      "reason": "ok ×3 · 2026-11-12→2026-11-14"
+    },
+    {
+      "id": "do-yarah-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "gb-festive365-mp3",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "gr-98",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "pl-radio-wiatraczek",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "us-wcuc-91-7-clarion-pa",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-13",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-13→2026-11-21"
+    },
+    {
+      "id": "be-best-oldies-radio-bor",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "be-pink",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "cl-radio-sol-classic",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-14",
+        "last": "2026-11-16",
+        "d": null
+      },
+      "reason": "ok ×3 · 2026-11-14→2026-11-16"
+    },
+    {
+      "id": "cr-radio-revolucion",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "de-strul-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "tr-ses-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-14",
+        "last": "2026-11-21",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×8 · 2026-11-14→2026-11-21"
+    },
+    {
+      "id": "dk-radio-flr",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "gb-oc-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "audio/aac; charset=utf-8"
+      },
+      "reason": "audio/aac; charset=utf-8 ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "id-radio-4-you-tv",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "application/vnd.apple.mpegurl"
+      },
+      "reason": "application/vnd.apple.mpegurl ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "ro-radio-oradea",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-15",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-15→2026-11-21"
+    },
+    {
+      "id": "au-the-buzzz",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "gb-dance-classics-uk",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "audio/aac; charset=utf-8"
+      },
+      "reason": "audio/aac; charset=utf-8 ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "gb-electric-circus",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "ro-radio-romanian-dance",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "us-radio-perolito",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 6,
+        "first": "2026-11-16",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×6 · 2026-11-16→2026-11-21"
+    },
+    {
+      "id": "br-radio-cnn",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "ca-ckc455-91-9-cfre-radio-university-of-toronto-mis",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "es-radio-cornella",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "gr-ikaria",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "gr-radio-cafe",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "lk-sitha-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "ru-chansonuncensored",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "ru-station-30c38245",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "ru-station-a26ef8af",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "us-fernley-nv-noaa-weather-radio-wwg20",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "us-radio-cafe-lepa-eeuu-fono-16787704169-dj-monkey",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×5 · 2026-11-17→2026-11-21"
+    },
+    {
+      "id": "au-highland-fm-bowral-107-1-fm-aac",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/aac"
+      },
+      "reason": "audio/aac ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "br-radio-gospel-hits",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "br-radio-ministerio-cristo-pleno",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "cn-station-6e7e309a",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "gb-nitro-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "mx-la-bonita-del-norte-rio-grande-92-7-fm-xhprgz-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "tw-1940-s-shanghai-vintage-jazz-shidaiqu-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-100-7-wrdu",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-105-7-wvbz-real-rock",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-96-3-wrov-the-rock-of-virginia",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "us-atlanta-96-rock",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-18",
+        "last": "2026-11-21",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×4 · 2026-11-18→2026-11-21"
+    },
+    {
+      "id": "bo-radio-gente",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "cn-asiafm-b0529003",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "gr-ert-christmas-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "ru-station-9bacc304",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "ua-station-7854411c",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-19",
+        "last": "2026-11-21",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-19→2026-11-21"
+    },
+    {
+      "id": "id-radioqu-bogor",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-10-02",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×10 · 2026-10-02→2026-11-21"
+    },
+    {
+      "id": "es-radio-andalucia-informacion-sevilla",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-16",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-07→2026-11-16"
+    },
+    {
+      "id": "fr-radio-top-side",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "gr-akous-80s",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "it-united-music-italia-2000",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "mx-w-radio-100-9-tampico-100-9-fm-xhs-fm-grupo-as-c",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "pl-radio-bezpieczna-podroz-2",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "pl-u-radio-trance",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-07",
+        "last": "2026-11-18",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-07→2026-11-18"
+    },
+    {
+      "id": "ae-tick-tock-radio-1957",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "bs-103-the-beat",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×8 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "cy-mixfm-cyprus",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "fi-yle-x3m-f8682eca",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-breeze",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-domotel-deluxe",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-gazi",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-ti-amo-international",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "dns"
+      },
+      "reason": "dns ×11 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ng-adamimogo-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ru-amg-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ua-west-pole-64k-aac",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "uy-radio-prado-sur",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ca-92-citi-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 18,
+        "first": "2026-10-09",
+        "last": "2026-11-16",
+        "d": "not-image"
+      },
+      "reason": "not-image ×18 · 2026-10-09→2026-11-16"
+    },
+    {
+      "id": "gb-retro-soul-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "io-tick-tock-radio-1994",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "nl-40up-320k-stream",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "sa-alifalif-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "us-hawaii-reggae-network",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×9 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "ae-tick-tock-radio-1964",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "ae-tick-tock-radio-2003",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "br-br-schlager",
+      "action": "review",
+      "auto": false,
+      "tier": "curated",
+      "proposed": "unpublish",
+      "from": "working",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-11-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×12 · 2026-11-10→2026-11-21"
+    },
+    {
+      "id": "se-mix-megapol",
+      "action": "review",
+      "auto": false,
+      "tier": "curated",
+      "proposed": "unpublish",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-11-11",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×11 · 2026-11-11→2026-11-21"
+    },
+    {
+      "id": "es-cadena-100",
+      "action": "review",
+      "auto": false,
+      "tier": "curated",
+      "proposed": "unpublish",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-11-17",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×5 · 2026-11-17→2026-11-21"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "ae-exclusively-dean-martin",
+      "why": "cap"
+    },
+    {
+      "id": "ae-fun-radio-for-kids-bedtime-stories",
+      "why": "cap"
+    },
+    {
+      "id": "ae-tick-tock-radio-1951",
+      "why": "cap"
+    },
+    {
+      "id": "ae-tick-tock-radio-1963",
+      "why": "cap"
+    },
+    {
+      "id": "ae-tick-tock-radio-1990",
+      "why": "cap"
+    },
+    {
+      "id": "ae-tick-tock-radio-2024",
+      "why": "cap"
+    },
+    {
+      "id": "ar-am-550-la-primera",
+      "why": "cap"
+    },
+    {
+      "id": "ar-blend-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ar-delta-90-3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "ar-expo-radio-fm-94-3",
+      "why": "cap"
+    },
+    {
+      "id": "ar-fm-angel-94-3",
+      "why": "cap"
+    },
+    {
+      "id": "ar-frecuencia-arena-98-3",
+      "why": "cap"
+    },
+    {
+      "id": "ar-gospel-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ar-la-conquista-del-pan",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ar-net80-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ar-radio-patagonia-puerto-madryn-fm-105-5",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "at-antenne-karnten-sunrise",
+      "why": "cap"
+    },
+    {
+      "id": "at-emap-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "at-her-st-propaganda-broadcast",
+      "why": "cap"
+    },
+    {
+      "id": "au-2-oceans-fm-augusta",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "au-2bbb-bellingen",
+      "why": "cap"
+    },
+    {
+      "id": "au-2me-radio-arabic",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "au-3rrr-triple-r-102-7-fm-melbourne-vic-low-bitrate",
+      "why": "cap"
+    },
+    {
+      "id": "au-christmas-hope",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "au-hope-103-2-sydney",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "au-northside-radio-99-3",
+      "why": "cap"
+    },
+    {
+      "id": "au-the-engineered-network",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "az-autolife-azerbaijan",
+      "why": "cap"
+    },
+    {
+      "id": "ba-rvk",
+      "why": "cap"
+    },
+    {
+      "id": "be-ck-bleu",
+      "why": "cap"
+    },
+    {
+      "id": "be-noordzee-gold",
+      "why": "cap"
+    },
+    {
+      "id": "be-radio-zoe-gold",
+      "why": "cap"
+    },
+    {
+      "id": "be-vrt-radio-2-vlaams-brabant",
+      "why": "cap"
+    },
+    {
+      "id": "be-xbeat",
+      "why": "cap"
+    },
+    {
+      "id": "be-zoe-fm",
+      "why": "cap"
+    },
+    {
+      "id": "bg-arhea-org",
+      "why": "cap"
+    },
+    {
+      "id": "bq-club-de-daltons",
+      "why": "cap"
+    },
+    {
+      "id": "br-liberal-fm-92-7",
+      "why": "cap"
+    },
+    {
+      "id": "br-planeta-reggae",
+      "why": "cap"
+    },
+    {
+      "id": "br-r-vale-verde-fm-96-66",
+      "why": "cap"
+    },
+    {
+      "id": "br-radio-essencia-gospel",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "br-radio-impacto-web",
+      "why": "cap"
+    },
+    {
+      "id": "br-radio-metropolitana-98-5-fm-light",
+      "why": "cap"
+    },
+    {
+      "id": "br-radio-soul-one",
+      "why": "cap"
+    },
+    {
+      "id": "ca-102-3-juice-fm-grand-forks-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-allsound-radio-aac-64k",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cariboo-country",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cfbv-the-moose-870-smithers-106-5-houston-760-bu",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cffm-the-goat-97-5-williams-lake-99-7-100-mile-h",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cfpw-95-7-coast-fm-powell-river-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-chmt-93-1-country-fm-timmins-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-chpb-98-1-moose-fm-cochrane-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ciok-100-5-k-100-saint-john-nb",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ciqc-fm-99-7-the-river-campbell-river-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cirx-fm-94-3-the-goat-prince-george-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-citr-101-9-university-of-british-columbia-vancou",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ciws-fm-102-9-whistle-fm-stoufville-on-alternati",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cjjm-99-3-moose-fm-espanola-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cjoc-94-1-classic-hits-lethbridge-ab",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckap-100-9-moose-fm-kapuskasing-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckay-91-7-coast-fm-nanaimo-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cklm-106-1-fm-the-goat-lloydminster-ab",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckng-fm-the-chuck-92-5-edmonton-ab-mp3-stream",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "ca-cknr-94-1-moose-fm-elliot-lake-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckrd-fm-90-5-shine-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckvv-97-5-juice-fm-kemptville-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckxl-fm-91-1-envol-fm-saint-boniface-mb",
+      "why": "cap"
+    },
+    {
+      "id": "ca-radio-happysound",
+      "why": "cap"
+    },
+    {
+      "id": "ca-the-road-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ci-trace-fm-cote-d-ivoire",
+      "why": "cap"
+    },
+    {
+      "id": "cl-alta-fidelidad-radio",
+      "why": "cap"
+    },
+    {
+      "id": "cl-radio-club-80-euro-flac",
+      "why": "cap"
+    },
+    {
+      "id": "cl-yamato",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-921",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-asiafm-1328e18b",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-big-big-mix",
+      "why": "cap"
+    },
+    {
+      "id": "cn-fm105-6-01a3d706",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-04294868",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-06a4c360",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-17ad568d",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-1e7e3b41",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-200ced17",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-3908981f",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-3ec2a2c8",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-680542fa",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-73d5fb45",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-7f0d6d5c",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-80f1e70f",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-85f67071",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-90b2c619",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-9b795181",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-a8d50b84",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-c25a1f25",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-c6d695ce",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-e07fb62f",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cn-station-e82e055c",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-e9a41c0f",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "co-123vallenato",
+      "why": "cap"
+    },
+    {
+      "id": "co-nueva-era-algeciras-sterio-107-8-fm",
+      "why": "cap"
+    },
+    {
+      "id": "co-rosarena-stereo-93-1-fm",
+      "why": "cap"
+    },
+    {
+      "id": "co-supajamz-radio",
+      "why": "cap"
+    },
+    {
+      "id": "cy-ccn",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cy-enerji",
+      "why": "cap"
+    },
+    {
+      "id": "cy-mix-fm-cyprus-hls",
+      "why": "cap"
+    },
+    {
+      "id": "cy-politis-107-6-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cy-station",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cz-impuls",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "cz-radio-ostravan",
+      "why": "cap"
+    },
+    {
+      "id": "cz-radio-otava",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cz-radio-samson",
+      "why": "cap"
+    },
+    {
+      "id": "de-antenne-koblenz",
+      "why": "cap"
+    },
+    {
+      "id": "de-antenne-thuringen-live-on-air",
+      "why": "cap"
+    },
+    {
+      "id": "de-ballermann-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-ballermann-radio-ab-18",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-ballermann-radio-club-style",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-ballermann-radio-top-40",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-deutschrock",
+      "why": "cap"
+    },
+    {
+      "id": "de-die-neue-zeit",
+      "why": "cap"
+    },
+    {
+      "id": "de-electro-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-hit-radio-ffh-party",
+      "why": "cap"
+    },
+    {
+      "id": "de-hit-radio-ffh-schlagerkult-96319089",
+      "why": "cap"
+    },
+    {
+      "id": "de-ice-radio-waldkraiburg-6-club-dance",
+      "why": "cap"
+    },
+    {
+      "id": "de-krawallradio",
+      "why": "cap"
+    },
+    {
+      "id": "de-kuschelrock",
+      "why": "cap"
+    },
+    {
+      "id": "de-leas-s-fox-schlager",
+      "why": "cap"
+    },
+    {
+      "id": "de-myhitmusic-mr-groove-soul-funk-radio",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-cafe-zimmermann",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-hbr",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-kartina",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-nww",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-osnabruck",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-paloma-partyschlager",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-seefunk-disco",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-teddy-deutschpop-nonstop",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-teddy-livestream",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-teddy-thuringen",
+      "why": "cap"
+    },
+    {
+      "id": "de-radiobaj-live",
+      "why": "cap"
+    },
+    {
+      "id": "de-reyfm-kpop",
+      "why": "cap"
+    },
+    {
+      "id": "de-reyfm-lofi",
+      "why": "cap"
+    },
+    {
+      "id": "de-reyfm-lofi-2",
+      "why": "cap"
+    },
+    {
+      "id": "de-reyfm-original",
+      "why": "cap"
+    },
+    {
+      "id": "de-reyfm-xmas",
+      "why": "cap"
+    },
+    {
+      "id": "de-rsmusic",
+      "why": "cap"
+    },
+    {
+      "id": "de-wkdafm",
+      "why": "cap"
+    },
+    {
+      "id": "de-wolke7",
+      "why": "cap"
+    },
+    {
+      "id": "de-xjazz-electronic-improvisation",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "de-xjazz-movin-grooves",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "dk-80-s-hits",
+      "why": "cap"
+    },
+    {
+      "id": "dk-limfjord-slager",
+      "why": "cap"
+    },
+    {
+      "id": "dk-mix-fm-gribskov-retro-nord",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "do-canal-105-1-fm",
+      "why": "cap"
+    },
+    {
+      "id": "do-disco-89-88-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-canela-guayas",
+      "why": "cap"
+    },
+    {
+      "id": "ec-canela-pichincha",
+      "why": "cap"
+    },
+    {
+      "id": "ec-contigo-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-la-chismosa",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-106-5-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-el-oro-100-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-imbabura-92-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-morona-santiago-91-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-napo-106-1-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-pichincha-106-5-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-dj-s-retro",
+      "why": "cap"
+    },
+    {
+      "id": "es-activate-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-alpicat-radio",
+      "why": "cap"
+    },
+    {
+      "id": "es-canal-sur-radio-andalucia",
+      "why": "cap"
+    },
+    {
+      "id": "es-classic-rock-granada",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-coast-fm-tenerife-spain",
+      "why": "cap"
+    },
+    {
+      "id": "es-doble-v-radio-107-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "es-fiesta-fm-87-6",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-flamenco-radio",
+      "why": "cap"
+    },
+    {
+      "id": "es-gameover-music-radio",
+      "why": "cap"
+    },
+    {
+      "id": "es-gameover-music-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-ibiza-organica",
+      "why": "cap"
+    },
+    {
+      "id": "es-jfk-radio-ibiza",
+      "why": "cap"
+    },
+    {
+      "id": "es-la-jungla-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-la-mega-costa-del-sol",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-lounge-radio-ibiza",
+      "why": "cap"
+    },
+    {
+      "id": "es-nostalgia",
+      "why": "cap"
+    },
+    {
+      "id": "es-onda-mencia-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-onda-sevilla-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-onda-valencia-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-90-320k",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-albolote",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-albolote",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-alhendin-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-argayo",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-despi",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-estepona-costa-del-sol",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-flow",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-radio-matorral",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-planeta-costa-del-sol",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-tirso-libertaria",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-tirso-libertaria",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-rumberos-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-sonaos-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-verbena-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "es-vilassar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "fi-top51",
+      "why": "cap"
+    },
+    {
+      "id": "fi-yle-radio-suomi-kuopio",
+      "why": "cap"
+    },
+    {
+      "id": "fi-yle-radio-suomi-mikkeli",
+      "why": "cap"
+    },
+    {
+      "id": "fi-yle-vega-vastnyland",
+      "why": "cap"
+    },
+    {
+      "id": "fr-breniges-fm",
+      "why": "cap"
+    },
+    {
+      "id": "fr-c-lab",
+      "why": "cap"
+    },
+    {
+      "id": "fr-cave-carli-radio",
+      "why": "cap"
+    },
+    {
+      "id": "fr-dhectar",
+      "why": "cap"
+    },
+    {
+      "id": "fr-france-bleu-gard-lozere",
+      "why": "cap"
+    },
+    {
+      "id": "fr-generations-la-fouine",
+      "why": "cap"
+    },
+    {
+      "id": "fr-heavy1",
+      "why": "cap"
+    },
+    {
+      "id": "fr-jazz-radio-stax-and-motown",
+      "why": "cap"
+    },
+    {
+      "id": "fr-m40-by-oskana",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-boom-boom",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-deja-vu",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-pitchoun",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-saint-louis",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-sud-besancon",
+      "why": "cap"
+    },
+    {
+      "id": "gb-97-country-fm",
+      "why": "cap"
+    },
+    {
+      "id": "gb-north-manchester-fm",
+      "why": "cap"
+    },
+    {
+      "id": "gb-radioalfa15-latin-hits",
+      "why": "cap"
+    },
+    {
+      "id": "gb-rookwood-sound",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "gb-sanskar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gb-vdub-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gb-wrexham-premier-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ge-radio-imedi",
+      "why": "cap"
+    },
+    {
+      "id": "gf-guyane-1ere",
+      "why": "cap"
+    },
+    {
+      "id": "gr-1st-greek-hits-flac-non-stop-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gr-1st-greek-new-age-flac-radio-aac-320kbps",
+      "why": "cap"
+    },
+    {
+      "id": "gr-88-6-kanali-20",
+      "why": "cap"
+    },
+    {
+      "id": "gr-98-7",
+      "why": "cap"
+    },
+    {
+      "id": "gr-ble-93-1",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "gr-blue-space-107-2-fm-athens",
+      "why": "cap"
+    },
+    {
+      "id": "gr-blueswave-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gr-city-106-1",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "gr-cosmotrance-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "gr-derti-90-5",
+      "why": "cap"
+    },
+    {
+      "id": "gr-mavento",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "gr-music-89-2",
+      "why": "cap"
+    },
+    {
+      "id": "gr-nova-92-1",
+      "why": "cap"
+    },
+    {
+      "id": "gr-radio-locomotiva",
+      "why": "cap"
+    },
+    {
+      "id": "gr-radioin-hellas",
+      "why": "cap"
+    },
+    {
+      "id": "gr-tyflos-gr",
+      "why": "cap"
+    },
+    {
+      "id": "gt-estereo-solar-104-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "gt-nueva-fabuestereo-88-1fm-y-quetzaltenango-89-5fm",
+      "why": "cap"
+    },
+    {
+      "id": "hk-station-cdfcd71c",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "hu-radio-ice",
+      "why": "cap"
+    },
+    {
+      "id": "hu-sarvar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "hu-szent-korona-radio",
+      "why": "cap"
+    },
+    {
+      "id": "hu-szent-korona-radio-forras",
+      "why": "cap"
+    },
+    {
+      "id": "id-101-4-fm-i-radio-jakarta",
+      "why": "cap"
+    },
+    {
+      "id": "id-imelda-fm",
+      "why": "cap"
+    },
+    {
+      "id": "id-kradio-hss",
+      "why": "cap"
+    },
+    {
+      "id": "id-radio-elshinta-surabaya",
+      "why": "cap"
+    },
+    {
+      "id": "id-radio-ichthus",
+      "why": "cap"
+    },
+    {
+      "id": "id-radio-kasih",
+      "why": "cap"
+    },
+    {
+      "id": "id-radio-kasih-045213c5",
+      "why": "cap"
+    },
+    {
+      "id": "id-sensasi-fm",
+      "why": "cap"
+    },
+    {
+      "id": "id-suara-pasuruan",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ie-8radio",
+      "why": "cap"
+    },
+    {
+      "id": "ie-trancepulse-dublin",
+      "why": "cap"
+    },
+    {
+      "id": "il-audioversity",
+      "why": "cap"
+    },
+    {
+      "id": "il-radio-90fm",
+      "why": "cap"
+    },
+    {
+      "id": "in-air-agra",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-air-coimbatore-a18a9640",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-air-tiruchirapalli",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-worldtoworldradio",
+      "why": "cap"
+    },
+    {
+      "id": "io-tick-tock-radio-1992",
+      "why": "cap"
+    },
+    {
+      "id": "it-deegay-club",
+      "why": "cap"
+    },
+    {
+      "id": "it-deegay-pop-dance",
+      "why": "cap"
+    },
+    {
+      "id": "it-fango-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "it-radio-antenna-uno-rock-station",
+      "why": "cap"
+    },
+    {
+      "id": "it-radio-cavolo",
+      "why": "cap"
+    },
+    {
+      "id": "it-radio-monte-carlo-fm",
+      "why": "cap"
+    },
+    {
+      "id": "it-radio-studio-delta-la-piu",
+      "why": "cap"
+    },
+    {
+      "id": "it-spore",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "it-traditional-christmas",
+      "why": "cap"
+    },
+    {
+      "id": "it-veronica-my-radio",
+      "why": "cap"
+    },
+    {
+      "id": "jp-fm-3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "kr-mbc-fm4u",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "lt-m-1-plius",
+      "why": "cap"
+    },
+    {
+      "id": "lt-radiocentras",
+      "why": "cap"
+    },
+    {
+      "id": "lv-radio-melodija",
+      "why": "cap"
+    },
+    {
+      "id": "maritima-fm-bo",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "melodia-bo",
+      "why": "cap"
+    },
+    {
+      "id": "mg-rnm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mu-mbc-taal-fm",
+      "why": "cap"
+    },
+    {
+      "id": "mu-oui-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-92-9-amor-mio-ensenada-92-9-fm-xhfzo-fm-grupo-uz",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-azul-radio-veracruz",
+      "why": "cap"
+    },
+    {
+      "id": "mx-buenavista-radio-102-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "mx-digital-106-5-saltillo-106-5-fm-xhzcn-fm-rcg-med",
+      "why": "cap"
+    },
+    {
+      "id": "mx-el-kuino-96-1-la-piedad-96-1-fm-xhplpm-fm-grupo-",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-inolvidable-jerez-90-7-fm-xhjrz-fm-grupo-radiofo",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-la-bestia-grupera-chihuahua-99-3-fm-xhrpc-fm-gru",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-invasora-104-9-fm-mexicali",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-la-k-pitana",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-que-buena-san-buenaventura-99-5-fm-xhsbt-fm-g",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-ranchera-de-cuauhtemoc-89-7-fm-xhdp-fm-grupo-",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-ranchera-de-paquime-90-5-fm-540-am-xhtx-fm-xe",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-tremenda-103-9-fm-zacoalco",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-maxima-96-3-fm-hermosillo-c76cb855",
+      "why": "cap"
+    },
+    {
+      "id": "mx-mexiquense-radio-zumpango-88-5-fm-xhzum-fm-siste",
+      "why": "cap"
+    },
+    {
+      "id": "mx-radio-formula-la-paz-97-5-fm-la-paz-baja-califor",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mx-radio-formula-merida-94-5-fm-merida-yucatan",
+      "why": "cap"
+    },
+    {
+      "id": "mx-soy-latina-radio",
+      "why": "cap"
+    },
+    {
+      "id": "mx-xejp-fm-joya-93-7-mexico-city-df",
+      "why": "cap"
+    },
+    {
+      "id": "mx-xevt-104-1-villahermosa-104-1-fm-xhvt-fm-telerep",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mz-radio-cidade-beira-105-2-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "mz-radio-mocambique-antena-nacional",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "na-energy-100-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ng-domi-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nl-40up-kbc-128k",
+      "why": "cap"
+    },
+    {
+      "id": "nl-candelight",
+      "why": "cap"
+    },
+    {
+      "id": "nl-candlelight",
+      "why": "cap"
+    },
+    {
+      "id": "nl-candlelight-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nl-mcb-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nl-oude-piraten-hits",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radio-1224",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radio-794",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "nl-radiobonita",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radion-jnd",
+      "why": "cap"
+    },
+    {
+      "id": "nl-real-hardstyle-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nl-sky-radio-90-s-hits",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "nl-smilefm",
+      "why": "cap"
+    },
+    {
+      "id": "nl-zap-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "nz-cfm-coromandel",
+      "why": "cap"
+    },
+    {
+      "id": "nz-mouthfull-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nz-radio-universo-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "pa-cht-fm-107-7",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "pe-mambo-inn-radio",
+      "why": "cap"
+    },
+    {
+      "id": "pe-radio-1550-la-radio-joven-huancayo-88-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "pe-radio-chocolate-rock-pop",
+      "why": "cap"
+    },
+    {
+      "id": "pe-zona-5-93-3",
+      "why": "cap"
+    },
+    {
+      "id": "ph-93-5-city-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ph-97-7-sweet-radio-santiago",
+      "why": "cap"
+    },
+    {
+      "id": "ph-aksyon-radyo-cebu",
+      "why": "cap"
+    },
+    {
+      "id": "pl-polskie-radio-nostalgia",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "pl-radio-warta",
+      "why": "cap"
+    },
+    {
+      "id": "pl-radio-zodiak",
+      "why": "cap"
+    },
+    {
+      "id": "pr-cumbre-1470-am-106-3-fm",
+      "why": "cap"
+    },
+    {
+      "id": "py-tropicalia-93-9fm",
+      "why": "cap"
+    },
+    {
+      "id": "ro-aripi-spre-cer-instrumental",
+      "why": "cap"
+    },
+    {
+      "id": "ro-rve-cluj-radio-vocea-evangheliei-cluj-napoca-88-",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-n-roll",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-altro",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-and-groovy",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-and-rave",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-champs-elysees",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-for-christmas",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-in-lounge",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-move",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-on-soundtrack",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-on-trend",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-oxford-street",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-street",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-smart-radio-smart-the-fusion",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-timibanat-eurodisco",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-timibanat-populara",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ro-trecator-romania",
+      "why": "cap"
+    },
+    {
+      "id": "ro-vip-romania",
+      "why": "cap"
+    },
+    {
+      "id": "rs-internet-radio-pingvin",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ru-ano",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ru-dfm-gangsta-deep",
+      "why": "cap"
+    },
+    {
+      "id": "ru-dfm-pop-dance",
+      "why": "cap"
+    },
+    {
+      "id": "ru-lightradio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ru-piano-worship",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ru-pump",
+      "why": "cap"
+    },
+    {
+      "id": "ru-radio-passazh",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "ru-relax-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ru-remix",
+      "why": "cap"
+    },
+    {
+      "id": "ru-rock-n-roll-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ru-rock-space-station",
+      "why": "cap"
+    },
+    {
+      "id": "ru-rtf",
+      "why": "cap"
+    },
+    {
+      "id": "ru-russian-pesni",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "ru-station-3a375798",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-4b00b585",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-50311707",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-698ab82f",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-733888b8",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-a08a8794",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-d3af2e99",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-d985390d",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-e375f9e6",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-fac17f19",
+      "why": "cap"
+    },
+    {
+      "id": "ru-zaycev-fm-pop",
+      "why": "cap"
+    },
+    {
+      "id": "se-bandit-alternative",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-bandit-classic-rock",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-bandit-metal",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-bandit-rock",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-dansbandskanalen",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-disco-54",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-go-country",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-hitmix90-s",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-hitzfm-97-8-sommenbygd",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-lugna-favoriter",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-power-club",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-power-hit-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-power-street",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-rix-fm-fresh",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-skargardsradion",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-soul-classics",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-star-80-s",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "se-star-fm-107-1",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "si-bam-bam-radio-all-shades-of-house",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "sk-radio-vlna",
+      "why": "cap"
+    },
+    {
+      "id": "sk-radio-vlna-golden-hits",
+      "why": "cap"
+    },
+    {
+      "id": "sk-radio-vlna-oldies-party",
+      "why": "cap"
+    },
+    {
+      "id": "soma-indie-pop",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "sv-restauracion-100-5-fm-mision-cristiana-elim",
+      "why": "cap"
+    },
+    {
+      "id": "tr-damarturk-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-moral-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-power-love",
+      "why": "cap"
+    },
+    {
+      "id": "tr-radyo-ekin",
+      "why": "cap"
+    },
+    {
+      "id": "tr-radyo-sahil",
+      "why": "cap"
+    },
+    {
+      "id": "tr-turkiyem-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tt-boom-94fm",
+      "why": "cap"
+    },
+    {
+      "id": "tz-radio-one-stereo",
+      "why": "cap"
+    },
+    {
+      "id": "ua-the-west-pole-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ua-west-pole-32k-aac",
+      "why": "cap"
+    },
+    {
+      "id": "ua-xradioua",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-011-fm-cruise-control-road-trip-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-103-5-102-9-the-vault",
+      "why": "cap"
+    },
+    {
+      "id": "us-104-9-funasia",
+      "why": "cap"
+    },
+    {
+      "id": "us-181-fm-rock-181",
+      "why": "cap"
+    },
+    {
+      "id": "us-2000-fm-chillin",
+      "why": "cap"
+    },
+    {
+      "id": "us-2000-fm-country",
+      "why": "cap"
+    },
+    {
+      "id": "us-2000-fm-top-40",
+      "why": "cap"
+    },
+    {
+      "id": "us-90-1-wmbt-the-wombat",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-93-1-kmkt-katy-country",
+      "why": "cap"
+    },
+    {
+      "id": "us-afterhours-fm-ah-fm-192k-mp3",
+      "why": "cap"
+    },
+    {
+      "id": "us-ampedout",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-big-r-radio-100-3-the-rock-mix",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-100-9-star-country",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-70s-and-80s-pop-mix",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-80s-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-80s-metal-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-90s-alternative-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-90s-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-alternative-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-christmas-classics",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-christmas-top40",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-coffee-house",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-country-gold",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-country-mix",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-erin-s-chill",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-golden-oldies",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-gospel-channel",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-grunge-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-new-r-b",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-post-grunge-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-rock-top-40",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-the-love-channel",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-the-wave",
+      "why": "cap"
+    },
+    {
+      "id": "us-canaan-sda-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-classic-rock-109",
+      "why": "cap"
+    },
+    {
+      "id": "us-classical-kusc",
+      "why": "cap"
+    },
+    {
+      "id": "us-edmcolorado-com-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-estereo-bendicion-104-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-freshradio-mp3",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-joe-harnett-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-kabl-960",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-kawc-arizona-community-radio-music",
+      "why": "cap"
+    },
+    {
+      "id": "us-kirtang-pirate-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-krje-89-9-fm-northeast-iowa-christian-radio",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-ktna-fm-88-9-talkeetna-ak",
+      "why": "cap"
+    },
+    {
+      "id": "us-kwon-am-1400",
+      "why": "cap"
+    },
+    {
+      "id": "us-kzzh-lp",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-la-movidita-1500-am",
+      "why": "cap"
+    },
+    {
+      "id": "us-magic-city-radio-wata-db",
+      "why": "cap"
+    },
+    {
+      "id": "us-new-oregon-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-noaa-weather-radio-dallas-texas-kec56",
+      "why": "cap"
+    },
+    {
+      "id": "us-nu-skool-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-patriot-radio-classics",
+      "why": "cap"
+    },
+    {
+      "id": "us-radio-arcane",
+      "why": "cap"
+    },
+    {
+      "id": "us-radio-free-texas",
+      "why": "cap"
+    },
+    {
+      "id": "us-shine-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-soma-bosa-nova",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-boot-liquor-128k-aac",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-deep-space-one-128k-mp3",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-deep-space-one-64k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-digitalis-128k-aac",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-drone-zone-256k-mp3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-dub-step-beyond-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-folk-forward-64k-aac",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-illinois-street-lounge-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-left-coast-70s-320k-mp3",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-sonic-universe-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-suburbs-of-goa-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-the-dark-zone",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-somafm-vaporwaves-128k-mp3",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "us-the-hairband-channel",
+      "why": "cap"
+    },
+    {
+      "id": "us-wdns-logo-d93-bowling-green-s-classic-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-wesm-91-3-princess-anne-md",
+      "why": "cap"
+    },
+    {
+      "id": "us-wild-94-3",
+      "why": "cap"
+    },
+    {
+      "id": "us-wjob-1230-am-104-7-fm-hammond-in",
+      "why": "cap"
+    },
+    {
+      "id": "us-wknr-850-cleveland",
+      "why": "cap"
+    },
+    {
+      "id": "us-wksu-news-channel-hd4-aac",
+      "why": "cap"
+    },
+    {
+      "id": "us-wovv-90-1-ocracoke-radio-nc",
+      "why": "cap"
+    },
+    {
+      "id": "us-wz2523-noaa-weather-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-x-94-9-reno",
+      "why": "cap"
+    },
+    {
+      "id": "us-xxx80s",
+      "why": "cap"
+    },
+    {
+      "id": "vu-buzz-fm-96-3",
+      "why": "cap"
+    },
+    {
+      "id": "za-aganang-fm",
+      "why": "cap"
+    }
+  ]
+}
