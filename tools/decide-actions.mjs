@@ -31,6 +31,7 @@ import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds
 import { classifyLogo, httpsVariant, probeLogo } from './lib/logo-probe.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 import { lenientProbe } from './playable-check.mjs';
+import { streamFingerprint } from './lib/dedupe-normalize.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const log = (msg) => console.error(`decide-actions: ${msg}`);
@@ -270,6 +271,21 @@ if (args.rb && !result.circuitBreaker) {
       .slice(0, args.maxRb);
     const swaps = new Map();
     let differing = 0;
+    let duplicating = 0;
+    // A swap onto a URL that fingerprints like another published row ships
+    // an incomplete collapse group and fails check-duplicates in CI (SomaFM
+    // bitrate siblings, 2026-11-14→21). Leave those to a curator.
+    const fpOwner = new Map();
+    for (const s of catalog) {
+      const fp = s?.id ? streamFingerprint(s.streamUrl) : '';
+      if (fp && !fpOwner.has(fp)) fpOwner.set(fp, s.id);
+      else if (fp && fpOwner.get(fp) !== s.id) fpOwner.set(fp, '*');
+    }
+    const duplicatesAnother = (id, url) => {
+      const fp = streamFingerprint(url);
+      const owner = fp ? fpOwner.get(fp) : undefined;
+      return owner !== undefined && owner !== id;
+    };
     if (bound.length) {
       const records = await fetchByUuid(bound.map((c) => c.uuid));
       const byUuid = new Map(records.map((r) => [r.stationuuid, r]));
@@ -278,6 +294,10 @@ if (args.rb && !result.circuitBreaker) {
         const candidate = typeof rb?.url_resolved === 'string' ? rb.url_resolved.trim() : '';
         if (!/^https:\/\//i.test(candidate) || candidate === streamUrlOf(id)) continue;
         differing += 1;
+        if (duplicatesAnother(id, candidate)) {
+          duplicating += 1;
+          continue;
+        }
         let verdict = null;
         try {
           verdict = await lenientProbe(candidate);
@@ -290,7 +310,8 @@ if (args.rb && !result.circuitBreaker) {
       }
     }
     result = { ...result, actions: applySwaps(result.actions, swaps) };
-    rbNote = `rb: looked up ${bound.length}, ${differing} with a different https url_resolved, ${swaps.size} swap(s)`;
+    rbNote = `rb: looked up ${bound.length}, ${differing} with a different https url_resolved, ` +
+      `${duplicating} would duplicate another row, ${swaps.size} swap(s)`;
   } catch (err) {
     rbNote = `rb: failed (${err.message}) — no swaps this run`;
     log(rbNote);

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  isProbeBlockedHost,
   decide,
   applySwaps,
   candidateEdgeIds,
@@ -129,6 +130,28 @@ describe('rule table', () => {
     expect(byId(r, 'c1').reason).toBe('HTTP 403 ×5 · 2026-09-04→2026-09-06 · edge disagrees');
     expect(byId(r, 'c2')).toMatchObject({ action: 'review', edge: null });
     expect(r.skipped).toEqual([]);
+  });
+
+  it('3a · soft streak on a probe-blocked host is skipped, even with a bad edge or curated tier', () => {
+    const soma = { streamUrl: 'https://ice2.somafm.com/seventies-128-mp3' };
+    const r = decide(
+      scenario({
+        s1: { streak: bad('soft', 8), tier: 'long-tail', detail: 'HTTP 403', edge: EDGE_BAD, yaml: soma },
+        s2: { streak: bad('soft', 8), tier: 'curated', detail: 'HTTP 403', yaml: soma },
+        s3: { streak: bad('hard', 3), tier: 'long-tail', detail: 'HTTP 404', yaml: soma },
+      }),
+    );
+    expect(skippedWhy(r, 's1')).toBe('probe-blocked-host');
+    expect(skippedWhy(r, 's2')).toBe('probe-blocked-host');
+    expect(byId(r, 's3')).toMatchObject({ action: 'unpublish', auto: true });
+  });
+
+  it('3a · isProbeBlockedHost matches the host and its subdomains only', () => {
+    expect(isProbeBlockedHost('https://ice6.somafm.com/x')).toBe(true);
+    expect(isProbeBlockedHost('https://somafm.com/x')).toBe(true);
+    expect(isProbeBlockedHost('https://notsomafm.com/x')).toBe(false);
+    expect(isProbeBlockedHost('not a url')).toBe(false);
+    expect(isProbeBlockedHost(undefined)).toBe(false);
   });
 
   it('4 · a fold canonical is skipped, whatever its tier — no flip can pass check-catalog', () => {
