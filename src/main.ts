@@ -155,7 +155,7 @@ import {
   ICON_PLUS,
   ICON_RECENT,
   ICON_SEARCH,
-  ICON_SHUFFLE,
+  ICON_SPARKLES,
   ICON_TRASH,
 } from './icons';
 import { isListQueue, resolveQueue, stepQueue, type QueueSource } from './queue';
@@ -1970,7 +1970,7 @@ function surpriseButton(className: string, labelled: boolean): HTMLButtonElement
   btn.type = 'button';
   btn.className = className;
   labelSurprise(btn);
-  btn.innerHTML = ICON_SHUFFLE;
+  btn.innerHTML = ICON_SPARKLES;
   if (labelled) {
     const lbl = document.createElement('span');
     lbl.textContent = 'Surprise me';
