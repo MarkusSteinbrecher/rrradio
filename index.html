@@ -248,11 +248,25 @@
         <!-- Funnel travels with the search (centred group); the gear is a
              standalone child pinned to the far right on every tab. -->
         <div class="toolbar">
+          <!-- Surprise me (#97): desktop-only pill right of the search; phones
+               keep it on the Browse landing (the top row has no room). main.ts
+               syncs its label to the active filter. -->
+          <button type="button" class="toolbar-btn topnav-surprise" id="surprise-btn" aria-label="Surprise me: play a random station" title="Play a random station">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4Q10.8 10.2 17 11Q10.8 11.8 10 18Q9.2 11.8 3 11Q9.2 10.2 10 4Z"/><path d="M18 2Q18.4 4.6 21 5Q18.4 5.4 18 8Q17.6 5.4 15 5Q17.6 4.6 18 2Z"/><path d="M19 15Q19.3 16.7 21 17Q19.3 17.3 19 19Q18.7 17.3 17 17Q18.7 16.7 19 15Z"/></svg>
+            <span>Surprise me</span>
+          </button>
           <button type="button" class="toolbar-btn" id="filter-btn" aria-label="Filters" aria-haspopup="dialog">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></svg>
             <span class="toolbar-btn__dot" id="filter-dot" hidden></span>
           </button>
         </div>
+        <!-- iOS app: Apple mark (+ "Get the iOS app" label on desktop) linking
+             to the /ios landing in a new tab, so playback keeps going.
+             Replaced the Browse PSA banner. -->
+        <a class="toolbar-btn topnav-ios" id="ios-link" href="/ios" target="_blank" rel="noopener noreferrer" aria-label="Get the iOS app" title="Get the iOS app">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.13 1.74-3.15 1.82-3.2-.99-1.45-2.53-1.65-3.08-1.67-1.31-.13-2.56.77-3.22.77-.67 0-1.69-.75-2.78-.73-1.43.02-2.75.83-3.48 2.11-1.49 2.58-.38 6.39 1.07 8.48.71 1.02 1.55 2.17 2.65 2.13 1.07-.04 1.47-.69 2.76-.69 1.28 0 1.65.69 2.77.67 1.15-.02 1.87-1.04 2.57-2.07.81-1.19 1.14-2.34 1.16-2.4-.03-.01-2.22-.85-2.24-3.4zM14.26 6.35c.59-.71.98-1.7.87-2.69-.85.03-1.87.57-2.48 1.28-.54.63-1.02 1.63-.89 2.6.94.07 1.91-.48 2.5-1.19z"/></svg>
+          <span class="topnav-ios__label">Get the iOS app</span>
+        </a>
         <a class="toolbar-btn topnav-kofi" id="kofi-link" href="https://ko-fi.com/rrradio" target="_blank" rel="noopener noreferrer" aria-label="Support rrradio on Ko-fi" title="Support rrradio on Ko-fi">
           <img src="/kofi-cup.png" alt="Ko-fi" width="22" height="18" />
         </a>
@@ -260,24 +274,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </header>
-
-      <!-- ====== PSA BANNER — a "public service announcement" staged on the
-           vintage tuner from the /ios landing: the message glows on the
-           radio's dial. Links to /ios (new tab → playback keeps going).
-           Browse-only and shown on every load (no dismissal / close button);
-           main.ts's syncPromo() reveals it whenever Browse is the active tab.
-           The readout is real text (sized in container-query units so it
-           tracks the dial at any width); the radio photo is decorative. ====== -->
-      <aside class="psa" id="promo" hidden>
-        <a class="psa__link" id="promo-link" href="/ios" target="_blank" rel="noopener noreferrer"
-           aria-label="Public service announcement — we interrupt the program to announce a new look of the web app, and the iOS app now on the App Store. Check it out.">
-          <img class="psa__radio" src="/radio-tuner.png" alt="" />
-          <span class="psa__caption">
-            <span class="psa__label"><span class="psa__on" aria-hidden="true"></span>Public Service Announcement</span>
-            <span class="psa__msg"><strong>We interrupt the program</strong> to announce a new look of the web app, and the iOS app now on the App Store. <span class="psa__cta">Check it out →</span></span>
-          </span>
-        </a>
-      </aside>
 
       <div class="app-body">
       <div class="main">

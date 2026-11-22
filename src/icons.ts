@@ -60,9 +60,9 @@ export const ICON_CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
 /** Magnifying glass — the iOS LibraryPageStatusBar search accessory. */
 export const ICON_SEARCH = svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
 /** Plain plus — "add stations to favorites" header accessory. */
-/** Shuffle arrows — the "Surprise me" random-station control (#97). */
-export const ICON_SHUFFLE = svg(
-  '<path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/>',
+/** Sparkles — the "Surprise me" random-station control (#97). */
+export const ICON_SPARKLES = svg(
+  '<path d="M10 4Q10.8 10.2 17 11Q10.8 11.8 10 18Q9.2 11.8 3 11Q9.2 10.2 10 4Z"/><path d="M18 2Q18.4 4.6 21 5Q18.4 5.4 18 8Q17.6 5.4 15 5Q17.6 4.6 18 2Z"/><path d="M19 15Q19.3 16.7 21 17Q19.3 17.3 19 19Q18.7 17.3 17 17Q18.7 16.7 19 15Z"/>',
 );
 /** Filled play triangle — Library-home card play control. */
 export const ICON_PLAY = svg('<path d="M7 4.5v15a.75.75 0 0 0 1.16.63l12-7.5a.75.75 0 0 0 0-1.27l-12-7.5A.75.75 0 0 0 7 4.5z"/>', { fill: true });
