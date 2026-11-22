@@ -2176,10 +2176,6 @@ function resultsRow(count: number, label?: string): HTMLElement {
 
 function renderContent(): void {
   $content.replaceChildren();
-  // The /ios promo banner shows only on the Browse discovery landing; resync
-  // it here so Browse-all, search, filters, and back-to-discovery (none of
-  // which fire setTab) flip it correctly.
-  syncPromo();
   // Recomputed below per view; a full re-render invalidates the prior loader.
   pendingLoadMore = null;
   // Stop the cover poll by default; the library feeds (Favorites / Lists /
@@ -3461,8 +3457,6 @@ function setTab(tab: Tab): void {
   $body.classList.remove('search-open');
   if (tab !== 'fav') favEditing = false;
   if (tab !== 'library') libEditing = false;
-  // The /ios promo banner is Browse-only — reveal/hide it as the tab changes.
-  syncPromo();
   // The select dock belongs to Browse; navigating elsewhere abandons the
   // pick (saveSelect clears selectMode itself before its setTab, so this
   // only fires on a genuine bail-out).
@@ -4418,24 +4412,9 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
-// ─── PSA banner: redesign + iPhone-app announcement ───
-// Vintage-tuner banner under the top nav linking to the /ios landing. It's a
-// discovery-landing-only banner that returns on every load — no persisted
-// dismissal and no close button — so syncPromo() tracks whether the Browse
-// discovery landing is showing. It hides the moment the user drops into
-// Browse-all, a search, a filter, or any other tab (Favorites, lists, …).
-// The CTA opens in a new tab (target="_blank" in the markup) so playback keeps
-// going. renderContent() calls syncPromo() on every render so Browse-all and
-// back-to-discovery flip the banner without a tab change.
-const $promo = document.getElementById('promo') as HTMLElement;
-const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
-/** Reveal the promo only on the Browse discovery landing. */
-function syncPromo(): void {
-  $promo.hidden = !inDiscovery();
-}
-syncPromo();
-$promoLink.addEventListener('click', () => track('promo/ios'));
-// Permanent /ios entry on the About page (the banner above is dismissable).
+// iPhone app link in the top bar (replaced the Browse PSA banner).
+document.getElementById('ios-link')?.addEventListener('click', () => track('topnav/ios'));
+// Permanent /ios entry on the About page.
 document.getElementById('about-ios')?.addEventListener('click', () => track('about/ios'));
 
 $addForm.addEventListener('submit', handleAddSubmit);

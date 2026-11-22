@@ -57,6 +57,15 @@ test.describe('cold-boot UI', () => {
     await expect(wordmark).toHaveAttribute('aria-label', /home/i);
   });
 
+  test('the topbar links to the iPhone app landing; no PSA banner', async ({ page }) => {
+    await page.goto('/');
+    const ios = page.locator('#ios-link');
+    await expect(ios).toBeVisible();
+    await expect(ios).toHaveAttribute('href', '/ios');
+    await expect(ios).toHaveAttribute('aria-label', /iphone app/i);
+    await expect(page.locator('#promo')).toHaveCount(0);
+  });
+
   test('about tab opens within the settings sheet and closes', async ({ page }) => {
     await page.goto('/');
     // About is a tab of the consolidated settings sheet now.

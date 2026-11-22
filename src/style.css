@@ -196,94 +196,6 @@ html.theme-switching *::after {
   flex-direction: column;
 }
 
-/* ─── PSA banner (vintage-tuner announcement) ───
-   A "public service announcement" featuring the vintage tuner from the /ios
-   landing (captured to /radio-tuner.png — its FM/AM dial, needle, presets and
-   buttons intact, corners pre-rounded to transparency). The radio sits straight
-   on the page background (no shelf) with the announcement captioned beneath. A
-   flex-shrink:0 block at the top of the Browse page; main.ts's syncPromo()
-   shows it whenever Browse is active (see that fn). */
-.psa {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 16px 16px;
-  /* No shelf — the tuner sits straight on the page background so the banner
-     blends in rather than reading as a dark box. Text colours are theme-aware
-     so the caption stays legible on the light theme too. */
-}
-.psa[hidden] { display: none; }
-
-.psa__link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
-  width: 100%;
-  max-width: 560px;
-  text-decoration: none;
-}
-.psa__radio {
-  display: block;
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45));
-}
-
-.psa__caption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  text-align: center;
-}
-.psa__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #ffb347;
-  text-shadow: 0 0 8px rgba(255, 150, 40, 0.4);
-}
-.psa__on {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ff5a3c;
-  box-shadow: 0 0 6px #ff5a3c;
-  animation: psa-blink 1.8s ease-in-out infinite;
-}
-.psa__msg {
-  font-family: var(--sans);
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--ink-2);
-}
-.psa__msg strong { color: var(--ink); font-weight: 600; }
-.psa__cta {
-  white-space: nowrap;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #ffd27a;
-}
-.psa__link:hover .psa__cta { text-decoration: underline; }
-
-@keyframes psa-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-@media (prefers-reduced-motion: reduce) { .psa__on { animation: none; } }
-
-@media (max-width: 560px) {
-  .psa { padding: 12px 12px 14px; }
-}
-
 /* Section nav (Browse / Favorites / Library). On desktop it lives in the
    top bar; on phones the bottom tab bar carries it, so it hides here. */
 .topnav-nav { display: none; }
@@ -492,6 +404,17 @@ html.theme-switching *::after {
 .topnav-kofi,
 .topnav-kofi:hover { border-color: transparent; background: transparent; }
 .topnav-kofi img { width: 24px; height: auto; display: block; }
+/* iPhone app link: same ring-less treatment as Ko-fi, muted until hover so
+   it stays unobtrusive. */
+.topnav-ios,
+.topnav-ios:hover { border-color: transparent; background: transparent; }
+.topnav-ios svg { width: 20px; height: 20px; }
+/* Phones: the top row is tight (logo + search + 4 buttons), so the ring-less
+   Apple mark takes a narrow 26px slot tucked against the Ko-fi cup instead of
+   a full 40px circle — the search field keeps its width. */
+@media (max-width: 1023.98px) {
+  .topnav-ios { width: 26px; margin-right: -6px; }
+}
 .toolbar-btn__dot {
   position: absolute;
   top: 7px;
