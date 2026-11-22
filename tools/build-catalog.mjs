@@ -105,6 +105,10 @@ const uuidsNeeded = stations
   .map((s) => s.stationuuid);
 
 let rbByUuid = new Map();
+// uuids Radio Browser no longer returns (deleted upstream). Used to explain
+// post-merge failures: a station that leaned on RB for its stream URL has
+// nothing to play once its record is gone.
+let missingUpstream = new Set();
 if (uuidsNeeded.length > 0) {
   console.log(
     `catalog: resolving ${uuidsNeeded.length} stationuuid(s) ${OFFLINE ? '(offline)' : 'from Radio Browser'}…`,
@@ -115,6 +119,7 @@ if (uuidsNeeded.length > 0) {
   });
   for (const r of records) rbByUuid.set(r.stationuuid, r);
   const missing = uuidsNeeded.filter((u) => !rbByUuid.has(u));
+  missingUpstream = new Set(missing);
   if (missing.length > 0) {
     // Missing upstream is non-fatal — local fields may still cover it,
     // but the operator should know.
@@ -241,7 +246,12 @@ for (const s of stations) {
 
   const m = merged(s);
   if (!m.name) fatal.push(`${s.id}: no name (local nor RB provides one)`);
-  if (!m.streamUrl) fatal.push(`${s.id}: no streamUrl (local nor RB provides one)`);
+  if (!m.streamUrl) {
+    const gone = s.stationuuid && missingUpstream.has(s.stationuuid);
+    fatal.push(
+      `${s.id}: no streamUrl (local nor RB provides one)${gone ? ' — RB record deleted upstream' : ''}`,
+    );
+  }
 
   if (s.stationuuid && s.changeuuid && m._rb && m._rb.changeuuid !== s.changeuuid) {
     driftWarnings.push(
@@ -261,7 +271,17 @@ for (const s of stations) {
 
 if (fatal.length > 0) {
   for (const e of fatal) console.error(`build-catalog: ${e}`);
-  process.exit(1);
+  // Deliberate guard: never ship a published station that cannot play.
+  // Say so in one line — the per-station lines above scroll away in a
+  // 28k-station run and the exit looked reasonless.
+  const gone = fatal.filter((e) => e.endsWith('RB record deleted upstream')).length;
+  fail(
+    `${fatal.length} published station(s) failed validation, nothing written.` +
+      (gone > 0
+        ? ` ${gone} lost their stream URL because Radio Browser deleted their record;` +
+          ' set `status: broken` or add a local `streamUrl` in data/stations.yaml.'
+        : ''),
+  );
 }
 
 // ─── 4a. Collapse same-station records into one published entry ──────────
