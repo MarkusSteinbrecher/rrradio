@@ -248,15 +248,24 @@
         <!-- Funnel travels with the search (centred group); the gear is a
              standalone child pinned to the far right on every tab. -->
         <div class="toolbar">
+          <!-- Surprise me (#97): desktop-only pill right of the search; phones
+               keep it on the Browse landing (the top row has no room). main.ts
+               syncs its label to the active filter. -->
+          <button type="button" class="toolbar-btn topnav-surprise" id="surprise-btn" aria-label="Surprise me: play a random station" title="Play a random station">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
+            <span>Surprise me</span>
+          </button>
           <button type="button" class="toolbar-btn" id="filter-btn" aria-label="Filters" aria-haspopup="dialog">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></svg>
             <span class="toolbar-btn__dot" id="filter-dot" hidden></span>
           </button>
         </div>
-        <!-- iPhone app: a small Apple mark linking to the /ios landing (new
-             tab, so playback keeps going). Replaced the Browse PSA banner. -->
-        <a class="toolbar-btn topnav-ios" id="ios-link" href="/ios" target="_blank" rel="noopener noreferrer" aria-label="Get the rrradio iPhone app" title="Get the rrradio iPhone app">
+        <!-- iOS app: Apple mark (+ "Get the iOS app" label on desktop) linking
+             to the /ios landing in a new tab, so playback keeps going.
+             Replaced the Browse PSA banner. -->
+        <a class="toolbar-btn topnav-ios" id="ios-link" href="/ios" target="_blank" rel="noopener noreferrer" aria-label="Get the iOS app" title="Get the iOS app">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.13 1.74-3.15 1.82-3.2-.99-1.45-2.53-1.65-3.08-1.67-1.31-.13-2.56.77-3.22.77-.67 0-1.69-.75-2.78-.73-1.43.02-2.75.83-3.48 2.11-1.49 2.58-.38 6.39 1.07 8.48.71 1.02 1.55 2.17 2.65 2.13 1.07-.04 1.47-.69 2.76-.69 1.28 0 1.65.69 2.77.67 1.15-.02 1.87-1.04 2.57-2.07.81-1.19 1.14-2.34 1.16-2.4-.03-.01-2.22-.85-2.24-3.4zM14.26 6.35c.59-.71.98-1.7.87-2.69-.85.03-1.87.57-2.48 1.28-.54.63-1.02 1.63-.89 2.6.94.07 1.91-.48 2.5-1.19z"/></svg>
+          <span class="topnav-ios__label">Get the iOS app</span>
         </a>
         <a class="toolbar-btn topnav-kofi" id="kofi-link" href="https://ko-fi.com/rrradio" target="_blank" rel="noopener noreferrer" aria-label="Support rrradio on Ko-fi" title="Support rrradio on Ko-fi">
           <img src="/kofi-cup.png" alt="Ko-fi" width="22" height="18" />

@@ -278,6 +278,7 @@ const meta = new MetadataPoller((parsed) => {
 const $body = document.body;
 
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
+const $surpriseBtn = document.getElementById('surprise-btn') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 // Filter sheet (iOS BrowseFiltersSheet port) — collapsible multi-select
@@ -1968,12 +1969,7 @@ function surpriseButton(className: string, labelled: boolean): HTMLButtonElement
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = className;
-  const filtered = hasActiveFilter();
-  btn.setAttribute(
-    'aria-label',
-    filtered ? 'Surprise me: play a random station matching the filter' : 'Surprise me: play a random station',
-  );
-  btn.title = filtered ? 'Random station from this filter' : 'Play a random station';
+  labelSurprise(btn);
   btn.innerHTML = ICON_SHUFFLE;
   if (labelled) {
     const lbl = document.createElement('span');
@@ -1983,6 +1979,21 @@ function surpriseButton(className: string, labelled: boolean): HTMLButtonElement
   btn.addEventListener('click', () => void surpriseMe());
   return btn;
 }
+
+/** Point a shuffle control's accessible label + tooltip at the active
+ *  filter (the pick honours it). */
+function labelSurprise(btn: HTMLButtonElement): void {
+  const filtered = hasActiveFilter();
+  btn.setAttribute(
+    'aria-label',
+    filtered ? 'Surprise me: play a random station matching the filter' : 'Surprise me: play a random station',
+  );
+  btn.title = filtered ? 'Random station from this filter' : 'Play a random station';
+}
+
+// Desktop top-nav copy (static markup in index.html; CSS hides it on phones,
+// where the Browse landing's in-content button stays).
+$surpriseBtn.addEventListener('click', () => void surpriseMe());
 
 /** Play a random published station, inside the active Browse filter when one
  *  is set. Plays through onRowPlay so recents, analytics, and the URL behave
@@ -2176,6 +2187,8 @@ function resultsRow(count: number, label?: string): HTMLElement {
 
 function renderContent(): void {
   $content.replaceChildren();
+  // Filter changes all re-render; keep the top-nav shuffle's label in step.
+  labelSurprise($surpriseBtn);
   // Recomputed below per view; a full re-render invalidates the prior loader.
   pendingLoadMore = null;
   // Stop the cover poll by default; the library feeds (Favorites / Lists /

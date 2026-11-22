@@ -62,8 +62,20 @@ test.describe('cold-boot UI', () => {
     const ios = page.locator('#ios-link');
     await expect(ios).toBeVisible();
     await expect(ios).toHaveAttribute('href', '/ios');
-    await expect(ios).toHaveAttribute('aria-label', /iphone app/i);
+    await expect(ios).toHaveAttribute('aria-label', /ios app/i);
     await expect(page.locator('#promo')).toHaveCount(0);
+  });
+
+  test('Surprise me sits in the top nav on desktop, in the page on phones', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('/');
+    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('#surprise-btn')).toBeVisible();
+    await expect(page.locator('.disc-surprise')).toBeHidden();
+
+    await page.setViewportSize({ width: 375, height: 800 });
+    await expect(page.locator('#surprise-btn')).toBeHidden();
+    await expect(page.locator('.disc-surprise')).toBeVisible();
   });
 
   test('about tab opens within the settings sheet and closes', async ({ page }) => {
