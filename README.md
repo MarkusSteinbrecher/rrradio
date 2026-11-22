@@ -122,7 +122,10 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173.
+Open http://localhost:5173. `npm run dev` starts Vite from the
+committed catalog files in seconds; it does not touch Radio Browser.
+To rebuild the catalog and source artifacts first, use
+`npm run dev:fresh` (slow: resolves every station uuid upstream).
 
 ## Tests
 

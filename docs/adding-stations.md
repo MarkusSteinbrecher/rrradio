@@ -40,8 +40,9 @@ suitable for paste-into-yaml. Use this *first* on any new station.
 npm run catalog
 ```
 
-Reads the YAML, validates, writes `public/stations.json`. Runs
-automatically before `npm run dev` and `npm run build`. Prints a
+Reads the YAML, validates, writes `public/stations.json`. Run it
+yourself after editing the YAML: `npm run dev` and `npm run build`
+serve the committed `public/stations.json` as-is. Prints a
 status-by-count summary so you can see what was published vs. held
 back.
 
