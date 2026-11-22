@@ -247,12 +247,13 @@
   html {
     background: var(--bg-page);
     color: var(--fg-default);
-    font: var(--font-body);
-    letter-spacing: var(--tracking-md);
     -webkit-font-smoothing: antialiased;
     text-size-adjust: 100%;
     font-feature-settings: "ss01", "cv11";
   }
+  /* The body role is set on body, not html: on the root element rem resolves against the browser default,
+   * so font: var(--font-body) there made the root 14px and shrank every rem token by 12.5 %. */
+  body { font: var(--font-body); letter-spacing: var(--tracking-md); }
   [data-theme] { background-color: var(--bg-page); color: var(--fg-default); }
 
   h1 { font: var(--weight-bold) var(--text-2xl) / var(--leading-2xl) var(--font-sans); letter-spacing: var(--tracking-2xl); text-wrap: balance; }
@@ -323,7 +324,10 @@
     background-position: calc(100% - 17px) 52%, calc(100% - 12px) 52%;
     background-size: 5px 5px; background-repeat: no-repeat;
   }
-  @media (pointer: coarse) { :is(input, select, textarea) { font-size: var(--text-lg); } }
+  /* 16px on touch so iOS does not zoom into the field. Same selector as the field rule, or its specificity wins. */
+  @media (pointer: coarse) {
+    :is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="submit"], [type="button"], [type="reset"]), select, textarea) { font-size: var(--text-lg); }
+  }
 
   /* Checkbox, radio, switch — native, restyled */
   input:is([type="checkbox"], [type="radio"]) {
@@ -450,8 +454,10 @@
   .sd-notice > button { margin: -4px -8px 0 0; }
 
   /* Tabs — selected = 2px accent line */
-  .sd-tabs { display: flex; gap: var(--space-6); border-bottom: var(--border-hairline) solid var(--border-subtle); overflow-x: auto; }
-  .sd-tab { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; margin-bottom: -1px; cursor: pointer;
+  /* The row's hairline is an inset shadow, so tabs sit inside the row and the selected 2px line paints over it.
+     A border plus margin-bottom: -1px on the tabs overflowed the scroll box by 1px and showed a vertical scrollbar. */
+  .sd-tabs { display: flex; gap: var(--space-6); box-shadow: inset 0 calc(-1 * var(--border-hairline)) 0 var(--border-subtle); overflow-x: auto; overflow-y: hidden; }
+  .sd-tab { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; cursor: pointer;
     font: var(--font-label); letter-spacing: var(--tracking-sm); color: var(--fg-muted); white-space: nowrap;
     border-bottom: var(--border-focus) solid transparent; transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease); }
   .sd-tab:hover { color: var(--fg-default); border-bottom-color: var(--border-default); }
