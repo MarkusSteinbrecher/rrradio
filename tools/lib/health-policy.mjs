@@ -13,6 +13,8 @@
  *                          drains at the cap
  *   2 hard streak ≥ 3      long tail: unpublish · curated: review
  *   3 soft streak ≥ 5      long tail: needs the edge to agree · curated: review
+ *   3a soft streak on a     skipped — PROBE_BLOCKED_HOSTS refuse datacenter
+ *      probe-blocked host   vantages, so neither runner nor edge can judge
  *   4 fold canonical       skipped (`fold-canonical`): no status flip can pass
  *                          check-catalog while variants fold into the row
  *     highlighted          the long-tail row uses the curated column
@@ -72,6 +74,22 @@ export const DEFAULT_CAPS = Object.freeze({ auto: 200, upgrade: 200 });
 export const BOT = 'station-probe';
 /** Status restored by a republish when the row carries no `brokenFrom`. */
 export const DEFAULT_RESTORE_STATUS = 'stream-only';
+/** Rule 3a: stream hosts that refuse datacenter vantages. Both the runner
+ *  and the Cloudflare edge get HTTP 403 while home connections play fine
+ *  (somafm.com, checked 2026-11-22), so a soft streak there is the probe's
+ *  problem, not the station's, and never acts. Hard failures still do. */
+export const PROBE_BLOCKED_HOSTS = Object.freeze(['somafm.com']);
+
+/** True when `url`'s host is (a subdomain of) a PROBE_BLOCKED_HOSTS entry. */
+export function isProbeBlockedHost(url) {
+  let host;
+  try {
+    host = new URL(String(url)).hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  return PROBE_BLOCKED_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+}
 
 /** Map or plain-object lookup — plan.json gives objects, the CLI builds Maps. */
 function get(coll, id) {
@@ -343,6 +361,12 @@ export function decide({
     // the curator re-points the fold or drops the variants first.
     if (foldCanonicals.has(id)) {
       skipped.push({ id, why: 'fold-canonical' });
+      continue;
+    }
+    // Rule 3a: a soft streak on a host that blocks datacenter probes says
+    // nothing about the station; skip before it reaches review or the edge.
+    if (streak.c === 'soft' && isProbeBlockedHost(y?.streamUrl)) {
+      skipped.push({ id, why: 'probe-blocked-host' });
       continue;
     }
     // Rule 4b: a highlighted long-tail row is decided like a curated one —

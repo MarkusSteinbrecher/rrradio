@@ -155,7 +155,7 @@ import {
   ICON_PLUS,
   ICON_RECENT,
   ICON_SEARCH,
-  ICON_SHUFFLE,
+  ICON_SPARKLES,
   ICON_TRASH,
 } from './icons';
 import { isListQueue, resolveQueue, stepQueue, type QueueSource } from './queue';
@@ -278,6 +278,7 @@ const meta = new MetadataPoller((parsed) => {
 const $body = document.body;
 
 const $wordmark = document.getElementById('wordmark') as HTMLButtonElement;
+const $surpriseBtn = document.getElementById('surprise-btn') as HTMLButtonElement;
 const $search = document.getElementById('search') as HTMLInputElement;
 const $searchClear = document.getElementById('search-clear') as HTMLButtonElement;
 // Filter sheet (iOS BrowseFiltersSheet port) — collapsible multi-select
@@ -1968,13 +1969,8 @@ function surpriseButton(className: string, labelled: boolean): HTMLButtonElement
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = className;
-  const filtered = hasActiveFilter();
-  btn.setAttribute(
-    'aria-label',
-    filtered ? 'Surprise me: play a random station matching the filter' : 'Surprise me: play a random station',
-  );
-  btn.title = filtered ? 'Random station from this filter' : 'Play a random station';
-  btn.innerHTML = ICON_SHUFFLE;
+  labelSurprise(btn);
+  btn.innerHTML = ICON_SPARKLES;
   if (labelled) {
     const lbl = document.createElement('span');
     lbl.textContent = 'Surprise me';
@@ -1983,6 +1979,21 @@ function surpriseButton(className: string, labelled: boolean): HTMLButtonElement
   btn.addEventListener('click', () => void surpriseMe());
   return btn;
 }
+
+/** Point a shuffle control's accessible label + tooltip at the active
+ *  filter (the pick honours it). */
+function labelSurprise(btn: HTMLButtonElement): void {
+  const filtered = hasActiveFilter();
+  btn.setAttribute(
+    'aria-label',
+    filtered ? 'Surprise me: play a random station matching the filter' : 'Surprise me: play a random station',
+  );
+  btn.title = filtered ? 'Random station from this filter' : 'Play a random station';
+}
+
+// Desktop top-nav copy (static markup in index.html; CSS hides it on phones,
+// where the Browse landing's in-content button stays).
+$surpriseBtn.addEventListener('click', () => void surpriseMe());
 
 /** Play a random published station, inside the active Browse filter when one
  *  is set. Plays through onRowPlay so recents, analytics, and the URL behave
@@ -2176,10 +2187,8 @@ function resultsRow(count: number, label?: string): HTMLElement {
 
 function renderContent(): void {
   $content.replaceChildren();
-  // The /ios promo banner shows only on the Browse discovery landing; resync
-  // it here so Browse-all, search, filters, and back-to-discovery (none of
-  // which fire setTab) flip it correctly.
-  syncPromo();
+  // Filter changes all re-render; keep the top-nav shuffle's label in step.
+  labelSurprise($surpriseBtn);
   // Recomputed below per view; a full re-render invalidates the prior loader.
   pendingLoadMore = null;
   // Stop the cover poll by default; the library feeds (Favorites / Lists /
@@ -3461,8 +3470,6 @@ function setTab(tab: Tab): void {
   $body.classList.remove('search-open');
   if (tab !== 'fav') favEditing = false;
   if (tab !== 'library') libEditing = false;
-  // The /ios promo banner is Browse-only — reveal/hide it as the tab changes.
-  syncPromo();
   // The select dock belongs to Browse; navigating elsewhere abandons the
   // pick (saveSelect clears selectMode itself before its setTab, so this
   // only fires on a genuine bail-out).
@@ -4418,24 +4425,9 @@ $searchClear.addEventListener('click', () => {
 
 $wordmark.addEventListener('click', goHome);
 
-// ─── PSA banner: redesign + iPhone-app announcement ───
-// Vintage-tuner banner under the top nav linking to the /ios landing. It's a
-// discovery-landing-only banner that returns on every load — no persisted
-// dismissal and no close button — so syncPromo() tracks whether the Browse
-// discovery landing is showing. It hides the moment the user drops into
-// Browse-all, a search, a filter, or any other tab (Favorites, lists, …).
-// The CTA opens in a new tab (target="_blank" in the markup) so playback keeps
-// going. renderContent() calls syncPromo() on every render so Browse-all and
-// back-to-discovery flip the banner without a tab change.
-const $promo = document.getElementById('promo') as HTMLElement;
-const $promoLink = document.getElementById('promo-link') as HTMLAnchorElement;
-/** Reveal the promo only on the Browse discovery landing. */
-function syncPromo(): void {
-  $promo.hidden = !inDiscovery();
-}
-syncPromo();
-$promoLink.addEventListener('click', () => track('promo/ios'));
-// Permanent /ios entry on the About page (the banner above is dismissable).
+// iPhone app link in the top bar (replaced the Browse PSA banner).
+document.getElementById('ios-link')?.addEventListener('click', () => track('topnav/ios'));
+// Permanent /ios entry on the About page.
 document.getElementById('about-ios')?.addEventListener('click', () => track('about/ios'));
 
 $addForm.addEventListener('submit', handleAddSubmit);
