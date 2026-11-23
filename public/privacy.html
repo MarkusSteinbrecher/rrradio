@@ -111,10 +111,10 @@
     <div class="crumbs"><a href="/">rrradio.org</a> · privacy</div>
 
     <h1>Privacy</h1>
-    <div class="meta">Effective 2026-05-02 · Last updated 2026-08-11</div>
+    <div class="meta">Effective 2026-05-02 · Last updated 2026-11-23</div>
 
     <div class="tldr">
-      <p><strong>Short version.</strong> rrradio.org doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. The web, iOS and Android apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, and app preferences in your own iCloud account; recents, listening-history records, and diagnostics stay on device. <strong>The Android app has no account and no cloud sync at all</strong> — everything it saves stays on your phone, and the only way data leaves is a backup file you export yourself. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
+      <p><strong>Short version.</strong> rrradio.org doesn't ask for your name, email, or any account. The web app uses cookieless privacy-friendly analytics to count plays per station. The iOS app adds to the same count: when you listen to a catalog station it sends that station's name once, with no identifier, and you can turn this off in Settings. The web, iOS and Android apps can send an anonymous broken-station report only when you tap the report button. Web favorites and recents stay in your browser. On iOS, iCloud Sync can privately store your favorites, station lists, added stations, app preferences and, if you turned it on, your listening history in your own iCloud account; recents and diagnostics stay on device. <strong>The Android app has no account and no cloud sync at all</strong> — everything it saves stays on your phone, and the only way data leaves is a backup file you export yourself. When you play a station, your device connects directly to that broadcaster's server — same as opening their URL in a browser — so their privacy policy governs that connection.</p>
     </div>
 
     <h2>Who runs this</h2>
@@ -134,7 +134,9 @@
     <p>None of this is linked to any identifier we could later use to recognize you. We see "Switzerland: 589 visits" — not who those visits were from.</p>
 
     <h2>What the iOS app collects</h2>
-    <p>The iOS app does not track sessions or send background analytics. If you tap "Report broken station", it sends the same anonymous structured report as the web app: station id/name, stream host, app version, and current playback error message when available. It does not include your name, email, device identifier, or Apple account.</p>
+    <p>The iOS app does not track sessions and has no analytics SDK, advertising ID or device identifier.</p>
+    <p><strong>Anonymous play count.</strong> When you listen to a station from the rrradio catalog for 30 seconds, the app sends that station's name and catalog id once to <code>stats.rrradio.org</code>. That is the whole message: no account, no device identifier, no listening history, no track titles. It feeds the same per-station play count as the web app, which we use to rank popular stations and to decide which streams to check first. Stations you added yourself are never sent. Your IP address is visible to the server as with any request; it is used only for a daily rate limit, as a salted hash that is purged the next day, and is not stored with the play. The count is on by default; turn it off under Settings › Station statistics › "Share anonymous play counts".</p>
+    <p>If you tap "Report broken station", it sends the same anonymous structured report as the web app: station id/name, stream host, app version, and current playback error message when available. It does not include your name, email, device identifier, or Apple account.</p>
     <p>The iOS app can keep a small on-device diagnostic log so you can copy troubleshooting details from Settings. This is off by default. If you turn on "Collect Diagnostics", it stores the last 100 operational events for up to 14 days, such as catalog load status, playback state changes, stream host, station id, and sanitized error messages. It does not include full stream URLs, track titles, artist names, device identifiers, or Apple account data, and it is not sent anywhere unless you copy it yourself.</p>
 
     <h2>What the Android app collects</h2>
@@ -152,7 +154,7 @@
       <li>Recently played stations.</li>
       <li>Theme preference, accent color, volume, sleep-timer settings, landing-page choice, favorites-view layout, language choice, wake-default preference, and car-mode preference. On iOS, if iCloud Sync is enabled, these app preferences are also stored in your private iCloud database.</li>
       <li>Wake alarm settings and any Shortcuts automation you create for scheduled playback.</li>
-      <li>iOS listening history, if you enable it in Settings. The default retention is 90 days; you can choose 30 days, 1 year, or forever, export it, or clear it from the app.</li>
+      <li>iOS listening history, if you enable it in Settings. The default retention is 90 days; you can choose 30 days, 1 year, or forever, export it, delete single sessions or stations, or clear it from the app. If iCloud Sync is enabled, the history is also stored in your private iCloud database so your devices share it; it is never sent to rrradio.org.</li>
       <li>Android listening history, if you enable it in Settings — it is off by default. The default retention is 90 days; you can choose 30 days, 1 year, or forever, and it is capped at the most recent 2,000 sessions. You can export it as a CSV file or clear it from the app.</li>
       <li>iOS diagnostics, only if you turn on Collect Diagnostics; capped to the last 100 events and 14 days.</li>
       <li>Android diagnostics, only if you turn on Diagnostics; capped to the last 200 events and 14 days.</li>
@@ -204,9 +206,10 @@
       <li><strong>GoatCounter aggregate counts</strong> — kept indefinitely. They're not personal data; they're "rrradio.org received N visits" and "&lt;station X&gt; was played M times".</li>
       <li><strong>Cloudflare Worker access logs</strong> — per Cloudflare's defaults, typically 24 hours to a few days. We don't write our own logs on top of that.</li>
       <li><strong>On-device data</strong> — stays as long as you keep the app installed or haven't cleared site data.</li>
-      <li><strong>iOS iCloud Sync data</strong> — favorites, station lists, added stations, and app preferences stay in your private iCloud database until you remove rrradio.org data from iCloud or disable/delete it through Apple's iCloud controls.</li>
+      <li><strong>iOS iCloud Sync data</strong> — favorites, station lists, added stations, app preferences and listening history (when enabled) stay in your private iCloud database until you remove rrradio.org data from iCloud or disable/delete it through Apple's iCloud controls.</li>
+      <li><strong>iOS play count</strong> — only the aggregate number of plays per station is kept (in GoatCounter, with the web app's plays). Nothing about the device or person is stored.</li>
       <li><strong>iOS diagnostics</strong> — off by default; when enabled, capped to 100 events and pruned after 14 days. Turning it off clears the local diagnostic log.</li>
-      <li><strong>iOS listening history</strong> — off by default; when enabled, kept for your selected retention window (30 days, 90 days by default, 1 year, or forever) until you clear it or delete the app.</li>
+      <li><strong>iOS listening history</strong> — off by default; when enabled, kept for your selected retention window (30 days, 90 days by default, 1 year, or forever) until you clear it or delete the app. Clearing it also removes the copy in iCloud.</li>
     </ul>
 
     <h2>Changes to this policy</h2>
