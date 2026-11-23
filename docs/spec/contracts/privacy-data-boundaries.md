@@ -9,7 +9,7 @@ reconciled-against: d241aa9
 ## Purpose
 
 This contract pins the cross-platform privacy invariant: **rrradio is an
-accountless, analytics-free radio player.** Library data is private and local by
+accountless radio player with no analytics SDK and no per-user telemetry.** Library data is private and local by
 default. Every byte that leaves the device is enumerated here, with what is sent,
 to which endpoint, when, whether the user opted in, and the retention intent.
 
@@ -55,7 +55,11 @@ every rule.
    pageview/event analytics (GoatCounter) carries no cookies, no user IDs, no
    query text, no track titles, no full stream URLs (see
    [`../operations.md`](../../operations.md) §Telemetry / GoatCounter). iOS and
-   Android ship **no** analytics SDK.
+   Android ship **no** analytics SDK. iOS sends one anonymous play ping per
+   catalog-station play (row 16): station name + catalog id only, after 30 s of
+   listening, on by default with a Settings switch, never for custom stations,
+   no identifier of any kind. It lands in the same aggregate `play: <name>`
+   count as the web app.
 7. **rrradio-operated endpoints live under `rrradio.org`.** User data
    (IP-bearing region/stats/report/proxy calls) routes through the
    first-party domain, never a developer-personal host. See Known deviations
@@ -114,10 +118,11 @@ every rule.
 | 11 | Station favicon / cover-art image hosts (broadcaster + RB-hosted URLs) | nothing identifying; the image URL (+ IP) | rendering station/track art | No (core function) | No (third party) | byte-budgeted `URLCache` |
 | 12 | Music-service deep links: `music.apple.com/search`, `open.spotify.com/search`, `music.youtube.com/search`, `music.apple.com/.../album/...` | search term or Apple-track URL **opened in the external app/browser** — not a background request | user taps a music-service button on Now Playing | **Yes** (explicit tap) | No (third party) | n/a (handoff) |
 | 13 | `mailto:support@rrradio.org` (Add Station catalog submission; broken-station email fallback) | station name + stream URL + the user's own email return address — composed in the OS Mail app, **sent only if the user taps Send** | user submits a catalog request, or emails a broken-station report after the HTTP path fails | **Yes** (explicit send) | Yes (first-party inbox) | maintainer inbox |
-| 14 | iCloud / CloudKit (iOS only) | favorites, station lists, custom stations, preferences — in the **user's own** private database | when iCloud sync is enabled | per-user iCloud (system) | n/a (Apple, user-owned) | until user disables/removes; recents, history, diagnostics, one-shot intents NOT synced |
+| 14 | iCloud / CloudKit (iOS only) | favorites, station lists, custom stations, preferences, and listening-history sessions when history is enabled — in the **user's own** private database | when iCloud sync is enabled | per-user iCloud (system) | n/a (Apple, user-owned) | until user disables/removes; recents, diagnostics, one-shot intents NOT synced |
 | 15 | `https://stats.rrradio.org/api/public/report-status?ids=…` | the device's locally-stored report receipt tokens (random, Worker-minted — see [broken-reports](broken-reports.md)), comma-joined in one batched GET (+ IP) | app polls while unresolved receipts are held — on foreground (scene-active, debounced) | follows from row 4's explicit report | Yes (subdomain) | none intended; receipts dropped client-side once resolved/expired or aged out |
+| 16 | `https://stats.rrradio.org/api/public/play` (iOS only) | `stationName` (≤90 chars), `stationId`, `platform=ios` (+ IP via TCP; the Worker keeps only a daily-salted rate-limit hash) | once per play of a **catalog** station after 30 s of listening; never for custom stations | No — on by default, switch in Settings › Station statistics | Yes (subdomain) | aggregate per-station count only (GoatCounter `play: <name>`); rate-limit hash purged daily |
 
-Rows 2–6 and 15 are the **IP-bearing, rrradio-operated** flows that MUST be
+Rows 2–6, 15 and 16 are the **IP-bearing, rrradio-operated** flows that MUST be
 declared on the App Store privacy nutrition label and the Play Store Data Safety
 form (the *disclose* decision — see Open questions and boundary rule 9).
 
@@ -142,7 +147,7 @@ form (the *disclose* decision — see Open questions and boundary rule 9).
 | Broken-report `comment` cap | int | no | User-authored comment length (optional) | 500 chars |
 | Report receipts store (`BrokenStationReports`) | UserDefaults JSON | yes | Worker-minted tokens polled via row 15 | empty; dropped when resolved/expired |
 | Catalog cache | Caches file | yes | Last `stations.json` payload | OS-managed lifetime |
-| Listening history | local file, opt-in | yes | Station (and optional track) sessions | OFF; 90d when on; never synced |
+| Listening history | local file, opt-in | yes | Station (and optional track) sessions | OFF; 90d when on; synced to the user's private CloudKit database when iCloud sync is on, never to rrradio |
 | Analytics SDK (iOS/Android) | none | n/a | No telemetry library is linked | absent |
 
 Sensitive diagnostic export keys that are always dropped: `coverhost`, `host`,
@@ -247,7 +252,7 @@ Diagnostics export line (always redacted form):
 
 **iOS** (reference)
 
-- Ships **no** analytics SDK; rows 2–6 and 15 are the only rrradio-operated
+- Ships **no** analytics SDK; rows 2–6, 15 and 16 are the only rrradio-operated
   calls and MUST point at the first-party domain (no `*.workers.dev`).
 - Diagnostics off by default, capped (100 breadcrumbs + 6 MetricKit reports /
   14d), redacted on breadcrumb export, cleared on disable; never auto-uploaded.
@@ -255,8 +260,12 @@ Diagnostics export line (always redacted form):
 - mailto destinations MUST be a first-party inbox (`support@rrradio.org`),
   never a developer-personal address.
 - Region resolution fails open; never blocks playback on an unknown IP.
-- CloudKit uses the user's private database only; recents, listening history,
-  diagnostics, and one-shot playback intents are never synced.
+- CloudKit uses the user's private database only; recents, diagnostics, and
+  one-shot playback intents are never synced. Listening history syncs there
+  when enabled and is never sent to a rrradio endpoint.
+- The play ping (row 16) is catalog stations only, once per play, with no
+  identifier; it MUST be declared in `PrivacyInfo.xcprivacy` and on the App
+  Store label as Usage Data › Product Interaction, not linked, not tracking.
 - Track titles/artists/URLs/queries never enter diagnostics or any counting
   endpoint (functional fetches to iTunes/lyrics/RB are exempt by rule 4).
 
@@ -297,7 +306,7 @@ Diagnostics export line (always redacted form):
 |---|---|---|---|
 | No account / no app-minted user ID | Supported | Reference | Supported |
 | No analytics SDK linked | Not planned (GoatCounter only) | Reference | Supported |
-| First-party telemetry anonymous + aggregate (GoatCounter) | Reference | Not planned (no SDK) | Not planned (no SDK) |
+| First-party telemetry anonymous + aggregate (GoatCounter) | Reference | Supported (play ping via Worker, row 16; no SDK) | Not planned (no SDK) |
 | All rrradio-operated calls under `rrradio.org` | Supported | Reference | Supported (catalog → `rrradio.org`; broken-report → `stats.rrradio.org`; no `*.workers.dev`) |
 | Region/GeoIP resolution, fail-open, 24h cache | Supported | Reference | Planned |
 | Diagnostics opt-in, capped, redacted on export, cleared on disable | Planned | Reference | Partial (opt-in + count-cap 200 + write-time URL/length redaction + export, but disabling does not auto-clear — a separate "Clear" action does — and the cap is count-only with no 14-day time prune) |
