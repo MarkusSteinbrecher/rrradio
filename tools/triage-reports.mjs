@@ -11,7 +11,14 @@
  *   - upserts ONE GitHub issue per station (label `broken-station` +
  *     each confirmed category), then tells the Worker to flip the
  *     confirmed rows to `confirmed` and stamp the issue number on the
- *     station's reports so the issue-close Action can resolve them.
+ *     station's reports so the issue-close Action can resolve them, and
+ *   - opens the same issue (label `needs-review`, nothing confirmed) for
+ *     a category that cannot be probed when a reporter left a comment,
+ *     so the words reach a human (#820), and
+ *   - lists everything still on hold in ONE digest issue (label
+ *     `report-digest`), commenting when new stations appear, and resolves
+ *     held reports as `not-reproducible` once they are older than
+ *     HOLD_MAX_DAYS and have been listed for DIGEST_GRACE_DAYS (#819).
  *
  * P1 built ingest + receipts + manual resolve; P3 will have a curation
  * agent propose the catalog-fix PR. This sits in between: it is the
@@ -26,6 +33,10 @@
  *   GITHUB_REPOSITORY   owner/repo (default MarkusSteinbrecher/rrradio)
  *   STATS_BASE          Worker base URL (default https://stats.rrradio.org)
  *   REPORT_THRESHOLD    independent-report count to confirm (default 3)
+ *   HOLD_MAX_DAYS       age after which a held report is resolved as
+ *                       not-reproducible (default 21; 0 disables)
+ *   DIGEST_GRACE_DAYS   days a station must have been listed in the
+ *                       digest before its reports may age out (default 7)
  *   flags: --dry-run (probe + plan, write nothing), --verbose
  */
 
@@ -56,6 +67,16 @@ const STREAM_INCONCLUSIVE = new Set(['probe-inconclusive']);
 const FAVICON_BASE = 'https://rrradio.org/';
 const STATION_MARKER_RE = /<!-- rrradio:station-id=([A-Za-z0-9._:-]+) -->/;
 const DEFAULT_THRESHOLD = 3;
+const DEFAULT_HOLD_MAX_DAYS = 21;
+const DEFAULT_DIGEST_GRACE_DAYS = 7;
+const DAY_MS = 24 * 3600 * 1000;
+const RESOLVE_CHUNK = 100; // the Worker's RESOLVE_IDS_MAX
+const REVIEW_LABEL = 'needs-review';
+const DIGEST_LABEL = 'report-digest';
+const DIGEST_TITLE = 'Broken-station reports on hold';
+const DIGEST_MARKER = '<!-- rrradio:report-digest -->';
+// `id@YYYY-MM-DD` pairs: which stations the digest listed, and since when.
+const HELD_MARKER_RE = /<!-- rrradio:held=([A-Za-z0-9._:@,-]*) -->/;
 const COMMENT_MAX = 500;
 const TITLE_MAX = 120;
 // Bound a single run so a flood of distinct stations can't blow the job
@@ -122,10 +143,11 @@ export function aggregate(rows) {
 
     let cat = st.categories.get(r.category);
     if (!cat) {
-      cat = { category: r.category, count: 0, receivedCount: 0, confirmedCount: 0, comments: [] };
+      cat = { category: r.category, count: 0, receivedCount: 0, confirmedCount: 0, comments: [], rows: [] };
       st.categories.set(r.category, cat);
     }
     cat.count += 1;
+    cat.rows.push({ id: r.id, createdAt: r.createdAt ?? null });
     if (r.status === 'confirmed') cat.confirmedCount += 1;
     else cat.receivedCount += 1;
     const c = (r.comment || '').trim();
@@ -156,8 +178,8 @@ export function buildIssueTitle(station) {
   return `Broken station: ${station.stationName} (${station.stationId})`.slice(0, TITLE_MAX);
 }
 
-export function issueLabels(confirmedCategories) {
-  return ['broken-station', ...new Set(confirmedCategories)];
+export function issueLabels(confirmedCategories, { needsReview = false } = {}) {
+  return ['broken-station', ...new Set(confirmedCategories), ...(needsReview ? [REVIEW_LABEL] : [])];
 }
 
 /** Find the open `broken-station` issue for a station by its body
@@ -179,26 +201,165 @@ export function planStation(station, probes, { threshold = DEFAULT_THRESHOLD } =
   const sections = [];
   const confirmCategories = []; // received → confirmed this run
   const labelCategories = []; // every category the (open) issue should carry
+  const held = []; // categories with no issue this run — digest material
+  let needsReview = false;
   for (const cat of station.categories.values()) {
     const kind = CATEGORY_PROBE[cat.category] ?? null;
     const probe = kind ? probes[kind] ?? null : null;
     const probeFailed = probe ? probe.failed : false;
     const willConfirm = decideConfirm({ probeFailed, count: cat.count, threshold });
     const alreadyConfirmed = cat.confirmedCount > 0;
-    const isActive = willConfirm || alreadyConfirmed;
-    if (!isActive) continue;
+    const comments = cat.comments.map(sanitizeComment).filter(Boolean);
+    const probeEvidence = probe ? probe.evidence : kind ? 'not probed (no catalog entry)' : 'not probe-able';
+    // A category nothing can probe never confirms below the threshold, so
+    // a reporter's words would be read by nobody. Hand them to a human
+    // without confirming anything (#820).
+    const reviewOnly = !willConfirm && !alreadyConfirmed && !kind && comments.length > 0;
+    const isActive = willConfirm || alreadyConfirmed || reviewOnly;
+    if (!isActive) {
+      held.push({
+        category: cat.category,
+        count: cat.count,
+        probeKind: kind,
+        probeEvidence,
+        comments,
+        rows: cat.rows ?? [],
+      });
+      continue;
+    }
     labelCategories.push(cat.category);
     if (willConfirm && cat.receivedCount > 0) confirmCategories.push(cat.category);
+    if (reviewOnly) needsReview = true;
     sections.push({
       category: cat.category,
       count: cat.count,
       probeKind: kind,
-      probeEvidence: probe ? probe.evidence : kind ? 'not probed (no catalog entry)' : 'not probe-able',
-      reason: probeFailed ? 'probe failed' : `${cat.count} report(s) ≥ threshold ${threshold}`,
-      comments: cat.comments.map(sanitizeComment).filter(Boolean),
+      probeEvidence,
+      reviewOnly,
+      reason: reviewOnly
+        ? 'not confirmed — reporter comment on a category that cannot be probed'
+        : probeFailed
+          ? 'probe failed'
+          : `${cat.count} report(s) ≥ threshold ${threshold}`,
+      comments,
     });
   }
-  return { shouldOpenIssue: sections.length > 0, sections, confirmCategories, labelCategories };
+  return { shouldOpenIssue: sections.length > 0, sections, confirmCategories, labelCategories, needsReview, held };
+}
+
+// ─── held reports: digest + age-out (#819) ───────────────────────────
+
+/** `id@YYYY-MM-DD` pairs from the previous digest body → Map(id → date). */
+export function parseHeldMarker(body) {
+  const out = new Map();
+  const m = HELD_MARKER_RE.exec(body || '');
+  if (!m || !m[1]) return out;
+  for (const pair of m[1].split(',')) {
+    const at = pair.lastIndexOf('@');
+    if (at <= 0) continue;
+    const date = pair.slice(at + 1);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(date)) out.set(pair.slice(0, at), date);
+  }
+  return out;
+}
+
+export function heldMarker(listedSince) {
+  const pairs = [...listedSince.entries()].map(([id, date]) => `${id}@${date}`);
+  return `<!-- rrradio:held=${pairs.join(',')} -->`;
+}
+
+/**
+ * Split one held category's rows into those to resolve as
+ * not-reproducible and those that stay on hold. A row ages out only when
+ * it is older than `maxAgeDays` AND its station has been listed in the
+ * digest for `graceDays` — so nothing is closed that a human never had
+ * the chance to see. `maxAgeDays` 0 disables ageing out.
+ */
+export function partitionHeldRows(rows, { now, maxAgeDays, graceDays, listedSince }) {
+  const expiredIds = [];
+  const live = [];
+  const listedMs = listedSince ? Date.parse(`${listedSince}T00:00:00Z`) : NaN;
+  const graceMet = Number.isFinite(listedMs) && now - listedMs >= graceDays * DAY_MS;
+  for (const r of rows) {
+    const createdMs = r.createdAt ? Date.parse(r.createdAt) : NaN;
+    const old = maxAgeDays > 0 && Number.isFinite(createdMs) && now - createdMs > maxAgeDays * DAY_MS;
+    if (old && graceMet && r.id) expiredIds.push(r.id);
+    else live.push(r);
+  }
+  return { expiredIds, live };
+}
+
+/** Station ids in `current` that the previous digest did not list. */
+export function newlyHeld(previous, current) {
+  return current.filter((id) => !previous.has(id));
+}
+
+function oldestDate(rows) {
+  const dates = rows.map((r) => r.createdAt).filter(Boolean).sort();
+  return dates.length ? dates[0].slice(0, 10) : null;
+}
+
+/** One digest line group for a station: `entry` is { stationId,
+ *  stationName, catalogPresent, categories: held[] }. */
+export function digestEntryLines(entry) {
+  const lines = [`- **${sanitizeComment(entry.stationName)}** · \`${entry.stationId}\`${entry.catalogPresent ? '' : ' · not in catalog'}`];
+  for (const c of entry.categories) {
+    const oldest = oldestDate(c.rows);
+    const bits = [
+      `${c.category} ×${c.rows.length}`,
+      oldest ? `since ${oldest}` : null,
+      c.probeKind ? `probe (${c.probeKind}): ${c.probeEvidence}` : 'not probe-able',
+    ].filter(Boolean);
+    lines.push(`  - ${bits.join(' · ')}`);
+    for (const comment of c.comments) {
+      lines.push(`    > ${comment.replace(/\n/g, '\n    > ')}`);
+    }
+  }
+  return lines;
+}
+
+export function buildDigestBody(entries, { listedSince, threshold, maxAgeDays, graceDays, generatedAt, runUrl } = {}) {
+  const lines = [DIGEST_MARKER, heldMarker(listedSince ?? new Map()), ''];
+  lines.push(
+    `_Reports that automated triage could not confirm: the probe passed (or nothing could be probed) and fewer than ${threshold} reports agree. No issue exists for these stations and the reporters have no answer yet._`,
+  );
+  lines.push('');
+  lines.push(
+    maxAgeDays > 0
+      ? `A report older than ${maxAgeDays} days is resolved as \`not-reproducible\` once its station has been listed here for ${graceDays} days. To act on one sooner, fix the catalog or open a \`broken-station\` issue with the station marker.`
+      : 'Held reports do not age out (HOLD_MAX_DAYS=0).',
+  );
+  lines.push('');
+  if (entries.length === 0) {
+    lines.push('Nothing on hold.');
+  } else {
+    lines.push(`### On hold — ${entries.length} station(s)`);
+    lines.push('');
+    for (const e of entries) lines.push(...digestEntryLines(e));
+  }
+  lines.push('');
+  lines.push('---');
+  const stamp = [
+    generatedAt ? `Last triaged ${generatedAt}` : null,
+    runUrl ? `[workflow run](${runUrl})` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  if (stamp) lines.push(stamp);
+  return lines.join('\n');
+}
+
+export function buildDigestComment(newEntries, expiredCount) {
+  const lines = [];
+  if (newEntries.length) {
+    lines.push(`**New on hold (${newEntries.length}):**`);
+    for (const e of newEntries) lines.push(...digestEntryLines(e));
+  }
+  if (expiredCount > 0) {
+    if (lines.length) lines.push('');
+    lines.push(`${expiredCount} held report(s) aged out and were resolved as \`not-reproducible\`.`);
+  }
+  return lines.join('\n');
 }
 
 export function buildIssueBody(station, plan, { catalogPresent, generatedAt, runUrl } = {}) {
@@ -217,7 +378,7 @@ export function buildIssueBody(station, plan, { catalogPresent, generatedAt, run
   for (const s of plan.sections) {
     lines.push('');
     lines.push(`### ${s.category} — ${s.count} report(s)`);
-    lines.push(`- Confirmed by: ${s.reason}`);
+    lines.push(s.reviewOnly ? `- Needs review: ${s.reason}` : `- Confirmed by: ${s.reason}`);
     if (s.probeKind) lines.push(`- Probe (${s.probeKind}): ${s.probeEvidence}`);
     if (s.comments.length) {
       lines.push('- Reporter comments:');
@@ -305,6 +466,20 @@ async function workerApplyTriage(base, token, payload) {
   return res.json();
 }
 
+async function workerResolve(base, token, reportIds, resolution) {
+  let resolved = 0;
+  for (let i = 0; i < reportIds.length; i += RESOLVE_CHUNK) {
+    const res = await fetch(`${base}/api/admin/resolve-reports`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reportIds: reportIds.slice(i, i + RESOLVE_CHUNK), resolution }),
+    });
+    if (!res.ok) throw new Error(`worker POST /api/admin/resolve-reports: ${res.status} ${await res.text()}`);
+    resolved += (await res.json()).resolved ?? 0;
+  }
+  return resolved;
+}
+
 function ghApi(repo, token) {
   const base = `https://api.github.com/repos/${repo}`;
   const headers = {
@@ -344,6 +519,21 @@ function ghApi(repo, token) {
       if (!res.ok) throw new Error(`gh update issue #${number}: ${res.status} ${await res.text()}`);
       return res.json();
     },
+    async findDigestIssue() {
+      const res = await fetch(`${base}/issues?labels=${DIGEST_LABEL}&state=open&per_page=100`, { headers });
+      if (!res.ok) throw new Error(`gh list digest issue: ${res.status} ${await res.text()}`);
+      const batch = await res.json();
+      return batch.find((i) => !i.pull_request && (i.body || '').includes(DIGEST_MARKER)) ?? null;
+    },
+    async commentIssue(number, body) {
+      const res = await fetch(`${base}/issues/${number}/comments`, {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body }),
+      });
+      if (!res.ok) throw new Error(`gh comment issue #${number}: ${res.status} ${await res.text()}`);
+      return res.json();
+    },
   };
 }
 
@@ -372,6 +562,13 @@ async function main() {
   const repo = process.env.GITHUB_REPOSITORY || 'MarkusSteinbrecher/rrradio';
   const threshold = Math.max(1, Number(process.env.REPORT_THRESHOLD) || DEFAULT_THRESHOLD);
   const timeoutMs = Math.max(2000, Number(process.env.PROBE_TIMEOUT_MS) || 8000);
+  const envDays = (name, fallback) => {
+    const n = Number(process.env[name]);
+    return process.env[name] !== undefined && process.env[name] !== '' && Number.isFinite(n) && n >= 0 ? n : fallback;
+  };
+  const maxAgeDays = envDays('HOLD_MAX_DAYS', DEFAULT_HOLD_MAX_DAYS);
+  const graceDays = envDays('DIGEST_GRACE_DAYS', DEFAULT_DIGEST_GRACE_DAYS);
+  const now = Date.now();
   const generatedAt = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
   const runUrl =
     process.env.GITHUB_SERVER_URL && process.env.GITHUB_RUN_ID
@@ -397,6 +594,7 @@ async function main() {
   let confirmedCount = 0;
   let issuesOpened = 0;
   let issuesUpdated = 0;
+  const heldStations = []; // stations with no issue this run → digest
 
   for (const station of stations.values()) {
     if (processed >= MAX_STATIONS_PER_RUN) {
@@ -417,14 +615,24 @@ async function main() {
     const plan = planStation(station, probes, { threshold });
     if (args.verbose) {
       console.log(
-        `  ${station.stationId}: ${cats.join(',')} → ${plan.shouldOpenIssue ? `confirm[${plan.labelCategories.join(',')}]` : 'hold (no confirmation yet)'}`,
+        `  ${station.stationId}: ${cats.join(',')} → ${plan.shouldOpenIssue ? `${plan.confirmCategories.length || !plan.needsReview ? 'confirm' : 'review'}[${plan.labelCategories.join(',')}]` : 'hold (no confirmation yet)'}`,
       );
     }
-    if (!plan.shouldOpenIssue) continue;
+    if (!plan.shouldOpenIssue) {
+      // Held categories of a station that does get an issue ride along
+      // with it (the issue number is stamped on all its open rows).
+      heldStations.push({
+        stationId: station.stationId,
+        stationName: station.stationName,
+        catalogPresent: Boolean(entry),
+        categories: plan.held,
+      });
+      continue;
+    }
 
     const title = buildIssueTitle(station);
     const body = buildIssueBody(station, plan, { catalogPresent: Boolean(entry), generatedAt, runUrl });
-    const labels = issueLabels(plan.labelCategories);
+    const labels = issueLabels(plan.labelCategories, { needsReview: plan.needsReview });
 
     if (dryRun) {
       console.log(`  [dry-run] would upsert issue: ${title} · labels ${labels.join(',')}`);
@@ -453,6 +661,58 @@ async function main() {
     confirmedCount += applied.confirmed ?? 0;
     console.log(
       `  #${issueNumber} ${existing ? 'updated' : 'opened'} for ${station.stationId} · confirmed ${applied.confirmed} · linked ${applied.linked}`,
+    );
+  }
+
+  // ─── held reports: age out, then one digest issue (#819) ───
+  // A dry run does not read GitHub, so it has no "listed since" dates:
+  // it shows the digest it would write and ages nothing out.
+  const digestIssue = !dryRun && gh ? await gh.findDigestIssue() : null;
+  const previous = parseHeldMarker(digestIssue?.body ?? '');
+  const today = generatedAt.slice(0, 10);
+  const listedSince = new Map();
+  const entries = [];
+  const expiredIds = [];
+  for (const st of heldStations) {
+    const categories = [];
+    for (const cat of st.categories) {
+      const part = partitionHeldRows(cat.rows, {
+        now,
+        maxAgeDays,
+        graceDays,
+        listedSince: previous.get(st.stationId) ?? null,
+      });
+      expiredIds.push(...part.expiredIds);
+      if (part.live.length) categories.push({ ...cat, rows: part.live });
+    }
+    if (!categories.length) continue;
+    entries.push({ ...st, categories });
+    listedSince.set(st.stationId, previous.get(st.stationId) ?? today);
+  }
+  const newIds = new Set(newlyHeld(previous, [...listedSince.keys()]));
+  const newEntries = entries.filter((e) => newIds.has(e.stationId));
+
+  if (dryRun) {
+    console.log(`  [dry-run] would list ${entries.length} station(s) in the digest issue`);
+    if (args.verbose) {
+      console.log(buildDigestBody(entries, { listedSince, threshold, maxAgeDays, graceDays, generatedAt, runUrl }));
+    }
+  } else {
+    let resolved = 0;
+    if (expiredIds.length) resolved = await workerResolve(base, adminToken, expiredIds, 'not-reproducible');
+    const body = buildDigestBody(entries, { listedSince, threshold, maxAgeDays, graceDays, generatedAt, runUrl });
+    let number = digestIssue?.number ?? null;
+    if (number) {
+      await gh.updateIssue(number, { title: DIGEST_TITLE, body, labels: [DIGEST_LABEL] });
+      // Editing a body notifies nobody; a comment does. Only speak up
+      // when something changed for the reader.
+      const note = buildDigestComment(newEntries, resolved);
+      if (note) await gh.commentIssue(number, note);
+    } else if (entries.length) {
+      number = (await gh.createIssue({ title: DIGEST_TITLE, body, labels: [DIGEST_LABEL] })).number;
+    }
+    console.log(
+      `  digest${number ? ` #${number}` : ''}: ${entries.length} station(s) on hold · ${newEntries.length} new · ${resolved} report(s) aged out`,
     );
   }
 

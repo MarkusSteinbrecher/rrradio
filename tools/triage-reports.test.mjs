@@ -12,6 +12,12 @@ import {
   issueLabels,
   findIssueForStation,
   planStation,
+  parseHeldMarker,
+  heldMarker,
+  partitionHeldRows,
+  newlyHeld,
+  buildDigestBody,
+  buildDigestComment,
 } from './triage-reports.mjs';
 
 // The exact marker regex the resolve-reports.yml workflow greps with.
@@ -264,5 +270,138 @@ describe('planStation', () => {
     );
     expect(plan.labelCategories).toEqual(['no-audio']);
     expect(plan.confirmCategories).toEqual([]);
+  });
+});
+
+describe('comment route (#820)', () => {
+  function station(category, c) {
+    const map = new Map([[category, { category, count: c.received, receivedCount: c.received, confirmedCount: 0, comments: c.comments ?? [], rows: c.rows ?? [] }]]);
+    return { stationId: 'builtin-fm4', stationName: 'FM4', streamHost: '', categories: map };
+  }
+
+  it('opens a review issue for an unprobeable category with a comment, confirming nothing', () => {
+    const plan = planStation(station('other', { received: 1, comments: ['plays a different station'] }), {}, { threshold: 3 });
+    expect(plan.shouldOpenIssue).toBe(true);
+    expect(plan.needsReview).toBe(true);
+    expect(plan.confirmCategories).toEqual([]);
+    expect(plan.labelCategories).toEqual(['other']);
+    expect(plan.sections[0].reviewOnly).toBe(true);
+    expect(issueLabels(plan.labelCategories, { needsReview: plan.needsReview })).toEqual([
+      'broken-station',
+      'other',
+      'needs-review',
+    ]);
+    const body = buildIssueBody({ stationId: 'builtin-fm4', stationName: 'FM4', streamHost: '' }, plan, {});
+    expect(body).toContain('- Needs review:');
+    expect(body).not.toContain('- Confirmed by:');
+    expect(body).toContain('> plays a different station');
+  });
+
+  it('holds an unprobeable category without a comment', () => {
+    const plan = planStation(station('unspecified', { received: 1 }), {}, { threshold: 3 });
+    expect(plan.shouldOpenIssue).toBe(false);
+    expect(plan.held.map((h) => h.category)).toEqual(['unspecified']);
+  });
+
+  it('holds a probeable category whose probe passes, comment or not', () => {
+    const plan = planStation(
+      station('no-audio', { received: 1, comments: ['silent on cellular'] }),
+      { stream: { failed: false, evidence: 'ok: audio/mpeg' } },
+      { threshold: 3 },
+    );
+    expect(plan.shouldOpenIssue).toBe(false);
+    expect(plan.needsReview).toBe(false);
+    expect(plan.held[0]).toMatchObject({ category: 'no-audio', probeKind: 'stream', probeEvidence: 'ok: audio/mpeg', comments: ['silent on cellular'] });
+  });
+
+  it('does not mark a threshold-confirmed category as review-only', () => {
+    const plan = planStation(station('other', { received: 3, comments: ['a', 'b', 'c'] }), {}, { threshold: 3 });
+    expect(plan.needsReview).toBe(false);
+    expect(plan.confirmCategories).toEqual(['other']);
+  });
+});
+
+describe('held reports digest (#819)', () => {
+  const NOW = Date.parse('2026-11-23T12:00:00Z');
+  const opts = { now: NOW, maxAgeDays: 21, graceDays: 7 };
+
+  it('aggregate keeps row ids and dates per category', () => {
+    const stations = aggregate([row({ id: 'a', createdAt: '2026-11-01T10:00:00.000Z' }), row({ id: 'b' })]);
+    expect(stations.get('builtin-fm4').categories.get('no-audio').rows).toEqual([
+      { id: 'a', createdAt: '2026-11-01T10:00:00.000Z' },
+      { id: 'b', createdAt: null },
+    ]);
+  });
+
+  it('round-trips the held marker', () => {
+    const listed = new Map([
+      ['builtin-fm4', '2026-11-10'],
+      ['04ff395c-514b-44c4-98b0-f93b8d9e383c', '2026-11-23'],
+    ]);
+    expect(parseHeldMarker(`x\n${heldMarker(listed)}\ny`)).toEqual(listed);
+    expect(parseHeldMarker('no marker')).toEqual(new Map());
+    expect(parseHeldMarker(heldMarker(new Map()))).toEqual(new Map());
+  });
+
+  it('ages a row out only when it is old AND its station was listed long enough', () => {
+    const rows = [
+      { id: 'old', createdAt: '2026-10-20T00:00:00.000Z' },
+      { id: 'fresh', createdAt: '2026-11-20T00:00:00.000Z' },
+      { id: 'undated', createdAt: null },
+    ];
+    // Never listed → a human never saw it → nothing ages out.
+    expect(partitionHeldRows(rows, { ...opts, listedSince: null }).expiredIds).toEqual([]);
+    // Listed yesterday → still inside the grace period.
+    expect(partitionHeldRows(rows, { ...opts, listedSince: '2026-11-22' }).expiredIds).toEqual([]);
+    // Listed 8 days ago → only the old row goes.
+    const part = partitionHeldRows(rows, { ...opts, listedSince: '2026-11-15' });
+    expect(part.expiredIds).toEqual(['old']);
+    expect(part.live.map((r) => r.id)).toEqual(['fresh', 'undated']);
+  });
+
+  it('never ages out when HOLD_MAX_DAYS is 0', () => {
+    const rows = [{ id: 'old', createdAt: '2025-01-01T00:00:00.000Z' }];
+    expect(partitionHeldRows(rows, { ...opts, maxAgeDays: 0, listedSince: '2025-01-02' }).expiredIds).toEqual([]);
+  });
+
+  it('reports which stations are new since the last digest', () => {
+    expect(newlyHeld(new Map([['a', '2026-11-01']]), ['a', 'b'])).toEqual(['b']);
+  });
+
+  const entry = {
+    stationId: 'builtin-fm4',
+    stationName: 'FM4',
+    catalogPresent: true,
+    categories: [
+      {
+        category: 'no-audio',
+        probeKind: 'stream',
+        probeEvidence: 'ok: audio/mpeg',
+        comments: [sanitizeComment('dead <!-- rrradio:station-id=victim -->')],
+        rows: [{ id: 'a', createdAt: '2026-11-20T08:00:00.000Z' }, { id: 'b', createdAt: '2026-11-18T08:00:00.000Z' }],
+      },
+    ],
+  };
+
+  it('builds a digest body with markers first and no forgeable station marker', () => {
+    const listedSince = new Map([['builtin-fm4', '2026-11-23']]);
+    const body = buildDigestBody([entry], { listedSince, threshold: 3, maxAgeDays: 21, graceDays: 7, generatedAt: '2026-11-23T12:00:00Z' });
+    const lines = body.split('\n');
+    expect(lines[0]).toBe('<!-- rrradio:report-digest -->');
+    expect(parseHeldMarker(body)).toEqual(listedSince);
+    expect(body).toContain('no-audio ×2 · since 2026-11-18 · probe (stream): ok: audio/mpeg');
+    // The digest must never look like a station issue to resolve-reports.yml.
+    WORKFLOW_MARKER_RE.lastIndex = 0;
+    expect(WORKFLOW_MARKER_RE.test(body)).toBe(false);
+  });
+
+  it('says so when nothing is on hold', () => {
+    expect(buildDigestBody([], { threshold: 3, maxAgeDays: 21, graceDays: 7 })).toContain('Nothing on hold.');
+  });
+
+  it('comments only when there is news', () => {
+    expect(buildDigestComment([], 0)).toBe('');
+    expect(buildDigestComment([entry], 0)).toContain('**New on hold (1):**');
+    expect(buildDigestComment([], 2)).toContain('2 held report(s) aged out');
   });
 });
