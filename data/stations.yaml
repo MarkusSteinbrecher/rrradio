@@ -6609,6 +6609,7 @@
   country: ES
   status: stream-only
 - id: es-cadena-100
+  bitrate: 192
   favicon: "https://www.cadena100.es/estaticos/apple-touch-icon-192x192.png"
   faviconSource: broadcaster-site
   stationuuid: 960c37c6-0601-11e8-ae97-52543be04c81
@@ -6619,8 +6620,8 @@
     - -3.703
   broadcaster: independent
   name: Cadena 100
-  streamUrl: https://cadena100-cope.flumotion.com/chunks.m3u8
-  codec: AAC
+  streamUrl: https://cadena100bcn-cope.flumotion.com/playlist.m3u8
+  codec: MP3
   tags:
     - pop
     - hits
