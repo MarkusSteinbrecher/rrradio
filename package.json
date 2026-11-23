@@ -55,6 +55,7 @@
     "improve-rb": "node tools/improve-rb.mjs",
     "logo-status": "node tools/logo-status.mjs",
     "scout-logos": "node tools/browser-logo-scout.mjs",
+    "judge-logos": "node tools/logo-fill-judge.mjs",
     "probe-logos": "node tools/probe-logo-sizes.mjs",
     "clear-dead-favicons": "node tools/clear-dead-favicons.mjs",
     "rasterise-remote-svgs": "node tools/rasterise-remote-svgs.mjs",
@@ -89,7 +90,6 @@
     "leaflet": "^1.9.4"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "^1.12.0",
     "@resvg/resvg-js": "^2.6.2",
     "@types/leaflet": "^1.9.22",
     "happy-dom": "^20.14.6",

@@ -16,6 +16,8 @@
  * in tools/build-health-dashboard.mjs does the file I/O.
  */
 
+import { pendingCandidates } from './logo-fill-queue.mjs';
+
 export const DASHBOARD_VERSION = 1;
 
 /** Column order of every row in `rows`. Append-only once shipped — the
@@ -186,12 +188,15 @@ export function summariseActions(files, days = 30) {
  *   ok       — of those, the probe grades it ok
  * `survival` = ok / graded, null until something was graded. This is the
  * number that says whether the loop adds logos or adds churn.
+ *   pending / oldestPending — candidates the judging session has not looked
+ *   at yet, and since when: a queue that only grows means the session died.
  *
  * @param {object[]} files parsed actions/<day>.json
  * @param {object[]} catalog published stations
  * @param {{stations?: Record<string, {logo?: {v: string, d?: string}}>}} record
+ * @param {{candidates?: object, verdicts?: object}} [queue] health-data/logo-fill/
  */
-export function summariseLogoFills(files, catalog, record) {
+export function summariseLogoFills(files, catalog, record, queue = {}) {
   const favicon = new Map((catalog ?? []).filter((s) => s?.id).map((s) => [s.id, s.favicon ?? null]));
   const latest = new Map();
   for (const f of [...(files ?? [])].sort((a, b) => String(a?.day).localeCompare(String(b?.day)))) {
@@ -199,7 +204,8 @@ export function summariseLogoFills(files, catalog, record) {
       if (a?.auto && a.action === 'fill-logo' && a.id && a.newFavicon) latest.set(a.id, a.newFavicon);
     }
   }
-  const out = { proposed: latest.size, landed: 0, graded: 0, ok: 0, survival: null };
+  const waiting = pendingCandidates(queue.candidates ?? {}, queue.verdicts ?? {});
+  const out = { proposed: latest.size, landed: 0, graded: 0, ok: 0, survival: null, pending: waiting.length, oldestPending: waiting[0]?.day ?? null };
   for (const [id, url] of latest) {
     if (favicon.get(id) !== url) continue;
     out.landed += 1;
@@ -221,9 +227,10 @@ export function summariseLogoFills(files, catalog, record) {
  * @param {object | null} [input.metrics] latest metrics.json
  * @param {object[]} [input.history] metrics-history rows
  * @param {object[]} [input.actions] parsed health-data/actions/<day>.json files
+ * @param {{candidates?: object, verdicts?: object}} [input.fillQueue] health-data/logo-fill/ queue files
  * @param {string} [input.now] ISO timestamp for generatedAt
  */
-export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metrics = null, history = [], actions = [], now }) {
+export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metrics = null, history = [], actions = [], fillQueue = {}, now }) {
   const stations = record?.stations ?? {};
   const rows = [];
   let curated = 0;
@@ -252,7 +259,7 @@ export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metri
     metrics,
     history: compactHistory(history),
     automation: summariseActions(actions),
-    logoFill: summariseLogoFills(actions, catalog, record),
+    logoFill: summariseLogoFills(actions, catalog, record, fillQueue),
     cols: [...COLS],
     rows,
   };

@@ -8,8 +8,9 @@ name: Catalog actions
 #
 #   decide → tools/decide-actions.mjs reads the streaks on `health-data`,
 #            asks the Worker edge for a second opinion on soft failures,
-#            asks Radio Browser for a replacement URL, looks for a logo on
-#            the homepage of stations that have none (rule 9), and writes
+#            asks Radio Browser for a replacement URL, queues logos it finds
+#            for stations that have none and applies the ones the judging
+#            session confirmed (rule 9, docs/logo-fill-judge.md), and writes
 #            actions.json (audited on health-data/actions/).
 #   act    → tools/apply-actions.mjs materialises the actions as a diff
 #            of data/stations.yaml + public/stations.json and runs
@@ -108,9 +109,6 @@ jobs:
         id: decide
         env:
           STATS_ADMIN_TOKEN: ${{ secrets.STATS_ADMIN_TOKEN }}
-          # Rule 9 (fill-logo): the vision judge. Without the secret the
-          # step logs "logo-fill: skipped" and everything else runs as before.
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           node tools/decide-actions.mjs --data health-data --out actions.json
           echo "day=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"

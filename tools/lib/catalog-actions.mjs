@@ -289,7 +289,7 @@ export const FILL_PROVENANCE = Object.freeze({ faviconSource: 'broadcaster-site'
 /**
  * Give a logo-less station the icon the finder vetted (rule 9 `fill-logo`).
  * decide-actions only proposes it after the image loaded with a foreign
- * Referer, decoded, passed the probe's grading and a vision judge said yes —
+ * Referer, decoded, passed the probe's grading and the judging session said yes —
  * so this is a field edit. YAML gets `favicon` + provenance and loses the
  * `faviconBlocked*` trio (local YAML wins, the block is moot once a real
  * favicon is set); the JSON row gets the same fields where build-catalog
@@ -554,7 +554,7 @@ function whatToCheck(a) {
     return `open ${a.newFavicon ?? 'the https logo URL'} in a browser and confirm it is the station's logo (the http listing ${a.favicon ?? ''} could never show under the app's CSP). Merge = ship the https URL, close = keep the http one.`;
   }
   if (a.action === 'fill-logo') {
-    return `open ${a.newFavicon ?? 'the logo URL'} in a browser and confirm it is this station's logo (found on its own site, confirmed by the vision judge). Merge = the station gets this logo, close = it keeps the placeholder.`;
+    return `open ${a.newFavicon ?? 'the logo URL'} in a browser and confirm it is this station's logo (found on its own site, confirmed by the judging session). Merge = the station gets this logo, close = it keeps the placeholder.`;
   }
   return 'inspect the diff.';
 }

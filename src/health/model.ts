@@ -84,6 +84,9 @@ export interface LogoFillSummary {
   graded: number;
   ok: number;
   survival: number | null;
+  /** Candidates the judging session has not looked at yet, and since when. */
+  pending?: number;
+  oldestPending?: string | null;
 }
 
 export interface Dashboard {

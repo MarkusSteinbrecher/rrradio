@@ -36,7 +36,7 @@ function run(logoFills, over = {}) {
 
 describe('rule 9 — fill-logo', () => {
   it('acts only on a judge yes: long tail automatic, curated to review', () => {
-    const r = run(new Map([['tail-yes', fill('yes')], ['cur-yes', fill('yes')], ['tail-no', fill('no')], ['tail-unsure', fill('unsure')], ['tail-unjudged', fill(null)]]));
+    const r = run(new Map([['tail-yes', fill('yes')], ['cur-yes', fill('yes')], ['tail-no', fill('no')], ['tail-unjudged', fill(null)]]));
     expect(r.actions.map((a) => [a.id, a.action, a.auto, a.proposed ?? null])).toEqual([
       ['tail-yes', 'fill-logo', true, null],
       ['cur-yes', 'review', false, 'fill-logo'],
@@ -46,7 +46,6 @@ describe('rule 9 — fill-logo', () => {
     expect(r.skipped).toEqual([
       { id: 'tail-no', why: 'fill-judge-no' },
       { id: 'tail-unjudged', why: 'fill-unjudged' },
-      { id: 'tail-unsure', why: 'fill-judge-unsure' },
     ]);
   });
 
@@ -152,8 +151,9 @@ describe('dashboard', () => {
   it('reports how many fills landed and still grade ok', () => {
     const catalog = [{ id: 'a', favicon: 'https://a/1.png' }, { id: 'b', favicon: 'https://b/1.png' }, { id: 'c', favicon: 'https://c/1.png' }, { id: 'd' }];
     const record = { stations: { a: { logo: { v: 'ok', d: 'good' } }, b: { logo: { v: 'bad', d: 'HTTP 404' } }, c: { logo: { v: 'bad', d: 'missing' } } } };
-    expect(summariseLogoFills(files, catalog, record)).toEqual({ proposed: 4, landed: 3, graded: 2, ok: 1, survival: 0.5 });
-    expect(summariseLogoFills([], catalog, record)).toEqual({ proposed: 0, landed: 0, graded: 0, ok: 0, survival: null });
+    expect(summariseLogoFills(files, catalog, record)).toEqual({ proposed: 4, landed: 3, graded: 2, ok: 1, survival: 0.5, pending: 0, oldestPending: null });
+    const queue = { candidates: { x: { url: 'https://x/1.png', day: '2026-11-21' }, y: { url: 'https://y/1.png', day: '2026-11-19' }, z: { url: 'https://z/1.png', day: '2026-11-18' } }, verdicts: { z: { url: 'https://z/1.png', verdict: 'no' } } };
+    expect(summariseLogoFills([], catalog, record, queue)).toEqual({ proposed: 0, landed: 0, graded: 0, ok: 0, survival: null, pending: 2, oldestPending: '2026-11-19' });
   });
 
   it('carries logo coverage into the history points', () => {

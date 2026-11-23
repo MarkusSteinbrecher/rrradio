@@ -452,13 +452,22 @@ budgeted vision routine (judgement half) is a separate decision.
   on their own site, about three in four of those the real brand mark; the
   rest are generic clip-art, CMS / framework defaults, or a hotlink "stop"
   picture. So the search is deterministic and the model only confirms.
-- **Decision.** Find → guard → judge inside `decide-actions`, as rule 9.
-  The judge is one small vision model call per twenty finds and only a
-  `yes` acts. A fill never replaces a logo. Same contracts as every other
-  rule: action in the audit file, actuator kind, two PRs, digest count,
-  dashboard label.
-- **Validation.** Dashboard: Good-logos trend, "Logo added" per day, and
-  fill survival (`logoFill`: proposed / landed / graded / ok). Target from
+- **Decision.** Find → guard in `decide-actions`, judge in a scheduled
+  Claude session, as rule 9. CI queues the guarded finds on
+  `health-data/logo-fill/candidates.json`; the session
+  (`docs/logo-fill-judge.md`) looks at numbered contact sheets and writes
+  `verdicts.json`; the next decide run acts on every `yes`. A fill never
+  replaces a logo. Same contracts as every other rule: action in the audit
+  file, actuator kind, two PRs, digest count, dashboard label.
+- **Why not a model call from CI.** A first cut judged with a Messages API
+  call from the workflow. That needs an API key and its own billing next to
+  the sponsor's Claude subscription, for a job a scheduled session does as
+  well — a day later, which does not matter for logos. Rejected by the
+  sponsor 2026-11-23. The queue also degrades better: no session, no fills,
+  nothing else affected.
+- **Validation.** Dashboard: Good-logos trend, "Logo added" per day, fill
+  survival (`logoFill`: proposed / landed / graded / ok) and the judge
+  backlog (`pending`, `oldestPending`). Target from
   phase 3 stands: most-played logo coverage ≥ 95 %.
 - **Not covered.** Stations whose homepage is an aggregator or declares
   nothing (about 45 % of the missing ones) need a search by name; that stays

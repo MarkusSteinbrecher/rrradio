@@ -430,12 +430,14 @@ three steps for published stations whose logo verdict is `missing`:
    protection), and grade `ok` under the probe's own `classifyLogo`
    (`tools/lib/logo-fill-fetch.mjs`). A picture shared by three unrelated
    sites is a platform default and is dropped and remembered.
-3. **Judge** (cheap) — the surviving tiles go to a small vision model, twenty
-   per request, each labelled with the station's name, country and site
-   (`tools/lib/logo-judge.mjs`, Claude Haiku). It answers yes / no / unsure;
-   only `yes` acts. Needs the `ANTHROPIC_API_KEY` repository secret —
-   without it the step logs `logo-fill: skipped` and the rest of the loop is
-   unchanged.
+3. **Judge** — the survivors are queued on
+   `health-data/logo-fill/candidates.json`. A scheduled Claude session
+   (runbook: `docs/logo-fill-judge.md`) looks at them as numbered contact
+   sheets (`tools/logo-fill-judge.mjs sheets`) and records yes / no / unsure
+   per station (`… record` → `logo-fill/verdicts.json`). The next morning's
+   `decide-actions` settles the queue (`tools/lib/logo-fill-queue.mjs`):
+   only `yes` acts. No API key and no model call from CI. A `no` flagged
+   `generic` teaches the platform-default filter that picture.
 
 A `yes` becomes `fill-logo`: automatic for the long tail, a review proposal
 for curated and highlighted stations. The actuator writes `favicon`,
@@ -449,21 +451,27 @@ Budget and memory: `--max-fill` homepages a run (default 150, most-played
 stations first), `caps.fill` = 100 automatic fills a day, own cap like
 8b. `health-data/logo-fill/attempts.json` remembers who was tried and what
 came of it — a station is not asked again for 30 days — and
-`generic-hashes.json` the pictures learned to be platform defaults. Rule 1
+`generic-hashes.json` the pictures learned to be platform defaults. The
+finder pauses while 400 candidates await a verdict; an unjudged candidate
+expires after 21 days. If the judging session stops running, the queue
+fills, the finder pauses, and nothing else in the loop changes. Rule 1
 applies; the logo breaker does not (the image loaded this run).
 
 How to tell it works (all on `/catalog-health`): the **Good logos** trend
 (share of published stations with an `ok` logo), **Logo added** in "Fixed
 automatically", and the survival line under "Logo issues" — of the fills that
 landed in the last 30 days, how many the probe still grades `ok`
-(`dashboard.json` → `logoFill`). The weekly digest carries
+(`dashboard.json` → `logoFill`), plus how many candidates wait for the judge
+and since when. The weekly digest carries
 `Logo coverage (ok ÷ published)` with its 7-day delta and `logos added n`.
 
-Local look at what the finder turns up, without proposing anything:
+Rehearse the whole cycle on a copy of `health-data` (nothing is pushed):
 
 ```bash
-node tools/decide-actions.mjs --data <health-data copy> --out /tmp/actions.json \
-  --no-edge --no-rb --no-logo-upgrade --fill-judge none --fill-report /tmp/fills.json
+git worktree add --detach /tmp/hd origin/health-data
+node tools/decide-actions.mjs --data /tmp/hd --out /tmp/a1.json --no-edge --no-rb --no-logo-upgrade   # queues candidates
+node tools/logo-fill-judge.mjs sheets --data /tmp/hd --out /tmp/judge                                 # then judge + record
+node tools/decide-actions.mjs --data /tmp/hd --out /tmp/a2.json --no-edge --no-rb --no-logo-upgrade --max-fill 0
 ```
 
 ### Snapshots
@@ -489,7 +497,7 @@ is observed, not assumed.
 | 7 | cap: 200 automatic actions per run, worst first | overflow waits | — |
 | 8 | `logo` · `bad` · `hard` · ≥ 3 distinct days (phase 3) — never for `missing` or `http`; a non-structural logo failure share > 15 % (missing / http excluded) skips every logo action (`logo-circuit-breaker`) | clear-logo, automatic | proposal for review |
 | 8b | latest `logo` verdict `http` and the https twin loads and decodes when `decide-actions` probes it (#701) — own cap of 200, the logo breaker does not apply | upgrade-logo, automatic | proposal for review |
-| 9 | latest `logo` verdict `missing`, an icon found on the station's own homepage passes every guard, and the vision judge says `yes` — own cap of 100, the logo breaker does not apply | fill-logo, automatic | proposal for review |
+| 9 | latest `logo` verdict `missing`, an icon found on the station's own homepage passes every guard, and the judging session says `yes` — own cap of 100, the logo breaker does not apply | fill-logo, automatic | proposal for review |
 
 Curated tier = `working` / `icy-only` / `featured: true` / referenced from
 `data/highlights.yaml`. Every edge answer is appended to the observation log

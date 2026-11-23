@@ -33,9 +33,9 @@
  *                          logo breaker does not apply — a twin that loads
  *                          today is positive evidence, not a guess
  *   9 logo `missing` and a  long tail: fill-logo · curated: review. The CLI finds
- *     judged find          an icon on the station's own site, guards it and
- *                          has a vision model confirm it (`logoFills`); only
- *                          a judge `yes` acts. Own `caps.fill`. Never
+ *     judged find          an icon on the station's own site and guards it;
+ *                          the judging session confirms it (`logoFills`,
+ *                          docs/logo-fill-judge.md); only a `yes` acts. Own `caps.fill`. Never
  *                          replaces a logo, so there is nothing to undo but
  *                          the placeholder
  *

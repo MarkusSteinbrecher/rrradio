@@ -81,6 +81,10 @@ const dashboard = buildDashboard({
   metrics: readJson(join(data, 'metrics.json'), null),
   history: readNdjson(join(data, 'metrics-history.ndjson')),
   actions: readActions(join(data, 'actions')),
+  fillQueue: {
+    candidates: readJson(join(data, 'logo-fill', 'candidates.json'), {}),
+    verdicts: readJson(join(data, 'logo-fill', 'verdicts.json'), {}),
+  },
 });
 
 const outPath = resolve(args.out);

@@ -7,8 +7,9 @@
  * (2026-11-23) showed 30 % of missing-logo stations declare a usable icon on
  * their own site (apple-touch-icon / manifest icon ≥ 120 px), and about three
  * in four of those are the real brand mark. So: find deterministically, guard
- * deterministically, and spend a model only on the last yes/no
- * (tools/lib/logo-judge.mjs). No DOM, no network here — the I/O lives in
+ * deterministically, and spend eyes only on the last yes/no — a scheduled
+ * Claude session working through a queue (tools/lib/logo-fill-queue.mjs,
+ * docs/logo-fill-judge.md). No DOM, no network here — the I/O lives in
  * tools/lib/logo-fill-fetch.mjs; unit-tested in logo-fill.test.mjs.
  */
 

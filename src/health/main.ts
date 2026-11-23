@@ -446,7 +446,7 @@ const AUTO_KINDS = [
   ['urlSwapped', 'Stream replaced', 'Dead URL swapped for a working one'],
   ['logoCleared', 'Dead logo removed', 'The app shows a placeholder instead'],
   ['logoUpgraded', 'Logo moved to https', 'Same image, now allowed by the app'],
-  ['logoFilled', 'Logo added', 'Found on the station’s own site, confirmed by a vision check'],
+  ['logoFilled', 'Logo added', 'Found on the station’s own site, confirmed by eye before it ships'],
   ['review', 'Sent to review', 'Curated stations wait for a human'],
 ] as const;
 
@@ -454,15 +454,19 @@ const AUTO_KINDS = [
 function renderLogoFill(): void {
   const f = dash.logoFill;
   const note = must('logo-fill-note');
+  const queue =
+    f && (f.pending ?? 0) > 0
+      ? ` ${fmtInt(f.pending ?? 0)} found and waiting for the vision check${f.oldestPending ? `, oldest since ${fmtDay(f.oldestPending)}` : ''}.`
+      : '';
   if (!f || f.proposed === 0) {
-    note.textContent = 'No logos added automatically in the last 30 days.';
+    note.textContent = `No logos added automatically in the last 30 days.${queue}`;
     return;
   }
   const held =
     f.survival === null
       ? 'none re-checked yet'
       : `${fmtInt(f.ok)} of ${fmtInt(f.graded)} re-checked since still load as good (${fmtPct(f.survival, 0)})`;
-  note.textContent = `Added automatically in the last 30 days: ${fmtInt(f.landed)} of ${fmtInt(f.proposed)} proposed are live; ${held}.`;
+  note.textContent = `Added automatically in the last 30 days: ${fmtInt(f.landed)} of ${fmtInt(f.proposed)} proposed are live; ${held}.${queue}`;
 }
 
 function renderAutomation(): void {
