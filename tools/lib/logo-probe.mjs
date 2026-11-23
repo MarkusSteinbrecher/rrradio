@@ -56,6 +56,30 @@ const HEURISTIC_WARN_TIERS = new Set(['generic', 'third-party', 'non-free-wiki']
 const PROBE_BYTES = 64 * 1024;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36';
 
+/**
+ * Wikimedia answers a browser-looking User-Agent from a script with 429
+ * (its robot policy wants a client that names itself and a way to reach its
+ * operator) — 597 healthy Commons logos were graded `HTTP 429` on
+ * 2026-11-22 for that reason alone. `LOGO_PROBE_BOT_UA` is sent to Wikimedia
+ * hosts instead of the browser UA; set it in the workflow to something like
+ * `my-probe/1.0 (https://example.org/about-the-probe)`. Unset, behaviour is
+ * unchanged.
+ */
+const WIKIMEDIA_HOST = /(^|\.)wikimedia\.org$/i;
+export function userAgentFor(url, env = process.env) {
+  const bot = (env.LOGO_PROBE_BOT_UA ?? '').trim();
+  if (!bot) return UA;
+  try {
+    return WIKIMEDIA_HOST.test(new URL(url).hostname) ? bot : UA;
+  } catch {
+    return UA;
+  }
+}
+
+/** One polite retry for a 429: rate limits are about the minute, not the logo. */
+const RETRY_429_MAX_MS = 5000;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 /** @typedef {{status: number|'failed'|'local', contentType?: string|null, errorToken?: string,
  *             header?: {format: string, width?: number, height?: number}|null, bytes?: number|null, ms: number,
  *             via?: 'https'}} LogoProbe  `via` = an http favicon probed through its https twin */
@@ -127,13 +151,20 @@ export function httpsVariant(url) {
 async function fetchLogo(fav, timeout, fetchImpl, t0) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeout);
+  const ua = userAgentFor(fav);
+  const ranged = { 'User-Agent': ua, Accept: 'image/*,*/*;q=0.8', Range: `bytes=0-${PROBE_BYTES - 1}` };
   try {
-    let res = await fetchImpl(fav, {
-      signal: ctrl.signal,
-      headers: { 'User-Agent': UA, Accept: 'image/*,*/*;q=0.8', Range: `bytes=0-${PROBE_BYTES - 1}` },
-    });
+    let res = await fetchImpl(fav, { signal: ctrl.signal, headers: ranged });
+    if (res.status === 429) {
+      const wait = Number(res.headers.get('retry-after')) * 1000;
+      if (!(wait > RETRY_429_MAX_MS)) {
+        try { await res.body?.cancel(); } catch {}
+        await sleep(Number.isFinite(wait) && wait > 0 ? wait : 1500);
+        res = await fetchImpl(fav, { signal: ctrl.signal, headers: ranged });
+      }
+    }
     if (res.status === 416) {
-      res = await fetchImpl(fav, { signal: ctrl.signal, headers: { 'User-Agent': UA, Accept: 'image/*,*/*;q=0.8' } });
+      res = await fetchImpl(fav, { signal: ctrl.signal, headers: { 'User-Agent': ua, Accept: 'image/*,*/*;q=0.8' } });
     }
     const ct = (res.headers.get('content-type') ?? '').toLowerCase() || null;
     if (!(res.ok || res.status === 206)) {

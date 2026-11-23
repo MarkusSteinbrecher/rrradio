@@ -201,11 +201,12 @@ function actionsSection(actionsLog, windowStart) {
   const swapped = count((a) => a.action === 'swap-url');
   const logosCleared = count((a) => a.action === 'clear-logo');
   const logosUpgraded = count((a) => a.action === 'upgrade-logo');
+  const logosFilled = count((a) => a.action === 'fill-logo');
   const awaiting = new Set(all.filter((a) => a.action.startsWith('review')).map((a) => a.id)).size;
 
   const out = [`### Actions this week (${all.length})`, ''];
   if (!all.length && !skippedBy.size && !tripped.length) return [...out, 'none'];
-  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · logos cleared ${logosCleared} · logos upgraded ${logosUpgraded} · awaiting review ${awaiting}`);
+  out.push(`- unpublished ${unpublished} · republished ${republished} · swapped ${swapped} · logos cleared ${logosCleared} · logos upgraded ${logosUpgraded} · logos added ${logosFilled} · awaiting review ${awaiting}`);
   if (skippedBy.size) {
     const parts = [...skippedBy.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([why, n]) => `${why} ${n}`);
     out.push(`- skipped: ${parts.join(', ')}`);
@@ -227,6 +228,12 @@ function capped(items, line) {
   return shown;
 }
 
+function logoShare(metrics) {
+  const l = metrics?.logo;
+  const total = (l?.ok ?? 0) + (l?.warn ?? 0) + (l?.bad ?? 0);
+  return l && total > 0 ? l.ok / total : null;
+}
+
 function metricsTable(metrics, history, plan, record) {
   const prev = previousMetrics(history, metrics?.at);
   const rows = [
@@ -236,6 +243,9 @@ function metricsTable(metrics, history, plan, record) {
     // observation (derive-health), so this is real coverage. Reads "n/a"
     // only until the first logo observations exist.
     ['Hot-set logo coverage', logoCoverage(plan, record), '—'],
+    // The number rule 9 (fill-logo) exists to move: published stations whose
+    // logo loads, decodes and is big enough.
+    ['Logo coverage (ok ÷ published)', pct(logoShare(metrics)), deltaPp(logoShare(metrics), logoShare(prev))],
   ];
   return [
     '| Metric | Now | Δ 7d |',

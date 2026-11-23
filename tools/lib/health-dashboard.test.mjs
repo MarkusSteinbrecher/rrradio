@@ -210,7 +210,7 @@ describe('summariseActions', () => {
     ]);
     expect(out.map((p) => p.day)).toEqual(['2026-10-02', '2026-10-19']);
     expect(out[0]).toMatchObject({ held: true, retired: 0 });
-    expect(out[1]).toEqual({ day: '2026-10-19', retired: 2, recovered: 1, urlSwapped: 0, logoCleared: 1, logoUpgraded: 0, review: 1, held: false });
+    expect(out[1]).toEqual({ day: '2026-10-19', retired: 2, recovered: 1, urlSwapped: 0, logoCleared: 1, logoUpgraded: 0, logoFilled: 0, review: 1, held: false });
   });
   it('keeps the last N days', () => {
     const files = Array.from({ length: 5 }, (_, i) => ({ day: `2026-10-0${i + 1}`, actions: [] }));

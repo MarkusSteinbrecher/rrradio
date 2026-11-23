@@ -139,6 +139,11 @@ export function compactHistory(history, days = 90) {
       hard: m.stream?.hard ?? null,
       soft: m.stream?.soft ?? null,
       hotBad: m.hotSet?.bad ?? null,
+      logoOk: m.logo?.ok ?? null,
+      logoWarn: m.logo?.warn ?? null,
+      logoBad: m.logo?.bad ?? null,
+      hotSize: m.hotSet?.size ?? null,
+      hotLogoOk: m.hotSet?.logoOk ?? null,
     }));
 }
 
@@ -148,6 +153,7 @@ const ACTION_KEYS = Object.freeze({
   'swap-url': 'urlSwapped',
   'clear-logo': 'logoCleared',
   'upgrade-logo': 'logoUpgraded',
+  'fill-logo': 'logoFilled',
 });
 
 /**
@@ -161,7 +167,7 @@ export function summariseActions(files, days = 30) {
   const byDay = new Map();
   for (const f of files) {
     if (!f || typeof f.day !== 'string') continue;
-    const point = { day: f.day, retired: 0, recovered: 0, urlSwapped: 0, logoCleared: 0, logoUpgraded: 0, review: 0, held: Boolean(f.circuitBreaker) };
+    const point = { day: f.day, retired: 0, recovered: 0, urlSwapped: 0, logoCleared: 0, logoUpgraded: 0, logoFilled: 0, review: 0, held: Boolean(f.circuitBreaker) };
     for (const a of Array.isArray(f.actions) ? f.actions : []) {
       if (!a?.auto) point.review += 1;
       else if (ACTION_KEYS[a.action]) point[ACTION_KEYS[a.action]] += 1;
@@ -169,6 +175,41 @@ export function summariseActions(files, days = 30) {
     byDay.set(f.day, point);
   }
   return [...byDay.values()].sort((a, b) => (a.day < b.day ? -1 : a.day > b.day ? 1 : 0)).slice(-days);
+}
+
+/**
+ * Did the logos the loop added hold up? Reads the fill-logo actions of the
+ * audit window against today's catalog and health record:
+ *   proposed — automatic fills decided in the window
+ *   landed   — of those, the catalog now carries exactly that URL (the PR merged)
+ *   graded   — of those, the probe has looked at the logo since
+ *   ok       — of those, the probe grades it ok
+ * `survival` = ok / graded, null until something was graded. This is the
+ * number that says whether the loop adds logos or adds churn.
+ *
+ * @param {object[]} files parsed actions/<day>.json
+ * @param {object[]} catalog published stations
+ * @param {{stations?: Record<string, {logo?: {v: string, d?: string}}>}} record
+ */
+export function summariseLogoFills(files, catalog, record) {
+  const favicon = new Map((catalog ?? []).filter((s) => s?.id).map((s) => [s.id, s.favicon ?? null]));
+  const latest = new Map();
+  for (const f of [...(files ?? [])].sort((a, b) => String(a?.day).localeCompare(String(b?.day)))) {
+    for (const a of Array.isArray(f?.actions) ? f.actions : []) {
+      if (a?.auto && a.action === 'fill-logo' && a.id && a.newFavicon) latest.set(a.id, a.newFavicon);
+    }
+  }
+  const out = { proposed: latest.size, landed: 0, graded: 0, ok: 0, survival: null };
+  for (const [id, url] of latest) {
+    if (favicon.get(id) !== url) continue;
+    out.landed += 1;
+    const logo = record?.stations?.[id]?.logo;
+    if (!logo?.v || logo.d === 'missing') continue; // not probed since the fill
+    out.graded += 1;
+    if (logo.v === 'ok') out.ok += 1;
+  }
+  if (out.graded > 0) out.survival = Number((out.ok / out.graded).toFixed(4));
+  return out;
 }
 
 /**
@@ -211,6 +252,7 @@ export function buildDashboard({ catalog, record, streaks = {}, plan = {}, metri
     metrics,
     history: compactHistory(history),
     automation: summariseActions(actions),
+    logoFill: summariseLogoFills(actions, catalog, record),
     cols: [...COLS],
     rows,
   };

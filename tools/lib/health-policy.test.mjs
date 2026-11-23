@@ -611,6 +611,6 @@ describe('rule 8b · upgrade-logo (#701)', () => {
     expect(r.actions.map((x) => [x.id, x.action])).toEqual([['a', 'unpublish'], ['u', 'upgrade-logo']]);
     expect(skippedWhy(r, 'b')).toBe('cap');
     expect(skippedWhy(r, 'v')).toBe('cap');
-    expect(DEFAULT_CAPS).toEqual({ auto: 200, upgrade: 200 });
+    expect(DEFAULT_CAPS).toEqual({ auto: 200, upgrade: 200, fill: 100 });
   });
 });

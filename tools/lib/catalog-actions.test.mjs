@@ -359,7 +359,7 @@ describe('renderSummary', () => {
     });
     const md = renderSummary({ ...r, mode: 'auto', day: DAY });
     expect(md).toContain(`## Catalog actions · ${DAY}`);
-    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · clear-logo 0 · upgrade-logo 0 · skipped 1');
+    expect(md).toContain('unpublish 1 · republish 1 · swap-url 0 · clear-logo 0 · upgrade-logo 0 · fill-logo 0 · skipped 1');
     expect(countable(md)).toEqual([
       '- `b-two` · Two FM · unpublish · HTTP 404 ×3 · 2026-09-04→2026-09-06',
       '- `d-four` · Four FM · republish · ok ×3',
@@ -461,7 +461,7 @@ describe('applyClearLogo (phase 3)', () => {
     expect(auto.errors).toEqual([]);
     expect(auto.applied[0]).toMatchObject({ id: 'l-one', action: 'clear-logo', favicon: 'https://cdn.example/dead.png', name: 'Logo FM' });
     const summary = renderSummary({ ...auto, mode: 'auto', day: DAY });
-    expect(summary).toContain('clear-logo 1 · upgrade-logo 0 · skipped 0');
+    expect(summary).toContain('clear-logo 1 · upgrade-logo 0 · fill-logo 0 · skipped 0');
     expect(summary).toContain('- `l-one` · Logo FM · clear-logo · HTTP 404 ×3');
 
     const review = applyActions({
@@ -529,7 +529,7 @@ describe('upgrade-logo (rule 8b, #701)', () => {
     expect(auto.errors).toEqual([]);
     expect(auto.applied[0]).toMatchObject({ id: 'u-yaml', action: 'upgrade-logo', favicon: 'http://reyfm.de/_nuxt/icon.png', newFavicon: 'https://reyfm.de/_nuxt/icon.png' });
     const summary = renderSummary({ ...auto, mode: 'auto', day: DAY });
-    expect(summary).toContain('clear-logo 0 · upgrade-logo 1 · skipped 0');
+    expect(summary).toContain('clear-logo 0 · upgrade-logo 1 · fill-logo 0 · skipped 0');
     expect(summary).toContain('- `u-yaml` · Yaml FM · upgrade-logo · http ×1');
 
     const review = applyActions({

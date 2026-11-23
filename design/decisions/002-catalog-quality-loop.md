@@ -438,3 +438,35 @@ budgeted vision routine (judgement half) is a separate decision.
   `stations-ios-local.json` given the same favicon. Refused when the
   published favicon changed since the probe.
 - **Digest.** Actions line gains `logos upgraded n`.
+
+### Amendment 2026-11-23 — rule 9 `fill-logo`
+
+- **Why.** Phase 3's judgement half ("a scheduled vision-agent routine with
+  a budget") was never built: the June sweeps needed one browsing agent per
+  station and a person to start them, and `browser-logo-scout --judge api`
+  was never scheduled. Meanwhile rule 8 cleared 4,524 logos in 30 days and
+  rule 8b upgraded 15, so coverage could only fall (39.3 % → 40.7 % ok only
+  because the catalog shrank; most-played coverage 60 %).
+- **Evidence.** 150 random missing-logo stations with a live homepage
+  (2026-11-23): 30 % declare an apple-touch-icon or manifest icon ≥ 120 px
+  on their own site, about three in four of those the real brand mark; the
+  rest are generic clip-art, CMS / framework defaults, or a hotlink "stop"
+  picture. So the search is deterministic and the model only confirms.
+- **Decision.** Find → guard → judge inside `decide-actions`, as rule 9.
+  The judge is one small vision model call per twenty finds and only a
+  `yes` acts. A fill never replaces a logo. Same contracts as every other
+  rule: action in the audit file, actuator kind, two PRs, digest count,
+  dashboard label.
+- **Validation.** Dashboard: Good-logos trend, "Logo added" per day, and
+  fill survival (`logoFill`: proposed / landed / graded / ok). Target from
+  phase 3 stands: most-played logo coverage ≥ 95 %.
+- **Not covered.** Stations whose homepage is an aggregator or declares
+  nothing (about 45 % of the missing ones) need a search by name; that stays
+  a curated, budgeted job for the most-played stations. Replacing `poor` or
+  `third-party` logos is a later rule — it needs "is this better", not "is
+  this right".
+- **Also.** `LOGO_PROBE_BOT_UA`: Wikimedia answers a browser-looking
+  User-Agent from a script with 429, which graded 597 healthy Commons logos
+  `bad`. When set, the probe names itself to Wikimedia hosts. One retry on
+  any 429.
+

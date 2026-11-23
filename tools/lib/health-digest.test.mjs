@@ -241,7 +241,7 @@ describe('renderDigest — actions this week', () => {
 
   it('counts unpublished / republished / swapped / awaiting review, once per station and action', () => {
     expect(md).toContain('### Actions this week (4)');
-    expect(s).toContain('- unpublished 1 · republished 1 · swapped 1 · logos cleared 0 · logos upgraded 0 · awaiting review 1');
+    expect(s).toContain('- unpublished 1 · republished 1 · swapped 1 · logos cleared 0 · logos upgraded 0 · logos added 0 · awaiting review 1');
   });
 
   it('counts logo clears and upgrades', () => {
@@ -285,7 +285,7 @@ describe('renderDigest — actions this week', () => {
     expect(section(renderDigest({ ...base, actionsLog: null }), 'Actions this week')).toContain('none');
     const onlySkips = renderDigest({ ...base, actionsLog: [{ day: '2026-09-06', actions: [], skipped: [{ id: 'a', why: 'cap' }] }] });
     const s3 = section(onlySkips, 'Actions this week');
-    expect(s3).toContain('- unpublished 0 · republished 0 · swapped 0 · logos cleared 0 · logos upgraded 0 · awaiting review 0');
+    expect(s3).toContain('- unpublished 0 · republished 0 · swapped 0 · logos cleared 0 · logos upgraded 0 · logos added 0 · awaiting review 0');
     expect(s3).toContain('- skipped: cap 1');
   });
 });

@@ -44,6 +44,12 @@ export interface HistoryPoint {
   hard: number | null;
   soft: number | null;
   hotBad: number | null;
+  /** Logo verdict counts and most-played coverage; absent on points built before logo-fill. */
+  logoOk?: number | null;
+  logoWarn?: number | null;
+  logoBad?: number | null;
+  hotSize?: number | null;
+  hotLogoOk?: number | null;
 }
 
 export interface DashboardMetrics {
@@ -65,8 +71,19 @@ export interface AutomationPoint {
   urlSwapped: number;
   logoCleared: number;
   logoUpgraded: number;
+  /** Absent on artifacts built before the logo-fill rule. */
+  logoFilled?: number;
   review: number;
   held: boolean;
+}
+
+/** How the logos the loop added held up (tools/lib/health-dashboard.mjs, summariseLogoFills). */
+export interface LogoFillSummary {
+  proposed: number;
+  landed: number;
+  graded: number;
+  ok: number;
+  survival: number | null;
 }
 
 export interface Dashboard {
@@ -77,6 +94,7 @@ export interface Dashboard {
   metrics: DashboardMetrics | null;
   history: HistoryPoint[];
   automation: AutomationPoint[];
+  logoFill: LogoFillSummary | null;
   rows: HealthRow[];
 }
 
@@ -88,6 +106,7 @@ interface RawDashboard {
   metrics?: DashboardMetrics | null;
   history?: HistoryPoint[];
   automation?: AutomationPoint[];
+  logoFill?: LogoFillSummary | null;
   cols?: string[];
   rows?: unknown[][];
 }
@@ -155,6 +174,7 @@ export function parseDashboard(raw: RawDashboard): Dashboard {
     metrics: raw.metrics ?? null,
     history: Array.isArray(raw.history) ? raw.history : [],
     automation: Array.isArray(raw.automation) ? raw.automation : [],
+    logoFill: raw.logoFill ?? null,
     rows,
   };
 }

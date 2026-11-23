@@ -281,6 +281,63 @@ export function applyUpgradeLogo({ yamlText, stations, action }) {
   return { yamlText: next, stations, favicon };
 }
 
+/** Provenance a filled logo is written with (docs/logo-extraction.md). The
+ *  licence is never more permissive than `broadcaster-implicit` without a
+ *  written grant. */
+export const FILL_PROVENANCE = Object.freeze({ faviconSource: 'broadcaster-site', faviconSourceType: 'cdn', faviconLicense: 'broadcaster-implicit' });
+
+/**
+ * Give a logo-less station the icon the finder vetted (rule 9 `fill-logo`).
+ * decide-actions only proposes it after the image loaded with a foreign
+ * Referer, decoded, passed the probe's grading and a vision judge said yes —
+ * so this is a field edit. YAML gets `favicon` + provenance and loses the
+ * `faviconBlocked*` trio (local YAML wins, the block is moot once a real
+ * favicon is set); the JSON row gets the same fields where build-catalog
+ * would put them. Refuses a station that has a favicon by now: a fill never
+ * replaces a logo. `stations` is patched in place.
+ *
+ * @param {{yamlText: string, stations: object[], action: {id: string, newFavicon: string, sourceUrl?: string|null}}} input
+ * @returns {{yamlText: string, stations: object[]}}
+ */
+export function applyFillLogo({ yamlText, stations, action }) {
+  const id = action?.id;
+  assertId(id);
+  const url = action.newFavicon;
+  if (typeof url !== 'string' || !/^https:\/\//.test(url)) throw new Error(`newFavicon must be https, got ${JSON.stringify(url ?? null)}`);
+
+  const block = blockOf(yamlText, id);
+  if (block === null) throw new Error('not in data/stations.yaml');
+  const row = findStation(stations, id);
+  if (!row) throw new Error('not in public/stations.json');
+  if (row.favicon) throw new Error('has a favicon by now — a fill never replaces a logo');
+  if (field(block, id, 'favicon') !== undefined) throw new Error('YAML already sets a favicon — left alone');
+
+  const fields = { favicon: url, faviconSource: FILL_PROVENANCE.faviconSource, faviconSourceType: FILL_PROVENANCE.faviconSourceType };
+  if (typeof action.sourceUrl === 'string' && action.sourceUrl) fields.faviconSourceUrl = action.sourceUrl;
+  fields.faviconLicense = FILL_PROVENANCE.faviconLicense;
+
+  const next = editStationBlock(yamlText, id, (b) => {
+    let t = b;
+    for (const f of [...FAVICON_FIELDS, ...FAVICON_BLOCK_FIELDS]) t = removeStationScalar(t, id, f).text;
+    // setStationScalar inserts right after the `- id:` header: write
+    // last-to-first so the block reads favicon → provenance → licence.
+    for (const [k, v] of Object.entries(fields).reverse()) t = setStationScalar(t, id, k, v).text;
+    return t;
+  }).text;
+
+  // build-catalog emits the favicon fields right after `tags`.
+  const anchor = ['tags', 'country', 'homepage', 'streamUrl', 'name'].find((k) => k in row);
+  const rebuilt = {};
+  for (const [k, v] of Object.entries(row)) {
+    if (k in fields) continue;
+    rebuilt[k] = v;
+    if (k === anchor) Object.assign(rebuilt, fields);
+  }
+  for (const k of Object.keys(row)) delete row[k];
+  Object.assign(row, rebuilt);
+  return { yamlText: next, stations };
+}
+
 /**
  * Mirror applied favicon upgrades into `public/stations-ios-local.json`.
  * The iOS-local builder skips http favicons, so a row matched to an upgraded
@@ -328,7 +385,7 @@ export function iosFaviconSyncs(applied, stations) {
   const byId = new Map((stations ?? []).map((s) => [s.id, s]));
   const out = [];
   for (const a of applied ?? []) {
-    if (a.action === 'upgrade-logo') {
+    if (a.action === 'upgrade-logo' || a.action === 'fill-logo') {
       out.push(a);
     } else if (a.action === 'republish') {
       const f = byId.get(a.id)?.favicon;
@@ -450,6 +507,17 @@ export function applyActions({ yamlText, stations, actions, snapshots = {}, day,
           favicon: r.favicon,
           newFavicon: action.newFavicon,
         });
+      } else if (kind === 'fill-logo') {
+        const row = findStation(stations, id);
+        const r = applyFillLogo({ yamlText, stations, action });
+        yamlText = r.yamlText;
+        stations = r.stations;
+        Object.assign(entry, {
+          name: row?.name ?? id,
+          streamUrl: row?.streamUrl ?? null,
+          stationuuid: row?.stationuuid ?? null,
+          newFavicon: action.newFavicon,
+        });
       } else {
         throw new Error(`unknown action ${JSON.stringify(kind ?? null)}`);
       }
@@ -485,6 +553,9 @@ function whatToCheck(a) {
   if (a.action === 'upgrade-logo') {
     return `open ${a.newFavicon ?? 'the https logo URL'} in a browser and confirm it is the station's logo (the http listing ${a.favicon ?? ''} could never show under the app's CSP). Merge = ship the https URL, close = keep the http one.`;
   }
+  if (a.action === 'fill-logo') {
+    return `open ${a.newFavicon ?? 'the logo URL'} in a browser and confirm it is this station's logo (found on its own site, confirmed by the vision judge). Merge = the station gets this logo, close = it keeps the placeholder.`;
+  }
   return 'inspect the diff.';
 }
 
@@ -507,13 +578,16 @@ export function renderSummary({ applied = [], errors = [], mode, day }) {
       ? `${applied.length} curated-tier proposal(s) from station-probe, materialised as a diff so the PR is the review. Nothing here merges on its own (ADR 002).`
       : `${applied.length} automatic long-tail action(s) from station-probe (ADR 002).`,
     '',
-    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · clear-logo ${count('clear-logo')} · upgrade-logo ${count('upgrade-logo')} · skipped ${errors.length}`,
+    `unpublish ${count('unpublish')} · republish ${count('republish')} · swap-url ${count('swap-url')} · clear-logo ${count('clear-logo')} · upgrade-logo ${count('upgrade-logo')} · fill-logo ${count('fill-logo')} · skipped ${errors.length}`,
     '',
   ];
   for (const a of applied) {
     const name = String(a.name ?? a.id).replace(/\s+/g, ' ').trim() || a.id;
     lines.push(`- \`${a.id}\` · ${name} · ${a.action} · ${a.reason || '—'}`);
     if (review) lines.push(`  - What to check: ${whatToCheck(a)}`);
+    // Indented, so it never counts as an action line: lets a reader spot-check
+    // an automatic fill straight from the PR body.
+    else if (a.action === 'fill-logo' && a.newFavicon) lines.push(`  - logo: ${a.newFavicon}`);
   }
   if (errors.length > 0) {
     lines.push('', `### Skipped (${errors.length})`, '');

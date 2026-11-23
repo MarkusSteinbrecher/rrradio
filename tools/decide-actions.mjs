@@ -7,17 +7,22 @@
  *        [--yaml data/stations.yaml] [--out actions.json] [--now ISO]
  *        [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100]
  *        [--no-logo-upgrade] [--max-logo 300]
+ *        [--no-logo-fill] [--max-fill 150] [--fill-judge api|none] [--fill-report file]
  *
  * Reads streaks / plan / metrics / record from the health-data checkout,
  * the published catalog, the YAML (lifecycle fields), the dedup report
  * and the highlights; asks the stats Worker for a second opinion on soft
  * failures (`STATS_ADMIN_TOKEN`); asks Radio Browser for a replacement
  * URL before unpublishing an RB-bound row; probes the https twin of every
- * plain-http favicon the record flags `http` (rule 8b). The policy itself is pure
+ * plain-http favicon the record flags `http` (rule 8b); looks for a logo on
+ * the homepage of stations that have none and has a vision model confirm it
+ * (rule 9 — needs `ANTHROPIC_API_KEY`, skipped without it). The policy itself is pure
  * (tools/lib/health-policy.mjs) — this file is the I/O around it.
  *
  * Writes `--out` and `<data>/actions/<day>.json` (audit trail), appends
- * the edge answers to today's observation file. Exit 0 unless an input
+ * the edge answers to today's observation file, and keeps the logo-fill
+ * memory under `<data>/logo-fill/` (who was tried when, which pictures are
+ * platform defaults). Exit 0 unless an input
  * is unreadable: bad streams are data, a broken tool is a red run.
  */
 
@@ -27,8 +32,11 @@ import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { appendObservations, dayOf, observationPath } from './lib/observations.mjs';
 import { edgeProbeMany, toEdgeObservation } from './lib/edge-probe.mjs';
-import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds, decide, DEFAULT_CAPS } from './lib/health-policy.mjs';
+import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds, decide, DEFAULT_CAPS, isBotUnpublished } from './lib/health-policy.mjs';
 import { classifyLogo, httpsVariant, probeLogo } from './lib/logo-probe.mjs';
+import { dropPlatformDefaults, fillTargets } from './lib/logo-fill.mjs';
+import { findLogos } from './lib/logo-fill-fetch.mjs';
+import { judgeLogos } from './lib/logo-judge.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 import { lenientProbe } from './playable-check.mjs';
 import { streamFingerprint } from './lib/dedupe-normalize.mjs';
@@ -54,6 +62,10 @@ function parseArgs(argv) {
     maxRb: 100,
     logoUpgrade: true,
     maxLogo: 300,
+    logoFill: true,
+    maxFill: 150,
+    fillJudge: 'api',
+    fillReport: null,
     cap: DEFAULT_CAPS.auto,
     edgeBase: undefined,
   };
@@ -72,6 +84,10 @@ function parseArgs(argv) {
     else if (a === '--max-rb') out.maxRb = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--no-logo-upgrade') out.logoUpgrade = false;
     else if (a === '--max-logo') out.maxLogo = Math.max(0, Number(argv[++i]) || 0);
+    else if (a === '--no-logo-fill') out.logoFill = false;
+    else if (a === '--max-fill') out.maxFill = Math.max(0, Number(argv[++i]) || 0);
+    else if (a === '--fill-judge') out.fillJudge = String(argv[++i] ?? '');
+    else if (a === '--fill-report') out.fillReport = String(argv[++i] ?? '');
     else if (a === '--cap') out.cap = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--edge-base') out.edgeBase = String(argv[++i] ?? '');
     else if (a === '--help' || a === '-h') {
@@ -79,6 +95,7 @@ function parseArgs(argv) {
         'usage: decide-actions --data health-data/ [--catalog p] [--yaml p] [--out actions.json] [--now ISO]\n' +
           '                      [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100] [--cap 200]\n' +
           '                      [--no-logo-upgrade] [--max-logo 300]\n' +
+          '                      [--no-logo-fill] [--max-fill 150] [--fill-judge api|none] [--fill-report file]\n' +
           '                      [--dedup public/dedup-report.json] [--highlights data/highlights.yaml] [--edge-base URL]',
       );
       process.exit(0);
@@ -242,7 +259,80 @@ if (args.logoUpgrade) {
   }
 }
 
-// ─── decide (rules 1–5, 7, 8, 8b) ────────────────────────────────────
+// ─── a logo for stations that have none (rule 9) ─────────────────────
+//
+// Find (free) → guard (free) → judge (one cheap vision call per 20 finds).
+// `--fill-judge none` stops after the guards and proposes nothing: it is
+// for looking at what the finder turns up (`--fill-report`), not for acting.
+
+const fillDir = join(dataDir, 'logo-fill');
+const attemptsPath = join(fillDir, 'attempts.json');
+const genericPath = join(fillDir, 'generic-hashes.json');
+/** @type {Map<string, {newFavicon: string, sourceUrl: string, kind: string, judge: {verdict: string, why: string}|null}>} */
+const logoFills = new Map();
+/** @type {Record<string, {day: string, o: string, d?: string}>} */
+let fillAttempts = {};
+/** Outcomes to remember once the policy has had its say. */
+const fillOutcomes = new Map();
+let fillGeneric = null;
+let fillNote = 'logo-fill: skipped (--no-logo-fill)';
+if (args.logoFill && args.fillJudge === 'api' && !process.env.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_AUTH_TOKEN) {
+  fillNote = 'logo-fill: skipped (ANTHROPIC_API_KEY unset — nothing is filled without the judge)';
+  log(fillNote);
+} else if (args.logoFill) {
+  try {
+    fillAttempts = (existsSync(attemptsPath) ? mayJson(attemptsPath, 'logo-fill attempts') : null) ?? {};
+    const known = (existsSync(genericPath) ? mayJson(genericPath, 'generic logo hashes') : null) ?? [];
+    const homepageVerdict = new Map(Object.entries(record?.stations ?? {}).map(([id, f]) => [id, f?.homepage?.v ?? '']));
+    const targets = fillTargets({
+      published: catalog,
+      latestLogoDetail,
+      homepageVerdict,
+      tiers: plan.tiers ?? {},
+      plays: plan.plays ?? {},
+      hot: plan.hot ?? [],
+      attempts: fillAttempts,
+      day,
+      max: args.maxFill,
+    }).filter((t) => !isBotUnpublished(yamlById.get(t.id)));
+    const results = await findLogos(targets, { concurrency: 8 });
+    for (const r of results) if (r.outcome !== 'found') fillOutcomes.set(r.id, { o: r.outcome, d: r.detail });
+
+    const found = results.filter((r) => r.outcome === 'found').map((r) => r.find);
+    const { kept, dropped, generic } = dropPlatformDefaults(found, known);
+    for (const f of dropped) fillOutcomes.set(f.id, { o: 'rejected', d: 'platform-default' });
+    if (generic.length !== known.length) fillGeneric = generic;
+
+    let judged = { verdicts: kept.map(() => null), usage: { input: 0, output: 0 }, failed: 0 };
+    if (args.fillJudge === 'api' && kept.length) {
+      judged = await judgeLogos(
+        kept.map((f) => ({ name: publishedById.get(f.id)?.name ?? f.id, country: publishedById.get(f.id)?.country, site: f.site, tile: f.tile })),
+        { log },
+      );
+    }
+    kept.forEach((f, i) => {
+      const judge = judged.verdicts[i];
+      if (args.fillJudge === 'api') logoFills.set(f.id, { newFavicon: f.url, sourceUrl: f.homepage, kind: f.kind, judge });
+      // A `no` / `unsure` is remembered; an unjudged find is retried tomorrow.
+      if (judge && judge.verdict !== 'yes') fillOutcomes.set(f.id, { o: `judge-${judge.verdict}`, d: judge.why });
+    });
+    if (args.fillReport) {
+      const report = kept.map((f, i) => ({ id: f.id, name: publishedById.get(f.id)?.name ?? f.id, url: f.url, kind: f.kind, size: `${f.width}x${f.height}`, site: f.site, judge: judged.verdicts[i] }));
+      writeFileSync(resolve(args.fillReport), JSON.stringify({ day, tried: targets.length, dropped: dropped.map((f) => f.id), finds: report }, null, 2) + '\n');
+    }
+    const yes = [...logoFills.values()].filter((f) => f.judge?.verdict === 'yes').length;
+    fillNote = `logo-fill: tried ${targets.length}, found ${found.length}, platform-default ${dropped.length}, ` +
+      (args.fillJudge === 'api'
+        ? `judge yes ${yes} / no ${kept.length - yes - judged.verdicts.filter((v) => v === null).length} / unjudged ${judged.verdicts.filter((v) => v === null).length} ` +
+          `(${judged.usage.input} in + ${judged.usage.output} out tokens)`
+        : 'judge off — nothing proposed');
+  } catch (err) {
+    fillNote = `logo-fill: failed (${err.message}) — no fills this run`;
+    log(fillNote);
+  }
+}
+
+// ─── decide (rules 1–5, 7, 8, 8b, 9) ─────────────────────────────────
 
 let result = decide({
   streaks,
@@ -255,6 +345,7 @@ let result = decide({
   highlightIds,
   edge,
   logoUpgrades,
+  logoFills,
   metrics,
   now,
   caps: { auto: args.cap },
@@ -328,6 +419,22 @@ for (const path of [resolve(args.out), join(dataDir, 'actions', `${result.day}.j
   writeFileSync(path, text);
 }
 
+// Logo-fill memory: a station that came up empty (or that the judge turned
+// down) waits FILL_RETRY_DAYS; a proposed fill is remembered too, so a PR
+// that is closed unmerged is not re-proposed every morning. A find that the
+// cap or the breaker held back is not recorded — it goes again tomorrow.
+if (args.logoFill && (fillOutcomes.size || logoFills.size || fillGeneric)) {
+  for (const a of result.actions) {
+    const kind = a.action === 'review' ? a.proposed : a.action;
+    if (kind === 'fill-logo') fillOutcomes.set(a.id, { o: 'proposed', d: a.newFavicon });
+  }
+  for (const [id, { o, d }] of fillOutcomes) fillAttempts[id] = d ? { day, o, d: String(d).slice(0, 200) } : { day, o };
+  mkdirSync(fillDir, { recursive: true });
+  const sorted = Object.fromEntries(Object.entries(fillAttempts).sort(([a], [b]) => a.localeCompare(b)));
+  writeFileSync(attemptsPath, JSON.stringify(sorted, null, 1) + '\n');
+  if (fillGeneric) writeFileSync(genericPath, JSON.stringify([...fillGeneric].sort(), null, 1) + '\n');
+}
+
 const counts = {};
 for (const a of result.actions) {
   const key = a.action === 'review' ? `review(${a.proposed})` : a.action;
@@ -341,6 +448,6 @@ console.log(
   `decide-actions: day ${result.day} · ${Object.keys(streaks).length} streaks, ${publishedIds.size} published, ` +
     `${foldCanonicals.size} fold canonicals, ${highlightIds.size} highlighted · ` +
     `circuit breaker ${result.circuitBreaker ? `TRIPPED (${result.circuitBreakerReason})` : 'off'} · ` +
-    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ${logoNote} · ` +
+    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ${logoNote} · ${fillNote} · ` +
     `→ ${resolve(args.out)} and ${join(dataDir, 'actions', `${result.day}.json`)}`,
 );
