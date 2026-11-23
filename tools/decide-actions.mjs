@@ -7,17 +7,22 @@
  *        [--yaml data/stations.yaml] [--out actions.json] [--now ISO]
  *        [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100]
  *        [--no-logo-upgrade] [--max-logo 300]
+ *        [--no-logo-fill] [--max-fill 150]
  *
  * Reads streaks / plan / metrics / record from the health-data checkout,
  * the published catalog, the YAML (lifecycle fields), the dedup report
  * and the highlights; asks the stats Worker for a second opinion on soft
  * failures (`STATS_ADMIN_TOKEN`); asks Radio Browser for a replacement
  * URL before unpublishing an RB-bound row; probes the https twin of every
- * plain-http favicon the record flags `http` (rule 8b). The policy itself is pure
+ * plain-http favicon the record flags `http` (rule 8b); looks for a logo on
+ * the homepage of stations that have none, queues it for the judging session
+ * and acts on the verdicts that session left (rule 9). The policy itself is pure
  * (tools/lib/health-policy.mjs) — this file is the I/O around it.
  *
  * Writes `--out` and `<data>/actions/<day>.json` (audit trail), appends
- * the edge answers to today's observation file. Exit 0 unless an input
+ * the edge answers to today's observation file, and keeps the logo-fill
+ * queue and memory under `<data>/logo-fill/` (candidates awaiting a verdict,
+ * who was tried when, which pictures are platform defaults). Exit 0 unless an input
  * is unreadable: bad streams are data, a broken tool is a red run.
  */
 
@@ -27,8 +32,11 @@ import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { appendObservations, dayOf, observationPath } from './lib/observations.mjs';
 import { edgeProbeMany, toEdgeObservation } from './lib/edge-probe.mjs';
-import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds, decide, DEFAULT_CAPS } from './lib/health-policy.mjs';
+import { applySwaps, candidateEdgeIds, candidateLogoUpgradeIds, candidateSwapIds, decide, DEFAULT_CAPS, isBotUnpublished } from './lib/health-policy.mjs';
 import { classifyLogo, httpsVariant, probeLogo } from './lib/logo-probe.mjs';
+import { dropPlatformDefaults, fillTargets } from './lib/logo-fill.mjs';
+import { findLogos } from './lib/logo-fill-fetch.mjs';
+import { closeQueue, PENDING_MAX, settleQueue } from './lib/logo-fill-queue.mjs';
 import { fetchByUuid } from './rb-client.mjs';
 import { lenientProbe } from './playable-check.mjs';
 import { streamFingerprint } from './lib/dedupe-normalize.mjs';
@@ -54,6 +62,8 @@ function parseArgs(argv) {
     maxRb: 100,
     logoUpgrade: true,
     maxLogo: 300,
+    logoFill: true,
+    maxFill: 150,
     cap: DEFAULT_CAPS.auto,
     edgeBase: undefined,
   };
@@ -72,6 +82,8 @@ function parseArgs(argv) {
     else if (a === '--max-rb') out.maxRb = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--no-logo-upgrade') out.logoUpgrade = false;
     else if (a === '--max-logo') out.maxLogo = Math.max(0, Number(argv[++i]) || 0);
+    else if (a === '--no-logo-fill') out.logoFill = false;
+    else if (a === '--max-fill') out.maxFill = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--cap') out.cap = Math.max(0, Number(argv[++i]) || 0);
     else if (a === '--edge-base') out.edgeBase = String(argv[++i] ?? '');
     else if (a === '--help' || a === '-h') {
@@ -79,6 +91,7 @@ function parseArgs(argv) {
         'usage: decide-actions --data health-data/ [--catalog p] [--yaml p] [--out actions.json] [--now ISO]\n' +
           '                      [--no-edge] [--no-rb] [--max-edge 300] [--max-rb 100] [--cap 200]\n' +
           '                      [--no-logo-upgrade] [--max-logo 300]\n' +
+          '                      [--no-logo-fill] [--max-fill 150]\n' +
           '                      [--dedup public/dedup-report.json] [--highlights data/highlights.yaml] [--edge-base URL]',
       );
       process.exit(0);
@@ -242,7 +255,72 @@ if (args.logoUpgrade) {
   }
 }
 
-// ─── decide (rules 1–5, 7, 8, 8b) ────────────────────────────────────
+// ─── a logo for stations that have none (rule 9) ─────────────────────
+//
+// Two halves that meet on health-data/logo-fill/ (tools/lib/logo-fill-queue.mjs):
+// this run settles the verdicts the judging session left since yesterday,
+// then finds and guards new candidates and queues them for it. Nothing here
+// calls a model.
+
+const fillDir = join(dataDir, 'logo-fill');
+const fillPaths = {
+  attempts: join(fillDir, 'attempts.json'),
+  generic: join(fillDir, 'generic-hashes.json'),
+  candidates: join(fillDir, 'candidates.json'),
+  verdicts: join(fillDir, 'verdicts.json'),
+};
+const readFill = (key, fallback) => (existsSync(fillPaths[key]) ? mayJson(fillPaths[key], `logo-fill ${key}`) : null) ?? fallback;
+/** @type {Map<string, {newFavicon: string, sourceUrl: string, kind: string, judge: {verdict: string, why: string}|null}>} */
+let logoFills = new Map();
+/** Everything the write step needs; null when the fill step did not run. */
+let fill = null;
+let fillNote = 'logo-fill: skipped (--no-logo-fill)';
+if (args.logoFill) {
+  try {
+    const attempts = readFill('attempts', {});
+    const candidates = readFill('candidates', {});
+    const verdicts = readFill('verdicts', {});
+    const settled = settleQueue({ candidates, verdicts, day });
+    // A station that got a logo some other way since it was queued is done.
+    logoFills = new Map([...settled.fills].filter(([id]) => !publishedById.get(id)?.favicon));
+    const outcomes = new Map(settled.outcomes);
+    let generic = [...new Set([...readFill('generic', []), ...settled.generic])];
+
+    // Queue new candidates while the judge keeps up.
+    const room = Math.max(0, PENDING_MAX - settled.pending);
+    const homepageVerdict = new Map(Object.entries(record?.stations ?? {}).map(([id, f]) => [id, f?.homepage?.v ?? '']));
+    const targets = fillTargets({
+      published: catalog.filter((s) => !candidates[s.id]),
+      latestLogoDetail,
+      homepageVerdict,
+      tiers: plan.tiers ?? {},
+      plays: plan.plays ?? {},
+      hot: plan.hot ?? [],
+      attempts,
+      day,
+      max: room > 0 ? args.maxFill : 0,
+    }).filter((t) => !isBotUnpublished(yamlById.get(t.id)));
+    const results = await findLogos(targets, { concurrency: 8 });
+    for (const r of results) if (r.outcome !== 'found') outcomes.set(r.id, { o: r.outcome, d: r.detail });
+    const found = results.filter((r) => r.outcome === 'found').map((r) => r.find);
+    const sifted = dropPlatformDefaults(found, generic);
+    generic = sifted.generic;
+    for (const f of sifted.dropped) outcomes.set(f.id, { o: 'rejected', d: 'platform-default' });
+    const added = {};
+    for (const f of sifted.kept.slice(0, room)) {
+      added[f.id] = { url: f.url, sourceUrl: f.homepage, kind: f.kind, site: f.site, hash: f.hash, size: `${f.width}x${f.height}`, day };
+    }
+    fill = { attempts, candidates, verdicts, settled, outcomes, generic, added };
+    fillNote = `logo-fill: judged yes ${settled.fills.size} / no ${settled.outcomes.size}, expired ${settled.expired.length} · ` +
+      `tried ${targets.length}, found ${found.length}, platform-default ${sifted.dropped.length}, queued ${Object.keys(added).length} · ` +
+      `${settled.pending + Object.keys(added).length} awaiting the judge` + (room === 0 ? ' (queue full — finder paused)' : '');
+  } catch (err) {
+    fillNote = `logo-fill: failed (${err.message}) — no fills this run`;
+    log(fillNote);
+  }
+}
+
+// ─── decide (rules 1–5, 7, 8, 8b, 9) ─────────────────────────────────
 
 let result = decide({
   streaks,
@@ -255,6 +333,7 @@ let result = decide({
   highlightIds,
   edge,
   logoUpgrades,
+  logoFills,
   metrics,
   now,
   caps: { auto: args.cap },
@@ -328,6 +407,23 @@ for (const path of [resolve(args.out), join(dataDir, 'actions', `${result.day}.j
   writeFileSync(path, text);
 }
 
+// Logo-fill memory: who was tried and what came of it (a station that came
+// up empty, or that the judge turned down, waits FILL_RETRY_DAYS; a proposed
+// fill is remembered too, so a PR closed unmerged is not re-proposed every
+// morning), the pictures learned to be platform defaults, and the queue.
+if (fill) {
+  const queue = closeQueue({ candidates: fill.candidates, verdicts: fill.verdicts, settled: fill.settled, added: fill.added, result });
+  for (const id of queue.proposed) fill.outcomes.set(id, { o: 'proposed', d: fill.settled.fills.get(id)?.newFavicon });
+  for (const [id, { o, d }] of fill.outcomes) fill.attempts[id] = d ? { day, o, d: String(d).slice(0, 200) } : { day, o };
+  mkdirSync(fillDir, { recursive: true });
+  const sorted = Object.fromEntries(Object.entries(fill.attempts).sort(([a], [b]) => a.localeCompare(b)));
+  const put = (key, value) => writeFileSync(fillPaths[key], JSON.stringify(value, null, 1) + '\n');
+  put('attempts', sorted);
+  put('generic', [...fill.generic].sort());
+  put('candidates', queue.candidates);
+  put('verdicts', queue.verdicts);
+}
+
 const counts = {};
 for (const a of result.actions) {
   const key = a.action === 'review' ? `review(${a.proposed})` : a.action;
@@ -341,6 +437,6 @@ console.log(
   `decide-actions: day ${result.day} · ${Object.keys(streaks).length} streaks, ${publishedIds.size} published, ` +
     `${foldCanonicals.size} fold canonicals, ${highlightIds.size} highlighted · ` +
     `circuit breaker ${result.circuitBreaker ? `TRIPPED (${result.circuitBreakerReason})` : 'off'} · ` +
-    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ${logoNote} · ` +
+    `actions: ${fmt(counts)} · skipped: ${fmt(skippedBy)} · ${edgeNote} · ${rbNote} · ${logoNote} · ${fillNote} · ` +
     `→ ${resolve(args.out)} and ${join(dataDir, 'actions', `${result.day}.json`)}`,
 );

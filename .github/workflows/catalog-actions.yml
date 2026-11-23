@@ -8,7 +8,9 @@ name: Catalog actions
 #
 #   decide → tools/decide-actions.mjs reads the streaks on `health-data`,
 #            asks the Worker edge for a second opinion on soft failures,
-#            asks Radio Browser for a replacement URL, and writes
+#            asks Radio Browser for a replacement URL, queues logos it finds
+#            for stations that have none and applies the ones the judging
+#            session confirmed (rule 9, docs/logo-fill-judge.md), and writes
 #            actions.json (audited on health-data/actions/).
 #   act    → tools/apply-actions.mjs materialises the actions as a diff
 #            of data/stations.yaml + public/stations.json and runs

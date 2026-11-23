@@ -83,7 +83,7 @@ interface View {
   page: number;
   ccMode: 'size' | 'failing';
   ccLimit: number;
-  trend: 'bad' | 'share';
+  trend: 'bad' | 'share' | 'logo';
 }
 
 const view: View = {
@@ -326,7 +326,15 @@ function renderTrend(): void {
   const firstFull = dash.history.findIndex((h) => (h.freshness ?? 0) >= 0.95);
   const hist = dash.history.slice(Math.max(0, firstFull));
   let chart: HTMLElement;
-  if (view.trend === 'bad') {
+  if (view.trend === 'logo') {
+    // Share of published stations whose logo loads, decodes and is big
+    // enough — the number the logo-fill rule exists to move.
+    const points = hist.flatMap((h) => {
+      const graded = (h.logoOk ?? 0) + (h.logoWarn ?? 0) + (h.logoBad ?? 0);
+      return graded > 0 ? [{ day: h.day, value: (h.logoOk ?? 0) / graded }] : [];
+    });
+    chart = trendChart(points, (v) => fmtPct(v, 1), 'with a good logo');
+  } else if (view.trend === 'bad') {
     const points = hist.flatMap((h) => (typeof h.bad === 'number' ? [{ day: h.day, value: h.bad }] : []));
     chart = trendChart(points, fmtInt, 'failing');
   } else {
@@ -339,6 +347,8 @@ function renderTrend(): void {
   must('trend-chart').replaceChildren(chart);
   must('trend-bad').setAttribute('aria-selected', String(view.trend === 'bad'));
   must('trend-share').setAttribute('aria-selected', String(view.trend === 'share'));
+  must('trend-logo').setAttribute('aria-selected', String(view.trend === 'logo'));
+  must('trend-title').textContent = view.trend === 'logo' ? 'Good logos over time' : 'Failing streams over time';
 }
 
 function countryRanking(): ReturnType<typeof byCountry> {
@@ -436,10 +446,31 @@ const AUTO_KINDS = [
   ['urlSwapped', 'Stream replaced', 'Dead URL swapped for a working one'],
   ['logoCleared', 'Dead logo removed', 'The app shows a placeholder instead'],
   ['logoUpgraded', 'Logo moved to https', 'Same image, now allowed by the app'],
+  ['logoFilled', 'Logo added', 'Found on the station’s own site, confirmed by eye before it ships'],
   ['review', 'Sent to review', 'Curated stations wait for a human'],
 ] as const;
 
+/** Did the logos the loop added hold up? Catalog-wide, last 30 days. */
+function renderLogoFill(): void {
+  const f = dash.logoFill;
+  const note = must('logo-fill-note');
+  const queue =
+    f && (f.pending ?? 0) > 0
+      ? ` ${fmtInt(f.pending ?? 0)} found and waiting for the vision check${f.oldestPending ? `, oldest since ${fmtDay(f.oldestPending)}` : ''}.`
+      : '';
+  if (!f || f.proposed === 0) {
+    note.textContent = `No logos added automatically in the last 30 days.${queue}`;
+    return;
+  }
+  const held =
+    f.survival === null
+      ? 'none re-checked yet'
+      : `${fmtInt(f.ok)} of ${fmtInt(f.graded)} re-checked since still load as good (${fmtPct(f.survival, 0)})`;
+  note.textContent = `Added automatically in the last 30 days: ${fmtInt(f.landed)} of ${fmtInt(f.proposed)} proposed are live; ${held}.${queue}`;
+}
+
 function renderAutomation(): void {
+  renderLogoFill();
   const days = dash.automation;
   if (days.length === 0) {
     must('auto-note').textContent = 'No runs yet.';
@@ -449,7 +480,7 @@ function renderAutomation(): void {
     const total = AUTO_KINDS.reduce((n, [k]) => n + (d[k] ?? 0), 0);
     const detail = d.held
       ? ['Safety brake held every change']
-      : AUTO_KINDS.filter(([k]) => d[k] > 0).map(([k, label]) => `${fmtInt(d[k])} ${label.toLowerCase()}`);
+      : AUTO_KINDS.filter(([k]) => (d[k] ?? 0) > 0).map(([k, label]) => `${fmtInt(d[k] ?? 0)} ${label.toLowerCase()}`);
     return { day: d.day, label: fmtDay(d.day), value: total, detail, flagged: d.held };
   });
   must('auto-chart').replaceChildren(columnChart(points, 'changes'));
@@ -604,6 +635,10 @@ function wireStaticControls(): void {
   });
   on('trend-share', () => {
     view.trend = 'share';
+    renderTrend();
+  });
+  on('trend-logo', () => {
+    view.trend = 'logo';
     renderTrend();
   });
   on('cc-size', () => {

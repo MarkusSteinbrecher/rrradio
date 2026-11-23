@@ -22,7 +22,8 @@
  *     bot-unpublished row
  *   6 RB swap              post-pass `applySwaps` — the CLI fetches RB + probes
  *   7 cap                  at most `caps.auto` auto actions, worst first;
- *                          upgrade-logo has its own `caps.upgrade`
+ *                          upgrade-logo has its own `caps.upgrade`, fill-logo
+ *                          its own `caps.fill`
  *   8 logo hard streak ≥ 3 long tail: clear-logo · curated: review (phase 3).
  *                          `missing` has nothing to clear; a non-structural
  *                          logo failure share > 15 % skips every logo action
@@ -31,6 +32,12 @@
  *      verified https twin The CLI probes the twin (`logoUpgrades`); the
  *                          logo breaker does not apply — a twin that loads
  *                          today is positive evidence, not a guess
+ *   9 logo `missing` and a  long tail: fill-logo · curated: review. The CLI finds
+ *     judged find          an icon on the station's own site and guards it;
+ *                          the judging session confirms it (`logoFills`,
+ *                          docs/logo-fill-judge.md); only a `yes` acts. Own `caps.fill`. Never
+ *                          replaces a logo, so there is nothing to undo but
+ *                          the placeholder
  *
  * Every string in `reason` is built from the stable probe vocabulary, so the
  * same evidence always yields the same text (it is written into the YAML).
@@ -69,7 +76,7 @@ export const FRESH_DAYS = 3;
  *  is the least risky edit the bot makes, and sharing the stream cap would
  *  starve it behind any unpublish backlog (live 2026-10-03: 3,149 auto
  *  candidates against a cap of 200). */
-export const DEFAULT_CAPS = Object.freeze({ auto: 200, upgrade: 200 });
+export const DEFAULT_CAPS = Object.freeze({ auto: 200, upgrade: 200, fill: 100 });
 /** The `brokenBy` marker that makes a YAML row bot-managed. */
 export const BOT = 'station-probe';
 /** Status restored by a republish when the row carries no `brokenFrom`. */
@@ -95,6 +102,11 @@ export function isProbeBlockedHost(url) {
 function get(coll, id) {
   if (!coll) return undefined;
   return coll instanceof Map ? coll.get(id) : coll[id];
+}
+
+function keysOf(coll) {
+  if (!coll) return [];
+  return coll instanceof Map ? coll.keys() : Object.keys(coll);
 }
 
 /** @param {YamlRow|null|undefined} y */
@@ -230,10 +242,10 @@ export function logoCircuitBreakerReason(metrics) {
 }
 
 /** Worst first: hard, then soft, then republish, then logo clears, then logo
- *  upgrades; older streaks first; id last. */
+ *  upgrades, then logo fills; older streaks first; id last. */
 function rank(a) {
   const kind = a.action === 'review' ? a.proposed : a.action;
-  const cls = kind === 'upgrade-logo' ? 4 : kind === 'clear-logo' ? 3 : kind === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
+  const cls = kind === 'fill-logo' ? 5 : kind === 'upgrade-logo' ? 4 : kind === 'clear-logo' ? 3 : kind === 'republish' ? 2 : a.streak.c === 'hard' ? 0 : 1;
   return [cls, a.streak.first, a.id];
 }
 function byRank(a, b) {
@@ -251,8 +263,9 @@ function byRank(a, b) {
  *          publishedIds: Set<string>, foldCanonicals?: Set<string>, highlightIds?: Set<string>,
  *          edge?: Map<string, EdgeAnswer|null>,
  *          logoUpgrades?: Map<string, {favicon: string, newFavicon: string}>,
+ *          logoFills?: Map<string, {newFavicon: string, sourceUrl: string, kind: string, judge: {verdict: string, why?: string}|null}>,
  *          metrics?: object|null, now: string,
- *          caps?: {auto?: number, upgrade?: number}}} input
+ *          caps?: {auto?: number, upgrade?: number, fill?: number}}} input
  * @returns {{generatedAt: string, day: string, circuitBreaker: boolean,
  *            circuitBreakerReason: string|null, actions: Action[],
  *            skipped: Array<{id: string, why: string}>}}
@@ -268,12 +281,14 @@ export function decide({
   highlightIds = new Set(),
   edge,
   logoUpgrades,
+  logoFills,
   metrics = null,
   now,
   caps,
 }) {
   const autoCap = Math.max(0, Math.floor(caps?.auto ?? DEFAULT_CAPS.auto));
   const upgradeCap = Math.max(0, Math.floor(caps?.upgrade ?? DEFAULT_CAPS.upgrade));
+  const fillCap = Math.max(0, Math.floor(caps?.fill ?? DEFAULT_CAPS.fill));
   const generatedAt = new Date(now).toISOString();
   const day = dayOf(now);
 
@@ -334,11 +349,28 @@ export function decide({
     upgradeCandidates.push({ id, up, streak, tier: tierFor(id, tiers, y, highlightIds) });
   }
 
+  // ─── rule 9 candidates — the CLI already found and vetted the logo ──
+  // A fill only ever lands on a station the record says has no logo: it
+  // never replaces one, so the worst case is the placeholder it started with.
+  const fillCandidates = [];
+  for (const id of [...keysOf(logoFills)].sort()) {
+    const fill = get(logoFills, id);
+    if (!fill || typeof fill.newFavicon !== 'string' || !/^https:\/\//i.test(fill.newFavicon)) continue;
+    if (!publishedIds.has(id) || (get(latestLogoDetail, id) ?? null) !== 'missing') continue;
+    const y = get(yamlById, id) ?? null;
+    if (isBotUnpublished(y)) continue;
+    const l = streaks[id]?.logo;
+    const streak = l
+      ? { o: l.o, c: l.c ?? null, n: l.n, first: l.first, last: l.last, d: 'missing' }
+      : { o: 'bad', c: 'hard', n: 0, first: day, last: day, d: 'missing' };
+    fillCandidates.push({ id, fill, streak, tier: tierFor(id, tiers, y, highlightIds) });
+  }
+
   // ─── rule 1 ───────────────────────────────────────────────────────
   const published = publishedIds.size || metrics?.published || 0;
   const breaker = circuitBreakerReason(metrics, unpublishCandidates.filter((c) => c.fresh).length, published);
   if (breaker) {
-    const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates, ...upgradeCandidates]
+    const skipped = [...unpublishCandidates, ...republishCandidates, ...logoCandidates, ...upgradeCandidates, ...fillCandidates]
       .map(({ id }) => ({ id, why: 'circuit-breaker' }))
       .sort((a, b) => a.id.localeCompare(b.id));
     return { generatedAt, day, circuitBreaker: true, circuitBreakerReason: breaker, actions: [], skipped };
@@ -431,13 +463,40 @@ export function decide({
     }
   }
 
+  // ─── rule 9 ───────────────────────────────────────────────────────
+  // No logo breaker here either: the image loaded, decoded and passed the
+  // probe's own grading this run. Only a judge `yes` acts — `no`, `unsure`
+  // and an unjudged find all mean "leave the placeholder".
+  for (const { id, fill, streak, tier } of fillCandidates) {
+    if (fill.judge?.verdict !== 'yes') {
+      skipped.push({ id, why: fill.judge ? `fill-judge-${fill.judge.verdict}` : 'fill-unjudged' });
+      continue;
+    }
+    const base = {
+      id,
+      tier,
+      newFavicon: fill.newFavicon,
+      sourceUrl: fill.sourceUrl ?? null,
+      kind: fill.kind ?? null,
+      streak,
+      judge: fill.judge.why ?? '',
+      reason: `no logo · ${fill.kind ?? 'icon'} on the station's site · judge yes`,
+    };
+    if (tier === 'curated' || highlightIds.has(id)) {
+      review.push({ ...base, action: 'review', auto: false, proposed: 'fill-logo' });
+    } else {
+      auto.push({ ...base, action: 'fill-logo', auto: true });
+    }
+  }
+
   // ─── rule 7 ───────────────────────────────────────────────────────
   auto.sort(byRank);
   review.sort(byRank);
-  const flips = auto.filter((a) => a.action !== 'upgrade-logo');
+  const flips = auto.filter((a) => a.action !== 'upgrade-logo' && a.action !== 'fill-logo');
   const upgrades = auto.filter((a) => a.action === 'upgrade-logo');
-  const kept = [...flips.slice(0, autoCap), ...upgrades.slice(0, upgradeCap)];
-  for (const a of [...flips.slice(autoCap), ...upgrades.slice(upgradeCap)]) skipped.push({ id: a.id, why: 'cap' });
+  const fills = auto.filter((a) => a.action === 'fill-logo');
+  const kept = [...flips.slice(0, autoCap), ...upgrades.slice(0, upgradeCap), ...fills.slice(0, fillCap)];
+  for (const a of [...flips.slice(autoCap), ...upgrades.slice(upgradeCap), ...fills.slice(fillCap)]) skipped.push({ id: a.id, why: 'cap' });
   skipped.sort((a, b) => a.id.localeCompare(b.id) || a.why.localeCompare(b.why));
 
   return {
@@ -476,7 +535,7 @@ export function applySwaps(actions, swaps) {
 
 /** Fixed key order so the audit file diffs stay readable. */
 function orderKeys(actions) {
-  const ORDER = ['id', 'action', 'auto', 'tier', 'proposed', 'from', 'to', 'newUrl', 'newCodec', 'favicon', 'newFavicon', 'streak', 'edge', 'reason'];
+  const ORDER = ['id', 'action', 'auto', 'tier', 'proposed', 'from', 'to', 'newUrl', 'newCodec', 'favicon', 'newFavicon', 'sourceUrl', 'kind', 'judge', 'streak', 'edge', 'reason'];
   return actions.map((a) => {
     const out = {};
     for (const k of ORDER) if (k in a) out[k] = a[k];
