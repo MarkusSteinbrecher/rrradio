@@ -10,6 +10,16 @@ verdicts; the next morning's CI run applies every `yes`.
 The session judges. It does not search for logos, edit the catalog, open
 pull requests or touch `main`.
 
+## Schedule
+
+A Claude Code routine named "rrradio logo-fill judge" runs this page daily
+at 20:00 UTC on the always-on Mac mini (bridge environment, its own
+checkout and git credentials), well after the morning `station-probe` and
+`catalog-actions` runs. It works in scratch worktrees of `origin/main` and
+`origin/health-data` and leaves the mini's checkout alone. Manage it at
+<https://claude.ai/code/routines>. It stops with "not merged yet" while this
+page is missing from `main`.
+
 ## Steps
 
 Run from a checkout of this repository on an up-to-date `main`
