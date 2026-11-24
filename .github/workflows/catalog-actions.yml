@@ -62,6 +62,9 @@ jobs:
     env:
       DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
       GH_REPO: ${{ github.repository }}
+      # Same self-naming UA as station-probe.yml: rule 9 runs the logo probe
+      # on the logos it finds, and Wikimedia 429s a browser UA from a runner.
+      LOGO_PROBE_BOT_UA: 'rrradio-logo-probe/1.0 (https://rrradio.org; https://github.com/MarkusSteinbrecher/rrradio)'
     steps:
       - name: Mint the bot token
         id: app
