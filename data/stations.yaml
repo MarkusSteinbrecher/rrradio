@@ -4536,7 +4536,9 @@
   faviconSource: broadcaster-api
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/br-schlager/index.html
-  status: working
+  # BR ended the programme in Nov 2026 and folded it into ARD Schlagerwelt
+  # (stream 404, no livestream in the ARD Audiothek). Curator-set, not bot-managed.
+  status: broken
 - id: br-br24
   stationuuid: 787eda99-1532-4ee0-b14e-fdb88ec71530
   changeuuid: 148d47ff-e69e-4015-8da8-49175dd2daad
@@ -6613,13 +6615,14 @@
   faviconSource: broadcaster-site
   stationuuid: 960c37c6-0601-11e8-ae97-52543be04c81
   changeuuid: ad1fe073-aa98-4d89-8ebd-f32f963cc8ca
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-11-24
   geo:
     - 40.418
     - -3.703
   broadcaster: independent
   name: Cadena 100
-  streamUrl: https://cadena100-cope.flumotion.com/chunks.m3u8
+  # chunks.m3u8 404s since Nov 2026; playlist.m3u8 on the same host is the live HLS entry point.
+  streamUrl: https://cadena100-cope.flumotion.com/playlist.m3u8
   codec: AAC
   tags:
     - pop
@@ -11785,13 +11788,14 @@
   faviconSource: radio-browser
   stationuuid: 96342772-0601-11e8-ae97-52543be04c81
   changeuuid: 24d9bed7-2110-470d-a867-de771ab2c6cf
-  reviewedAt: 2026-04-30
+  reviewedAt: 2026-11-24
   geo:
     - 59.33
     - 18.069
   broadcaster: independent
   name: Mix Megapol
-  streamUrl: https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3
+  # Bauer SE retired tx-bauerse.sharp-stream.com (DNS gone, Nov 2026); same mount on the new host.
+  streamUrl: https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3
   codec: MP3
   tags:
     - pop
@@ -124310,20 +124314,6 @@
   status: stream-only
   stationuuid: 373e8330-81d4-4498-adca-1e2a73ae0908
   changeuuid: e1ac24df-c3b4-4c38-969e-ff4544f9a99e
-  reviewedAt: 2026-05-04
-- id: es-cadena100
-  broadcaster: independent
-  name: Cadena100
-  streamUrl: https://cadena100-cope.flumotion.com/playlist.m3u8
-  bitrate: 64
-  codec: AAC
-  favicon: https://www.cadena100.es/estaticos/apple-touch-icon-192x192.png
-  faviconSource: broadcaster-site
-  homepage: https://www.cadena100.es/
-  country: ES
-  status: stream-only
-  stationuuid: 6757ab04-3797-4f82-b79c-46e957d65a5f
-  changeuuid: 1b2e6198-e032-4fc4-9431-6b1a83cef4ba
   reviewedAt: 2026-05-04
 - id: es-icat-fm
   broadcaster: independent
@@ -303067,28 +303057,6 @@
   reviewedAt: 2026-05-21
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
-- id: se-mix-megapol-104-3
-  source: radio-browser
-  broadcaster: independent
-  name: "Mix Megapol 104,3"
-  streamUrl: "https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3"
-  bitrate: 128
-  codec: MP3
-  tags: [pop]
-  favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1588156474/brand_manager/stations/omw81skago9tdyrfx0ae.svg"
-  faviconSource: broadcaster-site
-  faviconSourceUrl: "https://radioplay.se/mixmegapol/"
-  faviconSourceType: cdn
-  faviconLicense: broadcaster-implicit
-  homepage: "https://radioplay.se/mixmegapol"
-  country: SE
-  geo: [59.3272, 18.0154]
-  status: stream-only
-  stationuuid: 0772676d-9fe4-4945-b63f-3e88e5aeb374
-  changeuuid: 1385aaf3-2662-4c01-baa6-c7a2edad13d7
-  reviewedAt: 2026-05-21
-
-# Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-theradio-cc-ogg-vorbis
   source: radio-browser
   broadcaster: independent

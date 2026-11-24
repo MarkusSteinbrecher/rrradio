@@ -4722,29 +4722,6 @@
       "status": "working"
     },
     {
-      "id": "br-br-schlager",
-      "name": "BR Schlager",
-      "broadcaster": "br",
-      "streamUrl": "https://dispatcher.rndfnk.com/br/brschlager/live/mp3/mid",
-      "homepage": "https://www.br.de/radio/br-schlager/index.html",
-      "country": "DE",
-      "tags": [
-        "schlager"
-      ],
-      "favicon": "https://api.ardmediathek.de/image-service/images/urn:ard:image:9091a20989ecaad5?w=512",
-      "faviconSource": "broadcaster-api",
-      "faviconLicense": "broadcaster-implicit",
-      "bitrate": 128,
-      "codec": "MP3",
-      "metadata": "br-radioplayer",
-      "metadataUrl": "https://www.br.de/mediathek/audio/br-schlager/br-schlager-audio-livestream-102~radioplayer.json",
-      "geo": [
-        48.1351,
-        11.582
-      ],
-      "status": "working"
-    },
-    {
       "id": "br-br24",
       "name": "BR24",
       "broadcaster": "br",
@@ -7201,7 +7178,7 @@
       "id": "es-cadena-100",
       "name": "Cadena 100",
       "broadcaster": "independent",
-      "streamUrl": "https://cadena100-cope.flumotion.com/chunks.m3u8",
+      "streamUrl": "https://cadena100-cope.flumotion.com/playlist.m3u8",
       "homepage": "https://www.cadena100.es/",
       "country": "ES",
       "tags": [
@@ -12680,7 +12657,7 @@
       "id": "se-mix-megapol",
       "name": "Mix Megapol",
       "broadcaster": "independent",
-      "streamUrl": "https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3",
+      "streamUrl": "https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3",
       "homepage": "https://www.mixmegapol.se/",
       "country": "SE",
       "tags": [
@@ -135503,19 +135480,6 @@
       ],
       "bitrate": 96,
       "codec": "AAC+",
-      "status": "stream-only"
-    },
-    {
-      "id": "es-cadena100",
-      "name": "Cadena100",
-      "broadcaster": "independent",
-      "streamUrl": "https://cadena100-cope.flumotion.com/playlist.m3u8",
-      "homepage": "https://www.cadena100.es/",
-      "country": "ES",
-      "favicon": "https://www.cadena100.es/estaticos/apple-touch-icon-192x192.png",
-      "faviconSource": "broadcaster-site",
-      "bitrate": 64,
-      "codec": "AAC",
       "status": "stream-only"
     },
     {
@@ -308330,29 +308294,6 @@
       "geo": [
         0,
         0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "se-mix-megapol-104-3",
-      "name": "Mix Megapol 104,3",
-      "broadcaster": "independent",
-      "streamUrl": "https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3",
-      "homepage": "https://radioplay.se/mixmegapol",
-      "country": "SE",
-      "tags": [
-        "pop"
-      ],
-      "favicon": "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1588156474/brand_manager/stations/omw81skago9tdyrfx0ae.svg",
-      "faviconSource": "broadcaster-site",
-      "faviconSourceType": "cdn",
-      "faviconSourceUrl": "https://radioplay.se/mixmegapol/",
-      "faviconLicense": "broadcaster-implicit",
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        59.3272,
-        18.0154
       ],
       "status": "stream-only"
     },
