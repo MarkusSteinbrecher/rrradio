@@ -639,6 +639,15 @@ ios/*.svg, *.webp    — local logos + app screenshots
 
 The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The old `/rrradio-ios/` URL redirects here via `public/rrradio-ios/index.html`.
 
+## App Store review quotes on `/ios`
+
+The landing page shows a few written App Store reviews: after the NO CATCH station's own copy, each quote is one further scroll stop of that station (the dial has six presets, so the quotes have no station of their own). Each shows the review's title, its text, the star rating, the reviewer's nickname, "App Store" plus the storefront country as a link to the listing there, and the date.
+
+- **Curated, not live.** The quotes are the `reviews` list in `data/app-reviews.yaml`. Only what is listed appears, and the site changes only with a commit. Keep the original language and wording (set `lang`), shorten only with a visible ellipsis, and leave out reviews by the project's own maintainers (put their id under `ignored`).
+- **Built in, never fetched.** `appReviewsPlugin` in `vite.config.ts` reads the file when the page is built (and in `npm run dev`). `tools/lib/app-reviews.mjs` validates it and renders it twice: as the `virtual:app-reviews` module that `ios/tunein.js` imports, and as plain markup between the `#app-reviews` comments of the page's transcript, for screen readers and for readers without JavaScript. The page makes no request to Apple. A file that fails validation fails the build.
+- **Finding new reviews.** `npm run app-reviews` asks Apple's public customer-reviews feed (`https://itunes.apple.com/<cc>/rss/customerreviews/id=<app id>/sortBy=mostRecent/json`, one request per storefront; `--storefronts ch,es` to choose, `--all` to print everything) and prints the reviews that are neither listed nor ignored, each as a block to paste into the data file. It only prints. The feed holds the newest 50 written reviews per storefront and does not say which language a review is in, so check `lang` when pasting.
+- **No structured data.** No `Review` / `AggregateRating` JSON-LD: review markup about one's own product is against Google's guidelines. `tools/lib/app-reviews.test.mjs` checks this, the data file, the escaping, and that neither the page nor its script names Apple's feed.
+
 ## Universal Links handoff (`apple-app-site-association`)
 
 `public/.well-known/apple-app-site-association` makes iOS hand off `https://rrradio.org/?play=<id>` / `?list=<id>` links to the installed app (issue #563; iOS entitlement in rrradio-ios #25). Vite copies the file verbatim into `dist/`, so GitHub Pages serves it at the apex. `src/aasa.test.ts` locks its shape (app ID, the `play`/`list` query constraints) so an edit that would break the handoff fails CI.

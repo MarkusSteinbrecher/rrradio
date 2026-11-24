@@ -1,0 +1,65 @@
+# App Store review quotes shown on https://rrradio.org/ios (they follow the
+# NO CATCH station of the landing page, one scroll stop each).
+#
+# Curated by hand: only what is listed under `reviews` appears on the site,
+# and nothing changes there without a commit. The page never contacts Apple;
+# vite.config.ts reads this file at build time and puts the quotes into the
+# page (see docs/operations.md, "App Store review quotes").
+#
+# `npm run app-reviews` prints reviews from Apple's public customer-reviews
+# feed that are neither listed nor ignored here, ready to paste.
+#
+# Rules:
+#   - Quote faithfully: original language and wording. Shorten only with a
+#     visible ellipsis (…).
+#   - `lang` is the language of the quote (BCP 47), so browsers and screen
+#     readers treat it correctly.
+#   - `storefront` is the two-letter App Store country the review was left in.
+#   - No reviews by the project's own maintainers: put their id under `ignored`.
+#   - No review markup for search engines (no Review / AggregateRating JSON-LD).
+
+reviews:
+  - id: "14682294089"
+    date: "2026-10-18"
+    storefront: es
+    lang: es
+    author: ahouke
+    rating: 5
+    version: "1.0"
+    title: "Sencilla y perfecta"
+    text: "Sin rastreadores, sin publicidad, con alarma para despertarse con una emisora y temporizador, gracias!"
+
+  - id: "14223726369"
+    date: "2026-06-25"
+    storefront: ch
+    lang: en
+    author: PapaRolloo
+    rating: 5
+    version: "1.0"
+    title: "Finally an ad-free radio app!"
+    text: "Found this gem based on a friend's recommendation! Pretty much every radio channel you can imagine, intuitive design and fun analytics features - All without ads, subscriptions, or selling off your data! We need more apps like this one - Kudos to whomever developed it!"
+
+  - id: "14220950358"
+    date: "2026-06-24"
+    storefront: ch
+    lang: en
+    author: AndreiRoibu
+    rating: 5
+    version: "1.0"
+    title: "Best Radio Experience"
+    text: "The best radio experience ever. Stations from all over the world, no ads, no trackers, no interruptions, and lots of features!"
+
+  - id: "14220711477"
+    date: "2026-06-24"
+    storefront: ch
+    lang: en
+    author: Robbenfcb
+    rating: 5
+    version: "1.0"
+    title: "Best radio app out there!"
+    text: "Just super clean and functional. No commercials. Cannot ask for more."
+
+# Review ids that were looked at and are not shown. `npm run app-reviews`
+# stops printing them.
+ignored:
+  - "14220786439"
