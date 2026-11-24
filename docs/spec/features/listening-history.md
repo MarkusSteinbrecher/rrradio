@@ -39,7 +39,9 @@ rows 2–3.
 
 Listening dashboard (History tab), top to bottom:
 
-- **Title** "Listening history" with subtitle "Stored on your phone only".
+- **Title** "Listening history" with a subtitle that says where the history
+  lives: "Stored on your phone only", or the iCloud wording when iCloud sync is
+  on and available (the Clear and Delete dialogs switch wording the same way).
 - **Send/export button** (envelope icon), top-right. Opens a mail composer with a
   CSV attachment, or a share sheet if mail is unavailable.
 - **Range segmented control**: `7 days` · `30 days` · `All`. Default `30 days`.
@@ -130,18 +132,21 @@ record count, the enabled flag, or the granularity changes.
 | Race Pause | Playing | Freezes at current position | Cancels the advance task |
 | Drag race scrubber | ≥2 snapshots | Jumps to that day's snapshot | Stops any running playback |
 | Tap a day/week bar | ≥1 bar | Selects that bucket; readout shows its date (or week range) and total; tapping again deselects | — |
-| Tap envelope (Send) | Always | Mail composer with CSV attachment, or share sheet if mail unavailable | Builds CSV from **all** records (ignores range), newest-first |
+| Tap envelope (Send) | Always | Mail composer with CSV attachment, or share sheet if mail unavailable | Builds CSV from the sessions that overlap the **selected range** (`All` = every record), newest-first |
 | Send mail / Share | Composer/sheet open | User-initiated CSV leaves device only if they Send/Share | CSV attachment named `rrradio-listening-history-<YYYY-MM-DD>.csv` |
 | Tap "Clear listening history" | Enabled | Confirmation dialog | — |
-| Confirm Clear | Dialog shown | Deletes **all** records (every range) | Clears active session; re-saves empty file; signals sync (empties the shared iCloud blob) |
-| Start playing a station | History enabled | Opens a new session for that station | Closes any prior open session at now; appended record persisted |
+| Confirm Clear | Dialog shown | Deletes **all** records (every range) and the whole track log | Clears active session; re-saves empty file; stores a **clear tombstone** (`clearedAt` = now); signals sync, which carries the tombstone to the user's other devices |
+| Delete one session | Enabled; the session is closed | Removes that session and the tracks logged during it | Stores a **session tombstone**; signals sync. The session playing now cannot be deleted |
+| Delete a station's history | Enabled | Removes every closed session of that station (all ids the dashboard merges into its row) and its logged tracks | Stores a **station tombstone** per id; a session of that station playing now stays open and counts from the moment of the delete; signals sync |
+| Start playing a station | History enabled | Opens a new session for that station — or **re-opens** that station's last session when it is the newest record and ended no more than 2 minutes ago | Closes any prior open session at now; appended (or re-opened) record persisted |
 | Resume same station | Open session, same station | Keeps the session; refreshes the lifecycle timestamp | No new record |
 | Resume a different station / play new station | Enabled | Closes prior session, opens a new one | Closing the prior session signals sync |
 | Pause / stop playback | Open session | Closes the session at now; computes duration | Prunes if under 5s; persists; signals sync |
 | New track metadata arrives | Enabled, + Tracks, open session | Stores latest artist/title on the open session | Persisted only when artist/title actually change |
 | App backgrounded while playing | Open session | Session stays open; a ~30s heartbeat refreshes the lifecycle timestamp **and persists the open record's elapsed duration** | — |
 | App relaunch with an open (crashed/killed) session | On launch | The stale open session is closed at the furthest-reaching of its last-persisted progress and the lifecycle timestamp, clamped to launch | Pruned if under 5s; retention applied; persisted |
-| iCloud sync delivers another device's sessions | iCloud sync on | Closed sessions from other devices are unioned into the local store | Additive only (never deletes local); de-duped; records older than retention skipped; no push echoed back |
+| iCloud sync delivers another device's sessions | iCloud sync on | Closed sessions from other devices are unioned into the local store | De-duped; records older than retention, or covered by a clear / delete tombstone, skipped; no push echoed back |
+| iCloud sync delivers a clear or delete made on another device | iCloud sync on | The tombstone is adopted and the closed local sessions it covers are removed, with their logged tracks | The session playing now stays; no push echoed back |
 
 ## Business rules
 
@@ -199,14 +204,47 @@ record count, the enabled flag, or the granularity changes.
   the open record's elapsed duration** (monotonic, `endedAt` stays nil), so a crash
   recovery can close the session near where playback actually stopped and an
   app-kill loses at most one tick.
-- **Cross-device sync (iOS, iCloud on).** Closed sessions sync to the user's own
-  private iCloud as one shared blob; merges are an additive union keyed by
-  `station id + whole-second start` (local wins on a key collision). Open sessions
-  are never shared. The upload is bounded — within the retention window, newest
-  **2000** sessions, trimmed oldest-first to stay under the per-record byte cap —
-  while local storage keeps everything. Records are **excluded from the
+- **Session continuation.** A pause or reconnect of at most **2 minutes** on the
+  same station continues the previous session instead of starting a new one. The
+  session keeps its start time, so the gap counts as listening.
+- **Track log (+ Tracks level).** Besides the one artist/title pair on the
+  session, every track heard is appended to a separate log (station, artist,
+  title, time). The same title arriving again on the same station within 15
+  minutes is not logged twice. The log is capped at the newest **2000** entries.
+  It **stays on the device**: it is not synced to iCloud, not part of the CSV
+  export and not in the backup file. Clearing the history, deleting a session or
+  a station's history, and switching down to Stations-only remove the matching
+  entries.
+- **Cross-device sync (iOS, iCloud on).** Since iOS 1.0, closed sessions sync to
+  the user's own private iCloud as one shared record whenever history has
+  records and iCloud sync is on. Merges are a union keyed by
+  `station id + whole-second start`; on a key collision the **longer** session
+  wins (equal length keeps the local copy) and takes the fields only the other
+  copy has (artwork, stream URL, track). Open sessions are never shared. At the
+  Stations-only level no track title leaves the device or is taken from sync.
+  The upload is bounded — within the retention window, newest **2000**
+  sessions, trimmed oldest-first to stay under the per-record byte cap — while
+  local storage keeps everything. Records are **excluded from the
   backup/export file**. See [sync-merge](../contracts/sync-merge.md).
-- **Export** serializes every record (CSV header `id, station_id, station_name,
+- **Clear and delete sync as tombstones (iOS 1.1).** A union alone would hand a
+  cleared history back from any device that still holds it, so removals travel
+  with the records:
+  - **Clear tombstone** (`clearedAt`): the time of the last Clear on any
+    device. Sessions that started at or before it are dropped everywhere and
+    never taken from sync again; the later of two clears wins.
+  - **Delete tombstones** (`deletions`): one entry per deleted session (its
+    `station id + whole-second start` key) and one per station whose history
+    was deleted (covers that station's sessions started at or before the
+    delete). Both sets are unioned across devices, later time wins; entries a
+    later clear already covers are dropped. Session entries are capped at the
+    newest **500**; station entries are not capped.
+  - "Remove all iCloud data" and an iCloud account switch clear the local
+    history **without** a clear tombstone, so one account's clear can never
+    erase another account's sessions.
+  - A device still on iOS 1.0 does not know tombstones: it ignores them and can
+    upload cleared sessions again; a 1.1 device filters them out on its next
+    merge.
+- **Export** serializes the records that overlap the selected range (CSV header `id, station_id, station_name,
   country, started_at, ended_at, duration_seconds, track_artist, track_title`),
   sorted newest-first, ISO-8601 timestamps, integer seconds.
 
@@ -252,11 +290,19 @@ record count, the enabled flag, or the granularity changes.
 - **Cloud sync flips a history preference remotely.** Applied without re-triggering
   a local sync push (avoids a feedback loop).
 - **Cloud sync delivers records from another device.** Closed sessions are unioned
-  additively into the local store (never deleting a local record), de-duped by
-  `station id + whole-second start`, and any older than the local retention window
-  are skipped. The resulting save is suppressed from echoing a push back out, so
-  repeated syncs converge without duplicates or churn. A missing or undecodable
-  remote blob is treated as "no remote sessions", not a wipe.
+  into the local store, de-duped by `station id + whole-second start`, and any
+  older than the local retention window, or covered by a clear or delete
+  tombstone, are skipped. The union itself never deletes a local record; only a
+  tombstone does. The resulting save is suppressed from echoing a push back out,
+  so repeated syncs converge without duplicates or churn. A missing or
+  undecodable remote blob is treated as "no remote sessions", not a wipe.
+- **Clear on one device while another is offline.** The offline device still
+  holds the sessions and uploads them when it returns; every device drops them
+  again because they started before `clearedAt`. Sessions recorded after the
+  clear are kept.
+- **More than 500 single-session deletes.** The oldest session tombstones fall
+  off; a session deleted that long ago can come back from a device that was
+  offline the whole time.
 - **Missing station artwork on old records.** Records written before favicon/stream
   fields existed render with initials until back-fill resolves a logo; the Radio
   Browser re-fetch is attempted once per station id per session, so a failure
@@ -326,7 +372,11 @@ Parameter/plural needs:
 | Race chart (animated, 366-day cap) | Planned | Supported | Planned |
 | Minutes-by-day bars (weekly grouping, peak, tap-select) | Planned | Supported | Planned |
 | CSV export (mail / share) | Planned (web has no listening history; its JSON backup export of favorites + custom stations per [data-sync.md](../data-sync.md) is a different feature) | Supported | Planned (no history CSV yet; would use SAF / the Android share sheet, the native counterpart to the iOS mail composer / share sheet — distinct from the existing JSON library backup) |
-| Closed records synced to user's own iCloud (bounded, union-merge) | n/a | Supported | Not applicable (iCloud is Apple-only; no cross-device record sync on the first Android port — see [data-sync.md](../data-sync.md)) |
+| Closed records synced to user's own iCloud (bounded, union-merge) | n/a | Supported (since 1.0) | Not applicable (iCloud is Apple-only; no cross-device record sync on the first Android port — see [data-sync.md](../data-sync.md)) |
+| Clear / delete synced as tombstones (`clearedAt`, `deletions`) | n/a | Supported (since 1.1) | Not applicable (no record sync) |
+| Delete a single session / a station's history | Planned | Supported (since 1.1) | Planned |
+| Track log (every track, capped 2000, device-only) | Planned | Supported (since 1.1) | Planned |
+| Session continuation after a pause of ≤ 2 min | Planned | Supported (since 1.1) | Planned |
 | Open sessions never synced; records excluded from backup-export | n/a | Supported | Not applicable (no record sync; the SAF library backup already carries only the history *preference*, not records) |
 | History preferences synced (3 fields) | Not planned | Supported | Not planned (no cross-device sync; the single history-level preference rides along in the SAF library backup file, not a sync service) |
 | Never sent to analytics endpoints | Supported | Supported | Supported (records persist only in local DataStore; nothing posted off-device) |
@@ -339,18 +389,14 @@ Parameter/plural needs:
   confusing — reconcile the in-screen privacy copy (see
   [privacy-data-boundaries](../contracts/privacy-data-boundaries.md) Open
   question 3). Tracked under Known deviations.
-- Should the CSV export honor the selected range instead of always exporting all
-  records?
 - The **Settings** listening-history section strings (tri-state labels + details,
   "Open History", retention row) are still hard-coded English while the dashboard
   is fully localized — finish localizing the Settings rows.
-- **Privacy boundary wording:** history records now sync to the user's own private
-  iCloud, yet the dashboard subtitle says "Stored on your phone only" and the
-  disabled-card copy says "Nothing is sent to rrradio.org." Both are technically
-  true (the data stays user-owned; nothing reaches rrradio servers) but the
-  "your phone only" phrasing predates cross-device sync — reconcile with
-  [privacy-data-boundaries](../contracts/privacy-data-boundaries.md) Open
-  question 4.
+- **Screens not re-read.** The Layout, States and Interactions sections describe
+  the dashboard as of the commit in the header. The sync, tombstone, track-log
+  and export rules above were re-read against the iOS 1.1 code; the screens
+  themselves (where History sits, the per-day timeline, tap-to-play rows) were
+  not, and need their own pass.
 - Cross-platform: define whether web/Android persist history at all, or only ship
   the export/backup-merge path defined in [data-sync.md](../data-sync.md).
 
@@ -379,9 +425,14 @@ iOS source read for this spec:
   to session start/resume/close/track-update; ~30s lifecycle heartbeat observer.
 - `rrradio/App.swift` — owns the `ListeningHistory` instance; injects it into the
   player; fires `tickActiveSession` on scene transitions.
-- `rrradio/CloudSync/CloudSyncSnapshot.swift`, `CloudSyncController.swift` —
-  cross-device record sync: `syncableRecords`, `mergeSyncedRecords`,
-  `boundingListeningHistoryForUpload`, `ListeningHistorySyncBounds` (issue #58).
+- `rrradio/CloudSync/CloudSyncSnapshot.swift`, `CloudSyncController.swift`,
+  `CloudSyncStore.swift` — cross-device record sync: `syncableRecords`,
+  `mergeSyncedRecords`, `mergeListeningHistory`, `mergedDeletions`,
+  `laterClear`, `boundingListeningHistoryForUpload`,
+  `ListeningHistorySyncBounds`, and the `clearedAt` / `deletions` fields of the
+  `ListeningHistory` record. `ListeningHistoryDeletions` and the track log
+  (`ListeningHistoryTrackEntry`, `maxTrackLogEntries`) live in
+  `rrradio/Library/ListeningHistory.swift`.
 
 ## Known deviations
 

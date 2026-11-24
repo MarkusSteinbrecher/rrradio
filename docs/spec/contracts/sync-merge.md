@@ -98,7 +98,9 @@ snapshot.
 | **Custom stations** | Authoritative-remote when `remote.hasCustomStationsIndex`: result = remote list + unresolved-id local fallbacks. Otherwise union by id with **remote-wins on collision** (`mergeStations`), local-only appended. |
 | **Station lists** | Authoritative-remote when `remote.hasStationListsIndex`: result = remote list + unresolved-id local fallbacks. Otherwise union by id with **remote-wins (remote first, then local-only)**. |
 | **Preferences** | All-or-nothing block. `useRemotePreferences = remote.hasPreferences && !preferLocalPreferences`. When true, every preference field takes the remote value; when false, every field keeps local. (One exception: `sleepTimerDefaultMinutes` takes remote only if `remote > 0`.) `preferLocalPreferences` is set when this device has a queued, not-yet-pushed local preference edit. |
-| **Listening history** | Union of both devices' **closed** sessions, keyed by `station id + whole-second start` (a session's local record id — a per-device random UUID — is ignored). Local wins on a key collision (it may carry back-filled artwork). **Open (in-flight) sessions are never shared.** Result is sorted chronological ascending. The union is idempotent — re-merging the same sets never duplicates. Unconditional (not gated by `useRemotePreferences`). |
+| **Listening history** | Union of both devices' **closed** sessions, keyed by `station id + whole-second start` (a session's local record id — a per-device random UUID — is ignored). Before the union, a session is dropped when it started at or before the merged clear tombstone or is covered by a merged delete tombstone (see below). On a key collision the **longer** session wins; equal length keeps the local copy. Either way the kept record takes the optional fields only the other copy has (artwork, stream URL, track). **Open (in-flight) sessions are never shared.** Result is sorted by whole-second start, then station id. The union is idempotent — re-merging the same sets never duplicates. Unconditional (not gated by `useRemotePreferences`). |
+| **History clear tombstone** (`clearedAt`) | The later of local and remote. |
+| **History delete tombstones** (`deletions`) | Union of both sides' session and station entries, later time wins per entry; entries the merged `clearedAt` already covers are dropped; session entries capped at the newest 500. |
 | **Index flags** | `hasFavoritesOrder/hasCustomStationsIndex/hasStationListsIndex/hasPreferences` in merged output = local OR remote (sticky). |
 | **`favoritesOrder`** in merged output | = `remote.favoritesOrder` verbatim. |
 | **`resetAt`** in merged output | = `remote.resetAt`. |
@@ -122,6 +124,31 @@ upload regardless of the current toggle. See [data-sync.md](../data-sync.md).
   pushes between devices.
 - The synced *records* are distinct from the three listening-history *preference*
   fields (enabled / level / retention), which sync in the Preferences block.
+- When the level preference is Stations-only, track artist/title are stripped
+  from every session before upload and from every session taken in a merge, so
+  a device that has not stripped its copy yet cannot hand titles back.
+- The **track log** (every track heard, capped at 2000 entries) is not in the
+  snapshot at all: it stays on the device.
+
+### Listening-history tombstones
+
+A union cannot express a removal: a session cleared on one device would return
+from any device that still holds it. Since iOS 1.1 the `ListeningHistory`
+record therefore carries two kinds of tombstone next to the sessions.
+
+| Tombstone | Shape | Covers | Merge |
+|---|---|---|---|
+| Clear (`clearedAt`) | one timestamp | every session that **started at or before** it | later of the two |
+| Session delete (`deletions.sessions`) | map `station id + whole-second start` → time of delete | exactly that session | union, later time wins; newest **500** kept |
+| Station delete (`deletions.stations`) | map station id → time of delete | that station's sessions that started at or before the time | union, later time wins; no cap |
+
+- A covered session is removed locally (closed sessions only; the session
+  playing now stays) and is never taken from sync again.
+- Delete tombstones that a later `clearedAt` already covers are pruned.
+- Times are whole seconds, so a tombstone compares equal after a round trip.
+- "Remove all iCloud data" and an iCloud account switch clear the local history
+  **without** writing a clear tombstone; the account-switch path also forgets
+  the stored `clearedAt`, which belonged to the previous account.
 
 ### Push timing
 
@@ -142,6 +169,7 @@ keeps everything per the user's retention setting). Before each push:
 | Retention window | per `listeningHistoryRetention` | Sessions older than the cutoff are excluded from the upload. |
 | Max records | 2000 | Hard ceiling independent of retention so `forever` can't grow the blob without bound; keeps the most-recent. |
 | Max encoded bytes | 800 000 | Safety net under CloudKit's ~1 MB per-record limit; oldest sessions dropped until the encoded blob fits. |
+| Delete-tombstone allowance | 150 000 bytes | Tombstones are never trimmed for size (dropping one could bring deleted history back). When their encoding grows past the allowance, the excess is taken off the sessions' byte budget instead, so the oldest sessions stay off the upload. |
 
 Dropped-session counts are logged to diagnostics; nothing local is touched.
 
@@ -207,7 +235,7 @@ Preferences block. (See [data-sync.md](../data-sync.md).)
 | `FavoritesOrder` | `stationIds` (String array) | Authoritative order. |
 | `CustomStationsIndex` | `stationIds` (String array) | Authoritative membership. |
 | `StationListsIndex` | `listIds` (String array) | Authoritative membership. |
-| `ListeningHistory` | `records` (Data, ISO-8601 JSON array), `updatedAt` (Date), `count` (Int) | One shared blob of all closed sessions. Empty set → record deleted; unchanged content → not re-written. |
+| `ListeningHistory` | `records` (Data, ISO-8601 JSON array), `updatedAt` (Date), `count` (Int), `clearedAt` (Date, optional), `deletions` (Data, ISO-8601 JSON `{sessions, stations}`, optional) | One shared blob of all closed sessions plus the tombstones. No sessions **and** no tombstones → record deleted; unchanged content (sessions, `clearedAt`, `deletions`) → not re-written. `clearedAt` and `deletions` were added in iOS 1.1 and must exist in the production CloudKit schema before that version ships. |
 | `SyncState` | `resetAt` (Date) | Deletion tombstone for "remove all cloud data". |
 
 ### Local sync flags (`UserDefaults`)
@@ -286,14 +314,25 @@ remote.hasPreferences = true, preferLocalPreferences = false
    (except sleepTimerDefaultMinutes, which takes remote only if remote > 0)
 ```
 
-### Listening-history merge (union by station+second, local-wins, open dropped)
+### Listening-history merge (union by station+second, longer wins, open dropped)
 
 ```
-local:  [ {st:"fip",  start:100, artwork:"A"}, {st:"soma", start:300, OPEN} ]
-remote: [ {st:"fip",  start:100, artwork:nil}, {st:"byte", start:200} ]
-merged: [ {st:"fip",  start:100, artwork:"A"},      # local wins on key collision
-          {st:"byte", start:200} ]                  # remote-only session added
+local:  [ {st:"fip",  start:100, dur:60, artwork:"A"}, {st:"soma", start:300, OPEN} ]
+remote: [ {st:"fip",  start:100, dur:90, artwork:nil}, {st:"byte", start:200} ]
+merged: [ {st:"fip",  start:100, dur:90, artwork:"A"},  # longer copy wins, keeps the artwork only local had
+          {st:"byte", start:200} ]                      # remote-only session added
         # soma@300 is open → never shared; result sorted by start ascending
+```
+
+### Listening-history tombstones (clear on one device, stale copy on another)
+
+```
+device A: Clear at t=500            → clearedAt:500, records:[]
+device B (offline since t=50) holds [ {st:"fip", start:100}, {st:"byte", start:200} ]
+B comes back, adds                  [ {st:"soma", start:600} ]
+merge:    clearedAt = max(500, nil) = 500
+          fip@100, byte@200 started <= 500  → dropped on every device
+          soma@600 started  >  500          → kept
 ```
 
 ### Reset tombstone
@@ -326,6 +365,11 @@ Other device on next refresh: resetAt > resetAcknowledgedAt and no payload
 - Migration policy: no automatic blob migration exists. The "save back the merge"
   step (re-saving the bounded local snapshot) re-encodes any decodable blob with
   the current encoder, which heals stale-but-decodable records opportunistically.
+- `ListeningHistory.clearedAt` / `deletions` are additive optional fields
+  (iOS 1.1). A device on an older version ignores them: it keeps syncing
+  sessions but does not honor removals, and may upload sessions another device
+  cleared. Tombstone-aware devices drop those again on their next merge, so the
+  removal holds on every updated device.
 - The `ListeningHistory` blob carries no `schemaVersion`; it round-trips through
   `ListeningHistoryRecord` `Codable` (ISO-8601 dates). Two devices that
   independently logged the same session hold different local record ids but
@@ -385,13 +429,14 @@ and CKError codes only.
 3. Does a future shared backend (web/Android account sync) reuse this record
    schema, or define its own wire format? Deferred to the cross-platform sync
    ADR in [data-sync.md](../data-sync.md).
-4. **Listening-history sync vs. the data-sync privacy boundary.**
-   [data-sync.md](../data-sync.md) currently states listening history "does not
-   sync" and lists listening-history *records* among non-syncable classes. At
-   d241aa9 iOS **does** sync closed listening-history records to the user's own
-   private CloudKit database (never to a backup file, never to a shared/third
-   party). data-sync.md should be reconciled to draw the boundary as
-   *private-iCloud-sync-allowed, backup-export-excluded* for history records.
+4. **Listening-history tombstones and devices on an older version.** A device
+   that predates tombstones can keep re-uploading sessions the user cleared
+   elsewhere (updated devices filter them, the old device keeps showing them).
+   Whether to gate history sync on a minimum version, or accept this until old
+   versions age out, is undecided. (The earlier question here — data-sync.md
+   saying history "does not sync" — is resolved: data-sync.md and the privacy
+   contract now draw the boundary as *private-iCloud-sync-allowed,
+   backup-export-excluded*.)
 5. **Backup-restore semantics diverge from the contract's backup-import rule.**
    Platform obligation #2 says a backup import should **union** (imported copy
    wins on id collision). iOS's own backup restore instead **replaces** the live
