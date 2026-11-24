@@ -93,6 +93,16 @@
     <link rel="canonical" href="https://rrradio.org/" />
     <!-- /#seo:canonical -->
 
+    <!-- Smart App Banner: Safari on iPhone/iPad offers the App Store app
+         (or "Open" when it is installed). A plain meta tag, so the CSP
+         does not apply. tools/build-station-pages.mjs rewrites this block
+         on /station/<id>/ pages to add `app-argument`, the link the app
+         opens that station from. The app id is the one in the App Store
+         link on /ios. -->
+    <!-- #seo:appbanner -->
+    <meta name="apple-itunes-app" content="app-id=6767256355" />
+    <!-- /#seo:appbanner -->
+
     <!-- Favicon. SVG-only — Chrome/Edge/Firefox/Safari 16.4+ all
          support SVG favicons, which scales crisp at every size
          (bookmark bar, tab, home screen). The mark is the dark-theme
