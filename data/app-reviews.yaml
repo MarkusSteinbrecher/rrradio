@@ -15,7 +15,8 @@
 #   - `lang` is the language of the quote (BCP 47), so browsers and screen
 #     readers treat it correctly.
 #   - `storefront` is the two-letter App Store country the review was left in.
-#   - No reviews by the project's own maintainers: put their id under `ignored`.
+#   - Not every review is shown. Put the id of one that was looked at and
+#     left out under `ignored`.
 #   - No review markup for search engines (no Review / AggregateRating JSON-LD).
 
 reviews:
