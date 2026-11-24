@@ -315,6 +315,22 @@ body.tunein {
 }
 .stage__body a.bodylink:hover { text-decoration-color: var(--accent); }
 
+/* Listener quotes (the stops after NO CATCH): the review's title is the headline,
+   its text the body, and the attribution sits under it in the readout's
+   mono voice. Same tokens as the rest of the stage. */
+.has-quotes .stage__title { font-size: clamp(26px, 3.6vw, 44px); }
+.has-quotes .stage__body { font-size: clamp(15px, 1.9vw, 19px); line-height: 1.5; }
+.stage__body .quote { display: block; }
+.stage__body .cite {
+  display: block;
+  margin-top: clamp(10px, 1.8svh, 18px);
+  font-family: var(--mono);
+  font-size: clamp(11px, 1.3vw, 13px);
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
 /* Media (phone screens) for stations that show the product. */
 .stage__media {
   display: flex;
