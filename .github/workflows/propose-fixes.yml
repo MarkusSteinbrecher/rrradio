@@ -12,7 +12,7 @@ name: Propose broken-station fixes
 # which fires resolve-reports.yml → the Worker resolves the reports →
 # the apps' receipt polling notifies the reporters.
 #
-# Daily, an hour after the P2 triage cron, so same-day confirmed issues
+# Daily, about an hour after the P2 triage cron, so same-day confirmed issues
 # get a fix PR. The tool dedups against open fix PRs, so a daily cadence
 # never piles up duplicate PRs. Plus manual dispatch with an optional
 # dry run (the recommended safe first run).
@@ -22,7 +22,7 @@ name: Propose broken-station fixes
 
 on:
   schedule:
-    - cron: '0 7 * * *' # daily 07:00 UTC (P2 triage runs 06:00)
+    - cron: '23 6 * * *' # daily 06:23 UTC (P2 triage runs 05:17; off the hour, #824)
   workflow_dispatch:
     inputs:
       dry_run:
@@ -72,7 +72,7 @@ jobs:
         run: |
           npm run propose-station-fix -- ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} --verbose
 
-      # A scheduled cron fails silently — nobody watches a 07:00 job. Surface
+      # A scheduled cron fails silently — nobody watches an early-morning job. Surface
       # any failure as a tracking issue so a broken run can't accumulate
       # unnoticed (#517). Manual dispatch runs are visible to the operator.
       - name: File a tracking issue if the scheduled run failed

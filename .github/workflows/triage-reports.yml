@@ -19,7 +19,9 @@ name: Triage broken-station reports
 
 on:
   schedule:
-    - cron: '0 6 * * *' # daily 06:00 UTC
+    # Off the top of the hour: GitHub delays :00 schedules by hours under
+    # load (06:00 runs were starting 14:00-15:30 UTC, #824).
+    - cron: '17 5 * * *' # daily 05:17 UTC
   workflow_dispatch:
     inputs:
       dry_run:
@@ -49,9 +51,11 @@ jobs:
         run: |
           # Pre-create so the issue upsert never 422s on an unknown label.
           gh label create broken-station --description "User-reported broken station (automated triage)" --color B60205 --force >/dev/null 2>&1 || true
-          for c in no-audio interruptions wrong-station wrong-logo wrong-info other; do
+          for c in no-audio interruptions wrong-station wrong-logo wrong-info other unspecified; do
             gh label create "$c" --description "Broken-station report category" --color D93F0B --force >/dev/null 2>&1 || true
           done
+          gh label create needs-review --description "Report with a reporter comment that automation cannot verify" --color FBCA04 --force >/dev/null 2>&1 || true
+          gh label create report-digest --description "Digest of broken-station reports on hold" --color 5319E7 --force >/dev/null 2>&1 || true
 
       - name: Triage reports
         env:
@@ -66,7 +70,7 @@ jobs:
           fi
           npm run triage-reports -- ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} --verbose
 
-      # A scheduled cron fails silently — nobody watches a 06:00 job. Surface
+      # A scheduled cron fails silently — nobody watches an early-morning job. Surface
       # any failure (empty/wrong token, network, etc.) as a tracking issue so a
       # broken-on-arrival run can't accumulate unnoticed (#517). Manual dispatch
       # runs are visible to the operator, so they don't file noise.
