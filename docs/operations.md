@@ -639,6 +639,12 @@ ios/*.svg, *.webp    — local logos + app screenshots
 
 The page is route-isolated from the web player and catalog. It does not import `src/main.ts`, `src/style.css`, station data, or any native app repository. The old `/rrradio-ios/` URL redirects here via `public/rrradio-ios/index.html`.
 
+## Smart App Banner (`apple-itunes-app`)
+
+Safari on iPhone and iPad shows Apple's own banner for the iOS app ("View" in the App Store, or "Open" when the app is installed) on pages that carry `<meta name="apple-itunes-app">`. It is on the home page (`index.html`, inside the `#seo:appbanner` block) and on every generated `/station/<id>/` page, where `tools/build-station-pages.mjs` rewrites the block to add `app-argument=https://rrradio.org/?play=<id>`: the link the app receives when "Open" is tapped, in the same form it already opens as a Universal Link, so the banner opens that station. Other pages (`/ios`, `/genre/…`, `/recently-added/`) do not carry it.
+
+The tag is plain metadata: no script, no request from our page, nothing for the CSP to allow. The App Store id is written in three places that `src/app-banner.test.ts` keeps equal: `index.html`, `IOS_APP_ID` in `tools/build-station-pages.mjs`, and the App Store link in `ios/index.html`. The banner does not show in other browsers, in private-mode edge cases Apple decides on, or when the site runs from the Home Screen.
+
 ## Universal Links handoff (`apple-app-site-association`)
 
 `public/.well-known/apple-app-site-association` makes iOS hand off `https://rrradio.org/?play=<id>` / `?list=<id>` links to the installed app (issue #563; iOS entitlement in rrradio-ios #25). Vite copies the file verbatim into `dist/`, so GitHub Pages serves it at the apex. `src/aasa.test.ts` locks its shape (app ID, the `play`/`list` query constraints) so an edit that would break the handoff fails CI.

@@ -41,6 +41,10 @@ import { logoUrl, stationFacts } from './lib/station-page-facts.mjs';
 
 const DIST = 'dist';
 const SITE = 'https://rrradio.org';
+// App Store id of the iOS app (apps.apple.com/app/rrradio-org/id<this>),
+// used for the Smart App Banner on station pages. index.html carries the
+// same number for the home page.
+const IOS_APP_ID = '6767256355';
 
 // ─── 1. Inputs ──────────────────────────────────────────────────────
 if (!existsSync(`${DIST}/index.html`)) {
@@ -415,6 +419,16 @@ ${tagNav}
     `    <meta name="description" content="${escapeAttr(description)}" />`,
   );
   html = replaceBlock(html, 'canonical', `    <link rel="canonical" href="${url}" />`);
+  // Smart App Banner: `app-argument` is handed to the installed app when
+  // the banner's "Open" is tapped. It is the same `/?play=<id>` link the
+  // app already opens as a Universal Link, so the banner opens this station.
+  html = replaceBlock(
+    html,
+    'appbanner',
+    `    <meta name="apple-itunes-app" content="app-id=${IOS_APP_ID}, app-argument=${escapeAttr(
+      `${SITE}/?play=${encodeURIComponent(s.id)}`,
+    )}" />`,
+  );
   html = replaceBlock(
     html,
     'og',
