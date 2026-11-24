@@ -6613,13 +6613,14 @@
   faviconSource: broadcaster-site
   stationuuid: 960c37c6-0601-11e8-ae97-52543be04c81
   changeuuid: ad1fe073-aa98-4d89-8ebd-f32f963cc8ca
-  reviewedAt: 2026-04-29
+  reviewedAt: 2026-11-24
   geo:
     - 40.418
     - -3.703
   broadcaster: independent
   name: Cadena 100
-  streamUrl: https://cadena100-cope.flumotion.com/chunks.m3u8
+  # chunks.m3u8 404s since Nov 2026; playlist.m3u8 on the same host is the live HLS entry point.
+  streamUrl: https://cadena100-cope.flumotion.com/playlist.m3u8
   codec: AAC
   tags:
     - pop
@@ -11785,13 +11786,14 @@
   faviconSource: radio-browser
   stationuuid: 96342772-0601-11e8-ae97-52543be04c81
   changeuuid: 24d9bed7-2110-470d-a867-de771ab2c6cf
-  reviewedAt: 2026-04-30
+  reviewedAt: 2026-11-24
   geo:
     - 59.33
     - 18.069
   broadcaster: independent
   name: Mix Megapol
-  streamUrl: https://tx-bauerse.sharp-stream.com/http_live.php?i=mixmegapol_instream_se_mp3
+  # Bauer SE retired tx-bauerse.sharp-stream.com (DNS gone, Nov 2026); same mount on the new host.
+  streamUrl: https://live-bauerse-fm.sharp-stream.com/mixmegapol_instream_se_mp3
   codec: MP3
   tags:
     - pop
