@@ -23,6 +23,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
+import { CATALOG_SCHEMA_VERSION } from './lib/catalog-schema.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -91,6 +92,16 @@ const jsonText = readFileSync(join(root, 'public/stations.json'), 'utf8');
 const json = JSON.parse(jsonText);
 const jsonStations = Array.isArray(json) ? json : json.stations;
 if (!Array.isArray(jsonStations)) fail('public/stations.json: stations[] not found');
+
+// Envelope `schemaVersion` (catalog-schema contract): native clients branch
+// their decoder on it, so the published payload must always say which
+// generation it is, and it must be the one the build tooling writes.
+if (json.schemaVersion !== CATALOG_SCHEMA_VERSION) {
+  fail(
+    `public/stations.json: schemaVersion is ${JSON.stringify(json.schemaVersion)}, expected ${CATALOG_SCHEMA_VERSION} ` +
+      '(tools/lib/catalog-schema.mjs). Run `npm run catalog`.',
+  );
+}
 
 const jsonIds = new Set(jsonStations.map((s) => s.id));
 
