@@ -6611,6 +6611,10 @@
   country: ES
   status: stream-only
 - id: es-cadena-100
+  brokenSince: 2026-11-24
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: HTTP 404 ×8 · 2026-11-17→2026-11-24
   favicon: "https://www.cadena100.es/estaticos/apple-touch-icon-192x192.png"
   faviconSource: broadcaster-site
   stationuuid: 960c37c6-0601-11e8-ae97-52543be04c81
@@ -6630,7 +6634,7 @@
     - spain
   homepage: https://www.cadena100.es/
   country: ES
-  status: stream-only
+  status: broken
   featured: true
 - id: es-rock-fm
   brokenSince: 2026-11-22
@@ -11784,6 +11788,10 @@
   country: SE
   status: stream-only
 - id: se-mix-megapol
+  brokenSince: 2026-11-24
+  brokenFrom: stream-only
+  brokenBy: station-probe
+  brokenReason: dns ×14 · 2026-11-11→2026-11-24
   favicon: "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1592840543/brand_manager/stations/ytwsvxzhg2maeejuhxh8.png"
   faviconSource: radio-browser
   stationuuid: 96342772-0601-11e8-ae97-52543be04c81
@@ -11803,7 +11811,7 @@
     - sweden
   homepage: https://www.mixmegapol.se/
   country: SE
-  status: stream-only
+  status: broken
   featured: true
 - id: se-nrj-sweden
   brokenSince: 2026-10-30
