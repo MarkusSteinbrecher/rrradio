@@ -4536,7 +4536,9 @@
   faviconSource: broadcaster-api
   faviconLicense: broadcaster-implicit
   homepage: https://www.br.de/radio/br-schlager/index.html
-  status: working
+  # BR ended the programme in Nov 2026 and folded it into ARD Schlagerwelt
+  # (stream 404, no livestream in the ARD Audiothek). Curator-set, not bot-managed.
+  status: broken
 - id: br-br24
   stationuuid: 787eda99-1532-4ee0-b14e-fdb88ec71530
   changeuuid: 148d47ff-e69e-4015-8da8-49175dd2daad
