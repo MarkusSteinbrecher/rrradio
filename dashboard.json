@@ -1,10 +1,10 @@
 {
  "version": 1,
- "generatedAt": "2026-11-23T21:21:18.467Z",
+ "generatedAt": "2026-11-24T12:51:30.200Z",
  "counts": {
-  "published": 28571,
+  "published": 28569,
   "curated": 273,
-  "longTail": 28298,
+  "longTail": 28296,
   "countries": 209
  },
  "runs": {
@@ -1448,17 +1448,6 @@
  ],
  "automation": [
   {
-   "day": "2026-10-25",
-   "retired": 22,
-   "recovered": 8,
-   "urlSwapped": 0,
-   "logoCleared": 170,
-   "logoUpgraded": 1,
-   "logoFilled": 0,
-   "review": 1,
-   "held": false
-  },
-  {
    "day": "2026-10-26",
    "retired": 14,
    "recovered": 4,
@@ -1776,16 +1765,27 @@
    "logoFilled": 0,
    "review": 3,
    "held": false
+  },
+  {
+   "day": "2026-11-24",
+   "retired": 0,
+   "recovered": 50,
+   "urlSwapped": 0,
+   "logoCleared": 150,
+   "logoUpgraded": 0,
+   "logoFilled": 34,
+   "review": 4,
+   "held": false
   }
  ],
  "logoFill": {
-  "proposed": 0,
+  "proposed": 34,
   "landed": 0,
   "graded": 0,
   "ok": 0,
   "survival": null,
-  "pending": 57,
-  "oldestPending": "2026-11-23"
+  "pending": 66,
+  "oldestPending": "2026-11-24"
  },
  "cols": [
   "id",
@@ -27384,7 +27384,6 @@
 ["us-k-star-talk-radio-network","K-Star Talk Radio Network","US","long-tail","stream-only","ok","audio/mpeg","2026-06-11",0,"","2026-11-19","icy","ok","acceptable","ok"],
 ["us-k-wave-107-9","K-WAVE 107.9","US","long-tail","stream-only","ok","audio/mpeg","2026-06-11",0,"","2026-11-23","api","bad","HTTP 403","ok"],
 ["us-k101-kzmk-100-9fm","K101 KZMK 100.9FM","US","long-tail","stream-only","ok","audio/mpegurl","2026-06-11",0,"","2026-11-18","none","warn","poor","ok"],
-["us-k103","K103","US","long-tail","stream-only","bad","dns","2026-11-21",3,"hard","2026-11-23","none","ok","good","ok"],
 ["us-k97-1","K97.1","US","long-tail","stream-only","ok","audio/aac","2026-06-11",0,"","2026-11-23","icy","ok","acceptable","ok"],
 ["us-k99-northern-colorado-s-new-country","K99 Northern Colorado's New Country","US","long-tail","stream-only","ok","audio/aacp","2026-06-11",0,"","2026-11-17","icy","warn","poor","ok"],
 ["us-k99-rocks","K99 Rocks","US","long-tail","stream-only","ok","audio/mpeg","2026-06-11",0,"","2026-11-18","api","ok","acceptable","ok"],
@@ -29232,7 +29231,6 @@
 ["us-wcyy-94-3-maine","WCYY 94.3 Maine","US","long-tail","stream-only","ok","audio/mpegurl","2026-06-11",0,"","2026-11-17","none","bad","HTTP 429","ok"],
 ["us-wdac-fm-94-5-hd1","WDAC FM 94.5 HD1","US","long-tail","stream-only","ok","audio/aac","2026-11-07",0,"","2026-11-20","icy","ok","acceptable","ok"],
 ["us-wdac-fm-94-5-hd2","WDAC FM 94.5 HD2","US","long-tail","stream-only","ok","audio/aac","2026-10-29",0,"","2026-11-18","icy","ok","acceptable","ok"],
-["us-wdae-620-am-95-3-fm-tampa-bay-s-sports-radio","WDAE 620 AM/95.3 FM - Tampa Bay's Sports Radio","US","long-tail","stream-only","bad","dns","2026-11-21",3,"hard","2026-11-23","none","warn","poor","ok"],
 ["us-wdaq-hd2-103-7-rock","wdaq-hd2 103.7 rock","US","long-tail","stream-only","ok","audio/aacp","2026-10-16",0,"","2026-11-19","icy","bad","missing","ok"],
 ["us-wdav-89-9-classical-public-radio","WDAV 89.9 Classical Public Radio","US","long-tail","stream-only","ok","audio/aacp","2026-06-11",0,"","2026-11-21","icy","ok","acceptable","ok"],
 ["us-wdav-89-9-classical-public-radio-charlotte-nc","WDAV 89.9 \"Classical Public Radio\" Charlotte, NC","US","long-tail","stream-only","ok","audio/mpeg","2026-06-11",0,"","2026-11-17","icy","ok","acceptable","ok"],
