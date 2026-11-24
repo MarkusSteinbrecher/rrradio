@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSy
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { extname, join, resolve, sep } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
+import { injectReviewsTranscript, loadAppReviews, reviewSlides } from './tools/lib/app-reviews.mjs';
 
 // Build version stamp — short git SHA + ISO date. Audit #76: surfaces
 // in runtime error events so a regression can be tied back to a commit
@@ -251,11 +252,46 @@ function specSitePlugin(): Plugin {
   };
 }
 
+// App Store review quotes on the /ios landing page. The curated list in
+// data/app-reviews.yaml is read here, at build (and dev-server) time, and
+// reaches the page two ways: as the `virtual:app-reviews` module that
+// ios/tunein.js imports for the quote stops of its NO CATCH station, and as plain markup in
+// the page's transcript. The published page therefore holds the quotes as
+// static content and makes no request to Apple. A file that fails
+// validation fails the build.
+const appReviewsPath = resolve(__dirname, 'data/app-reviews.yaml');
+const APP_REVIEWS_MODULE = 'virtual:app-reviews';
+
+function appReviewsPlugin(): Plugin {
+  return {
+    name: 'rrradio-app-reviews',
+    resolveId(id) {
+      return id === APP_REVIEWS_MODULE ? `\0${APP_REVIEWS_MODULE}` : null;
+    },
+    load(id) {
+      if (id !== `\0${APP_REVIEWS_MODULE}`) return null;
+      this.addWatchFile(appReviewsPath);
+      const { reviews } = loadAppReviews(appReviewsPath);
+      return `export default ${JSON.stringify(reviewSlides(reviews))};`;
+    },
+    transformIndexHtml(html) {
+      if (!html.includes('#app-reviews')) return html;
+      return injectReviewsTranscript(html, loadAppReviews(appReviewsPath).reviews);
+    },
+  };
+}
+
 // rrradio is served from a custom domain root (https://rrradio.org), so
 // the base path is '/' in both production and development.
 export default defineConfig({
   base: '/',
-  plugins: [localRouteAliasPlugin(), localLogoPatchPlugin(), specSitePlugin(), versionFilePlugin()],
+  plugins: [
+    localRouteAliasPlugin(),
+    localLogoPatchPlugin(),
+    specSitePlugin(),
+    versionFilePlugin(),
+    appReviewsPlugin(),
+  ],
   define: {
     __BUILD_VERSION__: JSON.stringify(BUILD_VERSION),
   },

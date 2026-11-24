@@ -52,6 +52,13 @@ concurrency:
   group: station-probe
   cancel-in-progress: false
 
+# Wikimedia's robot policy wants a client that names itself and its operator;
+# a browser-looking UA from a runner gets HTTP 429 (597 healthy Commons logos
+# graded as failing on 2026-11-22). Sent to wikimedia.org hosts only — every
+# other host still sees the browser UA (tools/lib/logo-probe.mjs).
+env:
+  LOGO_PROBE_BOT_UA: 'rrradio-logo-probe/1.0 (https://rrradio.org; https://github.com/MarkusSteinbrecher/rrradio)'
+
 jobs:
   # ────────────────────────────────────────────────────────────
   # Plan: who gets probed today, split into balanced shards.

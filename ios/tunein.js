@@ -9,6 +9,9 @@
 // globe renderer). Importing it here makes Vite bundle it ahead of this
 // module so the global is set before tuneIn() runs.
 import './landdots.js';
+// App Store review quotes, one slide each. Built from data/app-reviews.yaml
+// by vite.config.ts when the page is built: static content, no request.
+import REVIEW_SLIDES from 'virtual:app-reviews';
 
 (function tuneIn() {
   'use strict';
@@ -77,6 +80,10 @@ import './landdots.js';
       title: 'Free. No ads. No tracking.',
       body: 'No paid tier, no analytics SDK, no account. The App\u00a0Store privacy label reads \u201cData Not Collected.\u201d A personal project, open source, funded out of pocket.',
       media: null,
+      // Listener quotes from the App Store follow as further scroll stops of
+      // this station (the dial has six presets, so they get no station of
+      // their own). An empty list leaves the station as a single stop.
+      quotes: REVIEW_SLIDES,
     },
     {
       tag: 'TUNE IN',
@@ -93,10 +100,20 @@ import './landdots.js';
   //    expands into one stop per slide, so scrolling steps through the
   //    screenshots before tuning on to the next station. Static dissolves
   //    only between *different stations* — slide-to-slide just cross-fades. ──
+  // A station's per-stop slides: carousel screenshots, or the station's own
+  // copy followed by its listener quotes. All carry { name, head, copy }; a
+  // quote also has { html, lang }.
+  STATIONS.forEach((st) => {
+    if (st.quotes && st.quotes.length) {
+      st.slides = [{ name: '', head: st.title, copy: st.body }].concat(st.quotes);
+    }
+  });
+  const slidesOf = (st) => st.carousel || st.slides || null;
   const STOPS = [];
   STATIONS.forEach((st, si) => {
-    const slides = st.carousel ? st.carousel.length : 1;
-    for (let s = 0; s < slides; s++) STOPS.push({ station: si, slide: st.carousel ? s : -1 });
+    const sl = slidesOf(st);
+    const slides = sl ? sl.length : 1;
+    for (let s = 0; s < slides; s++) STOPS.push({ station: si, slide: sl ? s : -1 });
   });
   const M = STOPS.length;
   const stopMax = () => Math.max(1, M - 1);
@@ -491,6 +508,17 @@ import './landdots.js';
   let mediaAnim = null;     // stop() for any running media animation (e.g. the globe)
   let carouselShow = null;  // show(slideIdx) for the active carousel, driven by scroll
   let shownSlide = -1;      // carousel slide whose head/copy is in the text column
+  // Put one slide's headline + copy into the text column. A quote slide also
+  // has a rich variant (attribution, link) and the language it is written in.
+  function showSlideText(sl) {
+    titleEl.dataset.text = sl.head;
+    bodyEl.dataset.text = sl.copy;
+    bodyEl.dataset.html = sl.html || '';
+    if (sl.lang) titleEl.lang = sl.lang; else titleEl.removeAttribute('lang');
+    sigSubEl.textContent = sl.name ? '- ' + sl.name : '';
+    content.classList.toggle('has-quotes', !!sl.html);
+  }
+
   function renderStation(k) {
     if (k === renderedIndex) return;
     renderedIndex = k;
@@ -502,14 +530,14 @@ import './landdots.js';
 
     // Carousel stations drive their headline + copy per slide (set in update()).
     // Initialise to the first slide so there's no flash before the first scroll.
-    if (st.carousel) {
-      titleEl.dataset.text = st.carousel[0].head;
-      bodyEl.dataset.text = st.carousel[0].copy;
-      bodyEl.dataset.html = '';
+    const slides = slidesOf(st);
+    if (slides) {
+      showSlideText(slides[0]);
       bodyEl.style.display = '';
-      sigSubEl.textContent = '- ' + st.carousel[0].name;
       sigSubEl.hidden = false;
     } else {
+      titleEl.removeAttribute('lang');
+      content.classList.remove('has-quotes');
       titleEl.dataset.text = st.title;
       bodyEl.dataset.text = st.body;
       bodyEl.dataset.html = st.bodyHtml || '';
@@ -642,11 +670,9 @@ import './landdots.js';
       if (carouselShow) carouselShow(cur.slide);
       if (cur.slide !== shownSlide) {
         shownSlide = cur.slide;
-        const sl = STATIONS[station].carousel[cur.slide];
+        const sl = slidesOf(STATIONS[station])[cur.slide];
         if (sl) {
-          titleEl.dataset.text = sl.head;
-          bodyEl.dataset.text = sl.copy;
-          sigSubEl.textContent = '- ' + sl.name;
+          showSlideText(sl);
           if (!reduceMotion.matches) slidePulse = 12;
         }
       }
