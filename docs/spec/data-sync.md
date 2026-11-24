@@ -118,6 +118,15 @@ across their Apple devices. This sync is strictly bounded:
 - The uploaded blob is trimmed for transport (retention window, record count,
   encoded-byte caps) — local storage keeps everything. See
   [sync-merge](contracts/sync-merge.md) §Listening-history upload bounds.
+- Removals sync too (iOS 1.1): clearing the history, or deleting one session or
+  one station's history, leaves a tombstone in the same record (`clearedAt`,
+  `deletions`), so the removal reaches the user's other devices and the
+  sessions do not come back. A tombstone holds a time and, for deletes, station
+  ids and session start times — nothing beyond what the records already held.
+  See [sync-merge](contracts/sync-merge.md) §Listening-history tombstones.
+- At the Stations-only level, track titles are stripped before upload.
+- The **track log** (every track heard at the + Tracks level) never leaves the
+  device: not synced, not exported, not in the backup file.
 
 The three listening-history *preference* fields (enabled / level / retention)
 sync in the preferences block, separately from the records.
