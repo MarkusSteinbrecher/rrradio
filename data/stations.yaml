@@ -27374,9 +27374,11 @@
   changeuuid: 6426d118-10fe-4c33-a43e-bc0bd9a02708
   reviewedAt: 2026-05-04
 - id: de-mdr-klassik-mp3-256
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×7 · 2026-09-13→2026-10-25
+  favicon: https://www.mdr.de/resources/assets/resources/images/favicon/apple-touch-icon.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.mdr.de/klassik
+  faviconLicense: broadcaster-implicit
   tags: [classical]
   broadcaster: independent
   name: MDR Klassik MP3 256
@@ -77653,9 +77655,11 @@
   changeuuid: e913928e-8768-42bb-97d0-35445bcbad07
   reviewedAt: 2026-05-04
 - id: us-wgrn-94-1
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×8 · 2026-09-14→2026-11-02
+  favicon: https://wgrn.org/_assets/images/e1de43ef8cfa2dd136f4485e8cd0201e.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://wgrn.org/
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: WGRN 94.1
   streamUrl: https://wgrnlp.out.airtime.pro/wgrnlp_a
@@ -98131,6 +98135,11 @@
   changeuuid: c9b832b9-aecb-4a30-8a3a-09e9c77d3444
   reviewedAt: 2026-05-04
 - id: gb-hearme-classic-rock
+  favicon: https://hearme.fm/wp-content/uploads/2024/06/cropped-2024-Redrafted-Transparent-Circular-180x180.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://hearme.fm/
+  faviconLicense: broadcaster-implicit
   tags: [classic rock]
   broadcaster: independent
   name: HearMe - Classic Rock
@@ -121151,9 +121160,11 @@
   changeuuid: b9a2a802-b2a4-45b0-84a9-63bcda02c9a4
   reviewedAt: 2026-05-04
 - id: it-radio-san-luchino
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×7 · 2026-09-13→2026-10-25
+  favicon: https://www.radiosanluchino.it/wp-content/uploads/2025/08/faviconrsl.svg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.radiosanluchino.it/
+  faviconLicense: broadcaster-implicit
   tags: [musica, news, talk]
   broadcaster: independent
   name: Radio San Luchino
@@ -191463,14 +191474,15 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: nz-cfm-coromandel
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: HTTP 404 ×5 · 2026-10-22→2026-11-19
   tags: [community radio, contemporary, decades]
   broadcaster: independent
   name: CFM Coromandel
   streamUrl: https://stream.cfm.co.nz/low
   bitrate: 48
   codec: AAC+
-  favicon: "https://cfm.co.nz/wp-content/uploads/2018/10/c95-logo.png"
-  faviconSource: broadcaster-site
   homepage: https://cfm.co.nz/
   country: NZ
   status: stream-only
@@ -211925,9 +211937,11 @@
 
 # Auto-imported from Radio Browser (2026-05-04)
 - id: mx-joya-93-7-fm-xejp-fm-grupo-radio-centro-ciudad-d
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×8 · 2026-09-20→2026-11-08
+  favicon: https://grc-media.nyc3.cdn.digitaloceanspaces.com/uploads/sites/3/2026/03/cropped-logo_Joya_400-1-180x180.webp
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://joya937.mx/
+  faviconLicense: broadcaster-implicit
   tags: ["93.7", 93.7 fm, cdmx, ciudad de mexico, ciudad de méxico, estación, fm, grupo radio centro]
   broadcaster: independent
   name: JOYA - 93.7 FM - XEJP-FM - Grupo Radio Centro - Ciudad de México
@@ -258002,9 +258016,11 @@
 
 # Auto-imported from Radio Browser (2026-05-11)
 - id: radio-constelacion
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×7 · 2026-10-01→2026-11-12
+  favicon: https://www.radioconstelacionbolivia.com/pwa/icons/apple-touch-icon.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.radioconstelacionbolivia.com/
+  faviconLicense: broadcaster-implicit
   broadcaster: independent
   name: "Radio Constelación"
   streamUrl: https://stream-178.zeno.fm/ks1tsgndvp8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJrczF0c2duZHZwOHV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiM005UEhDSXJSNkNZX1QtWVA1QWlNUSIsImlhdCI6MTc2ODQ1MTE3MiwiZXhwIjoxNzY4NDUxMjMyfQ.RywYy3NuqBI3bUy4O1743EqKJIOevTgDHUJvu3GMe5c
@@ -281534,6 +281550,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-sunshine-live-melodic-techno
+  favicon: https://upload.sunshine-live.de/production/static/1795182495282/icons/icon_512.fmRwc30M41g.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.sunshine-live.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "sunshine live - Melodic Techno"
@@ -304543,6 +304564,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: nl-magic-fm
+  favicon: https://magicfm.nl/wp-content/uploads/2021/11/Magic-FM_visual.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://magicfm.nl/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Magic FM
@@ -315903,6 +315929,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: hr-hrt-hr-2
+  favicon: https://radio.hrt.hr/hrt-180x180.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://radio.hrt.hr/drugi-program
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: HRT HR 2
@@ -335171,6 +335202,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-dfm-pump
+  favicon: https://dfm.ru/apple-icon.png?89a679abe9af8ca2
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://dfm.ru/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "DFM - Pump"
@@ -340212,9 +340248,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ru-fm-1dce3b31
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×9 · 2026-09-16→2026-11-04
+  favicon: https://hitfm.ru/apple-icon.png?b1d3d31b1e6c8f8f
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://hitfm.ru/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Хит FM Двигай Лопес
@@ -350162,6 +350200,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: ee-raadio-kadi
+  favicon: https://kadi.ee/wp-content/uploads/2022/01/logo-og-1.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://kadi.ee/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Raadio Kadi
@@ -351830,6 +351873,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: de-antenne-sachsen-leipzig
+  favicon: https://assets.bcs-systems.de/img/favicons/antenne-sachsen-favicon.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.antennesachsen.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: ANTENNE SACHSEN Leipzig
@@ -354816,9 +354864,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-rpr1-webradio
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×8 · 2026-09-16→2026-11-04
+  favicon: https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.rpr1.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: RPR1. Webradio
@@ -356695,11 +356745,9 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: il-audioversity
-  favicon: "https://1062fm.co.il/wp-content/uploads/cropped-Favicon-PNG-512x512-1.png"
-  faviconSource: broadcaster-site
-  faviconSourceUrl: "https://1062fm.co.il/en/"
-  faviconSourceType: cdn
-  faviconLicense: broadcaster-implicit
+  faviconBlocked: true
+  faviconBlockedBy: station-probe
+  faviconBlockedReason: HTTP 404 ×5 · 2026-10-22→2026-11-19
   source: radio-browser
   broadcaster: independent
   name: AudioVersity
@@ -356992,6 +357040,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gr-free-radio
+  favicon: https://free981.fm/wp-content/uploads/2023/08/cropped-free_radio_logo-e1730729590964-180x180.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://free981.fm/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Free radio
@@ -377335,6 +377388,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, byte-ok)
 - id: de-radio-bob-acdc-collection
+  favicon: https://upload.radiobob.de/production/static/1795182201037/icons/icon_512.8WpccMNcjjc.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.radiobob.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Radio BOB ACDC Collection
@@ -399204,6 +399262,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: it-black-and-white-radio
+  favicon: https://www.blackandwhiteradio.it/wp-content/uploads/2020/09/cropped-logo-light-version-180x180.png?x15187
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.blackandwhiteradio.it/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Black and White Radio
@@ -401886,6 +401949,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: es-los-40-santander
+  favicon: https://los40.com/resizer/v2/https%3A%2F%2Flos40es00.epimg.net%2Festaticos%2Frecursosgraficos%2Fv1%2Fimg%2Fapp%2Flos40_192.png?auth=32f2d5776906986266d4ac7ee0df35866e0a525f5c4171baff7cbec94ad64e6f&quality=70&smart=true
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://los40.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Los 40 Santander
@@ -402398,9 +402466,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: gh-nhyira-fm
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×7 · 2026-09-12→2026-10-24
+  favicon: https://www.myjoyonline.com/wp-content/uploads/2020/03/cropped-cropped-myjoyonline-logo-2-1-180x180.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.myjoyonline.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Nhyira Fm
@@ -404648,6 +404718,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: co-radio-tiempo-monteria-104-5-monteria
+  favicon: https://strapi-aws-s3-images-radio-tiempo-bucket.s3.us-east-1.amazonaws.com/favicon_radio_tiempo_1a3a4051de.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://radiotiempo.co/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: radio tiempo montería 104.5 montería
@@ -404915,6 +404990,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: it-rai-gr-parlamento
+  favicon: https://www.raiplaysound.it/assets/img/favicon/favicon.svg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.raiplaysound.it/grparlamento
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Rai Gr Parlamento
@@ -405215,6 +405295,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-05-21, analyzer-ok)
 - id: br-rm-cast
+  favicon: https://rmcast.com.br/images/favicon/apple-touch-icon.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://rmcast.com.br/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: RM Cast
@@ -421317,6 +421402,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: hu-super-dj-radio
+  favicon: https://superdjradio.hu/assets/images/logosdr.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://superdjradio.hu/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Super DJ Radio
@@ -426930,6 +427020,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: de-antenne-bayern-top-40-9647d45c
+  favicon: https://www.antenne.de/logos/station-antenne-bayern/apple-touch-icon.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.antenne.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: Antenne Bayern Top 40
@@ -437087,6 +437182,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: de-electrozombies-74103241
+  favicon: https://electrozombies.com/wp-content/uploads/cropped-electrozombies_bolt_icon_512x512px-180x180.jpg.webp
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://electrozombies.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: ElectroZombies
@@ -441465,6 +441565,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: at-njoy-radio-88-2-steiermark
+  favicon: https://www.njoyradio.at/wp-content/uploads/fbrfg/apple-touch-icon.png?v=YAoXLxrYb6
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.njoyradio.at/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: NJoy Radio 88.2 Steiermark
@@ -454220,9 +454325,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: de-radio-koln-dein-karnevalsradio-high
-  faviconBlocked: true
-  faviconBlockedBy: station-probe
-  faviconBlockedReason: HTTP 404 ×8 · 2026-09-16→2026-11-04
+  favicon: https://logos-der-nrwlokalradios.s3.eu-central-1.amazonaws.com/0185-37-45.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.radiokoeln.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Radio Köln - Dein Karnevalsradio High"
@@ -460144,6 +460251,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: id-axr-jakarta
+  favicon: https://mmo.aiircdn.com/1859/6777522bbae8c.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.axr.co/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: AXR Jakarta
@@ -481831,6 +481943,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: us-wmos-102-3-the-wolf-stonington-ct
+  favicon: https://media-cdn.socastsrm.com/uploads/station/3277/squareIcon.png?r=87319
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.1023thewolf.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "WMOS \"102.3 The Wolf\" Stonington, CT"
@@ -484233,6 +484350,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ca-cjyq-930-kixx-country-st-john-s-nl
+  favicon: https://media-cdn.socastsrm.com/uploads/station/2556/home_screen_logo-65e0d54555f9f.jpg
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://newcountrynl.ca/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "CJYQ \"930 KIXX Country\" St. John's, NL"
@@ -484330,6 +484452,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-10, analyzer-ok)
 - id: ug-dema-radio-gospel-promotions-mp3
+  favicon: https://demagospel.com/images/logos/dema-featured-logo.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://demagospel.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Dema Radio - Gospel Promotions (MP3)"
@@ -517776,6 +517903,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: de-sunshine-live-workout
+  favicon: https://upload.sunshine-live.de/production/static/1795182495282/icons/icon_512.fmRwc30M41g.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.sunshine-live.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "Sunshine Live - Workout"
@@ -518421,6 +518553,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, byte-ok)
 - id: de-radio-bob-bobs-rock-hits
+  favicon: https://upload.radiobob.de/production/static/1795182201037/icons/icon_512.8WpccMNcjjc.png
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.radiobob.de/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "RADIO BOB! BOBs Rock Hits"
@@ -521681,6 +521818,11 @@
 
 # Auto-imported from Radio Browser playable sweep (2026-06-11, analyzer-ok)
 - id: us-wgok-gospel-900-mobile-al
+  favicon: https://media-cdn.socastsrm.com/uploads/station/3209/squareIcon.png?r=92724
+  faviconSource: broadcaster-site
+  faviconSourceType: cdn
+  faviconSourceUrl: https://www.gospel900.com/
+  faviconLicense: broadcaster-implicit
   source: radio-browser
   broadcaster: independent
   name: "WGOK Gospel 900 Mobile, AL"
