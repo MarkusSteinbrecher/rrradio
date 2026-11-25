@@ -1,0 +1,5396 @@
+{
+  "generatedAt": "2026-11-25T16:46:01.525Z",
+  "day": "2026-11-25",
+  "circuitBreaker": false,
+  "circuitBreakerReason": null,
+  "actions": [
+    {
+      "id": "cn-station-ad084779",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "cn-station-e73e307c",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "es-100-salsa",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "gb-nation-radio-wales",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "dns"
+      },
+      "edge": null,
+      "reason": "dns ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "is-sudurland-fm",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "HTTP 404"
+      },
+      "edge": null,
+      "reason": "HTTP 404 ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "ph-90-7-radyo-oragon-legazpi",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "refused"
+      },
+      "edge": null,
+      "reason": "refused ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "ca-citynews-95-7-halifax",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://rogers-hls.leanstream.co/rogers/hal957.stream/icy?environment=tunein&args=tunein_01",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "ph-rhythm-101-fm-online",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "HTTP 503"
+      },
+      "edge": {
+        "url": "https://stream.zeno.fm/kpbamsatoqxtv",
+        "s": 503,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 503",
+        "ms": 359
+      },
+      "reason": "HTTP 503 ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "se-gamla-favoritter",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://wr09-ice.stream.khz.se/wr09_mp3",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 1459
+      },
+      "reason": "network ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "se-julkanalen",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://fm10-ice.stream.khz.se/fm10_mp3",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 1046
+      },
+      "reason": "network ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "se-radio-rainbow",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://wr20-ice.stream.khz.se/wr20_mp3?platform=web",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 1170
+      },
+      "reason": "network ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "se-star-70-s",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "network"
+      },
+      "edge": {
+        "url": "https://wr10-ice.stream.khz.se/wr10_mp3",
+        "s": 526,
+        "ct": "text/plain; charset=utf-8",
+        "o": "bad",
+        "c": "soft",
+        "d": "HTTP 526",
+        "ms": 1556
+      },
+      "reason": "network ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "us-khak",
+      "action": "unpublish",
+      "auto": true,
+      "tier": "long-tail",
+      "from": "stream-only",
+      "streak": {
+        "o": "bad",
+        "c": "soft",
+        "n": 5,
+        "first": "2026-11-21",
+        "last": "2026-11-25",
+        "d": "timeout"
+      },
+      "edge": {
+        "url": "https://prod-52-55-242-202.amperwave.net/townsquare-khakfmaac-hlsc3.m3u8",
+        "s": null,
+        "ct": null,
+        "o": "bad",
+        "c": "soft",
+        "d": "timeout",
+        "ms": 8000
+      },
+      "reason": "timeout ×5 · 2026-11-21→2026-11-25 · edge agrees"
+    },
+    {
+      "id": "fr-tempo-62",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 14,
+        "first": "2026-11-12",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×14 · 2026-11-12→2026-11-25"
+    },
+    {
+      "id": "mx-la-ke-buena-tlaltenango-zacatecas-90-1-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 14,
+        "first": "2026-11-12",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×14 · 2026-11-12→2026-11-25"
+    },
+    {
+      "id": "rs-rock-radio-beograd",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-12",
+        "last": "2026-11-14",
+        "d": null
+      },
+      "reason": "ok ×3 · 2026-11-12→2026-11-14"
+    },
+    {
+      "id": "do-yarah-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 13,
+        "first": "2026-11-13",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×13 · 2026-11-13→2026-11-25"
+    },
+    {
+      "id": "gb-festive365-mp3",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 13,
+        "first": "2026-11-13",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×13 · 2026-11-13→2026-11-25"
+    },
+    {
+      "id": "gr-98",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 13,
+        "first": "2026-11-13",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×13 · 2026-11-13→2026-11-25"
+    },
+    {
+      "id": "us-wcuc-91-7-clarion-pa",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 13,
+        "first": "2026-11-13",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×13 · 2026-11-13→2026-11-25"
+    },
+    {
+      "id": "be-best-oldies-radio-bor",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 12,
+        "first": "2026-11-14",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×12 · 2026-11-14→2026-11-25"
+    },
+    {
+      "id": "be-pink",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 12,
+        "first": "2026-11-14",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×12 · 2026-11-14→2026-11-25"
+    },
+    {
+      "id": "cl-radio-sol-classic",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-14",
+        "last": "2026-11-16",
+        "d": null
+      },
+      "reason": "ok ×3 · 2026-11-14→2026-11-16"
+    },
+    {
+      "id": "cr-radio-revolucion",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 12,
+        "first": "2026-11-14",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×12 · 2026-11-14→2026-11-25"
+    },
+    {
+      "id": "de-strul-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 12,
+        "first": "2026-11-14",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×12 · 2026-11-14→2026-11-25"
+    },
+    {
+      "id": "tr-ses-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 12,
+        "first": "2026-11-14",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×12 · 2026-11-14→2026-11-25"
+    },
+    {
+      "id": "dk-radio-flr",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 11,
+        "first": "2026-11-15",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×11 · 2026-11-15→2026-11-25"
+    },
+    {
+      "id": "gb-oc-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 11,
+        "first": "2026-11-15",
+        "last": "2026-11-25",
+        "d": "audio/aac; charset=utf-8"
+      },
+      "reason": "audio/aac; charset=utf-8 ×11 · 2026-11-15→2026-11-25"
+    },
+    {
+      "id": "id-radio-4-you-tv",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 11,
+        "first": "2026-11-15",
+        "last": "2026-11-25",
+        "d": "application/vnd.apple.mpegurl"
+      },
+      "reason": "application/vnd.apple.mpegurl ×11 · 2026-11-15→2026-11-25"
+    },
+    {
+      "id": "ro-radio-oradea",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 11,
+        "first": "2026-11-15",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×11 · 2026-11-15→2026-11-25"
+    },
+    {
+      "id": "au-the-buzzz",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-16",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-16→2026-11-25"
+    },
+    {
+      "id": "gb-dance-classics-uk",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-16",
+        "last": "2026-11-25",
+        "d": "audio/aac; charset=utf-8"
+      },
+      "reason": "audio/aac; charset=utf-8 ×10 · 2026-11-16→2026-11-25"
+    },
+    {
+      "id": "gb-electric-circus",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-16",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-16→2026-11-25"
+    },
+    {
+      "id": "ro-radio-romanian-dance",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-16",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×10 · 2026-11-16→2026-11-25"
+    },
+    {
+      "id": "us-radio-perolito",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 10,
+        "first": "2026-11-16",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×10 · 2026-11-16→2026-11-25"
+    },
+    {
+      "id": "br-radio-cnn",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "ca-ckc455-91-9-cfre-radio-university-of-toronto-mis",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "es-radio-cornella",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "gr-ikaria",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "gr-radio-cafe",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "lk-sitha-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "ru-chansonuncensored",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "ru-station-30c38245",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "ru-station-a26ef8af",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "us-fernley-nv-noaa-weather-radio-wwg20",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "us-radio-cafe-lepa-eeuu-fono-16787704169-dj-monkey",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 9,
+        "first": "2026-11-17",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×9 · 2026-11-17→2026-11-25"
+    },
+    {
+      "id": "au-highland-fm-bowral-107-1-fm-aac",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/aac"
+      },
+      "reason": "audio/aac ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "br-radio-gospel-hits",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "br-radio-ministerio-cristo-pleno",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "cn-station-6e7e309a",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "gb-nitro-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "mx-la-bonita-del-norte-rio-grande-92-7-fm-xhprgz-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "tw-1940-s-shanghai-vintage-jazz-shidaiqu-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "us-100-7-wrdu",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "us-105-7-wvbz-real-rock",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "us-96-3-wrov-the-rock-of-virginia",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "us-atlanta-96-rock",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 8,
+        "first": "2026-11-18",
+        "last": "2026-11-25",
+        "d": "application/vnd.apple.mpegurl; charset=utf-8"
+      },
+      "reason": "application/vnd.apple.mpegurl; charset=utf-8 ×8 · 2026-11-18→2026-11-25"
+    },
+    {
+      "id": "cn-asiafm-b0529003",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-19",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-19→2026-11-25"
+    },
+    {
+      "id": "gr-ert-christmas-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-19",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-19→2026-11-25"
+    },
+    {
+      "id": "ru-station-9bacc304",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-19",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-19→2026-11-25"
+    },
+    {
+      "id": "ua-station-7854411c",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 7,
+        "first": "2026-11-19",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×7 · 2026-11-19→2026-11-25"
+    },
+    {
+      "id": "gt-radio-central-91-9-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 4,
+        "first": "2026-11-22",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×4 · 2026-11-22→2026-11-25"
+    },
+    {
+      "id": "br-radio-cambirela-virtual-mas-real",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "de-breathfm-mainstream",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "fr-radio-aviva",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "fr-radio-brony",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "fr-radio-brony-aac",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/aac"
+      },
+      "reason": "audio/aac ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "gb-primordial-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "gb-radio-o",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "in-ttrfm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "it-romaradio-the-tube-station",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "mx-zona-urbana-101-9-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "ph-allhitz24",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "pl-radio-wiatraczek",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "qa-qabayan-radio-94-3-fm",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/aacp"
+      },
+      "reason": "audio/aacp ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "ua--34",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "application/octet-stream"
+      },
+      "reason": "application/octet-stream ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "us-w-d-o-p-e-dopetrackz-radio",
+      "action": "republish",
+      "auto": true,
+      "tier": "unpublished",
+      "to": "stream-only",
+      "streak": {
+        "o": "ok",
+        "c": null,
+        "n": 3,
+        "first": "2026-11-23",
+        "last": "2026-11-25",
+        "d": "audio/mpeg"
+      },
+      "reason": "audio/mpeg ×3 · 2026-11-23→2026-11-25"
+    },
+    {
+      "id": "id-radioqu-bogor",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-10-02",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×10 · 2026-10-02→2026-11-21"
+    },
+    {
+      "id": "ae-tick-tock-radio-1957",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "bs-103-the-beat",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×8 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "cy-mixfm-cyprus",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "fi-yle-x3m-f8682eca",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-breeze",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-domotel-deluxe",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-akous-gazi",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 410"
+      },
+      "reason": "HTTP 410 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gr-ti-amo-international",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "dns"
+      },
+      "reason": "dns ×11 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ng-adamimogo-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ru-amg-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "ua-west-pole-64k-aac",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "uy-radio-prado-sur",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-08",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-08→2026-11-19"
+    },
+    {
+      "id": "gb-retro-soul-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "io-tick-tock-radio-1994",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "nl-40up-320k-stream",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "sa-alifalif-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "us-hawaii-reggae-network",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 9,
+        "first": "2026-10-09",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×9 · 2026-10-09→2026-11-20"
+    },
+    {
+      "id": "ae-tick-tock-radio-1964",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "ae-tick-tock-radio-2003",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "au-3rrr-triple-r-102-7-fm-melbourne-vic-low-bitrate",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "ca-ciok-100-5-k-100-saint-john-nb",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "ca-ciws-fm-102-9-whistle-fm-stoufville-on-alternati",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "cy-enerji",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "cy-mix-fm-cyprus-hls",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "de-antenne-thuringen-live-on-air",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "de-radio-paloma-partyschlager",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "de-radio-teddy-deutschpop-nonstop",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "de-radio-teddy-livestream",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "es-coast-fm-tenerife-spain",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "es-doble-v-radio-107-9-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "fr-generations-la-fouine",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "fr-jazz-radio-stax-and-motown",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "gf-guyane-1ere",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "it-traditional-christmas",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "mx-la-bestia-grupera-chihuahua-99-3-fm-xhrpc-fm-gru",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-181-fm-rock-181",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-afterhours-fm-ah-fm-192k-mp3",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-classic-rock-109",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-kawc-arizona-community-radio-music",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "reason": "refused ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-new-oregon-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "refused"
+      },
+      "reason": "refused ×10 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-the-hairband-channel",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "us-wknr-850-cleveland",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-10",
+        "last": "2026-11-21",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-10→2026-11-21"
+    },
+    {
+      "id": "ae-tick-tock-radio-1963",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "ar-fm-angel-94-3",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×8 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "cn-big-big-mix",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "dns"
+      },
+      "reason": "dns ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "co-rosarena-stereo-93-1-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "not-image"
+      },
+      "reason": "not-image ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "fr-radio-sud-besancon",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "ge-radio-imedi",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "nl-candelight",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "us-2000-fm-country",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "us-2000-fm-top-40",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 7,
+        "first": "2026-10-11",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×7 · 2026-10-11→2026-11-22"
+    },
+    {
+      "id": "ar-blend-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "ar-net80-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "cn-station-3ec2a2c8",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "cn-station-e82e055c",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "de-reyfm-kpop",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "fi-yle-radio-suomi-mikkeli",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "ru-station-e375f9e6",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-15",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-15→2026-11-19"
+    },
+    {
+      "id": "at-her-st-propaganda-broadcast",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ca-radio-happysound",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "cn-station-c25a1f25",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "co-nueva-era-algeciras-sterio-107-8-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "co-supajamz-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "de-reyfm-lofi",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "de-reyfm-lofi-2",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "de-reyfm-original",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ec-la-chismosa",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ec-radio-dj-s-retro",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "es-radio-argayo",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "fr-dhectar",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "fr-france-bleu-gard-lozere",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "fr-radio-pitchoun",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "gr-radioin-hellas",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "it-deegay-pop-dance",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "nl-candlelight",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ro-vip-romania",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-19"
+    },
+    {
+      "id": "ru-rtf",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ru-station-d3af2e99",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "sk-radio-vlna-golden-hits",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "dns"
+      },
+      "reason": "dns ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "ua-west-pole-32k-aac",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "us-2000-fm-chillin",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "us-classical-kusc",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "us-la-movidita-1500-am",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 8,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×8 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "us-radio-free-texas",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "us-wksu-news-channel-hd4-aac",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-16",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-16→2026-11-20"
+    },
+    {
+      "id": "sk-radio-vlna",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-17",
+        "last": "2026-11-21",
+        "d": "dns"
+      },
+      "reason": "dns ×6 · 2026-10-17→2026-11-21"
+    },
+    {
+      "id": "tr-power-love",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-17",
+        "last": "2026-11-21",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-17→2026-11-21"
+    },
+    {
+      "id": "az-autolife-azerbaijan",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "de-myhitmusic-mr-groove-soul-funk-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "fr-breniges-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "gr-88-6-kanali-20",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "id-sensasi-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "za-aganang-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-18",
+        "last": "2026-11-22",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-18→2026-11-22"
+    },
+    {
+      "id": "fi-yle-vega-vastnyland",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "gt-nueva-fabuestereo-88-1fm-y-quetzaltenango-89-5fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "not-image"
+      },
+      "reason": "not-image ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "il-audioversity",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "nz-cfm-coromandel",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "ru-station-698ab82f",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "tz-radio-one-stereo",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "us-big-r-radio-100-9-star-country",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "us-big-r-radio-70s-and-80s-pop-mix",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "us-big-r-radio-90s-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "us-big-r-radio-erin-s-chill",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-22",
+        "last": "2026-11-19",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-22→2026-11-19"
+    },
+    {
+      "id": "ar-frecuencia-arena-98-3",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "be-zoe-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ca-102-3-juice-fm-grand-forks-bc",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ca-cffm-the-goat-97-5-williams-lake-99-7-100-mile-h",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ca-chpb-98-1-moose-fm-cochrane-on",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ca-ckay-91-7-coast-fm-nanaimo-bc",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ca-ckrd-fm-90-5-shine-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 6,
+        "first": "2026-10-23",
+        "last": "2026-11-25",
+        "d": "not-image"
+      },
+      "reason": "not-image ×6 · 2026-10-23→2026-11-25"
+    },
+    {
+      "id": "ec-contigo-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "es-radio-albolote",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 34,
+        "first": "2026-10-23",
+        "last": "2026-11-25",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×34 · 2026-10-23→2026-11-25"
+    },
+    {
+      "id": "fi-yle-radio-suomi-kuopio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "gr-music-89-2",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "gr-nova-92-1",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "id-kradio-hss",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "id-radio-elshinta-surabaya",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "ie-8radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "it-radio-monte-carlo-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "mu-mbc-taal-fm",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "not-image"
+      },
+      "reason": "not-image ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "mx-la-que-buena-san-buenaventura-99-5-fm-xhsbt-fm-g",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "mx-soy-latina-radio",
+      "action": "clear-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 5,
+        "first": "2026-10-23",
+        "last": "2026-11-20",
+        "d": "HTTP 404"
+      },
+      "reason": "HTTP 404 ×5 · 2026-10-23→2026-11-20"
+    },
+    {
+      "id": "at-life-radio-greatest-hits",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.liferadio.at/images/logo.png",
+      "sourceUrl": "https://www.liferadio.at/",
+      "kind": "jsonld-logo",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · jsonld-logo on the station's site · judge yes"
+    },
+    {
+      "id": "cy-politis-107-6-fm",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radio.politis.com.cy/apple-touch-icon.png",
+      "sourceUrl": "https://radio.politis.com.cy/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 77,
+        "first": "2026-09-08",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-dasding",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.dasding.de/assets/dasding/apple-touch-icon.png",
+      "sourceUrl": "https://www.dasding.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-mdr-aktuell",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.mdr.de/resources/assets/resources/images/favicon/apple-touch-icon.png",
+      "sourceUrl": "https://www.mdr.de/mdr-aktuell-nachrichtenradio",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-radio-saw-in-the-mix-90er",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiosaw.de/apple-icon-180x180.png",
+      "sourceUrl": "https://www.radiosaw.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-radio-seefunk-lovesongs",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radio-seefunk.imsueden.de/storage/thumbs/180x180/r:1754063560/ny6llcxxrxn5f.png",
+      "sourceUrl": "https://radio-seefunk.imsueden.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ec-rtp-96-5-fm",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://rtp.ec/apple-touch-icon.png",
+      "sourceUrl": "https://rtp.ec/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "es-cope-sevilla",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.cope.es/favicon/cope/apple-touch-icon-192x192.png",
+      "sourceUrl": "https://www.cope.es/directos/sevilla",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 36,
+        "first": "2026-09-08",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-france-bleu-champagne-ardenne",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "sourceUrl": "https://www.ici.fr/radio/champagne-ardenne",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-radio-vinci-autoroutes-107-7-auvergne-vallee-du-",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radio.vinci-autoroutes.com/apple-touch-icon.png",
+      "sourceUrl": "https://radio.vinci-autoroutes.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "it-16radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radio16.altervista.org/wp-content/uploads/2022/01/cropped-16Radio-icona_GOCCIA-180x180.png",
+      "sourceUrl": "https://radio16.altervista.org/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ph-bombo-radyo-koronadal",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://img.bomboradyo.com/koronadal/2022/11/cropped-Bombo-Logo-180x180.png",
+      "sourceUrl": "https://koronadal.bomboradyo.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 17,
+        "first": "2026-09-08",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "pl-radio-eska-opole-b0dfbf87",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://opole.eska.pl/web-app-manifest-512x512.png",
+      "sourceUrl": "https://opole.eska.pl/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ru-kalina-krasnaya",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://kalina.fm/tg.png",
+      "sourceUrl": "https://kalina.fm/",
+      "kind": "og:image",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-08",
+        "last": "2026-11-24",
+        "d": "missing"
+      },
+      "reason": "no logo · og:image on the station's site · judge yes"
+    },
+    {
+      "id": "ae-luv-107-1",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://luv1071.com/apple-touch-icon.png",
+      "sourceUrl": "https://luv1071.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 16,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ch-radio-x-basel-mp3-stream",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radiox.ch/.resources/radiox-theme/webresources/images/favicon/apple-touch-icon.png",
+      "sourceUrl": "https://radiox.ch/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 17,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-ffn-fruhstyxradio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ffn.de/typo3temp/assets/_processed_/3/8/csm_apple-touch-icon_6907814e5a.webp",
+      "sourceUrl": "https://www.ffn.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-radio-saw-urban-music-964567a8",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiosaw.de/apple-icon-180x180.png",
+      "sourceUrl": "https://www.radiosaw.de/musikwelt/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-france-bleu-sud-lorraine",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "sourceUrl": "https://www.ici.fr/radio/sud-lorraine",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-capital-fm-edinburgh",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.capitalfm.com/assets_v4r/capital/img/apple-touch-icon-152x152.png",
+      "sourceUrl": "https://www.capitalfm.com/edinburgh/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-smooth-chill-uk",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.smoothradio.com/assets_v4r/smooth/img/apple-touch-icon-152x152.png",
+      "sourceUrl": "https://www.smoothradio.com/chill/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "it-dimensione-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.dimensioneradio.com/wp-content/uploads/2024/02/cropped-Favicon-180x180.png",
+      "sourceUrl": "https://www.dimensioneradio.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "pl-radio40plus",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radio40plus.pl/wp-content/uploads/2023/04/Logo-RFZielone230x230small.png",
+      "sourceUrl": "https://radio40plus.pl/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "ru-fm-d545f746",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://myradio24.com/users/suvorovrad/nocover.jpg",
+      "sourceUrl": "https://myradio24.com/suvorovrad",
+      "kind": "og:image",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-11",
+        "last": "2026-11-20",
+        "d": "missing"
+      },
+      "reason": "no logo · og:image on the station's site · judge yes"
+    },
+    {
+      "id": "af-jfsr-320kbps",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://jfsr.co.uk/wp-content/uploads/2020/08/cropped-JFSR-Favicon-300x300.png",
+      "sourceUrl": "https://jfsr.co.uk/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-12",
+        "last": "2026-11-21",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-ffn",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ffn.de/typo3temp/assets/_processed_/3/8/csm_apple-touch-icon_6907814e5a.webp",
+      "sourceUrl": "https://www.ffn.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-12",
+        "last": "2026-11-21",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-r-sa-60ew-oldies",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.rsa-sachsen.de/production/static/1795182399061/icons/icon_512.dBo94pC88y8.png",
+      "sourceUrl": "https://www.rsa-sachsen.de/die-rsa-online-radios/rsa-60er-oldies",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-12",
+        "last": "2026-11-21",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-radio-90-1-mg",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://logos-der-nrwlokalradios.s3.eu-central-1.amazonaws.com/019b-37-45.png",
+      "sourceUrl": "https://www.radio901.de/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-12",
+        "last": "2026-11-21",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "au-three-d-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://threedradio.com/wp-content/uploads/512-Logo-Three-D-Radio-1-240x240.jpg",
+      "sourceUrl": "https://threedradio.com/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-80s80s-queen",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.80s80s.de/production/static/1795181626310/icons/icon_512.ewwAEi8A30w.png",
+      "sourceUrl": "https://www.80s80s.de/80s80s-queen",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-rpr1-kuschelrock",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "sourceUrl": "https://www.rpr1.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-fip-autour-de-l-electro",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiofrance.fr/_app/immutable/assets/fip-seosquare.B4K2FvZs.png",
+      "sourceUrl": "https://www.radiofrance.fr/fip",
+      "kind": "jsonld-logo",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · jsonld-logo on the station's site · judge yes"
+    },
+    {
+      "id": "fr-france-bleu-lorraine-nord",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "sourceUrl": "https://www.ici.fr/radio/lorraine-nord",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "il-101-5fm",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://hatahana.co.il/wp-content/uploads/2026/06/hand-512-300x300.png",
+      "sourceUrl": "https://hatahana.co.il/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "in-ananda-marga-pracharaka-samgha",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://india.anandamarga.org/wp-content/uploads/2025/09/cropped-anandamarga-logo-icon-180x180.png",
+      "sourceUrl": "https://india.anandamarga.org/amps-centre/ananda-marga-pracaraka-samgha-central-headquarters/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "md-hit-fm-dance",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://hitfm.md/favicon.png?v=2",
+      "sourceUrl": "https://hitfm.md/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "ni-the-sound-of-the-caribbean",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://thesoundofthecarebbeanradio.com/wp-content/uploads/2023/09/cropped-TS-180x180.jpeg",
+      "sourceUrl": "https://thesoundofthecarebbeanradio.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-13",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ch-1-fm-reggaetrade-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.1.fm/favicon/apple-touch-icon.png?v=2",
+      "sourceUrl": "https://www.1.fm/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-80s80s-christmas",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.80s80s.de/production/static/1795181626310/icons/icon_512.ewwAEi8A30w.png",
+      "sourceUrl": "https://www.80s80s.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-90s90s-the-beat",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.90s90s.de/production/static/1795181656496/icons/icon_512.cno7CdHz6$i.png",
+      "sourceUrl": "https://www.90s90s.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-drgnu-20th-century-rock",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.radiobob.de/production/static/1795182201037/icons/icon_512.8WpccMNcjjc.png",
+      "sourceUrl": "https://www.radiobob.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-rpr1-weihnachtslieder",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "sourceUrl": "https://www.rpr1.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "es-radio-silenci",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://img.enacasthq.com/ddwQAUp1g7H6jGTbr3dojlEcj_3j-DOGCcMAKbY9oIQ/rs:fill-down:192:192:0/g:sm/aHR0cHM6Ly9lbmFjYXN0LmNvbS9tZWRpYS9sb2dvcy8yMDE1LzEyLzE2L2VuZGlyZWN0ZV95UEJOa1BSLmpwZw.png",
+      "sourceUrl": "https://www.radiosilenci.cat/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 13,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "es-radio-sitges",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiositges.com/wp-content/uploads/2018/11/cropped-logo-negre-150ppp-180x180.jpg",
+      "sourceUrl": "https://www.radiositges.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-power-ace-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://media.base44.com/images/public/6a2485e79c0392a11b48a2ea/57ce445b5_parlogo.png",
+      "sourceUrl": "https://poweraceradio.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gg-riduna-radio-com",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.riduna-radio.com/wp-content/uploads/go-x/u/da4055fa-5f44-4bf4-8212-e44c68eae783/w180,h180,rtfit,bgdde1e5,el1,ex1,fpng/image.png?v=1794649271450",
+      "sourceUrl": "https://www.riduna-radio.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "mx-universal-y-la-octava-ciudad-de-mexico-88-1-fm-x",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://editorial.universal881.com/wp-content/uploads/2023/04/Logo_Universal_23.svg",
+      "sourceUrl": "https://www.universal881.com/",
+      "kind": "jsonld-logo",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-14",
+        "last": "2026-11-23",
+        "d": "missing"
+      },
+      "reason": "no logo · jsonld-logo on the station's site · judge yes"
+    },
+    {
+      "id": "at-life-radio-80er",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.liferadio.at/images/logo.png",
+      "sourceUrl": "https://www.liferadio.at/",
+      "kind": "jsonld-logo",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · jsonld-logo on the station's site · judge yes"
+    },
+    {
+      "id": "ca-cixf-boom-101-1-brooks-ab",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://media-cdn.socastsrm.com/uploads/station/2897/squareIcon.png?r=100288",
+      "sourceUrl": "https://boomradioalberta.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 13,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-80er-kultnight",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.harmonyfm.de/apple-touch-icon.png",
+      "sourceUrl": "https://www.harmonyfm.de/index.html",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-rpr1-oldies",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "sourceUrl": "https://www.rpr1.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-france-bleu-berry",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "sourceUrl": "https://www.ici.fr/radio/berry",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-radio-grenouille",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://cdn.radiogrenouille.com/2026/08/cropped-favicon-180x180.png",
+      "sourceUrl": "https://www.radiogrenouille.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-amber-radio-norwich-128k-aac",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://amber.radio/wp-content/themes/amber-radio/assets/img/apple-touch-icon.png?v=1.4.3",
+      "sourceUrl": "https://amber.radio/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-icon-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.iconradio.uk/wp-content/uploads/go-x/u/9d5cf2cc-39bc-4c0f-a92b-94272f1736df/w180,h180,rtfit,bgdde1e5,el1,ex1,fpng/image.png?v=1795223563064",
+      "sourceUrl": "https://www.iconradio.uk/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "id-mettaswara-dangdut",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://mettaswara.com/images/apple-touch-icon.png",
+      "sourceUrl": "https://mettaswara.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "it-radio-panda",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radiopanda.it/portal/wp-content/uploads/2021/11/cropped-LOGO-SQUARE-180x180.jpeg",
+      "sourceUrl": "https://radiopanda.it/portal/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ph-dwdm-eagle-fm-95-5",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://net25.com/favicon.ico",
+      "sourceUrl": "https://net25.com/eaglefm955",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 11,
+        "first": "2026-09-16",
+        "last": "2026-11-25",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "ar-dinamo-fm-100-9",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://radiodinamo.com/wp-content/uploads/2020/03/cropped-logo-radio-puro-amor-3d-fondo-amarillo-scaled-1-192x192.jpg",
+      "sourceUrl": "https://radiodinamo.com/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 12,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "ca-sandblast-channel",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://cdn.prod.website-files.com/685089250e4499530c4d4f63/685442b8d94a7cd06d8ef393_sandblast%20Logo%20(1)%20(1).jpg",
+      "sourceUrl": "https://www.sandblast.channel/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "ch-toxic-fm",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://toxic.fm/site/wp-content/uploads/2025/12/Favicontoxicfm-300x300.png",
+      "sourceUrl": "https://toxic.fm/site/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-queen-radio",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.harmonyfm.de/apple-touch-icon.png",
+      "sourceUrl": "https://www.harmonyfm.de/index.html",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "de-r-sa",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://upload.rsa-sachsen.de/production/static/1795182399061/icons/icon_512.dBo94pC88y8.png",
+      "sourceUrl": "https://www.rsa-sachsen.de/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "fr-sun-hip-hop",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://lesonunique.com/images/pwa/icon-384x384.png",
+      "sourceUrl": "https://lesonunique.com/",
+      "kind": "manifest-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · manifest-icon on the station's site · judge yes"
+    },
+    {
+      "id": "it-radio-belluno",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiobelluno.it/wp-content/uploads/2021/02/cropped-cropped-logo-RBL-rosso-1-180x180.png",
+      "sourceUrl": "https://www.radiobelluno.it/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "it-radio-pret-a-porter",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://www.radiopretaporter.com/wp-content/uploads/2026/07/cropped-RADIO_ICONA_Rosso-bucato-180x180.png",
+      "sourceUrl": "https://www.radiopretaporter.com/",
+      "kind": "apple-touch-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · apple-touch-icon on the station's site · judge yes"
+    },
+    {
+      "id": "nc-nouvelle-caledonie-la-premiere",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://la1ere.franceinfo.fr/statics/img/favicons/default/android-chrome-512x512.png",
+      "sourceUrl": "https://la1ere.franceinfo.fr/nouvellecaledonie/",
+      "kind": "manifest-icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-17",
+        "last": "2026-11-19",
+        "d": "missing"
+      },
+      "reason": "no logo · manifest-icon on the station's site · judge yes"
+    },
+    {
+      "id": "gb-belfast-89",
+      "action": "fill-logo",
+      "auto": true,
+      "tier": "long-tail",
+      "newFavicon": "https://belfast89.com/wp-content/uploads/2026/08/b89-site-icon-300x300.png",
+      "sourceUrl": "https://belfast89.com/",
+      "kind": "icon",
+      "judge": "brand mark matching station or parent",
+      "streak": {
+        "o": "bad",
+        "c": "hard",
+        "n": 10,
+        "first": "2026-09-20",
+        "last": "2026-11-22",
+        "d": "missing"
+      },
+      "reason": "no logo · icon on the station's site · judge yes"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "ae-exclusively-dean-martin",
+      "why": "cap"
+    },
+    {
+      "id": "ar-am-550-la-primera",
+      "why": "cap"
+    },
+    {
+      "id": "ar-delta-90-3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "ar-gospel-fm",
+      "why": "cap"
+    },
+    {
+      "id": "at-antenne-karnten-sunrise",
+      "why": "cap"
+    },
+    {
+      "id": "au-northside-radio-99-3",
+      "why": "cap"
+    },
+    {
+      "id": "ba-rvk",
+      "why": "cap"
+    },
+    {
+      "id": "be-ck-bleu",
+      "why": "cap"
+    },
+    {
+      "id": "be-noordzee-gold",
+      "why": "cap"
+    },
+    {
+      "id": "be-radio-zoe-gold",
+      "why": "cap"
+    },
+    {
+      "id": "be-xbeat",
+      "why": "cap"
+    },
+    {
+      "id": "bg-arhea-org",
+      "why": "cap"
+    },
+    {
+      "id": "bo-estelar-fm",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "br-liberal-fm-92-7",
+      "why": "cap"
+    },
+    {
+      "id": "br-r-vale-verde-fm-96-66",
+      "why": "cap"
+    },
+    {
+      "id": "br-radio-impacto-web",
+      "why": "cap"
+    },
+    {
+      "id": "br-radio-soul-one",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cariboo-country",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cfbv-the-moose-870-smithers-106-5-houston-760-bu",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cfpw-95-7-coast-fm-powell-river-bc",
+      "why": "cap"
+    },
+    {
+      "id": "ca-citr-101-9-university-of-british-columbia-vancou",
+      "why": "cap"
+    },
+    {
+      "id": "ca-cjjm-99-3-moose-fm-espanola-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-ckng-fm-the-chuck-92-5-edmonton-ab-mp3-stream",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "ca-cknr-94-1-moose-fm-elliot-lake-on",
+      "why": "cap"
+    },
+    {
+      "id": "ca-the-zone",
+      "why": "cap"
+    },
+    {
+      "id": "ch-electrons-libres",
+      "why": "cap"
+    },
+    {
+      "id": "cl-alta-fidelidad-radio",
+      "why": "cap"
+    },
+    {
+      "id": "cl-radio-club-80-euro-flac",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-4c89d9d8",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-73d5fb45",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-8597adce",
+      "why": "cap"
+    },
+    {
+      "id": "cn-station-e65b9f4c",
+      "why": "cap"
+    },
+    {
+      "id": "co-123vallenato",
+      "why": "cap"
+    },
+    {
+      "id": "co-aviva2",
+      "why": "cap"
+    },
+    {
+      "id": "co-la-voz-del-canaguate-860-am",
+      "why": "cap"
+    },
+    {
+      "id": "cr-amor-fm-93-9",
+      "why": "cap"
+    },
+    {
+      "id": "cv-rcv-radio-cabo-verde",
+      "why": "edge-disagrees"
+    },
+    {
+      "id": "cz-impuls",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "cz-radio-ostravan",
+      "why": "cap"
+    },
+    {
+      "id": "cz-radio-samson",
+      "why": "cap"
+    },
+    {
+      "id": "de-antenne-koblenz",
+      "why": "cap"
+    },
+    {
+      "id": "de-deutschrock",
+      "why": "cap"
+    },
+    {
+      "id": "de-die-neue-zeit",
+      "why": "cap"
+    },
+    {
+      "id": "de-hit-radio-ffh-party",
+      "why": "cap"
+    },
+    {
+      "id": "de-hit-radio-ffh-schlagerkult-96319089",
+      "why": "cap"
+    },
+    {
+      "id": "de-krawallradio",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-cafe-zimmermann",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-hbr",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-osnabruck",
+      "why": "cap"
+    },
+    {
+      "id": "de-radio-seefunk-disco",
+      "why": "cap"
+    },
+    {
+      "id": "de-radiobaj-live",
+      "why": "cap"
+    },
+    {
+      "id": "de-rsmusic",
+      "why": "cap"
+    },
+    {
+      "id": "dk-80-s-hits",
+      "why": "cap"
+    },
+    {
+      "id": "dk-limfjord-slager",
+      "why": "cap"
+    },
+    {
+      "id": "do-disco-89-88-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-canela-guayas",
+      "why": "cap"
+    },
+    {
+      "id": "ec-canela-pichincha",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-106-5-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-el-oro-100-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-imbabura-92-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-morona-santiago-91-7-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-napo-106-1-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ec-radio-canela-pichincha-106-5-fm",
+      "why": "cap"
+    },
+    {
+      "id": "es-gameover-music-radio",
+      "why": "cap"
+    },
+    {
+      "id": "es-gladys-palmera-latin-fresh",
+      "why": "cap"
+    },
+    {
+      "id": "es-lounge-radio-ibiza",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-matorral",
+      "why": "cap"
+    },
+    {
+      "id": "es-radio-planeta-costa-del-sol",
+      "why": "cap"
+    },
+    {
+      "id": "es-vilassar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "es-wifon-fm",
+      "why": "cap"
+    },
+    {
+      "id": "fi-top51",
+      "why": "cap"
+    },
+    {
+      "id": "fr-c-lab",
+      "why": "cap"
+    },
+    {
+      "id": "fr-cave-carli-radio",
+      "why": "cap"
+    },
+    {
+      "id": "fr-frequence-luz",
+      "why": "cap"
+    },
+    {
+      "id": "fr-heavy1",
+      "why": "cap"
+    },
+    {
+      "id": "fr-m40-by-oskana",
+      "why": "cap"
+    },
+    {
+      "id": "fr-m40-le-klub",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-boom-boom",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-deja-vu",
+      "why": "cap"
+    },
+    {
+      "id": "fr-radio-saint-louis",
+      "why": "cap"
+    },
+    {
+      "id": "gb-radioalfa15-latin-hits",
+      "why": "cap"
+    },
+    {
+      "id": "gb-sanskar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gr-98-7",
+      "why": "cap"
+    },
+    {
+      "id": "gr-blue-space-107-2-fm-athens",
+      "why": "cap"
+    },
+    {
+      "id": "gr-blueswave-radio",
+      "why": "cap"
+    },
+    {
+      "id": "gr-derti-90-5",
+      "why": "cap"
+    },
+    {
+      "id": "gr-radio-locomotiva",
+      "why": "cap"
+    },
+    {
+      "id": "gr-station-adfe382c",
+      "why": "cap"
+    },
+    {
+      "id": "gr-tyflos-gr",
+      "why": "cap"
+    },
+    {
+      "id": "gt-estereo-solar-104-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "hu-megalive",
+      "why": "cap"
+    },
+    {
+      "id": "hu-radio-ice",
+      "why": "cap"
+    },
+    {
+      "id": "hu-sarvar-radio",
+      "why": "cap"
+    },
+    {
+      "id": "hu-szent-korona-radio",
+      "why": "cap"
+    },
+    {
+      "id": "hu-szent-korona-radio-forras",
+      "why": "cap"
+    },
+    {
+      "id": "id-imelda-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ie-trancepulse-dublin",
+      "why": "cap"
+    },
+    {
+      "id": "il-radio-90fm",
+      "why": "cap"
+    },
+    {
+      "id": "in-air-agra",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-air-coimbatore-a18a9640",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-air-tiruchirapalli",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "in-kochifm",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "it-deegay-club",
+      "why": "cap"
+    },
+    {
+      "id": "it-radio-cavolo",
+      "why": "cap"
+    },
+    {
+      "id": "it-radio-studio-delta-la-piu",
+      "why": "cap"
+    },
+    {
+      "id": "it-veronica-my-radio",
+      "why": "cap"
+    },
+    {
+      "id": "jm-gospel-fm-jamaica",
+      "why": "cap"
+    },
+    {
+      "id": "jp-fm-3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "lb-voice-of-grace-radio",
+      "why": "cap"
+    },
+    {
+      "id": "lt-m-1-plius",
+      "why": "cap"
+    },
+    {
+      "id": "lt-radiocentras",
+      "why": "cap"
+    },
+    {
+      "id": "lv-european-hit-radio-eurochart",
+      "why": "cap"
+    },
+    {
+      "id": "lv-radio-melodija",
+      "why": "cap"
+    },
+    {
+      "id": "mx-azul-radio-veracruz",
+      "why": "cap"
+    },
+    {
+      "id": "mx-buenavista-radio-102-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-k-pitana",
+      "why": "cap"
+    },
+    {
+      "id": "mx-la-ranchera-de-cuauhtemoc-89-7-fm-xhdp-fm-grupo-",
+      "why": "cap"
+    },
+    {
+      "id": "mx-mexiquense-radio-zumpango-88-5-fm-xhzum-fm-siste",
+      "why": "cap"
+    },
+    {
+      "id": "mx-next-fm-ciudad-de-mexico-online-next-fm-radio-ci",
+      "why": "cap"
+    },
+    {
+      "id": "mx-radio-formula-merida-94-5-fm-merida-yucatan",
+      "why": "cap"
+    },
+    {
+      "id": "mx-xejp-fm-joya-93-7-mexico-city-df",
+      "why": "cap"
+    },
+    {
+      "id": "ng-domi-radio",
+      "why": "cap"
+    },
+    {
+      "id": "ni-masaya-rebelde",
+      "why": "cap"
+    },
+    {
+      "id": "nl-oude-piraten-hits",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radio-1224",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radiobonita",
+      "why": "cap"
+    },
+    {
+      "id": "nl-radion-jnd",
+      "why": "cap"
+    },
+    {
+      "id": "nl-real-hardstyle-radio",
+      "why": "cap"
+    },
+    {
+      "id": "nl-smilefm",
+      "why": "cap"
+    },
+    {
+      "id": "nz-mouthfull-radio",
+      "why": "cap"
+    },
+    {
+      "id": "pe-mambo-inn-radio",
+      "why": "cap"
+    },
+    {
+      "id": "pe-radio-chalaca-callao",
+      "why": "cap"
+    },
+    {
+      "id": "pe-radio-chocolate-rock-pop",
+      "why": "cap"
+    },
+    {
+      "id": "pe-zona-5-93-3",
+      "why": "cap"
+    },
+    {
+      "id": "ph-97-7-sweet-radio-santiago",
+      "why": "cap"
+    },
+    {
+      "id": "ph-tee-radio",
+      "why": "cap"
+    },
+    {
+      "id": "pl-polskie-radio-nostalgia",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "pl-radio-max-hit-polska",
+      "why": "cap"
+    },
+    {
+      "id": "pl-radio-zodiak",
+      "why": "cap"
+    },
+    {
+      "id": "pr-cumbre-1470-am-106-3-fm",
+      "why": "cap"
+    },
+    {
+      "id": "py-tropicalia-93-9fm",
+      "why": "cap"
+    },
+    {
+      "id": "ro-aripi-spre-cer-instrumental",
+      "why": "cap"
+    },
+    {
+      "id": "ro-radio-calea-spre-cer-live-24-7",
+      "why": "cap"
+    },
+    {
+      "id": "ro-radio-cuvantul-vietii",
+      "why": "cap"
+    },
+    {
+      "id": "ro-traditional-popular-radio-calea-spre-cer-live-24",
+      "why": "cap"
+    },
+    {
+      "id": "ro-trecator-romania",
+      "why": "cap"
+    },
+    {
+      "id": "ru-dfm-gangsta-deep",
+      "why": "cap"
+    },
+    {
+      "id": "ru-dfm-pop-dance",
+      "why": "cap"
+    },
+    {
+      "id": "ru-pump",
+      "why": "cap"
+    },
+    {
+      "id": "ru-remix",
+      "why": "cap"
+    },
+    {
+      "id": "ru-rock-n-roll-fm",
+      "why": "cap"
+    },
+    {
+      "id": "ru-rock-space-station",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-22a5e05e",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-3a375798",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-4b00b585",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-50311707",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-57105983",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-59a8ea5c",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-733888b8",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-a08a8794",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-b2f3dc6e",
+      "why": "cap"
+    },
+    {
+      "id": "ru-station-fac17f19",
+      "why": "cap"
+    },
+    {
+      "id": "ru-zaycev-fm-pop",
+      "why": "cap"
+    },
+    {
+      "id": "soma-drone-zone",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "soma-secret-agent",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "soma-underground-80s",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "tr-bodrum-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-damarturk-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-eregli-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-moral-fm",
+      "why": "cap"
+    },
+    {
+      "id": "tr-radyo-ekin",
+      "why": "cap"
+    },
+    {
+      "id": "tr-radyo-sahil",
+      "why": "cap"
+    },
+    {
+      "id": "ua-the-west-pole-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-011-fm-cruise-control-road-trip-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-103-5-102-9-the-vault",
+      "why": "cap"
+    },
+    {
+      "id": "us-93-1-kmkt-katy-country",
+      "why": "cap"
+    },
+    {
+      "id": "us-alt-92-1-reno",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-80s-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-alternative-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-christmas-top40",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-coffee-house",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-country-mix",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-golden-oldies",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-grunge-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-post-grunge-rock",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-rock-top-40",
+      "why": "cap"
+    },
+    {
+      "id": "us-big-r-radio-the-wave",
+      "why": "cap"
+    },
+    {
+      "id": "us-canaan-sda-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-caribbean-power-jam-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-estereo-bendicion-104-9-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-fox-news-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-kirtang-pirate-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-ktna-fm-88-9-talkeetna-ak",
+      "why": "cap"
+    },
+    {
+      "id": "us-music-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-noaa-weather-radio-dallas-texas-kec56",
+      "why": "cap"
+    },
+    {
+      "id": "us-nu-skool-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-patriot-radio-classics",
+      "why": "cap"
+    },
+    {
+      "id": "us-radio-arcane",
+      "why": "cap"
+    },
+    {
+      "id": "us-sf-10-33",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-shine-fm",
+      "why": "cap"
+    },
+    {
+      "id": "us-somafm-black-rock-fm-128k-aac-non-ssl",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-black-rock-fm-64k",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-boot-liquor-320k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-christmas-lounge-256k",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-cliqhop-idm-128k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-cliqhop-idm-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-deep-space-one-128-kb-s-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-def-con-radio-128k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-department-store-christmas",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-digitalis-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-digitalis-256k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-doomed-256k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-drone-zone-2-128k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-groove-salad-64k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-heavyweight-reggae-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-heavyweight-reggae-256k-mp3",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-left-coast-70s-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-metal-detector-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-mission-control-32k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-secret-agent-64k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-sf-10-33-128k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-sf-police-scanner",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-specials-128k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-synphaera-radio",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-the-dark-zone-256k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-the-in-sound",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-the-in-sound-256k-mp3",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-the-trip-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-thistleradio-128k-aac",
+      "why": "fold-canonical"
+    },
+    {
+      "id": "us-somafm-underground-80s-32k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-somafm-xmas-in-frisco-64k-aac",
+      "why": "probe-blocked-host"
+    },
+    {
+      "id": "us-wild-94-3",
+      "why": "cap"
+    },
+    {
+      "id": "us-wovv-90-1-ocracoke-radio-nc",
+      "why": "cap"
+    },
+    {
+      "id": "us-wz2523-noaa-weather-radio",
+      "why": "cap"
+    },
+    {
+      "id": "us-x-94-9-reno",
+      "why": "cap"
+    },
+    {
+      "id": "us-xxx80s",
+      "why": "cap"
+    },
+    {
+      "id": "vu-buzz-fm-96-3",
+      "why": "cap"
+    }
+  ]
+}
