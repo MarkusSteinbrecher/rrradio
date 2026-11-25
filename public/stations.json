@@ -6705,9 +6705,6 @@
         "pop",
         "rock"
       ],
-      "favicon": "https://img-api.cloud.mediaset.net/api/images/rd/v1/ita/aHR0cHM6Ly9yYWRpbzMub21ueXMuY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDI1LzA1L2Nyb3BwZWQtY3JvcHBlZC10cmFuc3BhcmVudC1sb2dvX3doaXRlLnBuZw/-/0/0?r=91270bc17a4e52ab2df2e8ae4abcf3e6",
-      "faviconSource": "broadcaster-api",
-      "faviconLicense": "broadcaster-implicit",
       "bitrate": 96,
       "codec": "AAC+",
       "status": "stream-only",
@@ -23500,6 +23497,11 @@
       "tags": [
         "pop"
       ],
+      "favicon": "https://www.ffn.de/typo3temp/assets/_processed_/3/8/csm_apple-touch-icon_6907814e5a.webp",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ffn.de/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
       "codec": "MP3",
       "status": "stream-only"
@@ -48234,6 +48236,18 @@
       "favicon": "https://impro.usercontent.one/appid/oneComWsb/domain/duenenradio.de/media/duenenradio.de/onewebmedia/logo.png?withoutEnlargement&resize=58,58",
       "faviconSource": "radio-browser",
       "bitrate": 128,
+      "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
+      "id": "de-breathfm-mainstream",
+      "name": "BreathFM Mainstream",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream.breathfm.de/listen/mainstream/high.mp3",
+      "homepage": "https://breathfm.de/",
+      "country": "DE",
+      "favicon": "https://breathfm.de/_next/image?url=%2Fbreathfm-logo-transparent.webp&w=640&q=75",
+      "faviconSource": "broadcaster-site",
       "codec": "MP3",
       "status": "stream-only"
     },
@@ -100917,23 +100931,6 @@
       "status": "stream-only"
     },
     {
-      "id": "us-khak",
-      "name": "KHAK",
-      "broadcaster": "independent",
-      "streamUrl": "https://prod-52-55-242-202.amperwave.net/townsquare-khakfmaac-hlsc3.m3u8",
-      "homepage": "https://khak.com/",
-      "country": "US",
-      "tags": [
-        "country"
-      ],
-      "favicon": "https://townsquare.media/wp-content/uploads/2019/05/KHAKFM.png?w=144&h=144",
-      "faviconSource": "broadcaster-api",
-      "faviconLicense": "broadcaster-implicit",
-      "bitrate": 64,
-      "codec": "AAC+",
-      "status": "stream-only"
-    },
-    {
       "id": "us-khbl-96-9fm",
       "name": "KHBL 96.9FM",
       "broadcaster": "independent",
@@ -105123,26 +105120,6 @@
       "status": "stream-only"
     },
     {
-      "id": "gb-nation-radio-wales",
-      "name": "Nation Radio Wales",
-      "broadcaster": "independent",
-      "streamUrl": "https://edge-ads-05-gos2.sharp-stream.com/tcnationi.aac",
-      "homepage": "https://nationradio.wales/",
-      "country": "GB",
-      "tags": [
-        "contemporary"
-      ],
-      "favicon": "https://mmo.aiircdn.com/677/65c4b1d6799dd.jpg",
-      "faviconSource": "radio-browser",
-      "bitrate": 48,
-      "codec": "AAC+",
-      "geo": [
-        51.482,
-        -3.1771
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "gb-rockin50s-radio",
       "name": "Rockin50s Radio",
       "broadcaster": "independent",
@@ -107615,6 +107592,11 @@
         "soul",
         "world music"
       ],
+      "favicon": "https://media.base44.com/images/public/6a2485e79c0392a11b48a2ea/57ce445b5_parlogo.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://poweraceradio.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -110420,6 +110402,11 @@
       "streamUrl": "https://streaming.broadcast.radio/belfastfm",
       "homepage": "https://www.belfast89.com/",
       "country": "GB",
+      "favicon": "https://belfast89.com/wp-content/uploads/2026/08/b89-site-icon-300x300.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://belfast89.com/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "status": "stream-only"
     },
@@ -116877,6 +116864,11 @@
       "streamUrl": "https://live.radiogrenouille.com:8443/live",
       "homepage": "http://www.radiogrenouille.com/",
       "country": "FR",
+      "favicon": "https://cdn.radiogrenouille.com/2026/08/cropped-favicon-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiogrenouille.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 256,
       "codec": "MP3",
       "status": "stream-only"
@@ -117981,6 +117973,26 @@
       "status": "stream-only"
     },
     {
+      "id": "fr-radio-brony",
+      "name": "Radio Brony",
+      "broadcaster": "independent",
+      "streamUrl": "https://radio.radiobrony.fr/mp3",
+      "homepage": "https://radiobrony.fr/",
+      "country": "FR",
+      "tags": [
+        "brony",
+        "fan music",
+        "live show",
+        "mlp",
+        "my little pony: friendship is magic"
+      ],
+      "favicon": "https://radiobrony.fr/img/icons/bwavatar-details.png",
+      "faviconSource": "broadcaster-site",
+      "bitrate": 128,
+      "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
       "id": "fr-jazz-classic",
       "name": "Jazz Classic",
       "broadcaster": "independent",
@@ -118412,6 +118424,11 @@
         "r&b",
         "rap"
       ],
+      "favicon": "https://lesonunique.com/images/pwa/icon-384x384.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://lesonunique.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -119417,6 +119434,27 @@
       "status": "stream-only"
     },
     {
+      "id": "fr-radio-brony-aac",
+      "name": "Radio Brony (AAC+)",
+      "broadcaster": "independent",
+      "streamUrl": "https://radiobrony.live/aac",
+      "homepage": "https://radiobrony.fr/",
+      "country": "FR",
+      "tags": [
+        "brony",
+        "fan music",
+        "live show",
+        "mlp",
+        "my little pony",
+        "my little pony: friendship is magic"
+      ],
+      "favicon": "https://radiobrony.fr/img/icons/bwavatar-details.png",
+      "faviconSource": "broadcaster-site",
+      "bitrate": 96,
+      "codec": "AAC",
+      "status": "stream-only"
+    },
+    {
       "id": "fr-mylenefarmer",
       "name": "MyleneFarmer",
       "broadcaster": "independent",
@@ -119488,6 +119526,33 @@
       "faviconSourceUrl": "https://www.africaradio.com/assets/images/logos/logo.svg?v=b1360bbe",
       "bitrate": 128,
       "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
+      "id": "fr-radio-aviva",
+      "name": "Radio Aviva",
+      "broadcaster": "independent",
+      "streamUrl": "https://radio13.pro-fhi.net/listen-tpgmxyoe-stream.mp3",
+      "homepage": "https://www.radio-aviva.com/",
+      "country": "FR",
+      "tags": [
+        "00s",
+        "70s",
+        "80s",
+        "90s",
+        "dance",
+        "house",
+        "local news",
+        "news"
+      ],
+      "favicon": "https://radio-aviva.com/wp-content/uploads/2017/01/cropped-RADIO-AVIVA-LOGO-DETOURE-COULEUR-SANS-FOND-600X600-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "bitrate": 192,
+      "codec": "MP3",
+      "geo": [
+        43.6181,
+        3.8785
+      ],
       "status": "stream-only"
     },
     {
@@ -134264,6 +134329,11 @@
       "streamUrl": "https://onair7.xdevel.com/proxy/xautocloud_ammg_1275?mp=/;1/",
       "homepage": "https://www.radiopretaporter.com/",
       "country": "IT",
+      "favicon": "https://www.radiopretaporter.com/wp-content/uploads/2026/07/cropped-RADIO_ICONA_Rosso-bucato-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiopretaporter.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 320,
       "codec": "MP3",
       "status": "stream-only"
@@ -136678,24 +136748,6 @@
       "favicon": "https://static.wixstatic.com/media/199848_68629374d12247ffb938d2f894ac6d4e~mv2.jpg/v1/fill/w_180%2Ch_180%2Clg_1%2Cusm_0.66_1.00_0.01/199848_68629374d12247ffb938d2f894ac6d4e~mv2.jpg",
       "faviconSource": "radio-browser",
       "bitrate": 320,
-      "codec": "MP3",
-      "status": "stream-only"
-    },
-    {
-      "id": "es-100-salsa",
-      "name": "100 % SALSA",
-      "broadcaster": "independent",
-      "streamUrl": "https://stm01.streammaximum.com:8194/;",
-      "homepage": "https://www.100porcientosalsa.com/",
-      "country": "ES",
-      "tags": [
-        "latino",
-        "music",
-        "salsa"
-      ],
-      "favicon": "https://www.100porcientosalsa.com/assets/uploads/pwa512_20260122_001337_8bf0c454.png",
-      "faviconSource": "broadcaster-site",
-      "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
     },
@@ -162983,8 +163035,6 @@
         "news",
         "talk"
       ],
-      "favicon": "https://arena983.com.ar/wp-content/uploads/2022/10/cropped-logo_arena_alpha-3-192x192.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 48,
       "codec": "AAC+",
       "geo": [
@@ -174597,8 +174647,6 @@
       "streamUrl": "https://stream-ssl.arenastreaming.com:8030/surabaya",
       "homepage": "https://elshinta.com//live/radio",
       "country": "ID",
-      "favicon": "https://elshinta.com/template/elshinta_mobile/images/radio.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 48,
       "codec": "AAC+",
       "status": "stream-only"
@@ -175798,8 +175846,6 @@
       "tags": [
         "pop"
       ],
-      "favicon": "https://kradionews.com/wp-content/uploads/2025/11/cropped-kradio-copy24-180x180.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 80,
       "codec": "AAC",
       "status": "stream-only"
@@ -184114,6 +184160,19 @@
       "faviconSource": "broadcaster-site",
       "bitrate": 128,
       "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
+      "id": "ph-allhitz24",
+      "name": "AllHitz24",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream.allhitz24.com/64",
+      "homepage": "https://www.allhitz24.com/",
+      "country": "PH",
+      "favicon": "https://static.wixstatic.com/media/949cb8_095eb78a77494ac0a5f6feee9c460065~mv2.png/v1/crop/x_61,y_73,w_517,h_230/fill/w_460,h_204,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/949cb8_095eb78a77494ac0a5f6feee9c460065~mv2.png",
+      "faviconSource": "radio-browser",
+      "bitrate": 64,
+      "codec": "AAC+",
       "status": "stream-only"
     },
     {
@@ -197694,8 +197753,6 @@
         "alternative rock",
         "indie rock"
       ],
-      "favicon": "https://8radio.com/wp-content/uploads/2016/06/cropped-8RadioLogoUpdateJune2016-2-e1467023293153-180x180.jpg",
-      "faviconSource": "broadcaster-site",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -219561,8 +219618,6 @@
         "fm",
         "grupera"
       ],
-      "favicon": "https://pemaile.me/boba/bobalp13.jpg",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -231815,8 +231870,6 @@
       "streamUrl": "https://miradiost.com/listen/soylatina/radio.mp3",
       "homepage": "https://azulradio.org/radiochannel/soy-latina-radio/",
       "country": "MX",
-      "favicon": "https://azulradio.org/wp-content/uploads/elementor/thumbs/Soy-Latina-512-q9c5knqjqbtds4jm30ou48j6cfqryxjnklp7hnouo4.jpg",
-      "faviconSource": "broadcaster-site",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -236611,6 +236664,26 @@
       ],
       "bitrate": 128,
       "codec": "MP3",
+      "status": "stream-only"
+    },
+    {
+      "id": "mx-zona-urbana-101-9-fm",
+      "name": "Zona urbana 101.9 FM",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream.zeno.fm/9bs4fcs77gruv",
+      "homepage": "https://zeno.fm/radio/zona-urbana/",
+      "country": "MX",
+      "tags": [
+        "musica latinoamericana",
+        "música popular mexicana",
+        "pop"
+      ],
+      "bitrate": 192,
+      "codec": "MP3",
+      "geo": [
+        25.7007,
+        -100.2946
+      ],
       "status": "stream-only"
     },
     {
@@ -244363,10 +244436,6 @@
         "goldies",
         "oldies"
       ],
-      "favicon": "https://zoe.radio/zoeradio/images/logo-vierkant.png?v=2",
-      "faviconSource": "broadcaster-site",
-      "faviconSourceUrl": "https://zoe.radio/",
-      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "AAC+",
       "geo": [
@@ -249900,8 +249969,6 @@
       "tags": [
         "active rock"
       ],
-      "favicon": "https://www.mycariboonow.com/wp-content/uploads/2021/08/mynow-icon.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 57,
       "codec": "AAC+",
       "geo": [
@@ -251722,8 +251789,6 @@
         "hits",
         "nanaimo"
       ],
-      "favicon": "https://www.mycoastnow.com/wp-content/uploads/2021/10/mynow-icon.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 57,
       "codec": "AAC+",
       "geo": [
@@ -256379,8 +256444,6 @@
       "streamUrl": "https://vistaradio.streamb.live/SB00084",
       "homepage": "https://mygrandforksnow.com/",
       "country": "CA",
-      "favicon": "https://www.mygrandforksnow.com/wp-content/uploads/2021/08/mynow-icon.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 96,
       "codec": "MP3",
       "geo": [
@@ -256677,8 +256740,6 @@
       "streamUrl": "https://shinefm.streamguys1.com/ckrd",
       "homepage": "https://ckrd.ca/",
       "country": "CA",
-      "favicon": "https://en.wikipedia.org/wiki/File:CKRD_Shine90.5FM_logo.png",
-      "faviconSource": "wiki",
       "bitrate": 96,
       "codec": "AAC",
       "geo": [
@@ -256803,8 +256864,6 @@
       "tags": [
         "adult contemporary"
       ],
-      "favicon": "https://www.mycochranenow.com/wp-content/uploads/2022/06/MOOSE-Cochrane.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 57,
       "codec": "AAC+",
       "geo": [
@@ -271921,6 +271980,11 @@
       "streamUrl": "https://radio4.dixi.md/listen/hit_fm_dance_hits/hitfmdancehits128.aac",
       "homepage": "https://hitfm.md/",
       "country": "MD",
+      "favicon": "https://hitfm.md/favicon.png?v=2",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://hitfm.md/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "AAC",
       "geo": [
@@ -277079,27 +277143,6 @@
       "status": "stream-only"
     },
     {
-      "id": "is-sudurland-fm",
-      "name": "Suðurland FM",
-      "broadcaster": "independent",
-      "streamUrl": "https://ice-11.spilarinn.is/xsudurlandfm",
-      "homepage": "https://www.sudurlandfm.is/",
-      "country": "IS",
-      "tags": [
-        "country",
-        "pop",
-        "rock"
-      ],
-      "favicon": "https://www.sudurlandfm.is/wp-content/uploads/2016/05/logo_blue-3.png",
-      "faviconSource": "broadcaster-site",
-      "codec": "MP3",
-      "geo": [
-        63.94790932594013,
-        -21.01044595241547
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "iq-sumerfm-iraq",
       "name": "SumerFm Iraq",
       "broadcaster": "independent",
@@ -278013,6 +278056,11 @@
         "dancehall",
         "reggae"
       ],
+      "favicon": "https://thesoundofthecarebbeanradio.com/wp-content/uploads/2023/09/cropped-TS-180x180.jpeg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://thesoundofthecarebbeanradio.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -278416,8 +278464,6 @@
       "streamUrl": "https://radioonetanzania.radioca.st/stream",
       "homepage": "https://www.radio1.co.tz/",
       "country": "TZ",
-      "favicon": "https://www.radio1.co.tz/sites/default/files/RadioOne897_0.png",
-      "faviconSource": "broadcaster-site",
       "bitrate": 128,
       "codec": "MP3",
       "status": "stream-only"
@@ -278861,6 +278907,22 @@
       "favicon": "stations/qa-radio-olive-106-3.png?v=17398c34",
       "faviconSource": "broadcaster-site",
       "faviconSourceUrl": "https://olive.qa/wp-content/uploads/2024/12/olive-1.svg",
+      "bitrate": 64,
+      "codec": "AAC",
+      "status": "stream-only"
+    },
+    {
+      "id": "qa-qabayan-radio-94-3-fm",
+      "name": "Qabayan Radio 94.3 FM",
+      "broadcaster": "independent",
+      "streamUrl": "https://c2.radioboss.fm:18478/stream",
+      "homepage": "https://www.qabayanfm.com/",
+      "country": "QA",
+      "tags": [
+        "opm hits"
+      ],
+      "favicon": "https://static.wixstatic.com/media/418af1_49879588b7204884b90d4994f7f25d3e%7Emv2.png/v1/fill/w_180%2Ch_180%2Clg_1%2Cusm_0.66_1.00_0.01/418af1_49879588b7204884b90d4994f7f25d3e%7Emv2.png",
+      "faviconSource": "radio-browser",
       "bitrate": 64,
       "codec": "AAC",
       "status": "stream-only"
@@ -279981,8 +280043,6 @@
         "indian music",
         "oldies"
       ],
-      "favicon": "https://mbcradio.tv/streaming/img/cover_taalfm.png",
-      "faviconSource": "broadcaster-site",
       "codec": "AAC",
       "status": "stream-only"
     },
@@ -287420,6 +287480,11 @@
       "streamUrl": "https://liveradio.swr.de/d245tgd/dasding/",
       "homepage": "https://dasding.de/",
       "country": "DE",
+      "favicon": "https://www.dasding.de/assets/dasding/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.dasding.de/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 96,
       "codec": "AAC",
       "geo": [
@@ -290596,6 +290661,11 @@
         "music",
         "talk"
       ],
+      "favicon": "https://la1ere.franceinfo.fr/statics/img/favicons/default/android-chrome-512x512.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://la1ere.franceinfo.fr/nouvellecaledonie/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -294622,8 +294692,6 @@
       "tags": [
         "pop music"
       ],
-      "favicon": "https://www.music892.gr/assets/icons/MUSIC_LOGO.png",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -304240,6 +304308,11 @@
         "rock",
         "smooth"
       ],
+      "favicon": "https://www.riduna-radio.com/wp-content/uploads/go-x/u/da4055fa-5f44-4bf4-8212-e44c68eae783/w180,h180,rtfit,bgdde1e5,el1,ex1,fpng/image.png?v=1794649271450",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.riduna-radio.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -310913,6 +310986,23 @@
       "status": "stream-only"
     },
     {
+      "id": "in-ttrfm",
+      "name": "ttrfm",
+      "broadcaster": "independent",
+      "streamUrl": "https://radio.massstream.net/8010/stream",
+      "homepage": "https://www.radio-browser.info/",
+      "country": "IN",
+      "favicon": "https://radiosindia.com/images/ttrfm.jpg",
+      "faviconSource": "radio-browser",
+      "bitrate": 64,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
       "id": "ae-easy-doris-day",
       "name": "Easy Doris Day",
       "broadcaster": "independent",
@@ -311287,6 +311377,11 @@
       "streamUrl": "https://streams.rsa-sachsen.de/60er/mp3-192/homepage/?mode=preroll",
       "homepage": "https://www.rsa-sachsen.de/die-rsa-online-radios/rsa-60er-oldies",
       "country": "DE",
+      "favicon": "https://upload.rsa-sachsen.de/production/static/1795182399061/icons/icon_512.dBo94pC88y8.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.rsa-sachsen.de/die-rsa-online-radios/rsa-60er-oldies",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -317166,6 +317261,11 @@
       "streamUrl": "https://streamingecuador.net:8167/radiotropicana",
       "homepage": "http://www.rtp.ec/",
       "country": "EC",
+      "favicon": "https://rtp.ec/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://rtp.ec/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "AAC",
       "geo": [
@@ -318410,23 +318510,6 @@
       "geo": [
         0,
         0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "se-gamla-favoritter",
-      "name": "Gamla Favoritter",
-      "broadcaster": "independent",
-      "streamUrl": "https://wr09-ice.stream.khz.se/wr09_mp3",
-      "homepage": "https://www.ilikeradio.se/gamlafavoriter/",
-      "country": "SE",
-      "favicon": "https://cdn.khz.se/images/180x180/a70c1024cd53244ef1d912961ca37be4.png",
-      "faviconSource": "radio-browser",
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        59.2771,
-        18.0396
       ],
       "status": "stream-only"
     },
@@ -325776,8 +325859,6 @@
       "streamUrl": "https://panel.innovatestream.pe:10852/stream",
       "homepage": "https://contigofm.live/",
       "country": "EC",
-      "favicon": "https://contigofm.live/wp-content/uploads/fbrfg/apple-touch-icon.png",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -328462,6 +328543,11 @@
         "greatest hits",
         "pop"
       ],
+      "favicon": "https://www.liferadio.at/images/logo.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.liferadio.at/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -329930,6 +330016,11 @@
       "streamUrl": "https://stream.rpr1.de/kuschelrock/mp3-128/radiobrowser",
       "homepage": "https://www.rpr1.de/",
       "country": "DE",
+      "favicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.rpr1.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -331193,6 +331284,11 @@
       "tags": [
         "music"
       ],
+      "favicon": "https://hatahana.co.il/wp-content/uploads/2026/06/hand-512-300x300.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://hatahana.co.il/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -336086,6 +336182,11 @@
         "mantra",
         "spiritual"
       ],
+      "favicon": "https://india.anandamarga.org/wp-content/uploads/2025/09/cropped-anandamarga-logo-icon-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://india.anandamarga.org/amps-centre/ananda-marga-pracaraka-samgha-central-headquarters/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -338128,6 +338229,11 @@
         "80s",
         "80s radio"
       ],
+      "favicon": "https://www.liferadio.at/images/logo.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.liferadio.at/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -338146,6 +338252,11 @@
         "variety",
         "world middle east"
       ],
+      "favicon": "https://luv1071.com/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://luv1071.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 256,
       "codec": "AAC",
       "geo": [
@@ -340785,24 +340896,6 @@
       "status": "stream-only"
     },
     {
-      "id": "cn-station-ad084779",
-      "name": "宣城综合广播",
-      "broadcaster": "independent",
-      "streamUrl": "https://lhttp.qingting.fm/live/5022/64k.mp3",
-      "homepage": "http://www.newsxc.com/",
-      "country": "CN",
-      "tags": [
-        "news"
-      ],
-      "favicon": "http://www.newsxc.com/favicon.ico",
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "cn-station-60a1f143",
       "name": "山西卫视伴音",
       "broadcaster": "independent",
@@ -341265,6 +341358,11 @@
       "streamUrl": "https://cdn.istoikona.com/politis/live/icecast.audio",
       "homepage": "https://politis.com.cy/radio",
       "country": "CY",
+      "favicon": "https://radio.politis.com.cy/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radio.politis.com.cy/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -344247,6 +344345,26 @@
       "status": "stream-only"
     },
     {
+      "id": "gb-primordial-radio",
+      "name": "Primordial Radio",
+      "broadcaster": "independent",
+      "streamUrl": "https://fr1-play.adtonos.com/8108/thisisprimordial",
+      "homepage": "https://primordialradio.com/",
+      "country": "GB",
+      "tags": [
+        "metal",
+        "rock"
+      ],
+      "favicon": "https://primordialradio.com/wp-content/themes/the-next-evolution/img/favicons/apple-icon-180x180.png",
+      "faviconSource": "radio-browser",
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
       "id": "ec-radio-ecos-de-ruminahui-88-9-fm",
       "name": "RADIO ECOS DE RUMIÑAHUI 88.9 FM",
       "broadcaster": "independent",
@@ -346013,6 +346131,11 @@
         "weihnachten",
         "weihnachtslieder"
       ],
+      "favicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.rpr1.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         49.4782,
@@ -347048,8 +347171,6 @@
       "streamUrl": "https://icecast.live.yle.fi/radio/YleKuopio/icecast.audio",
       "homepage": "https://yle.fi/",
       "country": "FI",
-      "favicon": "https://images.cdn.yle.fi/f_auto,w_48,h_48,dpr_4.0/v1496664710/yle-areena-app.png",
-      "faviconSource": "radio-browser",
       "codec": "AAC+",
       "geo": [
         0,
@@ -351923,6 +352044,11 @@
         "pop",
         "rock"
       ],
+      "favicon": "https://net25.com/favicon.ico",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://net25.com/eaglefm955",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         14.6625,
@@ -353893,6 +354019,11 @@
       "tags": [
         "pop"
       ],
+      "favicon": "https://kalina.fm/tg.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://kalina.fm/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 160,
       "codec": "MP3",
       "geo": [
@@ -355216,6 +355347,11 @@
         "70er",
         "oldies"
       ],
+      "favicon": "https://file.atsw.de/production/static/1795181903675/icons/icon_512.8O8cUwC83ch.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.rpr1.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         49.4782,
@@ -359658,26 +359794,6 @@
       "status": "stream-only"
     },
     {
-      "id": "se-radio-rainbow",
-      "name": "Radio Rainbow",
-      "broadcaster": "independent",
-      "streamUrl": "https://wr20-ice.stream.khz.se/wr20_mp3?platform=web",
-      "homepage": "https://www.ilikeradio.se/radiorainbow/",
-      "country": "SE",
-      "tags": [
-        "dance",
-        "dj remix",
-        "house"
-      ],
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
       "id": "cl-radio-vale-fm-chile",
       "name": "Radio Vale FM CHILE",
       "broadcaster": "independent",
@@ -359784,6 +359900,30 @@
       "geo": [
         0,
         0
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "us-w-d-o-p-e-dopetrackz-radio",
+      "name": "W.D.O.P.E. Dopetrackz Radio",
+      "broadcaster": "independent",
+      "streamUrl": "https://fr1-play.adtonos.com/8102/dopetrackz-radio-3",
+      "homepage": "https://dopetrackz.com/",
+      "country": "US",
+      "tags": [
+        "beats",
+        "dopetrackz",
+        "hiphop",
+        "instrumental",
+        "rap",
+        "rap hiphop rnb"
+      ],
+      "favicon": "https://dopetrackz.com/wp-content/uploads/2023/12/wdope_2k24_ProfilePic_A_opacity.png",
+      "faviconSource": "radio-browser",
+      "codec": "MP3",
+      "geo": [
+        28.4721,
+        -81.4333
       ],
       "status": "stream-only"
     },
@@ -365551,8 +365691,6 @@
         "greek",
         "pop"
       ],
-      "favicon": "https://novafm.gr/favicon.ico",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -367151,8 +367289,6 @@
         "music",
         "news"
       ],
-      "favicon": "https://radioalbolote.com/wp-content/uploads/2015/10/Radio-Albolote-logo2.png",
-      "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -370816,6 +370952,11 @@
         "90s",
         "partymix"
       ],
+      "favicon": "https://www.radiosaw.de/apple-icon-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiosaw.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         52.1038,
@@ -370851,6 +370992,11 @@
         "pop",
         "smooth jazz"
       ],
+      "favicon": "https://www.radiositges.com/wp-content/uploads/2018/11/cropped-logo-negre-150ppp-180x180.jpg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiositges.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 320,
       "codec": "MP3",
       "geo": [
@@ -379200,6 +379346,11 @@
         "leipzig",
         "mdr aktuell"
       ],
+      "favicon": "https://www.mdr.de/resources/assets/resources/images/favicon/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.mdr.de/mdr-aktuell-nachrichtenradio",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 102,
       "codec": "AAC",
       "geo": [
@@ -388931,6 +389082,11 @@
       "streamUrl": "https://mettaswara.com:8700/d4d",
       "homepage": "https://mettaswara.com/",
       "country": "ID",
+      "favicon": "https://mettaswara.com/images/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://mettaswara.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 64,
       "codec": "AAC",
       "geo": [
@@ -390239,6 +390395,11 @@
       "streamUrl": "https://servidor31-2.brlogic.com:7052/live?identifier=Streaming%20on%20Sandblast%20Channel&source=6692",
       "homepage": "https://www.sandblast.channel/",
       "country": "CA",
+      "favicon": "https://cdn.prod.website-files.com/685089250e4499530c4d4f63/685442b8d94a7cd06d8ef393_sandblast%20Logo%20(1)%20(1).jpg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.sandblast.channel/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -395131,6 +395292,11 @@
       "streamUrl": "https://ice01.fluidstream.net/belluno.aac",
       "homepage": "https://www.radiobelluno.it/",
       "country": "IT",
+      "favicon": "https://www.radiobelluno.it/wp-content/uploads/2021/02/cropped-cropped-logo-RBL-rosso-1-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiobelluno.it/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 64,
       "codec": "AAC+",
       "geo": [
@@ -397618,6 +397784,11 @@
       "streamUrl": "https://listen7.myradio24.com/suvorovrad",
       "homepage": "https://myradio24.com/suvorovrad",
       "country": "RU",
+      "favicon": "https://myradio24.com/users/suvorovrad/nocover.jpg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://myradio24.com/suvorovrad",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
       "codec": "MP3",
       "geo": [
@@ -402342,6 +402513,11 @@
       "streamUrl": "https://ic2.smcdn.pl/2120-1.mp3",
       "homepage": "https://opole.eska.pl/",
       "country": "PL",
+      "favicon": "https://opole.eska.pl/web-app-manifest-512x512.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://opole.eska.pl/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -402846,6 +403022,11 @@
       "streamUrl": "https://nrf1.newradio.it:8080/10392/stream",
       "homepage": "https://radiopanda.it/portal/",
       "country": "IT",
+      "favicon": "https://radiopanda.it/portal/wp-content/uploads/2021/11/cropped-LOGO-SQUARE-180x180.jpeg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radiopanda.it/portal/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 64,
       "codec": "AAC+",
       "geo": [
@@ -403605,22 +403786,6 @@
       "geo": [
         46.0037,
         8.9511
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ph-rhythm-101-fm-online",
-      "name": "Rhythm 101 FM Online",
-      "broadcaster": "independent",
-      "streamUrl": "https://stream.zeno.fm/kpbamsatoqxtv",
-      "homepage": "https://rhythm101.devcoderz.site/",
-      "country": "PH",
-      "favicon": "https://cdn-profiles.tunein.com/s355489/images/logoq.png?t=639122040340000000",
-      "faviconSource": "radio-browser",
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
       ],
       "status": "stream-only"
     },
@@ -405564,24 +405729,6 @@
         "news"
       ],
       "favicon": "https://pic.qtfm.cn/2018/0410/20180410095357.jpeg",
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "cn-station-e73e307c",
-      "name": "成都交通文艺广播",
-      "broadcaster": "independent",
-      "streamUrl": "https://lhttp-hw.qtfm.cn/live/4891/64k.mp3",
-      "homepage": "https://www.cditv.cn/",
-      "country": "CN",
-      "tags": [
-        "news"
-      ],
-      "favicon": "https://pic.qingting.fm/2018/0313/20180313120303.png",
       "codec": "MP3",
       "geo": [
         0,
@@ -409289,6 +409436,11 @@
       "streamUrl": "https://wecast-bl02.flumotion.com/copesedes/sevilla.mp3",
       "homepage": "https://www.cope.es/directos/sevilla",
       "country": "ES",
+      "favicon": "https://www.cope.es/favicon/cope/apple-touch-icon-192x192.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.cope.es/directos/sevilla",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 96,
       "codec": "MP3",
       "geo": [
@@ -409912,6 +410064,11 @@
       "tags": [
         "reggae"
       ],
+      "favicon": "https://www.1.fm/favicon/apple-touch-icon.png?v=2",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.1.fm/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
       "codec": "MP3",
       "geo": [
@@ -410240,6 +410397,11 @@
         "easy listening",
         "electro"
       ],
+      "favicon": "https://www.radiofrance.fr/_app/immutable/assets/fip-seosquare.B4K2FvZs.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiofrance.fr/fip",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -414337,7 +414499,6 @@
         "classic hits",
         "pop"
       ],
-      "favicon": "http://www.bigrradio.com/image/favicon/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -423792,6 +423953,11 @@
         "ciudad de mexico",
         "ciudad de méxico"
       ],
+      "favicon": "https://editorial.universal881.com/wp-content/uploads/2023/04/Logo_Universal_23.svg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.universal881.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 48,
       "codec": "MP3",
       "geo": [
@@ -434060,6 +434226,11 @@
       "streamUrl": "https://direct.francebleu.fr/live/fblorrainenord-midfi.mp3",
       "homepage": "https://www.francebleu.fr/lorraine-nord",
       "country": "FR",
+      "favicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ici.fr/radio/lorraine-nord",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -434245,6 +434416,11 @@
       "streamUrl": "https://direct.francebleu.fr/live/fbberry-midfi.mp3",
       "homepage": "https://www.francebleu.fr/berry",
       "country": "FR",
+      "favicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ici.fr/radio/berry",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -434817,6 +434993,11 @@
       "streamUrl": "https://str0.creacast.com/radio_vinci_autoroutes_5",
       "homepage": "http://www.radiovinciautoroutes.com/",
       "country": "FR",
+      "favicon": "https://radio.vinci-autoroutes.com/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radio.vinci-autoroutes.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -435503,6 +435684,11 @@
         "chillout",
         "soul"
       ],
+      "favicon": "https://www.smoothradio.com/assets_v4r/smooth/img/apple-touch-icon-152x152.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.smoothradio.com/chill/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -436203,21 +436389,6 @@
         "90s rock",
         "rock"
       ],
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "se-julkanalen",
-      "name": "Julkanalen",
-      "broadcaster": "independent",
-      "streamUrl": "https://fm10-ice.stream.khz.se/fm10_mp3",
-      "homepage": "https://www.ilikeradio.se/",
-      "country": "SE",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -438352,7 +438523,6 @@
         "90s",
         "classic hits"
       ],
-      "favicon": "http://www.bigrradio.com/image/favicon/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -441420,6 +441590,11 @@
         "music",
         "rock"
       ],
+      "favicon": "https://radiodinamo.com/wp-content/uploads/2020/03/cropped-logo-radio-puro-amor-3d-fondo-amarillo-scaled-1-192x192.jpg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radiodinamo.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 32,
       "codec": "AAC+",
       "geo": [
@@ -444350,6 +444525,11 @@
         "edinburgh",
         "pop"
       ],
+      "favicon": "https://www.capitalfm.com/assets_v4r/capital/img/apple-touch-icon-152x152.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.capitalfm.com/edinburgh/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -444382,6 +444562,11 @@
       "streamUrl": "https://direct.francebleu.fr/live/fbsudlorraine-midfi.mp3",
       "homepage": "https://www.francebleu.fr/sud-lorraine",
       "country": "FR",
+      "favicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ici.fr/radio/sud-lorraine",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -444527,28 +444712,12 @@
       "streamUrl": "https://stream.radio901.de/444z6fq",
       "homepage": "https://www.radio901.de/",
       "country": "DE",
+      "favicon": "https://logos-der-nrwlokalradios.s3.eu-central-1.amazonaws.com/019b-37-45.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radio901.de/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "se-star-70-s",
-      "name": "Star 70's",
-      "broadcaster": "independent",
-      "streamUrl": "https://wr10-ice.stream.khz.se/wr10_mp3",
-      "homepage": "https://www.ilikeradio.se/star70s/",
-      "country": "SE",
-      "tags": [
-        "70's",
-        "70-tal",
-        "pop",
-        "rock"
-      ],
-      "bitrate": 128,
       "codec": "MP3",
       "geo": [
         0,
@@ -449157,6 +449326,11 @@
       "streamUrl": "https://direct.francebleu.fr/live/fbchampagne-midfi.mp3",
       "homepage": "https://www.francebleu.fr/champagne-ardenne",
       "country": "FR",
+      "favicon": "https://www.ici.fr/images/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ici.fr/radio/champagne-ardenne",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -449849,6 +450023,11 @@
       "streamUrl": "https://stream.zenolive.com/s81g7zfnz9duv",
       "homepage": "https://koronadal.bomboradyo.com/",
       "country": "PH",
+      "favicon": "https://img.bomboradyo.com/koronadal/2022/11/cropped-Bombo-Logo-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://koronadal.bomboradyo.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 96,
       "codec": "AAC",
       "geo": [
@@ -452782,6 +452961,11 @@
       "tags": [
         "progressive rock"
       ],
+      "favicon": "https://toxic.fm/site/wp-content/uploads/2025/12/Favicontoxicfm-300x300.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://toxic.fm/site/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -454745,7 +454929,6 @@
       "tags": [
         "country"
       ],
-      "favicon": "http://www.bigrradio.com/images/bigrbanner.bmp",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -458762,7 +458945,6 @@
       "tags": [
         "chillout"
       ],
-      "favicon": "http://www.bigrradio.com/image/favicon/apple-touch-icon.png",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -458962,6 +459144,11 @@
         "radio muzyka",
         "radio40plus"
       ],
+      "favicon": "https://radio40plus.pl/wp-content/uploads/2023/04/Logo-RFZielone230x230small.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radio40plus.pl/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 320,
       "codec": "MP3",
       "geo": [
@@ -462914,6 +463101,11 @@
         "pop",
         "relax"
       ],
+      "favicon": "https://radio-seefunk.imsueden.de/storage/thumbs/180x180/r:1754063560/ny6llcxxrxn5f.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radio-seefunk.imsueden.de/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -464538,6 +464730,11 @@
         "80s",
         "artists"
       ],
+      "favicon": "https://www.harmonyfm.de/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.harmonyfm.de/index.html",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -465334,22 +465531,6 @@
       "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
-      "geo": [
-        0,
-        0
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ca-citynews-95-7-halifax",
-      "name": "CityNews 95.7 Halifax",
-      "broadcaster": "independent",
-      "streamUrl": "https://rogers-hls.leanstream.co/rogers/hal957.stream/icy?environment=tunein&args=tunein_01",
-      "homepage": "https://halifax.citynews.ca/",
-      "country": "CA",
-      "favicon": "https://radioadminassets.rogersdigitalmedia.com/uploads/CityNews_957_Vertical_Secondary_RGB.png",
-      "bitrate": 48,
-      "codec": "AAC+",
       "geo": [
         0,
         0
@@ -479165,6 +479346,11 @@
         "adult hits",
         "brooks"
       ],
+      "favicon": "https://media-cdn.socastsrm.com/uploads/station/2897/squareIcon.png?r=100288",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://boomradioalberta.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 135,
       "codec": "AAC",
       "geo": [
@@ -480651,6 +480837,11 @@
         "pop",
         "top 40"
       ],
+      "favicon": "https://www.dimensioneradio.com/wp-content/uploads/2024/02/cropped-Favicon-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.dimensioneradio.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 64,
       "codec": "AAC+",
       "geo": [
@@ -481003,6 +481194,27 @@
       "streamUrl": "https://stream.laut.fm/rockheavy",
       "homepage": "http://stream.laut.fm/rockheavy",
       "country": "DE",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "it-romaradio-the-tube-station",
+      "name": "RomaRadio - The Tube Station",
+      "broadcaster": "independent",
+      "streamUrl": "https://nr9.newradio.it:9021/stream",
+      "homepage": "https://romamobilita.it/it/media/piattaforma-editoriale#romaradio",
+      "country": "IT",
+      "tags": [
+        "news",
+        "roma",
+        "talk",
+        "traffic"
+      ],
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -487404,6 +487616,11 @@
       "tags": [
         "la garriga"
       ],
+      "favicon": "https://img.enacasthq.com/ddwQAUp1g7H6jGTbr3dojlEcj_3j-DOGCcMAKbY9oIQ/rs:fill-down:192:192:0/g:sm/aHR0cHM6Ly9lbmFjYXN0LmNvbS9tZWRpYS9sb2dvcy8yMDE1LzEyLzE2L2VuZGlyZWN0ZV95UEJOa1BSLmpwZw.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiosilenci.cat/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 56,
       "codec": "MP3",
       "geo": [
@@ -490246,6 +490463,11 @@
       "streamUrl": "https://stream3.themediasite.co.uk:8240/vhq",
       "homepage": "https://amber.radio/",
       "country": "GB",
+      "favicon": "https://amber.radio/wp-content/themes/amber-radio/assets/img/apple-touch-icon.png?v=1.4.3",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://amber.radio/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "AAC+",
       "geo": [
@@ -493716,6 +493938,11 @@
       "tags": [
         "80s"
       ],
+      "favicon": "https://www.harmonyfm.de/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.harmonyfm.de/index.html",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -504267,6 +504494,11 @@
       "streamUrl": "https://16radio.stream.laut.fm/16radio?t302=2026-01-15_02-03-57&uuid=87fe80b6-78e1-4341-a04f-69fc2d8679fe",
       "homepage": "https://radio16.altervista.org/",
       "country": "IT",
+      "favicon": "https://radio16.altervista.org/wp-content/uploads/2022/01/cropped-16Radio-icona_GOCCIA-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radio16.altervista.org/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "MP3",
       "geo": [
@@ -505358,23 +505590,6 @@
       "geo": [
         39.092,
         -94.5593
-      ],
-      "status": "stream-only"
-    },
-    {
-      "id": "ph-90-7-radyo-oragon-legazpi",
-      "name": "90.7 Radyo Oragon Legazpi",
-      "broadcaster": "independent",
-      "streamUrl": "https://streamnavs.net:8181/live",
-      "homepage": "https://www.facebook.com/p/Radyo-Oragon-907-News-Fm-100084331060993/",
-      "country": "PH",
-      "favicon": "https://static-media.streema.com/media/cache/11/49/1149a6f8dc1fbc097cd0ea137891d131.jpg",
-      "faviconSource": "radio-browser",
-      "bitrate": 128,
-      "codec": "MP3",
-      "geo": [
-        0,
-        0
       ],
       "status": "stream-only"
     },
@@ -510511,6 +510726,11 @@
         "electronic dance music",
         "house"
       ],
+      "favicon": "https://www.iconradio.uk/wp-content/uploads/go-x/u/9d5cf2cc-39bc-4c0f-a92b-94272f1736df/w180,h180,rtfit,bgdde1e5,el1,ex1,fpng/image.png?v=1795223563064",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.iconradio.uk/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 128,
       "codec": "AAC+",
       "geo": [
@@ -511754,6 +511974,11 @@
       "streamUrl": "https://ffn.stream24.radiohost.de/ffn-comedy_mp3-192?upd-meta&upd-scheme=http&_art=dD0xNzc1MTUwMDIzJmQ9ZjQ5NjI4YWFjMmNiMzI2YTEwYWY",
       "homepage": "https://www.ffn.de/",
       "country": "DE",
+      "favicon": "https://www.ffn.de/typo3temp/assets/_processed_/3/8/csm_apple-touch-icon_6907814e5a.webp",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.ffn.de/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
       "codec": "MP3",
       "geo": [
@@ -512286,6 +512511,28 @@
       "homepage": "https://larmo.de/index",
       "country": "DE",
       "favicon": "https://larmo.de/logo.png",
+      "faviconSource": "radio-browser",
+      "bitrate": 128,
+      "codec": "MP3",
+      "geo": [
+        0,
+        0
+      ],
+      "status": "stream-only"
+    },
+    {
+      "id": "gb-radio-o",
+      "name": "Radio O",
+      "broadcaster": "independent",
+      "streamUrl": "https://stream.zeno.fm/htrnfxelk4otv",
+      "homepage": "https://radio-o.co.uk/",
+      "country": "GB",
+      "tags": [
+        "christian",
+        "religious",
+        "worship"
+      ],
+      "favicon": "https://www.radioplayeruk.com/img/logs/radioo.png",
       "faviconSource": "radio-browser",
       "bitrate": 128,
       "codec": "MP3",
@@ -514904,6 +515151,11 @@
         "90s",
         "hits"
       ],
+      "favicon": "https://upload.90s90s.de/production/static/1795181656496/icons/icon_512.cno7CdHz6$i.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.90s90s.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -515019,6 +515271,11 @@
         "80s",
         "christmas music"
       ],
+      "favicon": "https://upload.80s80s.de/production/static/1795181626310/icons/icon_512.ewwAEi8A30w.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.80s80s.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -516836,6 +517093,11 @@
       "tags": [
         "192kbps"
       ],
+      "favicon": "https://upload.80s80s.de/production/static/1795181626310/icons/icon_512.ewwAEi8A30w.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.80s80s.de/80s80s-queen",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -517103,6 +517365,11 @@
         "indie",
         "reggae"
       ],
+      "favicon": "https://radiox.ch/.resources/radiox-theme/webresources/images/favicon/apple-touch-icon.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://radiox.ch/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 192,
       "codec": "MP3",
       "geo": [
@@ -518226,6 +518493,11 @@
       "streamUrl": "https://streams.rsa-sachsen.de/rsa-live/mp3-192/rsamediaplayer",
       "homepage": "http://www.rsa-sachsen.de/",
       "country": "DE",
+      "favicon": "https://upload.rsa-sachsen.de/production/static/1795182399061/icons/icon_512.dBo94pC88y8.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.rsa-sachsen.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
@@ -519780,6 +520052,11 @@
       "tags": [
         "classical"
       ],
+      "favicon": "https://jfsr.co.uk/wp-content/uploads/2020/08/cropped-JFSR-Favicon-300x300.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://jfsr.co.uk/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 320,
       "codec": "AAC",
       "geo": [
@@ -521108,6 +521385,11 @@
       "tags": [
         "community radio"
       ],
+      "favicon": "https://threedradio.com/wp-content/uploads/512-Logo-Three-D-Radio-1-240x240.jpg",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://threedradio.com/",
+      "faviconLicense": "broadcaster-implicit",
       "bitrate": 96,
       "codec": "MP3",
       "geo": [
@@ -523419,6 +523701,11 @@
         "hiphop",
         "rap"
       ],
+      "favicon": "https://www.radiosaw.de/apple-icon-180x180.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiosaw.de/musikwelt/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "AAC",
       "geo": [
         0,
@@ -524534,6 +524821,11 @@
         "blink-182",
         "digitalradio"
       ],
+      "favicon": "https://upload.radiobob.de/production/static/1795182201037/icons/icon_512.8WpccMNcjjc.png",
+      "faviconSource": "broadcaster-site",
+      "faviconSourceType": "cdn",
+      "faviconSourceUrl": "https://www.radiobob.de/",
+      "faviconLicense": "broadcaster-implicit",
       "codec": "MP3",
       "geo": [
         0,
