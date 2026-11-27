@@ -25,6 +25,8 @@
     "catalog": "node tools/build-catalog.mjs && node tools/build-discovery.mjs && node tools/build-highlights.mjs && node tools/build-favicon-variants.mjs",
     "highlights": "node tools/build-highlights.mjs",
     "check-highlights": "node tools/check-highlights.mjs",
+    "genre-art": "node tools/build-genre-art.mjs",
+    "check-genre-art": "node tools/check-genre-art.mjs",
     "spec-site": "python3 tools/spec-site/generate.py",
     "favicon-variants": "node tools/build-favicon-variants.mjs",
     "catalog:ios-local": "node tools/build-ios-local-catalog.mjs",

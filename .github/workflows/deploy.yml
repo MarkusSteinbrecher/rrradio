@@ -163,6 +163,8 @@ jobs:
   #     committing".
   #   - check-highlights: highlights.yaml ↔ highlights.json in sync, and
   #     every featured station id is published.
+  #   - check-genre-art: genre-art.yaml follows the genre-art contract,
+  #     genre-art.json in sync, every hosted photo has a licence row.
   #   - check-duplicates: no two stations share a uuid / streamUrl /
   #     normalised name.
   # ────────────────────────────────────────────────────────────
@@ -177,6 +179,7 @@ jobs:
       - run: npm ci
       - run: npm run check-catalog
       - run: npm run check-highlights
+      - run: npm run check-genre-art
       - run: npm run check-duplicates
 
   # ────────────────────────────────────────────────────────────

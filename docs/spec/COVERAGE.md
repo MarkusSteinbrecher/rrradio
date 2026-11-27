@@ -29,6 +29,7 @@ a doc. See `STYLE.md` for templates and the reconciliation ritual.
 | broken-reports | review | d241aa9 | server `worker/src/reports.ts`; iOS `Models/BrokenStationReports.swift`, `Views/BrokenReportResolvedToast.swift`, `Views/NowPlayingView.swift` (report sheet) |
 | watch-protocol | approved | d241aa9 | `Shared/WatchRemoteProtocol.swift`, `WatchRemote/*`, `rrradioWatch/*` |
 | localization | review | d241aa9 | `Views/LocaleController.swift`, `Resources/Localizable.xcstrings` |
+| genre-art | review | fcbc168 | publisher: web `tools/build-genre-art.mjs`, `data/genre-art.yaml`; iOS `Models/GenreArtStore.swift`, `Views/FeedPages/GenreCoverArt.swift` |
 
 ## Features (`features/*`) — observable behavior
 
