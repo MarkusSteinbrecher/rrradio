@@ -31,7 +31,7 @@ Screens are tabs of one page, not routes: `browse`, `fav`, `library` (`Tab` in `
 | country rail | Section "Browse by country": one rail of country cards | `.disc-rail`, `countryCard()` |
 | featured rail | Section "Featured": one rail of highlight cards | `.feat-rail`, `highlightCard()` |
 | browse-all section | Last on the page: header row with the catalog count, over a rail of station logos | `browseAllSection()`, `.disc-browse-all`, `.disc-browse-all-rail` |
-| sort row | Above the results: back-to-discovery button, sort button, result count, shuffle | `.disc-back`, `#sort-btn` |
+| sort row | Above the results: back-to-discovery button, sort button, result count, shuffle | `resultsRow()`, `.results-row`, `.results-row__back`, `.results-row__sort`, `.results-row__count` |
 | station list | Search or filter results as station rows | `renderRows()`, `buildRow()` |
 | filter sheet | Genre / Country / Quality sections and the news toggle; a sheet on a phone, a popover by the filter button on desktop | `#filter-sheet`, `renderFilterSheet()` |
 
