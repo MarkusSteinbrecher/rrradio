@@ -5097,99 +5097,243 @@ body.is-playing .np-bottom .live-dot  {
 /* Desktop: the top-nav pill (#surprise-btn) replaces this one. */
 @media (min-width: 1024px) { .disc-surprise { display: none; } }
 
-/* Genre / country chips: a single horizontally-scrolling row (one line,
-   scrollable) matching the iOS BrowseDiscoveryView chip carousels —
-   not a wrapping grid. */
-.disc-chips {
+/* Discovery cards, after the iOS discovery surface. One card side for
+   the genre and country rails: about 2.2 cards across a phone (the next
+   card peeking says "swipe"), 140 to 190px, as iOS `cardSide(forWidth:)`.
+   Everything inside a card is a proportion of that side. */
+.disc-rail,
+.feat-rail {
+  --disc-card: clamp(140px, calc((100vw - 20px - 24px) / 2.2), 190px);
   display: flex;
   flex-wrap: nowrap;
-  gap: 9px;
-  padding: 0 20px 6px;
+  align-items: flex-start;
+  gap: 12px;
+  /* Bottom padding leaves room for the card shadow: overflow-x:auto
+     clips the other axis too. */
+  padding: 2px 20px 10px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  /* No scroll-snap: snap-align:start auto-scrolls the first chip past the
-     20px left padding on load, jamming it against the rail edge (the same
-     bug the featured rail hit). Free-scroll keeps the leading gap. */
+  /* No scroll-snap: snap-align:start scrolls the first card past the
+     leading padding on load. */
 }
-.disc-chips::-webkit-scrollbar { height: 0; }
-.disc-chip {
+.disc-rail::-webkit-scrollbar,
+.feat-rail::-webkit-scrollbar { height: 0; }
+
+/* The card surface: page colour, hairline edge, soft shadow. It has no
+   colour of its own, so nothing clashes with the pictures on it. */
+.disc-card {
+  position: relative;
+  display: block;
   flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: var(--bg-2);
-  color: var(--ink);
-  font-size: 13px;
-  white-space: nowrap;
-  transition: background 0.14s, border-color 0.14s;
-}
-.disc-chip__name { white-space: nowrap; }
-/* Country-chip flag glyph — a touch larger than the label, like the iOS
-   18pt flag against the 15pt chip label. The chip's own 8px gap spaces it
-   from the name. */
-.disc-chip__flag { font-size: 15px; line-height: 1; }
-.disc-chip:hover { background: var(--bg-3); }
-.disc-chip__count {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-3);
+  width: var(--disc-card);
+  height: var(--disc-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
 }
 
-/* Featured rail */
-.feat-rail {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 0 20px 6px;
-  scrollbar-width: none;
+/* Genre card: three circles across the upper middle (the hero larger
+   and in front, the side ones cropped by the card edges), the genre name
+   large and bold at the bottom leading corner. */
+.disc-genre {
+  padding: 0;
+  color: var(--ink);
+  text-align: left;
+  transition: border-color 0.14s;
 }
-.feat-rail::-webkit-scrollbar { height: 0; }
-.feat-card {
+.disc-genre:hover,
+.disc-mix:hover .disc-mix__art { border-color: var(--line-2); }
+.disc-genre__circle {
+  position: absolute;
+  top: 42%;
+  width: 33.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  /* Quiet while a picture loads, and when it does not. */
+  background: var(--bg-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.disc-genre__circle--leading { left: 13%; }
+.disc-genre__circle--trailing { left: 87%; }
+.disc-genre__circle--hero {
+  left: 50%;
+  width: 52%;
+  /* A ring in the card's colour, so the overlap reads as a cut-out. */
+  box-shadow: 0 0 0 calc(var(--disc-card) * 0.016) var(--bg);
+}
+.disc-genre__img,
+.disc-genre__logo,
+.disc-genre__logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.disc-genre__logo {
+  display: grid;
+  place-items: center;
+  background: #fff;
+  color: #121212; /* ink for initials on the white logo plate */
+  font-weight: 800;
+  font-size: calc(var(--disc-card) * 0.09);
+}
+.disc-genre__logo img { object-fit: contain; padding: 12%; }
+.disc-genre__title {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 7%;
+  font-size: calc(var(--disc-card) * 0.15);
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Country card: a collage of station logos on the card surface, and
+   under it one line, the flag and the country's name. */
+.disc-mix {
+  flex: 0 0 auto;
+  width: var(--disc-card);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+}
+.disc-mix__art { transition: border-color 0.14s; }
+.disc-mix__art--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+  padding: 8.5%;
+}
+.disc-mix__art--single { display: grid; padding: 8.5%; }
+.disc-mix__art--flag {
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--disc-card) * 0.42);
+  line-height: 1;
+}
+/* A station logo on a white plate: the plate keeps transparent PNGs and
+   dark wordmarks readable in both themes. */
+.disc-tile {
   position: relative;
-  flex: 0 0 312px;
-  /* Honour the 312px basis: without this a flex item's default
-     min-width:auto lets the nowrap name balloon the card past its basis. */
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: #fff;
+  color: #121212; /* ink for initials on the white logo plate */
+  box-shadow: inset 0 0 0 1px rgba(14, 14, 13, 0.08);
+  overflow: hidden;
+  font-weight: 800;
+  font-size: calc(var(--disc-card) * 0.11);
+}
+.disc-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 8%;
+  object-fit: contain;
+}
+.disc-mix__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.disc-mix__flag { flex-shrink: 0; line-height: 1; }
+.disc-mix__name {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Featured rail: a panel of three album covers edge to edge that stand
+   for the station's music, the station's logo as a tile on the panel's
+   bottom leading corner, then badge, name + flag and a short blurb. */
+.feat-card {
+  flex: 0 0 248px;
+  /* Without this a flex item's default min-width:auto lets the nowrap
+     name push the card past its basis. */
   min-width: 0;
   display: flex;
-  gap: 13px;
-  align-items: center;
-  padding: 13px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--bg-2);
-  text-align: left;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--ink);
-  transition: border-color 0.14s, background 0.14s;
+  text-align: left;
 }
-.feat-card:hover { border-color: var(--line-2); background: var(--bg-3); }
-/* Featured artwork is a rounded square (not the circular logo used
-   elsewhere), matching the iOS 74pt card art. */
-.feat-card__art {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  flex-shrink: 0;
+.feat-card__panel {
+  position: relative;
+  display: block;
+  height: 150px;
+}
+.feat-card__covers {
+  display: flex;
+  gap: 2px;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.feat-card__cover {
+  position: relative;
+  flex: 1 1 0;
+  background: var(--bg-2);
+}
+.feat-card__cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.feat-card__logo {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  width: 52px;
+  /* A seam in the page colour around the tile, then its shadow. */
+  box-shadow: 0 0 0 2px var(--bg), var(--card-shadow);
+  font-size: 15px;
 }
 .feat-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 2px 0;
   min-width: 0;
-  flex: 1;
 }
-/* iOS HighlightCard badge pill: a 5px accent dot + a muted mono-caps label
-   (the accent's only remaining tint — no left stripe). */
+/* Badge: a 5px accent dot + a muted mono-caps label (the accent's only
+   tint). */
 .feat-card__badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: var(--mono);
   font-size: 9px;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-2);
-  margin-bottom: 2px;
 }
 .feat-card__badge::before {
   content: '';
@@ -5200,16 +5344,24 @@ body.is-playing .np-bottom .live-dot  {
   background: var(--feat-accent, var(--accent));
 }
 .feat-card__name {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 800;
+}
+.feat-card__name-text {
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.feat-card__flag { flex-shrink: 0; font-size: 13px; line-height: 1; }
 .feat-card__blurb {
-  font-size: 12px;
-  color: var(--ink-2);
-  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

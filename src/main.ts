@@ -26,11 +26,15 @@ import {
   genreChips,
   countryChips,
   abbreviateCount,
+  countryLogoStations,
+  genreLogoStations,
   DISCOVERY_HIGHLIGHT_LIMIT,
   DISCOVERY_BROWSE_ALL_LOGO_LIMIT,
   type DiscoveryCounts,
 } from './discovery';
 import { loadDiscoverySummary, getDiscoverySummary } from './discovery-summary';
+import { coversForRail, currentCovers, getGenreArt, loadGenreArt } from './genre-art';
+import { countryCard, genreCard, highlightCard } from './discovery-cards';
 import {
   getSurpriseExclude,
   loadSurpriseExclude,
@@ -533,6 +537,11 @@ let highlightsRaw: Highlight[] = [];
 // Memoised discovery counts, recomputed when the catalog size changes.
 let discoveryCountsCache: DiscoveryCounts | null = null;
 let discoveryCountsForLen = -1;
+// Memoised logo stations for the country cards (and for genre cards
+// without published pictures), recomputed when the catalog size changes.
+let discoveryLogosForLen = -1;
+let discoveryCountryLogos = new Map<string, Station[]>();
+let discoveryGenreLogos = new Map<string, Station[]>();
 
 // countryName lives in ./country.
 
@@ -1841,73 +1850,6 @@ function discoverySection(title: string): HTMLDivElement {
   return h;
 }
 
-function discoveryChip(
-  label: string,
-  count: number,
-  onPick: () => void,
-  flag?: string,
-): HTMLButtonElement {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'disc-chip';
-  // Country chips lead with a flag glyph (iOS DiscoveryChip parity); genre
-  // chips pass none. Decorative — the country name carries the label, so
-  // the flag is aria-hidden and the aria-label stays "{name}, N stations".
-  if (flag) {
-    const f = document.createElement('span');
-    f.className = 'disc-chip__flag';
-    f.textContent = flag;
-    f.setAttribute('aria-hidden', 'true');
-    btn.append(f);
-  }
-  const name = document.createElement('span');
-  name.className = 'disc-chip__name';
-  name.textContent = label;
-  const c = document.createElement('span');
-  c.className = 'disc-chip__count';
-  c.textContent = abbreviateCount(count);
-  btn.append(name, c);
-  btn.setAttribute('aria-label', `${label}, ${count} stations`);
-  btn.addEventListener('click', onPick);
-  return btn;
-}
-
-function featuredCard(item: ResolvedHighlight): HTMLButtonElement {
-  const card = document.createElement('button');
-  card.type = 'button';
-  card.className = 'feat-card';
-  card.dataset.id = item.station.id;
-  // Per-highlight editorial accent. Mirrors the current iOS HighlightCard,
-  // where the accent survives only as a soft tint on the badge dot (no left
-  // stripe, no play button); falls back to the app accent.
-  if (item.badge?.accent) card.style.setProperty('--feat-accent', item.badge.accent);
-  const art = buildFavicon(item.station, 72);
-  art.classList.add('feat-card__art');
-  const body = document.createElement('div');
-  body.className = 'feat-card__body';
-  if (item.badge?.label) {
-    const badge = document.createElement('div');
-    badge.className = 'feat-card__badge';
-    badge.textContent = item.badge.label;
-    body.append(badge);
-  }
-  const name = document.createElement('div');
-  name.className = 'feat-card__name';
-  name.textContent = item.station.name;
-  body.append(name);
-  if (item.blurb) {
-    const blurb = document.createElement('div');
-    blurb.className = 'feat-card__blurb';
-    blurb.textContent = item.blurb;
-    body.append(blurb);
-  }
-  // The whole card is the play affordance (tapping anywhere plays), matching
-  // iOS — no separate play button.
-  card.append(art, body);
-  card.addEventListener('click', () => onRowPlay(item.station));
-  return card;
-}
-
 /** Let a horizontal scroller respond to a vertical mouse wheel, so
  *  desktop/mouse users can scroll the featured rail without a trackpad
  *  swipe. No-op when the gesture is already horizontal or the rail is at
@@ -1927,6 +1869,14 @@ function enableWheelScroll(el: HTMLElement): void {
   );
 }
 
+/** One horizontal rail of discovery cards. */
+function discoveryRail(className: string): HTMLDivElement {
+  const rail = document.createElement('div');
+  rail.className = className;
+  enableWheelScroll(rail);
+  return rail;
+}
+
 function renderDiscovery(): void {
   const featured = resolveHighlights(
     highlightsRaw,
@@ -1935,46 +1885,67 @@ function renderDiscovery(): void {
     DISCOVERY_HIGHLIGHT_LIMIT,
   );
 
-  // Section order mirrors the iOS BrowseDiscoveryView: genre chips,
-  // country chips, the "Browse all" header + logo rail, then the
-  // Featured carousel at the bottom. Each chip row is a single
-  // horizontally-scrolling line (not a wrapping grid) to match iOS.
+  // Sections and cards mirror the iOS discovery surface: a rail of genre
+  // cards, a rail of country cards, the Featured rail, and last the
+  // "Browse all" header + logo rail, the way out into the complete list.
   const counts = getDiscoveryCounts();
   const gChips = genreChips(counts);
+  const cChips = countryChips(counts, countryName);
+  // Pictures come from genre-art.json (the set of this week). Logos for
+  // the country cards, and for a genre the file leaves out, need the
+  // full catalog; until it lands those circles and tiles stay quiet.
+  const covers = currentCovers(getGenreArt());
+  if (discoveryLogosForLen !== BUILTIN_STATIONS.length) {
+    const ordered = orderFeaturedFirst(BUILTIN_STATIONS);
+    discoveryCountryLogos = countryLogoStations(ordered, cChips.map((c) => c.id));
+    discoveryGenreLogos = genreLogoStations(ordered, gChips.filter((c) => !covers.has(c.id)).map((c) => c.id));
+    discoveryLogosForLen = BUILTIN_STATIONS.length;
+  }
+
   if (gChips.length > 0) {
-    // The genre header carries the compact "Surprise me" control (#97) —
-    // discovery's one-tap "just play something" next to the chips.
+    // The genre header carries the compact "Surprise me" control (#97):
+    // discovery's one-tap "just play something".
     const head = document.createElement('div');
     head.className = 'disc-section-head';
     head.append(discoverySection('Browse by genre'), surpriseButton('disc-surprise', true));
     $content.append(head);
-    const row = document.createElement('div');
-    row.className = 'disc-chips';
-    for (const c of gChips) row.append(discoveryChip(c.label, c.count, () => selectGenreChip(c.id)));
-    enableWheelScroll(row);
-    $content.append(row);
+    const rail = discoveryRail('disc-rail');
+    for (const c of gChips) {
+      rail.append(
+        genreCard(
+          { ...c, covers: covers.get(c.id) ?? [], fallback: discoveryGenreLogos.get(c.id) ?? [] },
+          () => selectGenreChip(c.id),
+        ),
+      );
+    }
+    $content.append(rail);
   }
-  const cChips = countryChips(counts, countryName);
   if (cChips.length > 0) {
     $content.append(discoverySection('Browse by country'));
-    const row = document.createElement('div');
-    row.className = 'disc-chips';
-    for (const c of cChips)
-      row.append(discoveryChip(c.label, c.count, () => selectCountryChip(c.id), flagEmoji(c.id)));
-    enableWheelScroll(row);
-    $content.append(row);
+    const rail = discoveryRail('disc-rail');
+    for (const c of cChips) {
+      rail.append(
+        countryCard(
+          { code: c.id, label: c.label, count: c.count, stations: discoveryCountryLogos.get(c.id.toUpperCase()) ?? [] },
+          () => selectCountryChip(c.id),
+        ),
+      );
+    }
+    $content.append(rail);
   }
-
-  $content.append(browseAllSection(featured));
 
   if (featured.length > 0) {
     $content.append(discoverySection('Featured'));
-    const rail = document.createElement('div');
-    rail.className = 'feat-rail';
-    for (const f of featured) rail.append(featuredCard(f));
-    enableWheelScroll(rail);
+    const rail = discoveryRail('feat-rail');
+    // Chosen for the whole rail so no album shows on two cards.
+    const railCovers = coversForRail(featured.map((f) => f.station), covers);
+    for (const f of featured) {
+      rail.append(highlightCard(f, railCovers.get(f.station.id) ?? [], () => onRowPlay(f.station)));
+    }
     $content.append(rail);
   }
+
+  $content.append(browseAllSection(featured));
 }
 
 // ─── Surprise me (#97) ───
@@ -5950,6 +5921,14 @@ void loadHighlights().then((list) => {
   highlightsRaw = list;
   if (inDiscovery()) renderContent();
 });
+// Pictures for the genre and featured cards. The cached copy already
+// painted; re-render only when the fetched file differs from it.
+{
+  const before = getGenreArt();
+  void loadGenreArt().then((art) => {
+    if (art !== before && inDiscovery()) renderContent();
+  });
+}
 // Fetch the visitor's country from the worker so geo-restricted
 // station rows can show a "<Country> only" badge instead of failing
 // silently at play time. Fire-and-forget — the result is cached in

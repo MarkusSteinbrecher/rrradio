@@ -45,7 +45,7 @@ test('falls back to the next stream variant before surfacing an error', async ({
   });
 
   await page.goto('/');
-  await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
   await page.locator('#search').fill('fm4');
   const row = page.locator('#content .row[data-id="builtin-fm4"]').first();
   await expect(row).toBeVisible({ timeout: 5_000 });
