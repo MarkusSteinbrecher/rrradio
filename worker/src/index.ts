@@ -44,6 +44,7 @@ import type { Env } from './env';
 import { jsonResponse, noStoreJsonResponse } from './respond';
 import { handleAdminProbe } from './probe';
 import { handlePlay } from './plays';
+import { platformSplit } from './platforms';
 import {
   handleAdminReportsList,
   handleReportBroken,
@@ -528,6 +529,10 @@ export default {
           // top 25, so we surface the true cardinality rather than the
           // display cap.
           const distinctStations = hits.filter((h) => h.path.startsWith('play: ')).length;
+          // Web / iOS split of the same play events (platforms.ts). The
+          // sheet's All / Web / iOS selector reads this; `top_stations`
+          // stays as it was for older clients.
+          const platforms = platformSplit(hits, trendDays);
 
           // Listener locations: pass through what GC returned for the
           // window. One country per stat, count = visits, no daily
@@ -561,6 +566,7 @@ export default {
                 items: locationItems,
                 total: locationsTotal,
               },
+              platforms,
             }),
             {
               status: 200,

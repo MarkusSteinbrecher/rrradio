@@ -381,6 +381,7 @@ Privacy-friendly pageview + event analytics. No cookies, no consent banner, no u
 |---|---|
 | `tab/<browse\|fav\|recent\|playing>` | user switches tabs |
 | `play: <station name>` | new station started from a row / featured tile |
+| `play-ios: <station name>` | the same play again, when it came from the iOS app (Worker adds it; feeds the stats sheet's web / iOS split) |
 | `pause: <station name>` | state goes playing → paused (same station) |
 | `resume: <station name>` | state goes paused → loading (same station) |
 | `error: <station name>` | state enters error; title field carries the error message; deduped while error persists |

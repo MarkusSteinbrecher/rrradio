@@ -51,13 +51,37 @@ describe('POST /api/public/play', () => {
     expect(res.status).toBe(202);
     expect(res.headers.get('Cache-Control')).toBe('no-store');
     expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
-    expect(gcUrls).toHaveLength(1);
+    expect(gcUrls).toHaveLength(2);
     const url = gcUrls[0];
     expect(url.origin).toBe('https://test.goatcounter.com');
     expect(url.pathname).toBe('/count');
     expect(url.searchParams.get('p')).toBe('play: FM4');
     expect(url.searchParams.get('e')).toBe('1');
     expect(url.searchParams.get('t')).toBe('station=fm4 · platform=ios');
+  });
+
+  it('records an iOS play a second time under its own prefix', async () => {
+    await play({ stationName: 'FM4', stationId: 'fm4', platform: 'ios' });
+    expect(gcUrls.map((u) => u.searchParams.get('p'))).toEqual(['play: FM4', 'play-ios: FM4']);
+    expect(gcUrls[1].searchParams.get('t')).toBe('station=fm4 · platform=ios');
+  });
+
+  it('records other platforms once, in the combined count only', async () => {
+    await play({ stationName: 'FM4', platform: 'android' });
+    await play({ stationName: 'FM4' });
+    expect(gcUrls.map((u) => u.searchParams.get('p'))).toEqual(['play: FM4', 'play: FM4']);
+  });
+
+  it('still answers 202 when only the platform copy fails', async () => {
+    let calls = 0;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(null, { status: ++calls === 1 ? 204 : 500 })),
+    );
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const res = await play({ stationName: 'FM4', platform: 'ios' });
+    expect(res.status).toBe(202);
+    expect(calls).toBe(2);
   });
 
   it('cleans the name and caps it at 90 chars', async () => {

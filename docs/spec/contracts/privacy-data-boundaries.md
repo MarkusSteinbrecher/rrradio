@@ -59,7 +59,9 @@ every rule.
    catalog-station play (row 16): station name + catalog id only, after 30 s of
    listening, on by default with a Settings switch, never for custom stations,
    no identifier of any kind. It lands in the same aggregate `play: <name>`
-   count as the web app.
+   count as the web app, and a second time as `play-ios: <name>` so the
+   public stats sheet can show the web and iOS shares apart. Both are
+   counts per station name; neither says who played.
 7. **rrradio-operated endpoints live under `rrradio.org`.** User data
    (IP-bearing region/stats/report/proxy calls) routes through the
    first-party domain, never a developer-personal host. See Known deviations

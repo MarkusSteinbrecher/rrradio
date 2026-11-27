@@ -650,6 +650,8 @@ describe('unified public dashboard', () => {
           { path: 'play: Beta FM', count: 10 },
           { path: 'play: Gamma FM', count: 3 },
           { path: 'tab/browse', count: 99 }, // ignored — wrong prefix
+          // iOS copy of four of Alpha FM's plays: not a station of its own.
+          { path: 'play-ios: Alpha FM', count: 4, stats: [{ day: day(0), daily: 4 }] },
         ]);
       }
       if (u.pathname.endsWith('/stats/total')) {
@@ -693,6 +695,12 @@ describe('unified public dashboard', () => {
         items: Array<{ code: string; name: string; count: number }>;
         total: number;
       };
+      platforms: {
+        totals: { all: number; ios: number };
+        distinct: { all: number; ios: number; web: number };
+        plays_per_day: { all: number[]; ios: number[] };
+        stations: Array<{ name: string; count: number; ios: number }>;
+      };
       generated_at: string;
     }>(res);
 
@@ -713,6 +721,12 @@ describe('unified public dashboard', () => {
     const series = body.top_stations.items[0].series;
     expect(series).toHaveLength(7);
     expect(series[series.length - 1]).toBe(25);
+
+    // The web / iOS split of the same plays.
+    expect(body.platforms.totals).toEqual({ all: 38, ios: 4 });
+    expect(body.platforms.distinct).toEqual({ all: 3, ios: 1, web: 3 });
+    expect(body.platforms.plays_per_day.ios[6]).toBe(4);
+    expect(body.platforms.stations[0]).toMatchObject({ name: 'Alpha FM', count: 25, ios: 4 });
 
     // Locations are a raw pass-through of the single GC call — counts,
     // no per-day series.
