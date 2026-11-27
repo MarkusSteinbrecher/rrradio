@@ -4263,31 +4263,96 @@ body.is-playing .np-bottom .live-dot  {
   line-height: 1.5;
   padding-bottom: max(20px, var(--safe-bottom));
 }
-.dash-kpis {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 4px 0 24px;
+/* Stats sheet. One measure for the whole body so the sheet does not
+ * stretch edge to edge on a desktop window. */
+.dash-inner {
+  max-width: 980px;
+  margin: 0 auto;
+}
+.dash-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.dash-head .sheet-lede { margin-bottom: 0; }
+/* Platform selector: the sheet-tabs control, outlined so it reads as
+ * one switch when it stands in the body and not in a sheet header. */
+.dash-platform {
+  padding: 3px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  flex: none;
+}
+.dash-platform[hidden] { display: none; }
+.dash-platform .sheet-tab { min-width: 56px; }
+/* The pill stays 31px tall; on touch screens the hit area reaches 44px. */
+@media (pointer: coarse) {
+  .dash-platform .sheet-tab { position: relative; }
+  .dash-platform .sheet-tab::after { content: ''; position: absolute; inset: -7px 0; }
+}
+
+/* Headline: plays first, with the web / iOS share; the two smaller
+ * numbers stand beside it. */
+.dash-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.dash-hero__main { flex: 1; min-width: 0; }
+.dash-hero__num {
+  font-family: var(--sans);
+  font-size: 52px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.dash-hero__side {
+  display: flex;
+  gap: 36px;
+  align-items: flex-end;
+}
+.dash-share { margin-top: 16px; }
+.dash-share[hidden] { display: none; }
+.dash-share__bar {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.dash-share__web, .dash-daily__web, .bar__split-web, .dash-legend__web { background: var(--accent); }
+.dash-share__ios, .dash-daily__ios, .bar__split-ios, .dash-legend__ios { background: var(--ink); }
+.dash-share__labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
 }
 .dash-kpi {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 4px;
-  text-align: center;
+  gap: 7px;
 }
+.dash-kpi[hidden] { display: none; }
 .dash-kpi__num {
   font-family: var(--sans);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: var(--accent);
+  color: var(--ink-3);
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
-/* Muted KPI — Visits is a vanity counter; demoting it visually keeps
- * "Plays" as the eye-grabbing headline. */
-.dash-kpi--muted .dash-kpi__num { color: var(--ink-3); }
 .dash-kpi__label {
   font-family: var(--mono);
   font-size: 9.5px;
@@ -4296,7 +4361,61 @@ body.is-playing .np-bottom .live-dot  {
   color: var(--ink-3);
 }
 
-.dash-section { margin-top: 22px; }
+.dash-section { margin-top: 26px; min-width: 0; }
+/* Phone: chart, stations, countries in one column. Desktop: stations
+ * take the trailing column beside the other two. */
+.dash-cols { display: grid; grid-template-columns: minmax(0, 1fr); }
+.dash-legend {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.dash-legend[hidden] { display: none; }
+.dash-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin: 0 5px 0 12px;
+}
+.dash-daily {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  height: 132px;
+}
+.dash-daily__col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.dash-daily__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dash-daily__stack.is-empty { height: 1px; background: var(--bg-3); }
+.dash-daily__day {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-4);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.dash-na {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.dash-na[hidden], .dash-geo[hidden] { display: none; }
 .dash-section h3 {
   font-family: var(--mono);
   font-size: 10px;
@@ -4326,6 +4445,7 @@ body.is-playing .np-bottom .live-dot  {
   position: relative;
   width: 100%;
   aspect-ratio: 1.7 / 1;
+  max-height: 240px;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
@@ -4427,35 +4547,17 @@ body.is-playing .np-bottom .live-dot  {
   background: var(--accent);
   transition: width 0.2s;
 }
-/* Stations-view sparkline: one bar per day in the requested window
-   (default 7). Bars are bottom-aligned, share a column flex layout so
-   they spread evenly across the same bar TD that holds the single-bar
-   variant. Heights are share-of-max where max is the highest single-day
-   value across every visible country (row-fair). */
-.dash-table .bar__spark {
+/* Station names need the room more than the bar does. */
+#dash-station-table .bar { width: 28%; }
+/* Station bar: the station's plays against the list's leader,
+   divided into its web and iOS parts. */
+.dash-table .bar__split {
   display: flex;
-  align-items: flex-end;
   gap: 2px;
-  height: 22px;
-  width: 100%;
-}
-.dash-table .bar__spark-cell {
-  flex: 1 1 0;
-  display: flex;
-  align-items: flex-end;
-  height: 100%;
-  min-width: 0;
-}
-.dash-table .bar__spark-fill {
-  width: 100%;
-  background: var(--accent);
-  border-radius: 1px;
-  min-height: 1px;
-}
-.dash-table .bar__spark-fill.is-empty {
-  background: var(--bg-3);
-  height: 1px;
-  min-height: 1px;
+  height: 6px;
+  min-width: 6px;
+  border-radius: 999px;
+  overflow: hidden;
 }
 .dash-table td.count {
   font-family: var(--mono);
@@ -4474,6 +4576,30 @@ body.is-playing .np-bottom .live-dot  {
   font-size: 11px;
   letter-spacing: 0.02em;
   padding-left: 8px;
+}
+
+@media (min-width: 1024px) {
+  .dash-head { flex-direction: row; justify-content: space-between; }
+  .dash-hero { flex-direction: row; align-items: flex-end; gap: 44px; }
+  .dash-cols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "daily stations" "geo stations";
+    grid-template-rows: auto 1fr;
+    column-gap: 44px;
+  }
+  .dash-section--daily { grid-area: daily; }
+  .dash-section--stations { grid-area: stations; }
+  .dash-section--geo { grid-area: geo; }
+  /* The map is a small companion to the country list, not a banner. */
+  .dash-geo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: 20px;
+    align-items: start;
+  }
+  .dash-geo .dash-map { order: 2; aspect-ratio: 1.5 / 1; margin-bottom: 0; }
+  /* Beside the map there is no room for the bar and a full country name. */
+  .dash-geo .dash-table .bar { display: none; }
 }
 
 .dash-note {

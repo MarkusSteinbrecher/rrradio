@@ -740,55 +740,101 @@
         </header>
 
         <div class="sheet-body dashboard-body">
-          <h2 class="sheet-title">Listener stats</h2>
-          <p class="sheet-lede">Listening: last 7 days · aggregate, anonymous</p>
-
-          <div class="dash-kpis">
-            <div class="dash-kpi">
-              <div class="dash-kpi__num" id="dash-visits">—</div>
-              <div class="dash-kpi__label">Visits</div>
+          <div class="dash-inner">
+            <div class="dash-head">
+              <div>
+                <h2 class="sheet-title">Listener stats</h2>
+                <p class="sheet-lede">Aggregate, anonymous</p>
+              </div>
+              <!-- Shown once the Worker reports the web / iOS split. -->
+              <div class="sheet-tabs dash-platform" id="dash-platform" role="group" aria-label="Platform" hidden>
+                <button type="button" class="sheet-tab is-active" data-platform="all" aria-pressed="true">All</button>
+                <button type="button" class="sheet-tab" data-platform="web" aria-pressed="false">Web</button>
+                <button type="button" class="sheet-tab" data-platform="ios" aria-pressed="false">iOS</button>
+              </div>
             </div>
-            <div class="dash-kpi dash-kpi--muted">
-              <div class="dash-kpi__num" id="dash-plays">—</div>
-              <div class="dash-kpi__label">Plays</div>
+
+            <div class="dash-hero">
+              <div class="dash-hero__main">
+                <div class="dash-hero__num" id="dash-plays">—</div>
+                <div class="dash-kpi__label" id="dash-plays-label">Plays · last 7 days</div>
+                <div class="dash-share" id="dash-share" hidden>
+                  <div class="dash-share__bar" id="dash-share-bar" role="img">
+                    <div class="dash-share__web" id="dash-share-web-bar"></div>
+                    <div class="dash-share__ios" id="dash-share-ios-bar"></div>
+                  </div>
+                  <div class="dash-share__labels">
+                    <span id="dash-share-web">Web</span>
+                    <span id="dash-share-ios">iOS</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dash-hero__side">
+                <div class="dash-kpi" id="dash-visits-kpi">
+                  <div class="dash-kpi__num" id="dash-visits">—</div>
+                  <div class="dash-kpi__label">Web visits</div>
+                </div>
+                <div class="dash-kpi">
+                  <div class="dash-kpi__num" id="dash-stations">—</div>
+                  <div class="dash-kpi__label">Stations played</div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="dash-section">
-            <h3>Where listeners are</h3>
-            <div class="dash-map" id="dash-map"></div>
-            <table class="dash-table" id="dash-country-table">
-              <thead>
-                <tr>
-                  <th class="rank">#</th>
-                  <th class="country">Country</th>
-                  <th class="bar"></th>
-                  <th class="count">Visits</th>
-                  <th class="pct">%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <div class="dash-section">
-            <h3>Top stations</h3>
-            <table class="dash-table" id="dash-station-table">
-              <thead>
-                <tr>
-                  <th class="rank">#</th>
-                  <th class="country">Station</th>
-                  <th class="bar"></th>
-                  <th class="count">Plays</th>
-                  <th class="pct">%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+            <div class="dash-cols">
+              <div class="dash-section dash-section--daily">
+                <div class="dash-section__head">
+                  <h3>Plays per day</h3>
+                  <span class="dash-legend" data-dash-legend hidden><i class="dash-legend__web"></i>Web<i class="dash-legend__ios"></i>iOS</span>
+                </div>
+                <div class="dash-daily" id="dash-daily"></div>
+              </div>
 
-          <p class="dash-note">
-            Last 7 days · via <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a> · cached up to 5 min.
-          </p>
+              <div class="dash-section dash-section--stations">
+                <div class="dash-section__head">
+                  <h3>Top stations</h3>
+                  <span class="dash-legend" data-dash-legend hidden><i class="dash-legend__web"></i>Web<i class="dash-legend__ios"></i>iOS</span>
+                </div>
+                <table class="dash-table" id="dash-station-table">
+                  <thead>
+                    <tr>
+                      <th class="rank">#</th>
+                      <th class="country">Station</th>
+                      <th class="bar"></th>
+                      <th class="count">Plays</th>
+                      <th class="pct">%</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <p class="dash-na" id="dash-stations-empty" hidden>No plays in this period.</p>
+              </div>
+
+              <div class="dash-section dash-section--geo">
+                <h3 id="dash-geo-title">Where listeners are</h3>
+                <div class="dash-geo" id="dash-geo">
+                  <div class="dash-map" id="dash-map"></div>
+                  <table class="dash-table" id="dash-country-table">
+                    <thead>
+                      <tr>
+                        <th class="rank">#</th>
+                        <th class="country">Country</th>
+                        <th class="bar"></th>
+                        <th class="count">Visits</th>
+                        <th class="pct">%</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <p class="dash-na" id="dash-geo-na" hidden>The iOS app sends no location. Choose Web or All to see countries.</p>
+              </div>
+            </div>
+
+            <p class="dash-note">
+              Last 7 days · via <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">GoatCounter</a> · cached up to 5 min.
+            </p>
+          </div>
         </div>
       </section>
 

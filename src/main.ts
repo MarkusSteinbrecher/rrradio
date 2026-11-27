@@ -97,12 +97,15 @@ import {
 import { playbackErrorView, REGION_LOCK_SUFFIX } from './playback-error';
 import {
   aggregateDashboard,
+  playsView,
   type DashboardData,
+  type PlatformsPayload,
+  type PlaysView,
   type PublicLocationItem,
   type PublicTotals,
+  type StatsPlatform,
   type TopStationItem,
-} from './dashboard';
-import { emptyState, statusLine } from './empty';
+} from './dashboard';import { emptyState, statusLine } from './empty';
 import {
   installGlobalErrorHandlers,
   reportStreamError,
@@ -426,6 +429,21 @@ const $dashboardClose = document.getElementById('dashboard-close') as HTMLButton
 const $dashPlays = document.getElementById('dash-plays') as HTMLElement;
 const $dashVisits = document.getElementById('dash-visits') as HTMLElement;
 const $dashMap = document.getElementById('dash-map') as HTMLElement;
+const $dashStations = document.getElementById('dash-stations') as HTMLElement;
+const $dashPlaysLabel = document.getElementById('dash-plays-label') as HTMLElement;
+const $dashVisitsKpi = document.getElementById('dash-visits-kpi') as HTMLElement;
+const $dashPlatform = document.getElementById('dash-platform') as HTMLElement;
+const $dashShare = document.getElementById('dash-share') as HTMLElement;
+const $dashShareBar = document.getElementById('dash-share-bar') as HTMLElement;
+const $dashShareWebBar = document.getElementById('dash-share-web-bar') as HTMLElement;
+const $dashShareIosBar = document.getElementById('dash-share-ios-bar') as HTMLElement;
+const $dashShareWeb = document.getElementById('dash-share-web') as HTMLElement;
+const $dashShareIos = document.getElementById('dash-share-ios') as HTMLElement;
+const $dashDaily = document.getElementById('dash-daily') as HTMLElement;
+const $dashStationsEmpty = document.getElementById('dash-stations-empty') as HTMLElement;
+const $dashGeo = document.getElementById('dash-geo') as HTMLElement;
+const $dashGeoTitle = document.getElementById('dash-geo-title') as HTMLElement;
+const $dashGeoNa = document.getElementById('dash-geo-na') as HTMLElement;
 const $dashCountryTable = document.querySelector('#dash-country-table tbody') as HTMLTableSectionElement;
 const $dashStationTable = document.querySelector('#dash-station-table tbody') as HTMLTableSectionElement;
 
@@ -3578,6 +3596,8 @@ interface DashboardPayload {
     distinct_stations: number;
   };
   locations: { items: PublicLocationItem[]; total: number };
+  /** Web / iOS split of the plays. Missing from older Worker builds. */
+  platforms?: PlatformsPayload | null;
 }
 
 // `cache: 'no-store'` so the browser's HTTP cache never serves a stale
@@ -3598,15 +3618,69 @@ async function fetchDashboardPayload(): Promise<DashboardPayload | null> {
   }
 }
 
-function renderDashKpis(d: DashboardData, totals: PublicTotals | null): void {
-  // Visits is GoatCounter's `/stats/total` `total` field — the
-  // headline number on GC's own dashboard. Prominent so the rrradio
-  // sheet matches what shows up there.
+const PLAYS_LABEL: Record<StatsPlatform, string> = {
+  all: 'Plays',
+  web: 'Web plays',
+  ios: 'iOS plays',
+};
+
+/** Headline: plays for the selected platform, and, when both sides
+ *  are shown, the bar with each side's share. Visits is a web-only
+ *  number (the iOS app sends plays, nothing else), so it steps aside
+ *  when iOS is selected. */
+function renderDashHero(view: PlaysView, totals: PublicTotals | null, rangeDays: number): void {
+  $dashPlays.textContent = view.plays > 0 ? view.plays.toLocaleString() : '—';
+  $dashPlaysLabel.textContent = `${PLAYS_LABEL[view.platform]} · last ${rangeDays} days`;
+  $dashStations.textContent = view.stationsPlayed > 0 ? view.stationsPlayed.toLocaleString() : '—';
   $dashVisits.textContent = totals?.total != null ? totals.total.toLocaleString() : '—';
-  // Plays is the rrradio-specific derived metric (sum of `play:`
-  // events). Verifiable in GC by summing the same path prefix; muted
-  // because it's a filtered view, not a native GC number.
-  $dashPlays.textContent = d.totalPlays > 0 ? d.totalPlays.toLocaleString() : '—';
+  $dashVisitsKpi.hidden = view.platform === 'ios';
+
+  const showShare = view.hasSplit && view.platform === 'all' && view.plays > 0;
+  $dashShare.hidden = !showShare;
+  if (showShare) {
+    $dashShareWebBar.style.width = `${(view.web / view.plays) * 100}%`;
+    $dashShareIosBar.style.width = `${(view.ios / view.plays) * 100}%`;
+    $dashShareWeb.textContent = `Web ${view.web.toLocaleString()}`;
+    $dashShareIos.textContent = `iOS ${view.ios.toLocaleString()}`;
+    $dashShareBar.setAttribute('aria-label', `${view.web} plays on the web, ${view.ios} in the iOS app`);
+  }
+  const showLegend = view.hasSplit && view.platform === 'all';
+  for (const legend of $dashboardSheet.querySelectorAll<HTMLElement>('[data-dash-legend]')) {
+    legend.hidden = !showLegend;
+  }
+}
+
+/** One stacked column per day, web below and iOS on top, on a scale
+ *  shared by the whole chart. The rightmost column is today. */
+function renderDashDaily(view: PlaysView): void {
+  $dashDaily.replaceChildren();
+  const max = Math.max(1, ...view.perDay.map((d) => d.web + d.ios));
+  for (const d of view.perDay) {
+    const total = d.web + d.ios;
+    const col = document.createElement('div');
+    col.className = 'dash-daily__col';
+    col.title = view.hasSplit && view.platform === 'all'
+      ? `${d.day}: ${total} (web ${d.web}, iOS ${d.ios})`
+      : `${d.day}: ${total}`;
+    col.setAttribute('role', 'img');
+    col.setAttribute('aria-label', col.title);
+    const stack = document.createElement('div');
+    stack.className = 'dash-daily__stack';
+    if (total === 0) stack.classList.add('is-empty');
+    else stack.style.height = `${Math.max(3, (total / max) * 100)}%`;
+    const ios = document.createElement('div');
+    ios.className = 'dash-daily__ios';
+    ios.style.flexGrow = String(d.ios);
+    const web = document.createElement('div');
+    web.className = 'dash-daily__web';
+    web.style.flexGrow = String(d.web);
+    stack.append(ios, web);
+    const label = document.createElement('span');
+    label.className = 'dash-daily__day';
+    label.textContent = d.day.slice(5);
+    col.append(stack, label);
+    $dashDaily.append(col);
+  }
 }
 
 function renderDashCountryTable(d: DashboardData): void {
@@ -3636,57 +3710,15 @@ function renderDashCountryTable(d: DashboardData): void {
   });
 }
 
-/** Build a fixed-height bar sparkline. Each `series` entry is one
- *  calendar day; bars share a single max across the whole table (passed
- *  in `maxAcrossTable`) so a row with one big day reads as taller than
- *  a row with a flat baseline. Days run oldest → newest, so the
- *  rightmost bar is today. */
-function renderSparkline(series: number[], maxAcrossTable: number, days: string[]): HTMLElement {
-  const wrap = document.createElement('div');
-  wrap.className = 'bar__spark';
-  wrap.setAttribute('role', 'img');
-  const totalRow = series.reduce((s, v) => s + v, 0);
-  wrap.setAttribute(
-    'aria-label',
-    `${totalRow} plays over the last ${series.length} days`,
-  );
-  series.forEach((v, idx) => {
-    const cell = document.createElement('div');
-    cell.className = 'bar__spark-cell';
-    const fill = document.createElement('div');
-    fill.className = 'bar__spark-fill';
-    // sqrt-scale would compress big spikes; the brief is "show the
-    // shape per day", so a linear scale stays honest. Floor at 4% so
-    // a single-play day still leaves a visible nub instead of vanishing.
-    const pct = v > 0 ? Math.max(4, (v / maxAcrossTable) * 100) : 0;
-    fill.style.height = `${pct}%`;
-    if (v === 0) fill.classList.add('is-empty');
-    const day = days[idx];
-    cell.title = day ? `${day}: ${v}` : String(v);
-    cell.append(fill);
-    wrap.append(cell);
-  });
-  return wrap;
-}
-
-function renderDashStationTable(items: TopStationItem[], days: string[]): void {
+/** Top stations for the selected platform. The bar is the station's
+ *  plays against the list's leader, divided into its web and iOS parts. */
+function renderDashStationTable(view: PlaysView): void {
   $dashStationTable.replaceChildren();
-  if (items.length === 0) return;
-  const max = items[0]?.count ?? 1;
-  const total = items.reduce((s, it) => s + it.count, 0);
-  // Per-day plays sparkline when the worker ships a series. Falls back
-  // to the single share-of-max bar for older worker builds. Max is the
-  // highest single-day value across every visible row so the bars are
-  // cross-station-comparable.
-  const showSpark = items.some((it) => it.series && it.series.length > 0);
-  let sparkMax = 0;
-  if (showSpark) {
-    for (const it of items) {
-      for (const v of it.series ?? []) if (v > sparkMax) sparkMax = v;
-    }
-    if (sparkMax === 0) sparkMax = 1;
-  }
-  items.forEach((it, i) => {
+  $dashStationsEmpty.hidden = view.stations.length > 0;
+  if (view.stations.length === 0) return;
+  const max = view.stations[0].plays;
+  const total = view.stations.reduce((s, it) => s + it.plays, 0);
+  view.stations.forEach((it, i) => {
     const tr = document.createElement('tr');
     const rank = document.createElement('td');
     rank.className = 'rank';
@@ -3694,19 +3726,27 @@ function renderDashStationTable(items: TopStationItem[], days: string[]): void {
     const name = document.createElement('td');
     name.className = 'country'; // reuse existing column class for the auto-width name slot
     name.textContent = it.name;
+    name.title = it.name;
     const bar = document.createElement('td');
     bar.className = 'bar';
-    if (showSpark && it.series && it.series.length > 0) {
-      bar.append(renderSparkline(it.series, sparkMax, days));
-    } else {
-      bar.innerHTML = `<div class="bar__track"><div class="bar__fill" style="width:${(it.count / max) * 100}%"></div></div>`;
-    }
+    const split = document.createElement('div');
+    split.className = 'bar__split';
+    split.style.width = `${(it.plays / max) * 100}%`;
+    const web = document.createElement('div');
+    web.className = 'bar__split-web';
+    web.style.flexGrow = String(it.web);
+    const ios = document.createElement('div');
+    ios.className = 'bar__split-ios';
+    ios.style.flexGrow = String(it.ios);
+    split.append(web, ios);
+    if (view.hasSplit && view.platform === 'all') split.title = `Web ${it.web} · iOS ${it.ios}`;
+    bar.append(split);
     const num = document.createElement('td');
     num.className = 'count';
-    num.textContent = String(it.count);
+    num.textContent = String(it.plays);
     const pct = document.createElement('td');
     pct.className = 'pct';
-    pct.textContent = fmtSharePct(it.count, total);
+    pct.textContent = fmtSharePct(it.plays, total);
     tr.append(rank, name, bar, num, pct);
     $dashStationTable.append(tr);
   });
@@ -3839,6 +3879,59 @@ function renderDashMap(d: DashboardData): void {
   });
 }
 
+/** Selector position; kept while the page is open. */
+let dashPlatform: StatsPlatform = 'all';
+/** Last payload, so the selector re-renders without another fetch. */
+let dashPayload: DashboardPayload | null = null;
+
+function renderDashboard(): void {
+  const payload = dashPayload;
+  const days = payload?.days ?? [];
+  const items = (payload?.top_stations.items ?? []).filter(
+    (i) => typeof i.name === 'string' && i.name.length > 0,
+  );
+  const data = aggregateDashboard(
+    payload?.locations.items ?? [],
+    payload?.top_stations.total ?? 0,
+    payload?.top_stations.distinct_stations ?? 0,
+    days,
+  );
+  const view = playsView(
+    {
+      platforms: payload?.platforms,
+      items,
+      total: data.totalPlays,
+      distinct: data.totalStations,
+      days,
+    },
+    dashPlatform,
+  );
+
+  $dashPlatform.hidden = !view.hasSplit;
+  for (const tab of $dashPlatform.querySelectorAll<HTMLButtonElement>('[data-platform]')) {
+    const active = tab.dataset.platform === view.platform;
+    tab.classList.toggle('is-active', active);
+    tab.setAttribute('aria-pressed', String(active));
+  }
+
+  renderDashHero(view, payload?.totals ?? null, payload?.range_days ?? STATS_DAYS);
+  renderDashDaily(view);
+  renderDashStationTable(view);
+
+  // Countries and the map are web visits. With iOS selected there is
+  // nothing to show, and the section says so instead of going blank.
+  const geoHidden = view.platform === 'ios';
+  $dashGeo.hidden = geoHidden;
+  $dashGeoNa.hidden = !geoHidden;
+  $dashGeoTitle.textContent = view.hasSplit ? 'Where listeners are · web' : 'Where listeners are';
+  if (geoHidden) {
+    teardownDashMap();
+  } else {
+    renderDashCountryTable(data);
+    void renderDashMap(data);
+  }
+}
+
 async function openDashboardSheet(open: boolean): Promise<void> {
   $dashboardSheet.classList.toggle('open', open);
   $dashboardSheet.setAttribute('aria-hidden', String(!open));
@@ -3848,21 +3941,17 @@ async function openDashboardSheet(open: boolean): Promise<void> {
   }
   $dashVisits.textContent = '…';
   $dashPlays.textContent = '…';
-  const payload = await fetchDashboardPayload();
-  const items = (payload?.top_stations.items ?? []).filter(
-    (i) => typeof i.name === 'string' && i.name.length > 0,
-  );
-  const data = aggregateDashboard(
-    payload?.locations.items ?? [],
-    payload?.top_stations.total ?? 0,
-    payload?.top_stations.distinct_stations ?? 0,
-    payload?.days ?? [],
-  );
-  renderDashKpis(data, payload?.totals ?? null);
-  renderDashCountryTable(data);
-  renderDashStationTable(items, payload?.days ?? []);
-  void renderDashMap(data);
+  dashPayload = await fetchDashboardPayload();
+  renderDashboard();
 }
+
+$dashPlatform.addEventListener('click', (event) => {
+  const tab = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-platform]');
+  const platform = tab?.dataset.platform as StatsPlatform | undefined;
+  if (!platform || platform === dashPlatform) return;
+  dashPlatform = platform;
+  renderDashboard();
+});
 
 function openAddSheet(open: boolean): void {
   if (open) {
