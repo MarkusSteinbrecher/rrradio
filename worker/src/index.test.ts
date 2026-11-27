@@ -317,10 +317,10 @@ describe('public endpoints', () => {
     expect(body.items.map((i) => i.code)).toEqual(['DE', 'CH', 'FR']);
     expect(body.items[0].count).toBe(130);
     expect(body.total).toBe(165);
-    // Single window query (not per-day).
-    expect(observedStart).not.toBe(observedEnd);
+    // Single window query (not per-day), open-ended so it runs to the
+    // end of today (#856).
     expect(observedStart).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    expect(observedEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(observedEnd).toBeUndefined();
   });
 
   it('POST /api/public/report-broken records a structured GoatCounter event', async () => {
@@ -773,5 +773,36 @@ describe('unified public dashboard', () => {
     setupDashboardStub();
     const res = await call('/api/public/dashboard');
     expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
+  });
+});
+
+describe('stats window (#856)', () => {
+  // GoatCounter keeps the hours up to and including `end`, and reads a
+  // bare date as midnight. Sending today's date as `end` therefore cut
+  // off everything after today's first hour. No `end` means "until the
+  // end of today".
+  it('asks GoatCounter for a window that runs to the end of today', async () => {
+    const upstream: URL[] = [];
+    stubFetch(async ({ url }) => {
+      const u = new URL(url);
+      upstream.push(u);
+      if (u.pathname.endsWith('/stats/hits')) return gcHits([{ path: 'play: Alpha FM', count: 1 }]);
+      return new Response(JSON.stringify({ stats: [], total: 0 }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    });
+    for (const path of ['/api/public/dashboard?days=1', '/api/public/top-stations?days=7', '/api/public/locations?days=7']) {
+      expect((await call(path)).status).toBe(200);
+    }
+    const stats = upstream.filter((u) => u.pathname.includes('/api/v0/stats/'));
+    expect(stats.length).toBeGreaterThanOrEqual(5);
+    const today = new Date().toISOString().slice(0, 10);
+    for (const u of stats) {
+      expect(u.searchParams.has('end'), `${u.pathname} must not send end`).toBe(false);
+      expect(u.searchParams.get('start')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+    // days=1 starts today, so the window is the whole of today.
+    expect(stats[0].searchParams.get('start')).toBe(today);
   });
 });

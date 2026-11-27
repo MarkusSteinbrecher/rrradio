@@ -193,15 +193,18 @@ async function gcFetch<T>(path: string, env: Env): Promise<T> {
 // that never matched what GC's UI showed, which made every check
 // against GC look "off". The 5-minute edge cache is short enough that
 // intra-day movement isn't a problem.
+//
+// Only `start` is sent. GoatCounter's hourly tables keep the hours up to
+// and including `end`, and a bare date is midnight, so `end=<today>` cut
+// the window off after today's first hour: today's plays were missing
+// from every view until the next day (#856). With no `end`, GoatCounter
+// uses the end of today.
 function rangeStart(daysBack: number): string {
   const d = new Date();
   d.setUTCDate(d.getUTCDate() - (daysBack - 1));
   return d.toISOString().slice(0, 10);
 }
 
-function rangeEnd(): string {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function clampDays(raw: string | null): number {
   const n = Number(raw) || 7;
@@ -220,13 +223,11 @@ function clampDays(raw: string | null): number {
 // what's wired up here.
 async function fetchHitsRange(
   start: string,
-  end: string,
   env: Env,
   opts: { daily?: boolean; limit?: number } = {},
 ): Promise<GcHit[]> {
   const params = new URLSearchParams({
     start,
-    end,
     limit: String(opts.limit ?? 500),
     daily: opts.daily === false ? 'false' : 'true',
   });
@@ -235,7 +236,7 @@ async function fetchHitsRange(
 }
 
 async function fetchAllHits(daysBack: number, env: Env): Promise<GcHit[]> {
-  return fetchHitsRange(rangeStart(daysBack), rangeEnd(), env);
+  return fetchHitsRange(rangeStart(daysBack), env);
 }
 
 // Canonical [oldest..today] list of YYYY-MM-DD day strings for a
@@ -289,8 +290,7 @@ function pickByPrefix(
 
 async function totals(daysBack: number, env: Env): Promise<GcTotals & { range_days: number }> {
   const start = rangeStart(daysBack);
-  const end = rangeEnd();
-  const data = await gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env);
+  const data = await gcFetch<GcTotals>(`/stats/total?start=${start}`, env);
   return { ...data, range_days: daysBack };
 }
 
@@ -325,7 +325,6 @@ async function fetchStatGroup(
 ): Promise<ListResponse> {
   const params = new URLSearchParams({
     start: rangeStart(daysBack),
-    end: rangeEnd(),
     limit: String(limit),
   });
   const data = await gcFetch<GcStatGroup>(`/stats/${group}?${params}`, env);
@@ -459,9 +458,8 @@ export default {
         if (url.pathname === '/api/public/locations') {
           const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
           const start = rangeStart(days);
-          const end = rangeEnd();
           const data = await gcFetch<GcStatGroup>(
-            `/stats/locations?${new URLSearchParams({ start, end, limit: String(limit) })}`,
+            `/stats/locations?${new URLSearchParams({ start, limit: String(limit) })}`,
             env,
           );
           const items = (data.stats ?? [])
@@ -495,22 +493,21 @@ export default {
         //   the request's `?days=N` like the standalone endpoints.
         if (url.pathname === '/api/public/dashboard') {
           const start = rangeStart(days);
-          const end = rangeEnd();
           const trendDays = rangeDays(days);
 
           // Three concurrent GC calls. Each tolerate() makes one slow or
           // flaky upstream degrade just its card instead of blanking the
           // whole sheet.
           const [hits, tot, locationsData] = await Promise.all([
-            tolerate(() => fetchHitsRange(start, end, env), [] as GcHit[]),
+            tolerate(() => fetchHitsRange(start, env), [] as GcHit[]),
             tolerate(
-              () => gcFetch<GcTotals>(`/stats/total?start=${start}&end=${end}`, env),
+              () => gcFetch<GcTotals>(`/stats/total?start=${start}`, env),
               {} as GcTotals,
             ),
             tolerate(
               () =>
                 gcFetch<GcStatGroup>(
-                  `/stats/locations?${new URLSearchParams({ start, end, limit: '50' })}`,
+                  `/stats/locations?${new URLSearchParams({ start, limit: '50' })}`,
                   env,
                 ),
               { stats: [], total: 0 } as GcStatGroup,
@@ -764,8 +761,7 @@ export default {
           // Returns the raw GoatCounter /stats/total response so we can
           // see exactly which field names this account/version exposes.
           const start = rangeStart(days);
-          const end = rangeEnd();
-          const raw = await gcFetch<unknown>(`/stats/total?start=${start}&end=${end}`, env);
+          const raw = await gcFetch<unknown>(`/stats/total?start=${start}`, env);
           data = { range_days: days, raw_totals: raw };
           break;
         }
