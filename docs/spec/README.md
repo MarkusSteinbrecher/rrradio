@@ -66,6 +66,7 @@ mechanics into web or Android without an explicit platform note.
 - [Broken-station reports](contracts/broken-reports.md)
 - [Watch remote protocol](contracts/watch-protocol.md)
 - [Localization](contracts/localization.md)
+- [Genre art](contracts/genre-art.md)
 
 **Authoring** - see [STYLE.md](STYLE.md) (voice, the feature/contract templates,
 and the reconciliation ritual) and [COVERAGE.md](COVERAGE.md) (the master

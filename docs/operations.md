@@ -112,6 +112,23 @@ Featured badges must be honest. Every `badge.label` is one of:
 
 No invented authority: there is no editorial team, so no "Editor's pick", no "Staff favourite", no implied voting. Nobody pays for placement.
 
+
+## Genre card pictures (`genre-art.json`)
+
+The pictures on the Browse genre cards in the apps come from `https://rrradio.org/genre-art.json`, so a pick changes with a web deploy and not with an app release. Contract: [docs/spec/contracts/genre-art.md](spec/contracts/genre-art.md).
+
+- **Source of truth:** `data/genre-art.yaml`. Each genre is a list of sets of three pictures, hero first. Clients rotate to the next set every `rotateEveryDays` days (7: every Monday 00:00 UTC).
+- **Build artifact:** `public/genre-art.json`, written by `tools/build-genre-art.mjs`.
+- **Music genres:** album covers linked from Apple's artwork servers (`*.mzstatic.com`). Never host a copy. No album twice in the file.
+- **Spoken-word genres** (news, talk, sports, public): CC0 or public-domain photos in `public/genre-art/<genre>-<n>.jpg`, square, 480 to 600 px, no identifiable people. Each has a row in `public/genre-art/SOURCES.md`.
+
+```bash
+npm run genre-art         # regenerate public/genre-art.json from the YAML
+npm run check-genre-art   # CI gate: contract rules, JSON ↔ YAML in sync, photo files + licence rows
+```
+
+Edit the YAML, run `npm run genre-art`, and commit the YAML, the JSON and any new photo with its `SOURCES.md` row. `check-genre-art` runs in the CI `catalog` job.
+
 ## Linking a station to its Radio Browser record
 
 Every YAML entry can optionally carry three fields that bind it to a Radio Browser record so the build re-uses upstream data instead of duplicating it:
