@@ -38,6 +38,8 @@ const COMMENT_MAX = 500;
  *  stations in a day) but stops scripted flooding. */
 const RATE_LIMIT_PER_DAY = 20;
 const STATUS_IDS_MAX = 50;
+/** Rows one report may hold: the first plus its follow-ups. */
+const FAMILY_ROWS_MAX = 10;
 const RESOLVE_IDS_MAX = 100;
 
 /**
@@ -48,11 +50,14 @@ const RESOLVE_IDS_MAX = 100;
 export const SQL = {
   insertReport:
     "INSERT INTO broken_reports (id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'received', ?)",
+  insertFollowUp:
+    "INSERT INTO broken_reports (id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, created_at, parent_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'received', ?, ?)",
+  /** A report's rows: the first one and every follow-up on it. */
+  selectFamily:
+    'SELECT id, station_id, parent_id, status, resolution, resolved_at FROM broken_reports WHERE id = ? OR parent_id = ?',
   upsertRate:
     'INSERT INTO report_rate (ip_hash, day, count) VALUES (?, ?, 1) ON CONFLICT (ip_hash, day) DO UPDATE SET count = count + 1 RETURNING count',
   purgeRate: 'DELETE FROM report_rate WHERE day < ?',
-  selectStatus:
-    'SELECT id, status, resolution, resolved_at FROM broken_reports WHERE id = ?',
   resolveById:
     "UPDATE broken_reports SET status = 'resolved', resolution = ?, resolved_at = ?, github_issue = COALESCE(?, github_issue) WHERE id = ? AND status != 'resolved'",
   resolveByStation:
@@ -66,9 +71,9 @@ export const SQL = {
   linkByStation:
     "UPDATE broken_reports SET github_issue = ? WHERE station_id = ? AND status != 'resolved'",
   selectRecent:
-    'SELECT id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, resolution, created_at, resolved_at, github_issue FROM broken_reports ORDER BY created_at DESC LIMIT ?',
+    'SELECT id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, resolution, created_at, resolved_at, github_issue, parent_id FROM broken_reports ORDER BY created_at DESC LIMIT ?',
   selectRecentByStatus:
-    'SELECT id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, resolution, created_at, resolved_at, github_issue FROM broken_reports WHERE status = ? ORDER BY created_at DESC LIMIT ?',
+    'SELECT id, station_id, station_name, stream_host, category, comment, platform, app_version, reason, status, resolution, created_at, resolved_at, github_issue, parent_id FROM broken_reports WHERE status = ? ORDER BY created_at DESC LIMIT ?',
 } as const;
 
 interface StatusRow {
@@ -78,7 +83,13 @@ interface StatusRow {
   resolved_at: string | null;
 }
 
+interface FamilyRow extends StatusRow {
+  station_id: string;
+  parent_id: string | null;
+}
+
 interface ReportRow extends StatusRow {
+  parent_id: string | null;
   station_id: string;
   station_name: string;
   stream_host: string;
@@ -274,6 +285,41 @@ export async function handleReportBroken(
   const category = parseCategory(data.category);
   const comment = cleanComment(data.comment);
 
+  // A client that already holds an open report for this station sends
+  // its receipt id: the new category and comment are added to that
+  // report instead of starting a second one.
+  const parentId = await openParentFor(data.reportId, stationId, env);
+  if (parentId) {
+    if (parentId.rows >= FAMILY_ROWS_MAX) {
+      return noStoreJsonResponse({ error: 'too many updates' }, 409, headers);
+    }
+    try {
+      await env.DB.prepare(SQL.insertFollowUp)
+        .bind(
+          crypto.randomUUID(),
+          stationId,
+          stationName,
+          streamHost,
+          category,
+          comment,
+          platform,
+          appVersion,
+          reason,
+          new Date().toISOString(),
+          parentId.id,
+        )
+        .run();
+    } catch (err) {
+      // No analytics fallback here: a follow-up that is not stored
+      // must not look sent, the client would drop the user's words.
+      console.error('[report-follow-up]', err instanceof Error ? err.message : String(err));
+      return noStoreJsonResponse({ error: 'store failed' }, 502, headers);
+    }
+    // Not a new report, so no GoatCounter event: the dashboard counts
+    // reports per station, and this one is already counted.
+    return noStoreJsonResponse({ ok: true, reportId: parentId.id, followUp: true }, 202, headers);
+  }
+
   // D1 is the primary record; the receipt only exists if the row does.
   let reportId: string | null = crypto.randomUUID();
   try {
@@ -326,6 +372,61 @@ export async function handleReportBroken(
   return noStoreJsonResponse(reportId ? { ok: true, reportId } : { ok: true }, 202, headers);
 }
 
+/** The report a follow-up may be added to: `rawId` must be the id of a
+ *  report's first row, for the same station, with at least one row not
+ *  resolved yet. Anything else (unknown, malformed, another station, a
+ *  closed report, D1 down) returns null and the request is stored as a
+ *  new report, which is what a client without the feature sends. */
+async function openParentFor(
+  rawId: unknown,
+  stationId: string,
+  env: Env,
+): Promise<{ id: string; rows: number } | null> {
+  if (typeof rawId !== 'string') return null;
+  const id = rawId.trim().toLowerCase();
+  if (!RECEIPT_RE.test(id)) return null;
+  try {
+    const { results } = await env.DB.prepare(SQL.selectFamily).bind(id, id).all<FamilyRow>();
+    const rows = results ?? [];
+    const first = rows.find((row) => row.id === id);
+    if (!first || first.parent_id || first.station_id !== stationId) return null;
+    if (rows.every((row) => row.status === 'resolved')) return null;
+    return { id, rows: rows.length };
+  } catch (err) {
+    console.error('[report-parent]', err instanceof Error ? err.message : String(err));
+    return null;
+  }
+}
+
+const RESOLUTION_RANK = ['fixed', 'removed', 'not-reproducible'];
+
+/** One status for a report and its follow-ups. Open while any row is
+ *  open (`confirmed` if one of the open rows is); once every row is
+ *  resolved, the best outcome wins (fixed, then removed, then
+ *  not-reproducible) with the latest resolution time. */
+export function familyStatus(
+  rows: StatusRow[],
+): { status: string; resolution?: string; resolvedAt?: string } {
+  const open = rows.filter((row) => row.status !== 'resolved');
+  if (open.length > 0) {
+    return { status: open.some((row) => row.status === 'confirmed') ? 'confirmed' : 'received' };
+  }
+  const rank = (value: string | null): number => {
+    const index = RESOLUTION_RANK.indexOf(value ?? '');
+    return index < 0 ? RESOLUTION_RANK.length : index;
+  };
+  const resolution = rows.map((row) => row.resolution).sort((a, b) => rank(a) - rank(b))[0];
+  const resolvedAt = rows
+    .map((row) => row.resolved_at ?? '')
+    .sort()
+    .at(-1);
+  return {
+    status: 'resolved',
+    ...(resolution ? { resolution } : {}),
+    ...(resolvedAt ? { resolvedAt } : {}),
+  };
+}
+
 /** GET /api/public/report-status?ids=a,b,c — anonymous receipt polling.
  *  Unknown ids are omitted (client treats as expired). no-store: a
  *  resolution must be visible on the next poll, and receipts are
@@ -339,17 +440,16 @@ export async function handleReportStatus(
   if (ids.length === 0) {
     return noStoreJsonResponse({ reports: [] }, 200, headers);
   }
-  const results = await env.DB.batch<StatusRow>(
-    ids.map((id) => env.DB.prepare(SQL.selectStatus).bind(id)),
+  const results = await env.DB.batch<FamilyRow>(
+    ids.map((id) => env.DB.prepare(SQL.selectFamily).bind(id, id)),
   );
-  const reports = results
-    .flatMap((r) => r.results ?? [])
-    .map((row) => ({
-      id: row.id,
-      status: row.status,
-      ...(row.resolution ? { resolution: row.resolution } : {}),
-      ...(row.resolved_at ? { resolvedAt: row.resolved_at } : {}),
-    }));
+  // One answer per asked id, covering the report and its follow-ups.
+  // An id nobody stored (no row carries it) is omitted.
+  const reports = ids.flatMap((id, index) => {
+    const rows = results[index]?.results ?? [];
+    if (!rows.some((row) => row.id === id)) return [];
+    return [{ id, ...familyStatus(rows) }];
+  });
   return noStoreJsonResponse({ reports }, 200, headers);
 }
 
@@ -537,6 +637,7 @@ export async function handleAdminReportsList(
     createdAt: row.created_at,
     resolvedAt: row.resolved_at,
     githubIssue: row.github_issue,
+    parentId: row.parent_id ?? null,
   }));
   return noStoreJsonResponse({ items, total: items.length }, 200, headers);
 }

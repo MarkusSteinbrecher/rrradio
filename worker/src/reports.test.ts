@@ -169,6 +169,84 @@ describe('report ingest (POST /api/public/report-broken)', () => {
   });
 });
 
+describe('follow-ups on an open report (reportId in the POST)', () => {
+  async function followUp(body: Record<string, unknown>): Promise<Response> {
+    return report({ stationId: 'fm4', stationName: 'FM4', ...body });
+  }
+
+  it('adds a row to the same report and returns the same receipt id', async () => {
+    const id = await seedReport({ category: 'no-audio', comment: 'Silent.' });
+    const fetchMock = vi.mocked(globalThis.fetch);
+    fetchMock.mockClear();
+    const res = await followUp({ reportId: id, category: 'wrong-logo', comment: 'And the logo is old.' });
+    expect(res.status).toBe(202);
+    expect(await json(res)).toEqual({ ok: true, reportId: id, followUp: true });
+    expect(db.reports.size).toBe(2);
+    const child = [...db.reports.values()].find((row) => row.parent_id === id);
+    expect(child).toMatchObject({ station_id: 'fm4', category: 'wrong-logo', comment: 'And the logo is old.', status: 'received' });
+    expect(db.reports.get(id)).toMatchObject({ category: 'no-audio', comment: 'Silent.', parent_id: null });
+    // Already counted as a report: no second analytics event.
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('stores a new report when the id is unknown, malformed, for another station or a follow-up row', async () => {
+    const id = await seedReport({});
+    await followUp({ reportId: id, category: 'wrong-logo' });
+    const childId = [...db.reports.values()].find((row) => row.parent_id === id)!.id;
+    const cases: Array<Record<string, unknown>> = [
+      { reportId: '00000000-0000-4000-8000-000000000000' },
+      { reportId: "x'; DROP TABLE--" },
+      { reportId: 42 },
+      { reportId: id, stationId: 'oe1', stationName: 'Ö1' },
+      { reportId: childId },
+    ];
+    for (const body of cases) {
+      const res = await followUp(body);
+      const out = await json<{ reportId: string; followUp?: boolean }>(res);
+      expect(res.status).toBe(202);
+      expect(out.followUp).toBeUndefined();
+      expect(out.reportId).not.toBe(id);
+      expect(db.reports.get(out.reportId)?.parent_id).toBeNull();
+    }
+  });
+
+  it('starts a new report once the old one is fully resolved', async () => {
+    const id = await seedReport({});
+    await resolveReports({ resolution: 'fixed', stationId: 'fm4' });
+    const out = await json<{ reportId: string; followUp?: boolean }>(await followUp({ reportId: id }));
+    expect(out.followUp).toBeUndefined();
+    expect(out.reportId).not.toBe(id);
+  });
+
+  it('caps the rows of one report and fails loudly when the row cannot be stored', async () => {
+    const id = await seedReport({});
+    for (let i = 0; i < 9; i++) expect((await followUp({ reportId: id })).status).toBe(202);
+    expect((await followUp({ reportId: id })).status).toBe(409);
+    expect(db.reports.size).toBe(10);
+
+    const other = await seedReport({ stationId: 'oe1', stationName: 'Ö1' });
+    db.failInserts = true;
+    expect((await followUp({ reportId: other, stationId: 'oe1' })).status).toBe(502);
+  });
+
+  it('answers status polls for the whole report', async () => {
+    const id = await seedReport({ category: 'no-audio' });
+    await followUp({ reportId: id, category: 'wrong-logo' });
+    const status = async (): Promise<Record<string, unknown>> =>
+      (await json<{ reports: Array<Record<string, unknown>> }>(await call(`/api/public/report-status?ids=${id}`)))
+        .reports[0];
+
+    expect(await status()).toEqual({ id, status: 'received' });
+    await triageReports({ stationId: 'fm4', confirmCategories: ['wrong-logo'] });
+    expect(await status()).toEqual({ id, status: 'confirmed' });
+    // One part closed, the other still open: the report stays open.
+    await resolveReports({ resolution: 'not-reproducible', stationId: 'fm4', category: 'no-audio' });
+    expect(await status()).toEqual({ id, status: 'confirmed' });
+    await resolveReports({ resolution: 'fixed', stationId: 'fm4', category: 'wrong-logo' });
+    expect(await status()).toMatchObject({ id, status: 'resolved', resolution: 'fixed' });
+  });
+});
+
 describe('receipt polling (GET /api/public/report-status)', () => {
   it('returns status per known id and omits unknown ids', async () => {
     const id = await seedReport({ category: 'no-audio' });

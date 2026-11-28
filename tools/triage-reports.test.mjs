@@ -84,6 +84,23 @@ describe('faviconProbeFailed', () => {
   });
 });
 
+describe('aggregate with follow-ups', () => {
+  it('counts a report and its follow-ups in one category as one reporter', () => {
+    const rows = [
+      { id: 'a', stationId: 'fm4', category: 'no-audio', status: 'received', comment: 'silent' },
+      { id: 'b', parentId: 'a', stationId: 'fm4', category: 'no-audio', status: 'received', comment: 'still silent' },
+      { id: 'c', parentId: 'a', stationId: 'fm4', category: 'wrong-logo', status: 'received', comment: '' },
+      { id: 'd', stationId: 'fm4', category: 'no-audio', status: 'received', comment: '' },
+    ];
+    const station = aggregate(rows).get('fm4');
+    const noAudio = station.categories.get('no-audio');
+    expect(noAudio.count).toBe(2);
+    expect(noAudio.rows.map((r) => r.id)).toEqual(['a', 'b', 'd']);
+    expect(noAudio.comments).toEqual(['silent', 'still silent']);
+    expect(station.categories.get('wrong-logo').count).toBe(1);
+  });
+});
+
 describe('decideConfirm', () => {
   it('confirms on probe failure regardless of count', () => {
     expect(decideConfirm({ probeFailed: true, count: 1, threshold: 3 })).toBe(true);

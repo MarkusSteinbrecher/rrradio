@@ -53,10 +53,42 @@ Request body (JSON, ≤4096 bytes; pre-#507 fields unchanged):
   newline) are stripped on ingest; rendering surfaces escape at the output
   edge. Never forwarded to analytics.
 
+- `reportId` — optional: the receipt id of a report this device already sent
+  for the same station. See *Follow-ups* below. Old clients never send it.
+
 Response: `202` with `{ "ok": true, "reportId": "<token>" }`. The token is a
 crypto-random UUID minted by the Worker. Clients built before receipts MUST
 tolerate the extra field; clients built after MUST tolerate a missing
 `reportId` (degraded mode — report recorded, no receipt).
+
+### Follow-ups (one open report per station per device)
+
+A device holds at most one open report per station. Reporting the same station
+again while that report is open **adds to it**: the client sends the open
+report's receipt id as `reportId`, with the new `category` and `comment`.
+
+- The Worker stores the follow-up as its own row (`parent_id` = the report's
+  id), so nothing already sent is replaced and triage still aggregates by
+  `(station, category)`. The response is
+  `202 { "ok": true, "reportId": "<the same id>", "followUp": true }`.
+- The device keeps **one** receipt. It records the follow-up's category,
+  comment and time on that receipt (local only) and shows one row.
+- A follow-up is accepted only when `reportId` is the id of a report's first
+  row, for the same `stationId`, and at least one of its rows is not resolved.
+  In every other case (unknown or malformed id, another station, a closed
+  report, a Worker without this feature) the request is stored as a **new**
+  report and the response carries a different `reportId`, without `followUp`.
+  The client then stores that as a new receipt.
+- A report holds at most 10 rows; past that the Worker answers `409` and the
+  client shows the failure path. A follow-up that cannot be stored answers
+  `502` (there is no receipt-less fallback: the user's words must not look
+  sent).
+- A follow-up is not a new report: no analytics event, and in triage the same
+  report counts once per category however many follow-ups it has there.
+- `report-status` answers for the whole report: open while any row is open
+  (`confirmed` if one of the open rows is), `resolved` once every row is, with
+  the best outcome (`fixed`, then `removed`, then `not-reproducible`) and the
+  latest `resolvedAt`.
 
 ### `GET /api/public/report-status?ids=a,b,c`
 
@@ -158,6 +190,11 @@ own chrome.
   see Failure & fallback). The category is sent; the comment, when present, is
   sent; neither the comment nor anything user-authored is written to the local
   diagnostics breadcrumb (only station id/name + category).
+- **Open report for this station:** the sheet opens as an update. It shows what
+  was sent (categories, comments, dates), offers the same category list and
+  comment field, and sends a follow-up (see *Follow-ups*). Send stays disabled
+  until there is something new: a category not sent before, or a comment. Once
+  the report is closed (resolved or expired) the sheet is a new report again.
 - **Receipt:** when the response carries a `reportId`, the device stores a local
   receipt — `{ id, stationId, stationName, category, sentAt, status, resolution?,
   resolvedAt?, seen }` — initial `status = received`. A response without
@@ -318,6 +355,7 @@ backup.
 | Category single-select in the report sheet | Supported | Reference | Supported |
 | Optional comment (`other` requires it) | Supported | Reference | Supported |
 | Store the `reportId` receipt locally | Supported (localStorage) | Reference | Supported (DataStore) |
+| Add to an open report instead of sending a second one (follow-ups) | Planned | Reference | Planned |
 | Poll `report-status` on foreground | Supported (page load + tab visible) | Reference | Supported |
 | Per-station status line (received/confirmed/resolved) | Supported (station-info popup) | Reference | Supported |
 | Resolved notification (toast) | Supported (seen when shown) | Reference | Supported (root Snackbar; dismissal marks seen) |
