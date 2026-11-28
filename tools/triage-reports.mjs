@@ -7,7 +7,8 @@
  * stream (no-audio / interruptions) or favicon (wrong-logo), and:
  *
  *   - confirms a category when the probe fails OR enough independent
- *     reports agree (report threshold), and
+ *     reports agree (report threshold; 1 by default, so every report
+ *     confirms and gets an issue), and
  *   - upserts ONE GitHub issue per station (label `broken-station` +
  *     each confirmed category), then tells the Worker to flip the
  *     confirmed rows to `confirmed` and stamp the issue number on the
@@ -32,7 +33,8 @@
  *   GH_TOKEN            GitHub token with issues:write (required to act)
  *   GITHUB_REPOSITORY   owner/repo (default MarkusSteinbrecher/rrradio)
  *   STATS_BASE          Worker base URL (default https://stats.rrradio.org)
- *   REPORT_THRESHOLD    independent-report count to confirm (default 3)
+ *   REPORT_THRESHOLD    independent-report count to confirm (default 1:
+ *                       every report; raise it if fake reports show up)
  *   HOLD_MAX_DAYS       age after which a held report is resolved as
  *                       not-reproducible (default 21; 0 disables)
  *   DIGEST_GRACE_DAYS   days a station must have been listed in the
@@ -66,7 +68,10 @@ const STREAM_INCONCLUSIVE = new Set(['probe-inconclusive']);
 
 const FAVICON_BASE = 'https://rrradio.org/';
 const STATION_MARKER_RE = /<!-- rrradio:station-id=([A-Za-z0-9._:-]+) -->/;
-const DEFAULT_THRESHOLD = 3;
+// 1 = every report opens an issue and reaches the fix agent. A higher
+// value brings back the hold: reports the probe cannot confirm wait in
+// the digest until this many agree.
+const DEFAULT_THRESHOLD = 1;
 const DEFAULT_HOLD_MAX_DAYS = 21;
 const DEFAULT_DIGEST_GRACE_DAYS = 7;
 const DAY_MS = 24 * 3600 * 1000;
@@ -240,7 +245,9 @@ export function planStation(station, probes, { threshold = DEFAULT_THRESHOLD } =
         ? 'not confirmed — reporter comment on a category that cannot be probed'
         : probeFailed
           ? 'probe failed'
-          : `${cat.count} report(s) ≥ threshold ${threshold}`,
+          : threshold <= 1
+            ? `${cat.count} report(s); the probe did not fail`
+            : `${cat.count} report(s) ≥ threshold ${threshold}`,
       comments,
     });
   }
