@@ -76,3 +76,50 @@ export function countryChips(
   chips.sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
   return chips.slice(0, DISCOVERY_COUNTRY_CHIP_LIMIT);
 }
+
+/** Stations whose logos picture a country card: up to `limit` per country
+ *  code, in the given order (pass featured-first), each with a logo, and
+ *  no logo or broadcaster twice on one card so it does not show four
+ *  siblings of one network. */
+export function countryLogoStations(stations: Station[], codes: string[], limit = 4): Map<string, Station[]> {
+  const out = new Map<string, Station[]>(codes.map((c) => [c.toUpperCase(), []]));
+  const seen = new Map<string, Set<string>>();
+  let open = out.size;
+  for (const s of stations) {
+    if (open === 0) break;
+    if (!s.favicon) continue;
+    const code = (s.country ?? '').toUpperCase();
+    const list = out.get(code);
+    if (!list || list.length >= limit) continue;
+    let keys = seen.get(code);
+    if (!keys) seen.set(code, (keys = new Set()));
+    // `independent` is the catalog's value for "no network", not a network.
+    const broadcaster = s.broadcaster && s.broadcaster !== 'independent' ? `b:${s.broadcaster}` : '';
+    if (keys.has(s.favicon) || (broadcaster && keys.has(broadcaster))) continue;
+    keys.add(s.favicon);
+    if (broadcaster) keys.add(broadcaster);
+    list.push(s);
+    if (list.length === limit) open--;
+  }
+  return out;
+}
+
+/** Stations whose logos stand in for a genre card's pictures when
+ *  genre-art.json has no set for that genre: the first `limit` matching
+ *  stations with a logo, in the given order. */
+export function genreLogoStations(stations: Station[], genreIds: string[], limit = 3): Map<string, Station[]> {
+  const wanted = GENRES.filter((g) => genreIds.includes(g.id));
+  const out = new Map<string, Station[]>(wanted.map((g) => [g.id, []]));
+  let open = wanted.length;
+  for (const s of stations) {
+    if (open === 0) break;
+    if (!s.favicon || !s.tags || s.tags.length === 0) continue;
+    for (const g of wanted) {
+      const list = out.get(g.id);
+      if (!list || list.length >= limit || !stationMatchesGenre(s, g)) continue;
+      list.push(s);
+      if (list.length === limit) open--;
+    }
+  }
+  return out;
+}

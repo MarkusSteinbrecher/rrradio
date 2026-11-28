@@ -211,15 +211,13 @@ valid sets only.
 |---|---|---|---|
 | Publish `genre-art.json`, photos and licence record | Supported | Not applicable | Not applicable |
 | Build check in CI | Supported | Not applicable | Not applicable |
-| Draw genre cards from the file | Not planned (genre chips have no pictures) | Reference (`feat/remote-genre-art`) | Planned |
-| Rotate sets on the shared clock | Not planned | Reference | Planned |
-| Built-in fallback pictures | Not applicable | Reference | Planned |
+| Draw genre cards from the file | Supported | Reference (`feat/remote-genre-art`) | Planned |
+| Rotate sets on the shared clock | Supported | Reference | Planned |
+| Fallback for a missing file or genre | Station logos in the circles | Reference (built-in pictures) | Planned |
 
 ## Open questions
 
-1. Should the web app's own genre chips show these pictures? If so, it uses the
-   same file and `rotationIndex` from `tools/build-genre-art.mjs`.
-2. Apple can retire an artwork URL. Nothing checks the linked covers on a
+1. Apple can retire an artwork URL. Nothing checks the linked covers on a
    schedule today; a dead cover falls back per circle on the client.
 
 ## Reference
@@ -229,6 +227,9 @@ valid sets only.
   `rotationIndex`), tests `tools/build-genre-art.test.mjs`. CI gate:
   `tools/check-genre-art.mjs`, wired in `.github/workflows/deploy.yml`.
 - Photos and licence record: `public/genre-art/`, `public/genre-art/SOURCES.md`.
+- Web client: `src/genre-art.ts` (parse, rotation, cache, covers for the
+  featured rail), `src/discovery-cards.ts` (the cards). The web app loads a
+  hosted photo from its own origin, not from `rrradio.org`.
 - iOS client: `rrradio/Models/GenreArtStore.swift` (fetch, cache, validity,
   rotation), `rrradio/Views/FeedPages/GenreCoverArt.swift` (built-in pictures).
 - Definition: [#846](https://github.com/MarkusSteinbrecher/rrradio/issues/846).

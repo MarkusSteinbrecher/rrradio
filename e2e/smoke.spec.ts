@@ -17,8 +17,8 @@ test.describe('cold-boot UI', () => {
     // Browse opens on the discovery landing now (chips + Featured rail);
     // pick a genre chip to drop into the catalog list. Local matches render
     // from the bundled catalog without any network.
-    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
-    await page.locator('.disc-chip', { hasText: 'Pop' }).first().click();
+    await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
+    await page.locator('.disc-genre', { hasText: 'Pop' }).first().click();
     // The catalog is loaded asynchronously after boot; wait until at
     // least one row materialises. Cap at 10s — a green test should
     // resolve in well under that.
@@ -30,7 +30,7 @@ test.describe('cold-boot UI', () => {
   test('search surfaces a known station', async ({ page }) => {
     await page.goto('/');
     // Catalog ready once the discovery chips render.
-    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
 
     await page.locator('#search').fill('fm4');
     // Search debounces 300ms; rendering may take additional frames.
@@ -43,7 +43,7 @@ test.describe('cold-boot UI', () => {
 
   test('whitespace-insensitive search ("WDR5" finds "WDR 5")', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
     await page.locator('#search').fill('WDR5');
     await page.waitForTimeout(500);
     const wdr5 = page.locator('#content .row .row-name', { hasText: /WDR\s*5/i });
@@ -69,7 +69,7 @@ test.describe('cold-boot UI', () => {
   test('Surprise me sits in the top nav on desktop, in the page on phones', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('/');
-    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
     await expect(page.locator('#surprise-btn')).toBeVisible();
     await expect(page.locator('.disc-surprise')).toBeHidden();
 
@@ -130,8 +130,8 @@ test.describe('cold-boot UI', () => {
   test('clicking a row triggers a play attempt without crashing', async ({ page }) => {
     await page.goto('/');
     // Drop into the catalog list from the discovery landing first.
-    await expect(page.locator('.disc-chip').first()).toBeVisible({ timeout: 10_000 });
-    await page.locator('.disc-chip', { hasText: 'Pop' }).first().click();
+    await expect(page.locator('.disc-genre').first()).toBeVisible({ timeout: 10_000 });
+    await page.locator('.disc-genre', { hasText: 'Pop' }).first().click();
     await expect(page.locator('#content .row').first()).toBeVisible({ timeout: 10_000 });
 
     // Capture page errors — clicking a row should never throw, even

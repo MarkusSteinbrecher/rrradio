@@ -71,13 +71,28 @@ Top to bottom:
 3. **Top nav rule** — hairline divider; the boundary above which chrome stays
    sharp when a popup blurs the content below.
 4. **Content area** — one of:
-   - **Discovery landing** (default, no query / filter / multi-select): a
-     "Browse by genre" chip carousel, a "Browse by country" chip carousel, then
-     a hairline and an editorial "Featured" rail of highlight cards, and finally
-     a "Browse all" footer — a full-width row (catalog count) into the unfiltered
-     list, trailing a decorative "peek" of up to four overlapping highlight
-     logos. Carousels scroll horizontally; the landing itself does not
-     scroll the nav away when it fits.
+   - **Discovery landing** (default, no query / filter / multi-select), four
+     sections in this order:
+     1. "Browse by genre": one rail of **genre cards**. A genre card is a
+        square surface in the page colour with three circles of pictures
+        across its upper middle (the hero larger and in front, the side ones
+        cropped by the card edges) and the genre name large and bold at its
+        bottom leading corner. The pictures are this week's set from
+        [genre-art.json](../contracts/genre-art.md): album covers for music
+        genres, photos for news, talk, sports and public.
+     2. "Browse by country": one rail of **country cards**. A country card is
+        the same surface with a 2×2 collage of station logos on white plates,
+        and one line under it: the flag and the country's name.
+     3. "Featured": a rail of **highlight cards**. A highlight card is a panel
+        of three album covers edge to edge that stand for the station's music,
+        with the station's logo as a tile on the panel's bottom leading
+        corner; under it the badge, the station name with its flag, and a
+        two-line blurb. The whole card plays the station.
+     4. "Browse all", last on the page: a full-width header row with the
+        catalog count into the unfiltered list, over a rail of station logos
+        (iOS: a honeycomb of logo circles).
+     Rails scroll horizontally. Cards in the genre and country rails share one
+     side: about 2.2 cards across a phone, 140 to 190 pt.
    - **Result list/grid** of rows, each row showing logo (favicon), name,
      country/tag context, a favorite heart, and current/playing indicators (no
      stream-quality meter — see Row layout). An optional **filter-summary
@@ -199,6 +214,15 @@ press-and-hold station-info preview.
   shows a decorative peek of up to four highlight logos, and only when at least
   three of them carry real artwork (otherwise just the count). Chip counts ≥ 1000
   abbreviate ("1.4k", "17k").
+- **Card pictures:** genre cards show the set of the current rotation period
+  from the [genre-art contract](../contracts/genre-art.md). A genre the file
+  leaves out, or a client without the file, shows station logos in the circles
+  (iOS: its built-in pictures); a picture that fails to load leaves its circle
+  quiet. A country card shows four stations with logos, featured first, with no
+  logo and no broadcaster network twice on one card; with fewer than four it
+  shows one logo, with none the flag. A highlight card's covers come from the
+  station's own genres (a station tagged as mixed, or with no music genre, from
+  the broad genres), chosen for the whole rail so no album shows on two cards.
 - **Highlights:** the editorial "Featured" feed loads lazily from the highlights
   store; entries whose `stationId` isn't in the catalog are dropped, deduped by
   station; an all-unavailable feed hides the rail.
@@ -387,7 +411,7 @@ map's "<n> stations" are pluralizable.
 |---|---|---|---|
 | Curated catalog | Supported. | Supported. | Supported. |
 | Large Radio Browser-backed catalog | Supported. | Supported with bundled index/cache behavior. | Supported with cache-backed loading. |
-| Discovery landing (genre/country chips + Featured rail + Browse all) | Supported. Browse opens on a discovery landing that mirrors iOS: genre chips, country chips, the "Featured" rail, then an always-present "Browse all" footer with a decorative logo peek. Searching, tapping a chip, or tapping "Browse all" drops into the result list. | Supported. | Planned. |
+| Discovery landing (genre cards + country cards + Featured rail + Browse all) | Supported. Same four sections and card designs as iOS, with pictures from `genre-art.json`. "Browse all" is a header row over a rail of station logos, not the iOS honeycomb. Searching, tapping a card, or tapping "Browse all" drops into the result list. | Supported. | Planned. |
 | Surprise me (random station, filter-aware, duplicate/broken-free) | Shipped. "Surprise me" pill on the discovery genre header; shuffle icon in the results sort row respects the active filter. | Planned. | Planned. |
 | Genre deep link (`?genre=<id>`) + static `/genre/` SEO pages | Shipped. Pre-rendered `/genre/<id>/` pages (top 60 stations, curated first, stream-bad dropped) + a `/genre/` index; station pages link their genre tags. | Not applicable (web SEO surface). | Not applicable. |
 | Search normalization | Supported. | Reference native behavior. | Supported. |

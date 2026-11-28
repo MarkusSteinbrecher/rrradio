@@ -4,6 +4,8 @@ import {
   abbreviateCount,
   genreChips,
   countryChips,
+  countryLogoStations,
+  genreLogoStations,
   DISCOVERY_COUNTRY_CHIP_LIMIT,
 } from './discovery';
 import type { Station } from './types';
@@ -81,5 +83,50 @@ describe('countryChips', () => {
     expect(chips[0].id).toBe('AX');
     expect(chips[0].label).toBe('Country AX');
     expect(chips[0].count).toBe(25);
+  });
+});
+
+describe('countryLogoStations / genreLogoStations', () => {
+  const st = (id: string, extra: Partial<Station>): Station =>
+    ({ id, name: id, streamUrl: `https://example.com/${id}`, favicon: `https://example.com/${id}.png`, ...extra }) as Station;
+
+  it('takes up to four stations with logos per country, in order', () => {
+    const stations = [
+      st('a', { country: 'DE' }),
+      st('nologo', { country: 'DE', favicon: undefined }),
+      st('b', { country: 'de' }),
+      st('c', { country: 'DE' }),
+      st('d', { country: 'DE' }),
+      st('e', { country: 'DE' }),
+      st('x', { country: 'FR' }),
+    ];
+    const out = countryLogoStations(stations, ['de', 'FR', 'IT']);
+    expect(out.get('DE')?.map((s) => s.id)).toEqual(['a', 'b', 'c', 'd']);
+    expect(out.get('FR')?.map((s) => s.id)).toEqual(['x']);
+    expect(out.get('IT')).toEqual([]);
+  });
+
+  it('shows no logo and no network twice on a card, but many independents', () => {
+    const stations = [
+      st('a', { country: 'GB', broadcaster: 'bbc' }),
+      st('b', { country: 'GB', broadcaster: 'bbc' }),
+      st('c', { country: 'GB', favicon: 'https://example.com/a.png' }),
+      st('d', { country: 'GB', broadcaster: 'independent' }),
+      st('e', { country: 'GB', broadcaster: 'independent' }),
+    ];
+    expect(countryLogoStations(stations, ['GB']).get('GB')?.map((s) => s.id)).toEqual(['a', 'd', 'e']);
+  });
+
+  it('takes the first three matching stations with logos per wanted genre', () => {
+    const stations = [
+      st('j1', { tags: ['jazz'] }),
+      st('r1', { tags: ['rock'] }),
+      st('j2', { tags: ['jazz', 'rock'] }),
+      st('j3', { tags: ['smooth jazz'] }),
+      st('j4', { tags: ['jazz'] }),
+    ];
+    const out = genreLogoStations(stations, ['jazz']);
+    expect(out.get('jazz')?.map((s) => s.id)).toEqual(['j1', 'j2', 'j3']);
+    expect(out.has('rock')).toBe(false);
   });
 });
