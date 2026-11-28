@@ -27,7 +27,7 @@ sheet, receipt store, polling, and resolved toast.
 ### Report lifecycle (state machine)
 
 ```
-received ──(probe fail | report threshold)──▶ confirmed
+received ──(probe fail | report threshold)──▶ confirmed   (threshold 1: every report)
 received ─────────(issue closed / admin)──────▶ resolved
 confirmed ────────(issue closed / admin)──────▶ resolved
 ```
@@ -90,9 +90,13 @@ touches `received`). Response: `{ "ok": true, "confirmed": <n>, "linked": <n> }`
   `(station, category)`, and probes the catalog stream (`no-audio`,
   `interruptions`) or favicon (`wrong-logo`). A category is confirmed when the
   probe **fails** (stream unreachable / non-audio / favicon 404 or timeout) **or**
-  the independent-report count reaches the threshold (default 3). Non-probe-able
-  categories (`wrong-station`, `wrong-info`, `other`, `unspecified`) are
-  threshold-only.
+  the independent-report count reaches the threshold. The threshold defaults
+  to **1**, so every report is confirmed, gets an issue and reaches the fix
+  agent; `confirmed` then means "an issue exists and someone will look", not
+  "verified broken". Raising `REPORT_THRESHOLD` brings back the hold: reports
+  the probe cannot confirm wait in the digest until that many agree (the answer
+  to fake reports, should they appear). Non-probe-able categories
+  (`wrong-station`, `wrong-info`, `other`, `unspecified`) are threshold-only.
 - **Issue upsert:** confirmed categories upsert **one** `broken-station` issue
   per station (matched by the body marker `<!-- rrradio:station-id=<id> -->`),
   labeled `broken-station` + each confirmed category, body carrying per-category
@@ -189,7 +193,7 @@ own chrome.
 | `resolution` | `fixed \| removed \| not-reproducible` | only when resolved | what closed it | — |
 | `resolvedAt` | ISO 8601 UTC | only when resolved | resolution timestamp | — |
 | `github_issue` | int (server-side) | yes | linked triage issue | unset |
-| Report threshold | int (server-side env) | no | independent reports to confirm a non-probe-failed category | 3 (`REPORT_THRESHOLD`) |
+| Report threshold | int (server-side env) | no | independent reports to confirm a non-probe-failed category | 1 (`REPORT_THRESHOLD`) |
 | Receipt store (client) | local list of `{ id, stationId, stationName, category, sentAt, status, resolution?, resolvedAt?, seen }` | yes | what the device polls with + renders the status line/toast from | empty |
 | Receipt age-out (client) | 90 days after `sentAt` | no | unconditional prune window | 90d |
 | Resolved-receipt linger (client) | 7 days past `resolvedAt`, once seen | no | keeps the outcome visible briefly, then prunes | 7d |
@@ -331,7 +335,8 @@ backup.
    divergence proves confusing.
 3. The prober stops at stream connect + content-type (the fast, decisive
    signal); it does not yet read several seconds of audio bytes. Intermittent
-   `interruptions` therefore confirm mostly by threshold. Revisit if byte-level
+   `interruptions` therefore confirm by threshold (every report, at the
+   default of 1). Revisit if byte-level
    probing proves necessary.
 
 ## Reference

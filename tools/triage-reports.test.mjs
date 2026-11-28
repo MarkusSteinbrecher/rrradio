@@ -240,6 +240,20 @@ describe('planStation', () => {
     expect(plan.confirmCategories).toEqual(['no-audio']);
   });
 
+  it('by default confirms every report, probe-passing or not probe-able', () => {
+    const passing = planStation(
+      station({ 'no-audio': { received: 1 } }),
+      { stream: { failed: false, evidence: 'ok' } },
+    );
+    expect(passing.shouldOpenIssue).toBe(true);
+    expect(passing.confirmCategories).toEqual(['no-audio']);
+    expect(passing.held).toEqual([]);
+    expect(passing.sections[0].reason).toBe('1 report(s); the probe did not fail');
+    const unprobeable = planStation(station({ 'wrong-info': { received: 1 } }), {});
+    expect(unprobeable.confirmCategories).toEqual(['wrong-info']);
+    expect(unprobeable.needsReview).toBe(false);
+  });
+
   it('keeps an already-confirmed category in the issue even when the probe now passes', () => {
     const plan = planStation(
       station({ 'no-audio': { received: 0, confirmed: 2 } }),
