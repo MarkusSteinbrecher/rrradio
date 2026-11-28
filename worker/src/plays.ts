@@ -8,14 +8,16 @@
  * count native plays with no other change. A play from a known native
  * platform is recorded a second time as `play-<platform>: <name>`, which
  * is what lets the stats sheet show web and iOS apart (platforms.ts).
+ * Each ping is its own GoatCounter session, so every ping counts as one
+ * play (see recordGoatCounterEvents in reports.ts, #856).
  * Nothing is stored here beyond the daily-salted rate-limit hash shared
  * with reports.
  */
 
 import type { Env } from './env';
 import { noStoreJsonResponse } from './respond';
-import { isNativePlatform, platformPlayPrefix } from './platforms';
-import { cleanField, cleanToken, isRateLimited, recordGoatCounterEvent } from './reports';
+import { PLAY_PREFIX, isNativePlatform, platformPlayPrefix } from './platforms';
+import { cleanField, cleanToken, isRateLimited, recordGoatCounterEvents } from './reports';
 
 /** A person tapping stations all day stays far below this; a script
  *  inflating one station's count does not. */
@@ -54,20 +56,17 @@ export async function handlePlay(
   const title = [stationId ? `station=${stationId}` : '', `platform=${platform}`]
     .filter(Boolean)
     .join(' · ');
+  // One request for both events, so they share a session and a
+  // native play can never land in one count without the other.
+  const events = [{ path: `${PLAY_PREFIX}${stationName}`, title }];
+  if (isNativePlatform(platform)) {
+    events.push({ path: `${platformPlayPrefix(platform)}${stationName}`, title });
+  }
   try {
-    await recordGoatCounterEvent(`play: ${stationName}`, title, env);
+    await recordGoatCounterEvents(events, env);
   } catch (err) {
     console.error('[play-gc]', err instanceof Error ? err.message : String(err));
     return noStoreJsonResponse({ error: 'store failed' }, 502, headers);
-  }
-  // The platform copy only feeds the web/iOS split. The play itself is
-  // counted above, so a failure here is logged and not reported back.
-  if (isNativePlatform(platform)) {
-    try {
-      await recordGoatCounterEvent(`${platformPlayPrefix(platform)}${stationName}`, title, env);
-    } catch (err) {
-      console.error('[play-gc-platform]', err instanceof Error ? err.message : String(err));
-    }
   }
   return noStoreJsonResponse({ ok: true }, 202, headers);
 }

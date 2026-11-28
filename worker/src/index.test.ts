@@ -22,6 +22,8 @@ interface UpstreamCall {
    *  not. */
   headers: Record<string, string>;
   method: string;
+  /** Request body when it was passed as a string. */
+  body?: string;
 }
 type FetchStub = (call: UpstreamCall) => Promise<Response>;
 
@@ -42,7 +44,8 @@ function stubFetch(handler: FetchStub): void {
           ? Object.fromEntries(input.headers.entries())
           : flattenHeaders(init?.headers);
       const method = (input instanceof Request ? input.method : init?.method) ?? 'GET';
-      return handler({ url, headers, method });
+      const body = typeof init?.body === 'string' ? init.body : undefined;
+      return handler({ url, headers, method, body });
     }),
   );
 }
@@ -349,13 +352,15 @@ describe('public endpoints', () => {
     expect(calls).toHaveLength(1);
     const url = new URL(calls[0].url);
     expect(url.origin).toBe('https://test.goatcounter.com');
-    expect(url.pathname).toBe('/count');
-    expect(url.searchParams.get('p')).toBe('report-broken: FM4');
-    expect(url.searchParams.get('e')).toBe('1');
-    expect(url.searchParams.get('t')).toContain('station=fm4');
-    expect(url.searchParams.get('t')).toContain('host=example.com');
-    expect(url.searchParams.get('t')).toContain('category=unspecified');
-    expect(url.searchParams.get('t')).not.toContain('token=private');
+    expect(url.pathname).toBe('/api/v0/count');
+    expect(calls[0].method).toBe('POST');
+    const hit = (JSON.parse(calls[0].body ?? '{}') as { hits: Array<Record<string, unknown>> }).hits[0];
+    expect(hit.path).toBe('report-broken: FM4');
+    expect(hit.event).toBe(true);
+    expect(hit.title).toContain('station=fm4');
+    expect(hit.title).toContain('host=example.com');
+    expect(hit.title).toContain('category=unspecified');
+    expect(hit.title).not.toContain('token=private');
     // The D1 row is the primary record; its id is the receipt token.
     const body = await json<{ ok: boolean; reportId: string }>(res);
     expect(body.ok).toBe(true);
