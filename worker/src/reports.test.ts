@@ -102,10 +102,10 @@ describe('report ingest (POST /api/public/report-broken)', () => {
     await seedReport({ category: 'wrong-logo', comment: 'top secret user text' });
     const gc = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls;
     expect(gc).toHaveLength(1);
-    const url = new URL(String(gc[0][0]));
-    expect(url.pathname).toBe('/count');
-    expect(url.searchParams.get('t')).toContain('category=wrong-logo');
-    expect(String(url)).not.toContain('secret');
+    expect(new URL(String(gc[0][0])).pathname).toBe('/api/v0/count');
+    const body = String((gc[0][1] as RequestInit).body);
+    expect(body).toContain('category=wrong-logo');
+    expect(body).not.toContain('secret');
   });
 
   it('maps absent or unrecognized categories to "unspecified" (old clients)', async () => {

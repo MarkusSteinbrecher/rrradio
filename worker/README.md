@@ -40,7 +40,7 @@ Routing lives in `src/index.ts`; the report pipeline in
 | `/api/public/proxy` | `url=<encoded>` | Forwarded JSON body of the upstream URL, **only** if the URL matches the allowlist (else 403) | 1 m |
 | `/api/public/bbc/schedule/<service>` | `service` is the BBC station slug (e.g. `bbc_world_service`) | Forwarded `rms.api.bbc.co.uk` schedule JSON | 10 m |
 | `/api/public/bbc/play/<service>` | same | Forwarded `rms.api.bbc.co.uk` now-playing JSON | 1 m |
-| `/api/public/play` (POST) | body: `stationName` (required, ≤90 chars), `stationId`, `platform` | `202 { ok }` — forwarded to GoatCounter as a `play: <stationName>` event (title `station=… · platform=…`), so native-app plays count in `top-stations` like web plays. No other storage. Rate-limited 300/IP/day (same daily-salted hash table as reports, separate budget). Used by the iOS app (rrradio-ios#166). | no-store A play with `platform: ios` is recorded a second time as `play-ios: <stationName>`; `/api/public/dashboard` reports the split in its `platforms` block. |
+| `/api/public/play` (POST) | body: `stationName` (required, ≤90 chars), `stationId`, `platform` | `202 { ok }` — forwarded to GoatCounter as a `play: <stationName>` event (title `station=… · platform=…`), so native-app plays count in `top-stations` like web plays. Sent through GoatCounter's `POST /api/v0/count` with a random session per ping, so every ping counts as one play. No other storage. Rate-limited 300/IP/day (same daily-salted hash table as reports, separate budget). Used by the iOS app (rrradio-ios#166). | no-store A play with `platform: ios` is recorded a second time as `play-ios: <stationName>`; `/api/public/dashboard` reports the split in its `platforms` block. |
 | `/api/public/report-broken` (POST) | body: `stationId` (required), `stationName`, `streamHost`, `platform`, `appVersion`, `reason`, `source`, `category` (`no-audio\|interruptions\|wrong-station\|wrong-logo\|wrong-info\|other`, else `unspecified`), `comment` (≤500 chars) | `202 { ok, reportId }` — row in D1 `broken_reports`; `reportId` is the anonymous receipt token. Rate-limited 20/IP/day (daily-salted hash, purged next day). Old payloads without category/comment stay valid. | no-store |
 | `/api/public/report-status` | `ids=<receipt,receipt,…>` (≤50) | `{ reports: [{ id, status, resolution?, resolvedAt? }] }` — `status` ∈ received/confirmed/resolved. Unknown ids omitted (client treats as expired). | no-store |
 
@@ -120,6 +120,17 @@ tests and then `wrangler deploy`. So the typical workflow is:
 2. Push to `main`.
 3. Wait ~30s for the workflow to deploy. CI gates on `npm test` so a
    failing test blocks the deploy.
+
+After a deploy that touches how events are sent, check it end to end:
+send one ping and see it on the dashboard (the unit tests cannot tell
+whether GoatCounter keeps a hit, #856).
+
+```sh
+curl -s -X POST https://stats.rrradio.org/api/public/play -H 'Content-Type: application/json' --data '{"stationName":"FM4","platform":"ios"}'
+curl -s 'https://stats.rrradio.org/api/public/dashboard?days=1' | jq '.platforms.totals'
+```
+
+The second call shows `all` and `ios` one higher within about a minute.
 
 For a manual deploy (e.g. before the secrets are set up, or
 out-of-band), use:
@@ -345,5 +356,10 @@ worker/
 
 Two secrets, set via `wrangler secret put`:
 
-- `GOATCOUNTER_TOKEN` — read-only GC API token.
+- `GOATCOUNTER_TOKEN` — GC API token. Needs "Read statistics", and
+  "Record pageviews" for the events the Worker sends (`play:`,
+  `play-ios:`, `report-broken:`). Without the second permission those
+  events still go out through the public `/count` endpoint, but
+  GoatCounter then sees one sender for all of them and counts a station
+  once per session, so plays by different listeners can merge into one.
 - `ADMIN_TOKEN` — bearer for the admin endpoints.

@@ -154,21 +154,62 @@ async function sha256Hex(input: string): Promise<string> {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-export async function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
-  const params = new URLSearchParams({
-    p: path,
-    t: title,
-    e: '1',
-  });
-  const res = await fetch(`https://${env.GOATCOUNTER_SITE}/count?${params}`, {
+export interface GoatCounterEvent {
+  path: string;
+  title: string;
+}
+
+/** GoatCounter drops a hit whose User-Agent looks like a bot (a URL in
+ *  it is enough), with a normal 200 and no warning (#856). This one
+ *  passes its rules: a space, a slash, no link, no "bot". */
+const GC_COUNT_USER_AGENT = 'rrradio-stats/1.0 (rrradio.org stats worker)';
+
+/**
+ * Record events in GoatCounter from the Worker.
+ *
+ * Goes through the authenticated `POST /api/v0/count`, which is made
+ * for server-side counting. GoatCounter counts a path once per session,
+ * and every hit from here would otherwise share one (same sender, same
+ * few Cloudflare addresses), so two listeners playing one station would
+ * count as one. Each call therefore gets a random session of its own:
+ * nothing derived from the listener leaves the Worker.
+ *
+ * A token without the "record pageviews" permission answers 401/403.
+ * The events then go to the public `/count` endpoint instead, where
+ * they are counted but can collapse as described above.
+ */
+export async function recordGoatCounterEvents(events: GoatCounterEvent[], env: Env): Promise<void> {
+  if (events.length === 0) return;
+  const session = crypto.randomUUID();
+  const res = await fetch(`https://${env.GOATCOUNTER_SITE}/api/v0/count`, {
+    method: 'POST',
     headers: {
-      'User-Agent': 'rrradio-stats/1.0 (+https://rrradio.org)',
-      Accept: 'image/gif,*/*',
+      Authorization: `Bearer ${env.GOATCOUNTER_TOKEN}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
+    body: JSON.stringify({
+      hits: events.map((e) => ({ path: e.path, title: e.title, event: true, session })),
+    }),
   });
-  if (!res.ok) {
-    throw new Error(`goatcounter count failed: ${res.status}`);
+  if (res.ok) return;
+  if (res.status !== 401 && res.status !== 403) {
+    throw new Error(`goatcounter api count failed: ${res.status}`);
   }
+  console.warn(`[gc-count] api count refused (${res.status}); using /count`);
+  for (const event of events) {
+    const params = new URLSearchParams({ p: event.path, t: event.title, e: '1' });
+    const pixel = await fetch(`https://${env.GOATCOUNTER_SITE}/count?${params}`, {
+      headers: { 'User-Agent': GC_COUNT_USER_AGENT, Accept: 'image/gif,*/*' },
+    });
+    if (!pixel.ok) {
+      throw new Error(`goatcounter count failed: ${pixel.status}`);
+    }
+  }
+}
+
+export function recordGoatCounterEvent(path: string, title: string, env: Env): Promise<void> {
+  return recordGoatCounterEvents([{ path, title }], env);
 }
 
 /** True when this IP already spent its daily budget. Fail-open: a D1
