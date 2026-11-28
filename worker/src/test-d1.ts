@@ -22,6 +22,7 @@ export interface FakeReportRow {
   created_at: string;
   resolved_at: string | null;
   github_issue: number | null;
+  parent_id: string | null;
 }
 
 interface FakeResult {
@@ -84,9 +85,10 @@ export class FakeStatement {
     });
 
     switch (this.sql) {
-      case SQL.insertReport: {
+      case SQL.insertReport:
+      case SQL.insertFollowUp: {
         if (db.failInserts) throw new Error('D1 unavailable');
-        const [id, stationId, stationName, streamHost, category, comment, platform, appVersion, reason, createdAt] =
+        const [id, stationId, stationName, streamHost, category, comment, platform, appVersion, reason, createdAt, parentId] =
           b as string[];
         db.reports.set(id, {
           id,
@@ -103,6 +105,7 @@ export class FakeStatement {
           created_at: createdAt,
           resolved_at: null,
           github_issue: null,
+          parent_id: parentId ?? null,
         });
         return result([], 1);
       }
@@ -127,13 +130,19 @@ export class FakeStatement {
         return result([], changes);
       }
 
-      case SQL.selectStatus: {
+      case SQL.selectFamily: {
         const [id] = b as string[];
-        const row = db.reports.get(id);
         return result(
-          row
-            ? [{ id: row.id, status: row.status, resolution: row.resolution, resolved_at: row.resolved_at }]
-            : [],
+          [...db.reports.values()]
+            .filter((row) => row.id === id || row.parent_id === id)
+            .map((row) => ({
+              id: row.id,
+              station_id: row.station_id,
+              parent_id: row.parent_id,
+              status: row.status,
+              resolution: row.resolution,
+              resolved_at: row.resolved_at,
+            })),
         );
       }
 

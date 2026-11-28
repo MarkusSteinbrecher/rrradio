@@ -126,7 +126,9 @@ export function decideConfirm({ probeFailed, count, threshold }) {
 
 /** Group non-resolved report rows by station, then category. Resolved
  *  rows are dropped (their issue is closed). Returns a Map keyed by
- *  stationId. */
+ *  stationId. `count` is the number of reporters, not rows: a follow-up
+ *  (`parentId`) on the same report in the same category is the same
+ *  person saying more, so it adds its comment but not a vote. */
 export function aggregate(rows) {
   const stations = new Map();
   for (const r of rows) {
@@ -148,10 +150,11 @@ export function aggregate(rows) {
 
     let cat = st.categories.get(r.category);
     if (!cat) {
-      cat = { category: r.category, count: 0, receivedCount: 0, confirmedCount: 0, comments: [], rows: [] };
+      cat = { category: r.category, count: 0, receivedCount: 0, confirmedCount: 0, comments: [], rows: [], reporters: new Set() };
       st.categories.set(r.category, cat);
     }
-    cat.count += 1;
+    cat.reporters.add(r.parentId || r.id);
+    cat.count = cat.reporters.size;
     cat.rows.push({ id: r.id, createdAt: r.createdAt ?? null });
     if (r.status === 'confirmed') cat.confirmedCount += 1;
     else cat.receivedCount += 1;
